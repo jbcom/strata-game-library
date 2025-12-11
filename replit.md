@@ -44,7 +44,13 @@ Cross-platform input, device detection, and haptics for React Native apps:
 - **React Hooks** - Same API as Capacitor plugin for consistency
 
 ### packages/docs (Auto-generated)
-TypeDoc-generated API documentation with Burnt Orange (#D4845C) & Dusty Teal (#5B9EA6) theme.
+TypeDoc-generated API documentation with domain-based organization:
+- **World Building** - Terrain, water, vegetation, sky
+- **Entities & Simulation** - Characters, physics, animation, AI
+- **Effects & Atmosphere** - Particles, weather, decals, lighting
+- **Player Experience** - Cameras, input, audio, UI
+- **Game Systems** - State management, save/load
+- **Rendering Pipeline** - Shaders, post-processing
 
 ### packages/examples
 Simple showcase games demonstrating Strata capabilities:
@@ -146,6 +152,7 @@ All core modules use **thin wrapper architecture** over best-in-class libraries:
 See `docs/STANDARDS.md` for architectural guidelines (files <400 LOC, thin wrappers, contract/adapter pattern).
 
 ## Recent Changes (Dec 2024)
+- **Documentation Restructured** - Domain-based API organization (World, Entities, Effects, Experience, Systems, Rendering)
 - **Capacitor Plugin Complete** - Native iOS (Swift) and Android (Java) implementations
 - **React Native Package Created** - @strata/react-native with same API as Capacitor
 - **Module Integration Complete** - All 7 core modules now use curated third-party libraries
