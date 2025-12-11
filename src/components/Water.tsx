@@ -4,7 +4,7 @@
  * Lifted from Otterfall procedural rendering system.
  */
 
-import { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, forwardRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
@@ -17,17 +17,39 @@ interface WaterProps {
     position?: [number, number, number];
     size?: number;
     segments?: number;
+    color?: THREE.ColorRepresentation;
+    opacity?: number;
+    waveSpeed?: number;
+    waveHeight?: number;
 }
 
 /**
  * Simple procedural water surface with wave animation
  */
-export function Water({ position = [0, -0.2, 0], size = 100, segments = 32 }: WaterProps) {
-    const meshRef = useRef<THREE.Mesh | null>(null);
+export const Water = forwardRef<THREE.Mesh, WaterProps>(({
+    position = [0, -0.2, 0],
+    size = 100,
+    segments = 32,
+    color = 0x006994,
+    opacity = 0.8,
+    waveSpeed = 1.0,
+    waveHeight = 0.5,
+}, ref) => {
+    const internalRef = useRef<THREE.Mesh>(null);
+    const meshRef = ref || internalRef;
 
     const material = useMemo(() => {
-        return createWaterMaterial();
-    }, []);
+        const mat = createWaterMaterial();
+        if (mat.uniforms) {
+            mat.uniforms.waterColor = { value: new THREE.Color(color) };
+            mat.uniforms.opacity = { value: opacity };
+            mat.uniforms.waveSpeed = { value: waveSpeed };
+            mat.uniforms.waveHeight = { value: waveHeight };
+        }
+        mat.transparent = opacity < 1;
+        mat.opacity = opacity;
+        return mat;
+    }, [color, opacity, waveSpeed, waveHeight]);
 
     useEffect(() => {
         return () => {
@@ -36,7 +58,9 @@ export function Water({ position = [0, -0.2, 0], size = 100, segments = 32 }: Wa
     }, [material]);
 
     useFrame((_, delta) => {
-        material.uniforms.time.value += delta;
+        if (material.uniforms?.time) {
+            material.uniforms.time.value += delta * waveSpeed;
+        }
     });
 
     return (
@@ -50,53 +74,65 @@ export function Water({ position = [0, -0.2, 0], size = 100, segments = 32 }: Wa
             <primitive object={material} attach="material" />
         </mesh>
     );
-}
+});
+
+Water.displayName = 'Water';
 
 interface AdvancedWaterProps {
     position?: [number, number, number];
-    size?: [number, number];
+    size?: number | [number, number];
     segments?: number;
-    waterColor?: THREE.ColorRepresentation;
-    deepWaterColor?: THREE.ColorRepresentation;
+    color?: THREE.ColorRepresentation;
+    deepColor?: THREE.ColorRepresentation;
     foamColor?: THREE.ColorRepresentation;
     causticIntensity?: number;
+    waveHeight?: number;
+    waveSpeed?: number;
 }
 
 /**
  * Advanced water with caustics and foam effects
  */
-export function AdvancedWater({
+export const AdvancedWater = forwardRef<THREE.Mesh, AdvancedWaterProps>(({
     position = [0, 0, 0],
-    size = [100, 100],
+    size = 100,
     segments = 64,
-    waterColor = 0x2a5a8a,
-    deepWaterColor = 0x1a3a5a,
+    color = 0x2a5a8a,
+    deepColor = 0x1a3a5a,
     foamColor = 0x8ab4d4,
     causticIntensity = 0.4,
-}: AdvancedWaterProps) {
-    const waterRef = useRef<THREE.Mesh>(null);
+    waveHeight = 0.5,
+    waveSpeed = 1.0,
+}, ref) => {
+    const internalRef = useRef<THREE.Mesh>(null);
+    const waterRef = ref || internalRef;
+
+    const resolvedSize: [number, number] = Array.isArray(size) ? size : [size, size];
 
     useFrame((state) => {
-        if (waterRef.current) {
-            const time = state.clock.getElapsedTime();
-            (waterRef.current.material as THREE.ShaderMaterial).uniforms.uTime.value = time;
+        const mesh = (waterRef as React.RefObject<THREE.Mesh>).current;
+        if (mesh) {
+            const mat = mesh.material as THREE.ShaderMaterial;
+            if (mat.uniforms?.uTime) {
+                mat.uniforms.uTime.value = state.clock.getElapsedTime() * waveSpeed;
+            }
         }
     });
 
     const waterMaterial = useMemo(
         () =>
             createAdvancedWaterMaterial({
-                waterColor,
-                deepWaterColor,
-                foamColor,
+                waterColor: color,
+                deepWaterColor: deepColor,
+                foamColor: foamColor,
                 causticIntensity,
             }),
-        [waterColor, deepWaterColor, foamColor, causticIntensity]
+        [color, deepColor, foamColor, causticIntensity]
     );
 
     const waterGeometry = useMemo(
-        () => new THREE.PlaneGeometry(size[0], size[1], segments, segments),
-        [size, segments]
+        () => new THREE.PlaneGeometry(resolvedSize[0], resolvedSize[1], segments, segments),
+        [resolvedSize, segments]
     );
 
     useEffect(() => {
@@ -107,9 +143,11 @@ export function AdvancedWater({
     }, [waterGeometry, waterMaterial]);
 
     return (
-        <mesh ref={waterRef} position={position} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <mesh ref={waterRef as any} position={position} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <primitive object={waterGeometry} />
             <primitive object={waterMaterial} />
         </mesh>
     );
-}
+});
+
+AdvancedWater.displayName = 'AdvancedWater';
