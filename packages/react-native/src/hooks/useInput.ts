@@ -13,7 +13,7 @@ import {
   ReactNode,
   createElement,
 } from 'react';
-import { InputModule } from '../InputModule';
+import { Strata } from '../adapter';
 import type { InputSnapshot, Vector2, TouchPoint } from '../types';
 import { DEFAULT_INPUT_SNAPSHOT } from '../types';
 
@@ -55,6 +55,7 @@ export interface InputProviderProps {
 /**
  * Provider component that supplies input state to child components.
  * Automatically updates when input changes.
+ * Subscribes via addListener('inputChange') for API parity with Capacitor.
  * 
  * @param props - Provider props containing children
  * 
@@ -75,12 +76,22 @@ export function InputProvider({ children }: InputProviderProps): JSX.Element {
   const [snapshot, setSnapshot] = useState<InputSnapshot>(DEFAULT_INPUT_SNAPSHOT);
 
   useEffect(() => {
-    const subscription = InputModule.addInputListener((newSnapshot: InputSnapshot) => {
-      setSnapshot(newSnapshot);
+    let mounted = true;
+    let subscription: { remove: () => void } | null = null;
+
+    Strata.addListener('inputChange', (newSnapshot: InputSnapshot) => {
+      if (mounted) {
+        setSnapshot(newSnapshot);
+      }
+    }).then(sub => {
+      subscription = sub;
     });
 
     return () => {
-      subscription.remove();
+      mounted = false;
+      if (subscription) {
+        subscription.remove();
+      }
     };
   }, []);
 

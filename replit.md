@@ -7,7 +7,8 @@ Strata is a world-class procedural 3D graphics and game development library for 
 
 ```
 ├── packages/
-│   ├── capacitor-plugin/     # @strata/capacitor-plugin - Cross-platform input/haptics
+│   ├── capacitor-plugin/     # @strata/capacitor-plugin - Capacitor mobile plugin
+│   ├── react-native/         # @strata/react-native - React Native mobile plugin
 │   ├── docs/                 # Auto-generated TypeDoc API documentation
 │   └── examples/             # Showcase example games
 │       └── showcase/         # Feature showcase demo
@@ -29,7 +30,18 @@ Strata is a world-class procedural 3D graphics and game development library for 
 The core 3D graphics library with all React Three Fiber components.
 
 ### @strata/capacitor-plugin
-Cross-platform input, device detection, and haptics for game development.
+Cross-platform input, device detection, and haptics for Capacitor apps:
+- **Native iOS** - Swift implementation with UIImpactFeedbackGenerator, GCController
+- **Native Android** - Java implementation with Vibrator, InputDevice
+- **Web** - Full web fallback implementation
+- **React Hooks** - useDevice, useInput, useHaptics, useControlHints
+
+### @strata/react-native
+Cross-platform input, device detection, and haptics for React Native apps:
+- **Device Detection** - Platform, dimensions, orientation, device type
+- **Input Handling** - Touch, gamepad support with unified API
+- **Haptics** - Vibration patterns, impact feedback
+- **React Hooks** - Same API as Capacitor plugin for consistency
 
 ### packages/docs (Auto-generated)
 TypeDoc-generated API documentation with Burnt Orange (#D4845C) & Dusty Teal (#5B9EA6) theme.
@@ -134,6 +146,8 @@ All core modules use **thin wrapper architecture** over best-in-class libraries:
 See `docs/STANDARDS.md` for architectural guidelines (files <400 LOC, thin wrappers, contract/adapter pattern).
 
 ## Recent Changes (Dec 2024)
+- **Capacitor Plugin Complete** - Native iOS (Swift) and Android (Java) implementations
+- **React Native Package Created** - @strata/react-native with same API as Capacitor
 - **Module Integration Complete** - All 7 core modules now use curated third-party libraries
 - **State.tsx Refactored** - Thin React façade around Zustand GameStoreApi
 - **Audio.tsx Refactored** - Split from 1134 LOC monolith to 11 modular files

@@ -12,7 +12,7 @@ import {
   ReactNode,
   createElement,
 } from 'react';
-import { DeviceModule } from '../DeviceModule';
+import { Strata } from '../adapter';
 import type { DeviceProfile } from '../types';
 import { DEFAULT_DEVICE_PROFILE } from '../types';
 
@@ -31,6 +31,7 @@ export interface DeviceProviderProps {
 /**
  * Provider component that supplies device profile to child components.
  * Automatically updates when device characteristics change (e.g., orientation).
+ * Subscribes via addListener('deviceChange') for API parity with Capacitor.
  * 
  * @param props - Provider props containing children
  * 
@@ -52,22 +53,27 @@ export function DeviceProvider({ children }: DeviceProviderProps): JSX.Element {
 
   useEffect(() => {
     let mounted = true;
+    let subscription: { remove: () => void } | null = null;
 
-    DeviceModule.getDeviceProfile().then(deviceProfile => {
+    Strata.getDeviceProfile().then(deviceProfile => {
       if (mounted) {
         setProfile(deviceProfile);
       }
     });
 
-    const subscription = DeviceModule.addListener((newProfile: DeviceProfile) => {
+    Strata.addListener('deviceChange', (newProfile: DeviceProfile) => {
       if (mounted) {
         setProfile(newProfile);
       }
+    }).then(sub => {
+      subscription = sub;
     });
 
     return () => {
       mounted = false;
-      subscription.remove();
+      if (subscription) {
+        subscription.remove();
+      }
     };
   }, []);
 

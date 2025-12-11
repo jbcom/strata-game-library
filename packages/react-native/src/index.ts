@@ -8,6 +8,15 @@
  * 
  * @example
  * ```tsx
+ * // Using the unified Strata API (same as Capacitor)
+ * import { Strata } from '@strata/react-native';
+ * 
+ * const profile = await Strata.getDeviceProfile();
+ * Strata.addListener('deviceChange', (profile) => {
+ *   console.log('Device changed:', profile);
+ * });
+ * 
+ * // Using React hooks
  * import { 
  *   DeviceProvider, 
  *   InputProvider, 
@@ -35,6 +44,10 @@
  * }
  * ```
  */
+
+// Adapter (main API - Capacitor-compatible)
+export { Strata } from './adapter';
+export type { StrataPlatformAdapter } from './adapter';
 
 // Types
 export type {

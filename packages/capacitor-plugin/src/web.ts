@@ -13,10 +13,11 @@ import type {
   InputMode,
 } from './definitions';
 import { DEFAULT_INPUT_MAPPING as DEFAULT_MAPPING } from './definitions';
+import type { StrataPlatformAdapter } from './contract';
 
 type ListenerCallback<T> = (data: T) => void;
 
-export class StrataWeb extends WebPlugin implements StrataPlugin {
+export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatformAdapter {
   private inputMapping: InputMapping = { ...DEFAULT_MAPPING };
   private pressedKeys = new Set<string>();
   private gamepads: (Gamepad | null)[] = [];
