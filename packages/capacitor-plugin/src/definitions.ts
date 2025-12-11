@@ -62,6 +62,15 @@ export interface HapticsOptions {
   duration?: number;
 }
 
+export interface HapticPattern {
+  duration: number;
+  intensity: number;
+}
+
+export interface TriggerHapticOptions {
+  pattern?: HapticPattern;
+}
+
 export interface ControlHints {
   movement: string;
   action: string;
@@ -74,6 +83,7 @@ export interface StrataPlugin {
   getInputSnapshot(): Promise<InputSnapshot>;
   setInputMapping(mapping: Partial<InputMapping>): Promise<void>;
   triggerHaptics(options: HapticsOptions): Promise<void>;
+  triggerHaptic(options: TriggerHapticOptions): Promise<void>;
   vibrate(options?: { duration?: number }): Promise<void>;
   addListener(
     eventName: 'deviceChange',

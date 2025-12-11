@@ -6,6 +6,7 @@ import type {
   InputSnapshot,
   InputMapping,
   HapticsOptions,
+  TriggerHapticOptions,
   Vector2,
   DeviceType,
   Platform,
@@ -26,6 +27,7 @@ export class StrataWeb extends WebPlugin implements StrataPlugin {
   private gamepadDisconnectedListeners: ListenerCallback<{ index: number }>[] = [];
   private animationFrameId: number | null = null;
   private lastInputSnapshot: InputSnapshot | null = null;
+  private orientationMediaQuery: MediaQueryList | null = null;
 
   constructor() {
     super();
@@ -44,7 +46,8 @@ export class StrataWeb extends WebPlugin implements StrataPlugin {
     window.addEventListener('touchend', this.handleTouchEnd, { passive: true });
     window.addEventListener('touchcancel', this.handleTouchCancel, { passive: true });
     window.addEventListener('resize', this.handleResize);
-    window.matchMedia('(orientation: portrait)').addEventListener('change', this.handleOrientationChange);
+    this.orientationMediaQuery = window.matchMedia('(orientation: portrait)');
+    this.orientationMediaQuery.addEventListener('change', this.handleOrientationChange);
 
     this.startInputLoop();
   }
@@ -280,20 +283,24 @@ export class StrataWeb extends WebPlugin implements StrataPlugin {
     }
   }
 
+  private isKeyPressed(keys: string[]): boolean {
+    return keys.some(key => this.pressedKeys.has(key));
+  }
+
   async getInputSnapshot(): Promise<InputSnapshot> {
     const leftStick: Vector2 = { x: 0, y: 0 };
     const rightStick: Vector2 = { x: 0, y: 0 };
     const buttons: Record<string, boolean> = {};
     const triggers = { left: 0, right: 0 };
 
-    if (this.pressedKeys.has('KeyW') || this.pressedKeys.has('ArrowUp')) leftStick.y = -1;
-    if (this.pressedKeys.has('KeyS') || this.pressedKeys.has('ArrowDown')) leftStick.y = 1;
-    if (this.pressedKeys.has('KeyA') || this.pressedKeys.has('ArrowLeft')) leftStick.x = -1;
-    if (this.pressedKeys.has('KeyD') || this.pressedKeys.has('ArrowRight')) leftStick.x = 1;
+    if (this.isKeyPressed(this.inputMapping.moveForward)) leftStick.y = -1;
+    if (this.isKeyPressed(this.inputMapping.moveBackward)) leftStick.y = 1;
+    if (this.isKeyPressed(this.inputMapping.moveLeft)) leftStick.x = -1;
+    if (this.isKeyPressed(this.inputMapping.moveRight)) leftStick.x = 1;
 
-    buttons['jump'] = this.pressedKeys.has('Space');
-    buttons['action'] = this.pressedKeys.has('KeyE') || this.pressedKeys.has('Enter');
-    buttons['cancel'] = this.pressedKeys.has('Escape');
+    buttons['jump'] = this.isKeyPressed(this.inputMapping.jump);
+    buttons['action'] = this.isKeyPressed(this.inputMapping.action);
+    buttons['cancel'] = this.isKeyPressed(this.inputMapping.cancel);
 
     const gamepad = this.gamepads.find(gp => gp !== null);
     if (gamepad) {
@@ -361,23 +368,56 @@ export class StrataWeb extends WebPlugin implements StrataPlugin {
     }
   }
 
+  async triggerHaptic(options: TriggerHapticOptions): Promise<void> {
+    const pattern = options.pattern;
+    if (!pattern) {
+      await this.vibrate({ duration: 50 });
+      return;
+    }
+
+    if ('vibrate' in navigator) {
+      navigator.vibrate(pattern.duration);
+    }
+
+    const gamepad = this.gamepads.find(gp => gp?.vibrationActuator);
+    if (gamepad?.vibrationActuator) {
+      try {
+        await (gamepad.vibrationActuator as any).playEffect('dual-rumble', {
+          startDelay: 0,
+          duration: pattern.duration,
+          weakMagnitude: pattern.intensity,
+          strongMagnitude: pattern.intensity,
+        });
+      } catch {
+        // Gamepad haptics not supported
+      }
+    }
+  }
+
   async addListener(
     eventName: 'deviceChange' | 'inputChange' | 'gamepadConnected' | 'gamepadDisconnected',
     callback: (data: any) => void
   ): Promise<{ remove: () => Promise<void> }> {
+    const removeFromArray = <T>(arr: T[], item: T): void => {
+      const idx = arr.indexOf(item);
+      if (idx !== -1) {
+        arr.splice(idx, 1);
+      }
+    };
+
     switch (eventName) {
       case 'deviceChange':
         this.deviceListeners.push(callback);
-        return { remove: async () => { this.deviceListeners.splice(this.deviceListeners.indexOf(callback), 1); } };
+        return { remove: async () => removeFromArray(this.deviceListeners, callback) };
       case 'inputChange':
         this.inputListeners.push(callback);
-        return { remove: async () => { this.inputListeners.splice(this.inputListeners.indexOf(callback), 1); } };
+        return { remove: async () => removeFromArray(this.inputListeners, callback) };
       case 'gamepadConnected':
         this.gamepadConnectedListeners.push(callback);
-        return { remove: async () => { this.gamepadConnectedListeners.splice(this.gamepadConnectedListeners.indexOf(callback), 1); } };
+        return { remove: async () => removeFromArray(this.gamepadConnectedListeners, callback) };
       case 'gamepadDisconnected':
         this.gamepadDisconnectedListeners.push(callback);
-        return { remove: async () => { this.gamepadDisconnectedListeners.splice(this.gamepadDisconnectedListeners.indexOf(callback), 1); } };
+        return { remove: async () => removeFromArray(this.gamepadDisconnectedListeners, callback) };
     }
   }
 
@@ -389,7 +429,21 @@ export class StrataWeb extends WebPlugin implements StrataPlugin {
     window.removeEventListener('keyup', this.handleKeyUp);
     window.removeEventListener('gamepadconnected', this.handleGamepadConnected);
     window.removeEventListener('gamepaddisconnected', this.handleGamepadDisconnected);
+    window.removeEventListener('touchstart', this.handleTouchStart);
+    window.removeEventListener('touchmove', this.handleTouchMove);
+    window.removeEventListener('touchend', this.handleTouchEnd);
+    window.removeEventListener('touchcancel', this.handleTouchCancel);
     window.removeEventListener('resize', this.handleResize);
+    
+    if (this.orientationMediaQuery) {
+      this.orientationMediaQuery.removeEventListener('change', this.handleOrientationChange);
+      this.orientationMediaQuery = null;
+    }
+
+    this.deviceListeners = [];
+    this.inputListeners = [];
+    this.gamepadConnectedListeners = [];
+    this.gamepadDisconnectedListeners = [];
   }
 }
 
