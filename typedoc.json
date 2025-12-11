@@ -1,15 +1,33 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": [
+    "src/api/index.ts",
+    "src/api/world.ts",
+    "src/api/entities.ts",
+    "src/api/effects.ts",
+    "src/api/experience.ts",
+    "src/api/systems.ts",
+    "src/api/rendering.ts"
+  ],
+  "entryPointStrategy": "expand",
   "out": "packages/docs",
   "name": "Strata",
-  "readme": "README.md",
+  "readme": "docs/GETTING_STARTED.md",
   "includeVersion": true,
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeInternal": true,
   "categorizeByGroup": true,
-  "categoryOrder": ["Core", "Components", "Presets", "Shaders", "Utils", "*"],
+  "categoryOrder": [
+    "Overview",
+    "World Building",
+    "Entities & Simulation",
+    "Effects & Atmosphere",
+    "Player Experience",
+    "Game Systems",
+    "Rendering Pipeline",
+    "*"
+  ],
   "navigationLinks": {
     "GitHub": "https://github.com/jbcom/strata",
     "Examples": "/examples/showcase/"
