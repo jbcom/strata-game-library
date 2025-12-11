@@ -17,6 +17,29 @@ import type { StrataPlatformAdapter } from './contract';
 
 type ListenerCallback<T> = (data: T) => void;
 
+/**
+ * TypeScript interface for the experimental Gamepad Haptic Actuator API.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator
+ */
+interface GamepadHapticActuator {
+  playEffect(
+    type: 'dual-rumble',
+    params: {
+      startDelay: number;
+      duration: number;
+      weakMagnitude: number;
+      strongMagnitude: number;
+    }
+  ): Promise<string>;
+}
+
+/**
+ * Extended Gamepad interface with optional haptic actuator.
+ */
+interface GamepadWithHaptics extends Gamepad {
+  vibrationActuator?: GamepadHapticActuator;
+}
+
 export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatformAdapter {
   private inputMapping: InputMapping = { ...DEFAULT_MAPPING };
   private pressedKeys = new Set<string>();
@@ -152,15 +175,29 @@ export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatform
     if (!this.lastInputSnapshot) return true;
     const last = this.lastInputSnapshot;
     
+    // Check stick changes
     if (current.leftStick.x !== last.leftStick.x || current.leftStick.y !== last.leftStick.y) return true;
     if (current.rightStick.x !== last.rightStick.x || current.rightStick.y !== last.rightStick.y) return true;
+    
+    // Check trigger changes
     if (current.triggers.left !== last.triggers.left || current.triggers.right !== last.triggers.right) return true;
     
+    // Check button changes
     const currentButtons = Object.keys(current.buttons);
     const lastButtons = Object.keys(last.buttons);
     if (currentButtons.length !== lastButtons.length) return true;
     for (const key of currentButtons) {
       if (current.buttons[key] !== last.buttons[key]) return true;
+    }
+    
+    // Check touch changes
+    if (current.touches.length !== last.touches.length) return true;
+    for (let i = 0; i < current.touches.length; i++) {
+      const currTouch = current.touches[i];
+      const lastTouch = last.touches.find(t => t.id === currTouch.id);
+      if (!lastTouch) return true;
+      if (currTouch.phase !== lastTouch.phase) return true;
+      if (currTouch.position.x !== lastTouch.position.x || currTouch.position.y !== lastTouch.position.y) return true;
     }
     
     return false;
@@ -346,12 +383,12 @@ export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatform
       navigator.vibrate(options.duration ?? durations[options.intensity]);
     }
 
-    const gamepad = this.gamepads.find(gp => gp?.vibrationActuator);
+    const gamepad = this.gamepads.find(gp => gp !== null && 'vibrationActuator' in gp) as GamepadWithHaptics | undefined;
     if (gamepad?.vibrationActuator) {
       const magnitudes = { light: 0.25, medium: 0.5, heavy: 1.0 };
       const magnitude = magnitudes[options.intensity];
       try {
-        await (gamepad.vibrationActuator as any).playEffect('dual-rumble', {
+        await gamepad.vibrationActuator.playEffect('dual-rumble', {
           startDelay: 0,
           duration: options.duration ?? 100,
           weakMagnitude: magnitude,
@@ -380,10 +417,10 @@ export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatform
       navigator.vibrate(pattern.duration);
     }
 
-    const gamepad = this.gamepads.find(gp => gp?.vibrationActuator);
+    const gamepad = this.gamepads.find(gp => gp !== null && 'vibrationActuator' in gp) as GamepadWithHaptics | undefined;
     if (gamepad?.vibrationActuator) {
       try {
-        await (gamepad.vibrationActuator as any).playEffect('dual-rumble', {
+        await gamepad.vibrationActuator.playEffect('dual-rumble', {
           startDelay: 0,
           duration: pattern.duration,
           weakMagnitude: pattern.intensity,
