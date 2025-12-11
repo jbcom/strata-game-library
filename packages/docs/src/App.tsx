@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 const GettingStarted = lazy(() => import('./pages/GettingStarted'));
 const ApiReference = lazy(() => import('./pages/ApiReference'));
 const ThemePreview = lazy(() => import('./pages/ThemePreview'));
-const AIDemo = lazy(() => import('./pages/demos/AIDemo'));
 
 function Loading() {
   return (
@@ -15,13 +14,13 @@ function Loading() {
       alignItems: 'center',
       justifyContent: 'center',
       height: '100vh',
-      background: '#0a0a0f'
+      background: '#101418'
     }}>
       <div style={{
         width: 60,
         height: 60,
-        border: '3px solid rgba(17, 205, 239, 0.2)',
-        borderTopColor: '#11CDEF',
+        border: '3px solid rgba(212, 132, 92, 0.2)',
+        borderTopColor: '#D4845C',
         borderRadius: '50%',
         animation: 'spin 1s linear infinite'
       }} />
@@ -43,7 +42,6 @@ function App() {
           <Route path="/getting-started" element={<GettingStarted />} />
           <Route path="/api" element={<ApiReference />} />
           <Route path="/themes" element={<ThemePreview />} />
-          <Route path="/demos/ai" element={<AIDemo />} />
         </Routes>
       </Suspense>
     </Layout>

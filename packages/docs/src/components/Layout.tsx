@@ -51,9 +51,7 @@ const navLinks = [
   { path: '/api', label: 'API Reference' },
 ];
 
-const demoLinks = [
-  { path: '/demos/ai', label: 'AI', icon: <SmartToyIcon fontSize="small" /> },
-];
+const demoLinks: { path: string; label: string; icon: React.ReactNode }[] = [];
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
@@ -88,22 +86,22 @@ export default function Layout({ children }: LayoutProps) {
         viewBox="0 0 100 100"
       >
         <defs>
-          <linearGradient id="gold-nav" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#d4af37' }} />
-            <stop offset="100%" style={{ stopColor: '#b8860b' }} />
+          <linearGradient id="alloy-nav" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#D4845C' }} />
+            <stop offset="100%" style={{ stopColor: '#5B9EA6' }} />
           </linearGradient>
         </defs>
-        <rect x="10" y="60" width="80" height="12" rx="2" fill="url(#gold-nav)" opacity="0.4" />
-        <rect x="15" y="45" width="70" height="12" rx="2" fill="url(#gold-nav)" opacity="0.6" />
-        <rect x="20" y="30" width="60" height="12" rx="2" fill="url(#gold-nav)" opacity="0.8" />
-        <rect x="25" y="15" width="50" height="12" rx="2" fill="url(#gold-nav)" />
+        <rect x="10" y="60" width="80" height="12" rx="2" fill="url(#alloy-nav)" opacity="0.4" />
+        <rect x="15" y="45" width="70" height="12" rx="2" fill="url(#alloy-nav)" opacity="0.6" />
+        <rect x="20" y="30" width="60" height="12" rx="2" fill="url(#alloy-nav)" opacity="0.8" />
+        <rect x="25" y="15" width="50" height="12" rx="2" fill="url(#alloy-nav)" />
       </Box>
       <Typography
         variant="h6"
         sx={{
           fontWeight: 700,
           letterSpacing: '0.2em',
-          background: 'linear-gradient(135deg, #d4af37 0%, #b8860b 100%)',
+          background: 'linear-gradient(135deg, #D4845C 0%, #5B9EA6 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}
