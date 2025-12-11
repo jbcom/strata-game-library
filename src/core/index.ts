@@ -246,3 +246,33 @@ export type {
     DestructibleConfig,
     BuoyancyConfig,
 } from './physics';
+
+// Post-Processing utilities
+export {
+    calculateFocusDistance,
+    calculateFocusDistanceToMesh,
+    focalLengthToFOV,
+    fovToFocalLength,
+    apertureToBokehScale,
+    dofScenarios,
+    defaultEffectSettings,
+    lutConfigs,
+    blendPostProcessingPresets,
+    getTimeOfDayEffects,
+} from './postProcessing';
+export type {
+    PostProcessingMood,
+    PostProcessingPreset,
+    BloomSettings,
+    DOFSettings,
+    VignetteSettings,
+    ChromaticAberrationSettings,
+    FilmGrainSettings,
+    ColorGradingSettings,
+    SSAOSettings,
+    ToneMappingSettings,
+    NoiseSettings,
+    BrightnessContrastSettings,
+    SepiaSettings,
+    LUTConfig,
+} from './postProcessing';

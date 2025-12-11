@@ -223,3 +223,28 @@ export type {
     RagdollProps,
     RagdollRef,
 } from './Physics';
+
+// Post-Processing
+export {
+    EffectStack,
+    CinematicEffects,
+    DreamyEffects,
+    HorrorEffects,
+    NeonEffects,
+    RealisticEffects,
+    VintageEffects,
+    DynamicDOF,
+    MotionBlurEffect,
+} from './PostProcessing';
+export type {
+    EffectStackProps,
+    CinematicEffectsProps,
+    DreamyEffectsProps,
+    HorrorEffectsProps,
+    NeonEffectsProps,
+    RealisticEffectsProps,
+    VintageEffectsProps,
+    DynamicDOFProps,
+    DynamicDOFRef,
+    MotionBlurEffectProps,
+} from './PostProcessing';

@@ -625,3 +625,410 @@ const filmGrainFragmentShader = /* glsl */ `
       gl_FragColor = color;
   }
 `;
+
+/**
+ * Re-export types from core postProcessing module
+ */
+export type {
+    PostProcessingPreset,
+    PostProcessingMood,
+    BloomSettings,
+    DOFSettings,
+    VignetteSettings,
+    ChromaticAberrationSettings,
+    FilmGrainSettings,
+    ColorGradingSettings,
+    SSAOSettings,
+    ToneMappingSettings,
+    NoiseSettings,
+    BrightnessContrastSettings,
+    SepiaSettings,
+    LUTConfig,
+} from '../../core/postProcessing';
+
+export {
+    calculateFocusDistance,
+    calculateFocusDistanceToMesh,
+    focalLengthToFOV,
+    fovToFocalLength,
+    apertureToBokehScale,
+    dofScenarios,
+    defaultEffectSettings,
+    lutConfigs,
+    blendPostProcessingPresets,
+    getTimeOfDayEffects,
+} from '../../core/postProcessing';
+
+import type { PostProcessingPreset } from '../../core/postProcessing';
+
+/**
+ * Cinematic post-processing preset
+ * Film-like appearance with subtle bloom, vignette, and color grading
+ */
+export const cinematicPreset: PostProcessingPreset = {
+    name: 'Cinematic',
+    description: 'Film-like appearance with subtle bloom and vignette',
+    mood: 'cinematic',
+    bloom: {
+        intensity: 1,
+        luminanceThreshold: 0.85,
+        luminanceSmoothing: 0.05,
+        mipmapBlur: true,
+    },
+    vignette: {
+        darkness: 0.4,
+        offset: 0.4,
+    },
+    chromaticAberration: {
+        offset: { x: 0.003, y: 0.003 },
+        radialModulation: true,
+        modulationOffset: 0.2,
+    },
+    filmGrain: {
+        intensity: 0.05,
+    },
+    toneMapping: {
+        mode: 1,
+        exposure: 1,
+    },
+};
+
+/**
+ * Dreamy post-processing preset
+ * Soft, ethereal look with high bloom and reduced saturation
+ */
+export const dreamyPreset: PostProcessingPreset = {
+    name: 'Dreamy',
+    description: 'Soft, ethereal appearance with diffuse bloom',
+    mood: 'dreamy',
+    bloom: {
+        intensity: 2,
+        luminanceThreshold: 0.7,
+        luminanceSmoothing: 0.1,
+        mipmapBlur: true,
+    },
+    vignette: {
+        darkness: 0.3,
+        offset: 0.6,
+    },
+    colorGrading: {
+        hue: 0,
+        saturation: -0.2,
+        brightness: 0.1,
+    },
+    brightnessContrast: {
+        brightness: 0.1,
+        contrast: -0.1,
+    },
+};
+
+/**
+ * Horror post-processing preset
+ * Desaturated, dark, and noisy for unsettling atmosphere
+ */
+export const horrorPreset: PostProcessingPreset = {
+    name: 'Horror',
+    description: 'Dark, desaturated, unsettling atmosphere',
+    mood: 'horror',
+    vignette: {
+        darkness: 0.7,
+        offset: 0.3,
+    },
+    colorGrading: {
+        hue: 0,
+        saturation: -0.5,
+        brightness: -0.15,
+    },
+    brightnessContrast: {
+        brightness: -0.15,
+        contrast: 0.2,
+    },
+    filmGrain: {
+        intensity: 0.2,
+    },
+    chromaticAberration: {
+        offset: { x: 0.005, y: 0.005 },
+        radialModulation: true,
+        modulationOffset: 0.3,
+    },
+    noise: {
+        premultiply: false,
+    },
+};
+
+/**
+ * Neon post-processing preset
+ * High bloom, saturated colors for cyberpunk aesthetics
+ */
+export const neonPreset: PostProcessingPreset = {
+    name: 'Neon',
+    description: 'High bloom, saturated colors for cyberpunk look',
+    mood: 'neon',
+    bloom: {
+        intensity: 3,
+        luminanceThreshold: 0.6,
+        luminanceSmoothing: 0.05,
+        mipmapBlur: true,
+    },
+    colorGrading: {
+        hue: 0,
+        saturation: 0.3,
+        brightness: 0,
+    },
+    brightnessContrast: {
+        brightness: 0,
+        contrast: 0.15,
+    },
+    toneMapping: {
+        mode: 2,
+        exposure: 1,
+    },
+};
+
+/**
+ * Realistic post-processing preset
+ * Subtle enhancements for physically-based rendering
+ */
+export const realisticPreset: PostProcessingPreset = {
+    name: 'Realistic',
+    description: 'Subtle, physically-based rendering enhancements',
+    mood: 'realistic',
+    bloom: {
+        intensity: 0.5,
+        luminanceThreshold: 0.95,
+        luminanceSmoothing: 0.01,
+        mipmapBlur: true,
+    },
+    ssao: {
+        samples: 16,
+        radius: 0.05,
+        intensity: 1,
+        luminanceInfluence: 0.5,
+    },
+    toneMapping: {
+        mode: 1,
+        exposure: 1,
+    },
+};
+
+/**
+ * Vintage post-processing preset
+ * Old film/photograph look with sepia tones
+ */
+export const vintagePreset: PostProcessingPreset = {
+    name: 'Vintage',
+    description: 'Old film look with sepia tones and vignette',
+    mood: 'vintage',
+    sepia: {
+        intensity: 0.4,
+    },
+    vignette: {
+        darkness: 0.5,
+        offset: 0.4,
+    },
+    colorGrading: {
+        hue: 0.05,
+        saturation: -0.3,
+        brightness: -0.05,
+    },
+    filmGrain: {
+        intensity: 0.15,
+    },
+    brightnessContrast: {
+        brightness: -0.05,
+        contrast: 0.1,
+    },
+};
+
+/**
+ * Noir post-processing preset
+ * Black and white film noir style
+ */
+export const noirPreset: PostProcessingPreset = {
+    name: 'Noir',
+    description: 'Classic black and white film noir style',
+    mood: 'noir',
+    colorGrading: {
+        hue: 0,
+        saturation: -1,
+        brightness: 0,
+    },
+    vignette: {
+        darkness: 0.6,
+        offset: 0.35,
+    },
+    brightnessContrast: {
+        brightness: -0.1,
+        contrast: 0.3,
+    },
+    filmGrain: {
+        intensity: 0.12,
+    },
+};
+
+/**
+ * Sci-Fi post-processing preset
+ * Futuristic look with cool tones and tech feel
+ */
+export const sciFiPreset: PostProcessingPreset = {
+    name: 'Sci-Fi',
+    description: 'Futuristic look with cool tones',
+    mood: 'sci-fi',
+    bloom: {
+        intensity: 1.5,
+        luminanceThreshold: 0.75,
+        luminanceSmoothing: 0.04,
+        mipmapBlur: true,
+    },
+    colorGrading: {
+        hue: -0.1,
+        saturation: 0.1,
+        brightness: 0,
+    },
+    chromaticAberration: {
+        offset: { x: 0.002, y: 0.002 },
+        radialModulation: true,
+        modulationOffset: 0.15,
+    },
+    vignette: {
+        darkness: 0.3,
+        offset: 0.5,
+    },
+    toneMapping: {
+        mode: 1,
+        exposure: 1.1,
+    },
+};
+
+/**
+ * All post-processing presets
+ */
+export const postProcessingPresets = {
+    cinematic: cinematicPreset,
+    dreamy: dreamyPreset,
+    horror: horrorPreset,
+    neon: neonPreset,
+    realistic: realisticPreset,
+    vintage: vintagePreset,
+    noir: noirPreset,
+    sciFi: sciFiPreset,
+};
+
+/**
+ * Bloom presets for different use cases
+ */
+export const bloomPresets = {
+    subtle: {
+        intensity: 0.5,
+        luminanceThreshold: 0.9,
+        luminanceSmoothing: 0.025,
+        mipmapBlur: true,
+    },
+    intense: {
+        intensity: 2,
+        luminanceThreshold: 0.7,
+        luminanceSmoothing: 0.08,
+        mipmapBlur: true,
+    },
+    neon: {
+        intensity: 3,
+        luminanceThreshold: 0.5,
+        luminanceSmoothing: 0.05,
+        mipmapBlur: true,
+    },
+    film: {
+        intensity: 1,
+        luminanceThreshold: 0.85,
+        luminanceSmoothing: 0.05,
+        mipmapBlur: true,
+    },
+    glow: {
+        intensity: 1.5,
+        luminanceThreshold: 0.8,
+        luminanceSmoothing: 0.1,
+        mipmapBlur: true,
+    },
+};
+
+/**
+ * Depth of field presets for different photography styles
+ */
+export const dofPresets = {
+    portrait: {
+        focusDistance: 2,
+        focalLength: 85,
+        bokehScale: 5,
+    },
+    landscape: {
+        focusDistance: 50,
+        focalLength: 24,
+        bokehScale: 0.7,
+    },
+    macro: {
+        focusDistance: 0.3,
+        focalLength: 100,
+        bokehScale: 8,
+    },
+    street: {
+        focusDistance: 5,
+        focalLength: 35,
+        bokehScale: 2,
+    },
+    cinematic: {
+        focusDistance: 4,
+        focalLength: 50,
+        bokehScale: 3,
+    },
+    product: {
+        focusDistance: 1,
+        focalLength: 90,
+        bokehScale: 4,
+    },
+};
+
+/**
+ * Vignette presets for different moods
+ */
+export const vignettePresets = {
+    light: {
+        darkness: 0.3,
+        offset: 0.6,
+    },
+    medium: {
+        darkness: 0.5,
+        offset: 0.5,
+    },
+    heavy: {
+        darkness: 0.7,
+        offset: 0.35,
+    },
+    vintage: {
+        darkness: 0.5,
+        offset: 0.4,
+    },
+    horror: {
+        darkness: 0.8,
+        offset: 0.25,
+    },
+    subtle: {
+        darkness: 0.2,
+        offset: 0.7,
+    },
+};
+
+/**
+ * Get a preset by name
+ * @param name Preset name
+ * @returns The preset configuration
+ */
+export function getPostProcessingPreset(name: keyof typeof postProcessingPresets): PostProcessingPreset {
+    return postProcessingPresets[name];
+}
+
+/**
+ * Preset type for type safety
+ */
+export type PostProcessingPresetName = keyof typeof postProcessingPresets;
+export type BloomPresetName = keyof typeof bloomPresets;
+export type DOFPresetName = keyof typeof dofPresets;
+export type VignettePresetName = keyof typeof vignettePresets;

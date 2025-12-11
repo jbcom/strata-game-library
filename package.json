@@ -133,7 +133,9 @@
     },
     "dependencies": {
         "@dimforge/rapier3d-compat": "^0.19.3",
+        "@react-three/postprocessing": "^3.0.4",
         "@react-three/rapier": "^2.2.0",
+        "postprocessing": "^6.38.0",
         "serve": "^14.2.5",
         "yuka": "^0.7.8"
     }

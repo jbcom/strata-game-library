@@ -176,6 +176,17 @@ export {
     createHumanoidRagdoll,
     createDefaultDestructibleConfig,
     createDefaultBuoyancyConfig,
+    // Post-Processing utilities (pure TS)
+    calculateFocusDistance,
+    calculateFocusDistanceToMesh,
+    focalLengthToFOV,
+    fovToFocalLength,
+    apertureToBokehScale,
+    dofScenarios,
+    defaultEffectSettings,
+    lutConfigs,
+    blendPostProcessingPresets,
+    getTimeOfDayEffects,
 } from './core';
 export type {
     // SDF types
@@ -259,6 +270,21 @@ export type {
     PhysicsMaterial,
     DestructibleConfig,
     BuoyancyConfig,
+    // Post-Processing types
+    PostProcessingMood,
+    PostProcessingPreset,
+    BloomSettings,
+    DOFSettings,
+    VignetteSettings,
+    ChromaticAberrationSettings,
+    FilmGrainSettings,
+    ColorGradingSettings,
+    SSAOSettings,
+    ToneMappingSettings,
+    NoiseSettings,
+    BrightnessContrastSettings,
+    SepiaSettings,
+    LUTConfig,
 } from './core';
 
 // React components
@@ -342,6 +368,16 @@ export {
     Destructible,
     Buoyancy,
     Ragdoll,
+    // Post-Processing components
+    EffectStack,
+    CinematicEffects,
+    DreamyEffects,
+    HorrorEffects,
+    NeonEffects,
+    RealisticEffects,
+    VintageEffects,
+    DynamicDOF,
+    MotionBlurEffect,
 } from './components';
 
 // Presets (organized by layer: background, midground, foreground)
@@ -461,6 +497,17 @@ export type {
     BuoyancyRef,
     RagdollProps,
     RagdollRef,
+    // Post-Processing component types
+    EffectStackProps,
+    CinematicEffectsProps,
+    DreamyEffectsProps,
+    HorrorEffectsProps,
+    NeonEffectsProps,
+    RealisticEffectsProps,
+    VintageEffectsProps,
+    DynamicDOFProps,
+    DynamicDOFRef,
+    MotionBlurEffectProps,
 } from './components';
 
 // Hooks
