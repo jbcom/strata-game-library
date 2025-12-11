@@ -24,62 +24,64 @@ interface ThemeOption {
 
 const themes: ThemeOption[] = [
   {
-    id: 'neon-blueprint',
-    name: 'Neon Blueprint',
-    tagline: 'Programmable Holography',
-    description: 'High-end design tool aesthetic. Crisp cyan and magenta accents over charcoal foundations. Feels like a premium creative suite for limitless generative systems.',
-    heroImage: '/themes/hero-neon-blueprint.png',
-    logoImage: '/themes/logo-neon-blueprint.png',
+    id: 'alloy-orange-teal',
+    name: 'Burnt Orange & Dusty Teal',
+    tagline: 'Warm Industrial',
+    description: 'Muted burnt orange paired with dusty teal on graphite. Warm copper accents add sophistication. Premium industrial feel without harsh colors.',
+    heroImage: '/themes/hero-alloy-orange-teal.png',
+    logoImage: '/themes/logo-alloy-muted.png',
     colors: {
-      primary: '#11CDEF',
-      secondary: '#FF4AA9',
-      background: '#0B1A21',
-    },
-    fonts: {
-      heading: 'Space Grotesk',
-      body: 'IBM Plex Sans',
-      mono: 'IBM Plex Mono',
-    },
-    mood: ['Technical', 'Premium', 'Modern', 'Clean'],
-  },
-  {
-    id: 'spectrum-flux',
-    name: 'Spectrum Flux',
-    tagline: 'Creative Lab',
-    description: 'Electric gradient palette with animated beam aesthetic. Purple, pink, and teal create a vibrant creative lab vibe for experimental generative art.',
-    heroImage: '/themes/hero-spectrum-flux.png',
-    logoImage: '/themes/logo-spectrum-flux.png',
-    colors: {
-      primary: '#5F5BEB',
-      secondary: '#FF7BC9',
-      accent: '#4EFFE1',
-      background: '#070A14',
-    },
-    fonts: {
-      heading: 'Sora',
-      body: 'DM Sans',
-      mono: 'JetBrains Mono',
-    },
-    mood: ['Creative', 'Vibrant', 'Experimental', 'Bold'],
-  },
-  {
-    id: 'algorithmic-alloy',
-    name: 'Algorithmic Alloy',
-    tagline: 'Precision Engineering',
-    description: 'Industrial tech credibility with graphite foundations. Lime green and cyan duotone suggests precision machinery and algorithmic power.',
-    heroImage: '/themes/hero-algorithmic-alloy.png',
-    logoImage: '/themes/logo-algorithmic-alloy.png',
-    colors: {
-      primary: '#D7FC70',
-      secondary: '#4CD7F6',
+      primary: '#D4845C',
+      secondary: '#5B9EA6',
+      accent: '#C49A6C',
       background: '#101418',
     },
     fonts: {
-      heading: 'Archivo Black',
-      body: 'General Sans',
+      heading: 'Archivo',
+      body: 'Inter',
       mono: 'Fira Code',
     },
-    mood: ['Industrial', 'Technical', 'Powerful', 'Sharp'],
+    mood: ['Warm', 'Industrial', 'Sophisticated', 'Muted'],
+  },
+  {
+    id: 'alloy-terracotta',
+    name: 'Terracotta & Slate Teal',
+    tagline: 'Earth Tech',
+    description: 'Rich terracotta rust with cool slate teal creates balance. Warm amber accent. Grounded yet technical, like precision-crafted machinery.',
+    heroImage: '/themes/hero-alloy-terracotta.png',
+    logoImage: '/themes/logo-alloy-muted.png',
+    colors: {
+      primary: '#C8735B',
+      secondary: '#6B9B9E',
+      accent: '#D9A85C',
+      background: '#101418',
+    },
+    fonts: {
+      heading: 'Archivo',
+      body: 'Inter',
+      mono: 'Fira Code',
+    },
+    mood: ['Earthy', 'Balanced', 'Technical', 'Refined'],
+  },
+  {
+    id: 'alloy-coral',
+    name: 'Dusty Coral & Muted Cyan',
+    tagline: 'Soft Precision',
+    description: 'Softer coral tones with muted cyan and bronze. The gentlest of the three but still maintains technical credibility. Approachable yet professional.',
+    heroImage: '/themes/hero-alloy-coral.png',
+    logoImage: '/themes/logo-alloy-muted.png',
+    colors: {
+      primary: '#D08B7A',
+      secondary: '#6AA8AD',
+      accent: '#C9A278',
+      background: '#101418',
+    },
+    fonts: {
+      heading: 'Archivo',
+      body: 'Inter',
+      mono: 'Fira Code',
+    },
+    mood: ['Soft', 'Approachable', 'Premium', 'Calm'],
   },
 ];
 
@@ -160,15 +162,6 @@ function ThemeCard({ theme, selected, onSelect }: { theme: ThemeOption; selected
           <ColorSwatch color={theme.colors.background} label="Background" />
         </Stack>
 
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-            Typography:
-          </Typography>
-          <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.75rem' }}>
-            {theme.fonts.heading} / {theme.fonts.body}
-          </Typography>
-        </Box>
-
         <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ gap: 0.5 }}>
           {theme.mood.map((m) => (
             <Chip
@@ -218,16 +211,16 @@ export default function ThemePreview() {
             sx={{
               fontWeight: 700,
               mb: 2,
-              background: 'linear-gradient(135deg, #11CDEF 0%, #FF4AA9 50%, #4EFFE1 100%)',
+              background: 'linear-gradient(135deg, #D4845C 0%, #5B9EA6 50%, #C49A6C 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Choose Your Theme
+            Algorithmic Alloy Variants
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
-            Three distinct visual identities for Strata. Each communicates "procedural generation of anything"
-            in a different way.
+            Three muted color palettes based on the Algorithmic Alloy direction. 
+            Warm oranges and cool teals on graphite - no primary colors.
           </Typography>
         </Box>
 
@@ -256,7 +249,7 @@ export default function ThemePreview() {
               size="large"
               sx={{
                 background: `linear-gradient(135deg, ${themes.find((t) => t.id === selectedTheme)?.colors.primary} 0%, ${themes.find((t) => t.id === selectedTheme)?.colors.secondary} 100%)`,
-                color: '#000',
+                color: '#fff',
                 px: 4,
               }}
             >
