@@ -1,5 +1,5 @@
 /**
- * Fur Shader - Shell-based fur rendering
+ * Fur Shader - Multi-layer fur rendering
  */
 
 export const furVertexShader = /* glsl */ `

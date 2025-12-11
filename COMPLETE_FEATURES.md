@@ -59,8 +59,8 @@
    - ✅ Full test coverage
 
 8. **Fur** (`presets/fur/`)
-   - Shell-based fur rendering
-   - Multi-layer system
+   - Multi-layer fur rendering
+   - Layered geometry system
    - Wind animation
    - Gravity droop
    - ✅ Complete implementation

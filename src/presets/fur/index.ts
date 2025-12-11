@@ -1,7 +1,7 @@
 /**
- * Fur Preset - Shell-based fur rendering system
+ * Fur Preset - Multi-layer fur rendering system
  *
- * Provides GPU-accelerated fur rendering using shell-based techniques
+ * Provides GPU-accelerated fur rendering using layered geometry
  * for characters, animals, and organic surfaces.
  */
 

@@ -90,7 +90,7 @@ The GitHub Actions workflow handles:
 - **Vegetation** - GPU-instanced grass, trees, rocks
 - **Sky** - ProceduralSky with day/night cycle
 - **Volumetrics** - Fog, underwater effects, enhanced fog
-- **Characters** - Animated characters with fur rendering
+- **Characters** - Animated characters with multi-layer fur
 
 ### Extended Features
 - **GPU Particles** - Fire, smoke, sparks, magic, explosion presets

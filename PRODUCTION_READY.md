@@ -27,7 +27,7 @@
 
 ### Foreground Layer (6 presets)
 8. ✅ Character - Articulated character system
-9. ✅ Fur - Shell-based fur rendering
+9. ✅ Fur - Multi-layer fur rendering
 10. ✅ Molecular - Molecular visualization
 11. ✅ Particles - GPU-accelerated particle systems
 12. ✅ Decals - Projected decals

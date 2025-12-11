@@ -24,7 +24,7 @@ All features listed below are **production-ready** with:
 
 ### Foreground Layer
 - ✅ **Character** - Articulated character system with procedural animation
-- ✅ **Fur** - Shell-based fur rendering
+- ✅ **Fur** - Multi-layer fur rendering with wind and gravity
 - ✅ **Molecular** - Molecular structure visualization
 - ✅ **Particles** - GPU-accelerated particle systems
 - ✅ **Decals** - Projected decals for bullet holes, damage marks

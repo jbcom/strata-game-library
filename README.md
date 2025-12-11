@@ -12,7 +12,7 @@ Strata is a comprehensive library that solves the hardest problems in 3D game de
 - **Water Systems** - Advanced water rendering with caustics and foam
 - **Vegetation** - GPU-accelerated instanced grass, trees, and rocks
 - **Characters** - Articulated character system with procedural animation
-- **Fur & Shells** - GPU-accelerated fur rendering using shell techniques
+- **Fur Rendering** - GPU-accelerated fur via layered geometry
 - **Molecular Rendering** - Scientific visualization and particle systems
 - **Sky & Volumetrics** - Procedural sky with volumetric fog
 - **Ray Marching** - GPU-accelerated SDF ray marching
@@ -75,7 +75,7 @@ Strata organizes features into **presets** - ready-to-use game development primi
 
 ### Foreground Layer
 - `Character` - Articulated character system
-- `Fur` - Shell-based fur rendering
+- `Fur` - Multi-layer fur rendering with wind and gravity
 - `Molecular` - Molecular structure visualization
 
 ## 🧪 Testing
