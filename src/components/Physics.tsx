@@ -14,6 +14,8 @@ import {
     forwardRef,
     useImperativeHandle,
     useMemo,
+    createRef,
+    RefObject,
 } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import {
@@ -24,6 +26,8 @@ import {
     useRapier,
     RapierRigidBody,
     interactionGroups,
+    useSphericalJoint,
+    useRevoluteJoint,
 } from '@react-three/rapier';
 import * as THREE from 'three';
 import type { RigidBodyProps } from '@react-three/rapier';
@@ -33,6 +37,7 @@ import {
     DestructibleConfig,
     BuoyancyConfig,
     RagdollConfig,
+    RagdollJointConfig,
     CollisionLayer,
     calculateJumpImpulse,
     calculateSlopeAngle,
@@ -865,10 +870,35 @@ export interface RagdollRef {
     getBodyPart: (name: string) => RapierRigidBody | null;
 }
 
+interface RagdollSphericalJointProps {
+    bodyA: RefObject<RapierRigidBody>;
+    bodyB: RefObject<RapierRigidBody>;
+    anchor1: [number, number, number];
+    anchor2: [number, number, number];
+}
+
+const RagdollSphericalJoint = ({ bodyA, bodyB, anchor1, anchor2 }: RagdollSphericalJointProps) => {
+    useSphericalJoint(bodyA, bodyB, [anchor1, anchor2]);
+    return null;
+};
+
+interface RagdollRevoluteJointProps {
+    bodyA: RefObject<RapierRigidBody>;
+    bodyB: RefObject<RapierRigidBody>;
+    anchor1: [number, number, number];
+    anchor2: [number, number, number];
+    axis: [number, number, number];
+}
+
+const RagdollRevoluteJoint = ({ bodyA, bodyB, anchor1, anchor2, axis }: RagdollRevoluteJointProps) => {
+    useRevoluteJoint(bodyA, bodyB, [anchor1, anchor2, axis]);
+    return null;
+};
+
 /**
  * Ragdoll physics body with articulated joints.
- * Currently renders simplified body parts - full joint system requires
- * rapier joint API which has different patterns.
+ * Creates body parts connected with spherical and revolute joints
+ * for realistic physics simulation.
  * 
  * @example
  * ```tsx
@@ -894,28 +924,43 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(({
         ...configOverride,
     }), [scale, configOverride]);
     
-    const bodyPartsRef = useRef<Map<string, RapierRigidBody>>(new Map());
     const [isActive, setIsActive] = useState(active);
+    
+    const bodyPartRefs = useMemo(() => {
+        const refs: Record<string, RefObject<RapierRigidBody>> = {};
+        config.bodyParts.forEach(part => {
+            refs[part.name] = createRef<RapierRigidBody>();
+        });
+        return refs;
+    }, [config.bodyParts]);
+    
+    const bodyPartsMapRef = useRef<Map<string, RapierRigidBody>>(new Map());
     
     useImperativeHandle(ref, () => ({
         activate: () => setIsActive(true),
         deactivate: () => setIsActive(false),
         applyForceToAll: (force: [number, number, number]) => {
-            bodyPartsRef.current.forEach(body => {
+            bodyPartsMapRef.current.forEach(body => {
                 body.applyImpulse({ x: force[0], y: force[1], z: force[2] }, true);
             });
         },
-        getBodyPart: (name: string) => bodyPartsRef.current.get(name) || null,
+        getBodyPart: (name: string) => bodyPartsMapRef.current.get(name) || null,
     }));
     
-    const registerBodyPart = useCallback((name: string, body: RapierRigidBody | null) => {
-        if (body) {
-            bodyPartsRef.current.set(name, body);
-            if (initialVelocity[0] !== 0 || initialVelocity[1] !== 0 || initialVelocity[2] !== 0) {
-                body.setLinvel({ x: initialVelocity[0], y: initialVelocity[1], z: initialVelocity[2] }, true);
+    useEffect(() => {
+        Object.entries(bodyPartRefs).forEach(([name, refObj]) => {
+            if (refObj.current) {
+                bodyPartsMapRef.current.set(name, refObj.current);
+                if (initialVelocity[0] !== 0 || initialVelocity[1] !== 0 || initialVelocity[2] !== 0) {
+                    refObj.current.setLinvel({ 
+                        x: initialVelocity[0], 
+                        y: initialVelocity[1], 
+                        z: initialVelocity[2] 
+                    }, true);
+                }
             }
-        }
-    }, [initialVelocity]);
+        });
+    }, [bodyPartRefs, initialVelocity, isActive]);
     
     if (!isActive) {
         return <group position={position}>{children}</group>;
@@ -933,7 +978,7 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(({
                 return (
                     <RigidBody
                         key={part.name}
-                        ref={(body: RapierRigidBody | null) => registerBodyPart(part.name, body)}
+                        ref={bodyPartRefs[part.name]}
                         position={partPos}
                         type="dynamic"
                         colliders={false}
@@ -983,6 +1028,40 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(({
                         )}
                     </RigidBody>
                 );
+            })}
+            
+            {config.joints.map((joint, index) => {
+                const parentRef = bodyPartRefs[joint.parent];
+                const childRef = bodyPartRefs[joint.child];
+                
+                if (!parentRef || !childRef) return null;
+                
+                if (joint.type === 'spherical') {
+                    return (
+                        <RagdollSphericalJoint
+                            key={`joint-${index}-${joint.parent}-${joint.child}`}
+                            bodyA={parentRef}
+                            bodyB={childRef}
+                            anchor1={joint.anchor1}
+                            anchor2={joint.anchor2}
+                        />
+                    );
+                }
+                
+                if (joint.type === 'revolute' && joint.axis) {
+                    return (
+                        <RagdollRevoluteJoint
+                            key={`joint-${index}-${joint.parent}-${joint.child}`}
+                            bodyA={parentRef}
+                            bodyB={childRef}
+                            anchor1={joint.anchor1}
+                            anchor2={joint.anchor2}
+                            axis={joint.axis}
+                        />
+                    );
+                }
+                
+                return null;
             })}
         </group>
     );

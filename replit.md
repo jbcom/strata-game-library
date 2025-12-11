@@ -117,7 +117,30 @@ The GitHub Actions workflow handles:
 - Cross-platform builds (web/Android/desktop)
 - Burnt Orange & Dusty Teal theme
 
+## Core Module Integrations
+
+All core modules use **thin wrapper architecture** over best-in-class libraries:
+
+| Module | Libraries | Location |
+|--------|-----------|----------|
+| **State** | Zustand + zundo | `src/core/state/` |
+| **ECS** | Miniplex | `src/core/ecs/` |
+| **Math/Noise** | maath + simplex-noise | `src/core/math/` |
+| **Pathfinding** | ngraph.graph + ngraph.path | `src/core/pathfinding/` |
+| **Audio** | Howler.js | `src/core/audio/` |
+| **Animation** | XState | `src/core/animation/` |
+| **Debug** | leva + tunnel-rat | `src/core/debug/` |
+
+See `docs/STANDARDS.md` for architectural guidelines (files <400 LOC, thin wrappers, contract/adapter pattern).
+
 ## Recent Changes (Dec 2024)
+- **Module Integration Complete** - All 7 core modules now use curated third-party libraries
+- **State.tsx Refactored** - Thin React façade around Zustand GameStoreApi
+- **Audio.tsx Refactored** - Split from 1134 LOC monolith to 11 modular files
+- **Ragdoll Fixed** - Added proper physics joints (spherical + revolute) connecting body parts
+- **YukaPath Fixed** - Corrected path visualization with waypoints and direction indicators
+- **914 Tests Passing** - Comprehensive test coverage across all modules
+- **TypeDoc Generated** - Auto-generated API documentation with themed styling
 - Pivoted from custom docs site to TypeDoc auto-generation
 - Created packages/examples/showcase for feature demonstration
 - Set up cross-platform CI/CD (web, Android, desktop)

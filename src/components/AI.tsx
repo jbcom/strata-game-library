@@ -17,6 +17,7 @@ import React, {
     ReactNode,
 } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Line } from '@react-three/drei';
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
 
@@ -79,6 +80,10 @@ export interface YukaVehicleRef {
  * @property visible - Show path visualization
  * @property color - Color of the path line
  * @property lineWidth - Width of the path line
+ * @property showWaypoints - Show small spheres at waypoint positions
+ * @property waypointSize - Size of waypoint spheres (default: 0.2)
+ * @property waypointColor - Color of waypoint spheres
+ * @property showDirection - Show direction arrows between waypoints
  */
 export interface YukaPathProps {
     waypoints: Array<[number, number, number]>;
@@ -86,6 +91,10 @@ export interface YukaPathProps {
     visible?: boolean;
     color?: THREE.ColorRepresentation;
     lineWidth?: number;
+    showWaypoints?: boolean;
+    waypointSize?: number;
+    waypointColor?: THREE.ColorRepresentation;
+    showDirection?: boolean;
 }
 
 /**
@@ -402,6 +411,8 @@ export const YukaVehicle = forwardRef<YukaVehicleRef, YukaVehicleProps>(function
  *   loop={true}
  *   visible={true}
  *   color="#00ff00"
+ *   showWaypoints={true}
+ *   showDirection={true}
  * />
  * 
  * // Use with FollowPathBehavior
@@ -415,7 +426,17 @@ export const YukaVehicle = forwardRef<YukaVehicleRef, YukaVehicleProps>(function
  * @returns React element with optional path visualization
  */
 export const YukaPath = forwardRef<YukaPathRef, YukaPathProps>(function YukaPath(
-    { waypoints, loop = false, visible = false, color = 0x00ff00, lineWidth = 2 },
+    {
+        waypoints,
+        loop = false,
+        visible = false,
+        color = 0x00ff00,
+        lineWidth = 2,
+        showWaypoints = false,
+        waypointSize = 0.2,
+        waypointColor,
+        showDirection = false,
+    },
     ref
 ) {
     const pathRef = useRef<YUKA.Path>(new YUKA.Path());
@@ -438,25 +459,82 @@ export const YukaPath = forwardRef<YukaPathRef, YukaPathProps>(function YukaPath
         []
     );
 
-    const lineGeometry = useMemo(() => {
+    const linePoints = useMemo(() => {
         if (!visible || waypoints.length < 2) return null;
 
-        const points = waypoints.map(([x, y, z]) => new THREE.Vector3(x, y, z));
+        const points: Array<[number, number, number]> = [...waypoints];
         if (loop && points.length > 2) {
-            points.push(points[0].clone());
+            points.push(waypoints[0]);
         }
-        return new THREE.BufferGeometry().setFromPoints(points);
+        return points;
     }, [waypoints, loop, visible]);
 
-    if (!visible || !lineGeometry) {
+    const directionArrows = useMemo(() => {
+        if (!showDirection || !visible || waypoints.length < 2) return [];
+
+        const arrows: Array<{
+            position: [number, number, number];
+            rotation: [number, number, number];
+        }> = [];
+
+        const pointCount = loop ? waypoints.length : waypoints.length - 1;
+        for (let i = 0; i < pointCount; i++) {
+            const from = waypoints[i];
+            const to = waypoints[(i + 1) % waypoints.length];
+
+            const midX = (from[0] + to[0]) / 2;
+            const midY = (from[1] + to[1]) / 2;
+            const midZ = (from[2] + to[2]) / 2;
+
+            const dx = to[0] - from[0];
+            const dy = to[1] - from[1];
+            const dz = to[2] - from[2];
+            const yaw = Math.atan2(dx, dz);
+            const pitch = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz));
+
+            arrows.push({
+                position: [midX, midY, midZ],
+                rotation: [pitch, yaw, 0],
+            });
+        }
+
+        return arrows;
+    }, [waypoints, loop, showDirection, visible]);
+
+    const effectiveWaypointColor = waypointColor ?? color;
+
+    if (!visible) {
         return null;
     }
 
     return (
-        <line>
-            <primitive object={lineGeometry} attach="geometry" />
-            <lineBasicMaterial color={color} linewidth={lineWidth} />
-        </line>
+        <group>
+            {linePoints && linePoints.length >= 2 && (
+                <Line
+                    points={linePoints}
+                    color={color}
+                    lineWidth={lineWidth}
+                />
+            )}
+
+            {showWaypoints && waypoints.map((wp, index) => (
+                <mesh key={`waypoint-${index}`} position={wp}>
+                    <sphereGeometry args={[waypointSize, 8, 8]} />
+                    <meshBasicMaterial color={effectiveWaypointColor} />
+                </mesh>
+            ))}
+
+            {showDirection && directionArrows.map((arrow, index) => (
+                <mesh
+                    key={`arrow-${index}`}
+                    position={arrow.position}
+                    rotation={arrow.rotation}
+                >
+                    <coneGeometry args={[waypointSize * 0.5, waypointSize * 1.5, 6]} />
+                    <meshBasicMaterial color={color} />
+                </mesh>
+            ))}
+        </group>
     );
 });
 
