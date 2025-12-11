@@ -217,6 +217,30 @@ export {
     decompressState,
     diffStates,
     mergeStates,
+    // UI utilities (pure TS)
+    getAnchorOffset,
+    worldToScreen,
+    screenToWorld,
+    calculateFade,
+    formatProgressText,
+    clampProgress,
+    uiLerp,
+    uiEaseOutCubic,
+    uiEaseOutElastic,
+    getTextDirection,
+    createDefaultProgressBar,
+    createDefaultInventory,
+    createDefaultDialog,
+    createDefaultTooltip,
+    createDefaultNotification,
+    createDefaultMinimap,
+    createDefaultCrosshair,
+    createDefaultDamageNumber,
+    createDefaultNameplate,
+    getDamageNumberColor,
+    formatNumber,
+    getNotificationIcon,
+    getNotificationColor,
 } from './core';
 export type {
     // SDF types
@@ -336,6 +360,23 @@ export type {
     AutoSaveConfig,
     StateManagerConfig,
     StateSlot,
+    // UI types
+    UIAnchor,
+    TextDirection,
+    ProgressBarConfig,
+    InventorySlot,
+    InventoryConfig,
+    DialogLine,
+    DialogChoice,
+    DialogConfig,
+    TooltipConfig,
+    NotificationConfig,
+    MinimapConfig,
+    MinimapMarker,
+    CrosshairConfig,
+    DamageNumberConfig,
+    NameplateConfig,
+    ScreenPosition,
 } from './core';
 
 // React components
@@ -451,6 +492,17 @@ export {
     StateManagerProvider,
     useStateManager,
     StateManagerContext,
+    // UI components
+    HealthBar,
+    Nameplate,
+    DamageNumber,
+    ProgressBar3D,
+    Inventory,
+    Tooltip,
+    DialogBox,
+    Notification,
+    Minimap,
+    Crosshair,
 } from './components';
 
 // Presets (organized by layer: background, midground, foreground)
@@ -613,6 +665,21 @@ export type {
     PersistGateProps,
     StateDebuggerProps,
     StateManagerProviderProps,
+    // UI component types
+    HealthBarProps,
+    HealthBarRef,
+    NameplateProps,
+    NameplateRef,
+    DamageNumberProps,
+    ProgressBar3DProps,
+    InventoryProps,
+    InventoryRef,
+    TooltipProps,
+    DialogBoxProps,
+    DialogBoxRef,
+    NotificationProps,
+    MinimapProps,
+    CrosshairProps,
 } from './components';
 
 // Hooks

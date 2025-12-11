@@ -310,3 +310,33 @@ export type {
     StateDebuggerProps,
     StateManagerProviderProps,
 } from './State';
+
+// UI Components
+export {
+    HealthBar,
+    Nameplate,
+    DamageNumber,
+    ProgressBar3D,
+    Inventory,
+    Tooltip,
+    DialogBox,
+    Notification,
+    Minimap,
+    Crosshair,
+} from './UI';
+export type {
+    HealthBarProps,
+    HealthBarRef,
+    NameplateProps,
+    NameplateRef,
+    DamageNumberProps,
+    ProgressBar3DProps,
+    InventoryProps,
+    InventoryRef,
+    TooltipProps,
+    DialogBoxProps,
+    DialogBoxRef,
+    NotificationProps,
+    MinimapProps,
+    CrosshairProps,
+} from './UI';
