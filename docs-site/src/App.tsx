@@ -26,6 +26,7 @@ const AudioDemo = lazy(() => import('./pages/demos/AudioDemo'));
 const PhysicsDemo = lazy(() => import('./pages/demos/PhysicsDemo'));
 const PostProcessingDemo = lazy(() => import('./pages/demos/PostProcessingDemo'));
 const AnimationDemo = lazy(() => import('./pages/demos/AnimationDemo'));
+const StateDemo = lazy(() => import('./pages/demos/StateDemo'));
 
 function Loading() {
   return (
@@ -81,6 +82,7 @@ function App() {
           <Route path="/demos/physics" element={<PhysicsDemo />} />
           <Route path="/demos/postprocessing" element={<PostProcessingDemo />} />
           <Route path="/demos/animation" element={<AnimationDemo />} />
+          <Route path="/demos/state" element={<StateDemo />} />
         </Routes>
       </Suspense>
     </Layout>

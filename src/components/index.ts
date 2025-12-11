@@ -281,3 +281,32 @@ export type {
     BlinkControllerProps,
     BlinkControllerRef,
 } from './Animation';
+
+// State Management
+export {
+    GameStateProvider,
+    useGameState,
+    useSaveLoad,
+    useUndo,
+    useCheckpoint,
+    useAutoSave,
+    PersistGate,
+    StateDebugger,
+    StateManagerProvider,
+    useStateManager,
+    StateManagerContext,
+} from './State';
+export type {
+    GameStateContextValue,
+    GameStateProviderProps,
+    UseSaveLoadOptions,
+    UseSaveLoadReturn,
+    UseUndoReturn,
+    UseCheckpointOptions,
+    UseCheckpointReturn,
+    UseAutoSaveOptions,
+    UseAutoSaveReturn,
+    PersistGateProps,
+    StateDebuggerProps,
+    StateManagerProviderProps,
+} from './State';

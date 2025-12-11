@@ -203,6 +203,20 @@ export {
     hermiteInterpolate,
     sampleCurve,
     calculateBoneRotation,
+    // State management (pure TS)
+    GameState,
+    UndoStack,
+    SaveSystem,
+    AutoSave,
+    Checkpoint,
+    StateManager,
+    createGameState,
+    createStateManager,
+    createSaveSystem,
+    compressState,
+    decompressState,
+    diffStates,
+    mergeStates,
 } from './core';
 export type {
     // SDF types
@@ -311,6 +325,17 @@ export type {
     GaitState,
     LookAtConfig,
     LookAtState,
+    // State management types
+    StateChangeType,
+    StateChangeEvent,
+    StateListener,
+    GameStateConfig,
+    Command,
+    SaveData,
+    CheckpointData,
+    AutoSaveConfig,
+    StateManagerConfig,
+    StateSlot,
 } from './core';
 
 // React components
@@ -414,6 +439,18 @@ export {
     TailPhysics,
     BreathingAnimation,
     BlinkController,
+    // State management components
+    GameStateProvider,
+    useGameState,
+    useSaveLoad,
+    useUndo,
+    useCheckpoint,
+    useAutoSave,
+    PersistGate,
+    StateDebugger,
+    StateManagerProvider,
+    useStateManager,
+    StateManagerContext,
 } from './components';
 
 // Presets (organized by layer: background, midground, foreground)
@@ -563,6 +600,19 @@ export type {
     BreathingAnimationRef,
     BlinkControllerProps,
     BlinkControllerRef,
+    // State management component types
+    GameStateContextValue,
+    GameStateProviderProps,
+    UseSaveLoadOptions,
+    UseSaveLoadReturn,
+    UseUndoReturn,
+    UseCheckpointOptions,
+    UseCheckpointReturn,
+    UseAutoSaveOptions,
+    UseAutoSaveReturn,
+    PersistGateProps,
+    StateDebuggerProps,
+    StateManagerProviderProps,
 } from './components';
 
 // Hooks

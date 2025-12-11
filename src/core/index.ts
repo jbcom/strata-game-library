@@ -306,3 +306,32 @@ export type {
     LookAtConfig,
     LookAtState,
 } from './animation';
+
+// State management system
+export {
+    GameState,
+    UndoStack,
+    SaveSystem,
+    AutoSave,
+    Checkpoint,
+    StateManager,
+    createGameState,
+    createStateManager,
+    createSaveSystem,
+    compressState,
+    decompressState,
+    diffStates,
+    mergeStates,
+} from './state';
+export type {
+    StateChangeType,
+    StateChangeEvent,
+    StateListener,
+    GameStateConfig,
+    Command,
+    SaveData,
+    CheckpointData,
+    AutoSaveConfig,
+    StateManagerConfig,
+    StateSlot,
+} from './state';
