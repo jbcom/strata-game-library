@@ -2,6 +2,9 @@
  * Core algorithm exports
  */
 
+// Shared utilities
+export * from './shared';
+
 // Core modules (pure TypeScript, no React)
 export { generateInstanceData, createInstancedMesh } from './instancing';
 export type { InstanceData, BiomeData as InstancingBiomeData } from './instancing';
