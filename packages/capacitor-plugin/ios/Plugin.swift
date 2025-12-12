@@ -295,8 +295,28 @@ public class StrataPlugin: CAPPlugin, CAPBridgedPlugin {
     }
     
     @objc func triggerHaptics(_ call: CAPPluginCall) {
-        let intensity = call.getString("intensity") ?? "medium"
-        
+        // Check if customIntensity is provided (takes precedence)
+        let customIntensity = call.getDouble("customIntensity")
+        let intensity: String
+
+        if let customValue = customIntensity {
+            // Map numeric intensity (0-1) to discrete iOS levels
+            // Note: iOS only supports 3 levels (light/medium/heavy)
+            let clampedValue = max(0.0, min(1.0, customValue))
+            if clampedValue < 0.33 {
+                intensity = "light"
+            } else if clampedValue < 0.66 {
+                intensity = "medium"
+            } else {
+                intensity = "heavy"
+            }
+        } else {
+            intensity = call.getString("intensity") ?? "medium"
+        }
+
+        // Note: iOS ignores duration and pattern parameters
+        // UIImpactFeedbackGenerator uses system default duration (~10ms)
+
         DispatchQueue.main.async { [weak self] in
             switch intensity {
             case "light":
@@ -307,7 +327,7 @@ public class StrataPlugin: CAPPlugin, CAPBridgedPlugin {
                 self?.mediumImpactGenerator?.impactOccurred()
             }
         }
-        
+
         call.resolve()
     }
     

@@ -366,38 +366,81 @@ public class StrataPlugin extends Plugin {
 
     @PluginMethod
     public void triggerHaptics(PluginCall call) {
-        String intensity = call.getString("intensity", "medium");
-        Integer duration = call.getInt("duration");
-        
         if (vibrator == null || !vibrator.hasVibrator()) {
             call.resolve();
             return;
         }
 
-        long vibrationDuration;
-        int amplitude;
-        
-        switch (intensity) {
-            case "light":
-                vibrationDuration = duration != null ? duration : 10;
-                amplitude = 50;
-                break;
-            case "heavy":
-                vibrationDuration = duration != null ? duration : 50;
-                amplitude = 255;
-                break;
-            default:
-                vibrationDuration = duration != null ? duration : 25;
-                amplitude = 150;
-                break;
+        // Check for pattern array first (takes precedence)
+        JSArray patternArray = call.getArray("pattern");
+        if (patternArray != null && patternArray.length() > 0) {
+            try {
+                long[] pattern = new long[patternArray.length()];
+                for (int i = 0; i < patternArray.length(); i++) {
+                    pattern[i] = patternArray.getLong(i);
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Pattern vibration with default amplitude
+                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
+                } else {
+                    vibrator.vibrate(pattern, -1);
+                }
+                call.resolve();
+                return;
+            } catch (JSONException e) {
+                // Fall through to standard intensity-based haptics
+            }
         }
 
+        // Determine amplitude from customIntensity or preset intensity
+        int amplitude;
+        Double customIntensity = call.getDouble("customIntensity");
+
+        if (customIntensity != null) {
+            // Map custom intensity (0-1) to amplitude (1-255)
+            double clampedIntensity = Math.max(0.0, Math.min(1.0, customIntensity));
+            amplitude = (int) Math.max(1, Math.min(255, clampedIntensity * 255));
+        } else {
+            // Use preset intensity
+            String intensity = call.getString("intensity", "medium");
+            switch (intensity) {
+                case "light":
+                    amplitude = 50;
+                    break;
+                case "heavy":
+                    amplitude = 255;
+                    break;
+                default:
+                    amplitude = 150;
+                    break;
+            }
+        }
+
+        // Determine duration
+        Integer duration = call.getInt("duration");
+        long vibrationDuration;
+
+        if (duration != null) {
+            vibrationDuration = duration;
+        } else {
+            // Default durations based on intensity
+            if (amplitude <= 50) {
+                vibrationDuration = 10;
+            } else if (amplitude >= 200) {
+                vibrationDuration = 50;
+            } else {
+                vibrationDuration = 25;
+            }
+        }
+
+        // Vibrate with amplitude control (Android O+) or simple vibration (older)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, amplitude));
         } else {
             vibrator.vibrate(vibrationDuration);
         }
-        
+
         call.resolve();
     }
 
