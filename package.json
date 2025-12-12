@@ -106,6 +106,7 @@
     "peerDependencies": {
         "@react-three/drei": ">=9.0.0",
         "@react-three/fiber": ">=8.0.0",
+        "howler": ">=2.2.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
         "three": ">=0.150.0",
@@ -128,6 +129,7 @@
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/git": "^10.0.1",
         "@testing-library/react": "^14.0.0",
+        "@types/howler": "^2.2.11",
         "@types/react": "^18.2.0",
         "@types/react-dom": "^18.2.0",
         "@types/three": "^0.160.0",
@@ -136,6 +138,7 @@
         "@typescript-eslint/parser": "^7.0.0",
         "@vitest/coverage-v8": "^2.1.0",
         "eslint": "^8.56.0",
+        "howler": "^2.2.4",
         "husky": "^9.0.0",
         "jsdom": "^27.2.0",
         "lint-staged": "^15.2.0",
