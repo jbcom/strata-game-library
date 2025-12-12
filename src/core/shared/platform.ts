@@ -45,10 +45,12 @@ export function detectPlatform(): Platform {
         // Check for React Native environment via globalThis navigator
         const globalNav = (globalThis as unknown as { navigator?: { product?: string } }).navigator;
         // Use multiple React Native detection methods since navigator.product is deprecated
-        if (globalNav?.product === 'ReactNative' || 
+        if (
+            globalNav?.product === 'ReactNative' ||
             typeof (globalThis as any).HermesInternal !== 'undefined' ||
             typeof (globalThis as any).__REACT_NATIVE__ !== 'undefined' ||
-            typeof (globalThis as any).nativeModuleProxy !== 'undefined') {
+            typeof (globalThis as any).nativeModuleProxy !== 'undefined'
+        ) {
             cachedPlatform = 'native';
             return cachedPlatform;
         }
@@ -58,11 +60,13 @@ export function detectPlatform(): Platform {
     }
 
     // Check for React Native in browser-like environment
-    if (typeof navigator !== 'undefined' && 
+    if (
+        typeof navigator !== 'undefined' &&
         (navigator.product === 'ReactNative' ||
-         typeof (globalThis as any).HermesInternal !== 'undefined' ||
-         typeof (globalThis as any).__REACT_NATIVE__ !== 'undefined' ||
-         typeof (globalThis as any).nativeModuleProxy !== 'undefined')) {
+            typeof (globalThis as any).HermesInternal !== 'undefined' ||
+            typeof (globalThis as any).__REACT_NATIVE__ !== 'undefined' ||
+            typeof (globalThis as any).nativeModuleProxy !== 'undefined')
+    ) {
         cachedPlatform = 'native';
         return cachedPlatform;
     }

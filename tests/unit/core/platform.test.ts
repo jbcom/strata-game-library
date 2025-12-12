@@ -49,114 +49,114 @@ describe('Platform Detection', () => {
         });
     });
 
-        it('detects capacitor when Capacitor.isNativePlatform returns true', () => {
-            resetPlatformCache();
-            
-            // Mock Capacitor environment
-            const mockCapacitor = { isNativePlatform: () => true };
-            const originalWindow = global.window;
-            
-            // @ts-ignore - Mocking window for test
-            global.window = { ...window, Capacitor: mockCapacitor };
-            
-            expect(detectPlatform()).toBe('capacitor');
-            
-            // Restore original window
-            global.window = originalWindow;
-        });
+    it('detects capacitor when Capacitor.isNativePlatform returns true', () => {
+        resetPlatformCache();
 
-        it('detects React Native via HermesInternal in SSR environment', () => {
-            resetPlatformCache();
-            
-            // Mock SSR with React Native globals
-            const originalWindow = global.window;
-            const originalGlobalThis = global.globalThis;
-            
-            // @ts-ignore - Mocking for test
-            delete global.window;
-            // @ts-ignore - Mocking for test
-            global.globalThis = { 
-                ...globalThis,
-                HermesInternal: {} 
-            };
-            
-            expect(detectPlatform()).toBe('native');
-            
-            // Restore globals
-            global.window = originalWindow;
-            global.globalThis = originalGlobalThis;
-        });
+        // Mock Capacitor environment
+        const mockCapacitor = { isNativePlatform: () => true };
+        const originalWindow = global.window;
 
-        it('detects React Native via __REACT_NATIVE__ global', () => {
-            resetPlatformCache();
-            
-            const originalWindow = global.window;
-            const originalGlobalThis = global.globalThis;
-            
-            // @ts-ignore - Mocking for test
-            delete global.window;
-            // @ts-ignore - Mocking for test
-            global.globalThis = { 
-                ...globalThis,
-                __REACT_NATIVE__: true 
-            };
-            
-            expect(detectPlatform()).toBe('native');
-            
-            // Restore globals
-            global.window = originalWindow;
-            global.globalThis = originalGlobalThis;
-        });
+        // @ts-ignore - Mocking window for test
+        global.window = { ...window, Capacitor: mockCapacitor };
 
-        it('detects React Native via nativeModuleProxy', () => {
-            resetPlatformCache();
-            
-            const originalWindow = global.window;
-            const originalGlobalThis = global.globalThis;
-            
-            // @ts-ignore - Mocking for test
-            delete global.window;
-            // @ts-ignore - Mocking for test
-            global.globalThis = { 
-                ...globalThis,
-                nativeModuleProxy: {} 
-            };
-            
-            expect(detectPlatform()).toBe('native');
-            
-            // Restore globals
-            global.window = originalWindow;
-            global.globalThis = originalGlobalThis;
-        });
+        expect(detectPlatform()).toBe('capacitor');
 
-        it('defaults to web for SSR without React Native globals', () => {
-            resetPlatformCache();
-            
-            const originalWindow = global.window;
-            
-            // @ts-ignore - Mocking SSR environment
-            delete global.window;
-            
-            expect(detectPlatform()).toBe('web');
-            
-            // Restore window
-            global.window = originalWindow;
-        });
+        // Restore original window
+        global.window = originalWindow;
+    });
 
-        it('falls back to web when Capacitor.isNativePlatform returns false', () => {
-            resetPlatformCache();
-            
-            const mockCapacitor = { isNativePlatform: () => false };
-            const originalWindow = global.window;
-            
-            // @ts-ignore - Mocking window for test
-            global.window = { ...window, Capacitor: mockCapacitor };
-            
-            expect(detectPlatform()).toBe('web');
-            
-            // Restore original window
-            global.window = originalWindow;
-        });
+    it('detects React Native via HermesInternal in SSR environment', () => {
+        resetPlatformCache();
+
+        // Mock SSR with React Native globals
+        const originalWindow = global.window;
+        const originalGlobalThis = global.globalThis;
+
+        // @ts-ignore - Mocking for test
+        delete global.window;
+        // @ts-ignore - Mocking for test
+        global.globalThis = {
+            ...globalThis,
+            HermesInternal: {},
+        };
+
+        expect(detectPlatform()).toBe('native');
+
+        // Restore globals
+        global.window = originalWindow;
+        global.globalThis = originalGlobalThis;
+    });
+
+    it('detects React Native via __REACT_NATIVE__ global', () => {
+        resetPlatformCache();
+
+        const originalWindow = global.window;
+        const originalGlobalThis = global.globalThis;
+
+        // @ts-ignore - Mocking for test
+        delete global.window;
+        // @ts-ignore - Mocking for test
+        global.globalThis = {
+            ...globalThis,
+            __REACT_NATIVE__: true,
+        };
+
+        expect(detectPlatform()).toBe('native');
+
+        // Restore globals
+        global.window = originalWindow;
+        global.globalThis = originalGlobalThis;
+    });
+
+    it('detects React Native via nativeModuleProxy', () => {
+        resetPlatformCache();
+
+        const originalWindow = global.window;
+        const originalGlobalThis = global.globalThis;
+
+        // @ts-ignore - Mocking for test
+        delete global.window;
+        // @ts-ignore - Mocking for test
+        global.globalThis = {
+            ...globalThis,
+            nativeModuleProxy: {},
+        };
+
+        expect(detectPlatform()).toBe('native');
+
+        // Restore globals
+        global.window = originalWindow;
+        global.globalThis = originalGlobalThis;
+    });
+
+    it('defaults to web for SSR without React Native globals', () => {
+        resetPlatformCache();
+
+        const originalWindow = global.window;
+
+        // @ts-ignore - Mocking SSR environment
+        delete global.window;
+
+        expect(detectPlatform()).toBe('web');
+
+        // Restore window
+        global.window = originalWindow;
+    });
+
+    it('falls back to web when Capacitor.isNativePlatform returns false', () => {
+        resetPlatformCache();
+
+        const mockCapacitor = { isNativePlatform: () => false };
+        const originalWindow = global.window;
+
+        // @ts-ignore - Mocking window for test
+        global.window = { ...window, Capacitor: mockCapacitor };
+
+        expect(detectPlatform()).toBe('web');
+
+        // Restore original window
+        global.window = originalWindow;
+    });
 
     describe('helper functions', () => {
         it('isWeb returns true in browser environment', () => {
@@ -202,49 +202,51 @@ describe('Platform Detection', () => {
         });
     });
 
-        it('returns all false capabilities in SSR environment', () => {
-            resetPlatformCache();
-            
-            const originalWindow = global.window;
-            const originalDocument = global.document;
-            
-            // @ts-ignore - Mocking SSR environment
-            delete global.window;
-            // @ts-ignore - Mocking SSR environment  
-            delete global.document;
-            
-            const caps = detectCapabilities();
-            
-            expect(caps.hasWebGL).toBe(false);
-            expect(caps.hasWebAudio).toBe(false);
-            expect(caps.hasLocalStorage).toBe(false);
-            expect(caps.hasHaptics).toBe(false);
-            expect(caps.hasTouchInput).toBe(false);
-            expect(caps.hasDeviceMotion).toBe(false);
-            
-            // Restore globals
-            global.window = originalWindow;
-            global.document = originalDocument;
+    it('returns all false capabilities in SSR environment', () => {
+        resetPlatformCache();
+
+        const originalWindow = global.window;
+        const originalDocument = global.document;
+
+        // @ts-ignore - Mocking SSR environment
+        delete global.window;
+        // @ts-ignore - Mocking SSR environment
+        delete global.document;
+
+        const caps = detectCapabilities();
+
+        expect(caps.hasWebGL).toBe(false);
+        expect(caps.hasWebAudio).toBe(false);
+        expect(caps.hasLocalStorage).toBe(false);
+        expect(caps.hasHaptics).toBe(false);
+        expect(caps.hasTouchInput).toBe(false);
+        expect(caps.hasDeviceMotion).toBe(false);
+
+        // Restore globals
+        global.window = originalWindow;
+        global.document = originalDocument;
+    });
+
+    it('handles localStorage SecurityError gracefully', () => {
+        resetPlatformCache();
+
+        // Mock localStorage that throws on access
+        const originalLocalStorage = window.localStorage;
+        Object.defineProperty(window, 'localStorage', {
+            get: () => {
+                throw new Error('SecurityError');
+            },
         });
 
-        it('handles localStorage SecurityError gracefully', () => {
-            resetPlatformCache();
-            
-            // Mock localStorage that throws on access
-            const originalLocalStorage = window.localStorage;
-            Object.defineProperty(window, 'localStorage', {
-                get: () => { throw new Error('SecurityError'); }
-            });
-            
-            const caps = detectCapabilities();
-            expect(caps.hasLocalStorage).toBe(false);
-            
-            // Restore localStorage
-            Object.defineProperty(window, 'localStorage', {
-                value: originalLocalStorage,
-                writable: true
-            });
+        const caps = detectCapabilities();
+        expect(caps.hasLocalStorage).toBe(false);
+
+        // Restore localStorage
+        Object.defineProperty(window, 'localStorage', {
+            value: originalLocalStorage,
+            writable: true,
         });
+    });
 
     describe('selectAdapter', () => {
         it('returns web adapter for web platform', () => {
