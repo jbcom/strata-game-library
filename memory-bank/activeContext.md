@@ -114,6 +114,6 @@ pnpm run docs:build   # TypeDoc
 - Cleaned up generated docs and fixed ignore patterns
 - Fixed CI security vulnerabilities
 - Addressed React 19 upgrade issues
-- Downgraded ESLint to maintain config compatibility
+- Upgraded ESLint to v9 and migrated to flat config (eslint.config.mjs)
 - Fixed build errors in Physics, AI, and UI components
 - Pushed all fixes to feature/replit-expansion
