@@ -1,14 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it, vi } from 'vitest';
 import {
-    WeatherSystem,
-    WeatherType,
-    WeatherStateConfig,
-    WindSimulation,
+    calculateTemperature,
     createWeatherSystem,
     createWindSimulation,
-    calculateTemperature,
     getPrecipitationType,
+    WeatherSystem,
+    type WeatherType,
+    WindSimulation,
 } from '../core/weather';
 
 describe('WeatherSystem', () => {

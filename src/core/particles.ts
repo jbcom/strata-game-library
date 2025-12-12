@@ -384,7 +384,7 @@ export class ParticleEmitter {
 
             case 'cone': {
                 const r = shapeParams.radius ?? 1;
-                const angle = shapeParams.angle ?? Math.PI / 4;
+                const _angle = shapeParams.angle ?? Math.PI / 4;
                 const height = shapeParams.height ?? 1;
 
                 const t = Math.random();

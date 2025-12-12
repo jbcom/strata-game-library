@@ -6,18 +6,19 @@
  * @module components/AI
  */
 
-import React, {
-    createContext,
-    useContext,
-    useRef,
-    useEffect,
-    useMemo,
-    forwardRef,
-    useImperativeHandle,
-    ReactNode,
-} from 'react';
-import { useFrame } from '@react-three/fiber';
 import { Line } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import type React from 'react';
+import {
+    createContext,
+    forwardRef,
+    type ReactNode,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+} from 'react';
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
 
@@ -293,7 +294,7 @@ export function YukaEntityManager({ children }: YukaEntityManagerProps): React.J
             register,
             unregister,
         }),
-        []
+        [register, unregister]
     );
 
     return <YukaContext.Provider value={contextValue}>{children}</YukaContext.Provider>;

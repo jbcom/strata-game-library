@@ -72,7 +72,7 @@ export function generateInstanceData(
     allowedBiomes?: string[],
     seed?: number,
     getBiomeAt?: (x: number, z: number, biomes: BiomeData[]) => BiomeData,
-    noise3D?: (x: number, y: number, z: number) => number,
+    _noise3D?: (x: number, y: number, z: number) => number,
     fbm?: (x: number, y: number, z: number, octaves?: number) => number
 ): InstanceData[] {
     // Input validation
@@ -114,7 +114,7 @@ export function generateInstanceData(
 
     const defaultFbm =
         fbm ||
-        ((x: number, y: number, z: number, octaves: number = 4) => {
+        ((x: number, _y: number, z: number, octaves: number = 4) => {
             // Simple FBM fallback
             let value = 0;
             let amplitude = 0.5;

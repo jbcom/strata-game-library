@@ -82,7 +82,7 @@ export function createPostProcessingPipeline(
     renderer.render(scene, camera);
 
     // Apply effects
-    effects.forEach((effect, index) => {
+    effects.forEach((effect, _index) => {
         const material = createEffectMaterial(effect, renderer, scene, camera);
         effectMaterials.push(material);
 
@@ -124,7 +124,7 @@ export function createPostProcessingPipeline(
         let current = rtA;
         let next = rtB;
 
-        effects.forEach((effect, index) => {
+        effects.forEach((_effect, index) => {
             const material = effectMaterials[index];
             const quad = new THREE.Mesh(quadGeometry, material);
             quadScene.add(quad);
@@ -189,9 +189,9 @@ function createEffectMaterial(
  */
 function updateEffectUniforms(
     material: THREE.ShaderMaterial,
-    effect: PostProcessingEffect,
+    _effect: PostProcessingEffect,
     deltaTime: number,
-    previousTime: number
+    _previousTime: number
 ): void {
     if (material.uniforms) {
         if (material.uniforms.uTime) {
@@ -266,9 +266,9 @@ const bloomFragmentShader = /* glsl */ `
  */
 function createSSAOMaterial(
     effect: { radius?: number; intensity?: number; bias?: number },
-    renderer: THREE.WebGLRenderer,
-    scene: THREE.Scene,
-    camera: THREE.Camera
+    _renderer: THREE.WebGLRenderer,
+    _scene: THREE.Scene,
+    _camera: THREE.Camera
 ): THREE.ShaderMaterial {
     // In a full implementation, you'd need depth and normal textures
     return new THREE.ShaderMaterial({
@@ -630,33 +630,33 @@ const filmGrainFragmentShader = /* glsl */ `
  * Re-export types from core postProcessing module
  */
 export type {
-    PostProcessingPreset,
-    PostProcessingMood,
     BloomSettings,
-    DOFSettings,
-    VignetteSettings,
+    BrightnessContrastSettings,
     ChromaticAberrationSettings,
-    FilmGrainSettings,
     ColorGradingSettings,
+    DOFSettings,
+    FilmGrainSettings,
+    LUTConfig,
+    NoiseSettings,
+    PostProcessingMood,
+    PostProcessingPreset,
+    SepiaSettings,
     SSAOSettings,
     ToneMappingSettings,
-    NoiseSettings,
-    BrightnessContrastSettings,
-    SepiaSettings,
-    LUTConfig,
+    VignetteSettings,
 } from '../../core/postProcessing';
 
 export {
+    apertureToBokehScale,
+    blendPostProcessingPresets,
     calculateFocusDistance,
     calculateFocusDistanceToMesh,
+    defaultEffectSettings,
+    dofScenarios,
     focalLengthToFOV,
     fovToFocalLength,
-    apertureToBokehScale,
-    dofScenarios,
-    defaultEffectSettings,
-    lutConfigs,
-    blendPostProcessingPresets,
     getTimeOfDayEffects,
+    lutConfigs,
 } from '../../core/postProcessing';
 
 import type { PostProcessingPreset } from '../../core/postProcessing';

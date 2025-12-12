@@ -1,10 +1,10 @@
-import { describe, test, expect } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, test } from 'vitest';
 import {
+    type BillboardOptions,
+    createAnimatedBillboard,
     createBillboard,
     createBillboardInstances,
-    createAnimatedBillboard,
-    type BillboardOptions,
 } from '../../../src/presets/billboards';
 
 describe('Billboards', () => {

@@ -7,18 +7,18 @@
  * @module core/animation/state-machine
  */
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useMachine } from '@xstate/react';
 import { useFrame } from '@react-three/fiber';
+import { useMachine } from '@xstate/react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { createAnimationMachine } from './factory';
 import type {
-    AnimationMachineConfig,
     AnimationContext,
     AnimationEvent,
-    AnimationStateName,
+    AnimationMachineConfig,
     AnimationMachineReturn,
+    AnimationStateName,
     UseAnimationMachineOptions,
 } from './types';
-import { createAnimationMachine } from './factory';
 
 /**
  * React hook for managing animation state machines.
@@ -132,4 +132,4 @@ export function useAnimationMachine(
     };
 }
 
-export { useAnimationBlend, useSyncAnimationActions, useCrossFade } from './blend-hooks';
+export { useAnimationBlend, useCrossFade, useSyncAnimationActions } from './blend-hooks';

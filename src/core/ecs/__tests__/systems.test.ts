@@ -4,16 +4,16 @@
  * @module core/ecs/__tests__/systems.test
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
-    createSystemScheduler,
-    createSystem,
-    withTiming,
     combineSystems,
     conditionalSystem,
+    createSystem,
+    createSystemScheduler,
+    withTiming,
 } from '../systems';
-import { createWorld, resetEntityIdCounter } from '../world';
 import type { BaseEntity } from '../types';
+import { createWorld, resetEntityIdCounter } from '../world';
 
 interface TestEntity extends BaseEntity {
     position: { x: number; y: number; z: number };
@@ -162,7 +162,7 @@ describe('createSystem', () => {
         const movementSystem = createSystem<TestEntity>(
             ['position', 'velocity'],
             (entity, delta) => {
-                entity.position.x += entity.velocity!.x * delta;
+                entity.position.x += (entity.velocity?.x ?? 0) * delta;
             }
         );
 

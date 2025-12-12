@@ -6,7 +6,7 @@
  */
 
 import * as THREE from 'three';
-import { furVertexShader, furFragmentShader } from './shaders';
+import { furFragmentShader, furVertexShader } from './shaders';
 
 export interface FurOptions {
     baseColor?: THREE.ColorRepresentation;
@@ -109,7 +109,7 @@ export function updateFurUniforms(furSystem: THREE.Group, time: number): void {
     furSystem.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.ShaderMaterial) {
             const uniforms = child.material.uniforms;
-            if (uniforms && uniforms.time) {
+            if (uniforms?.time) {
                 uniforms.time.value = time;
             }
         }

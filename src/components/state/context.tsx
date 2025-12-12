@@ -7,14 +7,15 @@
  * @module components/state/context
  */
 
-import React, { createContext, useContext, useEffect, useRef, useMemo, useState } from 'react';
+import type React from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import type { GameStore, GameStoreApi } from '../../core/state';
 import { createGameStore } from '../../core/state';
-import type { GameStoreApi, GameStore } from '../../core/state';
 import type {
     GameStateContextValue,
     GameStateProviderProps,
-    StateDebuggerProps,
     PersistGateProps,
+    StateDebuggerProps,
 } from './types';
 
 export const GameStateContext = createContext<GameStateContextValue<any> | null>(null);

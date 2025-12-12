@@ -1,22 +1,21 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    DecalProjector,
-    DecalProjectorConfig,
-    BillboardConfig,
-    SpriteSheetConfig,
-    updateBillboardRotation,
-    createBillboardMatrix,
-    sortBillboardsByDepth,
-    createSpriteSheetAnimation,
-    updateSpriteSheetAnimation,
-    getSpriteSheetUVs,
     applySpriteSheetFrame,
-    createSpriteSheetMaterial,
-    createDecalTexture,
-    createBulletHoleTexture,
+    type BillboardConfig,
+    createBillboardMatrix,
     createBloodSplatterTexture,
+    createBulletHoleTexture,
+    createDecalTexture,
     createScorchMarkTexture,
+    createSpriteSheetAnimation,
+    createSpriteSheetMaterial,
+    DecalProjector,
+    getSpriteSheetUVs,
+    type SpriteSheetConfig,
+    sortBillboardsByDepth,
+    updateBillboardRotation,
+    updateSpriteSheetAnimation,
 } from '../core/decals';
 
 describe('DecalProjector', () => {

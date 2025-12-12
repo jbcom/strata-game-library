@@ -6,7 +6,7 @@
  */
 
 import * as THREE from 'three';
-import { createFurSystem, FurOptions } from '../fur';
+import { createFurSystem, type FurOptions } from '../fur';
 
 export interface CharacterJoint {
     group: THREE.Group;
@@ -191,7 +191,7 @@ export function createCharacter(options: CharacterOptions = {}): {
 export function animateCharacter(
     character: { root: THREE.Group; joints: CharacterJoints; state: CharacterState },
     time: number,
-    deltaTime: number = 0.016
+    _deltaTime: number = 0.016
 ): void {
     const { joints, state } = character;
     const speed = state.speed / state.maxSpeed; // 0 to 1

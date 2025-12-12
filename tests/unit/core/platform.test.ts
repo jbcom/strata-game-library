@@ -4,18 +4,16 @@
  * Tests for platform detection, capability detection, and adapter selection.
  */
 
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
-    detectPlatform,
+    type AdapterMap,
     detectCapabilities,
-    isWeb,
+    detectPlatform,
     isCapacitor,
     isNative,
+    isWeb,
     resetPlatformCache,
     selectAdapter,
-    type AdapterMap,
-    type Platform,
-    type PlatformCapabilities,
 } from '../../../src/core/shared/platform';
 
 describe('Platform Detection', () => {
@@ -56,7 +54,7 @@ describe('Platform Detection', () => {
         const mockCapacitor = { isNativePlatform: () => true };
         const originalWindow = global.window;
 
-        // @ts-ignore - Mocking window for test
+        // @ts-expect-error - Mocking window for test
         global.window = { ...window, Capacitor: mockCapacitor };
 
         expect(detectPlatform()).toBe('capacitor');
@@ -72,9 +70,9 @@ describe('Platform Detection', () => {
         const originalWindow = global.window;
         const originalGlobalThis = global.globalThis;
 
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         delete global.window;
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         global.globalThis = {
             ...globalThis,
             HermesInternal: {},
@@ -93,9 +91,9 @@ describe('Platform Detection', () => {
         const originalWindow = global.window;
         const originalGlobalThis = global.globalThis;
 
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         delete global.window;
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         global.globalThis = {
             ...globalThis,
             __REACT_NATIVE__: true,
@@ -114,9 +112,9 @@ describe('Platform Detection', () => {
         const originalWindow = global.window;
         const originalGlobalThis = global.globalThis;
 
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         delete global.window;
-        // @ts-ignore - Mocking for test
+        // @ts-expect-error - Mocking for test
         global.globalThis = {
             ...globalThis,
             nativeModuleProxy: {},
@@ -134,7 +132,7 @@ describe('Platform Detection', () => {
 
         const originalWindow = global.window;
 
-        // @ts-ignore - Mocking SSR environment
+        // @ts-expect-error - Mocking SSR environment
         delete global.window;
 
         expect(detectPlatform()).toBe('web');
@@ -149,7 +147,7 @@ describe('Platform Detection', () => {
         const mockCapacitor = { isNativePlatform: () => false };
         const originalWindow = global.window;
 
-        // @ts-ignore - Mocking window for test
+        // @ts-expect-error - Mocking window for test
         global.window = { ...window, Capacitor: mockCapacitor };
 
         expect(detectPlatform()).toBe('web');
@@ -208,9 +206,9 @@ describe('Platform Detection', () => {
         const originalWindow = global.window;
         const originalDocument = global.document;
 
-        // @ts-ignore - Mocking SSR environment
+        // @ts-expect-error - Mocking SSR environment
         delete global.window;
-        // @ts-ignore - Mocking SSR environment
+        // @ts-expect-error - Mocking SSR environment
         delete global.document;
 
         const caps = detectCapabilities();

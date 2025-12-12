@@ -1,17 +1,17 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import * as THREE from 'three';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { createParticleSystem, type ParticleEmitterOptions } from '../../../src/presets/particles';
 
 describe('Particle System', () => {
     let renderer: THREE.WebGLRenderer | null = null;
-    let scene: THREE.Scene;
+    let _scene: THREE.Scene;
 
     beforeEach(() => {
         // Skip WebGLRenderer creation in node environment
         if (typeof document !== 'undefined') {
             renderer = new THREE.WebGLRenderer();
         }
-        scene = new THREE.Scene();
+        _scene = new THREE.Scene();
     });
 
     afterEach(() => {
@@ -92,7 +92,7 @@ describe('Particle System', () => {
             lifetime: 1.0,
         });
 
-        const initialCount =
+        const _initialCount =
             system.group.children[0] instanceof THREE.InstancedMesh
                 ? (system.group.children[0] as THREE.InstancedMesh).count
                 : 0;

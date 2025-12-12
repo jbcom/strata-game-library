@@ -6,28 +6,26 @@
  * @module components/Decals
  */
 
+import { useFrame, useThree } from '@react-three/fiber';
 import React, {
-    useRef,
-    useMemo,
-    useEffect,
-    useCallback,
     forwardRef,
+    useCallback,
+    useEffect,
     useImperativeHandle,
+    useMemo,
+    useRef,
 } from 'react';
-import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
-    DecalProjector,
-    DecalProjectorConfig,
-    DecalInstance,
-    BillboardConfig,
-    SpriteSheetConfig,
-    SpriteAnimationState,
-    updateBillboardRotation,
-    sortBillboardsByDepth,
-    createSpriteSheetAnimation,
-    updateSpriteSheetAnimation,
     applySpriteSheetFrame,
+    type BillboardConfig,
+    createSpriteSheetAnimation,
+    type DecalInstance,
+    type DecalProjectorConfig,
+    type SpriteAnimationState,
+    type SpriteSheetConfig,
+    updateBillboardRotation,
+    updateSpriteSheetAnimation,
 } from '../core/decals';
 
 /**

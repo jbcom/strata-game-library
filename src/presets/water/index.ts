@@ -6,10 +6,10 @@
 
 import * as THREE from 'three';
 import {
-    waterVertexShader,
-    waterFragmentShader,
-    advancedWaterVertexShader,
     advancedWaterFragmentShader,
+    advancedWaterVertexShader,
+    waterFragmentShader,
+    waterVertexShader,
 } from '../../shaders/water';
 
 export interface WaterMaterialOptions {
@@ -30,7 +30,7 @@ export interface AdvancedWaterMaterialOptions {
 export function createWaterMaterial(options: WaterMaterialOptions = {}): THREE.ShaderMaterial {
     const { time = 0 } = options;
 
-    if (typeof time !== 'number' || !isFinite(time)) {
+    if (typeof time !== 'number' || !Number.isFinite(time)) {
         throw new Error('createWaterMaterial: time must be a finite number');
     }
 
@@ -61,7 +61,7 @@ export function createAdvancedWaterMaterial(
     } = options;
 
     // Input validation
-    if (typeof time !== 'number' || !isFinite(time)) {
+    if (typeof time !== 'number' || !Number.isFinite(time)) {
         throw new Error('createAdvancedWaterMaterial: time must be a finite number');
     }
     if (causticIntensity < 0 || causticIntensity > 1) {

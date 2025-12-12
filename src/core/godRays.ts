@@ -7,15 +7,15 @@
 
 import * as THREE from 'three';
 import {
-    godRaysVertexShader,
-    godRaysFragmentShader,
-    volumetricSpotlightVertexShader,
-    volumetricSpotlightFragmentShader,
-    volumetricPointLightVertexShader,
-    volumetricPointLightFragmentShader,
     createGodRaysUniforms,
-    createVolumetricSpotlightUniforms,
     createVolumetricPointLightUniforms,
+    createVolumetricSpotlightUniforms,
+    godRaysFragmentShader,
+    godRaysVertexShader,
+    volumetricPointLightFragmentShader,
+    volumetricPointLightVertexShader,
+    volumetricSpotlightFragmentShader,
+    volumetricSpotlightVertexShader,
 } from '../shaders/godRays';
 
 export interface GodRaysMaterialOptions {
@@ -205,8 +205,8 @@ export function calculateScatteringIntensity(
     const angle = viewDirection.angleTo(lightDirection);
     const baseIntensity = params.intensity ?? 1.0;
 
-    const forwardScatter = Math.pow(Math.max(0, Math.cos(angle)), 8);
-    const backScatter = Math.pow(Math.max(0, Math.cos(Math.PI - angle)), 2) * 0.1;
+    const forwardScatter = Math.max(0, Math.cos(angle)) ** 8;
+    const backScatter = Math.max(0, Math.cos(Math.PI - angle)) ** 2 * 0.1;
     const mieScattering = forwardScatter + backScatter;
 
     const rayleighFactor = (1 + Math.cos(angle) * Math.cos(angle)) * 0.1;

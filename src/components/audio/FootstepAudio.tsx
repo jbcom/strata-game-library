@@ -5,9 +5,9 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { Howl } from 'howler';
-import * as THREE from 'three';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import type * as THREE from 'three';
 import type { FootstepAudioProps, FootstepAudioRef } from './types';
 
 interface SoundPool {

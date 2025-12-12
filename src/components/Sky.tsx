@@ -4,11 +4,10 @@
  * Lifted from Otterfall biome selector diorama.
  */
 
-import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
-import { skyVertexShader, skyFragmentShader, createSkyUniforms } from '../shaders/sky';
-import { createSkyMaterial, createSkyGeometry } from '../core/sky';
+import { useEffect, useMemo, useRef } from 'react';
+import type * as THREE from 'three';
+import { createSkyGeometry, createSkyMaterial } from '../core/sky';
 
 export interface TimeOfDayState {
     /** Sun intensity 0-1 */

@@ -4,9 +4,9 @@
  * Covers locomotion and combat machine creation.
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createActor } from 'xstate';
-import { createLocomotionMachine, createCombatMachine } from '../presets';
+import { createCombatMachine, createLocomotionMachine } from '../presets';
 
 describe('createLocomotionMachine', () => {
     it('creates locomotion machine with all states', () => {

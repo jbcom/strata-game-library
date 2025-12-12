@@ -5,7 +5,7 @@
  * and device capabilities.
  */
 
-import { LODConfig, VegetationLODConfig } from '../core/lod';
+import type { LODConfig, VegetationLODConfig } from '../core/lod';
 
 export type LODPresetName = 'performance' | 'quality' | 'mobile' | 'desktop' | 'ultra';
 

@@ -121,7 +121,7 @@ function calculateCascadeSplits(
 
     for (let i = 0; i <= cascades; i++) {
         const uniformSplit = (i / cascades) * maxDistance;
-        const logarithmicSplit = fadeDistance * Math.pow(maxDistance / fadeDistance, i / cascades);
+        const logarithmicSplit = fadeDistance * (maxDistance / fadeDistance) ** (i / cascades);
         const split = lambda * logarithmicSplit + (1 - lambda) * uniformSplit;
         splits.push(split);
     }
@@ -170,7 +170,7 @@ function updateCascadedShadows(
     camera: THREE.PerspectiveCamera,
     sceneBox: THREE.Box3,
     splits: number[],
-    maxDistance: number
+    _maxDistance: number
 ): void {
     // For simplicity, use the furthest split for the shadow camera
     // In a full implementation, you'd render multiple shadow maps
@@ -222,8 +222,8 @@ function getFrustumCorners(camera: THREE.PerspectiveCamera, distance: number): T
  * Create contact shadows (screen-space shadows)
  */
 export function createContactShadows(
-    renderer: THREE.WebGLRenderer,
-    scene: THREE.Scene,
+    _renderer: THREE.WebGLRenderer,
+    _scene: THREE.Scene,
     camera: THREE.Camera
 ): THREE.ShaderMaterial {
     const material = new THREE.ShaderMaterial({

@@ -121,7 +121,7 @@ export function createGuardPreset(config: GuardPresetConfig): AIPresetResult {
     const chaseState = new ChaseState();
     stateMachine.currentState = patrolState;
 
-    const update = (delta: number, context?: { playerPosition?: YUKA.Vector3 }) => {
+    const update = (_delta: number, context?: { playerPosition?: YUKA.Vector3 }) => {
         if (context?.playerPosition) {
             const distance = vehicle.position.distanceTo(context.playerPosition);
 
@@ -208,7 +208,7 @@ export function createPreyPreset(config: PreyPresetConfig = {}): AIPresetResult 
     const fleeState = new FleeState();
     stateMachine.currentState = wanderState;
 
-    const update = (delta: number, context?: { threatPosition?: YUKA.Vector3 }) => {
+    const update = (_delta: number, context?: { threatPosition?: YUKA.Vector3 }) => {
         if (context?.threatPosition) {
             const distance = vehicle.position.distanceTo(context.threatPosition);
 
@@ -320,7 +320,7 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
     const pursueState = new PursueState();
     stateMachine.currentState = patrolState;
 
-    const update = (delta: number, context?: { preyPosition?: YUKA.Vector3 }) => {
+    const update = (_delta: number, context?: { preyPosition?: YUKA.Vector3 }) => {
         if (context?.preyPosition) {
             const distance = vehicle.position.distanceTo(context.preyPosition);
 
@@ -433,7 +433,7 @@ export function createFollowerPreset(config: FollowerPresetConfig = {}): AIPrese
     const offsetVector = new YUKA.Vector3(offset[0], offset[1], offset[2]);
 
     const update = (
-        delta: number,
+        _delta: number,
         context?: { leaderPosition?: YUKA.Vector3; leaderRotation?: YUKA.Quaternion }
     ) => {
         if (context?.leaderPosition) {

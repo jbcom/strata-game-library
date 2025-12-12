@@ -9,7 +9,7 @@
  */
 
 import tunnelRat from 'tunnel-rat';
-import type { Tunnel, DebugTunnelId } from './types';
+import type { DebugTunnelId, Tunnel } from './types';
 
 /**
  * Creates a new tunnel for React portals.
@@ -210,7 +210,6 @@ export function getDebugTunnel(id: DebugTunnelId): Tunnel {
             return FPSCounterTunnel;
         case 'stats-panel':
             return StatsPanelTunnel;
-        case 'custom':
         default:
             return getTunnel(id);
     }

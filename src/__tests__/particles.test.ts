@@ -1,12 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    ParticleEmitter,
     createParticleEmitter,
-    EmissionShape,
-    ParticleBehavior,
-    ParticleForces,
-    ParticleEmitterConfig,
+    type EmissionShape,
+    type ParticleBehavior,
+    ParticleEmitter,
+    type ParticleForces,
 } from '../core/particles';
 
 describe('ParticleEmitter', () => {

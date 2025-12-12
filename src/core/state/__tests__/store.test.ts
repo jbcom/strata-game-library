@@ -8,9 +8,9 @@
  * @module core/state/__tests__/store.test
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createGameStore, createPersistenceAdapter } from '../store';
-import type { PersistenceAdapter, SaveData } from '../types';
+import type { PersistenceAdapter } from '../types';
 
 interface TestState {
     count: number;

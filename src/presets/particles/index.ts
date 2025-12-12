@@ -7,13 +7,13 @@
 
 import * as THREE from 'three';
 import {
-    ParticleEmitter,
-    ParticleEmitterConfig,
     createParticleEmitter,
-    EmissionShape,
-    ParticleForces,
-    ParticleBehavior,
-    EmitterShapeParams,
+    type EmissionShape,
+    type EmitterShapeParams,
+    type ParticleBehavior,
+    ParticleEmitter,
+    type ParticleEmitterConfig,
+    type ParticleForces,
 } from '../../core/particles';
 
 export { ParticleEmitter, createParticleEmitter };

@@ -26,29 +26,25 @@
  * ```
  */
 
-export { createGameStore, createPersistenceAdapter } from './store';
-export type { GameStoreApi, GameStoreState, GameStoreActions, GameStore } from './store';
-
-export type {
-    SaveData,
-    CheckpointData,
-    PersistenceAdapter,
-    StoreConfig,
-    CheckpointOptions,
-    StateChangeType,
-    StateChangeEvent,
-    StateListener,
-    AutoSaveConfig,
-} from './types';
-
-export { calculateChecksum, verifyChecksum } from './types';
-
+export { temporal } from 'zundo';
+export { create, useStore } from 'zustand';
+export { immer } from 'zustand/middleware/immer';
 export {
+    createWebPersistenceAdapter,
     WebPersistenceAdapter,
     webPersistenceAdapter,
-    createWebPersistenceAdapter,
 } from './adapters/web/persistence';
-
-export { create, useStore } from 'zustand';
-export { temporal } from 'zundo';
-export { immer } from 'zustand/middleware/immer';
+export type { GameStore, GameStoreActions, GameStoreApi, GameStoreState } from './store';
+export { createGameStore, createPersistenceAdapter } from './store';
+export type {
+    AutoSaveConfig,
+    CheckpointData,
+    CheckpointOptions,
+    PersistenceAdapter,
+    SaveData,
+    StateChangeEvent,
+    StateChangeType,
+    StateListener,
+    StoreConfig,
+} from './types';
+export { calculateChecksum, verifyChecksum } from './types';

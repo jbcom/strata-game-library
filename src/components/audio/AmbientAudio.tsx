@@ -5,8 +5,8 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { Howl } from 'howler';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { useAudioManager } from './context';
 import type { AmbientAudioProps, AmbientAudioRef } from './types';
 
@@ -67,7 +67,7 @@ export const AmbientAudio = forwardRef<AmbientAudioRef, AmbientAudioProps>(
                 howlRef.current = null;
                 soundIdRef.current = undefined;
             };
-        }, [url, loop]);
+        }, [url, loop, autoplay, fadeTime, onLoad, volume]);
 
         useEffect(() => {
             targetVolumeRef.current = volume;

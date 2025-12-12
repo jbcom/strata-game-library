@@ -6,18 +6,17 @@
  * @module components/state/hooks
  */
 
-import { useCallback, useState, useEffect, useRef, useContext } from 'react';
-import { useStore } from 'zustand';
-import type { GameStoreApi, CheckpointData } from '../../core/state';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import type { CheckpointData } from '../../core/state';
+import { GameStateContext } from './context';
 import type {
-    UseSaveLoadOptions,
-    UseSaveLoadReturn,
-    UseCheckpointReturn,
+    GameStateContextValue,
     UseAutoSaveOptions,
     UseAutoSaveReturn,
-    GameStateContextValue,
+    UseCheckpointReturn,
+    UseSaveLoadOptions,
+    UseSaveLoadReturn,
 } from './types';
-import { GameStateContext } from './context';
 
 function useGameStateContextInternal<T extends object>(): GameStateContextValue<T> {
     const context = useContext(GameStateContext);

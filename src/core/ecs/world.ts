@@ -5,7 +5,7 @@
  */
 
 import { World } from 'miniplex';
-import type { BaseEntity, WorldConfig, StrataWorld, Archetype, QueryResult } from './types';
+import type { Archetype, BaseEntity, QueryResult, StrataWorld, WorldConfig } from './types';
 
 let entityIdCounter = 0;
 

@@ -6,14 +6,9 @@
  */
 
 import * as THREE from 'three';
-import {
-    generateInstanceData,
-    createInstancedMesh,
-    type InstanceData,
-    type BiomeData,
-} from '../../core/instancing';
+import { type BiomeData, createInstancedMesh, generateInstanceData } from '../../core/instancing';
 
-export type { InstanceData, BiomeData } from '../../core/instancing';
+export type { BiomeData, InstanceData } from '../../core/instancing';
 
 export interface VegetationOptions {
     count: number;
@@ -64,7 +59,7 @@ export function createVegetationMesh(options: VegetationOptions): THREE.Instance
 
     // Generate instance data
     // heightFunction is required, provide a default that returns 0 if not specified
-    const defaultHeightFunc = heightFunction || ((x: number, z: number) => 0);
+    const defaultHeightFunc = heightFunction || ((_x: number, _z: number) => 0);
     const instances = generateInstanceData(
         count,
         areaSize,

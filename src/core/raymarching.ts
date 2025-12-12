@@ -5,7 +5,7 @@
  */
 
 import * as THREE from 'three';
-import { raymarchingVertexShader, raymarchingFragmentShader } from '../shaders/raymarching';
+import { raymarchingFragmentShader, raymarchingVertexShader } from '../shaders/raymarching';
 
 export interface RaymarchingMaterialOptions {
     sdfFunction: string; // GLSL code for sceneSDF function

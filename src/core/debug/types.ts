@@ -7,7 +7,7 @@
  * @module core/debug/types
  */
 
-import * as React from 'react';
+import type * as React from 'react';
 
 /**
  * Configuration for creating a debug panel.

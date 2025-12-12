@@ -8,12 +8,12 @@
  * @public
  */
 
-import { useControls, folder, button, Leva, LevaPanel, useCreateStore } from 'leva';
+import { button, folder, Leva, LevaPanel, useControls, useCreateStore } from 'leva';
 import type {
-    DebugPanelConfig,
     CameraDebugValues,
-    PhysicsDebugValues,
+    DebugPanelConfig,
     LightingDebugValues,
+    PhysicsDebugValues,
     PostProcessingDebugValues,
 } from './types';
 

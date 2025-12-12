@@ -1,8 +1,8 @@
-import { describe, test, expect, beforeEach } from 'vitest';
 import * as THREE from 'three';
+import { beforeEach, describe, expect, test } from 'vitest';
 import {
-    createShadowSystem,
     createContactShadows,
+    createShadowSystem,
     type ShadowSystemOptions,
 } from '../../../src/presets/shadows';
 

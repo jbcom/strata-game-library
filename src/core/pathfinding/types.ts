@@ -5,7 +5,7 @@
  * @public
  */
 
-import type { Vector3 as YukaVector3, NavMesh } from 'yuka';
+import type { NavMesh, Vector3 as YukaVector3 } from 'yuka';
 
 /**
  * Position data for graph nodes.

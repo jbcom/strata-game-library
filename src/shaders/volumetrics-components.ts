@@ -4,7 +4,7 @@
  * Shaders for VolumetricFogMesh and UnderwaterOverlay components
  */
 
-import * as THREE from 'three';
+import type * as THREE from 'three';
 
 export const volumetricFogMeshVertexShader = /* glsl */ `
   varying vec3 vWorldPosition;

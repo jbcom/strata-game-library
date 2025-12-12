@@ -7,12 +7,12 @@
 
 import type { ReactNode } from 'react';
 import type {
-    GameStoreApi,
-    GameStore,
-    StoreConfig,
-    CheckpointData,
     AutoSaveConfig,
+    CheckpointData,
+    GameStore,
+    GameStoreApi,
     StateChangeEvent,
+    StoreConfig,
 } from '../../core/state';
 
 export interface GameStateContextValue<T extends object> {
@@ -33,7 +33,7 @@ export interface UseSaveLoadOptions {
     version?: number;
 }
 
-export interface UseSaveLoadReturn<T extends object> {
+export interface UseSaveLoadReturn<_T extends object> {
     save: (slot?: string) => Promise<boolean>;
     load: (slot?: string) => Promise<boolean>;
     deleteSave: (slot: string) => Promise<boolean>;

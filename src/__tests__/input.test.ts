@@ -1,17 +1,17 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it, vi } from 'vitest';
 import {
-    InputManager,
-    InputStateMachine,
-    HapticFeedback,
-    DragState,
-    InputAxis,
-    createInputManager,
-    normalizeAxisValue,
-    clampAxis,
+    angleToAxis,
     axisToAngle,
     axisToMagnitude,
-    angleToAxis,
+    clampAxis,
+    createInputManager,
+    type DragState,
+    HapticFeedback,
+    type InputAxis,
+    InputManager,
+    InputStateMachine,
+    normalizeAxisValue,
 } from '../core/input';
 
 describe('InputManager', () => {
@@ -97,7 +97,7 @@ describe('InputManager', () => {
 
     describe('attach/detach', () => {
         it('should attach to element when available', () => {
-            const manager = new InputManager();
+            const _manager = new InputManager();
         });
 
         it('should detach from element', () => {

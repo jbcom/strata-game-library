@@ -1,21 +1,21 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
+    CameraShake,
+    calculateHeadBob,
+    calculateLookAhead,
+    calculateScreenShakeIntensity,
+    easeInCubic,
+    easeInOutCubic,
+    easeOutCubic,
+    easeOutElastic,
+    evaluateCatmullRom,
+    FOVTransition,
     lerp,
     lerpVector3,
     slerp,
     smoothDamp,
     smoothDampVector3,
-    CameraShake,
-    FOVTransition,
-    evaluateCatmullRom,
-    calculateLookAhead,
-    calculateHeadBob,
-    calculateScreenShakeIntensity,
-    easeInOutCubic,
-    easeOutCubic,
-    easeInCubic,
-    easeOutElastic,
 } from '../core/camera';
 
 describe('lerp utility', () => {

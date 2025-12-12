@@ -5,8 +5,8 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
-import * as THREE from 'three';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import type * as THREE from 'three';
 import { useSpatialAudio } from './context';
 import type { PositionalAudioProps, PositionalAudioRef } from './types';
 
@@ -89,7 +89,21 @@ export const PositionalAudio = forwardRef<PositionalAudioRef, PositionalAudioPro
                 spatialAudio.remove(idRef.current);
                 sourceRef.current = null;
             };
-        }, [url, spatialAudio]);
+        }, [
+            url,
+            spatialAudio,
+            autoplay,
+            distanceModel,
+            loop,
+            maxDistance,
+            onEnd,
+            onLoad,
+            playbackRate,
+            position[0],
+            refDistance,
+            rolloffFactor,
+            volume,
+        ]);
 
         useEffect(() => {
             if (sourceRef.current) {

@@ -1,6 +1,6 @@
-import { describe, test, expect } from 'vitest';
 import * as THREE from 'three';
-import { createDecal, createBulletHoleDecal, type DecalOptions } from '../../../src/presets/decals';
+import { describe, expect, test } from 'vitest';
+import { createBulletHoleDecal, createDecal, type DecalOptions } from '../../../src/presets/decals';
 
 describe('Decals', () => {
     test('should create decal with valid options', () => {

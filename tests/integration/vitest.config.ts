@@ -1,5 +1,5 @@
+import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
-import { resolve } from 'path';
 
 /**
  * Vitest configuration for integration tests

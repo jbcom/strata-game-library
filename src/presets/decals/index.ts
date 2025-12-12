@@ -7,12 +7,12 @@
 
 import * as THREE from 'three';
 import {
-    createBulletHoleTexture,
     createBloodSplatterTexture,
-    createScorchMarkTexture,
-    createFootprintTexture,
-    createWaterPuddleTexture,
+    createBulletHoleTexture,
     createDecalTexture,
+    createFootprintTexture,
+    createScorchMarkTexture,
+    createWaterPuddleTexture,
 } from '../../core/decals';
 
 export interface DecalOptions {
@@ -105,7 +105,7 @@ function projectDecal(
     const vertices: number[] = [];
     const normals: number[] = [];
     const uvs: number[] = [];
-    const indices: number[] = [];
+    const _indices: number[] = [];
 
     const positionAttribute = geometry.getAttribute('position');
     const normalAttribute = geometry.getAttribute('normal');

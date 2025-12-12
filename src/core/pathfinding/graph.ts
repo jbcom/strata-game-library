@@ -6,19 +6,19 @@
  * @public
  */
 
+import type { Graph as NGraph, Link as NLink, Node as NNode } from 'ngraph.graph';
 import createNGraph from 'ngraph.graph';
-import type { Graph as NGraph, Node as NNode, Link as NLink } from 'ngraph.graph';
-import type {
-    NodeId,
-    NodeData,
-    EdgeData,
-    Position3D,
-    GraphNode,
-    GraphEdge,
-    StrataGraph,
-    NavMeshConversionOptions,
-} from './types';
 import type { NavMesh, Polygon } from 'yuka';
+import type {
+    EdgeData,
+    GraphEdge,
+    GraphNode,
+    NavMeshConversionOptions,
+    NodeData,
+    NodeId,
+    Position3D,
+    StrataGraph,
+} from './types';
 
 /**
  * Extended graph type with Strata utilities.

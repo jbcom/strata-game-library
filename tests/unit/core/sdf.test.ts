@@ -4,22 +4,19 @@
  * Tests the public contract of SDF functions
  */
 
-import { describe, it, expect } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    sdSphere,
-    sdBox,
-    sdPlane,
-    sdCapsule,
-    sdTorus,
-    sdCone,
-    opUnion,
-    opSubtraction,
+    calcNormal,
+    fbm,
+    noise3D,
     opIntersection,
     opSmoothUnion,
-    noise3D,
-    fbm,
-    calcNormal,
+    opSubtraction,
+    opUnion,
+    sdBox,
+    sdPlane,
+    sdSphere,
 } from '../../../src/core/sdf';
 
 describe('SDF Primitives', () => {

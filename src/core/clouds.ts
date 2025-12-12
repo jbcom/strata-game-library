@@ -6,12 +6,12 @@
 
 import * as THREE from 'three';
 import {
-    cloudLayerVertexShader,
     cloudLayerFragmentShader,
-    volumetricCloudVertexShader,
-    volumetricCloudFragmentShader,
+    cloudLayerVertexShader,
     createCloudLayerUniforms,
     createVolumetricCloudUniforms,
+    volumetricCloudFragmentShader,
+    volumetricCloudVertexShader,
 } from '../shaders/clouds';
 
 export interface CloudLayerConfig {

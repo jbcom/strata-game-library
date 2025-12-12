@@ -169,7 +169,7 @@ export class StateMachine<T = any> {
 
     getAvailableTransitions(): string[] {
         if (!this.currentState) return [];
-        return this.transitions.filter((t) => t.from === this.currentState!.name).map((t) => t.to);
+        return this.transitions.filter((t) => t.from === this.currentState?.name).map((t) => t.to);
     }
 
     private addToHistory(stateName: string, timestamp: number, duration: number): void {

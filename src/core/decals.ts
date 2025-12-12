@@ -88,7 +88,7 @@ export class DecalProjector {
         const fadeTime = options.fadeTime ?? this.config.fadeTime;
 
         const quaternion = new THREE.Quaternion();
-        let up = new THREE.Vector3(0, 1, 0);
+        const up = new THREE.Vector3(0, 1, 0);
         if (Math.abs(normal.dot(up)) > 0.99) {
             up.set(0, 0, 1);
         }
@@ -240,7 +240,7 @@ export class DecalProjector {
                 const fadeProgress = (age - fadeStart) / (decal.fadeTime - fadeStart);
                 decal.opacity = 1.0 - fadeProgress;
 
-                if (decal.mesh && decal.mesh.material) {
+                if (decal.mesh?.material) {
                     // Handle both single materials and material arrays
                     const materials = Array.isArray(decal.mesh.material)
                         ? decal.mesh.material

@@ -184,7 +184,6 @@ export function selectAdapter<T>(adapters: AdapterMap<T>, platform?: Platform): 
                 );
             }
             return adapters.native;
-        case 'web':
         default:
             return adapters.web;
     }

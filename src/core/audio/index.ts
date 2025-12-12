@@ -9,30 +9,26 @@
  */
 
 export { Howl, Howler } from 'howler';
-
-export { SoundManager, createSoundManager } from './sound-manager';
-export { SpatialAudio, createSpatialAudio } from './spatial';
-
+export {
+    getAudioContext,
+    isAudioContextUnlocked,
+    resumeAudioContext,
+    setupAutoUnlock,
+    suspendAudioContext,
+    unlockAudioContext,
+} from './adapters/web';
+export { createSoundManager, SoundManager } from './sound-manager';
+export { createSpatialAudio, SpatialAudio } from './spatial';
 export type {
-    AudioConfig,
-    SoundConfig,
-    SpatialConfig,
     AudioBus,
+    AudioConfig,
+    AudioFormat,
+    AudioListenerState,
     AudioMixer,
     DistanceModel,
-    AudioFormat,
-    EnvironmentPreset,
     EnvironmentEffectConfig,
-    AudioListenerState,
+    EnvironmentPreset,
+    SoundConfig,
+    SpatialConfig,
 } from './types';
-
-export { ENVIRONMENT_PRESETS, DEFAULT_SPATIAL_CONFIG } from './types';
-
-export {
-    isAudioContextUnlocked,
-    unlockAudioContext,
-    setupAutoUnlock,
-    getAudioContext,
-    suspendAudioContext,
-    resumeAudioContext,
-} from './adapters/web';
+export { DEFAULT_SPATIAL_CONFIG, ENVIRONMENT_PRESETS } from './types';

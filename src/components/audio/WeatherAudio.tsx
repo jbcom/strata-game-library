@@ -5,11 +5,11 @@
  * @module components/audio
  */
 
-import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Howl } from 'howler';
+import { useEffect, useRef } from 'react';
 import { AmbientAudio } from './AmbientAudio';
-import type { WeatherAudioProps, AmbientAudioRef } from './types';
+import type { AmbientAudioRef, WeatherAudioProps } from './types';
 
 /**
  * Weather audio system for rain, wind, and thunder effects.

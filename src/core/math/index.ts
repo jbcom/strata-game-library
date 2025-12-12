@@ -36,60 +36,57 @@
  * ```
  */
 
-export * as easing from 'maath/easing';
 export * as buffer from 'maath/buffer';
+export * as easing from 'maath/easing';
 export * as triangle from 'maath/triangle';
 
 export {
-  createNoise2D,
-  createNoise3D,
-  createNoise4D,
-  fbm2D,
-  fbm3D,
-  warpedNoise2D,
-  warpedNoise3D,
-  ridgedNoise2D,
-  createTerrainNoise,
-  TERRAIN_PRESETS,
+    createNoise2D,
+    createNoise3D,
+    createNoise4D,
+    createTerrainNoise,
+    fbm2D,
+    fbm3D,
+    ridgedNoise2D,
+    TERRAIN_PRESETS,
+    warpedNoise2D,
+    warpedNoise3D,
 } from './noise';
-
-export {
-  lerp,
-  inverseLerp,
-  clamp,
-  clamp01,
-  remap,
-  remapRange,
-  smoothstep,
-  smootherstep,
-  pingPong,
-  moveTowards,
-  smoothDamp,
-  wrapAngle,
-  deltaAngle,
-  lerpAngle,
-  distanceSquared2D,
-  distanceSquared3D,
-  degToRad,
-  radToDeg,
-  approximately,
-  misc,
-  random,
-} from './utils';
-
 export type {
-  Noise2D,
-  Noise3D,
-  Noise4D,
-  FBMConfig,
-  TerrainNoisePreset,
-  RandomFn,
-  EasingFn,
-  LerpFn,
-  Vec2Like,
-  Vec3Like,
-  Vec4Like,
-  Range,
+    EasingFn,
+    FBMConfig,
+    LerpFn,
+    Noise2D,
+    Noise3D,
+    Noise4D,
+    RandomFn,
+    Range,
+    TerrainNoisePreset,
+    Vec2Like,
+    Vec3Like,
+    Vec4Like,
 } from './types';
-
 export { DEFAULT_FBM_CONFIG } from './types';
+export {
+    approximately,
+    clamp,
+    clamp01,
+    degToRad,
+    deltaAngle,
+    distanceSquared2D,
+    distanceSquared3D,
+    inverseLerp,
+    lerp,
+    lerpAngle,
+    misc,
+    moveTowards,
+    pingPong,
+    radToDeg,
+    random,
+    remap,
+    remapRange,
+    smoothDamp,
+    smootherstep,
+    smoothstep,
+    wrapAngle,
+} from './utils';

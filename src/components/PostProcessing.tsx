@@ -6,34 +6,35 @@
  * common visual styles.
  */
 
-import React, { useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import {
-    EffectComposer,
     Bloom,
-    Vignette,
-    ChromaticAberration,
-    Noise,
-    DepthOfField,
-    HueSaturation,
     BrightnessContrast,
+    ChromaticAberration,
+    DepthOfField,
+    EffectComposer,
+    HueSaturation,
+    Noise,
     Sepia,
-    ToneMapping,
     SSAO,
+    ToneMapping,
+    Vignette,
 } from '@react-three/postprocessing';
 import { BlendFunction, ToneMappingMode } from 'postprocessing';
+import type React from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import type {
-    PostProcessingPreset,
     BloomSettings,
-    DOFSettings,
-    VignetteSettings,
-    ChromaticAberrationSettings,
-    FilmGrainSettings,
-    ColorGradingSettings,
-    SSAOSettings,
     BrightnessContrastSettings,
+    ChromaticAberrationSettings,
+    ColorGradingSettings,
+    DOFSettings,
+    FilmGrainSettings,
+    PostProcessingPreset,
     SepiaSettings,
+    SSAOSettings,
+    VignetteSettings,
 } from '../core/postProcessing';
 import { calculateFocusDistanceToMesh } from '../core/postProcessing';
 
@@ -161,6 +162,10 @@ export const EffectStack: React.FC<EffectStackProps> = ({
                 radius={preset.ssao.radius ?? 0.1}
                 intensity={preset.ssao.intensity ?? 1}
                 luminanceInfluence={preset.ssao.luminanceInfluence ?? 0.7}
+                worldDistanceThreshold={1}
+                worldDistanceFalloff={0.1}
+                worldProximityThreshold={0.5}
+                worldProximityFalloff={0.1}
             />
         );
     }
@@ -411,6 +416,10 @@ export const RealisticEffects: React.FC<RealisticEffectsProps> = ({
                 radius={0.05}
                 intensity={ssaoIntensity}
                 luminanceInfluence={0.5}
+                worldDistanceThreshold={1}
+                worldDistanceFalloff={0.1}
+                worldProximityThreshold={0.5}
+                worldProximityFalloff={0.1}
             />
         );
     }

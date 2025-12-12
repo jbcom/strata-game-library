@@ -8,7 +8,7 @@
  */
 
 import * as THREE from 'three';
-import type { SpatialConfig, AudioListenerState } from './types';
+import type { AudioListenerState, SpatialConfig } from './types';
 import { DEFAULT_SPATIAL_CONFIG } from './types';
 
 /**

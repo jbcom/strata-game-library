@@ -5,16 +5,16 @@
  * @module components/Particles
  */
 
-import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import {
     ParticleEmitter as CoreParticleEmitter,
-    ParticleEmitterConfig,
-    EmissionShape,
-    ParticleForces,
-    ParticleBehavior,
-    EmitterShapeParams,
+    type EmissionShape,
+    type EmitterShapeParams,
+    type ParticleBehavior,
+    type ParticleEmitterConfig,
+    type ParticleForces,
 } from '../core/particles';
 
 export type { EmissionShape, ParticleForces, ParticleBehavior, EmitterShapeParams };
@@ -244,7 +244,32 @@ export const ParticleEmitter = forwardRef<ParticleEmitterRef, ParticleEmitterPro
                 }
                 emitter.dispose();
             };
-        }, []);
+        }, [
+            autoStart,
+            behavior,
+            blending,
+            depthWrite,
+            emissionRate,
+            endColor,
+            endOpacity,
+            endSize,
+            forces,
+            lifetime,
+            lifetimeVariance,
+            maxParticles,
+            position,
+            positionVariance,
+            shape,
+            shapeParams,
+            sizeVariance,
+            sortParticles,
+            startColor,
+            startOpacity,
+            startSize,
+            texture,
+            velocity,
+            velocityVariance,
+        ]);
 
         useEffect(() => {
             if (emitterRef.current) {
@@ -298,10 +323,8 @@ ParticleEmitter.displayName = 'ParticleEmitter';
  * @property trigger - When changed to truthy value, triggers a burst
  * @property onComplete - Callback fired when burst particles have all died
  */
-export interface ParticleBurstProps extends Omit<
-    ParticleEmitterProps,
-    'emissionRate' | 'autoStart'
-> {
+export interface ParticleBurstProps
+    extends Omit<ParticleEmitterProps, 'emissionRate' | 'autoStart'> {
     count?: number;
     trigger?: boolean | number;
     onComplete?: () => void;

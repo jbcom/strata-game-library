@@ -6,27 +6,20 @@
  * @module components/Camera
  */
 
-import React, {
-    useRef,
-    useEffect,
-    useMemo,
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-} from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import type React from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import {
+    CameraShake as CameraShakeCore,
+    calculateHeadBob,
+    calculateLookAhead,
+    easeInOutCubic,
+    evaluateCatmullRom,
     lerp,
     lerpVector3,
     smoothDampVector3,
-    CameraShake as CameraShakeCore,
-    FOVTransition,
-    evaluateCatmullRom,
-    calculateLookAhead,
-    calculateHeadBob,
-    easeInOutCubic,
 } from '../core/camera';
 
 /**

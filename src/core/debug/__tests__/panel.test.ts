@@ -7,8 +7,8 @@
  * @vitest-environment jsdom
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 function extractValues(schema: Record<string, unknown>): Record<string, unknown> {
     const result: Record<string, unknown> = {};
@@ -56,17 +56,17 @@ vi.mock('leva', () => ({
     LevaPanel: vi.fn(() => null),
 }));
 
+import { button, folder, useControls } from 'leva';
 import {
+    createDebugButton,
     createDebugPanel,
+    useCameraDebug,
     useDebugControls,
     useDebugFolder,
-    useCameraDebug,
-    usePhysicsDebug,
     useLightingDebug,
+    usePhysicsDebug,
     usePostProcessingDebug,
-    createDebugButton,
 } from '../panel';
-import { useControls, folder, button } from 'leva';
 
 describe('createDebugPanel', () => {
     describe('ideal case', () => {

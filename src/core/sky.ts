@@ -5,7 +5,7 @@
  */
 
 import * as THREE from 'three';
-import { skyVertexShader, skyFragmentShader, createSkyUniforms } from '../shaders/sky';
+import { createSkyUniforms, skyFragmentShader, skyVertexShader } from '../shaders/sky';
 
 export interface TimeOfDayState {
     sunIntensity: number;

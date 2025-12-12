@@ -23,165 +23,148 @@
  * ```
  */
 
-// Particle Systems - React components
-export { ParticleEmitter, ParticleBurst } from '../components';
-
-export type { ParticleEmitterProps, ParticleEmitterRef, ParticleBurstProps } from '../components';
-
-// Particle Systems - Core utilities
-export { ParticleEmitter as CoreParticleEmitter, createParticleEmitter } from '../core';
-
-export type {
-    ParticleEmitterConfig,
-    EmissionShape,
-    ParticleForces,
-    ParticleBehavior,
-    EmitterShapeParams,
-} from '../core';
-
-// Weather Effects - React components
-export { Rain, Snow, Lightning, WeatherEffects } from '../components';
-
-export type { RainProps, SnowProps, LightningProps, WeatherSystemProps } from '../components';
-
-// Weather Effects - Core utilities
-export {
-    WeatherSystem as CoreWeatherSystem,
-    WindSimulation,
-    createWeatherSystem,
-    createWindSimulation,
-    calculateTemperature,
-    getPrecipitationType,
-} from '../core';
-
-export type {
-    WeatherType,
-    WeatherStateConfig,
-    WeatherTransition,
-    WindConfig,
-    TemperatureConfig,
-} from '../core';
-
 // Weather state from components
-export type { WeatherState } from '../components';
-
-// Decals & Billboards - React components
-export { Decal, Billboard, AnimatedBillboard, DecalPool } from '../components';
-
 export type {
-    DecalProps,
-    DecalRef,
-    BillboardProps,
-    BillboardRef,
     AnimatedBillboardProps,
     AnimatedBillboardRef,
+    BillboardProps,
+    BillboardRef,
     DecalPoolProps,
     DecalPoolRef,
-} from '../components';
-
-// Decals & Billboards - Core utilities
-export {
-    DecalProjector,
-    updateBillboardRotation,
-    createBillboardMatrix,
-    sortBillboardsByDepth,
-    createSpriteSheetAnimation,
-    updateSpriteSheetAnimation,
-    getSpriteSheetUVs,
-    applySpriteSheetFrame,
-    createSpriteSheetMaterial,
-    createDecalTexture,
-    createBulletHoleTexture,
-    createBloodSplatterTexture,
-    createScorchMarkTexture,
-    createFootprintTexture,
-    createWaterPuddleTexture,
-} from '../core';
-
-export type {
-    DecalProjectorConfig,
-    DecalInstance,
-    BillboardConfig,
-    SpriteSheetConfig,
-    SpriteAnimationState,
-} from '../core';
-
-// LOD System - React components
-export { LODMesh, LODGroup, Impostor, LODVegetation } from '../components';
-
-export type {
-    LODMeshProps,
-    LODMeshRef,
-    LODGroupProps,
-    LODGroupRef,
-    ImpostorProps,
-    ImpostorRef,
-    LODVegetationProps,
-    LODVegetationRef,
-} from '../components';
-
-// LOD System - Core utilities
-export {
-    LODManager,
-    calculateLODLevel,
-    createLODLevels,
-    simplifyGeometry,
-    generateLODGeometries,
-    createImpostorTexture,
-    createImpostorGeometry,
-    updateImpostorUV,
-    calculateImpostorAngle,
-    interpolateLODMaterials,
-    createDitherPattern,
-    calculateScreenSpaceSize,
-    shouldUseLOD,
-    createVegetationLODLevels,
-    calculateVegetationDensity,
-    batchLODObjects,
-} from '../core';
-
-export type {
-    LODLevel,
-    LODConfig,
-    LODState,
-    ImpostorConfig,
-    SimplificationOptions,
-    VegetationLODConfig,
-} from '../core';
-
-// God Rays & Volumetric Lighting - React components
-export { GodRays, LightShafts, VolumetricSpotlight, VolumetricPointLight } from '../components';
-
-export type {
+    DecalProps,
+    DecalRef,
     GodRaysProps,
     GodRaysRef,
-    VolumetricSpotlightProps,
-    VolumetricSpotlightRef,
+    ImpostorProps,
+    ImpostorRef,
+    LightningProps,
+    LODGroupProps,
+    LODGroupRef,
+    LODMeshProps,
+    LODMeshRef,
+    LODVegetationProps,
+    LODVegetationRef,
+    ParticleBurstProps,
+    ParticleEmitterProps,
+    ParticleEmitterRef,
+    RainProps,
+    SnowProps,
     VolumetricPointLightProps,
     VolumetricPointLightRef,
+    VolumetricSpotlightProps,
+    VolumetricSpotlightRef,
+    WeatherState,
+    WeatherSystemProps,
 } from '../components';
-
+// Particle Systems - React components
+// Weather Effects - React components
+// Decals & Billboards - React components
+// LOD System - React components
+// God Rays & Volumetric Lighting - React components
+export {
+    AnimatedBillboard,
+    Billboard,
+    Decal,
+    DecalPool,
+    GodRays,
+    Impostor,
+    Lightning,
+    LightShafts,
+    LODGroup,
+    LODMesh,
+    LODVegetation,
+    ParticleBurst,
+    ParticleEmitter,
+    Rain,
+    Snow,
+    VolumetricPointLight,
+    VolumetricSpotlight,
+    WeatherEffects,
+} from '../components';
+export type {
+    BillboardConfig,
+    DecalInstance,
+    DecalProjectorConfig,
+    EmissionShape,
+    EmitterShapeParams,
+    GodRaysMaterialOptions,
+    ImpostorConfig,
+    LODConfig,
+    LODLevel,
+    LODState,
+    OcclusionResult,
+    ParticleBehavior,
+    ParticleEmitterConfig,
+    ParticleForces,
+    RadialBlurOptions,
+    ScatteringParams,
+    SimplificationOptions,
+    SpriteAnimationState,
+    SpriteSheetConfig,
+    TemperatureConfig,
+    VegetationLODConfig,
+    VolumetricPointLightMaterialOptions,
+    VolumetricSpotlightMaterialOptions,
+    WeatherStateConfig,
+    WeatherTransition,
+    WeatherType,
+    WindConfig,
+} from '../core';
+// Particle Systems - Core utilities
+// Weather Effects - Core utilities
+// Decals & Billboards - Core utilities
+// LOD System - Core utilities
 // God Rays & Volumetric Lighting - Core utilities
 export {
-    createGodRaysMaterial,
-    createVolumetricSpotlightMaterial,
-    createVolumetricPointLightMaterial,
-    createSpotlightConeGeometry,
-    createPointLightSphereGeometry,
-    calculateRadialBlur,
-    calculateSunOcclusion,
-    calculateScatteringIntensity,
-    getLightScreenPosition,
-    calculateGodRayIntensityFromAngle,
-    updateGodRaysLightPosition,
+    applySpriteSheetFrame,
+    batchLODObjects,
     blendGodRayColors,
-} from '../core';
-
-export type {
-    GodRaysMaterialOptions,
-    VolumetricSpotlightMaterialOptions,
-    VolumetricPointLightMaterialOptions,
-    RadialBlurOptions,
-    OcclusionResult,
-    ScatteringParams,
+    calculateGodRayIntensityFromAngle,
+    calculateImpostorAngle,
+    calculateLODLevel,
+    calculateRadialBlur,
+    calculateScatteringIntensity,
+    calculateScreenSpaceSize,
+    calculateSunOcclusion,
+    calculateTemperature,
+    calculateVegetationDensity,
+    createBillboardMatrix,
+    createBloodSplatterTexture,
+    createBulletHoleTexture,
+    createDecalTexture,
+    createDitherPattern,
+    createFootprintTexture,
+    createGodRaysMaterial,
+    createImpostorGeometry,
+    createImpostorTexture,
+    createLODLevels,
+    createParticleEmitter,
+    createPointLightSphereGeometry,
+    createScorchMarkTexture,
+    createSpotlightConeGeometry,
+    createSpriteSheetAnimation,
+    createSpriteSheetMaterial,
+    createVegetationLODLevels,
+    createVolumetricPointLightMaterial,
+    createVolumetricSpotlightMaterial,
+    createWaterPuddleTexture,
+    createWeatherSystem,
+    createWindSimulation,
+    DecalProjector,
+    generateLODGeometries,
+    getLightScreenPosition,
+    getPrecipitationType,
+    getSpriteSheetUVs,
+    interpolateLODMaterials,
+    LODManager,
+    ParticleEmitter as CoreParticleEmitter,
+    shouldUseLOD,
+    simplifyGeometry,
+    sortBillboardsByDepth,
+    updateBillboardRotation,
+    updateGodRaysLightPosition,
+    updateImpostorUV,
+    updateSpriteSheetAnimation,
+    WeatherSystem as CoreWeatherSystem,
+    WindSimulation,
 } from '../core';

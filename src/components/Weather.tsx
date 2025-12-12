@@ -6,10 +6,10 @@
  * @module components/Weather
  */
 
-import { useRef, useMemo, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { WeatherStateConfig, WeatherType } from '../core/weather';
+import type { WeatherStateConfig } from '../core/weather';
 
 const RAIN_VERTEX_SHADER = `
   attribute vec3 offset;
@@ -238,7 +238,7 @@ export function Rain({
         });
 
         return { geometry: geo, material: mat };
-    }, [count, areaSize, height, dropLength, color]);
+    }, [count, areaSize, height, dropLength, color, intensity, wind.clone]);
 
     useFrame((state) => {
         if (material.uniforms) {
@@ -385,7 +385,7 @@ export function Snow({
         });
 
         return { geometry: geo, material: mat };
-    }, [count, areaSize, height, flakeSize, color]);
+    }, [count, areaSize, height, flakeSize, color, intensity, wind.clone]);
 
     useFrame((state) => {
         if (material.uniforms) {

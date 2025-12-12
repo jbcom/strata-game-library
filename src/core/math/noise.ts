@@ -9,18 +9,11 @@
  */
 
 import {
-  createNoise2D as simplexNoise2D,
-  createNoise3D as simplexNoise3D,
-  createNoise4D as simplexNoise4D,
+    createNoise2D as simplexNoise2D,
+    createNoise3D as simplexNoise3D,
+    createNoise4D as simplexNoise4D,
 } from 'simplex-noise';
-import type {
-  Noise2D,
-  Noise3D,
-  Noise4D,
-  FBMConfig,
-  TerrainNoisePreset,
-  RandomFn,
-} from './types';
+import type { FBMConfig, Noise2D, Noise3D, Noise4D, RandomFn, TerrainNoisePreset } from './types';
 import { DEFAULT_FBM_CONFIG } from './types';
 
 /**
@@ -39,7 +32,7 @@ import { DEFAULT_FBM_CONFIG } from './types';
  * ```
  */
 export function createNoise2D(random?: RandomFn): Noise2D {
-  return simplexNoise2D(random);
+    return simplexNoise2D(random);
 }
 
 /**
@@ -55,7 +48,7 @@ export function createNoise2D(random?: RandomFn): Noise2D {
  * ```
  */
 export function createNoise3D(random?: RandomFn): Noise3D {
-  return simplexNoise3D(random);
+    return simplexNoise3D(random);
 }
 
 /**
@@ -71,7 +64,7 @@ export function createNoise3D(random?: RandomFn): Noise3D {
  * ```
  */
 export function createNoise4D(random?: RandomFn): Noise4D {
-  return simplexNoise4D(random);
+    return simplexNoise4D(random);
 }
 
 /**
@@ -94,34 +87,29 @@ export function createNoise4D(random?: RandomFn): Noise4D {
  * const value = fbm2D(noise, 1.0, 2.0, { octaves: 6 });
  * ```
  */
-export function fbm2D(
-  noise: Noise2D,
-  x: number,
-  y: number,
-  config: FBMConfig = {}
-): number {
-  const { octaves, frequency, persistence, lacunarity } = {
-    ...DEFAULT_FBM_CONFIG,
-    ...config,
-  };
+export function fbm2D(noise: Noise2D, x: number, y: number, config: FBMConfig = {}): number {
+    const { octaves, frequency, persistence, lacunarity } = {
+        ...DEFAULT_FBM_CONFIG,
+        ...config,
+    };
 
-  if (octaves < 1) {
-    throw new Error('fbm2D: octaves must be at least 1');
-  }
+    if (octaves < 1) {
+        throw new Error('fbm2D: octaves must be at least 1');
+    }
 
-  let value = 0;
-  let amplitude = 1;
-  let freq = frequency;
-  let maxValue = 0;
+    let value = 0;
+    let amplitude = 1;
+    let freq = frequency;
+    let maxValue = 0;
 
-  for (let i = 0; i < octaves; i++) {
-    value += amplitude * noise(x * freq, y * freq);
-    maxValue += amplitude;
-    amplitude *= persistence;
-    freq *= lacunarity;
-  }
+    for (let i = 0; i < octaves; i++) {
+        value += amplitude * noise(x * freq, y * freq);
+        maxValue += amplitude;
+        amplitude *= persistence;
+        freq *= lacunarity;
+    }
 
-  return value / maxValue;
+    return value / maxValue;
 }
 
 /**
@@ -147,34 +135,34 @@ export function fbm2D(
  * ```
  */
 export function fbm3D(
-  noise: Noise3D,
-  x: number,
-  y: number,
-  z: number,
-  config: FBMConfig = {}
+    noise: Noise3D,
+    x: number,
+    y: number,
+    z: number,
+    config: FBMConfig = {}
 ): number {
-  const { octaves, frequency, persistence, lacunarity } = {
-    ...DEFAULT_FBM_CONFIG,
-    ...config,
-  };
+    const { octaves, frequency, persistence, lacunarity } = {
+        ...DEFAULT_FBM_CONFIG,
+        ...config,
+    };
 
-  if (octaves < 1) {
-    throw new Error('fbm3D: octaves must be at least 1');
-  }
+    if (octaves < 1) {
+        throw new Error('fbm3D: octaves must be at least 1');
+    }
 
-  let value = 0;
-  let amplitude = 1;
-  let freq = frequency;
-  let maxValue = 0;
+    let value = 0;
+    let amplitude = 1;
+    let freq = frequency;
+    let maxValue = 0;
 
-  for (let i = 0; i < octaves; i++) {
-    value += amplitude * noise(x * freq, y * freq, z * freq);
-    maxValue += amplitude;
-    amplitude *= persistence;
-    freq *= lacunarity;
-  }
+    for (let i = 0; i < octaves; i++) {
+        value += amplitude * noise(x * freq, y * freq, z * freq);
+        maxValue += amplitude;
+        amplitude *= persistence;
+        freq *= lacunarity;
+    }
 
-  return value / maxValue;
+    return value / maxValue;
 }
 
 /**
@@ -194,16 +182,16 @@ export function fbm3D(
  * ```
  */
 export function warpedNoise2D(
-  noise: Noise2D,
-  x: number,
-  y: number,
-  strength: number = 0.5,
-  config: FBMConfig = {}
+    noise: Noise2D,
+    x: number,
+    y: number,
+    strength: number = 0.5,
+    config: FBMConfig = {}
 ): number {
-  const warpConfig = { ...config, octaves: 2 };
-  const wx = x + fbm2D(noise, x + 0.0, y + 0.0, warpConfig) * strength;
-  const wy = y + fbm2D(noise, x + 5.2, y + 1.3, warpConfig) * strength;
-  return fbm2D(noise, wx, wy, config);
+    const warpConfig = { ...config, octaves: 2 };
+    const wx = x + fbm2D(noise, x + 0.0, y + 0.0, warpConfig) * strength;
+    const wy = y + fbm2D(noise, x + 5.2, y + 1.3, warpConfig) * strength;
+    return fbm2D(noise, wx, wy, config);
 }
 
 /**
@@ -218,63 +206,63 @@ export function warpedNoise2D(
  * @returns Warped noise value
  */
 export function warpedNoise3D(
-  noise: Noise3D,
-  x: number,
-  y: number,
-  z: number,
-  strength: number = 0.5,
-  config: FBMConfig = {}
+    noise: Noise3D,
+    x: number,
+    y: number,
+    z: number,
+    strength: number = 0.5,
+    config: FBMConfig = {}
 ): number {
-  const warpConfig = { ...config, octaves: 2 };
-  const wx = x + fbm3D(noise, x + 0.0, y + 0.0, z + 0.0, warpConfig) * strength;
-  const wy = y + fbm3D(noise, x + 5.2, y + 1.3, z + 2.8, warpConfig) * strength;
-  const wz = z + fbm3D(noise, x + 9.1, y + 4.7, z + 3.4, warpConfig) * strength;
-  return fbm3D(noise, wx, wy, wz, config);
+    const warpConfig = { ...config, octaves: 2 };
+    const wx = x + fbm3D(noise, x + 0.0, y + 0.0, z + 0.0, warpConfig) * strength;
+    const wy = y + fbm3D(noise, x + 5.2, y + 1.3, z + 2.8, warpConfig) * strength;
+    const wz = z + fbm3D(noise, x + 9.1, y + 4.7, z + 3.4, warpConfig) * strength;
+    return fbm3D(noise, wx, wy, wz, config);
 }
 
 /**
  * Terrain noise presets for common terrain types
  */
 export const TERRAIN_PRESETS: Record<string, TerrainNoisePreset> = {
-  mountains: {
-    name: 'mountains',
-    fbm: { octaves: 6, frequency: 0.03, persistence: 0.5, lacunarity: 2.1 },
-    amplitude: 25,
-    warp: true,
-    warpStrength: 0.3,
-  },
-  hills: {
-    name: 'hills',
-    fbm: { octaves: 4, frequency: 0.05, persistence: 0.45, lacunarity: 2.0 },
-    amplitude: 8,
-    warp: false,
-  },
-  plains: {
-    name: 'plains',
-    fbm: { octaves: 3, frequency: 0.02, persistence: 0.4, lacunarity: 2.0 },
-    amplitude: 2,
-    warp: false,
-  },
-  desert: {
-    name: 'desert',
-    fbm: { octaves: 4, frequency: 0.08, persistence: 0.5, lacunarity: 2.2 },
-    amplitude: 5,
-    warp: true,
-    warpStrength: 0.2,
-  },
-  tundra: {
-    name: 'tundra',
-    fbm: { octaves: 3, frequency: 0.04, persistence: 0.35, lacunarity: 2.0 },
-    amplitude: 3,
-    warp: false,
-  },
-  archipelago: {
-    name: 'archipelago',
-    fbm: { octaves: 5, frequency: 0.015, persistence: 0.55, lacunarity: 2.0 },
-    amplitude: 15,
-    warp: true,
-    warpStrength: 0.4,
-  },
+    mountains: {
+        name: 'mountains',
+        fbm: { octaves: 6, frequency: 0.03, persistence: 0.5, lacunarity: 2.1 },
+        amplitude: 25,
+        warp: true,
+        warpStrength: 0.3,
+    },
+    hills: {
+        name: 'hills',
+        fbm: { octaves: 4, frequency: 0.05, persistence: 0.45, lacunarity: 2.0 },
+        amplitude: 8,
+        warp: false,
+    },
+    plains: {
+        name: 'plains',
+        fbm: { octaves: 3, frequency: 0.02, persistence: 0.4, lacunarity: 2.0 },
+        amplitude: 2,
+        warp: false,
+    },
+    desert: {
+        name: 'desert',
+        fbm: { octaves: 4, frequency: 0.08, persistence: 0.5, lacunarity: 2.2 },
+        amplitude: 5,
+        warp: true,
+        warpStrength: 0.2,
+    },
+    tundra: {
+        name: 'tundra',
+        fbm: { octaves: 3, frequency: 0.04, persistence: 0.35, lacunarity: 2.0 },
+        amplitude: 3,
+        warp: false,
+    },
+    archipelago: {
+        name: 'archipelago',
+        fbm: { octaves: 5, frequency: 0.015, persistence: 0.55, lacunarity: 2.0 },
+        amplitude: 15,
+        warp: true,
+        warpStrength: 0.4,
+    },
 };
 
 /**
@@ -302,31 +290,28 @@ export const TERRAIN_PRESETS: Record<string, TerrainNoisePreset> = {
  * ```
  */
 export function createTerrainNoise(
-  preset: string | TerrainNoisePreset,
-  random?: RandomFn
+    preset: string | TerrainNoisePreset,
+    random?: RandomFn
 ): (x: number, z: number) => number {
-  const config =
-    typeof preset === 'string'
-      ? TERRAIN_PRESETS[preset]
-      : preset;
+    const config = typeof preset === 'string' ? TERRAIN_PRESETS[preset] : preset;
 
-  if (!config) {
-    throw new Error(`createTerrainNoise: unknown preset "${preset}"`);
-  }
-
-  const noise = createNoise2D(random);
-
-  return (x: number, z: number): number => {
-    let value: number;
-
-    if (config.warp && config.warpStrength) {
-      value = warpedNoise2D(noise, x, z, config.warpStrength, config.fbm);
-    } else {
-      value = fbm2D(noise, x, z, config.fbm);
+    if (!config) {
+        throw new Error(`createTerrainNoise: unknown preset "${preset}"`);
     }
 
-    return (value * 0.5 + 0.5) * config.amplitude;
-  };
+    const noise = createNoise2D(random);
+
+    return (x: number, z: number): number => {
+        let value: number;
+
+        if (config.warp && config.warpStrength) {
+            value = warpedNoise2D(noise, x, z, config.warpStrength, config.fbm);
+        } else {
+            value = fbm2D(noise, x, z, config.fbm);
+        }
+
+        return (value * 0.5 + 0.5) * config.amplitude;
+    };
 }
 
 /**
@@ -345,11 +330,11 @@ export function createTerrainNoise(
  * ```
  */
 export function ridgedNoise2D(
-  noise: Noise2D,
-  x: number,
-  y: number,
-  config: FBMConfig = {}
+    noise: Noise2D,
+    x: number,
+    y: number,
+    config: FBMConfig = {}
 ): number {
-  const value = fbm2D(noise, x, y, config);
-  return 1 - Math.abs(value);
+    const value = fbm2D(noise, x, y, config);
+    return 1 - Math.abs(value);
 }

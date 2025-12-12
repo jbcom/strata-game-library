@@ -8,7 +8,7 @@
  */
 
 import { Howl, Howler } from 'howler';
-import type { AudioConfig, SoundConfig, AudioBus, AudioMixer } from './types';
+import type { AudioBus, AudioConfig, AudioMixer, SoundConfig } from './types';
 
 /**
  * Default audio configuration.

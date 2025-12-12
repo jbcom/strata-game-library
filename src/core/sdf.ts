@@ -370,7 +370,6 @@ export function getTerrainHeight(x: number, z: number, biomes: BiomeData[]): num
             const kopje = Math.max(0, 1 - fbm(x * 0.08, 0, z * 0.08, 2) * 3);
             return baseNoise * 1.5 + kopje * kopje * 8;
         }
-        case 'scrubland':
         default:
             return baseNoise * 2;
     }

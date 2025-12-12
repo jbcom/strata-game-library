@@ -2,111 +2,102 @@
  * Shader exports
  */
 
-// Water shaders
+export type { CloudLayerUniforms, VolumetricCloudUniforms } from './clouds';
+// Cloud shaders
 export {
-    waterVertexShader,
-    waterFragmentShader,
-    advancedWaterVertexShader,
-    advancedWaterFragmentShader,
-    createWaterUniforms,
-    createAdvancedWaterUniforms,
-} from './water';
-
-// Terrain shaders
-export {
-    terrainVertexShader,
-    terrainFragmentShader,
-    simpleTerrainVertexShader,
-    simpleTerrainFragmentShader,
-    createTerrainUniforms,
-    createSimpleTerrainUniforms,
-} from './terrain';
-
-// Fur/shell shaders
-export { furVertexShader, furFragmentShader, createFurUniforms, defaultFurConfig } from './fur';
+    cloudLayerFragmentShader,
+    cloudLayerVertexShader,
+    createCloudLayerUniforms,
+    createVolumetricCloudUniforms,
+    volumetricCloudFragmentShader,
+    volumetricCloudVertexShader,
+} from './clouds';
 export type { FurConfig } from './fur';
-
-// Volumetric shaders
+// Fur/shell shaders
+export { createFurUniforms, defaultFurConfig, furFragmentShader, furVertexShader } from './fur';
+export type {
+    GodRaysUniforms,
+    VolumetricPointLightUniforms,
+    VolumetricSpotlightUniforms,
+} from './godRays';
+// God rays shaders
 export {
-    volumetricFogShader,
-    underwaterShader,
-    atmosphereShader,
-    dustParticlesShader,
-} from './volumetrics';
-
-// Ray marching shaders
-export { raymarchingVertexShader, raymarchingFragmentShader } from './raymarching';
+    createGodRaysUniforms,
+    createVolumetricPointLightUniforms,
+    createVolumetricSpotlightUniforms,
+    godRaysFragmentShader,
+    godRaysVertexShader,
+    volumetricPointLightFragmentShader,
+    volumetricPointLightVertexShader,
+    volumetricSpotlightFragmentShader,
+    volumetricSpotlightVertexShader,
+} from './godRays';
 
 // Instancing wind shader
 export { instancingWindVertexShader } from './instancing-wind';
-
-// Sky shaders
-export { skyVertexShader, skyFragmentShader, createSkyUniforms } from './sky';
-export type { SkyUniforms } from './sky';
-
-// Volumetric component shaders
-export {
-    volumetricFogMeshVertexShader,
-    volumetricFogMeshFragmentShader,
-    underwaterOverlayVertexShader,
-    underwaterOverlayFragmentShader,
-    createVolumetricFogMeshUniforms,
-    createUnderwaterOverlayUniforms,
-} from './volumetrics-components';
 export type {
-    VolumetricFogMeshUniforms,
-    UnderwaterOverlayUniforms,
-} from './volumetrics-components';
-
-// Cloud shaders
-export {
-    cloudLayerVertexShader,
-    cloudLayerFragmentShader,
-    volumetricCloudVertexShader,
-    volumetricCloudFragmentShader,
-    createCloudLayerUniforms,
-    createVolumetricCloudUniforms,
-} from './clouds';
-export type { CloudLayerUniforms, VolumetricCloudUniforms } from './clouds';
-
-// God rays shaders
-export {
-    godRaysVertexShader,
-    godRaysFragmentShader,
-    volumetricSpotlightVertexShader,
-    volumetricSpotlightFragmentShader,
-    volumetricPointLightVertexShader,
-    volumetricPointLightFragmentShader,
-    createGodRaysUniforms,
-    createVolumetricSpotlightUniforms,
-    createVolumetricPointLightUniforms,
-} from './godRays';
-export type {
-    GodRaysUniforms,
-    VolumetricSpotlightUniforms,
-    VolumetricPointLightUniforms,
-} from './godRays';
-
-// Custom shader materials
-export {
-    createToonMaterial,
-    createHologramMaterial,
-    createDissolveMaterial,
-    createForcefieldMaterial,
-    createGlitchMaterial,
-    createCrystalMaterial,
-    createOutlineMaterial,
-    createGradientMaterial,
-    createScanlineMaterial,
-} from './materials';
-export type {
-    ToonMaterialOptions,
-    HologramMaterialOptions,
+    CrystalMaterialOptions,
     DissolveMaterialOptions,
     ForcefieldMaterialOptions,
     GlitchMaterialOptions,
-    CrystalMaterialOptions,
-    OutlineMaterialOptions,
     GradientMaterialOptions,
+    HologramMaterialOptions,
+    OutlineMaterialOptions,
     ScanlineMaterialOptions,
+    ToonMaterialOptions,
 } from './materials';
+// Custom shader materials
+export {
+    createCrystalMaterial,
+    createDissolveMaterial,
+    createForcefieldMaterial,
+    createGlitchMaterial,
+    createGradientMaterial,
+    createHologramMaterial,
+    createOutlineMaterial,
+    createScanlineMaterial,
+    createToonMaterial,
+} from './materials';
+// Ray marching shaders
+export { raymarchingFragmentShader, raymarchingVertexShader } from './raymarching';
+export type { SkyUniforms } from './sky';
+// Sky shaders
+export { createSkyUniforms, skyFragmentShader, skyVertexShader } from './sky';
+// Terrain shaders
+export {
+    createSimpleTerrainUniforms,
+    createTerrainUniforms,
+    simpleTerrainFragmentShader,
+    simpleTerrainVertexShader,
+    terrainFragmentShader,
+    terrainVertexShader,
+} from './terrain';
+// Volumetric shaders
+export {
+    atmosphereShader,
+    dustParticlesShader,
+    underwaterShader,
+    volumetricFogShader,
+} from './volumetrics';
+export type {
+    UnderwaterOverlayUniforms,
+    VolumetricFogMeshUniforms,
+} from './volumetrics-components';
+// Volumetric component shaders
+export {
+    createUnderwaterOverlayUniforms,
+    createVolumetricFogMeshUniforms,
+    underwaterOverlayFragmentShader,
+    underwaterOverlayVertexShader,
+    volumetricFogMeshFragmentShader,
+    volumetricFogMeshVertexShader,
+} from './volumetrics-components';
+// Water shaders
+export {
+    advancedWaterFragmentShader,
+    advancedWaterVertexShader,
+    createAdvancedWaterUniforms,
+    createWaterUniforms,
+    waterFragmentShader,
+    waterVertexShader,
+} from './water';

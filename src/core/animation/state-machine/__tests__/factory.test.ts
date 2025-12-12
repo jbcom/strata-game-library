@@ -9,13 +9,13 @@
  * - Blend weight calculations
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createActor } from 'xstate';
 import {
-    createAnimationMachine,
     calculateBlendWeights,
-    smoothStep,
+    createAnimationMachine,
     smootherStep,
+    smoothStep,
 } from '../factory';
 import type { AnimationMachineConfig, BlendTreeConfig } from '../types';
 

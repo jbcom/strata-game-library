@@ -1,8 +1,7 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
-import { render } from '@testing-library/react';
 import { Canvas } from '@react-three/fiber';
+import { render } from '@testing-library/react';
 import * as THREE from 'three';
-import * as React from 'react';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { createBillboard, createBillboardInstances } from '../../../src/presets/billboards';
 
 describe('Billboards Integration', () => {

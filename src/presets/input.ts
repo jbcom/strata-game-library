@@ -4,16 +4,15 @@
  * Pre-configured input control setups for common use cases.
  */
 
-import * as THREE from 'three';
 import type {
-    Joystick3DProps,
     GroundSwitchProps,
+    Joystick3DProps,
     PressurePlateProps,
-    WallButtonProps,
+    TriggerBehaviorConfig,
     TriggerComposerProps,
     TriggerConfig,
     TriggerMaterialConfig,
-    TriggerBehaviorConfig,
+    WallButtonProps,
 } from '../components/Input';
 
 export interface InputPreset<T> {

@@ -6,51 +6,48 @@
  * @module components/Physics
  */
 
-import React, {
-    useRef,
-    useEffect,
-    useState,
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-    useMemo,
-    createRef,
-    RefObject,
-} from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import {
-    RigidBody,
-    CapsuleCollider,
-    CuboidCollider,
-    BallCollider,
-    useRapier,
-    RapierRigidBody,
-    interactionGroups,
-    useSphericalJoint,
-    useRevoluteJoint,
-} from '@react-three/rapier';
-import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
 import type { RigidBodyProps } from '@react-three/rapier';
 import {
-    CharacterControllerConfig,
-    VehicleConfig,
-    DestructibleConfig,
-    BuoyancyConfig,
-    RagdollConfig,
-    RagdollJointConfig,
+    BallCollider,
+    CapsuleCollider,
+    CuboidCollider,
+    interactionGroups,
+    type RapierRigidBody,
+    RigidBody,
+    useRapier,
+    useRevoluteJoint,
+    useSphericalJoint,
+} from '@react-three/rapier';
+import type React from 'react';
+import {
+    createRef,
+    forwardRef,
+    type RefObject,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import * as THREE from 'three';
+import {
+    type BuoyancyConfig,
+    type CharacterControllerConfig,
     CollisionLayer,
-    calculateJumpImpulse,
-    calculateSlopeAngle,
-    isWalkableSlope,
-    projectVelocityOntoGround,
-    applyDrag,
     calculateBuoyancyForce,
-    generateDebrisVelocity,
-    createDefaultCharacterConfig,
-    createDefaultVehicleConfig,
-    createDefaultDestructibleConfig,
+    calculateJumpImpulse,
     createDefaultBuoyancyConfig,
+    createDefaultCharacterConfig,
+    createDefaultDestructibleConfig,
+    createDefaultVehicleConfig,
     createHumanoidRagdoll,
+    type DestructibleConfig,
+    generateDebrisVelocity,
+    isWalkableSlope,
+    type RagdollConfig,
+    type VehicleConfig,
 } from '../core/physics';
 
 /**
@@ -135,7 +132,7 @@ export const CharacterController = forwardRef<CharacterControllerRef, CharacterC
         const rigidBodyRef = useRef<RapierRigidBody>(null);
         const { rapier, world } = useRapier();
 
-        const [grounded, setGrounded] = useState(false);
+        const [_grounded, setGrounded] = useState(false);
         const groundedRef = useRef(false);
         const jumpCountRef = useRef(0);
         const coyoteTimeRef = useRef(0);
@@ -224,7 +221,7 @@ export const CharacterController = forwardRef<CharacterControllerRef, CharacterC
             const hit = world.castRay(ray, rayLength, true);
 
             if (hit) {
-                const hitPoint = ray.pointAt(hit.timeOfImpact);
+                const _hitPoint = ray.pointAt(hit.timeOfImpact);
                 const normal = hit.collider.castRayAndGetNormal(ray, rayLength, true)?.normal;
 
                 if (normal) {
@@ -345,7 +342,7 @@ export const CharacterController = forwardRef<CharacterControllerRef, CharacterC
             const targetVelX = worldMoveDir.x * maxSpeed;
             const targetVelZ = worldMoveDir.z * maxSpeed;
 
-            const currentHorizontalVel = new THREE.Vector2(currentVel.x, currentVel.z);
+            const _currentHorizontalVel = new THREE.Vector2(currentVel.x, currentVel.z);
             const targetHorizontalVel = new THREE.Vector2(targetVelX, targetVelZ);
 
             let newVelX = currentVel.x;
@@ -1079,7 +1076,7 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(
                     }
                 }
             });
-        }, [bodyPartRefs, initialVelocity, isActive]);
+        }, [bodyPartRefs, initialVelocity]);
 
         if (!isActive) {
             return <group position={position}>{children}</group>;

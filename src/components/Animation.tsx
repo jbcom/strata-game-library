@@ -6,33 +6,25 @@
  * @module components/Animation
  */
 
-import React, {
-    useRef,
-    useEffect,
-    useMemo,
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-} from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import type React from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
-    FABRIKSolver,
-    CCDSolver,
-    TwoBoneIKSolver,
-    LookAtController,
-    SpringDynamics,
-    SpringChain,
-    ProceduralGait,
-    createBoneChain,
-    createBoneChainFromLengths,
-    dampedSpringVector3,
     type BoneChain,
-    type SpringConfig,
+    CCDSolver,
+    createBoneChainFromLengths,
+    FABRIKSolver,
     type GaitConfig,
-    type LookAtConfig,
-    type IKSolverResult,
     type GaitState,
+    type IKSolverResult,
+    type LookAtConfig,
+    LookAtController,
+    ProceduralGait,
+    SpringChain,
+    type SpringConfig,
+    SpringDynamics,
+    TwoBoneIKSolver,
 } from '../core/animation';
 
 export interface IKChainProps {
@@ -86,7 +78,7 @@ export const IKChain = forwardRef<IKChainRef, IKChainProps>(
             if (groupRef.current && boneLengths.length > 0) {
                 groupRef.current.children.forEach((child) => {
                     if ((child as THREE.Object3D).type === 'Object3D') {
-                        groupRef.current!.remove(child);
+                        groupRef.current?.remove(child);
                     }
                 });
 
@@ -356,7 +348,7 @@ export interface SpringBoneRef {
 export const SpringBone = forwardRef<SpringBoneRef, SpringBoneProps>(
     ({ config, gravity = [0, -9.8, 0], children }, ref) => {
         const groupRef = useRef<THREE.Group>(null);
-        const parentRef = useRef<THREE.Vector3>(new THREE.Vector3());
+        const _parentRef = useRef<THREE.Vector3>(new THREE.Vector3());
 
         const spring = useMemo(() => new SpringDynamics(config), [config]);
         const gravityVec = useMemo(() => new THREE.Vector3(...gravity), [gravity]);

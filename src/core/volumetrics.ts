@@ -6,12 +6,12 @@
 
 import * as THREE from 'three';
 import {
-    volumetricFogMeshVertexShader,
-    volumetricFogMeshFragmentShader,
-    underwaterOverlayVertexShader,
-    underwaterOverlayFragmentShader,
-    createVolumetricFogMeshUniforms,
     createUnderwaterOverlayUniforms,
+    createVolumetricFogMeshUniforms,
+    underwaterOverlayFragmentShader,
+    underwaterOverlayVertexShader,
+    volumetricFogMeshFragmentShader,
+    volumetricFogMeshVertexShader,
 } from '../shaders/volumetrics-components';
 
 export interface VolumetricFogMeshMaterialOptions {

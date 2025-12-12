@@ -53,7 +53,7 @@ export function createBillboard(options: BillboardOptions): THREE.Mesh {
     const mesh = new THREE.Mesh(geometry, material);
 
     // Add custom onBeforeRender to face camera
-    mesh.onBeforeRender = (renderer, scene, camera) => {
+    mesh.onBeforeRender = (_renderer, _scene, camera) => {
         if (
             camera instanceof THREE.PerspectiveCamera ||
             camera instanceof THREE.OrthographicCamera
@@ -67,7 +67,7 @@ export function createBillboard(options: BillboardOptions): THREE.Mesh {
             // Create rotation to face camera
             const up = new THREE.Vector3(0, 1, 0);
             const right = new THREE.Vector3().crossVectors(up, lookAt).normalize();
-            const newUp = new THREE.Vector3().crossVectors(lookAt, right).normalize();
+            const _newUp = new THREE.Vector3().crossVectors(lookAt, right).normalize();
 
             mesh.lookAt(worldPos.clone().add(lookAt));
         }

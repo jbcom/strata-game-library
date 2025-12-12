@@ -46,52 +46,49 @@
  */
 
 export {
-    createDebugPanel,
-    useDebugControls,
-    useDebugFolder,
-    useCameraDebug,
-    usePhysicsDebug,
-    useLightingDebug,
-    usePostProcessingDebug,
+    button,
     createDebugButton,
+    createDebugPanel,
+    folder,
     Leva,
     LevaPanel,
+    useCameraDebug,
     useControls,
-    folder,
-    button,
     useCreateStore,
+    useDebugControls,
+    useDebugFolder,
+    useLightingDebug,
+    usePhysicsDebug,
+    usePostProcessingDebug,
 } from './panel';
+export type { FormatStatsOptions, FormattedStats, StatsSnapshot } from './stats';
 
+export { calculateAverageStats, createStatsSnapshot, formatStats, useStats } from './stats';
 export {
-    createTunnel,
-    getTunnel,
     clearTunnels,
-    getDebugTunnel,
+    createTunnel,
     DebugOverlayTunnel,
     FPSCounterTunnel,
+    getDebugTunnel,
+    getTunnel,
     StatsPanelTunnel,
     tunnelRat,
 } from './tunnel';
-
-export { useStats, formatStats, createStatsSnapshot, calculateAverageStats } from './stats';
-
 export type {
+    CameraDebugValues,
+    DebugInputs,
     DebugPanelConfig,
     DebugPanelTheme,
-    DebugValue,
+    DebugPreset,
     DebugSchema,
     DebugStore,
-    DebugInputs,
-    TunnelConfig,
-    Tunnel,
     DebugTunnelId,
-    PerformanceStats,
-    StatsConfig,
-    DebugPreset,
-    CameraDebugValues,
-    PhysicsDebugValues,
+    DebugValue,
     LightingDebugValues,
+    PerformanceStats,
+    PhysicsDebugValues,
     PostProcessingDebugValues,
+    StatsConfig,
+    Tunnel,
+    TunnelConfig,
 } from './types';
-
-export type { FormatStatsOptions, FormattedStats, StatsSnapshot } from './stats';

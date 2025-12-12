@@ -7,20 +7,12 @@
  * Lifted from Otterfall procedural rendering system.
  */
 
-import React, { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
-    volumetricFogMeshVertexShader,
-    volumetricFogMeshFragmentShader,
-    underwaterOverlayVertexShader,
-    underwaterOverlayFragmentShader,
-    createVolumetricFogMeshUniforms,
-    createUnderwaterOverlayUniforms,
-} from '../shaders/volumetrics-components';
-import {
-    createVolumetricFogMeshMaterial,
     createUnderwaterOverlayMaterial,
+    createVolumetricFogMeshMaterial,
 } from '../core/volumetrics';
 
 // =============================================================================
@@ -85,7 +77,7 @@ export function UnderwaterOverlay({
     }, [color, density, causticStrength, waterSurface]);
 
     useFrame((state) => {
-        if (material && material.uniforms) {
+        if (material?.uniforms) {
             material.uniforms.uTime.value = state.clock.elapsedTime;
             material.uniforms.uCameraY.value = camera.position.y;
         }
@@ -137,7 +129,7 @@ export function VolumetricFogMesh({
     }, [fogColor, density, height, camera]);
 
     useFrame((state) => {
-        if (material && material.uniforms && meshRef.current) {
+        if (material?.uniforms && meshRef.current) {
             material.uniforms.uTime.value = state.clock.elapsedTime;
             material.uniforms.uCameraPosition.value = camera.position.toArray();
             meshRef.current.position.set(camera.position.x, 0, camera.position.z);

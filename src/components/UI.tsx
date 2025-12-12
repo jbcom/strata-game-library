@@ -5,45 +5,42 @@
  * @module components/UI
  */
 
-import React, {
+import { Html } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import type React from 'react';
+import {
+    type CSSProperties,
+    forwardRef,
+    type ReactNode,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
     useRef,
     useState,
-    useEffect,
-    useCallback,
-    useMemo,
-    forwardRef,
-    useImperativeHandle,
-    CSSProperties,
-    ReactNode,
 } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
-import * as THREE from 'three';
+import type * as THREE from 'three';
 import {
-    ProgressBarConfig,
-    InventoryConfig,
-    InventorySlot,
-    DialogConfig,
-    DialogLine,
-    TooltipConfig,
-    NotificationConfig,
-    MinimapConfig,
-    CrosshairConfig,
-    DamageNumberConfig,
-    NameplateConfig,
-    UIAnchor,
+    type CrosshairConfig,
     calculateFade,
-    formatProgressText,
     clampProgress,
-    lerp,
+    type DamageNumberConfig,
+    type DialogConfig,
     easeOutCubic,
-    getTextDirection,
-    getDamageNumberColor,
     formatNumber,
-    getNotificationIcon,
+    formatProgressText,
+    getDamageNumberColor,
     getNotificationColor,
-    createDefaultProgressBar,
-    createDefaultNameplate,
+    getNotificationIcon,
+    getTextDirection,
+    type InventoryConfig,
+    type InventorySlot,
+    lerp,
+    type MinimapConfig,
+    type NameplateConfig,
+    type NotificationConfig,
+    type ProgressBarConfig,
+    type TooltipConfig,
+    type UIAnchor,
 } from '../core/ui';
 
 export interface HealthBarProps extends Partial<ProgressBarConfig> {
@@ -120,7 +117,7 @@ export const HealthBar = forwardRef<HealthBarRef, HealthBarProps>(
                     cancelAnimationFrame(animationRef.current);
                 }
             };
-        }, [value, animationDuration]);
+        }, [value, animationDuration, displayValue]);
 
         useFrame(() => {
             if (distanceFade && groupRef.current) {
@@ -546,7 +543,7 @@ export const Inventory = forwardRef<InventoryRef, InventoryProps>(
         if (!visible) return null;
 
         const containerWidth = columns * slotSize + (columns - 1) * slotGap + 20;
-        const containerHeight = rows * slotSize + (rows - 1) * slotGap + 20;
+        const _containerHeight = rows * slotSize + (rows - 1) * slotGap + 20;
 
         const containerStyle: CSSProperties = {
             position: 'fixed',
@@ -799,6 +796,22 @@ export const DialogBox = forwardRef<DialogBoxRef, DialogBoxProps>(
             setLineIndex(currentLine);
         }, [currentLine]);
 
+        const advance = useCallback(() => {
+            if (isTyping && skipEnabled) {
+                if (typewriterRef.current) clearInterval(typewriterRef.current);
+                setDisplayedText(line?.text || '');
+                setIsTyping(false);
+                setShowContinue(!line?.choices?.length);
+                return;
+            }
+
+            if (lineIndex < lines.length - 1) {
+                setLineIndex(lineIndex + 1);
+            } else {
+                onDialogComplete?.();
+            }
+        }, [isTyping, skipEnabled, line, lineIndex, lines.length, onDialogComplete]);
+
         useEffect(() => {
             if (!line || !visible) return;
 
@@ -828,23 +841,7 @@ export const DialogBox = forwardRef<DialogBoxRef, DialogBoxProps>(
             return () => {
                 if (typewriterRef.current) clearInterval(typewriterRef.current);
             };
-        }, [line, lineIndex, typewriterSpeed, visible]);
-
-        const advance = useCallback(() => {
-            if (isTyping && skipEnabled) {
-                if (typewriterRef.current) clearInterval(typewriterRef.current);
-                setDisplayedText(line?.text || '');
-                setIsTyping(false);
-                setShowContinue(!line?.choices?.length);
-                return;
-            }
-
-            if (lineIndex < lines.length - 1) {
-                setLineIndex(lineIndex + 1);
-            } else {
-                onDialogComplete?.();
-            }
-        }, [isTyping, skipEnabled, line, lineIndex, lines.length, onDialogComplete]);
+        }, [line, lineIndex, typewriterSpeed, visible, advance, onLineComplete]);
 
         useImperativeHandle(ref, () => ({
             advance,
@@ -1335,17 +1332,17 @@ export const Crosshair: React.FC<CrosshairProps> = ({
 };
 
 export type {
-    ProgressBarConfig,
-    InventoryConfig,
-    InventorySlot,
-    DialogConfig,
-    DialogLine,
-    DialogChoice,
-    TooltipConfig,
-    NotificationConfig,
-    MinimapConfig,
     CrosshairConfig,
     DamageNumberConfig,
+    DialogChoice,
+    DialogConfig,
+    DialogLine,
+    InventoryConfig,
+    InventorySlot,
+    MinimapConfig,
     NameplateConfig,
+    NotificationConfig,
+    ProgressBarConfig,
+    TooltipConfig,
     UIAnchor,
 } from '../core/ui';

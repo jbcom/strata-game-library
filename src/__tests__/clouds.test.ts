@@ -1,18 +1,18 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    CloudLayerConfig,
-    WindConfig,
-    DayNightConfig,
-    createCloudLayerMaterial,
-    createVolumetricCloudMaterial,
-    createCloudLayerGeometry,
-    createVolumetricCloudGeometry,
     adaptCloudColorsForTimeOfDay,
+    type CloudLayerConfig,
     calculateWindOffset,
+    createCloudLayerGeometry,
+    createCloudLayerMaterial,
+    createDefaultCloudSkyConfig,
+    createVolumetricCloudGeometry,
+    createVolumetricCloudMaterial,
+    type DayNightConfig,
     fbmNoise2D,
     sampleCloudDensity,
-    createDefaultCloudSkyConfig,
+    type WindConfig,
 } from '../core/clouds';
 
 describe('createCloudLayerMaterial', () => {

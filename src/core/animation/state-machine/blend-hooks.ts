@@ -7,16 +7,16 @@
  * @module core/animation/state-machine
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { AnimationAction } from 'three';
+import { calculateBlendWeights, smoothStep } from './factory';
 import type {
     AnimationBlendReturn,
-    BlendWeights,
     BlendTreeConfig,
+    BlendWeights,
     UseAnimationBlendOptions,
 } from './types';
-import { calculateBlendWeights, smoothStep } from './factory';
 
 /**
  * React hook for animation blending with blend trees.

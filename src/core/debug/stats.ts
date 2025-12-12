@@ -8,7 +8,7 @@
  * @public
  */
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PerformanceStats, StatsConfig } from './types';
 
 const DEFAULT_CONFIG: Required<StatsConfig> = {

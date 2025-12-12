@@ -4,14 +4,10 @@
  * Lifted from Otterfall procedural rendering system.
  */
 
-import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import {
-    createWaterMaterial,
-    createAdvancedWaterMaterial,
-    createWaterGeometry,
-} from '../../core/water';
+import { createAdvancedWaterMaterial, createWaterMaterial } from '../../core/water';
 
 interface WaterProps {
     position?: [number, number, number];

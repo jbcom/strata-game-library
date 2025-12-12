@@ -4,14 +4,14 @@
  */
 
 import type {
-    ToonMaterialOptions,
-    HologramMaterialOptions,
+    CrystalMaterialOptions,
     DissolveMaterialOptions,
     ForcefieldMaterialOptions,
     GlitchMaterialOptions,
-    CrystalMaterialOptions,
     GradientMaterialOptions,
+    HologramMaterialOptions,
     ScanlineMaterialOptions,
+    ToonMaterialOptions,
 } from '../shaders/materials';
 
 export interface ToonPreset extends ToonMaterialOptions {

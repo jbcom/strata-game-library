@@ -5,12 +5,12 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import { AmbientAudio } from './AmbientAudio';
 import { useAudioListener } from './context';
-import type { AudioZoneProps, AudioZoneRef, AmbientAudioRef } from './types';
+import type { AmbientAudioRef, AudioZoneProps, AudioZoneRef } from './types';
 
 /**
  * Spatial audio zone that triggers audio when listener enters.

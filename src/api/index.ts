@@ -39,9 +39,9 @@
  * @category Overview
  */
 
-export * from './world';
-export * from './entities';
 export * from './effects';
+export * from './entities';
 export * from './experience';
-export * from './systems';
 export * from './rendering';
+export * from './systems';
+export * from './world';

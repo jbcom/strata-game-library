@@ -10,14 +10,14 @@
  * Lifted from Otterfall procedural rendering system.
  */
 
-import { useRef, useMemo, useEffect } from 'react';
+import { Instance, Instances } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
-import { Instances, Instance } from '@react-three/drei';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
+    type BiomeData,
     generateInstanceData as coreGenerateInstanceData,
-    InstanceData,
-    BiomeData,
+    type InstanceData,
 } from '../core/instancing';
 import { getBiomeAt as sdfGetBiomeAt } from '../core/sdf';
 
@@ -26,7 +26,7 @@ import { getBiomeAt as sdfGetBiomeAt } from '../core/sdf';
 // =============================================================================
 
 // Re-export types from core
-export type { InstanceData, BiomeData } from '../core/instancing';
+export type { BiomeData, InstanceData } from '../core/instancing';
 
 // =============================================================================
 // INSTANCE GENERATION
@@ -56,7 +56,7 @@ export function generateInstanceData(
 }
 
 // Import noise functions from core for use in component
-import { noise3D, fbm, getBiomeAt } from '../core/sdf';
+import { fbm, getBiomeAt, noise3D } from '../core/sdf';
 
 // =============================================================================
 // INSTANCED MESH COMPONENT

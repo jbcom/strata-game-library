@@ -4,9 +4,9 @@
  * @public
  */
 
-import { useRef, useCallback, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import type { BaseEntity, SystemFn, SystemConfig, StrataWorld } from './types';
+import { useCallback, useEffect, useRef } from 'react';
+import type { BaseEntity, StrataWorld, SystemConfig, SystemFn } from './types';
 
 /**
  * System scheduler for managing and executing ECS systems.
@@ -92,7 +92,7 @@ export function createSystemScheduler<T extends BaseEntity>(): SystemScheduler<T
         },
         disable(name: string): void {
             const s = systems.get(name);
-            if (s && s.enabled) {
+            if (s?.enabled) {
                 s.enabled = false;
                 isDirty = true;
             }

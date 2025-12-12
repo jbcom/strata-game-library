@@ -4,19 +4,19 @@
  * @module core/ecs/__tests__/world.test
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import type { Archetype, BaseEntity } from '../types';
 import {
-    createWorld,
-    createFromArchetype,
-    resetEntityIdCounter,
-    hasComponents,
-    addComponent,
-    removeComponent,
-    findEntityById,
-    countEntities,
     ARCHETYPES,
+    addComponent,
+    countEntities,
+    createFromArchetype,
+    createWorld,
+    findEntityById,
+    hasComponents,
+    removeComponent,
+    resetEntityIdCounter,
 } from '../world';
-import type { BaseEntity, Archetype } from '../types';
 
 interface TestEntity extends BaseEntity {
     position: { x: number; y: number; z: number };

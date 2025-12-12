@@ -4,10 +4,9 @@
 
 import * as THREE from 'three';
 import type {
+    CinematicCameraProps,
     FollowCameraProps,
     OrbitCameraProps,
-    FPSCameraProps,
-    CinematicCameraProps,
 } from '../components/Camera';
 
 export interface ThirdPersonPreset extends Omit<FollowCameraProps, 'target'> {

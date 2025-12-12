@@ -7,21 +7,15 @@
 
 import * as THREE from 'three';
 import {
-    sdTerrain,
-    getTerrainHeight,
-    getBiomeAt,
-    type BiomeData as SDFBiomeData,
-} from '../../core/sdf';
-import {
-    marchingCubes,
     createGeometryFromMarchingCubes,
     generateTerrainChunk,
-    type MarchingCubesOptions,
+    marchingCubes,
     type TerrainChunk,
 } from '../../core/marching-cubes';
+import { getTerrainHeight, type BiomeData as SDFBiomeData, sdTerrain } from '../../core/sdf';
 
+export type { MarchingCubesOptions, TerrainChunk } from '../../core/marching-cubes';
 export type { BiomeData } from '../../core/sdf';
-export type { TerrainChunk, MarchingCubesOptions } from '../../core/marching-cubes';
 
 export interface TerrainOptions {
     biomes: SDFBiomeData[];

@@ -8,18 +8,18 @@
  * @public
  */
 
+import { type TemporalState, temporal } from 'zundo';
 import { create, type StoreApi } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { temporal, type TemporalState } from 'zundo';
+import { webPersistenceAdapter } from './adapters/web/persistence';
 import type {
-    StoreConfig,
     CheckpointData,
     CheckpointOptions,
-    SaveData,
     PersistenceAdapter,
+    SaveData,
+    StoreConfig,
 } from './types';
 import { calculateChecksum } from './types';
-import { webPersistenceAdapter } from './adapters/web/persistence';
 
 const DEFAULT_CONFIG = {
     version: 1,

@@ -2,12 +2,12 @@
  * Marching Cubes API Tests
  */
 
-import { describe, it, expect } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    marchingCubes,
     createGeometryFromMarchingCubes,
     generateTerrainChunk,
+    marchingCubes,
 } from '../../../src/core/marching-cubes';
 import { sdSphere } from '../../../src/core/sdf';
 

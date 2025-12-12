@@ -1,9 +1,9 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import * as THREE from 'three';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import {
     createPostProcessingPipeline,
-    type PostProcessingOptions,
     type PostProcessingEffect,
+    type PostProcessingOptions,
 } from '../../../src/presets/postprocessing';
 
 describe('Post-Processing', () => {

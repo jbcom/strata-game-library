@@ -1,9 +1,9 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
 import * as THREE from 'three';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import {
-    createReflectionProbe,
-    createEnvironmentMap,
     applyReflectionProbe,
+    createEnvironmentMap,
+    createReflectionProbe,
     ReflectionProbeManager,
     type ReflectionProbeOptions,
 } from '../../../src/presets/reflections';
@@ -11,7 +11,7 @@ import {
 describe('Reflection Probes', () => {
     let renderer: THREE.WebGLRenderer | null = null;
     let scene: THREE.Scene;
-    let camera: THREE.PerspectiveCamera;
+    let _camera: THREE.PerspectiveCamera;
 
     beforeEach(() => {
         // Skip WebGLRenderer creation in node environment
@@ -19,7 +19,7 @@ describe('Reflection Probes', () => {
             renderer = new THREE.WebGLRenderer();
         }
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+        _camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     });
 
     afterEach(() => {

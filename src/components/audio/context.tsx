@@ -5,14 +5,14 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useMemo, useState, createContext, useContext } from 'react';
-import * as THREE from 'three';
 import { useThree } from '@react-three/fiber';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import * as THREE from 'three';
 import {
-    SoundManager,
-    SpatialAudio,
     createSoundManager,
     createSpatialAudio,
+    type SoundManager,
+    type SpatialAudio,
     setupAutoUnlock,
 } from '../../core/audio';
 import type { AudioContextValue, AudioProviderProps } from './types';
@@ -110,7 +110,7 @@ export function AudioProvider({ children, masterVolume = 1 }: AudioProviderProps
             spatialAudioRef.current?.dispose();
             camera.remove(listener);
         };
-    }, [camera]); // masterVolume excluded: handled by separate effect to prevent re-initialization
+    }, [camera, masterVolume]); // masterVolume excluded: handled by separate effect to prevent re-initialization
 
     // Update master volume without re-initializing audio system
     useEffect(() => {

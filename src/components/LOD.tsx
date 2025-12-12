@@ -6,36 +6,33 @@
  * @module components/LOD
  */
 
+import { useFrame, useThree } from '@react-three/fiber';
 import React, {
-    useRef,
-    useMemo,
-    useEffect,
-    useCallback,
     forwardRef,
+    useCallback,
+    useEffect,
     useImperativeHandle,
+    useMemo,
+    useRef,
     useState,
 } from 'react';
-import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import {
-    LODLevel,
-    LODConfig,
-    LODState,
-    LODManager,
-    ImpostorConfig,
-    VegetationLODConfig,
-    calculateLODLevel,
-    createLODLevels,
-    simplifyGeometry,
-    generateLODGeometries,
-    createImpostorGeometry,
-    updateImpostorUV,
-    calculateImpostorAngle,
-    interpolateLODMaterials,
-    calculateVegetationDensity,
-    createVegetationLODLevels,
-} from '../core/lod';
 import { updateBillboardRotation } from '../core/decals';
+import {
+    calculateImpostorAngle,
+    calculateLODLevel,
+    createImpostorGeometry,
+    createLODLevels,
+    createVegetationLODLevels,
+    type ImpostorConfig,
+    interpolateLODMaterials,
+    type LODConfig,
+    type LODLevel,
+    type LODState,
+    simplifyGeometry,
+    updateImpostorUV,
+    type VegetationLODConfig,
+} from '../core/lod';
 
 /**
  * Props for the LODMesh component
@@ -153,7 +150,7 @@ export const LODMesh = forwardRef<LODMeshRef, LODMeshProps>(
             if (position instanceof THREE.Euler) return position;
             if (Array.isArray(rotation)) return new THREE.Euler(...rotation);
             return rotation;
-        }, [rotation]);
+        }, [rotation, position]);
 
         const scl = useMemo(() => {
             if (scale instanceof THREE.Vector3) return scale;
@@ -359,7 +356,7 @@ export const LODGroup = forwardRef<LODGroupRef, LODGroupProps>(
             if (position instanceof THREE.Euler) return position;
             if (Array.isArray(rotation)) return new THREE.Euler(...rotation);
             return rotation;
-        }, [rotation]);
+        }, [rotation, position]);
 
         const scl = useMemo(() => {
             if (scale instanceof THREE.Vector3) return scale;

@@ -7,8 +7,8 @@
  * @module core/state/types
  */
 
-import type { StoreApi } from 'zustand';
 import type { TemporalState } from 'zundo';
+import type { StoreApi } from 'zustand';
 
 export interface SaveData<T> {
     version: number;

@@ -2,9 +2,9 @@
  * Instancing Core API Tests
  */
 
-import { describe, it, expect } from 'vitest';
 import * as THREE from 'three';
-import { generateInstanceData, InstanceData, BiomeData } from '../../../src/core/instancing';
+import { describe, expect, it } from 'vitest';
+import { type BiomeData, generateInstanceData } from '../../../src/core/instancing';
 
 describe('generateInstanceData', () => {
     it('generates requested number of instances', () => {
@@ -41,7 +41,7 @@ describe('generateInstanceData', () => {
     });
 
     it('respects height function', () => {
-        const heightFunc = (x: number, z: number) => Math.sin(x * 0.1) * 2;
+        const heightFunc = (x: number, _z: number) => Math.sin(x * 0.1) * 2;
 
         const instances = generateInstanceData(10, 50, heightFunc);
 

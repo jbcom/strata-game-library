@@ -6,19 +6,19 @@
  * @module components/GodRays
  */
 
-import React, { useRef, useMemo, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
-    createGodRaysMaterial,
-    createVolumetricSpotlightMaterial,
-    createVolumetricPointLightMaterial,
-    createSpotlightConeGeometry,
-    createPointLightSphereGeometry,
-    getLightScreenPosition,
-    calculateScatteringIntensity,
-    calculateGodRayIntensityFromAngle,
     blendGodRayColors,
+    calculateGodRayIntensityFromAngle,
+    calculateScatteringIntensity,
+    createGodRaysMaterial,
+    createPointLightSphereGeometry,
+    createSpotlightConeGeometry,
+    createVolumetricPointLightMaterial,
+    createVolumetricSpotlightMaterial,
+    getLightScreenPosition,
 } from '../core/godRays';
 
 /**
@@ -173,7 +173,7 @@ export const GodRays = forwardRef<GodRaysRef, GodRaysProps>(function GodRays(
                 }
             },
             setLightPosition: (position: THREE.Vector3) => {
-                const screenPos = getLightScreenPosition(position, camera, new THREE.Vector2(1, 1));
+                const screenPos = getLightScreenPosition(position, camera);
                 if (screenPos && material.uniforms.uLightPosition) {
                     material.uniforms.uLightPosition.value.set(screenPos.x, screenPos.y, 0);
                 }
@@ -187,7 +187,7 @@ export const GodRays = forwardRef<GodRaysRef, GodRaysProps>(function GodRays(
 
         material.uniforms.uTime.value = state.clock.elapsedTime;
 
-        const screenPos = getLightScreenPosition(lightPos, camera, new THREE.Vector2(1, 1));
+        const screenPos = getLightScreenPosition(lightPos, camera);
         if (screenPos) {
             material.uniforms.uLightPosition.value.set(screenPos.x, screenPos.y, 0);
         }

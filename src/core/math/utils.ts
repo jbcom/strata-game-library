@@ -36,7 +36,7 @@ export { maathRandom as random };
  * ```
  */
 export function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
+    return a + (b - a) * t;
 }
 
 /**
@@ -54,8 +54,8 @@ export function lerp(a: number, b: number, t: number): number {
  * ```
  */
 export function inverseLerp(a: number, b: number, value: number): number {
-  if (a === b) return 0;
-  return (value - a) / (b - a);
+    if (a === b) return 0;
+    return (value - a) / (b - a);
 }
 
 /**
@@ -74,7 +74,7 @@ export function inverseLerp(a: number, b: number, value: number): number {
  * ```
  */
 export function clamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
+    return Math.max(min, Math.min(max, value));
 }
 
 /**
@@ -84,7 +84,7 @@ export function clamp(value: number, min: number, max: number): number {
  * @returns Value clamped to [0, 1]
  */
 export function clamp01(value: number): number {
-  return clamp(value, 0, 1);
+    return clamp(value, 0, 1);
 }
 
 /**
@@ -104,14 +104,14 @@ export function clamp01(value: number): number {
  * ```
  */
 export function remap(
-  value: number,
-  inMin: number,
-  inMax: number,
-  outMin: number,
-  outMax: number
+    value: number,
+    inMin: number,
+    inMax: number,
+    outMin: number,
+    outMax: number
 ): number {
-  const t = inverseLerp(inMin, inMax, value);
-  return lerp(outMin, outMax, t);
+    const t = inverseLerp(inMin, inMax, value);
+    return lerp(outMin, outMax, t);
 }
 
 /**
@@ -128,7 +128,7 @@ export function remap(
  * ```
  */
 export function remapRange(value: number, from: Range, to: Range): number {
-  return remap(value, from.min, from.max, to.min, to.max);
+    return remap(value, from.min, from.max, to.min, to.max);
 }
 
 /**
@@ -145,8 +145,8 @@ export function remapRange(value: number, from: Range, to: Range): number {
  * ```
  */
 export function smoothstep(edge0: number, edge1: number, x: number): number {
-  const t = clamp01((x - edge0) / (edge1 - edge0));
-  return t * t * (3 - 2 * t);
+    const t = clamp01((x - edge0) / (edge1 - edge0));
+    return t * t * (3 - 2 * t);
 }
 
 /**
@@ -158,8 +158,8 @@ export function smoothstep(edge0: number, edge1: number, x: number): number {
  * @returns Smoothly interpolated value in [0, 1]
  */
 export function smootherstep(edge0: number, edge1: number, x: number): number {
-  const t = clamp01((x - edge0) / (edge1 - edge0));
-  return t * t * t * (t * (t * 6 - 15) + 10);
+    const t = clamp01((x - edge0) / (edge1 - edge0));
+    return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
 /**
@@ -178,8 +178,8 @@ export function smootherstep(edge0: number, edge1: number, x: number): number {
  * ```
  */
 export function pingPong(t: number, length: number): number {
-  const mod = t % (length * 2);
-  return length - Math.abs(mod - length);
+    const mod = t % (length * 2);
+    return length - Math.abs(mod - length);
 }
 
 /**
@@ -196,16 +196,12 @@ export function pingPong(t: number, length: number): number {
  * moveTowards(95, 100, 10); // 100
  * ```
  */
-export function moveTowards(
-  current: number,
-  target: number,
-  maxDelta: number
-): number {
-  if (Math.abs(target - current) <= maxDelta) {
-    return target;
-  }
-  const diff = target - current;
-  return current + (diff > 0 ? 1 : diff < 0 ? -1 : 0) * maxDelta;
+export function moveTowards(current: number, target: number, maxDelta: number): number {
+    if (Math.abs(target - current) <= maxDelta) {
+        return target;
+    }
+    const diff = target - current;
+    return current + Math.sign(diff) * maxDelta;
 }
 
 /**
@@ -227,34 +223,34 @@ export function moveTowards(
  * ```
  */
 export function smoothDamp(
-  current: number,
-  target: number,
-  velocity: number,
-  smoothTime: number,
-  deltaTime: number,
-  maxSpeed: number = Infinity
+    current: number,
+    target: number,
+    velocity: number,
+    smoothTime: number,
+    deltaTime: number,
+    maxSpeed: number = Infinity
 ): [number, number] {
-  const omega = 2 / Math.max(0.0001, smoothTime);
-  const x = omega * deltaTime;
-  const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+    const omega = 2 / Math.max(0.0001, smoothTime);
+    const x = omega * deltaTime;
+    const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
 
-  let change = current - target;
-  const maxChange = maxSpeed * smoothTime;
-  change = clamp(change, -maxChange, maxChange);
+    let change = current - target;
+    const maxChange = maxSpeed * smoothTime;
+    change = clamp(change, -maxChange, maxChange);
 
-  const originalTarget = target;
-  const adjustedTarget = current - change;
+    const originalTarget = target;
+    const adjustedTarget = current - change;
 
-  const temp = (velocity + omega * change) * deltaTime;
-  let newVelocity = (velocity - omega * temp) * exp;
-  let newPosition = adjustedTarget + (change + temp) * exp;
+    const temp = (velocity + omega * change) * deltaTime;
+    let newVelocity = (velocity - omega * temp) * exp;
+    let newPosition = adjustedTarget + (change + temp) * exp;
 
-  if (originalTarget - current > 0 === newPosition > originalTarget) {
-    newPosition = originalTarget;
-    newVelocity = (newPosition - originalTarget) / deltaTime;
-  }
+    if (originalTarget - current > 0 === newPosition > originalTarget) {
+        newPosition = originalTarget;
+        newVelocity = (newPosition - originalTarget) / deltaTime;
+    }
 
-  return [newPosition, newVelocity];
+    return [newPosition, newVelocity];
 }
 
 /**
@@ -264,9 +260,9 @@ export function smoothDamp(
  * @returns Wrapped angle in [-PI, PI]
  */
 export function wrapAngle(angle: number): number {
-  const twoPi = Math.PI * 2;
-  const wrapped = ((angle % twoPi) + twoPi) % twoPi;
-  return wrapped > Math.PI ? wrapped - twoPi : wrapped;
+    const twoPi = Math.PI * 2;
+    const wrapped = ((angle % twoPi) + twoPi) % twoPi;
+    return wrapped > Math.PI ? wrapped - twoPi : wrapped;
 }
 
 /**
@@ -277,10 +273,10 @@ export function wrapAngle(angle: number): number {
  * @returns Shortest angle difference
  */
 export function deltaAngle(from: number, to: number): number {
-  let delta = wrapAngle(to - from);
-  if (delta > Math.PI) delta -= Math.PI * 2;
-  if (delta < -Math.PI) delta += Math.PI * 2;
-  return delta;
+    let delta = wrapAngle(to - from);
+    if (delta > Math.PI) delta -= Math.PI * 2;
+    if (delta < -Math.PI) delta += Math.PI * 2;
+    return delta;
 }
 
 /**
@@ -292,7 +288,7 @@ export function deltaAngle(from: number, to: number): number {
  * @returns Interpolated angle
  */
 export function lerpAngle(a: number, b: number, t: number): number {
-  return a + deltaAngle(a, b) * t;
+    return a + deltaAngle(a, b) * t;
 }
 
 /**
@@ -304,9 +300,9 @@ export function lerpAngle(a: number, b: number, t: number): number {
  * @returns Squared distance
  */
 export function distanceSquared2D(a: Vec2Like, b: Vec2Like): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  return dx * dx + dy * dy;
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    return dx * dx + dy * dy;
 }
 
 /**
@@ -317,10 +313,10 @@ export function distanceSquared2D(a: Vec2Like, b: Vec2Like): number {
  * @returns Squared distance
  */
 export function distanceSquared3D(a: Vec3Like, b: Vec3Like): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const dz = b.z - a.z;
-  return dx * dx + dy * dy + dz * dz;
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const dz = b.z - a.z;
+    return dx * dx + dy * dy + dz * dz;
 }
 
 /**
@@ -330,7 +326,7 @@ export function distanceSquared3D(a: Vec3Like, b: Vec3Like): number {
  * @returns Angle in radians
  */
 export function degToRad(degrees: number): number {
-  return degrees * (Math.PI / 180);
+    return degrees * (Math.PI / 180);
 }
 
 /**
@@ -340,7 +336,7 @@ export function degToRad(degrees: number): number {
  * @returns Angle in degrees
  */
 export function radToDeg(radians: number): number {
-  return radians * (180 / Math.PI);
+    return radians * (180 / Math.PI);
 }
 
 /**
@@ -351,10 +347,6 @@ export function radToDeg(radians: number): number {
  * @param epsilon - Tolerance (default: 0.00001)
  * @returns True if values are approximately equal
  */
-export function approximately(
-  a: number,
-  b: number,
-  epsilon: number = 0.00001
-): number {
-  return Math.abs(a - b) < epsilon ? 1 : 0;
+export function approximately(a: number, b: number, epsilon: number = 0.00001): boolean {
+    return Math.abs(a - b) < epsilon;
 }

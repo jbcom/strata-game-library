@@ -4,18 +4,18 @@
  * @module core/math/__tests__/noise
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
     createNoise2D,
     createNoise3D,
     createNoise4D,
+    createTerrainNoise,
     fbm2D,
     fbm3D,
+    ridgedNoise2D,
+    TERRAIN_PRESETS,
     warpedNoise2D,
     warpedNoise3D,
-    ridgedNoise2D,
-    createTerrainNoise,
-    TERRAIN_PRESETS,
 } from '../noise';
 import type { Noise2D, Noise3D } from '../types';
 

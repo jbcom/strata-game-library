@@ -7,10 +7,10 @@
 
 import type * as THREE from 'three';
 import type {
-    SoundManager,
-    SpatialAudio,
     DistanceModel,
     EnvironmentPreset,
+    SoundManager,
+    SpatialAudio,
 } from '../../core/audio';
 
 /**

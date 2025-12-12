@@ -1,21 +1,16 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import * as YUKA from 'yuka';
 import {
-    createGuardPreset,
-    createPreyPreset,
-    createPredatorPreset,
+    type AIPresetConfig,
+    type AIPresetName,
+    createFlock,
     createFlockMemberPreset,
     createFollowerPreset,
-    createFlock,
-    AIPresetConfig,
-    GuardPresetConfig,
-    PreyPresetConfig,
-    PredatorPresetConfig,
-    FlockMemberPresetConfig,
-    FollowerPresetConfig,
-    FlockConfig,
-    AIPresetResult,
-    AIPresetName,
+    createGuardPreset,
+    createPredatorPreset,
+    createPreyPreset,
+    type FlockConfig,
+    type GuardPresetConfig,
 } from '../presets/ai';
 
 describe('createGuardPreset', () => {
@@ -245,7 +240,7 @@ describe('createFollowerPreset', () => {
     it('should update based on leader position', () => {
         const result = createFollowerPreset();
         expect(() =>
-            result.update!(0.016, {
+            result.update?.(0.016, {
                 leaderPosition: new YUKA.Vector3(10, 0, 0),
             })
         ).not.toThrow();
@@ -254,7 +249,7 @@ describe('createFollowerPreset', () => {
     it('should update with leader rotation', () => {
         const result = createFollowerPreset();
         expect(() =>
-            result.update!(0.016, {
+            result.update?.(0.016, {
                 leaderPosition: new YUKA.Vector3(10, 0, 0),
                 leaderRotation: new YUKA.Quaternion(),
             })

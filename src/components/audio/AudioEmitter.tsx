@@ -5,8 +5,8 @@
  * @module components/audio
  */
 
-import { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import { useSpatialAudio } from './context';
 import type { AudioEmitterProps, AudioEmitterRef } from './types';
@@ -88,7 +88,18 @@ export const AudioEmitter = forwardRef<AudioEmitterRef, AudioEmitterProps>(
                 spatialAudio.remove(idRef.current);
                 sourceRef.current = null;
             };
-        }, [url, spatialAudio]);
+        }, [
+            url,
+            spatialAudio,
+            autoplay,
+            distanceModel,
+            loop,
+            maxDistance,
+            onLoad,
+            refDistance,
+            rolloffFactor,
+            volume,
+        ]);
 
         useFrame(() => {
             if (!sourceRef.current) return;

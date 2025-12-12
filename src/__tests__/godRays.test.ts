@@ -1,20 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    GodRaysMaterialOptions,
-    RadialBlurOptions,
-    calculateRadialBlur,
-    calculateSunOcclusion,
-    calculateScatteringIntensity,
-    getLightScreenPosition,
-    calculateGodRayIntensityFromAngle,
-    createGodRaysMaterial,
-    createVolumetricSpotlightMaterial,
-    createVolumetricPointLightMaterial,
-    createSpotlightConeGeometry,
-    createPointLightSphereGeometry,
-    updateGodRaysLightPosition,
     blendGodRayColors,
+    calculateGodRayIntensityFromAngle,
+    calculateRadialBlur,
+    calculateScatteringIntensity,
+    calculateSunOcclusion,
+    createGodRaysMaterial,
+    createPointLightSphereGeometry,
+    createSpotlightConeGeometry,
+    createVolumetricPointLightMaterial,
+    createVolumetricSpotlightMaterial,
+    getLightScreenPosition,
+    type RadialBlurOptions,
+    updateGodRaysLightPosition,
 } from '../core/godRays';
 
 describe('calculateRadialBlur', () => {
@@ -101,7 +100,7 @@ describe('getLightScreenPosition', () => {
         camera.position.set(0, 0, 0);
         camera.updateMatrixWorld();
 
-        const result = getLightScreenPosition(lightPos, camera, new THREE.Vector2(800, 600));
+        const result = getLightScreenPosition(lightPos, camera);
         expect(result).not.toBe(null);
         if (result) {
             expect(result.x).toBeGreaterThanOrEqual(0);
@@ -115,7 +114,7 @@ describe('getLightScreenPosition', () => {
         camera.position.set(0, 0, 0);
         camera.updateMatrixWorld();
 
-        const result = getLightScreenPosition(lightPos, camera, new THREE.Vector2(800, 600));
+        const result = getLightScreenPosition(lightPos, camera);
         expect(result).toBe(null);
     });
 });

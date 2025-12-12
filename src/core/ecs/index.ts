@@ -32,40 +32,37 @@
 
 export { World } from 'miniplex';
 export { default as createReactAPI } from 'miniplex-react';
-
-export type {
-    BaseEntity,
-    WorldConfig,
-    StrataWorld,
-    QueryResult,
-    ComponentKeys,
-    RequiredComponents,
-    OptionalComponents,
-    Archetype,
-    SystemFn,
-    SystemConfig,
-} from './types';
-
-export {
-    createWorld,
-    createFromArchetype,
-    generateEntityId,
-    resetEntityIdCounter,
-    hasComponents,
-    addComponent,
-    removeComponent,
-    findEntityById,
-    countEntities,
-    ARCHETYPES,
-} from './world';
-
 export type { SystemScheduler, UseSystemOptions } from './systems';
 export {
-    createSystemScheduler,
-    createSystem,
-    withTiming,
     combineSystems,
     conditionalSystem,
-    useSystem,
+    createSystem,
+    createSystemScheduler,
     useScheduler,
+    useSystem,
+    withTiming,
 } from './systems';
+export type {
+    Archetype,
+    BaseEntity,
+    ComponentKeys,
+    OptionalComponents,
+    QueryResult,
+    RequiredComponents,
+    StrataWorld,
+    SystemConfig,
+    SystemFn,
+    WorldConfig,
+} from './types';
+export {
+    ARCHETYPES,
+    addComponent,
+    countEntities,
+    createFromArchetype,
+    createWorld,
+    findEntityById,
+    generateEntityId,
+    hasComponents,
+    removeComponent,
+    resetEntityIdCounter,
+} from './world';

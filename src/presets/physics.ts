@@ -6,17 +6,17 @@
  */
 
 import type {
-    CharacterControllerConfig,
-    VehicleConfig,
-    PhysicsMaterial,
-    DestructibleConfig,
     BuoyancyConfig,
+    CharacterControllerConfig,
+    DestructibleConfig,
+    PhysicsMaterial,
+    VehicleConfig,
 } from '../core/physics';
 import {
-    createDefaultCharacterConfig,
-    createDefaultVehicleConfig,
-    createDefaultDestructibleConfig,
     createDefaultBuoyancyConfig,
+    createDefaultCharacterConfig,
+    createDefaultDestructibleConfig,
+    createDefaultVehicleConfig,
 } from '../core/physics';
 
 /**

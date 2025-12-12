@@ -1,8 +1,7 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
-import { render } from '@testing-library/react';
 import { Canvas } from '@react-three/fiber';
-import * as THREE from 'three';
+import { render } from '@testing-library/react';
 import * as React from 'react';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { createParticleSystem } from '../../../src/presets/particles';
 
 describe('Particle System Integration', () => {

@@ -7,8 +7,8 @@
  * @module core/animation/state-machine
  */
 
-import type { AnimationMachineConfig, AnimationStateName } from './types';
 import { createAnimationMachine } from './factory';
+import type { AnimationMachineConfig, AnimationStateName } from './types';
 
 /**
  * Creates a locomotion animation machine with standard movement states.

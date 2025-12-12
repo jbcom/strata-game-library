@@ -5,9 +5,9 @@
  * Use with YukaVehicle component to add AI behaviors.
  */
 
-import { useMemo, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import type * as THREE from 'three';
 import * as YUKA from 'yuka';
-import * as THREE from 'three';
 
 // =============================================================================
 // HELPER FUNCTIONS
@@ -133,7 +133,7 @@ export function usePursue(
 ): YUKA.PursuitBehavior {
     const { weight = 1 } = options;
 
-    const behavior = useMemo(() => new YUKA.PursuitBehavior(evader), []);
+    const behavior = useMemo(() => new YUKA.PursuitBehavior(evader), [evader]);
 
     useEffect(() => {
         behavior.weight = weight;
@@ -155,7 +155,7 @@ export interface UseEvadeOptions {
 export function useEvade(pursuer: YUKA.Vehicle, options: UseEvadeOptions = {}): YUKA.EvadeBehavior {
     const { weight = 1, panicDistance = 10 } = options;
 
-    const behavior = useMemo(() => new YUKA.EvadeBehavior(pursuer), []);
+    const behavior = useMemo(() => new YUKA.EvadeBehavior(pursuer), [pursuer]);
 
     useEffect(() => {
         behavior.weight = weight;
@@ -207,7 +207,7 @@ export function useFollowPath(
 ): YUKA.FollowPathBehavior {
     const { weight = 1, nextWaypointDistance = 1 } = options;
 
-    const behavior = useMemo(() => new YUKA.FollowPathBehavior(path), []);
+    const behavior = useMemo(() => new YUKA.FollowPathBehavior(path), [path]);
 
     useEffect(() => {
         behavior.weight = weight;
@@ -227,7 +227,7 @@ export interface UseSeparationOptions {
 }
 
 export function useSeparation(
-    entities: YUKA.Vehicle[] = [],
+    _entities: YUKA.Vehicle[] = [],
     options: UseSeparationOptions = {}
 ): YUKA.SeparationBehavior {
     const { weight = 1 } = options;
@@ -241,7 +241,7 @@ export function useSeparation(
         // Note: In YUKA, flocking behaviors work with the vehicle's steering manager
         // The entities array should be registered with the EntityManager, not the behavior directly.
         // This hook returns the behavior; users should manage entity registration separately.
-    }, [behavior, weight, entities]);
+    }, [behavior, weight]);
 
     return behavior;
 }
@@ -255,7 +255,7 @@ export interface UseAlignmentOptions {
 }
 
 export function useAlignment(
-    entities: YUKA.Vehicle[] = [],
+    _entities: YUKA.Vehicle[] = [],
     options: UseAlignmentOptions = {}
 ): YUKA.AlignmentBehavior {
     const { weight = 1 } = options;
@@ -269,7 +269,7 @@ export function useAlignment(
         // Note: In YUKA, flocking behaviors work with the vehicle's steering manager
         // The entities array should be registered with the EntityManager, not the behavior directly.
         // This hook returns the behavior; users should manage entity registration separately.
-    }, [behavior, weight, entities]);
+    }, [behavior, weight]);
 
     return behavior;
 }
@@ -283,7 +283,7 @@ export interface UseCohesionOptions {
 }
 
 export function useCohesion(
-    entities: YUKA.Vehicle[] = [],
+    _entities: YUKA.Vehicle[] = [],
     options: UseCohesionOptions = {}
 ): YUKA.CohesionBehavior {
     const { weight = 1 } = options;
@@ -297,7 +297,7 @@ export function useCohesion(
         // Note: In YUKA, flocking behaviors work with the vehicle's steering manager
         // The entities array should be registered with the EntityManager, not the behavior directly.
         // This hook returns the behavior; users should manage entity registration separately.
-    }, [behavior, weight, entities]);
+    }, [behavior, weight]);
 
     return behavior;
 }
@@ -346,19 +346,13 @@ export function useOffsetPursuit(
     const { weight = 1 } = options;
 
     const behavior = useMemo(() => {
-        const yukaOffset = offset instanceof YUKA.Vector3
-            ? offset
-            : threeToYukaVector3(offset);
+        const yukaOffset = offset instanceof YUKA.Vector3 ? offset : threeToYukaVector3(offset);
         return new YUKA.OffsetPursuitBehavior(leader, yukaOffset);
-    }, []);
+    }, [leader, offset]);
 
     useEffect(() => {
         behavior.weight = weight;
-        behavior.leader = leader;
-        behavior.offset = offset instanceof YUKA.Vector3
-            ? offset
-            : threeToYukaVector3(offset);
-    }, [behavior, leader, offset, weight]);
+    }, [behavior, weight]);
 
     return behavior;
 }
@@ -378,7 +372,10 @@ export function useInterpose(
 ): YUKA.InterposeBehavior {
     const { weight = 1 } = options;
 
-    const behavior = useMemo(() => new YUKA.InterposeBehavior(entity1, entity2), []);
+    const behavior = useMemo(
+        () => new YUKA.InterposeBehavior(entity1, entity2),
+        [entity1, entity2]
+    );
 
     useEffect(() => {
         behavior.weight = weight;

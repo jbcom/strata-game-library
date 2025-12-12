@@ -313,7 +313,7 @@ export class FABRIKSolver {
     private calculateRotations(
         chain: BoneChain,
         positions: THREE.Vector3[],
-        pole?: THREE.Vector3
+        _pole?: THREE.Vector3
     ): THREE.Quaternion[] {
         const rotations: THREE.Quaternion[] = [];
 
@@ -382,7 +382,7 @@ export class CCDSolver {
 
         while (error > this.tolerance && iterations < this.maxIterations) {
             for (let i = chain.bones.length - 2; i >= 0; i--) {
-                const bone = chain.bones[i];
+                const _bone = chain.bones[i];
                 const bonePos = positions[i];
                 const endEffector = positions[positions.length - 1];
 
@@ -453,8 +453,8 @@ export class CCDSolver {
 export class TwoBoneIKSolver {
     solve(
         rootPos: THREE.Vector3,
-        midPos: THREE.Vector3,
-        endPos: THREE.Vector3,
+        _midPos: THREE.Vector3,
+        _endPos: THREE.Vector3,
         target: THREE.Vector3,
         poleTarget: THREE.Vector3,
         upperLength: number,
@@ -496,7 +496,7 @@ export class TwoBoneIKSolver {
             -1,
             Math.min(1, (safeA * safeA + safeB * safeB - safeC * safeC) / (2 * safeA * safeB))
         );
-        const angleB = Math.acos(cosAngleB);
+        const _angleB = Math.acos(cosAngleB);
 
         const rootToTarget = actualTarget.clone().sub(rootPos).normalize();
         const rootToPole = poleTarget.clone().sub(rootPos);
@@ -505,7 +505,7 @@ export class TwoBoneIKSolver {
             .crossVectors(rootToTarget, rootToPole)
             .normalize();
 
-        const poleDirection = new THREE.Vector3()
+        const _poleDirection = new THREE.Vector3()
             .crossVectors(perpendicular, rootToTarget)
             .normalize();
 
@@ -609,7 +609,7 @@ export class LookAtController {
 
         direction.normalize();
 
-        const forward = this.config.forwardVector!.clone();
+        const forward = this.config.forwardVector?.clone() ?? new THREE.Vector3(0, 0, 1);
         const worldQuat = object.parent
             ? object.parent.getWorldQuaternion(new THREE.Quaternion())
             : new THREE.Quaternion();
@@ -890,7 +890,7 @@ export class ProceduralGait {
 
     private calculateFootTarget(
         bodyPosition: THREE.Vector3,
-        bodyForward: THREE.Vector3,
+        _bodyForward: THREE.Vector3,
         velocity: THREE.Vector3,
         hipOffset: THREE.Vector3,
         phase: number,

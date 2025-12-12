@@ -6,19 +6,19 @@
  * @public
  */
 
-import { nba as createNbaPathfinder } from 'ngraph.path';
 import type { PathFinder as NPathFinder } from 'ngraph.path';
+import { nba as createNbaPathfinder } from 'ngraph.path';
+import type { StrataGraphInstance } from './graph';
+import { calculateDistance } from './graph';
 import type {
-    NodeId,
-    NodeData,
     EdgeData,
+    NodeData,
+    NodeId,
     PathfinderConfig,
     PathResult,
     Position3D,
     SmoothingOptions,
 } from './types';
-import type { StrataGraphInstance } from './graph';
-import { calculateDistance } from './graph';
 
 /**
  * Strata pathfinder instance.

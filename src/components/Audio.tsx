@@ -8,36 +8,35 @@
  * @deprecated Import from 'components/audio' directly for better tree-shaking.
  */
 
-export {
-    AudioProvider,
-    useAudioContext,
-    useAudioManager,
-    useSpatialAudio,
-    useAudioListener,
-    AudioListener,
-    PositionalAudio,
-    AmbientAudio,
-    AudioZone,
-    AudioEmitter,
-    AudioEnvironment,
-    FootstepAudio,
-    WeatherAudio,
-} from './audio';
-
 export type {
-    AudioContextValue,
-    AudioProviderProps,
-    AudioListenerProps,
-    PositionalAudioProps,
-    PositionalAudioRef,
     AmbientAudioProps,
     AmbientAudioRef,
-    AudioZoneProps,
-    AudioZoneRef,
+    AudioContextValue,
     AudioEmitterProps,
     AudioEmitterRef,
     AudioEnvironmentProps,
+    AudioListenerProps,
+    AudioProviderProps,
+    AudioZoneProps,
+    AudioZoneRef,
     FootstepAudioProps,
     FootstepAudioRef,
+    PositionalAudioProps,
+    PositionalAudioRef,
     WeatherAudioProps,
+} from './audio';
+export {
+    AmbientAudio,
+    AudioEmitter,
+    AudioEnvironment,
+    AudioListener,
+    AudioProvider,
+    AudioZone,
+    FootstepAudio,
+    PositionalAudio,
+    useAudioContext,
+    useAudioListener,
+    useAudioManager,
+    useSpatialAudio,
+    WeatherAudio,
 } from './audio';

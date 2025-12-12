@@ -7,11 +7,11 @@
  * @module core/animation/state-machine
  */
 
-import { createMachine, assign } from 'xstate';
+import { assign, createMachine } from 'xstate';
 import type {
-    AnimationMachineConfig,
     AnimationContext,
     AnimationEvent,
+    AnimationMachineConfig,
     AnimationStateName,
     BlendTreeConfig,
     BlendWeights,
@@ -77,7 +77,8 @@ export function createAnimationMachine(config: AnimationMachineConfig) {
             stateTransitions[transition.event] = {
                 target: targetState,
                 guard: transition.condition
-                    ? ({ context }: { context: AnimationContext }) => transition.condition!(context)
+                    ? ({ context }: { context: AnimationContext }) =>
+                          transition.condition?.(context)
                     : undefined,
                 actions: assign({
                     previousAnimation: ({ context }: { context: AnimationContext }) =>
@@ -93,7 +94,7 @@ export function createAnimationMachine(config: AnimationMachineConfig) {
             };
         }
 
-        stateTransitions['TICK'] = {
+        stateTransitions.TICK = {
             actions: assign({
                 timeInState: ({
                     context,
@@ -119,15 +120,15 @@ export function createAnimationMachine(config: AnimationMachineConfig) {
             }),
         };
 
-        stateTransitions['PAUSE'] = {
+        stateTransitions.PAUSE = {
             actions: assign({ isPaused: () => true }),
         };
 
-        stateTransitions['RESUME'] = {
+        stateTransitions.RESUME = {
             actions: assign({ isPaused: () => false }),
         };
 
-        stateTransitions['SET_SPEED'] = {
+        stateTransitions.SET_SPEED = {
             actions: assign({
                 playbackSpeed: ({ event }: { event: AnimationEvent }) =>
                     event.type === 'SET_SPEED' ? (event as { speed: number }).speed : 1,

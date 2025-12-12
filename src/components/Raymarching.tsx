@@ -4,10 +4,10 @@
  * Uses marching.js patterns for efficient ray marching
  */
 
-import { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { createRaymarchingMaterial, createRaymarchingGeometry } from '../core/raymarching';
+import { createRaymarchingGeometry, createRaymarchingMaterial } from '../core/raymarching';
 
 interface RaymarchingProps {
     sdfFunction: string; // GLSL code for sceneSDF function

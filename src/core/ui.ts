@@ -313,7 +313,6 @@ export function formatProgressText(
             return `${Math.round(value)}/${Math.round(maxValue)}`;
         case 'value':
             return `${Math.round(value)}`;
-        case 'none':
         default:
             return '';
     }
@@ -328,12 +327,12 @@ export function lerp(start: number, end: number, t: number): number {
 }
 
 export function easeOutCubic(t: number): number {
-    return 1 - Math.pow(1 - t, 3);
+    return 1 - (1 - t) ** 3;
 }
 
 export function easeOutElastic(t: number): number {
     const c4 = (2 * Math.PI) / 3;
-    return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+    return t === 0 ? 0 : t === 1 ? 1 : 2 ** (-10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
 }
 
 export function getTextDirection(text: string): 'ltr' | 'rtl' {
@@ -510,7 +509,6 @@ export function getDamageNumberColor(type: DamageNumberConfig['type']): string {
             return '#9ca3af';
         case 'block':
             return '#60a5fa';
-        case 'normal':
         default:
             return '#ffffff';
     }
@@ -534,7 +532,6 @@ export function getNotificationIcon(type: NotificationConfig['type']): string {
             return '⚠';
         case 'error':
             return '✕';
-        case 'info':
         default:
             return 'ℹ';
     }
@@ -548,7 +545,6 @@ export function getNotificationColor(type: NotificationConfig['type']): string {
             return '#fbbf24';
         case 'error':
             return '#ef4444';
-        case 'info':
         default:
             return '#60a5fa';
     }

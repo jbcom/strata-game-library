@@ -6,17 +6,10 @@
  * @module components/Input
  */
 
-import React, {
-    useRef,
-    useEffect,
-    useMemo,
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-} from 'react';
-import { useFrame, useThree, ThreeEvent } from '@react-three/fiber';
+import { type ThreeEvent, useFrame, useThree } from '@react-three/fiber';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { InputManager, InputAxis, InputEvent, HapticFeedback, DragState } from '../core/input';
+import { type DragState, HapticFeedback, type InputAxis, type InputEvent } from '../core/input';
 
 /**
  * Base ref interface for all input controls
@@ -242,7 +235,7 @@ export const Joystick3D = forwardRef<Joystick3DRef, Joystick3DProps>(
             return () => window.removeEventListener('pointerup', handleGlobalUp);
         }, [handlePointerUp]);
 
-        useFrame((state, delta) => {
+        useFrame((_state, delta) => {
             if (!stalkRef.current || !knobRef.current || !groupRef.current) return;
 
             if (isPressed.current) {
@@ -533,7 +526,7 @@ export const GroundSwitch = forwardRef<GroundSwitchRef, GroundSwitchProps>(
             return () => window.removeEventListener('pointerup', handleGlobalUp);
         }, [handlePointerUp]);
 
-        useFrame((state, delta) => {
+        useFrame((_state, delta) => {
             if (!leverRef.current || !groupRef.current) return;
 
             if (isDragging.current) {
@@ -768,7 +761,7 @@ export const PressurePlate = forwardRef<PressurePlateRef, PressurePlateProps>(
             return () => window.removeEventListener('pointerup', handleGlobalUp);
         }, [handlePointerUp]);
 
-        useFrame((state, delta) => {
+        useFrame((_state, delta) => {
             if (!plateRef.current || !groupRef.current) return;
 
             currentDepth.current +=
@@ -1060,7 +1053,7 @@ export const WallButton = forwardRef<WallButtonRef, WallButtonProps>(
             return () => window.removeEventListener('pointerup', handleGlobalUp);
         }, [handlePointerUp]);
 
-        useFrame((state, delta) => {
+        useFrame((_state, delta) => {
             if (!buttonRef.current || !groupRef.current) return;
 
             const springSpeed = 15;
@@ -1272,7 +1265,6 @@ export const TriggerComposer = forwardRef<TriggerComposerRef, TriggerComposerPro
                     return new THREE.SphereGeometry(size[0] / 2, segments, segments);
                 case 'cylinder':
                     return new THREE.CylinderGeometry(size[0] / 2, size[0] / 2, size[1], segments);
-                case 'box':
                 default:
                     return new THREE.BoxGeometry(size[0], size[1], size[2]);
             }
@@ -1376,7 +1368,7 @@ export const TriggerComposer = forwardRef<TriggerComposerRef, TriggerComposerPro
             return () => window.removeEventListener('pointerup', handleGlobalUp);
         }, [handlePointerUp]);
 
-        useFrame((state, delta) => {
+        useFrame((_state, delta) => {
             if (!meshRef.current || !groupRef.current) return;
 
             const speed = isPressed.current ? springiness : returnSpeed;

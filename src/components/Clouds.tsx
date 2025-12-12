@@ -6,18 +6,16 @@
  * @module components/Clouds
  */
 
-import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
-    createCloudLayerMaterial,
-    createVolumetricCloudMaterial,
-    createCloudLayerGeometry,
-    createVolumetricCloudGeometry,
-    CloudLayerConfig,
-    WindConfig,
-    DayNightConfig,
     adaptCloudColorsForTimeOfDay,
+    type CloudLayerConfig,
+    createCloudLayerGeometry,
+    createCloudLayerMaterial,
+    createVolumetricCloudGeometry,
+    createVolumetricCloudMaterial,
 } from '../core/clouds';
 
 /**

@@ -3,26 +3,26 @@
  * Provides easy-to-use components for common shader effects
  */
 
-import React, { useRef, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import type * as THREE from 'three';
 import {
-    createToonMaterial,
-    createHologramMaterial,
+    type CrystalMaterialOptions,
+    createCrystalMaterial,
     createDissolveMaterial,
     createForcefieldMaterial,
     createGlitchMaterial,
-    createCrystalMaterial,
-    createOutlineMaterial,
     createGradientMaterial,
-    ToonMaterialOptions,
-    HologramMaterialOptions,
-    DissolveMaterialOptions,
-    ForcefieldMaterialOptions,
-    GlitchMaterialOptions,
-    CrystalMaterialOptions,
-    OutlineMaterialOptions,
-    GradientMaterialOptions,
+    createHologramMaterial,
+    createOutlineMaterial,
+    createToonMaterial,
+    type DissolveMaterialOptions,
+    type ForcefieldMaterialOptions,
+    type GlitchMaterialOptions,
+    type GradientMaterialOptions,
+    type HologramMaterialOptions,
+    type OutlineMaterialOptions,
+    type ToonMaterialOptions,
 } from '../shaders/materials';
 
 export interface ToonMeshProps extends ToonMaterialOptions {
@@ -62,6 +62,7 @@ export const ToonMesh = forwardRef<ToonMeshRef, ToonMeshProps>(
                 materialOptions.levels,
                 materialOptions.rimColor,
                 materialOptions.rimPower,
+                materialOptions,
             ]
         );
 
@@ -142,6 +143,7 @@ export const HologramMesh = forwardRef<HologramMeshRef, HologramMeshProps>(
                 materialOptions.flickerSpeed,
                 materialOptions.fresnelPower,
                 materialOptions.alpha,
+                materialOptions,
             ]
         );
 
@@ -217,6 +219,7 @@ export const DissolveMesh = forwardRef<DissolveMeshRef, DissolveMeshProps>(
                 materialOptions.progress,
                 materialOptions.edgeWidth,
                 materialOptions.noiseScale,
+                materialOptions,
             ]
         );
 
@@ -290,6 +293,7 @@ export const Forcefield = forwardRef<ForcefieldRef, ForcefieldProps>(
                 materialOptions.pulseSpeed,
                 materialOptions.hexagonScale,
                 materialOptions.alpha,
+                materialOptions,
             ]
         );
 
@@ -338,7 +342,7 @@ export const Outline: React.FC<OutlineProps> = ({ children, ...materialOptions }
 
     const outlineMaterial = useMemo(
         () => createOutlineMaterial(materialOptions),
-        [materialOptions.color, materialOptions.outlineWidth]
+        [materialOptions.color, materialOptions.outlineWidth, materialOptions]
     );
 
     return (
@@ -412,6 +416,7 @@ export const GradientMesh = forwardRef<GradientMeshRef, GradientMeshProps>(
                 materialOptions.colorMiddle,
                 materialOptions.direction,
                 materialOptions.useThreeColors,
+                materialOptions,
             ]
         );
 
@@ -475,6 +480,7 @@ export const GlitchMesh = forwardRef<GlitchMeshRef, GlitchMeshProps>(
                 materialOptions.glitchIntensity,
                 materialOptions.scanlineIntensity,
                 materialOptions.rgbShiftAmount,
+                materialOptions,
             ]
         );
 
@@ -539,7 +545,12 @@ export const CrystalMesh = forwardRef<CrystalMeshRef, CrystalMeshProps>(
 
         const material = useMemo(
             () => createCrystalMaterial(materialOptions),
-            [materialOptions.color, materialOptions.fresnelPower, materialOptions.rainbowIntensity]
+            [
+                materialOptions.color,
+                materialOptions.fresnelPower,
+                materialOptions.rainbowIntensity,
+                materialOptions,
+            ]
         );
 
         useFrame((state) => {

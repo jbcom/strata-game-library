@@ -5,13 +5,12 @@
  */
 
 import type {
-    ProgressBarConfig,
-    InventoryConfig,
-    DialogConfig,
-    NotificationConfig,
     CrosshairConfig,
-    NameplateConfig,
+    DialogConfig,
+    InventoryConfig,
     MinimapConfig,
+    NotificationConfig,
+    ProgressBarConfig,
 } from '../core/ui';
 
 export type HealthBarPresetName = 'rpg' | 'fps' | 'mmo' | 'minimalist' | 'retro';

@@ -1,24 +1,23 @@
-import { describe, it, expect, vi } from 'vitest';
 import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
 import {
-    LODManager,
-    LODLevel,
-    LODConfig,
-    LODState,
-    calculateLODLevel,
-    createLODLevels,
-    simplifyGeometry,
-    generateLODGeometries,
-    createImpostorGeometry,
-    updateImpostorUV,
-    calculateImpostorAngle,
-    interpolateLODMaterials,
-    createDitherPattern,
-    calculateScreenSpaceSize,
-    shouldUseLOD,
-    createVegetationLODLevels,
-    calculateVegetationDensity,
     batchLODObjects,
+    calculateImpostorAngle,
+    calculateLODLevel,
+    calculateScreenSpaceSize,
+    calculateVegetationDensity,
+    createDitherPattern,
+    createImpostorGeometry,
+    createLODLevels,
+    createVegetationLODLevels,
+    generateLODGeometries,
+    interpolateLODMaterials,
+    type LODConfig,
+    type LODLevel,
+    LODManager,
+    shouldUseLOD,
+    simplifyGeometry,
+    updateImpostorUV,
 } from '../core/lod';
 
 describe('LODManager', () => {

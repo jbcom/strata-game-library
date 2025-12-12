@@ -4,22 +4,22 @@
  * @module core/pathfinding/__tests__/pathfinder.test
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import type { StrataGraphInstance } from '../graph';
 import {
-    createGraph,
-    addNode,
     addEdge,
+    addNode,
+    calculateDistance,
+    createGraph,
+    createGridGraph,
     createPathfinder,
+    findClosestNode,
     findPath,
     findPathDijkstra,
-    smoothPath,
     simplifyPath,
-    findClosestNode,
-    createGridGraph,
-    calculateDistance,
+    smoothPath,
 } from '../index';
-import type { StrataGraphInstance } from '../graph';
-import type { NodeData, EdgeData, Position3D } from '../types';
+import type { EdgeData, NodeData, Position3D } from '../types';
 
 describe('createGraph', () => {
     describe('ideal case', () => {

@@ -2,345 +2,325 @@
  * React component exports
  */
 
-// Water
-export { Water, AdvancedWater } from './Water';
-
-// Instancing
-export {
-    GPUInstancedMesh,
-    GrassInstances,
-    TreeInstances,
-    RockInstances,
-    generateInstanceData,
-} from './Instancing';
-export type { InstanceData, BiomeData } from './Instancing';
-
-// Sky
-export { ProceduralSky, createTimeOfDay } from './Sky';
-export type { TimeOfDayState, WeatherState } from './Sky';
-
-// Clouds
-export { CloudLayer, CloudSky, VolumetricClouds } from './Clouds';
-export type { CloudLayerProps, CloudSkyProps, VolumetricCloudsProps } from './Clouds';
-
-// Volumetric effects
-export {
-    VolumetricEffects,
-    VolumetricFogMesh,
-    UnderwaterOverlay,
-    EnhancedFog,
-} from './VolumetricEffects';
-
-// Ray marching
-export { Raymarching } from './Raymarching';
-
-// Particles
-export { ParticleEmitter, ParticleBurst } from './Particles';
-export type { ParticleEmitterProps, ParticleEmitterRef, ParticleBurstProps } from './Particles';
-
-// Weather
-export { Rain, Snow, Lightning, WeatherSystem as WeatherEffects } from './Weather';
-export type { RainProps, SnowProps, LightningProps, WeatherSystemProps } from './Weather';
-
-// Camera
-export {
-    FollowCamera,
-    OrbitCamera,
-    FPSCamera,
-    CinematicCamera,
-    CameraShake,
-    useCameraTransition,
-} from './Camera';
 export type {
-    FollowCameraProps,
-    FollowCameraRef,
-    OrbitCameraProps,
-    OrbitCameraRef,
-    FPSCameraProps,
-    FPSCameraRef,
-    CinematicCameraProps,
-    CinematicCameraRef,
-    CameraShakeProps,
-    CameraShakeRef,
-    CameraTransitionProps,
-} from './Camera';
-
-// Decals and Billboards
-export { Decal, Billboard, AnimatedBillboard, DecalPool } from './Decals';
-export type {
-    DecalProps,
-    DecalRef,
-    BillboardProps,
-    BillboardRef,
-    AnimatedBillboardProps,
-    AnimatedBillboardRef,
-    DecalPoolProps,
-    DecalPoolRef,
-} from './Decals';
-
-// LOD (Level of Detail)
-export { LODMesh, LODGroup, Impostor, LODVegetation } from './LOD';
-export type {
-    LODMeshProps,
-    LODMeshRef,
-    LODGroupProps,
-    LODGroupRef,
-    ImpostorProps,
-    ImpostorRef,
-    LODVegetationProps,
-    LODVegetationRef,
-} from './LOD';
-
-// God Rays and Volumetric Lighting
-export { GodRays, LightShafts, VolumetricSpotlight, VolumetricPointLight } from './GodRays';
-export type {
-    GodRaysProps,
-    GodRaysRef,
-    VolumetricSpotlightProps,
-    VolumetricSpotlightRef,
-    VolumetricPointLightProps,
-    VolumetricPointLightRef,
-} from './GodRays';
-
-// Input Controls
-export { Joystick3D, GroundSwitch, PressurePlate, WallButton, TriggerComposer } from './Input';
-export type {
-    InputControlRef,
-    InputControlEvents,
-    Joystick3DProps,
-    Joystick3DRef,
-    GroundSwitchProps,
-    GroundSwitchRef,
-    PressurePlateProps,
-    PressurePlateRef,
-    WallButtonProps,
-    WallButtonRef,
-    TriggerShape,
-    TriggerBehavior,
-    TriggerConfig,
-    TriggerMaterialConfig,
-    TriggerBehaviorConfig,
-    TriggerComposerProps,
-    TriggerComposerRef,
-} from './Input';
-
-// AI (YukaJS integration)
-export {
-    YukaEntityManager,
-    YukaVehicle,
-    YukaPath,
-    YukaStateMachine,
-    YukaNavMesh,
-    useYukaContext,
-    yukaVector3ToThree,
-    threeVector3ToYuka,
-    syncYukaToThree,
-} from './AI';
-export type {
+    StateConfig,
     YukaEntityManagerContextValue,
     YukaEntityManagerProps,
-    YukaVehicleProps,
-    YukaVehicleRef,
-    YukaPathProps,
-    YukaPathRef,
-    StateConfig,
-    YukaStateMachineProps,
-    YukaStateMachineRef,
     YukaNavMeshProps,
     YukaNavMeshRef,
+    YukaPathProps,
+    YukaPathRef,
+    YukaStateMachineProps,
+    YukaStateMachineRef,
+    YukaVehicleProps,
+    YukaVehicleRef,
 } from './AI';
-
-// Audio
+// AI (YukaJS integration)
 export {
-    AudioProvider,
-    AudioListener,
-    PositionalAudio,
-    AmbientAudio,
-    AudioZone,
-    AudioEmitter,
-    AudioEnvironment,
-    FootstepAudio,
-    WeatherAudio,
-    useAudioContext,
-    useAudioManager,
-} from './Audio';
+    syncYukaToThree,
+    threeVector3ToYuka,
+    useYukaContext,
+    YukaEntityManager,
+    YukaNavMesh,
+    YukaPath,
+    YukaStateMachine,
+    YukaVehicle,
+    yukaVector3ToThree,
+} from './AI';
 export type {
-    AudioContextValue,
-    AudioProviderProps,
-    AudioListenerProps,
-    PositionalAudioProps,
-    PositionalAudioRef,
-    AmbientAudioProps,
-    AmbientAudioRef,
-    AudioZoneProps,
-    AudioZoneRef,
-    AudioEmitterProps,
-    AudioEmitterRef,
-    AudioEnvironmentProps,
-    FootstepAudioProps,
-    FootstepAudioRef,
-    WeatherAudioProps,
-} from './Audio';
-
-// Physics
-export { CharacterController, VehicleBody, Destructible, Buoyancy, Ragdoll } from './Physics';
-export type {
-    CharacterControllerProps,
-    CharacterControllerRef,
-    VehicleBodyProps,
-    VehicleBodyRef,
-    DestructibleProps,
-    DestructibleRef,
-    BuoyancyProps,
-    BuoyancyRef,
-    RagdollProps,
-    RagdollRef,
-} from './Physics';
-
-// Post-Processing
-export {
-    EffectStack,
-    CinematicEffects,
-    DreamyEffects,
-    HorrorEffects,
-    NeonEffects,
-    RealisticEffects,
-    VintageEffects,
-    DynamicDOF,
-    MotionBlurEffect,
-} from './PostProcessing';
-export type {
-    EffectStackProps,
-    CinematicEffectsProps,
-    DreamyEffectsProps,
-    HorrorEffectsProps,
-    NeonEffectsProps,
-    RealisticEffectsProps,
-    VintageEffectsProps,
-    DynamicDOFProps,
-    DynamicDOFRef,
-    MotionBlurEffectProps,
-} from './PostProcessing';
-
-// Animation
-export {
-    IKChain,
-    IKLimb,
-    LookAt,
-    SpringBone,
-    ProceduralWalk,
-    HeadTracker,
-    TailPhysics,
-    BreathingAnimation,
-    BlinkController,
-} from './Animation';
-export type {
+    BlinkControllerProps,
+    BlinkControllerRef,
+    BreathingAnimationProps,
+    BreathingAnimationRef,
+    HeadTrackerProps,
+    HeadTrackerRef,
     IKChainProps,
     IKChainRef,
     IKLimbProps,
     IKLimbRef,
     LookAtProps,
     LookAtRef,
-    SpringBoneProps,
-    SpringBoneRef,
     ProceduralWalkProps,
     ProceduralWalkRef,
-    HeadTrackerProps,
-    HeadTrackerRef,
+    SpringBoneProps,
+    SpringBoneRef,
     TailPhysicsProps,
     TailPhysicsRef,
-    BreathingAnimationProps,
-    BreathingAnimationRef,
-    BlinkControllerProps,
-    BlinkControllerRef,
 } from './Animation';
-
-// State Management
+// Animation
 export {
-    GameStateProvider,
-    GameStateContext,
-    useGameStateContext,
-    useGameState,
-    useSaveLoad,
-    useUndo,
-    useCheckpoint,
-    useAutoSave,
-    PersistGate,
-    StateDebugger,
-} from './State';
+    BlinkController,
+    BreathingAnimation,
+    HeadTracker,
+    IKChain,
+    IKLimb,
+    LookAt,
+    ProceduralWalk,
+    SpringBone,
+    TailPhysics,
+} from './Animation';
 export type {
-    GameStateContextValue,
-    GameStateProviderProps,
-    UseSaveLoadOptions,
-    UseSaveLoadReturn,
-    UseUndoReturn,
-    UseCheckpointReturn,
-    UseAutoSaveOptions,
-    UseAutoSaveReturn,
-    PersistGateProps,
-    StateDebuggerProps,
-    GameStoreApi,
-    GameStore,
-    CheckpointData,
-    AutoSaveConfig,
-    StateChangeEvent,
-} from './State';
-
-// UI Components
+    AmbientAudioProps,
+    AmbientAudioRef,
+    AudioContextValue,
+    AudioEmitterProps,
+    AudioEmitterRef,
+    AudioEnvironmentProps,
+    AudioListenerProps,
+    AudioProviderProps,
+    AudioZoneProps,
+    AudioZoneRef,
+    FootstepAudioProps,
+    FootstepAudioRef,
+    PositionalAudioProps,
+    PositionalAudioRef,
+    WeatherAudioProps,
+} from './Audio';
+// Audio
 export {
-    HealthBar,
-    Nameplate,
-    DamageNumber,
-    ProgressBar3D,
-    Inventory,
-    Tooltip,
-    DialogBox,
-    Notification,
-    Minimap,
-    Crosshair,
-} from './UI';
+    AmbientAudio,
+    AudioEmitter,
+    AudioEnvironment,
+    AudioListener,
+    AudioProvider,
+    AudioZone,
+    FootstepAudio,
+    PositionalAudio,
+    useAudioContext,
+    useAudioManager,
+    WeatherAudio,
+} from './Audio';
 export type {
-    HealthBarProps,
-    HealthBarRef,
-    NameplateProps,
-    NameplateRef,
-    DamageNumberProps,
-    ProgressBar3DProps,
-    InventoryProps,
-    InventoryRef,
-    TooltipProps,
-    DialogBoxProps,
-    DialogBoxRef,
-    NotificationProps,
-    MinimapProps,
-    CrosshairProps,
-} from './UI';
-
-// Shader Components
+    CameraShakeProps,
+    CameraShakeRef,
+    CameraTransitionProps,
+    CinematicCameraProps,
+    CinematicCameraRef,
+    FollowCameraProps,
+    FollowCameraRef,
+    FPSCameraProps,
+    FPSCameraRef,
+    OrbitCameraProps,
+    OrbitCameraRef,
+} from './Camera';
+// Camera
 export {
-    ToonMesh,
-    HologramMesh,
-    DissolveMesh,
-    Forcefield,
-    Outline,
-    GradientMesh,
-    GlitchMesh,
-    CrystalMesh,
-} from './Shaders';
+    CameraShake,
+    CinematicCamera,
+    FollowCamera,
+    FPSCamera,
+    OrbitCamera,
+    useCameraTransition,
+} from './Camera';
+export type { CloudLayerProps, CloudSkyProps, VolumetricCloudsProps } from './Clouds';
+// Clouds
+export { CloudLayer, CloudSky, VolumetricClouds } from './Clouds';
 export type {
-    ToonMeshProps,
-    ToonMeshRef,
-    HologramMeshProps,
-    HologramMeshRef,
+    AnimatedBillboardProps,
+    AnimatedBillboardRef,
+    BillboardProps,
+    BillboardRef,
+    DecalPoolProps,
+    DecalPoolRef,
+    DecalProps,
+    DecalRef,
+} from './Decals';
+// Decals and Billboards
+export { AnimatedBillboard, Billboard, Decal, DecalPool } from './Decals';
+export type {
+    GodRaysProps,
+    GodRaysRef,
+    VolumetricPointLightProps,
+    VolumetricPointLightRef,
+    VolumetricSpotlightProps,
+    VolumetricSpotlightRef,
+} from './GodRays';
+// God Rays and Volumetric Lighting
+export { GodRays, LightShafts, VolumetricPointLight, VolumetricSpotlight } from './GodRays';
+export type {
+    GroundSwitchProps,
+    GroundSwitchRef,
+    InputControlEvents,
+    InputControlRef,
+    Joystick3DProps,
+    Joystick3DRef,
+    PressurePlateProps,
+    PressurePlateRef,
+    TriggerBehavior,
+    TriggerBehaviorConfig,
+    TriggerComposerProps,
+    TriggerComposerRef,
+    TriggerConfig,
+    TriggerMaterialConfig,
+    TriggerShape,
+    WallButtonProps,
+    WallButtonRef,
+} from './Input';
+// Input Controls
+export { GroundSwitch, Joystick3D, PressurePlate, TriggerComposer, WallButton } from './Input';
+export type { BiomeData, InstanceData } from './Instancing';
+// Instancing
+export {
+    GPUInstancedMesh,
+    GrassInstances,
+    generateInstanceData,
+    RockInstances,
+    TreeInstances,
+} from './Instancing';
+export type {
+    ImpostorProps,
+    ImpostorRef,
+    LODGroupProps,
+    LODGroupRef,
+    LODMeshProps,
+    LODMeshRef,
+    LODVegetationProps,
+    LODVegetationRef,
+} from './LOD';
+// LOD (Level of Detail)
+export { Impostor, LODGroup, LODMesh, LODVegetation } from './LOD';
+export type { ParticleBurstProps, ParticleEmitterProps, ParticleEmitterRef } from './Particles';
+// Particles
+export { ParticleBurst, ParticleEmitter } from './Particles';
+export type {
+    BuoyancyProps,
+    BuoyancyRef,
+    CharacterControllerProps,
+    CharacterControllerRef,
+    DestructibleProps,
+    DestructibleRef,
+    RagdollProps,
+    RagdollRef,
+    VehicleBodyProps,
+    VehicleBodyRef,
+} from './Physics';
+// Physics
+export { Buoyancy, CharacterController, Destructible, Ragdoll, VehicleBody } from './Physics';
+export type {
+    CinematicEffectsProps,
+    DreamyEffectsProps,
+    DynamicDOFProps,
+    DynamicDOFRef,
+    EffectStackProps,
+    HorrorEffectsProps,
+    MotionBlurEffectProps,
+    NeonEffectsProps,
+    RealisticEffectsProps,
+    VintageEffectsProps,
+} from './PostProcessing';
+// Post-Processing
+export {
+    CinematicEffects,
+    DreamyEffects,
+    DynamicDOF,
+    EffectStack,
+    HorrorEffects,
+    MotionBlurEffect,
+    NeonEffects,
+    RealisticEffects,
+    VintageEffects,
+} from './PostProcessing';
+// Ray marching
+export { Raymarching } from './Raymarching';
+export type {
+    CrystalMeshProps,
+    CrystalMeshRef,
     DissolveMeshProps,
     DissolveMeshRef,
     ForcefieldProps,
     ForcefieldRef,
-    OutlineProps,
-    GradientMeshProps,
-    GradientMeshRef,
     GlitchMeshProps,
     GlitchMeshRef,
-    CrystalMeshProps,
-    CrystalMeshRef,
+    GradientMeshProps,
+    GradientMeshRef,
+    HologramMeshProps,
+    HologramMeshRef,
+    OutlineProps,
+    ToonMeshProps,
+    ToonMeshRef,
 } from './Shaders';
+// Shader Components
+export {
+    CrystalMesh,
+    DissolveMesh,
+    Forcefield,
+    GlitchMesh,
+    GradientMesh,
+    HologramMesh,
+    Outline,
+    ToonMesh,
+} from './Shaders';
+export type { TimeOfDayState, WeatherState } from './Sky';
+// Sky
+export { createTimeOfDay, ProceduralSky } from './Sky';
+export type {
+    AutoSaveConfig,
+    CheckpointData,
+    GameStateContextValue,
+    GameStateProviderProps,
+    GameStore,
+    GameStoreApi,
+    PersistGateProps,
+    StateChangeEvent,
+    StateDebuggerProps,
+    UseAutoSaveOptions,
+    UseAutoSaveReturn,
+    UseCheckpointReturn,
+    UseSaveLoadOptions,
+    UseSaveLoadReturn,
+    UseUndoReturn,
+} from './State';
+// State Management
+export {
+    GameStateContext,
+    GameStateProvider,
+    PersistGate,
+    StateDebugger,
+    useAutoSave,
+    useCheckpoint,
+    useGameState,
+    useGameStateContext,
+    useSaveLoad,
+    useUndo,
+} from './State';
+export type {
+    CrosshairProps,
+    DamageNumberProps,
+    DialogBoxProps,
+    DialogBoxRef,
+    HealthBarProps,
+    HealthBarRef,
+    InventoryProps,
+    InventoryRef,
+    MinimapProps,
+    NameplateProps,
+    NameplateRef,
+    NotificationProps,
+    ProgressBar3DProps,
+    TooltipProps,
+} from './UI';
+// UI Components
+export {
+    Crosshair,
+    DamageNumber,
+    DialogBox,
+    HealthBar,
+    Inventory,
+    Minimap,
+    Nameplate,
+    Notification,
+    ProgressBar3D,
+    Tooltip,
+} from './UI';
+// Volumetric effects
+export {
+    EnhancedFog,
+    UnderwaterOverlay,
+    VolumetricEffects,
+    VolumetricFogMesh,
+} from './VolumetricEffects';
+// Water
+export { AdvancedWater, Water } from './Water';
+export type { LightningProps, RainProps, SnowProps, WeatherSystemProps } from './Weather';
+// Weather
+export { Lightning, Rain, Snow, WeatherSystem as WeatherEffects } from './Weather';

@@ -1,9 +1,8 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
-import { render } from '@testing-library/react';
 import { Canvas } from '@react-three/fiber';
+import { render } from '@testing-library/react';
 import * as THREE from 'three';
-import * as React from 'react';
-import { createDecal, createBulletHoleDecal } from '../../../src/presets/decals';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
+import { createBulletHoleDecal, createDecal } from '../../../src/presets/decals';
 
 describe('Decals Integration', () => {
     let container: HTMLDivElement;

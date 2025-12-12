@@ -2,13 +2,13 @@
  * Utility exports
  */
 
+export type { BiomeType, StandardTextureType, TerrainTextures } from './texture-loader';
 export {
-    loadTexture,
-    loadBiomeTextures,
-    createTerrainMaterial,
-    preloadBiomeTextures,
     clearTextureCache,
+    createTerrainMaterial,
+    loadBiomeTextures,
+    loadTexture,
     loadTextureSet,
+    preloadBiomeTextures,
     TEXTURE_PROVIDER_PATTERNS,
 } from './texture-loader';
-export type { BiomeType, TerrainTextures, StandardTextureType } from './texture-loader';
