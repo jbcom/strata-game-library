@@ -5,6 +5,9 @@
 // Shared utilities
 export * from './shared';
 
+// ECS module
+export * from './ecs';
+
 // Core modules (pure TypeScript, no React)
 export { generateInstanceData, createInstancedMesh } from './instancing';
 export type { InstanceData, BiomeData as InstancingBiomeData } from './instancing';
