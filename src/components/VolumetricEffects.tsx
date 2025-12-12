@@ -27,24 +27,30 @@ import {
 // ENHANCED FOG
 // =============================================================================
 
+interface EnhancedFogProps {
+    color?: THREE.ColorRepresentation;
+    density?: number;
+    near?: number;
+    far?: number;
+}
+
 /**
  * Simple fog implementation using Three.js built-in fog with enhanced visuals
  */
-export function EnhancedFog({
-    color = new THREE.Color(0.7, 0.8, 0.9),
-    density = 0.02,
-}: {
-    color?: THREE.Color;
-    density?: number;
-}) {
+export function EnhancedFog({ color = 0xb3c8d9, density = 0.02, near, far }: EnhancedFogProps) {
     const { scene } = useThree();
 
     useEffect(() => {
-        scene.fog = new THREE.FogExp2(color.getHex(), density) as any;
+        const fogColor = new THREE.Color(color);
+        if (near !== undefined && far !== undefined) {
+            scene.fog = new THREE.Fog(fogColor, near, far);
+        } else {
+            scene.fog = new THREE.FogExp2(fogColor.getHex(), density) as any;
+        }
         return () => {
             scene.fog = null;
         };
-    }, [scene, color, density]);
+    }, [scene, color, density, near, far]);
 
     return null;
 }
@@ -54,14 +60,14 @@ export function EnhancedFog({
 // =============================================================================
 
 interface UnderwaterOverlayProps {
-    waterColor?: THREE.Color;
+    color?: THREE.ColorRepresentation;
     density?: number;
     causticStrength?: number;
     waterSurface?: number;
 }
 
 export function UnderwaterOverlay({
-    waterColor = new THREE.Color(0.0, 0.3, 0.5),
+    color = 0x004d66,
     density = 0.1,
     causticStrength = 0.3,
     waterSurface = 0,
@@ -71,12 +77,12 @@ export function UnderwaterOverlay({
 
     const material = useMemo(() => {
         return createUnderwaterOverlayMaterial({
-            waterColor,
+            waterColor: new THREE.Color(color),
             density,
             causticStrength,
             waterSurface,
         });
-    }, [waterColor, density, causticStrength, waterSurface]);
+    }, [color, density, causticStrength, waterSurface]);
 
     useFrame((state) => {
         if (material && material.uniforms) {
@@ -104,14 +110,14 @@ export function UnderwaterOverlay({
 // =============================================================================
 
 interface VolumetricFogMeshProps {
-    color?: THREE.Color;
+    color?: THREE.ColorRepresentation;
     density?: number;
     height?: number;
     size?: number;
 }
 
 export function VolumetricFogMesh({
-    color = new THREE.Color(0.7, 0.8, 0.9),
+    color = 0xb3c8d9,
     density = 0.02,
     height = 10,
     size = 200,
@@ -119,14 +125,16 @@ export function VolumetricFogMesh({
     const meshRef = useRef<THREE.Mesh>(null);
     const { camera } = useThree();
 
+    const fogColor = useMemo(() => new THREE.Color(color), [color]);
+
     const material = useMemo(() => {
         return createVolumetricFogMeshMaterial({
-            color,
+            color: fogColor,
             density,
             height,
             cameraPosition: camera.position as any,
         });
-    }, [color, density, height, camera]);
+    }, [fogColor, density, height, camera]);
 
     useFrame((state) => {
         if (material && material.uniforms && meshRef.current) {
@@ -155,13 +163,13 @@ export function VolumetricFogMesh({
 // =============================================================================
 
 interface VolumetricFogSettings {
-    color?: THREE.Color;
+    color?: THREE.ColorRepresentation;
     density?: number;
     height?: number;
 }
 
 interface UnderwaterSettings {
-    waterColor?: THREE.Color;
+    color?: THREE.ColorRepresentation;
     density?: number;
     causticStrength?: number;
     waterSurface?: number;
@@ -182,7 +190,6 @@ export function VolumetricEffects({
 }: VolumetricEffectsProps) {
     return (
         <>
-            {/* World-space volumetric fog - using advanced mesh-based effect */}
             {enableFog && (
                 <VolumetricFogMesh
                     color={fogSettings.color}
@@ -191,10 +198,9 @@ export function VolumetricEffects({
                 />
             )}
 
-            {/* Underwater overlay */}
             {enableUnderwater && (
                 <UnderwaterOverlay
-                    waterColor={underwaterSettings.waterColor}
+                    color={underwaterSettings.color}
                     density={underwaterSettings.density}
                     causticStrength={underwaterSettings.causticStrength}
                     waterSurface={underwaterSettings.waterSurface}

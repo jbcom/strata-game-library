@@ -142,6 +142,8 @@ interface VegetationProps {
     areaSize?: number;
     biomes?: BiomeData[];
     heightFunc?: (x: number, z: number) => number;
+    height?: number;
+    color?: THREE.ColorRepresentation;
 }
 
 const DEFAULT_BIOMES: BiomeData[] = [
@@ -158,16 +160,32 @@ export function GrassInstances({
     areaSize = 100,
     biomes = DEFAULT_BIOMES,
     heightFunc = () => 0,
+    height = 1.0,
+    color = 0x4a7c23,
 }: VegetationProps) {
     const geometry = useMemo(() => {
-        // Grass blade geometry - tapered quad
         const geo = new THREE.BufferGeometry();
+        const h = height;
 
         const positions = new Float32Array([
-            // Two triangles forming a tapered blade
-            -0.05, 0, 0, 0.05, 0, 0, 0, 1, 0,
-
-            0.05, 0, 0, 0.03, 1, 0, 0, 1, 0,
+            -0.05,
+            0,
+            0,
+            0.05,
+            0,
+            0,
+            0,
+            h,
+            0,
+            0.05,
+            0,
+            0,
+            0.03,
+            h,
+            0,
+            0,
+            h,
+            0,
         ]);
 
         const normals = new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
@@ -176,16 +194,16 @@ export function GrassInstances({
         geo.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
 
         return geo;
-    }, []);
+    }, [height]);
 
     const material = useMemo(() => {
         return new THREE.MeshStandardMaterial({
-            color: 0x4a7c23,
+            color: new THREE.Color(color),
             roughness: 0.8,
             metalness: 0.0,
             side: THREE.DoubleSide,
         });
-    }, []);
+    }, [color]);
 
     const instances = useMemo(() => {
         return coreGenerateInstanceData(
