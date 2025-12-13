@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# 1.1.3
+
+## Internal
+- Updated internal development tooling and dependencies. This is a maintenance release and does not affect the public API or runtime behavior of the library.
+
+*Contributor: @dependabot[bot]*
+All notable changes to this project will be documented in this file.
+
 ***
 
 ## v1.1.2
