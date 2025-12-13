@@ -1,0 +1,76 @@
+# yamllint configuration
+# Docs: https://yamllint.readthedocs.io/
+
+extends: default
+
+rules:
+  # Line length - be generous for readability
+  line-length:
+    max: 200
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+
+  # Indentation - 2 spaces for YAML
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Comments
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 1
+
+  # Truthy values - allow various forms
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+    check-keys: false
+
+  # Empty lines
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 1
+
+  # Document markers
+  document-start: disable
+  document-end: disable
+
+  # Braces and brackets
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 0
+
+  # Colons and commas
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: 1
+  commas:
+    max-spaces-before: 0
+    min-spaces-after: 1
+    max-spaces-after: 1
+
+  # Key duplicates
+  key-duplicates: enable
+
+  # Octal values
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: false
+
+  # Quoted strings - allow flexibility
+  quoted-strings:
+    quote-type: any
+    required: only-when-needed
+    extra-allowed: ['{', '}']
+
+ignore: |
+  node_modules/
+  dist/
+  .git/
+  pnpm-lock.yaml
+  .triage-recordings/

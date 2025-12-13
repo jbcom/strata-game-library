@@ -47,7 +47,6 @@ on:
   pull_request_review:
     types:
       - submitted       # → feedback, respond to review
-      - edited          # → re-assess feedback
       - dismissed       # → log, re-request if needed
 
   pull_request_review_comment:
@@ -67,10 +66,8 @@ on:
       - rerequested     # → re-run with fresh context
 
   status:               # → legacy status checks
-    types: []           # all status events
 
-  deployment_status:
-    types: []           # → verify deployment, run smoke tests
+  deployment_status:    # → verify deployment, run smoke tests
 
   # ==========================================
   # RELEASE LIFECYCLE
@@ -132,23 +129,10 @@ on:
   # ==========================================
   # SECURITY
   # ==========================================
-  dependabot_alert:
-    types:
-      - created         # → assess severity, create issue
-      - dismissed       # → log reason
-      - fixed           # → close issue
-      - reintroduced    # → reopen issue
-
-  code_scanning_alert:
-    types:
-      - created         # → assess, prioritize
-      - reopened        # → investigate regression
-      - closed          # → verify fix
-
-  secret_scanning_alert:
-    types:
-      - created         # → immediate response
-      - resolved        # → verify rotation
+  # Note: dependabot_alert, code_scanning_alert, and secret_scanning_alert
+  # are not valid GitHub Actions event triggers per:
+  # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+  # Security alerts are handled through the CodeQL and custom scanner jobs
 
   # ==========================================
   # WORKFLOW ORCHESTRATION
@@ -265,7 +249,8 @@ jobs:
       github.event_name == 'pull_request_review_comment' ||
       github.event_name == 'issue_comment' ||
       github.event_name == 'issues' ||
-      github.event_name == 'workflow_dispatch'
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule'
     runs-on: ubuntu-latest
     outputs:
       should_test: ${{ steps.changes.outputs.should_test }}
@@ -488,12 +473,16 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
 
       - name: Run Strata security scanner
-        run: node internal/triage/dist/cli.js scan --sarif strata-scan.sarif --verbose
+        run: pnpm run triage -- scan --sarif strata-scan.sarif --verbose
         continue-on-error: true
 
       - name: Upload scanner SARIF
@@ -521,6 +510,10 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
@@ -533,7 +526,7 @@ jobs:
 
       - name: Analyze security findings with AI
         run: |
-          node internal/triage/dist/cli.js security \
+          pnpm run triage -- security \
             --pr ${{ github.event.pull_request.number || '' }} \
             --sarif strata-security.sarif \
             --verbose
@@ -565,6 +558,10 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
@@ -577,7 +574,7 @@ jobs:
 
       - name: Diagnose failures
         run: |
-          node internal/triage/dist/cli.js diagnose \
+          pnpm run triage -- diagnose \
             --report test-results/strata-report.json \
             --pr ${{ github.event.pull_request.number || '' }} \
             --verbose
@@ -638,7 +635,7 @@ jobs:
         id: release
         run: |
           # Full AI-powered release: changelog, version, tag, push, GitHub release, npm publish
-          node internal/triage/dist/cli.js release --verbose
+          pnpm run triage -- release --verbose
           echo "new_release_published=true" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
@@ -707,12 +704,16 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
 
       - name: Auto-label issue
-        run: node internal/triage/dist/cli.js label ${{ github.event.issue.number }}
+        run: pnpm run triage -- label ${{ github.event.issue.number }}
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
 
@@ -734,12 +735,16 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
 
       - name: Assess issue
-        run: node internal/triage/dist/cli.js assess ${{ github.event.issue.number }} --verbose
+        run: pnpm run triage -- assess ${{ github.event.issue.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -765,6 +770,10 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
@@ -783,7 +792,7 @@ jobs:
           echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
       - name: Develop changes
-        run: node internal/triage/dist/cli.js develop ${{ github.event.issue.number }} --verbose
+        run: pnpm run triage -- develop ${{ github.event.issue.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -849,12 +858,16 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
 
       - name: Review PR
-        run: node internal/triage/dist/cli.js review ${{ github.event.pull_request.number }} --verbose
+        run: pnpm run triage -- review ${{ github.event.pull_request.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -877,12 +890,16 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: build-output
 
       - name: Create project plan
-        run: node internal/triage/dist/cli.js plan ${{ github.event.issue.number }} --verbose
+        run: pnpm run triage -- plan ${{ github.event.issue.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -936,7 +953,7 @@ jobs:
           echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
       - name: Generate tests
-        run: node internal/triage/dist/cli.js test --issue ${{ github.event.issue.number }} --type all --verbose
+        run: pnpm run triage -- test --issue ${{ github.event.issue.number }} --type all --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1004,7 +1021,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Verify PR
-        run: node internal/triage/dist/cli.js verify ${{ github.event.pull_request.number }} --verbose
+        run: pnpm run triage -- verify ${{ github.event.pull_request.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1016,7 +1033,7 @@ jobs:
     name: Handle PR Feedback
     needs: build
     if: >-
-      github.event_name == 'pull_request_review' ||
+      (github.event_name == 'pull_request_review' && github.event.action == 'submitted') ||
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
        contains(github.event.comment.body, '@cursor'))
@@ -1027,6 +1044,10 @@ jobs:
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: '22'
+
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
 
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
@@ -1043,7 +1064,7 @@ jobs:
           fi
 
       - name: Handle feedback
-        run: node internal/triage/dist/cli.js feedback ${{ steps.pr.outputs.number }} --verbose
+        run: pnpm run triage -- feedback ${{ steps.pr.outputs.number }} --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1149,22 +1170,21 @@ jobs:
             ARGS="$ARGS --create-tasks"
           fi
 
-          node internal/triage/dist/cli.js $ARGS --verbose
+          pnpm run triage -- $ARGS --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
 
   # ============================================
-  # SCHEDULED: Sprint cadence automation
+  # SPRINT PLANNING: Weekly sprint planning (Monday 9am)
   # ============================================
-  scheduled:
-    name: Scheduled Automation
+  sprint-planning:
+    name: Sprint Planning
+    needs: build
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-        with:
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
 
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
@@ -1174,51 +1194,106 @@ jobs:
         with:
           version: 9
 
-      - name: Install and build
-        run: |
-          pnpm install
-          pnpm --filter @strata/triage build
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: build-output
 
-      - name: Determine schedule type
-        id: schedule
+      - name: Check if Monday 9am UTC
+        id: check
         run: |
-          # Check which cron triggered this
           HOUR=$(date -u +%H)
-          DAY=$(date -u +%d)
           DOW=$(date -u +%u)  # 1=Monday
-
-          if [[ "$DAY" == "01" && "$HOUR" == "09" ]]; then
-            echo "type=monthly" >> $GITHUB_OUTPUT
-          elif [[ "$DOW" == "1" && "$HOUR" == "09" ]]; then
-            echo "type=weekly" >> $GITHUB_OUTPUT
+          if [[ "$DOW" == "1" && "$HOUR" == "09" ]]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
           else
-            echo "type=daily" >> $GITHUB_OUTPUT
+            echo "should_run=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Daily - Stale issue check
-        if: steps.schedule.outputs.type == 'daily'
-        run: |
-          echo "🔍 Running daily maintenance..."
-          # Check for stale issues, update project boards
-          node internal/triage/dist/cli.js cascade --steps plan --verbose || true
+      - name: Run sprint planning
+        if: steps.check.outputs.should_run == 'true'
+        run: pnpm run triage -- sprint --trigger --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
 
-      - name: Weekly - Sprint planning
-        if: steps.schedule.outputs.type == 'weekly'
+  # ============================================
+  # ROADMAP REVIEW: Monthly roadmap review (1st of month)
+  # ============================================
+  roadmap-review:
+    name: Roadmap Review
+    needs: build
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: '22'
+
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: build-output
+
+      - name: Check if 1st of month at 9am UTC
+        id: check
         run: |
-          echo "🗓️ Running weekly sprint planning..."
-          node internal/triage/dist/cli.js sprint --trigger --verbose
+          HOUR=$(date -u +%H)
+          DAY=$(date -u +%d)
+          if [[ "$DAY" == "01" && "$HOUR" == "09" ]]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run roadmap review
+        if: steps.check.outputs.should_run == 'true'
+        run: pnpm run triage -- roadmap --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
 
-      - name: Monthly - Roadmap review
-        if: steps.schedule.outputs.type == 'monthly'
+  # ============================================
+  # BACKLOG GROOMING: Daily backlog maintenance
+  # ============================================
+  backlog-grooming:
+    name: Backlog Grooming
+    needs: build
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: '22'
+
+      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+        with:
+          version: 9
+
+      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: build-output
+
+      - name: Check if midnight UTC (daily run)
+        id: check
         run: |
-          echo "🗺️ Running monthly roadmap review..."
-          node internal/triage/dist/cli.js roadmap --verbose
+          HOUR=$(date -u +%H)
+          # Only run at midnight (daily schedule: 0 0 * * *)
+          if [[ "$HOUR" == "00" ]]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run backlog grooming
+        if: steps.check.outputs.should_run == 'true'
+        run: pnpm run triage -- cascade --steps plan --verbose
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1250,7 +1325,7 @@ jobs:
         if: github.event.workflow_run.conclusion == 'failure'
         run: |
           echo "❌ CI failed - running diagnosis..."
-          node internal/triage/dist/cli.js diagnose --create-issues --verbose || true
+          pnpm run triage -- diagnose --create-issues --verbose || true
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1260,7 +1335,7 @@ jobs:
         run: |
           echo "✅ CI passed - checking for auto-merge candidates..."
           # Find PRs that are ready to merge
-          node internal/triage/dist/cli.js automerge wait --verbose || true
+          pnpm run triage -- automerge wait --verbose || true
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
 
@@ -1308,7 +1383,7 @@ jobs:
         if: github.event.check_suite.conclusion == 'failure' && steps.pr.outputs.number
         run: |
           echo "❌ Checks failed for PR #${{ steps.pr.outputs.number }}"
-          node internal/triage/dist/cli.js diagnose --pr ${{ steps.pr.outputs.number }} --verbose || true
+          pnpm run triage -- diagnose --pr ${{ steps.pr.outputs.number }} --verbose || true
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
@@ -1317,43 +1392,17 @@ jobs:
         if: github.event.check_suite.conclusion == 'success' && steps.pr.outputs.number
         run: |
           echo "✅ Checks passed for PR #${{ steps.pr.outputs.number }}"
-          node internal/triage/dist/cli.js automerge ${{ steps.pr.outputs.number }} wait --verbose || true
+          pnpm run triage -- automerge ${{ steps.pr.outputs.number }} wait --verbose || true
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
 
   # ============================================
   # SECURITY: Handle security alerts
+  # Note: security-alert job removed because dependabot_alert,
+  # code_scanning_alert, and secret_scanning_alert are not valid
+  # GitHub Actions event triggers. Security is handled through
+  # CodeQL, custom-scanner, and security-analysis jobs.
   # ============================================
-  security-alert:
-    name: Security Alert Handler
-    if: >-
-      github.event_name == 'dependabot_alert' ||
-      github.event_name == 'code_scanning_alert' ||
-      github.event_name == 'secret_scanning_alert'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version: '22'
-
-      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
-        with:
-          version: 9
-
-      - name: Install and build
-        run: |
-          pnpm install
-          pnpm --filter @strata/triage build
-
-      - name: Analyze security alert
-        run: |
-          echo "🔒 Security alert received: ${{ github.event_name }}"
-          node internal/triage/dist/cli.js security --verbose
-        env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
-          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
 
   # ============================================
   # MILESTONE: Sprint lifecycle events
@@ -1391,7 +1440,7 @@ jobs:
         run: |
           echo "🏁 Milestone closed: ${{ github.event.milestone.title }}"
           # Generate sprint retrospective, velocity metrics
-          node internal/triage/dist/cli.js roadmap --verbose || true
+          pnpm run triage -- roadmap --verbose || true
         env:
           GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}

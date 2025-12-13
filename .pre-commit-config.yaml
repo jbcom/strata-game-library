@@ -1,0 +1,115 @@
+# Pre-commit hooks configuration
+# Run: uvx pre-commit run --all-files
+# Install: uvx pre-commit install
+# See: https://pre-commit.com
+
+repos:
+  # ===========================================
+  # General file hygiene
+  # ===========================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^(docs/|\.triage-recordings/)
+      - id: end-of-file-fixer
+        exclude: ^(docs/|\.triage-recordings/)
+      - id: check-yaml
+        args: [--unsafe]  # Allow custom tags
+        exclude: ^\.github/workflows/  # actionlint handles these
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  # ===========================================
+  # GitHub Actions linting
+  # ===========================================
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.4
+    hooks:
+      - id: actionlint
+        args: [-shellcheck=]  # Disable shellcheck (not always available)
+
+  # ===========================================
+  # YAML linting (non-workflow files)
+  # ===========================================
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint.yaml]
+        exclude: ^\.github/workflows/  # actionlint handles these
+
+  # ===========================================
+  # Markdown linting
+  # ===========================================
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.43.0
+    hooks:
+      - id: markdownlint
+        args: [--fix, --disable, MD013, MD033, MD041, --]
+        exclude: ^(CHANGELOG\.md|docs/)
+
+  # ===========================================
+  # Shell script linting
+  # ===========================================
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: [--severity=warning]
+
+  # ===========================================
+  # Security scanning
+  # ===========================================
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+        exclude: (pnpm-lock\.yaml|\.triage-recordings/)
+
+  # ===========================================
+  # TypeScript/JavaScript/JSON (Biome)
+  # ===========================================
+  - repo: local
+    hooks:
+      - id: biome-check
+        name: biome check
+        entry: pnpm exec biome check --write --no-errors-on-unmatched
+        language: system
+        types_or: [javascript, jsx, ts, tsx, json]
+        files: ^(src/|tests/)
+        pass_filenames: true
+
+      - id: biome-format
+        name: biome format
+        entry: pnpm exec biome format --write --no-errors-on-unmatched
+        language: system
+        types_or: [javascript, jsx, ts, tsx, json, markdown, yaml]
+        files: ^(src/|tests/|\.github/)
+        pass_filenames: true
+
+  # ===========================================
+  # TypeScript type checking
+  # ===========================================
+  - repo: local
+    hooks:
+      - id: typecheck
+        name: typecheck
+        entry: pnpm run typecheck
+        language: system
+        types: [ts, tsx]
+        pass_filenames: false
+        stages: [pre-push]  # Only on push, too slow for every commit
+
+# CI configuration
+ci:
+  autofix_prs: false
+  autoupdate_schedule: monthly
+  skip: [typecheck]  # Skip in CI, handled by workflow

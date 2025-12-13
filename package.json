@@ -62,7 +62,10 @@
         "test:e2e:ui": "playwright test --ui",
         "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
         "prepublishOnly": "npm run build && npm run test:unit",
-        "prepare": "husky"
+        "prepare": "husky",
+        "triage": "node internal/triage/dist/cli.js",
+        "typecheck": "tsc --noEmit",
+        "docs": "typedoc"
     },
     "lint-staged": {
         "*.{ts,tsx}": [

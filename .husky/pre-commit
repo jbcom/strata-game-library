@@ -1,2 +1,11 @@
 #!/bin/sh
+
+# Run pre-commit if available (provides actionlint, yamllint, etc.)
+if command -v pre-commit >/dev/null 2>&1; then
+    pre-commit run --hook-stage pre-commit || exit 1
+elif command -v uvx >/dev/null 2>&1; then
+    uvx pre-commit run --hook-stage pre-commit || exit 1
+fi
+
+# Always run lint-staged for TypeScript/JavaScript
 npx lint-staged
