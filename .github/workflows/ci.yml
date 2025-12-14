@@ -96,8 +96,11 @@ jobs:
         with:
           name: build-output
 
-      - name: Run tests with Strata reporter
-        run: pnpm run test -- --reporter=default --reporter=./internal/triage/src/reporters/vitest.ts
+      - name: Run tests with coverage
+        run: pnpm run test -- --coverage --reporter=default --reporter=./internal/triage/src/reporters/vitest.ts
+
+      - name: Report Coveralls
+        uses: coverallsapp/github-action@v2
 
       - name: Upload test results
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
