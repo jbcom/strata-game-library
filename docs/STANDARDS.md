@@ -222,9 +222,9 @@ describe('three.js contract', () => {
 
 ### Cleanup Actions
 1. Delete superseded legacy files with each module delivery
-2. Run `npm run lint` before committing
-3. Run `npm run format:check` before committing
-4. Run `npm run test:coverage` to verify coverage
+2. Run `pnpm run lint` before committing
+3. Run `pnpm run format:check` before committing
+4. Run `pnpm run test:coverage` to verify coverage
 
 ### Dead Code Detection
 ```bash
@@ -232,7 +232,7 @@ describe('three.js contract', () => {
 npx ts-prune
 
 # ESLint catches unused variables
-npm run lint
+pnpm run lint
 ```
 
 ### Legacy Code Handling
@@ -253,7 +253,7 @@ Before any code is considered complete:
 - [ ] No commented-out code
 - [ ] No `console.log` statements
 - [ ] No `any` without justification
-- [ ] `npm run lint` passes
-- [ ] `npm run format:check` passes
-- [ ] `npm run test` passes
+- [ ] `pnpm run lint` passes
+- [ ] `pnpm run format:check` passes
+- [ ] `pnpm run test` passes
 - [ ] Old/superseded code deleted

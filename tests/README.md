@@ -15,19 +15,19 @@ tests/
 
 ```bash
 # Unit tests only
-npm test
+pnpm test
 
 # Unit tests with coverage
-npm run test:coverage
+pnpm run test:coverage
 
 # Integration tests (Vitest)
-npm run test:integration
+pnpm run test:integration
 
 # Integration tests (Playwright)
-npm run test:integration:playwright
+pnpm run test:integration:playwright
 
 # All tests
-npm run test:all
+pnpm run test:all
 ```
 
 ## Test Types

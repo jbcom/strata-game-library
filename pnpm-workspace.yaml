@@ -1,5 +1,6 @@
 packages:
     - '.'
     - 'internal/*'
+    - 'packages/*'
 onlyBuiltDependencies:
     - esbuild

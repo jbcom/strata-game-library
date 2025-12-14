@@ -1,0 +1,71 @@
+{
+    "name": "@strata/capacitor-plugin",
+    "version": "1.0.0",
+    "description": "Cross-platform input, device detection, and haptics for Strata 3D games",
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./react": {
+            "types": "./dist/react/index.d.ts",
+            "import": "./dist/react/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "android",
+        "ios",
+        "README.md"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "clean": "rimraf dist",
+        "verify": "npm run build && npm run lint",
+        "lint": "eslint src/",
+        "docgen": "docgen --api StrataPlugin --output-readme README.md"
+    },
+    "keywords": [
+        "capacitor",
+        "strata",
+        "input",
+        "gamepad",
+        "touch",
+        "haptics",
+        "device-detection",
+        "cross-platform",
+        "react-three-fiber"
+    ],
+    "author": "Jon Bogaty <jon@jonbogaty.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jbcom/strata"
+    },
+    "peerDependencies": {
+        "react": ">=18.0.0"
+    },
+    "dependencies": {
+        "@capacitor/core": "8.0.0"
+    },
+    "devDependencies": {
+        "@capacitor/cli": "8.0.0",
+        "@capacitor/docgen": "0.3.1",
+        "@types/react": "19.2.7",
+        "rimraf": "6.1.2",
+        "typescript": "5.9.3"
+    },
+    "capacitor": {
+        "ios": {
+            "src": "ios"
+        },
+        "android": {
+            "src": "android"
+        }
+    }
+}

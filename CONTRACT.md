@@ -55,7 +55,7 @@
 - All core functions have unit tests
 - Tests verify API contract, not implementation
 - Test coverage: >80% for core functions
-- Run tests: `npm test`
+- Run tests: `pnpm test`
 
 ## Versioning
 

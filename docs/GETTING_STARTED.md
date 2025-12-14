@@ -9,7 +9,7 @@ Strata provides terrain generation, water simulation, vegetation instancing, sky
 ## Quick Start
 
 ```bash
-npm install @jbcom/strata @react-three/fiber @react-three/drei three
+pnpm install @jbcom/strata @react-three/fiber @react-three/drei three
 ```
 
 ```tsx
