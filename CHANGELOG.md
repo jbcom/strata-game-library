@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.2.4
+
+### Internal
+- Enabled Coveralls code coverage reporting to help us maintain code quality. (@Jon Bogaty)
+All notable changes to this project will be documented in this file.
+
 ## [1.2.3] - 2023-10-27
 
 ### 🐛 Bug Fixes
