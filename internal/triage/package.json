@@ -62,12 +62,12 @@
         "@playwright/mcp": "latest",
         "ai": "^5.0.0",
         "ai-sdk-ollama": "^1.1.0",
-        "commander": "^12.1.0",
-        "glob": "^11.0.0",
-        "octokit": "^4.0.0",
+        "commander": "^14.0.2",
+        "glob": "^13.0.0",
+        "octokit": "^5.0.5",
         "ollama": "^0.6.3",
         "picocolors": "^1.1.1",
-        "zod": "^3.25.0"
+        "zod": "^4.1.13"
     },
     "devDependencies": {
         "@types/node": "^22.0.0",
