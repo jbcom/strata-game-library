@@ -146,16 +146,16 @@ importers:
     dependencies:
       '@ai-sdk/mcp':
         specifier: ^1.0.0-beta.33
-        version: 1.0.0-beta.33(zod@3.25.76)
+        version: 1.0.0-beta.33(zod@4.1.13)
       '@playwright/mcp':
         specifier: latest
         version: 0.0.52
       ai:
         specifier: ^5.0.0
-        version: 5.0.113(zod@3.25.76)
+        version: 5.0.113(zod@4.1.13)
       ai-sdk-ollama:
         specifier: ^1.1.0
-        version: 1.1.0(ai@5.0.113(zod@3.25.76))(zod@3.25.76)
+        version: 1.1.0(ai@5.0.113(zod@4.1.13))(zod@4.1.13)
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -166,14 +166,14 @@ importers:
         specifier: ^4.0.0
         version: 4.1.4
       ollama:
-        specifier: ^0.5.11
-        version: 0.5.18
+        specifier: ^0.6.3
+        version: 0.6.3
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
       zod:
-        specifier: ^3.25.0
-        version: 3.25.76
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -3056,9 +3056,6 @@ packages:
     resolution: {integrity: sha512-cRvxRte6FU3vAHRC9+PMSY3D+mRAs2Rd9emMoqp70UGRvJRM3sbAoim2IXRZNNsf8wVfn4sGxVBHRAP+JBVX/g==}
     engines: {node: '>= 18'}
 
-  ollama@0.5.18:
-    resolution: {integrity: sha512-lTFqTf9bo7Cd3hpF6CviBe/DEhewjoZYd9N/uCe7O20qYTvGqrNOFOBDj3lbZgFWHUgDv5EeyusYxsZSLS8nvg==}
-
   ollama@0.6.3:
     resolution: {integrity: sha512-KEWEhIqE5wtfzEIZbDCLH51VFZ6Z3ZSa6sIOg/E/tBV8S51flyqBOXi+bRxlOYKDf8i327zG9eSTb8IJxvm3Zg==}
 
@@ -4095,8 +4092,8 @@ packages:
   yuka@0.7.8:
     resolution: {integrity: sha512-G/pFcMZh2Azz7Yy500NSV1jQ0Ru7h9hTNyEW+HjRXcdzjJIyp/3mCGspnx7VJVP06zxORqK6mkl5TywLqVUnVg==}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
 
   zundo@2.3.0:
     resolution: {integrity: sha512-4GXYxXA17SIKYhVbWHdSEU04P697IMyVGXrC2TnzoyohEAWytFNOKqOp5gTGvaW93F/PM5Y0evbGtOPF0PWQwQ==}
@@ -4165,37 +4162,37 @@ snapshots:
 
   '@actions/io@2.0.0': {}
 
-  '@ai-sdk/gateway@2.0.21(zod@3.25.76)':
+  '@ai-sdk/gateway@2.0.21(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.19(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.19(zod@4.1.13)
       '@vercel/oidc': 3.0.5
-      zod: 3.25.76
+      zod: 4.1.13
 
-  '@ai-sdk/mcp@1.0.0-beta.33(zod@3.25.76)':
+  '@ai-sdk/mcp@1.0.0-beta.33(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 3.0.0-beta.26
-      '@ai-sdk/provider-utils': 4.0.0-beta.47(zod@3.25.76)
+      '@ai-sdk/provider-utils': 4.0.0-beta.47(zod@4.1.13)
       pkce-challenge: 5.0.1
-      zod: 3.25.76
+      zod: 4.1.13
     transitivePeerDependencies:
       - '@valibot/to-json-schema'
       - arktype
       - effect
 
-  '@ai-sdk/provider-utils@3.0.19(zod@3.25.76)':
+  '@ai-sdk/provider-utils@3.0.19(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 2.0.0
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
-      zod: 3.25.76
+      zod: 4.1.13
 
-  '@ai-sdk/provider-utils@4.0.0-beta.47(zod@3.25.76)':
+  '@ai-sdk/provider-utils@4.0.0-beta.47(zod@4.1.13)':
     dependencies:
       '@ai-sdk/provider': 3.0.0-beta.26
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
-      zod: 3.25.76
+      zod: 4.1.13
 
   '@ai-sdk/provider@2.0.0':
     dependencies:
@@ -5552,22 +5549,22 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  ai-sdk-ollama@1.1.0(ai@5.0.113(zod@3.25.76))(zod@3.25.76):
+  ai-sdk-ollama@1.1.0(ai@5.0.113(zod@4.1.13))(zod@4.1.13):
     dependencies:
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.19(zod@3.25.76)
-      ai: 5.0.113(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.19(zod@4.1.13)
+      ai: 5.0.113(zod@4.1.13)
       ollama: 0.6.3
     transitivePeerDependencies:
       - zod
 
-  ai@5.0.113(zod@3.25.76):
+  ai@5.0.113(zod@4.1.13):
     dependencies:
-      '@ai-sdk/gateway': 2.0.21(zod@3.25.76)
+      '@ai-sdk/gateway': 2.0.21(zod@4.1.13)
       '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.19(zod@3.25.76)
+      '@ai-sdk/provider-utils': 3.0.19(zod@4.1.13)
       '@opentelemetry/api': 1.9.0
-      zod: 3.25.76
+      zod: 4.1.13
 
   ansi-escapes@7.2.0:
     dependencies:
@@ -6919,10 +6916,6 @@ snapshots:
       '@octokit/types': 14.1.0
       '@octokit/webhooks': 13.9.1
 
-  ollama@0.5.18:
-    dependencies:
-      whatwg-fetch: 3.6.20
-
   ollama@0.6.3:
     dependencies:
       whatwg-fetch: 3.6.20
@@ -7939,7 +7932,7 @@ snapshots:
 
   yuka@0.7.8: {}
 
-  zod@3.25.76: {}
+  zod@4.1.13: {}
 
   zundo@2.3.0(zustand@5.0.9(@types/react@18.3.27)(immer@11.0.1)(react@18.3.1)(use-sync-external-store@1.6.0(react@18.3.1))):
     dependencies:
