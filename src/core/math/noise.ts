@@ -67,6 +67,31 @@ export function createNoise4D(random?: RandomFn): Noise4D {
     return simplexNoise4D(random);
 }
 
+// Internal implementation to avoid object allocation in hot paths
+function fbm2DInternal(
+    noise: Noise2D,
+    x: number,
+    y: number,
+    octaves: number,
+    frequency: number,
+    persistence: number,
+    lacunarity: number
+): number {
+    let value = 0;
+    let amplitude = 1;
+    let freq = frequency;
+    let maxValue = 0;
+
+    for (let i = 0; i < octaves; i++) {
+        value += amplitude * noise(x * freq, y * freq);
+        maxValue += amplitude;
+        amplitude *= persistence;
+        freq *= lacunarity;
+    }
+
+    return value / maxValue;
+}
+
 /**
  * Computes Fractal Brownian Motion (FBM) using 2D noise
  *
@@ -88,22 +113,41 @@ export function createNoise4D(random?: RandomFn): Noise4D {
  * ```
  */
 export function fbm2D(noise: Noise2D, x: number, y: number, config: FBMConfig = {}): number {
-    const { octaves, frequency, persistence, lacunarity } = {
-        ...DEFAULT_FBM_CONFIG,
-        ...config,
-    };
+    const octaves = config.octaves ?? DEFAULT_FBM_CONFIG.octaves;
 
     if (octaves < 1) {
         throw new Error('fbm2D: octaves must be at least 1');
     }
 
+    return fbm2DInternal(
+        noise,
+        x,
+        y,
+        octaves,
+        config.frequency ?? DEFAULT_FBM_CONFIG.frequency,
+        config.persistence ?? DEFAULT_FBM_CONFIG.persistence,
+        config.lacunarity ?? DEFAULT_FBM_CONFIG.lacunarity
+    );
+}
+
+// Internal implementation to avoid object allocation in hot paths
+function fbm3DInternal(
+    noise: Noise3D,
+    x: number,
+    y: number,
+    z: number,
+    octaves: number,
+    frequency: number,
+    persistence: number,
+    lacunarity: number
+): number {
     let value = 0;
     let amplitude = 1;
     let freq = frequency;
     let maxValue = 0;
 
     for (let i = 0; i < octaves; i++) {
-        value += amplitude * noise(x * freq, y * freq);
+        value += amplitude * noise(x * freq, y * freq, z * freq);
         maxValue += amplitude;
         amplitude *= persistence;
         freq *= lacunarity;
@@ -141,28 +185,22 @@ export function fbm3D(
     z: number,
     config: FBMConfig = {}
 ): number {
-    const { octaves, frequency, persistence, lacunarity } = {
-        ...DEFAULT_FBM_CONFIG,
-        ...config,
-    };
+    const octaves = config.octaves ?? DEFAULT_FBM_CONFIG.octaves;
 
     if (octaves < 1) {
         throw new Error('fbm3D: octaves must be at least 1');
     }
 
-    let value = 0;
-    let amplitude = 1;
-    let freq = frequency;
-    let maxValue = 0;
-
-    for (let i = 0; i < octaves; i++) {
-        value += amplitude * noise(x * freq, y * freq, z * freq);
-        maxValue += amplitude;
-        amplitude *= persistence;
-        freq *= lacunarity;
-    }
-
-    return value / maxValue;
+    return fbm3DInternal(
+        noise,
+        x,
+        y,
+        z,
+        octaves,
+        config.frequency ?? DEFAULT_FBM_CONFIG.frequency,
+        config.persistence ?? DEFAULT_FBM_CONFIG.persistence,
+        config.lacunarity ?? DEFAULT_FBM_CONFIG.lacunarity
+    );
 }
 
 /**
@@ -188,9 +226,16 @@ export function warpedNoise2D(
     strength: number = 0.5,
     config: FBMConfig = {}
 ): number {
-    const warpConfig = { ...config, octaves: 2 };
-    const wx = x + fbm2D(noise, x + 0.0, y + 0.0, warpConfig) * strength;
-    const wy = y + fbm2D(noise, x + 5.2, y + 1.3, warpConfig) * strength;
+    const frequency = config.frequency ?? DEFAULT_FBM_CONFIG.frequency;
+    const persistence = config.persistence ?? DEFAULT_FBM_CONFIG.persistence;
+    const lacunarity = config.lacunarity ?? DEFAULT_FBM_CONFIG.lacunarity;
+
+    const wx =
+        x +
+        fbm2DInternal(noise, x + 0.0, y + 0.0, 2, frequency, persistence, lacunarity) * strength;
+    const wy =
+        y +
+        fbm2DInternal(noise, x + 5.2, y + 1.3, 2, frequency, persistence, lacunarity) * strength;
     return fbm2D(noise, wx, wy, config);
 }
 
@@ -213,10 +258,49 @@ export function warpedNoise3D(
     strength: number = 0.5,
     config: FBMConfig = {}
 ): number {
-    const warpConfig = { ...config, octaves: 2 };
-    const wx = x + fbm3D(noise, x + 0.0, y + 0.0, z + 0.0, warpConfig) * strength;
-    const wy = y + fbm3D(noise, x + 5.2, y + 1.3, z + 2.8, warpConfig) * strength;
-    const wz = z + fbm3D(noise, x + 9.1, y + 4.7, z + 3.4, warpConfig) * strength;
+    const frequency = config.frequency ?? DEFAULT_FBM_CONFIG.frequency;
+    const persistence = config.persistence ?? DEFAULT_FBM_CONFIG.persistence;
+    const lacunarity = config.lacunarity ?? DEFAULT_FBM_CONFIG.lacunarity;
+
+    const wx =
+        x +
+        fbm3DInternal(
+            noise,
+            x + 0.0,
+            y + 0.0,
+            z + 0.0,
+            2,
+            frequency,
+            persistence,
+            lacunarity
+        ) *
+            strength;
+    const wy =
+        y +
+        fbm3DInternal(
+            noise,
+            x + 5.2,
+            y + 1.3,
+            z + 2.8,
+            2,
+            frequency,
+            persistence,
+            lacunarity
+        ) *
+            strength;
+    const wz =
+        z +
+        fbm3DInternal(
+            noise,
+            x + 9.1,
+            y + 4.7,
+            z + 3.4,
+            2,
+            frequency,
+            persistence,
+            lacunarity
+        ) *
+            strength;
     return fbm3D(noise, wx, wy, wz, config);
 }
 
