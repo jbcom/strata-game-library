@@ -1,155 +1,234 @@
-# Copilot Instructions for Strata
+# TypeScript/Node.js Copilot Instructions
 
-## Project Overview
+## Environment Setup
 
-Strata is a procedural 3D graphics library for React Three Fiber providing terrain, water, sky, vegetation, and effects.
+### Package Manager: pnpm (preferred)
+```bash
+# Install pnpm if not present
+npm install -g pnpm
 
-## Repository Structure
-
+# Install dependencies
+pnpm install
 ```
-src/
-├── core/           # Pure TypeScript algorithms (NO React)
-├── components/     # React Three Fiber components
-├── shaders/        # GLSL shaders (use /* glsl */ template literals)
-├── presets/        # Ready-to-use configurations
-├── hooks/          # React hooks
-├── api/            # High-level API
-└── __tests__/      # Unit tests
+
+### Node Version
+Check `.nvmrc` or `package.json` engines field for required version.
+```bash
+nvm use  # If .nvmrc exists
 ```
 
 ## Development Commands
 
+### Testing (ALWAYS run tests)
 ```bash
-# Install dependencies
-pnpm install
-
-# Build the library
-pnpm run build
-
 # Run all tests
-pnpm run test
+pnpm test
 
 # Run tests in watch mode
-pnpm run test:watch
+pnpm test:watch
+
+# Run with coverage
+pnpm test:coverage
 
 # Run specific test file
-pnpm run test -- src/__tests__/camera.test.ts
+pnpm test -- src/__tests__/specific.test.ts
 
-# Lint code
-pnpm run lint
-
-# Format code
-pnpm run format
-
-# Check code (lint + format)
-pnpm run check
+# Run tests matching pattern
+pnpm test -- -t "pattern"
 ```
 
-## Testing Architecture
+### Linting & Formatting
+```bash
+# Lint (ESLint or Biome)
+pnpm lint
 
-### Unit Tests
-- Located in `src/__tests__/` and `src/core/**/__tests__/`
-- Use Vitest as the test runner
-- Run with `pnpm run test`
+# Fix lint issues
+pnpm lint:fix
 
-### Integration Tests
-- Located in `tests/integration/`
-- Test component interactions
-- Run with `pnpm run test:integration`
+# Format (Prettier or Biome)
+pnpm format
 
-### E2E Tests (Playwright)
-- Located in `tests/e2e/`
-- Use Playwright for browser testing
-- Run with `pnpm run test:e2e`
+# Check formatting
+pnpm format:check
 
-## Code Style
-
-### TypeScript
-- Use strict TypeScript
-- All public APIs must have JSDoc comments
-- Prefer interfaces over types for object shapes
-- Use `readonly` for immutable properties
-
-### React Components
-- Functional components only
-- Use React.forwardRef for ref forwarding
-- Props interfaces should be named `{ComponentName}Props`
-
-### Shaders
-- Use `/* glsl */` template literal tag
-- Export as `{name}VertexShader` and `{name}FragmentShader`
-
-## Commit Messages
-
-Use conventional commits:
-- `feat(terrain): add new erosion algorithm` → minor version
-- `fix(water): correct reflection calculations` → patch version
-- `refactor(shaders): optimize cloud rendering` → patch version
-- `docs: update API documentation` → no version change
-- `test: add unit tests for pathfinding` → no version change
-
-## Pull Request Guidelines
-
-1. Create focused PRs (one feature/fix per PR)
-2. Ensure all tests pass
-3. Ensure lint checks pass
-4. Update documentation if changing public APIs
-5. AI code reviews are handled automatically by the `@strata/triage` CLI via GitHub Actions when PRs are opened
-
-## Issue Management
-
-### Labels
-- `bug` - Something isn't working
-- `enhancement` - New feature or request
-- `documentation` - Documentation improvements
-- `extraction` - Archive extraction work
-- `good first issue` - Good for newcomers
-
-### Linking
-- Reference issues in commits: `Closes #123`
-- Reference PRs in issues: `Fixed in #456`
-
-## MCP Server Usage
-
-### Playwright MCP
-For E2E testing automation:
-```
-Use playwright_navigate to load test pages
-Use playwright_screenshot for visual regression
-Use playwright_click/fill for interactions
+# Type checking
+pnpm typecheck
 ```
 
-### GitHub MCP
-For issue/project management:
+### Building
+```bash
+# Build for production
+pnpm build
+
+# Build in watch mode
+pnpm build:watch
+
+# Clean build artifacts
+pnpm clean
 ```
-Use github_create_issue for new issues
-Use github_update_issue to update status
-Use github_add_comment for progress updates
+
+## Code Patterns
+
+### Imports
+```typescript
+// Node built-ins first
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+
+// External packages
+import { z } from 'zod';
+
+// Internal absolute imports
+import { config } from '@/config';
+import { logger } from '@/utils/logger';
+
+// Relative imports last
+import { helper } from './helper';
 ```
 
-## Architecture Principles
+### Type Definitions
+```typescript
+// Prefer interfaces for object shapes
+interface UserConfig {
+  readonly id: string;
+  name: string;
+  settings?: Settings;
+}
 
-1. **Core algorithms are pure TypeScript** - No React dependencies in `src/core/`
-2. **Components wrap core** - React components in `src/components/` use core algorithms
-3. **Shaders are separate** - GLSL code lives in `src/shaders/`
-4. **Presets are configurations** - Pre-built setups in `src/presets/`
+// Use type for unions/intersections
+type Result<T> = Success<T> | Failure;
 
-## Common Tasks
+// Export types explicitly
+export type { UserConfig, Result };
+```
 
-### Adding a New Effect
-1. Create core algorithm in `src/core/{effect}.ts`
-2. Create React component in `src/components/{Effect}.tsx`
-3. Add shader if needed in `src/shaders/{effect}.ts`
-4. Export from `src/index.ts`
-5. Add unit tests in `src/__tests__/{effect}.test.ts`
+### Error Handling
+```typescript
+// Custom error classes
+class ProcessingError extends Error {
+  constructor(
+    message: string,
+    public readonly code: string,
+    public readonly cause?: Error
+  ) {
+    super(message);
+    this.name = 'ProcessingError';
+  }
+}
 
-### Fixing a Bug
-1. Write a failing test that reproduces the bug
-2. Fix the code
-3. Verify the test passes
-4. Check for related issues that might be affected
+// Result pattern (alternative to exceptions)
+type Result<T, E = Error> = 
+  | { success: true; data: T }
+  | { success: false; error: E };
+```
 
-### Updating Documentation
-1. Update JSDoc comments in source files
-2. Run `pnpm run docs` to regenerate API docs
-3. Update relevant markdown files
+### Async Patterns
+```typescript
+// Prefer async/await over .then()
+async function fetchData(url: string): Promise<Data> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new FetchError(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+// Use Promise.all for parallel operations
+const [users, posts] = await Promise.all([
+  fetchUsers(),
+  fetchPosts(),
+]);
+```
+
+### Testing Patterns
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+describe('Processor', () => {
+  let processor: Processor;
+
+  beforeEach(() => {
+    processor = new Processor({ debug: false });
+  });
+
+  it('should process valid input', async () => {
+    const result = await processor.process('valid');
+    expect(result.success).toBe(true);
+  });
+
+  it('should throw on invalid input', async () => {
+    await expect(processor.process('')).rejects.toThrow('Invalid');
+  });
+
+  it('should call external service', async () => {
+    const mockService = vi.fn().mockResolvedValue({ data: 'test' });
+    // ...
+  });
+});
+```
+
+### React Patterns (if applicable)
+```typescript
+// Functional components with proper typing
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}
+
+export function Button({ label, onClick, disabled = false }: ButtonProps) {
+  return (
+    <button onClick={onClick} disabled={disabled}>
+      {label}
+    </button>
+  );
+}
+
+// Hooks
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  // ...
+  return debouncedValue;
+}
+```
+
+## Common Issues
+
+### "Cannot find module"
+```bash
+# Rebuild TypeScript
+pnpm build
+
+# Check tsconfig.json paths
+```
+
+### Type errors after package update
+```bash
+# Regenerate types
+pnpm install
+pnpm typecheck
+```
+
+### ESM vs CommonJS issues
+```typescript
+// In ESM (type: "module" in package.json)
+import { something } from './module.js';  // .js extension required
+
+// For JSON imports
+import config from './config.json' with { type: 'json' };
+```
+
+## File Structure
+```
+src/
+├── index.ts           # Main entry point
+├── core/              # Core logic (no framework deps)
+├── components/        # React components (if applicable)
+├── hooks/             # React hooks
+├── utils/             # Utility functions
+├── types/             # Type definitions
+└── __tests__/         # Unit tests
+tests/
+├── integration/       # Integration tests
+└── e2e/              # End-to-end tests
+```

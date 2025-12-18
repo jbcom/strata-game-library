@@ -1,14 +1,13 @@
 # Project Manager Agent
 
 ## Description
-Manages GitHub issues, projects, and tracks work progress for Strata.
+Manages GitHub issues, projects, and tracks work progress.
 
 ## Capabilities
 - Create and update issues
 - Manage project boards
-- Track extraction progress
+- Track progress
 - Link PRs to issues
-- Update EPIC progress
 
 ## Instructions
 
@@ -17,9 +16,8 @@ Manages GitHub issues, projects, and tracks work progress for Strata.
 Always use `GH_TOKEN="$GITHUB_TOKEN"` for authentication:
 
 ```bash
-export GH_TOKEN="$GITHUB_TOKEN"
-gh issue list
-gh pr list
+GH_TOKEN="$GITHUB_TOKEN" gh issue list
+GH_TOKEN="$GITHUB_TOKEN" gh pr list
 ```
 
 ### Issue Management
@@ -57,113 +55,9 @@ gh project view 1
 ```
 
 #### Update Project Item
-
-First, obtain the required IDs:
-```bash
-# List projects to get PROJECT_ID
-gh project list --owner jbcom
-
-# View project to see items and fields
-gh project view <PROJECT_NUMBER>
-
-# List project items to get ITEM_ID
-gh project item-list <PROJECT_NUMBER>
-```
-
-Then update the item:
 ```bash
 gh project item-edit --project-id PROJECT_ID --id ITEM_ID --field-id FIELD_ID --value "Done"
 ```
-
-**Note**: Field IDs are visible in the project view output. Common fields include Status, Priority, and Assignee.
-
-### EPIC Tracking
-
-EPICs are issues with the `epic` label that track larger bodies of work.
-
-#### Current EPICs
-- **#35** - Main integration EPIC
-- **#74** - Archive Triage & Extraction Map
-
-#### Update EPIC Progress
-```bash
-gh issue comment 74 --body "## Progress Update
-
-### Completed
-- [x] Task 1 (PR #XX)
-- [x] Task 2 (PR #YY)
-
-### In Progress
-- [ ] Task 3
-
-### Blocked
-- [ ] Task 4 (waiting on #ZZ)
-"
-```
-
-### Using GitHub MCP Server
-
-When using the GitHub MCP server:
-
-1. **List issues**:
-   ```
-   github_list_issues with appropriate filters
-   ```
-
-2. **Create issue**:
-   ```
-   github_create_issue with title, body, labels
-   ```
-
-3. **Update issue**:
-   ```
-   github_update_issue to change status/labels
-   ```
-
-4. **Add comment**:
-   ```
-   github_add_comment for progress updates
-   ```
-
-### Extraction PR Tracking
-
-#### Active Extraction PRs
-Track PRs with `extract/` branch prefix:
-
-```bash
-gh pr list --search "head:extract/"
-```
-
-#### Review Status
-```bash
-gh pr view 123 --json reviews,statusCheckRollup
-```
-
-#### Merge Order Priority
-
-1. **Infrastructure** (merge first)
-   - CI fixes
-   - Documentation
-
-2. **Pure Utilities** (no dependencies)
-   - Math utilities
-   - Shared utilities
-   - Shaders
-
-3. **Core Systems**
-   - State management
-   - Debug tools
-   - ECS, Pathfinding, Physics
-
-4. **Feature Systems**
-   - Audio, Animation
-   - Rendering, Geometry
-   - Interaction
-
-5. **Integration** (merge last)
-   - Hooks, Presets
-   - Components
-   - Index files
 
 ### Labels Reference
 
@@ -172,10 +66,26 @@ gh pr view 123 --json reviews,statusCheckRollup
 | `bug` | Something isn't working |
 | `enhancement` | New feature request |
 | `documentation` | Docs improvements |
-| `extraction` | Archive extraction work |
-| `epic` | Large tracked initiative |
-| `good first issue` | Newcomer friendly |
+| `needs-triage` | Needs initial assessment |
 | `priority:high` | Urgent work |
 | `priority:low` | Can wait |
 
+### Commit Message Format
 
+Follow conventional commits:
+```
+feat(scope): add new feature → minor release
+fix(scope): fix bug → patch release
+docs: update documentation → no release
+refactor(scope): code cleanup → patch release
+test: add tests → no release
+chore: maintenance → no release
+```
+
+### PR Review Workflow
+
+1. Check CI status
+2. Review code changes
+3. Verify tests pass
+4. Check for linked issues
+5. Approve or request changes

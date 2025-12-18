@@ -52,28 +52,21 @@
 
 ### Code Quality
 - [ ] Code follows project style guidelines
-- [ ] No linting errors (`pnpm run lint`)
-- [ ] Code is properly formatted (`pnpm run format`)
-- [ ] Type checking passes (`pnpm run typecheck`)
+- [ ] No linting errors
+- [ ] Code is properly formatted
+- [ ] Type checking passes (if applicable)
 - [ ] Self-reviewed code for logic errors
 
 ### Testing
 - [ ] All new code is covered by tests
-- [ ] All tests pass locally (`pnpm run test:all`)
+- [ ] All tests pass locally
 - [ ] Edge cases are tested
 - [ ] Error cases are tested
 
 ### Documentation
-- [ ] JSDoc comments added for public APIs
+- [ ] Comments added for public APIs
 - [ ] Complex logic is commented
 - [ ] README updated (if needed)
-- [ ] API documentation updated (if needed)
-
-### React/Three.js Specific
-- [ ] Resources are properly disposed (geometries, materials, textures)
-- [ ] useEffect cleanup functions implemented
-- [ ] No unnecessary re-renders
-- [ ] forwardRef used when component exposes refs
 
 ### Commits
 - [ ] Commits follow conventional commit format
@@ -86,7 +79,3 @@
 ## Additional Notes
 
 <!-- Any additional information reviewers should know -->
-
----
-
-**Note**: This PR will be automatically reviewed by `@strata/triage` CLI. Address any feedback before requesting human review.

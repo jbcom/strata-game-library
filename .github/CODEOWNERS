@@ -1,14 +1,12 @@
-# Code Owners for Strata
-# These owners will be automatically requested for review when PRs touch these paths
-
-# Default owner for everything
+# Default code owners for all files
 * @jbdevprimary
 
-# Core algorithms
-/src/core/ @jbdevprimary
-
-# GitHub configuration
+# GitHub Actions and CI/CD
 /.github/ @jbdevprimary
 
-# Triage automation
-/internal/triage/ @jbdevprimary
+# Cursor rules and agent configuration
+/.cursor/ @jbdevprimary
+
+# Documentation
+/docs/ @jbdevprimary
+*.md @jbdevprimary

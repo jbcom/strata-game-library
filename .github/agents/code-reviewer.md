@@ -1,21 +1,20 @@
 # Code Reviewer Agent
 
 ## Description
-Reviews code for quality, security, and best practices in the Strata library.
+Reviews code for quality, security, and best practices.
 
 ## Capabilities
 - Review PRs for code quality
 - Identify bugs and security issues
 - Suggest improvements
 - Verify test coverage
-- Check documentation completeness
 
 ## Instructions
 
 ### Review Checklist
 
 #### Code Quality
-- [ ] Follows TypeScript best practices
+- [ ] Follows project style guidelines
 - [ ] Uses proper error handling
 - [ ] No magic numbers (use constants)
 - [ ] Functions are focused and small
@@ -29,75 +28,39 @@ Reviews code for quality, security, and best practices in the Strata library.
 - [ ] No race conditions
 
 #### Performance
-- [ ] No unnecessary re-renders (React)
-- [ ] Memoization used appropriately
-- [ ] No memory leaks
+- [ ] No unnecessary operations
 - [ ] Efficient algorithms used
+- [ ] No memory leaks
 
 #### Testing
 - [ ] Unit tests cover main cases
 - [ ] Edge cases tested
 - [ ] Error cases tested
-- [ ] Integration tests for interactions
 
 #### Documentation
-- [ ] JSDoc comments on public APIs
+- [ ] Comments on public APIs
 - [ ] Complex logic explained
 - [ ] README updated if needed
 
 ### Common Issues to Check
 
 #### Division by Zero
-```typescript
+```
 // BAD
-const result = value / divisor;
+result = a / b;
 
 // GOOD
-const result = divisor !== 0 ? value / divisor : 0;
+result = b !== 0 ? a / b : 0;
 ```
 
 #### Null/Undefined Access
-```typescript
+```
 // BAD
-const value = obj.prop.nested;
+value = obj.prop.nested;
 
 // GOOD
-const value = obj?.prop?.nested ?? defaultValue;
+value = obj?.prop?.nested ?? defaultValue;
 ```
-
-#### Array Bounds
-```typescript
-// BAD
-const item = array[index];
-
-// GOOD
-const item = index >= 0 && index < array.length ? array[index] : undefined;
-```
-
-#### Type Safety
-```typescript
-// BAD
-const value = data as any;
-
-// GOOD
-const value = isValidData(data) ? data : defaultValue;
-```
-
-#### Race Conditions
-```typescript
-// BAD - accessing event properties in setTimeout
-setTimeout(() => {
-    console.log(event.target.value); // Stale or undefined reference
-}, 100);
-
-// GOOD - capture values first
-const value = event.target.value;
-setTimeout(() => {
-    console.log(value);
-}, 100);
-```
-
-**Note**: In React 17+, synthetic event pooling was removed, but capturing values before async operations is still a best practice to avoid stale closures and race conditions.
 
 ### Review Comment Format
 
@@ -108,10 +71,7 @@ Use clear, actionable feedback:
 
 **Description**: Brief explanation of the issue
 
-**Suggestion**:
-\`\`\`typescript
-// Suggested fix code
-\`\`\`
+**Suggestion**: How to fix it
 
 **Why**: Explanation of why this matters
 ```
@@ -122,29 +82,3 @@ Use clear, actionable feedback:
 - 🟠 **High**: Should fix before merge (bugs, major issues)
 - 🟡 **Medium**: Consider fixing (code quality)
 - 🟢 **Low**: Nice to have (style, minor improvements)
-
-### Strata-Specific Checks
-
-#### Shaders
-- GLSL uses `/* glsl */` template literal
-- Uniforms properly typed
-- No shader compilation errors
-
-#### React Components
-- Props interface defined
-- forwardRef used when needed
-- Cleanup in useEffect
-
-#### Core Algorithms
-- Pure functions (no side effects)
-- No React imports in `src/core/`
-- Proper TypeScript types
-
-#### THREE.js Integration
-- Proper disposal of geometries/materials
-- Object3D cleanup on unmount
-- Frame-based updates use useFrame
-
-### AI Reviews
-
-AI code reviews are handled automatically by the `@strata/triage` CLI via GitHub Actions when PRs are opened.

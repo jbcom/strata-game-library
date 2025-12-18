@@ -91,7 +91,7 @@ Token lacks required scopes. Check:
 
 ### "Rate limit exceeded"
 
-Use authenticated requests:
+Use authenticated requests (gh CLI auto-uses GITHUB_TOKEN):
 ```bash
-GH_TOKEN="$GITHUB_JBCOM_TOKEN" gh api ...
+gh api ...
 ```
