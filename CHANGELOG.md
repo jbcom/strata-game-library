@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# Strata v1.4.5 Changelog
+
+## Maintenance
+- **Improved the internal development workflow** by removing an obsolete Dependabot auto-merge workflow. Thank you to [@Jon Bogaty](https://github.com/JonBogaty) for this contribution.
+All notable changes to this project will be documented in this file.
+
 ## v1.4.4
 
 ### Documentation
