@@ -183,6 +183,29 @@ export class SoundManager {
     }
 
     /**
+     * Fades the volume of a sound.
+     *
+     * @param id - Sound identifier
+     * @param from - Start volume (0.0 to 1.0)
+     * @param to - End volume (0.0 to 1.0)
+     * @param duration - Fade duration in milliseconds
+     * @param soundId - Optional specific sound instance ID
+     *
+     * @example
+     * ```typescript
+     * manager.fade('bgm', 0, 1, 2000);
+     * ```
+     */
+    fade(id: string, from: number, to: number, duration: number, soundId?: number): void {
+        const howl = this.sounds.get(id);
+        if (howl) {
+            const clampedFrom = Math.max(0, Math.min(1, from));
+            const clampedTo = Math.max(0, Math.min(1, to));
+            howl.fade(clampedFrom, clampedTo, duration, soundId);
+        }
+    }
+
+    /**
      * Gets the volume of a sound.
      *
      * @param id - Sound identifier

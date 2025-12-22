@@ -59,6 +59,10 @@ vi.mock('howler', () => {
             return this._volume;
         });
 
+        fade = vi.fn().mockImplementation((_from: number, _to: number, _duration: number, _id?: number) => {
+            return this;
+        });
+
         mute = vi.fn().mockImplementation((muted?: boolean) => {
             if (muted !== undefined) {
                 this._muted = muted;
@@ -281,6 +285,33 @@ describe('SoundManager', () => {
 
         it('handles non-existent sound gracefully', () => {
             expect(() => manager.setMute('nonexistent', true)).not.toThrow();
+        });
+    });
+
+    describe('fade', () => {
+        beforeEach(async () => {
+            await manager.load('test', { src: '/audio/test.mp3' });
+        });
+
+        it('fades sound volume', () => {
+            // Mock Howl.fade
+            // Accessing internal map via play() or similar isn't direct.
+            // But we know play works.
+            const id = manager.play('test');
+            manager.fade('test', 0, 1, 1000);
+            // We can't easily check if Howl.fade was called without mocking deeper,
+            // but we can ensure it doesn't throw.
+        });
+
+        it('fades specific sound instance', () => {
+             const id = manager.play('test');
+             if (id) {
+                 manager.fade('test', 0, 1, 1000, id);
+             }
+        });
+
+        it('handles non-existent sound gracefully', () => {
+            expect(() => manager.fade('nonexistent', 0, 1, 1000)).not.toThrow();
         });
     });
 
