@@ -214,10 +214,7 @@ export function removeComponent<T extends BaseEntity, K extends keyof T>(
     entity: T,
     component: K
 ): void {
-    // HACK: Using `as any` to work around a TypeScript limitation with generic keys.
-    // The function signature ensures type safety for callers.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    world.world.removeComponent(entity, component as any);
+    world.world.removeComponent(entity, component);
 }
 
 /**
