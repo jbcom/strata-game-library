@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { generateInstanceData } from './utils';
 import { GPUInstancedMesh } from './GPUInstancedMesh';
 import { DEFAULT_BIOMES, type VegetationProps } from './types';
+import { generateBiomeInstanceData } from './utils';
 
 /**
  * Procedural instanced forest system.
@@ -41,13 +41,7 @@ export function TreeInstances({
     }, []);
 
     const instances = useMemo(() => {
-        return generateInstanceData(
-            count,
-            areaSize,
-            heightFunc,
-            biomes,
-            ['forest', 'tundra']
-        );
+        return generateBiomeInstanceData(count, areaSize, heightFunc, biomes, ['forest', 'tundra']);
     }, [count, areaSize, biomes, heightFunc]);
 
     // Cleanup

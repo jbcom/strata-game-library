@@ -18,6 +18,15 @@ export interface YukaEntityManagerContextValue {
 }
 
 /**
+ * Props for the YukaEntityManager component.
+ * @category Entities & Simulation
+ */
+export interface YukaEntityManagerProps {
+    /** Child components that will have access to the Yuka context. */
+    children?: ReactNode;
+}
+
+/**
  * Props for the YukaVehicle component.
  * @category Entities & Simulation
  */

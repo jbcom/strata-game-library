@@ -2,7 +2,7 @@ import { Instance, Instances } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { useRef } from 'react';
 import type * as THREE from 'three';
-import type { InstanceData } from './types';
+import type { InstanceData } from '../../core/instancing';
 
 /**
  * Props for the GPUInstancedMesh component.

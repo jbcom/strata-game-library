@@ -3,26 +3,22 @@ import {
     CapsuleCollider,
     CuboidCollider,
     interactionGroups,
+    type RapierRigidBody,
     RigidBody,
     useRevoluteJoint,
     useSphericalJoint,
-    type RapierRigidBody,
 } from '@react-three/rapier';
 import React, {
     createRef,
     forwardRef,
+    type RefObject,
     useEffect,
     useImperativeHandle,
     useMemo,
     useRef,
     useState,
-    type RefObject,
 } from 'react';
-import {
-    CollisionLayer,
-    createHumanoidRagdoll,
-    type RagdollConfig,
-} from '../../core/physics';
+import { CollisionLayer, createHumanoidRagdoll, type RagdollConfig } from '../../core/physics';
 
 /**
  * Props for the Ragdoll component.
@@ -58,24 +54,42 @@ export interface RagdollRef {
     getBodyPart: (name: string) => RapierRigidBody | null;
 }
 
-const RagdollSphericalJoint = ({ bodyA, bodyB, anchor1, anchor2 }: {
-    bodyA: RefObject<RapierRigidBody>;
-    bodyB: RefObject<RapierRigidBody>;
+const RagdollSphericalJoint = ({
+    bodyA,
+    bodyB,
+    anchor1,
+    anchor2,
+}: {
+    bodyA: RefObject<RapierRigidBody | null>;
+    bodyB: RefObject<RapierRigidBody | null>;
     anchor1: [number, number, number];
     anchor2: [number, number, number];
 }) => {
-    useSphericalJoint(bodyA, bodyB, [anchor1, anchor2]);
+    useSphericalJoint(bodyA as RefObject<RapierRigidBody>, bodyB as RefObject<RapierRigidBody>, [
+        anchor1,
+        anchor2,
+    ]);
     return null;
 };
 
-const RagdollRevoluteJoint = ({ bodyA, bodyB, anchor1, anchor2, axis }: {
-    bodyA: RefObject<RapierRigidBody>;
-    bodyB: RefObject<RapierRigidBody>;
+const RagdollRevoluteJoint = ({
+    bodyA,
+    bodyB,
+    anchor1,
+    anchor2,
+    axis,
+}: {
+    bodyA: RefObject<RapierRigidBody | null>;
+    bodyB: RefObject<RapierRigidBody | null>;
     anchor1: [number, number, number];
     anchor2: [number, number, number];
     axis: [number, number, number];
 }) => {
-    useRevoluteJoint(bodyA, bodyB, [anchor1, anchor2, axis]);
+    useRevoluteJoint(bodyA as RefObject<RapierRigidBody>, bodyB as RefObject<RapierRigidBody>, [
+        anchor1,
+        anchor2,
+        axis,
+    ]);
     return null;
 };
 
@@ -120,7 +134,7 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(
         const [isActive, setIsActive] = useState(active);
 
         const bodyPartRefs = useMemo(() => {
-            const refs: Record<string, RefObject<RapierRigidBody>> = {};
+            const refs: Record<string, RefObject<RapierRigidBody | null>> = {};
             config.bodyParts.forEach((part) => {
                 refs[part.name] = createRef<RapierRigidBody>();
             });
@@ -144,7 +158,7 @@ export const Ragdoll = forwardRef<RagdollRef, RagdollProps>(
             Object.entries(bodyPartRefs).forEach(([name, refObj]) => {
                 if (refObj.current) {
                     bodyPartsMapRef.current.set(name, refObj.current);
-                    if (initialVelocity.some(v => v !== 0)) {
+                    if (initialVelocity.some((v) => v !== 0)) {
                         refObj.current.setLinvel(
                             { x: initialVelocity[0], y: initialVelocity[1], z: initialVelocity[2] },
                             true

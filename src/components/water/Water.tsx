@@ -45,7 +45,7 @@ import { useFrame } from '@react-three/fiber';
 import type React from 'react';
 import { forwardRef, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { createAdvancedWaterMaterial, createWaterMaterial } from '../core/water';
+import { createAdvancedWaterMaterial, createWaterMaterial } from '../../core/water';
 
 /**
  * Props for the Water component.

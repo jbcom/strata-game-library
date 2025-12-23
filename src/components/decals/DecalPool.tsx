@@ -1,9 +1,18 @@
 import { useFrame } from '@react-three/fiber';
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import type { DecalPoolProps, DecalPoolRef, DecalInstance } from './types';
+import type { DecalPoolProps, DecalPoolRef } from './types';
 
-interface PooledDecal extends DecalInstance {
+interface PooledDecal {
+    id: string;
+    position: THREE.Vector3;
+    normal: THREE.Vector3;
+    size: [number, number];
+    rotation: number;
+    texture: THREE.Texture;
+    color: THREE.ColorRepresentation;
+    createdAt: number;
+    fadeTime: number;
     opacity: number;
 }
 

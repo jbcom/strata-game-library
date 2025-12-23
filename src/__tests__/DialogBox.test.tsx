@@ -1,7 +1,7 @@
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { DialogBox } from '../components/UI';
+import { describe, expect, it, vi } from 'vitest';
+import { DialogBox } from '../components/ui';
 
 describe('DialogBox UX', () => {
     // No fake timers to avoid waitFor issues
@@ -25,12 +25,7 @@ describe('DialogBox UX', () => {
     });
 
     it('should advance on Enter key', async () => {
-        const { container } = render(
-            <DialogBox
-                lines={lines}
-                typewriterSpeed={10}
-            />
-        );
+        const { container } = render(<DialogBox lines={lines} typewriterSpeed={10} />);
 
         const dialog = screen.getByRole('region', { name: /Dialogue/i });
         dialog.focus();

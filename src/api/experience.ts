@@ -35,7 +35,6 @@ export type {
     AudioZoneRef,
     CameraShakeProps,
     CameraShakeRef,
-    CameraTransitionProps,
     CinematicCameraProps,
     CinematicCameraRef,
     CrosshairProps,
@@ -219,9 +218,6 @@ export {
     smoothDamp,
     smoothDampVector3,
     suspendAudioContext,
-    uiEaseOutCubic,
-    uiEaseOutElastic,
-    uiLerp,
     unlockAudioContext,
     worldToScreen,
 } from '../core';

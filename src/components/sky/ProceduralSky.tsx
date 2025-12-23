@@ -34,7 +34,7 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createSkyGeometry, createSkyMaterial } from '../core/sky';
+import { createSkyGeometry, createSkyMaterial } from '../../core/sky';
 
 /**
  * State representing the time of day and atmospheric light levels.

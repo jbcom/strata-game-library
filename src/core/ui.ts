@@ -11,6 +11,9 @@
 
 import * as THREE from 'three';
 
+// Re-export easing functions from camera for backward compatibility
+export { easeOutCubic, easeOutElastic, lerp } from './camera';
+
 export type UIAnchor =
     | 'topLeft'
     | 'topRight'
@@ -326,15 +329,17 @@ export function clampProgress(value: number, maxValue: number): number {
     return Math.max(0, Math.min(value, maxValue));
 }
 
-export function lerp(start: number, end: number, t: number): number {
+// Internal lerp - use import from camera.ts for public API
+function uiLerp(start: number, end: number, t: number): number {
     return start + (end - start) * t;
 }
 
-export function easeOutCubic(t: number): number {
+// Internal easing functions - use imports from camera.ts for public API
+function uiEaseOutCubic(t: number): number {
     return 1 - (1 - t) ** 3;
 }
 
-export function easeOutElastic(t: number): number {
+function uiEaseOutElastic(t: number): number {
     const c4 = (2 * Math.PI) / 3;
     return t === 0 ? 0 : t === 1 ? 1 : 2 ** (-10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
 }

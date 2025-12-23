@@ -13,7 +13,7 @@ import type {
     TriggerConfig,
     TriggerMaterialConfig,
     WallButtonProps,
-} from '../../components/Input';
+} from '../../components/input';
 
 export interface InputPreset<T> {
     name: string;

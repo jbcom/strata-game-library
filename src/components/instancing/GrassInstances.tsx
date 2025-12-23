@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { generateInstanceData } from './utils';
 import { GPUInstancedMesh } from './GPUInstancedMesh';
 import { DEFAULT_BIOMES, type VegetationProps } from './types';
+import { generateBiomeInstanceData } from './utils';
 
 /**
  * Realistic instanced grass blades with biome-aware placement.
@@ -36,12 +36,24 @@ export function GrassInstances({
         const h = height;
 
         const positions = new Float32Array([
-            -0.05, 0, 0,
-            0.05, 0, 0,
-            0, h, 0,
-            0.05, 0, 0,
-            0.03, h, 0,
-            0, h, 0,
+            -0.05,
+            0,
+            0,
+            0.05,
+            0,
+            0,
+            0,
+            h,
+            0,
+            0.05,
+            0,
+            0,
+            0.03,
+            h,
+            0,
+            0,
+            h,
+            0,
         ]);
 
         const normals = new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
@@ -62,13 +74,12 @@ export function GrassInstances({
     }, [color]);
 
     const instances = useMemo(() => {
-        return generateInstanceData(
-            count,
-            areaSize,
-            heightFunc,
-            biomes,
-            ['marsh', 'forest', 'savanna', 'scrubland']
-        );
+        return generateBiomeInstanceData(count, areaSize, heightFunc, biomes, [
+            'marsh',
+            'forest',
+            'savanna',
+            'scrubland',
+        ]);
     }, [count, areaSize, biomes, heightFunc]);
 
     // Cleanup

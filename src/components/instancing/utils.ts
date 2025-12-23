@@ -1,9 +1,8 @@
 import {
-    type BiomeData,
     generateInstanceData as coreGenerateInstanceData,
     type InstanceData,
 } from '../../core/instancing';
-import { fbm, getBiomeAt as sdfGetBiomeAt, noise3D } from '../../core/sdf';
+import { type BiomeData, fbm, noise3D, getBiomeAt as sdfGetBiomeAt } from '../../core/sdf';
 
 /**
  * Generate instance data (positions, rotations, scales) based on biomes.
@@ -28,7 +27,7 @@ import { fbm, getBiomeAt as sdfGetBiomeAt, noise3D } from '../../core/sdf';
  * );
  * ```
  */
-export function generateInstanceData(
+export function generateBiomeInstanceData(
     count: number,
     areaSize: number,
     heightFunc: (x: number, z: number) => number,

@@ -31,7 +31,7 @@ import {
     createVolumetricPointLightMaterial,
     createVolumetricSpotlightMaterial,
     getLightScreenPosition,
-} from '../core/godRays';
+} from '../../core/godRays';
 
 /**
  * Props for the GodRays component.

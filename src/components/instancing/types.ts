@@ -1,17 +1,9 @@
 import * as THREE from 'three';
-import type { BiomeData as CoreBiomeData, InstanceData as CoreInstanceData } from '../../core/instancing';
+import type { InstanceData } from '../../core/instancing';
+import type { BiomeData } from '../../core/sdf';
 
-/**
- * Data for a single instance (position, rotation, scale).
- * @category World Building
- */
-export type InstanceData = CoreInstanceData;
-
-/**
- * Biome data for placement logic.
- * @category World Building
- */
-export type BiomeData = CoreBiomeData;
+// Re-export types from core for convenience (used internally)
+// Note: Don't re-export as that causes duplicate export issues with src/index.ts
 
 /**
  * Configuration props for vegetation components.

@@ -168,7 +168,7 @@ export function createWeatherSystem(initialState?: Partial<WeatherStateConfig>):
     return new WeatherSystem(initialState);
 }
 
-export interface WindConfig {
+export interface WindSimulationConfig {
     direction: THREE.Vector3;
     intensity: number;
     gustFrequency: number;
@@ -176,11 +176,11 @@ export interface WindConfig {
 }
 
 export class WindSimulation {
-    private config: WindConfig;
+    private config: WindSimulationConfig;
     private time: number = 0;
     private currentGust: number = 0;
 
-    constructor(config: Partial<WindConfig> = {}) {
+    constructor(config: Partial<WindSimulationConfig> = {}) {
         this.config = {
             direction: new THREE.Vector3(1, 0, 0.2).normalize(),
             intensity: 1,
@@ -209,12 +209,12 @@ export class WindSimulation {
         this.config.intensity = intensity;
     }
 
-    getConfig(): WindConfig {
+    getConfig(): WindSimulationConfig {
         return { ...this.config };
     }
 }
 
-export function createWindSimulation(config?: Partial<WindConfig>): WindSimulation {
+export function createWindSimulation(config?: Partial<WindSimulationConfig>): WindSimulation {
     return new WindSimulation(config);
 }
 

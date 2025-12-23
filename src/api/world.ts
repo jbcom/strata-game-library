@@ -42,7 +42,6 @@ export {
     EnhancedFog,
     GPUInstancedMesh,
     GrassInstances,
-    generateInstanceData,
     ProceduralSky,
     RockInstances,
     TreeInstances,
@@ -53,14 +52,13 @@ export {
     Water,
 } from '../components';
 export type {
+    BiomeData,
     CloudLayerConfig,
     CloudMaterialOptions,
     CloudSkyConfig,
     InstanceData,
-    InstancingBiomeData,
     MarchingCubesOptions,
     MarchingCubesResult,
-    SDFBiomeData,
     TerrainChunk,
     VolumetricCloudOptions,
 } from '../core';

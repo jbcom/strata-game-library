@@ -28,7 +28,7 @@
 import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { createRaymarchingGeometry, createRaymarchingMaterial } from '../core/raymarching';
+import { createRaymarchingGeometry, createRaymarchingMaterial } from '../../core/raymarching';
 
 /**
  * Props for the Raymarching component.

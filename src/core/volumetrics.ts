@@ -9,12 +9,13 @@
  */
 
 import * as THREE from 'three';
-import {
-    underwaterOverlayFragmentShader,
-    underwaterOverlayVertexShader,
-    volumetricFogMeshFragmentShader,
-    volumetricFogMeshVertexShader,
-} from '../shaders/volumetrics';
+import { underwaterShader, volumetricFogShader } from '../shaders/volumetrics';
+
+// Extract individual shaders from the shader objects
+const volumetricFogMeshVertexShader = volumetricFogShader.vertexShader;
+const volumetricFogMeshFragmentShader = volumetricFogShader.fragmentShader;
+const underwaterOverlayVertexShader = underwaterShader.vertexShader;
+const underwaterOverlayFragmentShader = underwaterShader.fragmentShader;
 
 /**
  * Options for creating a volumetric fog material.
