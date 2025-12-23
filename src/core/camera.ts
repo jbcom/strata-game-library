@@ -1,42 +1,125 @@
 /**
  * Core Camera and Perspective Utilities.
  *
- * Provides pure TypeScript math functions and controller logic for smooth
- * camera movement, screen shake effects, and perspective transitions.
+ * Pure TypeScript math functions and controller logic that power Strata's camera systems.
+ * These utilities handle smooth following, cinematic paths, screen shake, and FOV transitions—
+ * all without React dependencies for maximum portability.
+ *
+ * **Key Features:**
+ * - **Smooth Damping:** Unity-style smoothDamp for natural camera motion
+ * - **Catmull-Rom Splines:** Cinematic path interpolation with tension control
+ * - **Trauma-Based Shake:** Realistic shake system using Perlin-like noise
+ * - **FOV Transitions:** Dynamic field-of-view animations with custom easing
  *
  * @packageDocumentation
  * @module core/camera
  * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * // Smooth camera following
+ * const velocity = new THREE.Vector3();
+ * const smoothPos = smoothDampVector3(
+ *   camera.position,
+ *   targetPos,
+ *   velocity,
+ *   0.3,
+ *   deltaTime
+ * );
+ * camera.position.copy(smoothPos);
+ *
+ * // Trauma-based shake
+ * const shake = new CameraShake({ traumaDecay: 1.5 });
+ * shake.addTrauma(0.8); // Impact!
+ * const { offset, rotation } = shake.update(deltaTime);
+ * camera.position.add(offset);
+ * camera.rotation.x += rotation.x;
+ * ```
  */
 
 import * as THREE from 'three';
 
+/**
+ * Configuration for trauma-based camera shake.
+ *
+ * Uses a noise-driven shake system where "trauma" represents the intensity
+ * of screen shake caused by impacts, explosions, or environmental stress.
+ *
+ * @category Player Experience
+ */
 export interface CameraShakeConfig {
+    /** Current trauma level (0-1). Higher values produce more intense shake. */
     trauma: number;
+    /** Rate at which trauma decays per second (higher = faster recovery). Default: 1.5 */
     traumaDecay: number;
+    /** Maximum rotation angle in radians. Default: 0.1 */
     maxAngle: number;
+    /** Maximum positional offset. Default: 0.5 */
     maxOffset: number;
+    /** Noise frequency in Hz. Higher values produce faster oscillation. Default: 25 */
     frequency: number;
 }
 
+/**
+ * Configuration for smooth FOV (field-of-view) transitions.
+ *
+ * Enables dynamic perspective changes for zoom effects, aiming down sights,
+ * or dramatic camera emphasis.
+ *
+ * @category Player Experience
+ */
 export interface FOVTransitionConfig {
+    /** Starting field of view in degrees. */
     startFOV: number;
+    /** Target field of view in degrees. */
     endFOV: number;
+    /** Transition duration in seconds. */
     duration: number;
+    /** Optional easing function (t: 0..1) -> 0..1. Defaults to easeInOutCubic. */
     easing?: (t: number) => number;
 }
 
+/**
+ * Configuration for a Catmull-Rom spline camera path.
+ *
+ * Defines a smooth path through 3D space for cinematic flythroughs and cutscenes.
+ *
+ * @category Player Experience
+ */
 export interface CameraPath {
+    /** Array of Vector3 waypoints defining the path. */
     points: THREE.Vector3[];
+    /** Total duration to traverse the path in seconds. */
     duration: number;
+    /** Spline tension (0-1). Lower = looser curves. Default: 0.5 */
     tension?: number;
+    /** Whether the path loops back to the start. Default: false */
     closed?: boolean;
 }
 
+/**
+ * Linear interpolation between two numbers.
+ *
+ * @param a - Start value
+ * @param b - End value
+ * @param t - Interpolation factor (0-1), clamped automatically
+ * @returns Interpolated value
+ * @category Player Experience
+ */
 export function lerp(a: number, b: number, t: number): number {
     return a + (b - a) * Math.max(0, Math.min(1, t));
 }
 
+/**
+ * Linear interpolation between two Vector3 positions.
+ *
+ * @param a - Start position
+ * @param b - End position
+ * @param t - Interpolation factor (0-1), clamped automatically
+ * @param out - Optional output vector (avoids allocation)
+ * @returns Interpolated position
+ * @category Player Experience
+ */
 export function lerpVector3(
     a: THREE.Vector3,
     b: THREE.Vector3,
@@ -52,6 +135,19 @@ export function lerpVector3(
     );
 }
 
+/**
+ * Spherical linear interpolation between two quaternions.
+ *
+ * Produces smooth rotations without gimbal lock. Useful for camera
+ * orientation transitions.
+ *
+ * @param qa - Start quaternion
+ * @param qb - End quaternion
+ * @param t - Interpolation factor (0-1), clamped automatically
+ * @param out - Optional output quaternion (avoids allocation)
+ * @returns Interpolated quaternion
+ * @category Player Experience
+ */
 export function slerp(
     qa: THREE.Quaternion,
     qb: THREE.Quaternion,
@@ -62,6 +158,27 @@ export function slerp(
     return result.copy(qa).slerp(qb, Math.max(0, Math.min(1, t)));
 }
 
+/**
+ * Unity-style smooth damping for scalar values.
+ *
+ * Produces natural, spring-like motion toward a target without overshooting.
+ * Perfect for camera zoom, FOV transitions, or any value that needs organic movement.
+ *
+ * @param current - Current value
+ * @param target - Target value
+ * @param velocity - Velocity reference object (mutated)
+ * @param smoothTime - Approximate time to reach target (seconds)
+ * @param deltaTime - Time elapsed since last frame (seconds)
+ * @param maxSpeed - Optional maximum speed limit
+ * @returns New smoothed value
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * const velocity = { value: 0 };
+ * const smoothZoom = smoothDamp(currentZoom, targetZoom, velocity, 0.3, deltaTime);
+ * ```
+ */
 export function smoothDamp(
     current: number,
     target: number,
@@ -95,6 +212,35 @@ export function smoothDamp(
     return result;
 }
 
+/**
+ * Unity-style smooth damping for Vector3 positions.
+ *
+ * Provides organic, spring-like camera movement toward a target position.
+ * Each axis is independently damped for smooth 3D motion without overshooting.
+ *
+ * @param current - Current position
+ * @param target - Target position
+ * @param velocity - Velocity vector (mutated per-axis)
+ * @param smoothTime - Approximate time to reach target (seconds)
+ * @param deltaTime - Time elapsed since last frame (seconds)
+ * @param maxSpeed - Optional maximum speed limit per axis
+ * @param out - Optional output vector (avoids allocation)
+ * @returns New smoothed position
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * const velocity = new THREE.Vector3();
+ * const smoothPos = smoothDampVector3(
+ *   camera.position,
+ *   targetPosition,
+ *   velocity,
+ *   0.3,
+ *   deltaTime
+ * );
+ * camera.position.copy(smoothPos);
+ * ```
+ */
 export function smoothDampVector3(
     current: THREE.Vector3,
     target: THREE.Vector3,
@@ -119,6 +265,37 @@ export function smoothDampVector3(
     return result;
 }
 
+/**
+ * Trauma-based camera shake system.
+ *
+ * Implements robust screen shake using Perlin-like noise patterns. "Trauma" represents
+ * shake intensity and decays over time, creating realistic responses to impacts,
+ * explosions, or environmental stress.
+ *
+ * **Advantages over simple oscillation:**
+ * - Natural-looking randomness via procedural noise
+ * - Automatic decay without manual timers
+ * - Scales intensity with trauma squared for impact emphasis
+ *
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * const shake = new CameraShake({
+ *   traumaDecay: 1.5,
+ *   maxAngle: 0.15,
+ *   frequency: 30
+ * });
+ *
+ * // Trigger shake from explosion
+ * shake.addTrauma(0.8);
+ *
+ * // Each frame
+ * const { offset, rotation } = shake.update(deltaTime);
+ * camera.position.add(offset);
+ * camera.rotation.x += rotation.x;
+ * ```
+ */
 export class CameraShake {
     private trauma: number = 0;
     private traumaDecay: number;
@@ -183,6 +360,31 @@ export class CameraShake {
     }
 }
 
+/**
+ * Smooth field-of-view transition controller.
+ *
+ * Enables dynamic perspective changes for zoom effects, aiming down sights,
+ * or dramatic camera emphasis with custom easing curves.
+ *
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * // Create zoom-in transition
+ * const fovTransition = new FOVTransition({
+ *   startFOV: 75,
+ *   endFOV: 45,
+ *   duration: 0.5,
+ *   easing: easeOutCubic
+ * });
+ *
+ * // Each frame
+ * if (!fovTransition.complete()) {
+ *   camera.fov = fovTransition.update(deltaTime);
+ *   camera.updateProjectionMatrix();
+ * }
+ * ```
+ */
 export class FOVTransition {
     private startFOV: number;
     private endFOV: number;
@@ -225,23 +427,85 @@ export class FOVTransition {
     }
 }
 
+/**
+ * Cubic ease-in-out interpolation.
+ *
+ * Starts slow, accelerates, then decelerates. Standard easing for smooth animations.
+ *
+ * @param t - Progress (0-1)
+ * @returns Eased value (0-1)
+ * @category Player Experience
+ */
 export function easeInOutCubic(t: number): number {
     return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 }
 
+/**
+ * Cubic ease-out interpolation.
+ *
+ * Starts fast, then decelerates. Good for camera arrivals.
+ *
+ * @param t - Progress (0-1)
+ * @returns Eased value (0-1)
+ * @category Player Experience
+ */
 export function easeOutCubic(t: number): number {
     return 1 - (1 - t) ** 3;
 }
 
+/**
+ * Cubic ease-in interpolation.
+ *
+ * Starts slow, then accelerates. Good for camera departures.
+ *
+ * @param t - Progress (0-1)
+ * @returns Eased value (0-1)
+ * @category Player Experience
+ */
 export function easeInCubic(t: number): number {
     return t * t * t;
 }
 
+/**
+ * Elastic ease-out interpolation.
+ *
+ * Overshoots target with bounce-back. Dramatic but can be disorienting.
+ *
+ * @param t - Progress (0-1)
+ * @returns Eased value (0-1)
+ * @category Player Experience
+ */
 export function easeOutElastic(t: number): number {
     const c4 = (2 * Math.PI) / 3;
     return t === 0 ? 0 : t === 1 ? 1 : 2 ** (-10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
 }
 
+/**
+ * Evaluate a Catmull-Rom spline at a given position.
+ *
+ * Produces smooth curves through waypoints for cinematic camera paths.
+ * The spline passes directly through all control points (unlike Bezier).
+ *
+ * @param points - Array of waypoint positions (minimum 2)
+ * @param t - Position along path (0-1)
+ * @param tension - Spline tension (0-1). Lower = looser curves. Default: 0.5
+ * @param closed - Whether path loops back to start. Default: false
+ * @returns Position on the spline
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * const waypoints = [
+ *   new THREE.Vector3(0, 5, 10),
+ *   new THREE.Vector3(5, 8, 5),
+ *   new THREE.Vector3(10, 5, 0)
+ * ];
+ *
+ * // Get position at 50% along path
+ * const pos = evaluateCatmullRom(waypoints, 0.5, 0.5, false);
+ * camera.position.copy(pos);
+ * ```
+ */
 export function evaluateCatmullRom(
     points: THREE.Vector3[],
     t: number,
@@ -300,6 +564,32 @@ export function evaluateCatmullRom(
     return result;
 }
 
+/**
+ * Calculate velocity-based look-ahead offset for dynamic cameras.
+ *
+ * Points the camera slightly ahead of a moving target based on its velocity.
+ * Creates a more responsive feel in third-person or follow cameras.
+ *
+ * @param velocity - Current target velocity (units/sec)
+ * @param lookAheadDistance - How far ahead to look in world units
+ * @param lookAheadSmoothing - Smoothing time for look-ahead changes
+ * @param currentLookAhead - Current look-ahead vector (mutated)
+ * @param deltaTime - Time elapsed since last frame (seconds)
+ * @returns New look-ahead offset vector
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * const lookAhead = calculateLookAhead(
+ *   targetVelocity,
+ *   3.0,  // Look 3 units ahead
+ *   0.4,  // Smooth over 0.4 seconds
+ *   currentLookAhead,
+ *   deltaTime
+ * );
+ * camera.lookAt(targetPos.clone().add(lookAhead));
+ * ```
+ */
 export function calculateLookAhead(
     velocity: THREE.Vector3,
     lookAheadDistance: number,
@@ -316,6 +606,32 @@ export function calculateLookAhead(
     return lerpVector3(currentLookAhead, targetLookAhead, deltaTime / lookAheadSmoothing);
 }
 
+/**
+ * Calculate procedural head bob offset for first-person cameras.
+ *
+ * Generates vertical and horizontal oscillation based on walking speed.
+ * Creates a sense of footsteps and physical presence.
+ *
+ * @param time - Accumulated time (grows each frame)
+ * @param speed - Current movement speed (units/sec)
+ * @param bobFrequency - Oscillation frequency in Hz. Default: 10
+ * @param bobAmplitude - Maximum displacement. Default: 0.05
+ * @returns Head bob offset vector
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * let bobTime = 0;
+ * const movementSpeed = 5.0;
+ * const isMoving = true;
+ *
+ * if (isMoving) {
+ *   bobTime += deltaTime * movementSpeed;
+ *   const bob = calculateHeadBob(bobTime, movementSpeed, 12, 0.04);
+ *   camera.position.add(bob);
+ * }
+ * ```
+ */
 export function calculateHeadBob(
     time: number,
     speed: number,
@@ -332,13 +648,53 @@ export function calculateHeadBob(
     );
 }
 
+/**
+ * Screen shake intensity configuration.
+ *
+ * Defines the magnitude of shake effects across different axes.
+ *
+ * @category Player Experience
+ */
 export interface ScreenShakeIntensity {
+    /** Trauma level (0-1) representing shake intensity. */
     trauma: number;
+    /** Maximum horizontal screen offset in pixels. */
     maxOffsetX: number;
+    /** Maximum vertical screen offset in pixels. */
     maxOffsetY: number;
+    /** Maximum rotation in radians. */
     maxRotation: number;
 }
 
+/**
+ * Calculate screen shake intensity based on impact and distance.
+ *
+ * Automatically scales shake trauma with distance falloff, creating
+ * realistic responses where nearby impacts shake harder than distant ones.
+ *
+ * @param impactForce - Force magnitude (arbitrary units, typically 0-5)
+ * @param distance - Distance from impact to camera
+ * @param falloffStart - Distance where falloff begins. Default: 5
+ * @param falloffEnd - Distance where shake reaches zero. Default: 50
+ * @returns Shake intensity configuration
+ * @category Player Experience
+ *
+ * @example
+ * ```typescript
+ * // Explosion at position
+ * const explosionPos = new THREE.Vector3(10, 0, 10);
+ * const distance = camera.position.distanceTo(explosionPos);
+ *
+ * const intensity = calculateScreenShakeIntensity(
+ *   2.5,      // Strong explosion
+ *   distance,
+ *   5,        // Falloff starts at 5 units
+ *   40        // No shake beyond 40 units
+ * );
+ *
+ * cameraShake.addTrauma(intensity.trauma);
+ * ```
+ */
 export function calculateScreenShakeIntensity(
     impactForce: number,
     distance: number,
