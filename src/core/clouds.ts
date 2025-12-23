@@ -1,11 +1,46 @@
 /**
  * Core Cloud System
  *
- * Pure TypeScript functions for creating procedural cloud materials,
- * geometries, and volumetric cloud simulation.
+ * Pure TypeScript functions for creating GPU-optimized cloud materials, geometries,
+ * and volumetric simulation. All functions are framework-agnostic and reusable across
+ * vanilla Three.js, React Three Fiber, or custom engines.
+ *
+ * **Rendering Techniques**:
+ * - **2D Layers**: Shader-based procedural textures for efficient background clouds
+ * - **3D Volumes**: Fragment shader raymarching with light scattering and self-shadowing
+ *
+ * **Performance Design**:
+ * - Minimal CPU overhead (geometry generated once, uniforms updated per frame)
+ * - Configurable quality/performance tradeoff (raymarching steps)
+ * - Shared uniform structures for batch rendering
  *
  * @category World Building
  * @module core/clouds
+ *
+ * @example
+ * ```typescript
+ * // Vanilla Three.js 2D cloud layer
+ * import { createCloudLayerMaterial, createCloudLayerGeometry } from '@jbcom/strata/core';
+ *
+ * const material = createCloudLayerMaterial({
+ *   layer: { coverage: 0.5, altitude: 100 },
+ *   wind: { speed: 0.02, direction: new THREE.Vector2(1, 0) }
+ * });
+ * const geometry = createCloudLayerGeometry([200, 200]);
+ * const cloudMesh = new THREE.Mesh(geometry, material);
+ * scene.add(cloudMesh);
+ *
+ * // Volumetric clouds
+ * const volumetricMaterial = createVolumetricCloudMaterial({
+ *   cloudBase: 60,
+ *   cloudHeight: 80,
+ *   coverage: 0.6,
+ *   steps: 32
+ * });
+ * const sphereGeometry = createVolumetricCloudGeometry(500);
+ * const volumeCloud = new THREE.Mesh(sphereGeometry, volumetricMaterial);
+ * scene.add(volumeCloud);
+ * ```
  */
 
 import * as THREE from 'three';
@@ -20,20 +55,56 @@ import {
 
 /**
  * Configuration for a single cloud layer.
+ *
+ * Defines visual appearance, position, and density parameters for a 2D cloud plane.
+ *
  * @category World Building
  */
 export interface CloudLayerConfig {
-    /** Altitude of the cloud layer in units. */
+    /**
+     * Altitude of the cloud layer in world units.
+     *
+     * Y-position where this layer is rendered in 3D space.
+     */
     altitude: number;
-    /** Density of the clouds (0-1). */
+
+    /**
+     * Density of the clouds (0-2+).
+     *
+     * Controls opacity and visual thickness:
+     * - `0.5` = Wispy, semi-transparent
+     * - `1.0` = Standard cumulus
+     * - `1.5+` = Dense, thick clouds
+     */
     density: number;
-    /** Cloud coverage (0-1). 0 = clear, 1 = overcast. */
+
+    /**
+     * Cloud coverage (0-1).
+     *
+     * Percentage of sky covered by clouds:
+     * - `0` = Clear sky
+     * - `0.5` = Partly cloudy
+     * - `1.0` = Complete overcast
+     */
     coverage: number;
-    /** Base color of the clouds. */
+
+    /**
+     * Base color of the clouds (lit surfaces).
+     */
     cloudColor: THREE.Color;
-    /** Color of the cloud shadows. */
+
+    /**
+     * Color of cloud shadows (occluded regions).
+     */
     shadowColor: THREE.Color;
-    /** Scale of the cloud noise pattern. Default: 5.0 */
+
+    /**
+     * Scale of the cloud noise pattern.
+     *
+     * Default: 5.0
+     *
+     * Smaller values create large cloud formations; larger values create fine detail.
+     */
     scale?: number;
 }
 
