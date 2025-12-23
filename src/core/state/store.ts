@@ -1,10 +1,39 @@
 /**
  * Zustand-based Game State Store Factory
  *
- * Creates a Zustand store with Immer for immutable updates, zundo for undo/redo,
- * and configurable persistence adapter for cross-platform storage.
+ * Production-ready state management with Immer for immutable updates, zundo for
+ * undo/redo history, and pluggable persistence adapters for cross-platform storage.
+ * Features automatic checksum validation and flexible configuration.
  *
+ * @packageDocumentation
  * @module core/state/store
+ * @category Game Systems
+ *
+ * ## Key Features
+ * - 🔄 **Immutable Updates**: Powered by Immer for safe state mutations
+ * - ↩️ **Time Travel**: Built-in undo/redo with configurable history depth
+ * - 💾 **Persistence**: Cross-platform storage adapters (web, native, custom)
+ * - 🔒 **Data Integrity**: Automatic checksum validation on load
+ * - 📸 **Checkpoints**: Named recovery points for game milestones
+ *
+ * @example
+ * ```typescript
+ * // Create a game store
+ * interface GameState {
+ *   player: { x: number; y: number; health: number };
+ *   enemies: Array<{ id: string; health: number }>;
+ * }
+ *
+ * const useGameStore = createGameStore<GameState>({
+ *   player: { x: 0, y: 0, health: 100 },
+ *   enemies: []
+ * }, {
+ *   enablePersistence: true,
+ *   maxUndoHistory: 50,
+ *   storagePrefix: 'mygame'
+ * });
+ * ```
+ *
  * @public
  */
 
@@ -30,66 +59,109 @@ const DEFAULT_CONFIG = {
 } as const;
 
 /**
- * Internal store state shape
+ * Internal store state shape.
+ * @category Game Systems
+ * @internal
  */
 export interface GameStoreState<T> {
+    /** The current active game state data. */
     data: T;
+    /** Snapshot of the initial state for reset operations. */
     _initial: T;
+    /** Schema version number for migration support. */
     _version: number;
+    /** Timestamp of the last successful save operation. */
     _lastSaved: number | null;
+    /** Whether state has changed since last save. */
     _isDirty: boolean;
 }
 
 /**
- * Store actions interface
+ * Store actions interface.
+ *
+ * All available operations for manipulating game state, including
+ * updates, persistence, undo/redo, and checkpoint management.
+ *
+ * @category Game Systems
  */
 export interface GameStoreActions<T> {
+    /** Replace the entire state with a new value or updater function. */
     set: (newState: T | ((prev: T) => T)) => void;
+    /** Apply a partial update, merging with current state. */
     patch: (partial: Partial<T> | ((prev: T) => Partial<T>)) => void;
+    /** Revert state to its initial configuration. */
     reset: () => void;
+    /** Revert to the previous state in history. */
     undo: () => void;
+    /** Reapply a previously undone change. */
     redo: () => void;
+    /** Check if undo operation is available. */
     canUndo: () => boolean;
+    /** Check if redo operation is available. */
     canRedo: () => boolean;
+    /** Clear all undo/redo history. */
     clearHistory: () => void;
+    /** Persist current state to storage under a named slot. */
     save: (slot?: string) => Promise<boolean>;
+    /** Load state from a storage slot. */
     load: (slot?: string) => Promise<boolean>;
+    /** Permanently delete a save slot. */
     deleteSave: (slot: string) => Promise<boolean>;
+    /** List all available save slots. */
     listSaves: () => Promise<string[]>;
+    /** Create a named checkpoint (recovery point). */
     createCheckpoint: (name: string, options?: CheckpointOptions) => Promise<boolean>;
+    /** Restore state from a named checkpoint. */
     restoreCheckpoint: (name: string) => Promise<boolean>;
+    /** Delete a specific checkpoint. */
     deleteCheckpoint: (name: string) => Promise<boolean>;
+    /** List all active checkpoints with metadata. */
     listCheckpoints: () => CheckpointData<T>[];
+    /** Direct access to raw state data (bypasses store wrapper). */
     getData: () => T;
 }
 
 /**
- * Complete store type
+ * Complete store type combining state and actions.
+ * @category Game Systems
  */
 export type GameStore<T> = GameStoreState<T> & GameStoreActions<T>;
 
 /**
- * Store API with temporal state access
+ * Store API with temporal state access for undo/redo.
+ * @category Game Systems
  */
 export interface GameStoreApi<T> {
+    /** Call the store as a function to use it as a hook. */
     (): GameStore<T>;
+    /** Call with a selector to subscribe to a slice of state. */
     <U>(selector: (state: GameStore<T>) => U): U;
+    /** Get current state snapshot without subscribing. */
     getState: () => GameStore<T>;
+    /** Update state imperatively (not recommended in React). */
     setState: StoreApi<GameStore<T>>['setState'];
+    /** Subscribe to state changes. */
     subscribe: StoreApi<GameStore<T>>['subscribe'];
+    /** Access to temporal (undo/redo) state. */
     temporal: StoreApi<TemporalState<GameStore<T>>>;
 }
 
 /**
  * Creates a Zustand store with undo/redo and persistence capabilities.
  *
+ * The main factory function for creating game state stores. Combines Zustand, Immer,
+ * and zundo middleware to provide a complete state management solution with automatic
+ * persistence, undo/redo history, and checksum validation.
+ *
+ * @category Game Systems
  * @public
- * @param initialState - The initial state value
- * @param config - Optional configuration
- * @returns A Zustand store with game state management features
+ * @param initialState - The initial state value (will be deep cloned).
+ * @param config - Optional configuration for persistence, undo, and callbacks.
+ * @returns A Zustand store with game state management features.
  *
  * @example
  * ```typescript
+ * // Basic store
  * interface PlayerState {
  *   health: number;
  *   position: [number, number, number];
@@ -107,13 +179,33 @@ export interface GameStoreApi<T> {
  * const { set, undo, redo, save, load } = usePlayerStore();
  *
  * // Update state
- * set({ health: 50 });
+ * set({ health: 50, position: [10, 0, 5], inventory: [] });
  *
  * // Undo last change
  * undo();
  *
  * // Save to storage
  * await save('slot1');
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Advanced configuration
+ * const useGameStore = createGameStore(
+ *   { world: {}, player: {} },
+ *   {
+ *     enablePersistence: true,
+ *     maxUndoHistory: 100,
+ *     storagePrefix: 'mygame',
+ *     persistenceAdapter: customAdapter,
+ *     onSave: (success) => {
+ *       console.log('Save result:', success);
+ *     },
+ *     onLoad: (state) => {
+ *       console.log('Loaded state:', state);
+ *     }
+ *   }
+ * );
  * ```
  */
 export function createGameStore<T extends object>(
