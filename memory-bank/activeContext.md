@@ -166,6 +166,7 @@ pnpm run format:check  # Biome format check
    - nodejs-otterfall (AI/terrain)
 
 **Immediate Actions**:
+
 - Maintainer: Review STRATA_2_0_PLAN.md, configure strata.game domain (M3)
 - AI Agents: Begin M1 - Issue #85 (remove type re-exports)
 - Parallel: Draft M4 landing page content
@@ -200,36 +201,42 @@ STRATA GAME STUDIO
 ```
 
 **Agentic Architecture Clarified**:
+
 - agentic-triage = Primitives layer
 - agentic-control = Orchestration (builds on triage)
 - Workshop flows → agentic-control configurations
-- internal/triage stays (is @strata/triage, not same as agentic-triage)
+- internal/triage removed (migrated to agentic-triage)
 
 **Professor Pixel Evolution**:
 From "tutor mascot" → Strata's official brand mascot across ALL properties
 
 **Key Documents Created**:
+
 - docs/architecture/STRATA_GAME_STUDIO_VISION.md
 - Updated STRATA_2_0_PLAN.md with Part 10: Game Studio Vision
 
 **New Issues Created**:
-- #100: Migrate internal/triage to nodejs-agentic-triage
+
+- ✅ #100: Migrate internal/triage to nodejs-agentic-triage
 - #101: EPIC: Strata Game Studio (added to Roadmap project)
 - typescript-tutor#25: Convert lessons to TypeScript/Strata curriculum
 - typescript-tutor#26: Full Strata sub-package alignment
 
 **Cloned & Reviewed**:
+
 - nodejs-strata-typescript-tutor → /tmp/
 - PR #24 analysis: Package renamed but lessons still Python (incomplete!)
 - Wizard flows discovered: platformer, racing, rpg, dungeon, space, puzzle, adventure
 
 **Validation Games Identified**:
+
 - nodejs-rivermarsh (mobile exploration)
 - nodejs-otter-river-rush (racing)
 - nodejs-otterfall (3D adventure)
 - nodejs-rivers-of-reckoning (roguelike)
 
 **Decisions Made**:
+
 1. npm scope: **@strata** ✅
 2. Repository management: control-center ecosystem sync + settings.yml ✅
 3. typescript-tutor: **Stays as-is** (correct repo, correct name) ✅
@@ -240,6 +247,7 @@ From "tutor mascot" → Strata's official brand mascot across ALL properties
 5. Hosting: **GitHub Pages** for all properties ✅
 
 **Open Decisions for Maintainer**:
+
 1. AI Core distribution (WASM + napi-rs + PyO3?)
 2. Community features (user accounts, game jams) - Future
 
@@ -248,11 +256,13 @@ From "tutor mascot" → Strata's official brand mascot across ALL properties
 ### AI Design Automation (2025-12-23)
 
 **21st.dev Setup** (for local Cursor agent):
+
 - GitHub App integration ✅
 - Sandboxes ✅
 - MCP config issues created for all repos
 
 **Issues Created for Local Agent**:
+
 | Repo | Issue |
 |------|-------|
 | nodejs-strata | #102 |
@@ -285,9 +295,10 @@ From "tutor mascot" → Strata's official brand mascot across ALL properties
 | 10632111278932960213 | agentic-triage | #23 (tooling) | AWAITING_PLAN_APPROVAL |
 | 3886505127057072428 | agentic-control | #8 (tooling) | PLANNING |
 
-**Monitor**: https://jules.google.com
+**Monitor**: <https://jules.google.com>
 
 **CLI Options**:
+
 - Local/Interactive: `npx @google/jules` (requires OAuth login)
 - Cloud/Programmatic: `node scripts/jules-session.mjs` (uses API key)
 
@@ -310,6 +321,7 @@ From "tutor mascot" → Strata's official brand mascot across ALL properties
 **Multi-Repo Domain Standard Defined**:
 
 Projects qualifying for dedicated domain:
+
 - ≥ 3 active repositories
 - Cross-repository dependencies
 - ≥ 2 published packages
@@ -358,11 +370,13 @@ Projects qualifying for dedicated domain:
 | Complex bug fix | Cursor Cloud | Debugging capability |
 
 **Architecture**:
+
 ```
 ISSUE → Task Router (Ollama) → [Ollama | Jules | Cursor] → PR → AI Review Swarm → Feedback Processor → Auto-merge
 ```
 
 **Implementation Phases**:
+
 1. ✅ Jules Integration (#420 + session 7376203189327359068)
 2. ⏳ Cursor Cloud Integration (#423)
 3. ⏳ Unified Router
@@ -370,6 +384,7 @@ ISSUE → Task Router (Ollama) → [Ollama | Jules | Cursor] → PR → AI Revie
 5. ⏳ Monitoring Dashboard
 
 **Token Status (CURSOR_GITHUB_TOKEN)**:
+
 - ✅ Org secrets (admin:org)
 - ✅ Org projects (project)
 - ✅ Repo CRUD (repo)
@@ -384,11 +399,13 @@ ISSUE → Task Router (Ollama) → [Ollama | Jules | Cursor] → PR → AI Revie
 **Dogfooding in Progress**: control-center#421 (Jules Integration)
 
 **Active Autonomous Loop**:
+
 ```
 Jules creates PR → Ollama reviews → GitHub Security scans → Self-resolution fixes → CI validates → (iterate)
 ```
 
 **PR #421 Status**:
+
 - Author: `google-labs-jules[bot]`
 - Commits: 4 (including 3 self-resolution commits!)
 - CI: Failing (actionlint issues)
@@ -408,13 +425,15 @@ Jules creates PR → Ollama reviews → GitHub Security scans → Self-resolutio
 | nodejs-agentic-control | 1 | Biome/TypeDoc fix |
 
 **Issues Created Today**:
+
 - #422: Unified Multi-Agent Orchestrator EPIC
 - #423: CURSOR_API_KEY secret needed
 - #424: Add typescript-tutor to ecosystem sync
 
 **Repos in Ecosystem Sync** (nodejs):
+
 - ✅ nodejs-strata
-- ✅ nodejs-strata-shaders  
+- ✅ nodejs-strata-shaders
 - ✅ nodejs-strata-presets
 - ✅ nodejs-strata-examples
 - ✅ nodejs-strata-capacitor-plugin
@@ -424,6 +443,7 @@ Jules creates PR → Ollama reviews → GitHub Security scans → Self-resolutio
 - ❌ nodejs-strata-typescript-tutor (missing! #424)
 
 **Next Actions**:
+
 1. Monitor PR #421 for Jules to fix actionlint issues
 2. Add CURSOR_API_KEY secret (#423)
 3. Add typescript-tutor to ecosystem sync (#424)
@@ -439,13 +459,14 @@ Jules creates PR → Ollama reviews → GitHub Security scans → Self-resolutio
 **Problem Identified**: Orchestration logic is 500+ lines of inline YAML instead of proper packages.
 
 **Correct Architecture**:
+
 ```
 @agentic/triage (PRIMITIVES)
 ├── schemas/        # Zod schemas
 ├── tools/          # Vercel AI SDK tools
 └── handlers/       # Structured outputs
        ↓
-@agentic/control (ORCHESTRATION)  
+@agentic/control (ORCHESTRATION)
 ├── orchestrators/  # Multi-agent routing
 ├── pipelines/      # CI resolution, PR lifecycle
 └── actions/        # GitHub Marketplace actions
@@ -457,9 +478,11 @@ GitHub Marketplace Actions
 ```
 
 **Current State (Wrong)**:
+
 - triage depends on control ❌
 
 **Target State (Correct)**:
+
 - control depends on triage ✅
 
 **Jules Sessions Created**:
@@ -471,11 +494,13 @@ GitHub Marketplace Actions
 | 14191893082884266475 | agentic-control | GitHub Marketplace actions |
 
 **Tracking Issues**:
+
 - control-center#427 (Architecture EPIC)
 - agentic-triage#34 (Primitives refactor)
 - agentic-control#17 (Orchestration refactor)
 
 **End Goal**:
+
 ```yaml
 # Replace 500 lines of bash with:
 - uses: jbcom/agentic-control/actions/orchestrator@v1
@@ -490,6 +515,7 @@ GitHub Marketplace Actions
 **Tracking Issue**: [control-center#428](https://github.com/jbcom/control-center/issues/428)
 
 **Ecosystem Scan Results**:
+
 - 24 active repositories
 - 134 open issues
 - 139 open PRs
@@ -514,6 +540,7 @@ GitHub Marketplace Actions
 | python-vendor-connectors | 3034887458758718600 | Google tools |
 
 **Rate Limited (retry later)**:
+
 - nodejs-otter-river-rush #15
 - nodejs-rivers-of-reckoning #21
 - nodejs-otterfall
@@ -525,10 +552,12 @@ GitHub Marketplace Actions
 ### Cursor Cloud Agent Infrastructure (2025-12-24)
 
 **Environment Variables for Future Agents**:
+
 - `JULES_API_KEY` ✅ - Google Jules API
 - `CURSOR_GITHUB_TOKEN` ✅ - GitHub operations
 
 **Orchestration Pattern**:
+
 ```
 Cursor Cloud Agent (supervisor)
     ├── Monitors Jules sessions
@@ -539,6 +568,7 @@ Cursor Cloud Agent (supervisor)
 ```
 
 **Assets Created** (in control-center repo):
+
 - `scripts/cursor-jules-orchestrator.mjs` - Monitoring script
 - `repository-files/always-sync/scripts/cursor-jules-orchestrator.mjs` - Synced to all repos
 - `CLAUDE.md` - Agent instructions for Jules API

@@ -66,12 +66,11 @@ check: lint typecheck
 # Build all packages
 build:
     pnpm run build
-    pnpm --filter @strata/triage build
 
 # Clean build artifacts
 clean:
     pnpm run clean
-    rm -rf dist internal/triage/dist
+    rm -rf dist
 
 # Rebuild from scratch
 rebuild: clean build

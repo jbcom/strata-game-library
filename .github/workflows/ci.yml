@@ -43,7 +43,7 @@ jobs:
       - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: ${{ steps.pnpm-cache.outputs.store }}
-          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json', 'internal/triage/package.json') }}
+          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json') }}
           restore-keys: pnpm-store-
 
       - name: Install dependencies
@@ -70,7 +70,6 @@ jobs:
           name: build-output
           path: |
             dist
-            internal/triage/src
           retention-days: 1
 
   test:
@@ -97,7 +96,7 @@ jobs:
           name: build-output
 
       - name: Run tests with coverage
-        run: pnpm run test:coverage -- --reporter=default --reporter=./internal/triage/src/reporters/vitest.ts
+        run: pnpm run test:coverage -- --reporter=default --reporter=./node_modules/agentic-triage/dist/reporters/vitest.js
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
@@ -141,7 +140,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: pnpm run test:e2e -- --project=chromium --reporter=./internal/triage/src/reporters/playwright.ts
+        run: pnpm run test:e2e -- --project=chromium --reporter=./node_modules/agentic-triage/dist/reporters/playwright.js
 
       - name: Upload E2E results
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0

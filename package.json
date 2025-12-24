@@ -64,7 +64,7 @@
     "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e",
     "prepublishOnly": "pnpm run build && pnpm run test:unit",
     "prepare": "husky",
-    "triage": "tsx internal/triage/src/cli.ts",
+    "triage": "agentic-triage",
     "typecheck": "tsc --noEmit",
     "docs": "typedoc"
   },
@@ -167,6 +167,7 @@
     "@types/yuka": "^0.7.4",
     "@vitest/coverage-v8": "^4.0.15",
     "@xstate/react": "^6.0.0",
+    "agentic-triage": "0.2.0",
     "howler": "^2.2.4",
     "husky": "^9.1.7",
     "jsdom": "^27.3.0",
