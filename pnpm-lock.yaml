@@ -154,8 +154,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(zod@4.2.1)
       ai-sdk-ollama:
-        specifier: ^2.0.1
-        version: 2.1.0(ai@6.0.3(zod@4.2.1))(zod@4.2.1)
+        specifier: ^3.0.0
+        version: 3.0.0(ai@6.0.3(zod@4.2.1))(zod@4.2.1)
       commander:
         specifier: ^14.0.2
         version: 14.0.2
@@ -217,12 +217,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/provider-utils@3.0.19':
-    resolution: {integrity: sha512-W41Wc9/jbUVXVwCN/7bWa4IKe8MtxO3EyA0Hfhx6grnmiYlCvpI8neSYWFE0zScXJkgA/YK3BRybzgyiXuu6JA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   '@ai-sdk/provider-utils@4.0.0-beta.53':
     resolution: {integrity: sha512-83/aNTnKfurb4jdaOSfh1KgxY27SuWZbecc3bUfiUxLMtAMBLusgWMaaSbfl2VHufAoGLXIuRYRq4lXlNCdXzw==}
     engines: {node: '>=18'}
@@ -234,10 +228,6 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/provider@2.0.0':
-    resolution: {integrity: sha512-6o7Y2SeO9vFKB8lArHXehNuusnpddKPk7xqL7T2/b+OvXMRIXUO1rR4wcv1hAFUAT9avGZshty3Wlua/XA7TvA==}
-    engines: {node: '>=18'}
 
   '@ai-sdk/provider@3.0.0':
     resolution: {integrity: sha512-m9ka3ptkPQbaHHZHqDXDF9C9B5/Mav0KTdky1k2HZ3/nrW2t1AgObxIVPyGDWQNS9FXT/FS6PIoSjpcP/No8rQ==}
@@ -1373,9 +1363,6 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@standard-schema/spec@1.0.0':
-    resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
-
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
@@ -1546,11 +1533,11 @@ packages:
     resolution: {integrity: sha512-gOsf2YwSlleG6IjRYG2A7k0HmBMEo6qVNk9Bp/EaLgAJT5ngH6PXbqa4ItvnEwCm/velL5jAnQgsHsWnjhGmvw==}
     engines: {node: '>=18'}
 
-  ai-sdk-ollama@2.1.0:
-    resolution: {integrity: sha512-VRTT34zt6GG09IxdiO0aqOM6wBMgKj+oUQH2E+28XtPrHL2AV+L87UhU1VnGFfo+eXLMcZKJre5NWM9HMA5L5A==}
+  ai-sdk-ollama@3.0.0:
+    resolution: {integrity: sha512-ik0BkfaB0jxR62s+kx64UTmZVVP/qsy/tCU2K5L341rF4L0f9ofE/lA34q0DIX4c293wvIMsQFRuuZy86CAwjQ==}
     engines: {node: '>=22'}
     peerDependencies:
-      ai: ^5.0.115
+      ai: ^6.0.0
 
   ai@6.0.3:
     resolution: {integrity: sha512-OOo+/C+sEyscoLnbY3w42vjQDICioVNyS+F+ogwq6O5RJL/vgWGuiLzFwuP7oHTeni/MkmX8tIge48GTdaV7QQ==}
@@ -3836,13 +3823,6 @@ snapshots:
       pkce-challenge: 5.0.1
       zod: 4.2.1
 
-  '@ai-sdk/provider-utils@3.0.19(zod@4.2.1)':
-    dependencies:
-      '@ai-sdk/provider': 2.0.0
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.6
-      zod: 4.2.1
-
   '@ai-sdk/provider-utils@4.0.0-beta.53(zod@4.2.1)':
     dependencies:
       '@ai-sdk/provider': 3.0.0-beta.27
@@ -3856,10 +3836,6 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.0.6
       zod: 4.2.1
-
-  '@ai-sdk/provider@2.0.0':
-    dependencies:
-      json-schema: 0.4.0
 
   '@ai-sdk/provider@3.0.0':
     dependencies:
@@ -4839,8 +4815,6 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@standard-schema/spec@1.0.0': {}
-
   '@standard-schema/spec@1.1.0': {}
 
   '@stitches/react@1.2.8(react@19.2.3)':
@@ -4961,7 +4935,7 @@ snapshots:
 
   '@vitest/expect@4.0.15':
     dependencies:
-      '@standard-schema/spec': 1.0.0
+      '@standard-schema/spec': 1.1.0
       '@types/chai': 5.2.3
       '@vitest/spy': 4.0.15
       '@vitest/utils': 4.0.15
@@ -5022,10 +4996,10 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  ai-sdk-ollama@2.1.0(ai@6.0.3(zod@4.2.1))(zod@4.2.1):
+  ai-sdk-ollama@3.0.0(ai@6.0.3(zod@4.2.1))(zod@4.2.1):
     dependencies:
-      '@ai-sdk/provider': 2.0.0
-      '@ai-sdk/provider-utils': 3.0.19(zod@4.2.1)
+      '@ai-sdk/provider': 3.0.0
+      '@ai-sdk/provider-utils': 4.0.1(zod@4.2.1)
       ai: 6.0.3(zod@4.2.1)
       ollama: 0.6.3
     transitivePeerDependencies:
