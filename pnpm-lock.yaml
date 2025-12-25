@@ -60,6 +60,9 @@ importers:
         specifier: ^5.0.9
         version: 5.0.9(@types/react@19.2.7)(immer@11.1.0)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
     devDependencies:
+      '@agentic/triage':
+        specifier: https://github.com/jbcom/nodejs-agentic-triage.git
+        version: git+https://git@github.com:jbcom/nodejs-agentic-triage.git#ca780e1c3773ccdc76e19a36db8e07b4483f6d1c
       '@biomejs/biome':
         specifier: 2.3.10
         version: 2.3.10
@@ -141,6 +144,9 @@ importers:
       vitest:
         specifier: ^4.0.15
         version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.3.0(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2)
+      vitest-agentic-control:
+        specifier: https://github.com/jbcom/nodejs-agentic-control.git#path:packages/vitest-agentic-control
+        version: git+https://git@github.com:jbcom/nodejs-agentic-control.git#76297becd1b51a6a905109cf43e5eea45cfb8395&path:packages/vitest-agentic-control(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.3.0(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2))
       yuka:
         specifier: ^0.7.8
         version: 0.7.8
@@ -162,6 +168,12 @@ packages:
   '@actions/io@2.0.0':
     resolution: {integrity: sha512-Jv33IN09XLO+0HS79aaODsvIRyduiF7NY/F6LYeK5oeUmrsz7aFdRphQjFoESF4jS7lMauDOttKALcpapVDIAg==}
 
+  '@agentic/triage@git+https://git@github.com:jbcom/nodejs-agentic-triage.git#ca780e1c3773ccdc76e19a36db8e07b4483f6d1c':
+    resolution: {commit: ca780e1c3773ccdc76e19a36db8e07b4483f6d1c, repo: https://github.com/jbcom/nodejs-agentic-triage.git, type: git}
+    version: 0.2.1
+    engines: {node: '>=20'}
+    hasBin: true
+
   '@ai-sdk/azure@2.0.90':
     resolution: {integrity: sha512-7Vy4h7Emtk/vzMYwpcliBfJChDQ7K8GMjbLnOLoN/vxZXq6h6QZAc9dFLoY7Pga534e2GOY6ornDfoA6GidftA==}
     engines: {node: '>=18'}
@@ -170,6 +182,12 @@ packages:
 
   '@ai-sdk/gateway@2.0.23':
     resolution: {integrity: sha512-qmX7afPRszUqG5hryHF3UN8ITPIRSGmDW6VYCmByzjoUkgm3MekzSx2hMV1wr0P+llDeuXb378SjqUfpvWJulg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/gateway@3.0.2':
+    resolution: {integrity: sha512-giJEg9ob45htbu3iautK+2kvplY2JnTj7ir4wZzYSQWvqGatWfBBfDuNCU5wSJt9BCGjymM5ZS9ziD42JGCZBw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -699,6 +717,11 @@ packages:
   '@gerrit0/mini-shiki@3.20.0':
     resolution: {integrity: sha512-Wa57i+bMpK6PGJZ1f2myxo3iO+K/kZikcyvH8NIqNNZhQUbDav7V9LQmWOXhf946mz5c1NZ19WMsGYiDKTryzQ==}
 
+  '@graphql-typed-document-node/core@3.2.0':
+    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+
   '@hmans/id@0.0.1':
     resolution: {integrity: sha512-2BxHxZziST8F0P5Dt+UuttF2lwCaKK7QFR814PwEp708l6dm86pjWJAFr7BKyAGu27mRpYcghvCAUAucNdsCdw==}
 
@@ -883,6 +906,10 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@linear/sdk@68.1.0':
+    resolution: {integrity: sha512-I6MMle0hXR8SC2KVaDHt+vQvGDSQQwhfA9eq17hAL1y1Sf+7aGpaCXzMx3S4wcD9fLS5LZxd7aY8nAiTYHjoEg==}
+    engines: {node: '>=18.x'}
 
   '@mediapipe/tasks-vision@0.10.17':
     resolution: {integrity: sha512-CZWV/q6TTe8ta61cZXjfnnHsfWIdFhms03M9T7Cnd5y2mdpylJM0rF1qRq+wsQVRMLz1OYPVEBU9ph2Bx8cxrg==}
@@ -1717,8 +1744,20 @@ packages:
     peerDependencies:
       ai: ^5.0.108
 
+  ai-sdk-ollama@3.0.0:
+    resolution: {integrity: sha512-ik0BkfaB0jxR62s+kx64UTmZVVP/qsy/tCU2K5L341rF4L0f9ofE/lA34q0DIX4c293wvIMsQFRuuZy86CAwjQ==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      ai: ^6.0.0
+
   ai@5.0.116:
     resolution: {integrity: sha512-+2hYJ80/NcDWuv9K2/MLP3cTCFgwWHmHlS1tOpFUKKcmLbErAAlE/S2knsKboc3PNAu8pQkDr2N3K/Vle7ENgQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  ai@6.0.3:
+    resolution: {integrity: sha512-OOo+/C+sEyscoLnbY3w42vjQDICioVNyS+F+ogwq6O5RJL/vgWGuiLzFwuP7oHTeni/MkmX8tIge48GTdaV7QQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2383,6 +2422,10 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  graphql@15.10.1:
+    resolution: {integrity: sha512-BL/Xd/T9baO6NFzoMpiMD7YUZ62R6viR5tp/MULVEnbYJXZA//kRNW7J0j1w/wXArgL0sCxhDfK5dczSKn3+cg==}
+    engines: {node: '>= 10.x'}
 
   handlebars@4.7.8:
     resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==}
@@ -3980,6 +4023,13 @@ packages:
       yaml:
         optional: true
 
+  vitest-agentic-control@git+https://git@github.com:jbcom/nodejs-agentic-control.git#76297becd1b51a6a905109cf43e5eea45cfb8395&path:packages/vitest-agentic-control:
+    resolution: {commit: 76297becd1b51a6a905109cf43e5eea45cfb8395, path: packages/vitest-agentic-control, repo: https://github.com/jbcom/nodejs-agentic-control.git, type: git}
+    version: 1.0.0
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      vitest: '>=1.0.0'
+
   vitest@4.0.15:
     resolution: {integrity: sha512-n1RxDp8UJm6N0IbJLQo+yzLZ2sQCDyl1o0LeugbPWf8+8Fttp29GghsQBjYJVmWq3gBFfe9Hs1spR44vovn2wA==}
     engines: {node: ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -4218,6 +4268,21 @@ snapshots:
 
   '@actions/io@2.0.0': {}
 
+  '@agentic/triage@git+https://git@github.com:jbcom/nodejs-agentic-triage.git#ca780e1c3773ccdc76e19a36db8e07b4483f6d1c':
+    dependencies:
+      '@actions/core': 2.0.1
+      '@ai-sdk/mcp': 1.0.1(zod@3.25.76)
+      '@linear/sdk': 68.1.0
+      '@playwright/mcp': 0.0.53
+      ai: 6.0.3(zod@3.25.76)
+      ai-sdk-ollama: 3.0.0(ai@6.0.3(zod@3.25.76))(zod@3.25.76)
+      commander: 14.0.2
+      glob: 13.0.0
+      octokit: 5.0.5
+      ollama: 0.6.3
+      picocolors: 1.1.1
+      zod: 3.25.76
+
   '@ai-sdk/azure@2.0.90(zod@4.2.1)':
     dependencies:
       '@ai-sdk/openai': 2.0.88(zod@4.2.1)
@@ -4239,6 +4304,13 @@ snapshots:
       '@ai-sdk/provider-utils': 3.0.19(zod@4.2.1)
       '@vercel/oidc': 3.0.5
       zod: 4.2.1
+
+  '@ai-sdk/gateway@3.0.2(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.0
+      '@ai-sdk/provider-utils': 4.0.1(zod@3.25.76)
+      '@vercel/oidc': 3.0.5
+      zod: 3.25.76
 
   '@ai-sdk/google@2.0.51(zod@4.2.1)':
     dependencies:
@@ -4601,6 +4673,10 @@ snapshots:
       '@shikijs/types': 3.20.0
       '@shikijs/vscode-textmate': 10.0.2
 
+  '@graphql-typed-document-node/core@3.2.0(graphql@15.10.1)':
+    dependencies:
+      graphql: 15.10.1
+
   '@hmans/id@0.0.1': {}
 
   '@hmans/queue@0.0.1': {}
@@ -4763,6 +4839,11 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
+
+  '@linear/sdk@68.1.0':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@15.10.1)
+      graphql: 15.10.1
 
   '@mediapipe/tasks-vision@0.10.17': {}
 
@@ -5696,6 +5777,15 @@ snapshots:
       - zod
     optional: true
 
+  ai-sdk-ollama@3.0.0(ai@6.0.3(zod@3.25.76))(zod@3.25.76):
+    dependencies:
+      '@ai-sdk/provider': 3.0.0
+      '@ai-sdk/provider-utils': 4.0.1(zod@3.25.76)
+      ai: 6.0.3(zod@3.25.76)
+      ollama: 0.6.3
+    transitivePeerDependencies:
+      - zod
+
   ai@5.0.116(zod@3.25.76):
     dependencies:
       '@ai-sdk/gateway': 2.0.23(zod@3.25.76)
@@ -5711,6 +5801,14 @@ snapshots:
       '@ai-sdk/provider-utils': 3.0.19(zod@4.2.1)
       '@opentelemetry/api': 1.9.0
       zod: 4.2.1
+
+  ai@6.0.3(zod@3.25.76):
+    dependencies:
+      '@ai-sdk/gateway': 3.0.2(zod@3.25.76)
+      '@ai-sdk/provider': 3.0.0
+      '@ai-sdk/provider-utils': 4.0.1(zod@3.25.76)
+      '@opentelemetry/api': 1.9.0
+      zod: 3.25.76
 
   ajv-formats@3.0.1(ajv@8.17.1):
     optionalDependencies:
@@ -6445,6 +6543,8 @@ snapshots:
   graceful-fs@4.2.10: {}
 
   graceful-fs@4.2.11: {}
+
+  graphql@15.10.1: {}
 
   handlebars@4.7.8:
     dependencies:
@@ -7968,6 +8068,10 @@ snapshots:
       fsevents: 2.3.3
       tsx: 4.21.0
       yaml: 2.8.2
+
+  vitest-agentic-control@git+https://git@github.com:jbcom/nodejs-agentic-control.git#76297becd1b51a6a905109cf43e5eea45cfb8395&path:packages/vitest-agentic-control(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.3.0(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2)):
+    dependencies:
+      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.3.0(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2)
 
   vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.3.0(postcss@8.5.6))(tsx@4.21.0)(yaml@2.8.2):
     dependencies:

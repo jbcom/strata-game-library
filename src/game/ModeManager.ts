@@ -1,59 +1,7 @@
 import type React from 'react';
 import { create } from 'zustand';
 import type { BaseEntity, SystemFn } from '../core/ecs/types';
-
-/**
- * Unique identifier for a game mode.
- */
-export type GameMode = string;
-
-/**
- * Defines input mappings for a specific game mode.
- */
-export interface InputMapping {
-    [action: string]: {
-        /** Keyboard keys that trigger this action. */
-        keyboard?: string[];
-        /** Gamepad button name or index. */
-        gamepad?: string | number;
-        /** Whether device tilt/motion is used. */
-        tilt?: boolean;
-    };
-}
-
-/**
- * Configuration for a game mode.
- */
-export interface ModeConfig {
-    /** Unique identifier for the mode. */
-    id: GameMode;
-    /** ECS systems active during this mode. */
-    systems: SystemFn<any>[];
-    /** Input mappings for this mode. */
-    inputMap: InputMapping;
-    /** Optional React UI overlay for this mode. */
-    ui?: React.ComponentType<{ instance: ModeInstance }>;
-    /** Called when the mode becomes active. */
-    onEnter?: (props?: any) => void;
-    /** Called when the mode is removed. */
-    onExit?: (props?: any) => void;
-    /** Called when another mode is pushed on top of this one. */
-    onPause?: (props?: any) => void;
-    /** Called when returning to this mode after a top mode is popped. */
-    onResume?: (props?: any) => void;
-}
-
-/**
- * A runtime instance of a game mode, combining static config with dynamic props.
- */
-export interface ModeInstance {
-    /** The static configuration for this mode. */
-    config: ModeConfig;
-    /** Dynamic props passed when activating the mode. */
-    props: any;
-    /** Timestamp when this mode instance was created. */
-    pushedAt: number;
-}
+import type { GameMode, InputMapping, ModeInstance, ModeManager, ModeDefinition as ModeConfig } from './types';
 
 /**
  * Internal state for the ModeManager.
@@ -62,30 +10,6 @@ interface ModeState {
     modes: Map<GameMode, ModeConfig>;
     current: ModeInstance | null;
     stack: ModeInstance[];
-}
-
-/**
- * Public interface for the ModeManager.
- */
-export interface ModeManager {
-    /** Registers a new game mode configuration. */
-    register: (mode: ModeConfig) => void;
-    /** Pushes a new mode onto the stack. */
-    push: (modeId: GameMode, props?: any) => void;
-    /** Removes the top mode from the stack. */
-    pop: () => void;
-    /** Replaces the current mode with a new one. */
-    replace: (modeId: GameMode, props?: any) => void;
-    /** The currently active mode instance. */
-    current: ModeInstance | null;
-    /** The stack of active mode instances. */
-    stack: ModeInstance[];
-    /** Retrieves a registered mode configuration. */
-    getConfig: (modeId: GameMode) => ModeConfig | undefined;
-    /** Checks if a specific mode is currently active. */
-    isActive: (modeId: GameMode) => boolean;
-    /** Checks if a specific mode configuration is registered. */
-    hasMode: (modeId: GameMode) => boolean;
 }
 
 /**

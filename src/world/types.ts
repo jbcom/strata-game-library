@@ -1,13 +1,11 @@
 import type * as THREE from 'three';
 import type { WeatherStateConfig } from '../core/weather';
 import type { BiomeType } from '../utils/texture-loader';
+import type { GameMode } from '../game/types';
 
 /**
  * World Topology Type Definitions
- * Based on RFC-003: World Topology System
  */
-
-export type GameMode = string;
 
 export type BoundingShape =
     | { type: 'sphere'; radius: number }

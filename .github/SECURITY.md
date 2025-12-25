@@ -60,7 +60,7 @@ Strata employs multiple layers of security:
 
 ### 2. Custom Security Scanner
 
-Our custom `@strata/triage` security scanner checks for:
+Our custom `@agentic/triage` security scanner checks for:
 
 - Division by zero vulnerabilities
 - Array out-of-bounds access
@@ -83,7 +83,7 @@ All PRs automatically run:
 ### 4. Code Review
 
 - All code changes require review
-- Automated AI review via `@strata/triage`
+- Automated AI review via `@agentic/triage`
 - Human review for significant changes
 
 ## Best Practices for Contributors

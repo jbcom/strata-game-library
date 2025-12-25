@@ -4,6 +4,25 @@ import { BaseEntity, type SystemFn } from '../core/ecs/types';
 import { type InputManager, InputManagerConfig } from '../core/input';
 import type { GameStoreApi } from '../core/state';
 
+/**
+ * Unique identifier for a game mode.
+ */
+export type GameMode = string;
+
+/**
+ * Defines input mappings for a specific game mode.
+ */
+export interface InputMapping {
+    [action: string]: {
+        /** Keyboard keys that trigger this action. */
+        keyboard?: string[];
+        /** Gamepad button name or index. */
+        gamepad?: string | number;
+        /** Whether device tilt/motion is used. */
+        tilt?: boolean;
+    };
+}
+
 // === METADATA ===
 export interface GameDefinition {
     name: string;
@@ -164,35 +183,28 @@ export interface ModeDefinition {
     ui?: React.ComponentType<{ instance: ModeInstance }>;
     camera?: any;
     physics?: any;
-    setup?: (context: ModeContext) => Promise<void>;
-    teardown?: (context: ModeContext) => Promise<void>;
-    onEnter?: (context: ModeContext) => void;
-    onExit?: (context: ModeContext) => void;
-    onPause?: (context: ModeContext) => void;
-    onResume?: (context: ModeContext) => void;
+    setup?: (props?: any) => Promise<void>;
+    teardown?: (props?: any) => Promise<void>;
+    onEnter?: (props?: any) => void;
+    onExit?: (props?: any) => void;
+    onPause?: (props?: any) => void;
+    onResume?: (props?: any) => void;
 }
 
 export interface ModeInstance {
     config: ModeDefinition;
-    props: object;
+    props: any;
     pushedAt: number;
-}
-
-export interface ModeContext {
-    game: Game;
-    world: any; // StrataWorld
-    modeManager: ModeManager;
-    sceneManager: SceneManager;
-    instance: ModeInstance;
 }
 
 export interface ModeManager {
     register(mode: ModeDefinition): void;
-    push(modeId: string, props?: object): Promise<void>;
-    pop(): Promise<void>;
-    replace(modeId: string, props?: object): Promise<void>;
+    push(modeId: string, props?: any): void;
+    pop(): void;
+    replace(modeId: string, props?: any): void;
     current: ModeInstance | null;
     stack: ModeInstance[];
+    getConfig(modeId: string): ModeDefinition | undefined;
     isActive(modeId: string): boolean;
     hasMode(modeId: string): boolean;
 }

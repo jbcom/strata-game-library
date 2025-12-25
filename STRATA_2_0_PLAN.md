@@ -102,6 +102,7 @@ This document outlines the comprehensive plan for Strata 2.0, transforming the p
 **Purpose**: Primary documentation site with JSDoc/TypeDoc-generated API reference
 
 **Content Structure**:
+
 ```
 strata.game/
 ├── / (home)                    → Landing page with showcase
@@ -127,6 +128,7 @@ strata.game/
 ### GitHub Pages Configuration
 
 Each repository needs:
+
 ```yaml
 # .github/workflows/docs.yml
 name: Deploy Documentation
@@ -158,6 +160,7 @@ jobs:
 ### Philosophy: "Layer by Layer, World by World"
 
 Strata (meaning "layers") perfectly embodies the framework's architecture:
+
 - **Geological metaphor**: Building worlds layer by layer
 - **Framework layers**: From core algorithms to declarative games
 - **Visual layers**: Terrain → Water → Vegetation → Sky
@@ -193,7 +196,7 @@ Strata (meaning "layers") perfectly embodies the framework's architecture:
   ║   ═══════════════        ║
   ║   ━━━━━━━━━━━━━━━━━      ║
   ╚══════════════════════════╝
-  
+
   Layered horizontal lines through
   or below the wordmark, suggesting
   geological strata / framework layers
@@ -219,13 +222,13 @@ Strata (meaning "layers") perfectly embodies the framework's architecture:
   --color-background: #0a0f1a;
   --color-surface: #111827;
   --color-primary: #06b6d4;
-  
+
   /* Strata extensions */
   --strata-terrain: #78350f;
   --strata-water: #0284c7;
   --strata-vegetation: #15803d;
   --strata-sky: #7c3aed;
-  
+
   /* Semantic mapping */
   --strata-layer-1: var(--strata-terrain);
   --strata-layer-2: var(--strata-water);
@@ -241,6 +244,7 @@ Strata (meaning "layers") perfectly embodies the framework's architecture:
 ### Core Package (nodejs-strata) Focus
 
 **Keep in Main Repository**:
+
 ```
 src/
 ├── core/          # Pure TypeScript algorithms (NO React)
@@ -318,7 +322,7 @@ src/
 }
 ```
 
-> **Migration**: Users will migrate from `@jbcom/strata` → `@strata/core`. 
+> **Migration**: Users will migrate from `@jbcom/strata` → `@strata/core`.
 > The `@jbcom/strata` package will be deprecated with a postinstall message pointing to `@strata/core`.
 
 ---
@@ -527,7 +531,7 @@ Work is organized by **functional domains** with explicit issue dependencies. Mi
 | Milestone | Status | Issues | Blocking |
 |-----------|--------|--------|----------|
 | M1: Export Cleanup | 🔲 Not Started | #85, #86, #87 | M2, M4 |
-| M2: Package Extraction | 🔲 Not Started | #88, #89, strata-*#1 | M4 |
+| M2: Package Extraction | 🔄 In Progress | #88, #89, strata-*#1 | M4 |
 | M3: Infrastructure | 🔲 Not Started | (maintainer tasks) | M4 |
 | M4: Documentation Site | 🔲 Not Started | (new issues TBD) | M5, M6 (soft) |
 | M5: Game Orchestration | 🔲 Not Started | Epic #50 | M7, M8 |
@@ -590,11 +594,12 @@ Issues are tracked in jbcom organization projects:
 | `src/shaders/` | nodejs-strata-shaders | strata-shaders#1 | 🔲 Pending |
 | `src/presets/` | nodejs-strata-presets | strata-presets#1 | 🔲 Pending |
 | `examples/` | nodejs-strata-examples | strata-examples#4 | 🔲 Pending |
-| `internal/triage/` | (delete, use nodejs-agentic-triage) | strata#88 | 🔲 Pending |
+| `internal/triage/` | (delete, use nodejs-agentic-triage) | strata#88 | ✅ Complete |
 
 ### Issue Transfer Plan
 
 No issues currently require transfer between repositories. Future sub-issues for:
+
 - Shader-specific bugs → nodejs-strata-shaders
 - Preset-specific bugs → nodejs-strata-presets
 - Example-specific bugs → nodejs-strata-examples
@@ -602,6 +607,7 @@ No issues currently require transfer between repositories. Future sub-issues for
 ### Labels Applied
 
 All v2.0 issues should have:
+
 - `v2.0` - Strata 2.0 release work
 - `milestone:M[X]` - Which milestone (to be created)
 - `architecture` / `documentation` / `breaking-change` as appropriate
@@ -656,6 +662,7 @@ All v2.0 issues should have:
 - [ ] Automated release via semantic-release?
 
 > **Decision**: Use `@strata` npm scope. Packages will be:
+>
 > - `@strata/core` (was `@jbcom/strata`)
 > - `@strata/shaders`
 > - `@strata/presets`
@@ -754,7 +761,7 @@ Workshop flows become agentic-control configurations:
 flows:
   - id: platformer-wizard
     entry: flows/platformer.yaml
-  - id: racing-wizard  
+  - id: racing-wizard
     entry: flows/racing.yaml
   - id: rpg-wizard
     entry: flows/rpg.yaml
@@ -775,9 +782,9 @@ nodejs-strata-studio/          # Monorepo (from typescript-tutor)
 │   ├── arcade/                # Showcase gallery
 │   └── ai/                    # AI client (WASM)
 ├── apps/
-│   ├── workshop.strata.game/  
-│   ├── learn.strata.game/     
-│   └── arcade.strata.game/    
+│   ├── workshop.strata.game/
+│   ├── learn.strata.game/
+│   └── arcade.strata.game/
 └── .agentic-control/
     └── flows/                 # Workshop flow configs
 ```

@@ -38,14 +38,19 @@ export function createGame(definition: GameDefinition): Game {
 
     // Managers that need game instance reference
     let gameInstance: Game;
-    const modeManager = createModeManager(definition.defaultMode, () => gameInstance);
+    const modeManager = createModeManager(definition.defaultMode);
 
     const inputManager = createInputManager(definition.controls as any);
     const audioManager = createSoundManager();
 
     // 6. Register scenes
     for (const [id, scene] of Object.entries(definition.scenes)) {
-        sceneManager.register({ ...scene, id });
+        sceneManager.register({
+            setup: async () => {},
+            teardown: async () => {},
+            ...scene,
+            id,
+        });
     }
 
     // 7. Register modes

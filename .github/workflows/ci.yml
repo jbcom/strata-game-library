@@ -22,16 +22,13 @@ jobs:
     outputs:
       should_test: ${{ steps.changes.outputs.should_test }}
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
-
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: pnpm/action-setup@v4 # v4.0.0
         with:
           version: 9
-
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
@@ -39,64 +36,52 @@ jobs:
           STORE_PATH=$(pnpm store path --silent 2>/dev/null || true)
           STORE_PATH="${STORE_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/pnpm/store}"
           echo "store=$STORE_PATH" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+      - uses: actions/cache@v4 # v4.2.0
         with:
           path: ${{ steps.pnpm-cache.outputs.store }}
           key: pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json') }}
           restore-keys: pnpm-store-
-
       - name: Install dependencies
         run: pnpm install
-
       - name: Build
         run: pnpm run build
-
       - name: Lint
         run: pnpm run lint
-
       - name: Type check
         run: pnpm run typecheck
-
       - name: Check if tests should run
         id: changes
         run: |
           # Run tests on PRs and pushes to main
           echo "should_test=true" >> $GITHUB_OUTPUT
-
       - name: Upload build artifacts
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         with:
           name: build-output
-          path: |
-            dist
+          path: dist
           retention-days: 1
-
   test:
     name: Unit Tests
     needs: build
     if: needs.build.outputs.should_test == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
-
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: pnpm/action-setup@v4 # v4.0.0
         with:
           version: 9
-
       - name: Install dependencies
         run: pnpm install
-
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+      - uses: actions/download-artifact@v4 # v4.1.8
         with:
           name: build-output
+          path: dist
 
       - name: Run tests with coverage
-        run: pnpm run test:coverage -- --reporter=default --reporter=./node_modules/agentic-triage/dist/reporters/vitest.js
+        run: pnpm run test:coverage -- --reporter=default --reporter=vitest-agentic-control
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
@@ -104,7 +89,7 @@ jobs:
           file: coverage/lcov.info
 
       - name: Upload test results
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         if: always()
         with:
           name: test-results
@@ -119,31 +104,28 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'run-e2e')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
-
-      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: pnpm/action-setup@v4 # v4.0.0
         with:
           version: 9
-
       - name: Install dependencies
         run: pnpm install
-
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+      - uses: actions/download-artifact@v4 # v4.1.8
         with:
           name: build-output
+          path: dist
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: pnpm run test:e2e -- --project=chromium --reporter=./node_modules/agentic-triage/dist/reporters/playwright.js
+        run: pnpm run test:e2e -- --project=chromium --reporter=agentic-triage/reporters/playwright
 
       - name: Upload E2E results
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         if: always()
         with:
           name: e2e-results

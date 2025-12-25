@@ -106,7 +106,7 @@ git commit -m "test: add unit tests for pathfinding"
 git push origin your-branch-name
 ```
 
-Then create a PR on GitHub. Your PR will be automatically reviewed by `@strata/triage` CLI.
+Then create a PR on GitHub. Your PR will be automatically reviewed by `@agentic/triage` CLI.
 
 ## Project Structure
 
@@ -332,7 +332,7 @@ Our issue and PR labels:
 ## Pull Request Process
 
 1. **Create PR** - Fill out the PR template with all required information
-2. **Automated Review** - `@strata/triage` CLI will automatically review your PR
+2. **Automated Review** - `@agentic/triage` CLI will automatically review your PR
 3. **Address Feedback** - Respond to review comments and make changes
 4. **Tests Pass** - Ensure all CI checks pass
 5. **Approval** - Wait for maintainer approval
