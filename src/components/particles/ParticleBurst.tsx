@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import type { ParticleBurstProps, ParticleEmitterRef } from './types';
 import { ParticleEmitter } from './ParticleEmitter';
+import type { ParticleBurstProps, ParticleEmitterRef } from './types';
 
 /**
  * One-Shot Particle Burst.
@@ -26,7 +26,12 @@ export const ParticleBurst = forwardRef<ParticleEmitterRef, ParticleBurstProps>(
         const emitterRef = useRef<ParticleEmitterRef>(null);
         const lastTrigger = useRef<boolean | number>(false);
 
-        useImperativeHandle(ref, () => emitterRef.current!);
+        useImperativeHandle(ref, () => {
+            if (!emitterRef.current) {
+                throw new Error('ParticleBurst: emitter not initialized');
+            }
+            return emitterRef.current;
+        });
 
         useEffect(() => {
             if (trigger !== lastTrigger.current && trigger) {

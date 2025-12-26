@@ -145,6 +145,8 @@ export interface AdvancedWaterProps {
     segments?: number;
     /** Shallow water color. */
     color?: THREE.ColorRepresentation;
+    /** Alias for color. @deprecated Use color instead. */
+    waterColor?: THREE.ColorRepresentation;
     /** Deep water color. */
     deepColor?: THREE.ColorRepresentation;
     /** Foam color. */
@@ -176,7 +178,8 @@ export const AdvancedWater = forwardRef<THREE.Mesh, AdvancedWaterProps>(
             position = [0, 0, 0],
             size = 100,
             segments = 64,
-            color = 0x2a5a8a,
+            color: colorProp = 0x2a5a8a,
+            waterColor, // Alias for color
             deepColor = 0x1a3a5a,
             foamColor = 0x8ab4d4,
             causticIntensity = 0.4,
@@ -185,6 +188,7 @@ export const AdvancedWater = forwardRef<THREE.Mesh, AdvancedWaterProps>(
         },
         ref
     ) => {
+        const color = waterColor !== undefined ? waterColor : colorProp;
         const internalRef = useRef<THREE.Mesh>(null);
         const waterRef = ref || internalRef;
 

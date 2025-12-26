@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { SpringChain } from '../../core/animation';
 import type { TailPhysicsProps, TailPhysicsRef } from './types';
@@ -92,7 +92,7 @@ export const TailPhysics = forwardRef<TailPhysicsRef, TailPhysicsProps>(
         const segments = useMemo(() => {
             return Array.from({ length: segmentCount }, (_, i) => (
                 <object3D
-                    key={i}
+                    key={`segment-${i}-${segmentLength}`}
                     ref={(el) => {
                         if (el) segmentsRef.current[i] = el;
                     }}

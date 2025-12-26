@@ -33,3 +33,5 @@ export {
     useWander,
     YUKA,
 } from './useYuka';
+export * from './useKeyboardControls';
+

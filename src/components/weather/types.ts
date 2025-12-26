@@ -14,6 +14,8 @@ export interface RainProps {
     height?: number;
     /** Visual density and opacity of the rain (0-1). Default: 1.0. */
     intensity?: number;
+    /** Alias for intensity. @deprecated Use intensity instead. */
+    windStrength?: number;
     /** Wind vector affecting rain angle and speed. Default: [0.5, 0, 0.2]. */
     wind?: THREE.Vector3;
     /** Tint color for rain drops. Default: '#aaccff'. */
@@ -35,6 +37,8 @@ export interface SnowProps {
     height?: number;
     /** Visual density and opacity of the snow (0-1). Default: 1.0. */
     intensity?: number;
+    /** Alias for intensity. @deprecated Use intensity instead. */
+    windStrength?: number;
     /** Wind vector affecting snowflake drift. Default: [0.3, 0, 0.1]. */
     wind?: THREE.Vector3;
     /** Tint color for snowflakes. Default: white. */

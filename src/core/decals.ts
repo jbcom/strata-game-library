@@ -301,7 +301,9 @@ export class DecalProjector {
             }
         });
 
-        toRemove.forEach((id) => this.removeDecal(id));
+        for (const id of toRemove) {
+            this.removeDecal(id);
+        }
     }
 
     removeDecal(id: string): boolean {
@@ -313,7 +315,9 @@ export class DecalProjector {
                 const materials = Array.isArray(decal.mesh.material)
                     ? decal.mesh.material
                     : [decal.mesh.material];
-                materials.forEach((mat) => mat.dispose());
+                for (const mat of materials) {
+                    mat.dispose();
+                }
             }
             this.decals.delete(id);
             return true;
@@ -333,27 +337,29 @@ export class DecalProjector {
         let oldest: DecalInstance | null = null;
         let oldestTime = Infinity;
 
-        this.decals.forEach((decal) => {
+        for (const decal of this.decals.values()) {
             if (decal.createdAt < oldestTime) {
                 oldestTime = decal.createdAt;
                 oldest = decal;
             }
-        });
+        }
 
         return oldest;
     }
 
     clear(): void {
-        this.decals.forEach((decal) => {
+        for (const decal of this.decals.values()) {
             if (decal.mesh) {
                 decal.mesh.geometry.dispose();
                 // Handle both single materials and material arrays
                 const materials = Array.isArray(decal.mesh.material)
                     ? decal.mesh.material
                     : [decal.mesh.material];
-                materials.forEach((mat) => mat.dispose());
+                for (const mat of materials) {
+                    mat.dispose();
+                }
             }
-        });
+        }
         this.decals.clear();
     }
 

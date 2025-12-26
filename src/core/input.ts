@@ -366,8 +366,18 @@ export class InputManager {
             timestamp: Date.now(),
         };
 
-        this.listeners.get(type)?.forEach((callback) => callback(event));
-        this.listeners.get('*')?.forEach((callback) => callback(event));
+        const typeListeners = this.listeners.get(type);
+        if (typeListeners) {
+            for (const callback of typeListeners) {
+                callback(event);
+            }
+        }
+        const wildcardListeners = this.listeners.get('*');
+        if (wildcardListeners) {
+            for (const callback of wildcardListeners) {
+                callback(event);
+            }
+        }
     }
 
     private handlePointerDown = (e: PointerEvent): void => {

@@ -88,7 +88,10 @@ export const YukaStateMachine = forwardRef<YukaStateMachineRef, YukaStateMachine
             ref,
             () => ({
                 get stateMachine() {
-                    return stateMachineRef.current!;
+                    if (!stateMachineRef.current) {
+                        throw new Error('StateMachine not initialized');
+                    }
+                    return stateMachineRef.current;
                 },
                 changeTo: (stateName: string) => {
                     const sm = stateMachineRef.current;

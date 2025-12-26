@@ -1158,7 +1158,7 @@ export class LookAtController {
 
         const targetQuat = new THREE.Quaternion();
         const lookMatrix = new THREE.Matrix4();
-        lookMatrix.lookAt(new THREE.Vector3(), direction, this.config.upVector!);
+        lookMatrix.lookAt(new THREE.Vector3(), direction, this.config.upVector ?? new THREE.Vector3(0, 1, 0));
         targetQuat.setFromRotationMatrix(lookMatrix);
 
         const localTargetQuat = worldQuat.clone().invert().multiply(targetQuat);

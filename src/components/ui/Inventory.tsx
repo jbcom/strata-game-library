@@ -1,6 +1,6 @@
-import { useFrame } from '@react-three/fiber';
+
 import type React from 'react';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 import type { InventoryProps, InventoryRef, InventorySlot } from './types';
 
 /**

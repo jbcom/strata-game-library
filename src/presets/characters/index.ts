@@ -6,7 +6,7 @@
  */
 
 import * as THREE from 'three';
-import { createFurSystem, type FurOptions } from '../fur';
+import { createFurSystem, type FurOptions, updateFurUniforms } from '../fur';
 
 export interface CharacterJoint {
     group: THREE.Group;
@@ -31,6 +31,10 @@ export interface CharacterOptions {
     skinColor?: THREE.ColorRepresentation;
     furOptions?: FurOptions;
     scale?: number;
+    /** Whether to include a muzzle/snout on the head. Default: true */
+    includeMuzzle?: boolean;
+    /** Whether to include a tail. Default: true */
+    includeTail?: boolean;
 }
 
 export interface CharacterState {
@@ -39,6 +43,8 @@ export interface CharacterState {
     rotation: number;
     position: THREE.Vector3;
     velocity: THREE.Vector3;
+    /** Whether the character is currently performing an attack. */
+    isAttacking?: boolean;
 }
 
 /**
@@ -49,7 +55,13 @@ export function createCharacter(options: CharacterOptions = {}): {
     joints: CharacterJoints;
     state: CharacterState;
 } {
-    const { skinColor = 0x3e2723, furOptions = {}, scale = 1.0 } = options;
+    const {
+        skinColor = 0x3e2723,
+        furOptions = {},
+        scale = 1.0,
+        includeMuzzle = true,
+        includeTail = true,
+    } = options;
 
     const root = new THREE.Group();
     const joints: CharacterJoints = {};
@@ -109,20 +121,22 @@ export function createCharacter(options: CharacterOptions = {}): {
     joints.head.mesh = headMesh;
 
     // Muzzle & Eyes (Detail)
-    const muzzle = new THREE.Mesh(
-        new THREE.SphereGeometry(0.15 * scale, 16, 16),
-        new THREE.MeshStandardMaterial({ color: 0x5d4037 })
-    );
-    muzzle.position.set(0, -0.05 * scale, 0.2 * scale);
-    muzzle.scale.set(1, 0.8, 1.2);
-    headMesh.add(muzzle);
+    if (includeMuzzle) {
+        const muzzle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.15 * scale, 16, 16),
+            new THREE.MeshStandardMaterial({ color: 0x5d4037 })
+        );
+        muzzle.position.set(0, -0.05 * scale, 0.2 * scale);
+        muzzle.scale.set(1, 0.8, 1.2);
+        headMesh.add(muzzle);
 
-    const nose = new THREE.Mesh(
-        new THREE.SphereGeometry(0.05 * scale),
-        new THREE.MeshBasicMaterial({ color: 0x111 })
-    );
-    nose.position.set(0, 0, 0.25 * scale);
-    muzzle.add(nose);
+        const nose = new THREE.Mesh(
+            new THREE.SphereGeometry(0.05 * scale),
+            new THREE.MeshBasicMaterial({ color: 0x111 })
+        );
+        nose.position.set(0, 0, 0.25 * scale);
+        muzzle.add(nose);
+    }
 
     // LEGS
     const legGeo = new THREE.CapsuleGeometry(0.12 * scale, 0.4 * scale, 4, 8);
@@ -165,14 +179,19 @@ export function createCharacter(options: CharacterOptions = {}): {
     joints.armR.mesh = armRMesh;
 
     // TAIL
-    const tail = new THREE.Group();
-    tail.position.set(0, 0, -0.3 * scale);
-    hips.add(tail);
-    joints.tail = { group: tail };
-    const tailMesh = createFurryPart(new THREE.ConeGeometry(0.15 * scale, 0.8 * scale, 8), tail);
-    tailMesh.rotation.x = -1.2;
-    tailMesh.position.y = -0.2 * scale;
-    joints.tail.mesh = tailMesh;
+    if (includeTail) {
+        const tail = new THREE.Group();
+        tail.position.set(0, 0, -0.3 * scale);
+        hips.add(tail);
+        joints.tail = { group: tail };
+        const tailMesh = createFurryPart(
+            new THREE.ConeGeometry(0.15 * scale, 0.8 * scale, 8),
+            tail
+        );
+        tailMesh.rotation.x = -1.2;
+        tailMesh.position.y = -0.2 * scale;
+        joints.tail.mesh = tailMesh;
+    }
 
     // Store default positions/rotations
     Object.values(joints).forEach((joint) => {
@@ -186,18 +205,44 @@ export function createCharacter(options: CharacterOptions = {}): {
 }
 
 /**
+ * Options for character animation.
+ */
+export interface AnimateCharacterOptions {
+    /** Time step for physics-based animation parts. Default: 0.016 */
+    deltaTime?: number;
+    /** Whether the character is currently performing an attack. */
+    isAttacking?: boolean;
+}
+
+/**
  * Animate character based on state
  */
 export function animateCharacter(
     character: { root: THREE.Group; joints: CharacterJoints; state: CharacterState },
     time: number,
-    _deltaTime: number = 0.016
+    options: number | AnimateCharacterOptions = 0.016
 ): void {
     const { joints, state } = character;
+
+    // Extract options - deltaTime is accepted for API compatibility but currently unused
+    // as animation is driven by absolute time rather than delta time
+    let isAttacking = false;
+
+    if (typeof options === 'object') {
+        isAttacking = options.isAttacking ?? false;
+    }
+
     const speed = state.speed / state.maxSpeed; // 0 to 1
     const walkCycle = time * 10;
 
-    if (speed > 0.1) {
+    if (isAttacking) {
+        // Attack animation (pounce/swipe)
+        if (joints.armL?.group) joints.armL.group.rotation.x = -2.5;
+        if (joints.armR?.group) joints.armR.group.rotation.x = -2.5;
+        if (joints.torso?.group) joints.torso.group.rotation.x = 0.4;
+        if (joints.head?.group) joints.head.group.rotation.x = -0.2;
+        if (joints.tail?.group) joints.tail.group.rotation.x = 0.5;
+    } else if (speed > 0.1) {
         // Walk/Run animation
         if (joints.legL?.group) {
             joints.legL.group.rotation.x = Math.sin(walkCycle) * 0.8 * speed;
@@ -265,6 +310,13 @@ export function animateCharacter(
                 0,
                 lerpSpeed
             );
+        }
+    }
+
+    // Update fur uniforms for all furry parts
+    for (const joint of Object.values(joints)) {
+        if (joint?.mesh) {
+            updateFurUniforms(joint.mesh, time);
         }
     }
 }

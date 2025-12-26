@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createDissolveMaterial } from '../../shaders/materials';
 import type { DissolveMeshProps, DissolveMeshRef } from './types';
@@ -41,6 +41,7 @@ export const DissolveMesh = forwardRef<DissolveMeshRef, DissolveMeshProps>(
     ) => {
         const meshRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createDissolveMaterial(materialOptions),
             [
@@ -49,7 +50,6 @@ export const DissolveMesh = forwardRef<DissolveMeshRef, DissolveMeshProps>(
                 materialOptions.progress,
                 materialOptions.edgeWidth,
                 materialOptions.noiseScale,
-                materialOptions,
             ]
         );
 

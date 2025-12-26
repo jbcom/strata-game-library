@@ -1,6 +1,6 @@
 import { DepthOfField, EffectComposer } from '@react-three/postprocessing';
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import type * as THREE from 'three';
 import { calculateFocusDistanceToMesh } from '../../core/postProcessing';
 import type { DynamicDOFProps, DynamicDOFRef } from './types';

@@ -1,7 +1,6 @@
-import type React from 'react';
+
 import { create } from 'zustand';
-import type { BaseEntity, SystemFn } from '../core/ecs/types';
-import type { GameMode, InputMapping, ModeInstance, ModeManager, ModeDefinition as ModeConfig } from './types';
+import type { GameMode, ModeInstance, ModeManager, ModeDefinition as ModeConfig } from './types';
 
 /**
  * Internal state for the ModeManager.

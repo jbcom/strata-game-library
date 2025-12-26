@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createOutlineMaterial, createToonMaterial } from '../../shaders/materials';
 import type { ToonMeshProps, ToonMeshRef } from './types';
@@ -39,6 +39,7 @@ export const ToonMesh = forwardRef<ToonMeshRef, ToonMeshProps>(
         const meshRef = useRef<THREE.Mesh>(null);
         const outlineRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createToonMaterial(materialOptions),
             [
@@ -46,7 +47,6 @@ export const ToonMesh = forwardRef<ToonMeshRef, ToonMeshProps>(
                 materialOptions.levels,
                 materialOptions.rimColor,
                 materialOptions.rimPower,
-                materialOptions,
             ]
         );
 

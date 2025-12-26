@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { LookAtController } from '../../core/animation';
 import type { LookAtProps, LookAtRef } from './types';
@@ -26,7 +26,12 @@ export const LookAt = forwardRef<LookAtRef, LookAtProps>(({ target, config, chil
     const controller = useMemo(() => new LookAtController(config), [config]);
 
     useImperativeHandle(ref, () => ({
-        getRotation: () => controller.update(groupRef.current!, new THREE.Vector3(), 0),
+        getRotation: () => {
+            if (!groupRef.current) {
+                return new THREE.Quaternion();
+            }
+            return controller.update(groupRef.current, new THREE.Vector3(), 0);
+        },
         reset: () => controller.reset(),
     }));
 

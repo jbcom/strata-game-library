@@ -6,7 +6,7 @@ describe('GameStore Security', () => {
     it('should reject loading state with invalid checksum', async () => {
         const mockPersistence: PersistenceAdapter = {
             save: vi.fn().mockResolvedValue(true),
-            load: vi.fn().mockImplementation(async (key) => {
+            load: vi.fn().mockImplementation(async (_key) => {
                 return {
                     version: 1,
                     timestamp: Date.now(),

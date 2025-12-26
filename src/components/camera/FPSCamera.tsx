@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import { calculateHeadBob } from '../../core/camera';
 import type { FPSCameraProps, FPSCameraRef } from './types';

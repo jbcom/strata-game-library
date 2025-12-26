@@ -137,13 +137,18 @@ export const DecalPool = forwardRef<DecalPoolRef, DecalPoolProps>(
                     size = normalizedDefaultSize;
                 }
 
+                const texture = options.texture ?? defaultTexture;
+                if (!texture) {
+                    throw new Error('DecalPool: No texture provided and no defaultTexture set');
+                }
+
                 const decal: PooledDecal = {
                     id,
                     position: pos,
                     normal: norm,
                     size,
                     rotation: options.rotation ?? 0,
-                    texture: options.texture ?? defaultTexture!,
+                    texture,
                     color: options.color ?? 0xffffff,
                     createdAt: Date.now(),
                     fadeTime: (options.fadeTime ?? fadeTime) * 1000,
@@ -218,7 +223,9 @@ export const DecalPool = forwardRef<DecalPoolRef, DecalPoolProps>(
                 }
             });
 
-            toRemove.forEach((id) => decalsRef.current.delete(id));
+            for (const id of toRemove) {
+                decalsRef.current.delete(id);
+            }
 
             if (needsUpdate) {
                 forceUpdate({});

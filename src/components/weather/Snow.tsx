@@ -1,5 +1,5 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import type { SnowProps } from './types';
 
@@ -79,11 +79,13 @@ export function Snow({
     count = 5000,
     areaSize = 50,
     height = 30,
-    intensity = 1,
+    intensity: intensityProp = 1,
+    windStrength, // Alias for intensity
     wind = new THREE.Vector3(0.3, 0, 0.1),
     color = 0xffffff,
     flakeSize = 0.15,
 }: SnowProps) {
+    const intensity = windStrength !== undefined ? windStrength : intensityProp;
     const meshRef = useRef<THREE.Mesh>(null);
     const { camera } = useThree();
 

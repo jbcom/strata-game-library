@@ -1,11 +1,7 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import {
-    calculateLODLevel,
-    createLODLevels,
-    interpolateLODMaterials,
-} from '../../core/lod';
+import { calculateLODLevel, createLODLevels, interpolateLODMaterials } from '../../core/lod';
 import type { LODMeshProps, LODMeshRef } from './types';
 
 /**
@@ -35,7 +31,7 @@ export const LODMesh = forwardRef<LODMeshRef, LODMeshProps>(
             position = [0, 0, 0],
             rotation = [0, 0, 0],
             scale = 1,
-            hysteresis = 0.1,
+            hysteresis: _hysteresis = 0.1,
             transitionDuration = 0.3,
             fadeMode = 'instant',
             castShadow = true,
@@ -153,7 +149,7 @@ export const LODMesh = forwardRef<LODMeshRef, LODMeshProps>(
             <group ref={groupRef} position={pos} rotation={rot} scale={scl}>
                 {levels.map((level, i) => (
                     <mesh
-                        key={i}
+                        key={`lod-mesh-${level.distance}`}
                         ref={(el) => {
                             if (el) meshRefs.current[i] = el;
                         }}

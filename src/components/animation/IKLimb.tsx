@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { TwoBoneIKSolver } from '../../core/animation';
 import type { IKLimbProps, IKLimbRef } from './types';

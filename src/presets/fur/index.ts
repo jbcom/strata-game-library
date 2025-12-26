@@ -8,6 +8,11 @@
 import * as THREE from 'three';
 import { furFragmentShader, furVertexShader } from './shaders';
 
+/**
+ * Key used in THREE.Group.userData to identify a fur system group.
+ */
+export const FUR_GROUP_USER_DATA_KEY = 'isFurGroup';
+
 export interface FurOptions {
     baseColor?: THREE.ColorRepresentation;
     tipColor?: THREE.ColorRepresentation;
@@ -82,6 +87,8 @@ export function createFurSystem(
     }
 
     const group = new THREE.Group();
+    // Mark as fur group for detection
+    group.userData[FUR_GROUP_USER_DATA_KEY] = true;
 
     // Base mesh
     const baseMesh = new THREE.Mesh(geometry, baseMaterial);
@@ -99,19 +106,48 @@ export function createFurSystem(
 }
 
 /**
- * Update fur uniforms for animation
+ * Update fur uniforms for animation.
+ *
+ * Automatically detects fur meshes within the provided group and updates their
+ * time-based uniforms for wind and movement effects.
+ *
+ * @param furSystem - The group containing fur shells (returned by createFurSystem)
+ * @param time - Current animation time in seconds
  */
-export function updateFurUniforms(furSystem: THREE.Group, time: number): void {
+export function updateFurUniforms(furSystem: THREE.Object3D, time: number): void {
     if (!furSystem) {
         throw new Error('updateFurUniforms: furSystem is required');
     }
 
-    furSystem.traverse((child) => {
-        if (child instanceof THREE.Mesh && child.material instanceof THREE.ShaderMaterial) {
-            const uniforms = child.material.uniforms;
-            if (uniforms?.time) {
-                uniforms.time.value = time;
+    // Optimization: Cache fur materials on the object to avoid traversal
+    let furMaterials = furSystem.userData.cachedFurMaterials as THREE.ShaderMaterial[] | undefined;
+
+    if (!furMaterials) {
+        const materials: THREE.ShaderMaterial[] = [];
+        furSystem.traverse((child) => {
+            if (child instanceof THREE.Mesh && child.material instanceof THREE.ShaderMaterial) {
+                if (child.material.uniforms?.time) {
+                    materials.push(child.material);
+                }
             }
-        }
-    });
+        });
+        furMaterials = materials;
+        furSystem.userData.cachedFurMaterials = furMaterials;
+    }
+
+    for (const material of furMaterials) {
+        material.uniforms.time.value = time;
+    }
+}
+
+/**
+ * Invalidate the cached fur materials, forcing a re-traversal on next update.
+ * Call this if the fur system's structure changes after creation.
+ *
+ * @param furSystem - The fur system object
+ */
+export function invalidateFurCache(furSystem: THREE.Object3D): void {
+    if (furSystem?.userData) {
+        delete furSystem.userData.cachedFurMaterials;
+    }
 }

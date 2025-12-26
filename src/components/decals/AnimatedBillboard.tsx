@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
     applySpriteSheetFrame,
@@ -46,7 +46,7 @@ export const AnimatedBillboard = forwardRef<AnimatedBillboardRef, AnimatedBillbo
             opacity = 1,
             transparent = true,
             alphaTest = 0.1,
-            lockY = false,
+            lockY: _lockY = false,
             depthWrite = false,
             renderOrder = 0,
         },

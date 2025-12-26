@@ -5,8 +5,8 @@ import {
     ParticleEmitter as CoreParticleEmitter,
     type ParticleEmitterConfig,
 } from '../../core/particles';
-import { toVector3 } from './utils';
 import type { ParticleEmitterProps, ParticleEmitterRef } from './types';
+import { toVector3 } from './utils';
 
 /**
  * GPU-Accelerated Particle Emitter.
@@ -177,7 +177,10 @@ export const ParticleEmitter = forwardRef<ParticleEmitterRef, ParticleEmitterPro
 
         useImperativeHandle(ref, () => ({
             get emitter() {
-                return emitterRef.current!;
+                if (!emitterRef.current) {
+                    throw new Error('ParticleEmitter: emitter not initialized');
+                }
+                return emitterRef.current;
             },
             emit(count: number) {
                 emitterRef.current?.emit(count);

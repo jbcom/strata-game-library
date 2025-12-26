@@ -1,7 +1,7 @@
-import type { Vector2, Vector3 } from 'three';
+import type { Vector3 } from 'three';
 import type { SoundManager } from '../core/audio/sound-manager';
-import { BaseEntity, type SystemFn } from '../core/ecs/types';
-import { type InputManager, InputManagerConfig } from '../core/input';
+import type { SystemFn } from '../core/ecs/types';
+import type { InputManager, } from '../core/input';
 import type { GameStoreApi } from '../core/state';
 
 /**

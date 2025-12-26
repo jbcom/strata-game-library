@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { LightningProps } from './types';
 

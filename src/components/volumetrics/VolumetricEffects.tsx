@@ -1,5 +1,4 @@
-import React from 'react';
-import { EnhancedFog } from './EnhancedFog';
+
 import { UnderwaterOverlay } from './UnderwaterOverlay';
 import { VolumetricFogMesh } from './VolumetricFogMesh';
 import type { VolumetricEffectsProps } from './types';

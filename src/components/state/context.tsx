@@ -58,7 +58,8 @@ export function GameStateProvider<T extends object>({
     useEffect(() => {
         if (!onChange) return;
 
-        const store = storeRef.current!;
+        const store = storeRef.current;
+        if (!store) return;
         const unsubscribe = store.subscribe((newState, prevState) => {
             if (newState.data !== prevState.data) {
                 onChange({
@@ -74,14 +75,18 @@ export function GameStateProvider<T extends object>({
     }, [onChange]);
 
     // Store reference is stable and set once, so empty deps is safe
-    const value = useMemo<GameStateContextValue<T>>(
-        () => ({
-            store: storeRef.current!,
+    const value = useMemo<GameStateContextValue<T>>(() => {
+        const store = storeRef.current;
+        if (!store) {
+            throw new Error('GameStateProvider: store not initialized');
+        }
+        return {
+            store,
             // Kept for backwards compatibility
-            useStore: storeRef.current!,
-        }),
-        []
-    );
+            useStore: store,
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return <GameStateContext.Provider value={value}>{children}</GameStateContext.Provider>;
 }
@@ -231,10 +236,20 @@ export function StateDebugger({
 
     return (
         <div style={containerStyles}>
-            <div style={headerStyles} onClick={() => setCollapsed(!collapsed)}>
+            <button
+                type="button"
+                style={{
+                    ...headerStyles,
+                    border: 'none',
+                    width: '100%',
+                    textAlign: 'left',
+                    font: 'inherit',
+                }}
+                onClick={() => setCollapsed(!collapsed)}
+            >
                 <span style={{ fontWeight: 'bold' }}>State Debugger</span>
                 <span>{collapsed ? '▼' : '▲'}</span>
-            </div>
+            </button>
 
             {!collapsed && (
                 <div style={contentStyles}>

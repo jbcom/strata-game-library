@@ -413,7 +413,10 @@ export function createCustomTriggerPreset(
     materialConfig?: TriggerMaterialConfig,
     behaviorConfig?: Partial<TriggerBehaviorConfig>
 ): TriggerPreset {
-    const baseBehavior = VEHICLE_THROTTLE_PRESET.props.behaviorConfig!;
+    const baseBehavior = VEHICLE_THROTTLE_PRESET.props.behaviorConfig;
+    if (!baseBehavior) {
+        throw new Error('VEHICLE_THROTTLE_PRESET.props.behaviorConfig is required');
+    }
     return {
         type: 'trigger',
         name,

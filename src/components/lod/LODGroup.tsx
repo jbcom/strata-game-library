@@ -1,5 +1,12 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    useCallback,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import * as THREE from 'three';
 import { calculateLODLevel, createLODLevels } from '../../core/lod';
 import type { LODGroupProps, LODGroupRef } from './types';
@@ -31,7 +38,7 @@ export const LODGroup = forwardRef<LODGroupRef, LODGroupProps>(
         {
             children,
             levels,
-            hysteresis = 0.1,
+            hysteresis: _hysteresis = 0.1,
             position = [0, 0, 0],
             rotation = [0, 0, 0],
             scale = 1,
@@ -106,9 +113,11 @@ export const LODGroup = forwardRef<LODGroupRef, LODGroupProps>(
 
                     if (!isVisible) return null;
 
-                    return React.cloneElement(child as React.ReactElement, {
-                        key: index,
-                    });
+                    return React.cloneElement(
+                        child as React.ReactElement,
+                        // biome-ignore lint/suspicious/noArrayIndexKey: children are stable, index-based LOD selection
+                        { key: `lod-child-${index}` }
+                    );
                 })}
             </group>
         );

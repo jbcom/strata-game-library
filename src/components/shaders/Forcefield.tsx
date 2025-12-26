@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createForcefieldMaterial } from '../../shaders/materials';
 import type { ForcefieldProps, ForcefieldRef } from './types';
@@ -31,6 +31,7 @@ export const Forcefield = forwardRef<ForcefieldRef, ForcefieldProps>(
         const meshRef = useRef<THREE.Mesh>(null);
         const hitDecay = useRef(0);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createForcefieldMaterial(materialOptions),
             [
@@ -40,7 +41,6 @@ export const Forcefield = forwardRef<ForcefieldRef, ForcefieldProps>(
                 materialOptions.pulseSpeed,
                 materialOptions.hexagonScale,
                 materialOptions.alpha,
-                materialOptions,
             ]
         );
 

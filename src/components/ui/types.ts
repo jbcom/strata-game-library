@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from 'react';
-import type * as THREE from 'three';
 import type {
     CrosshairConfig,
     DamageNumberConfig,

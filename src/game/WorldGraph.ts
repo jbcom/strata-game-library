@@ -76,10 +76,15 @@ export function createWorldGraph(definition: WorldGraphDefinition): WorldGraph {
         },
         on: (event: string, handler: (...args: any[]) => void) => {
             if (!handlers.has(event)) handlers.set(event, new Set());
-            handlers.get(event)!.add(handler);
+            handlers.get(event)?.add(handler);
         },
         emit: (event: string, ...args: any[]) => {
-            handlers.get(event)?.forEach((h) => h(...args));
+            const eventHandlers = handlers.get(event);
+            if (eventHandlers) {
+                for (const h of eventHandlers) {
+                    h(...args);
+                }
+            }
         },
     };
 }

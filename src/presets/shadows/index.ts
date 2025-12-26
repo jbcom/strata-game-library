@@ -42,7 +42,8 @@ export function createShadowSystem(options: ShadowSystemOptions): ShadowSystem {
         maxDistance = 100,
         fadeDistance = 10,
         enableSoftShadows = true,
-        enableContactShadows = false,
+        // Reserved for future contact shadow implementation
+        enableContactShadows: _enableContactShadows = false,
     } = options;
 
     // Input validation

@@ -148,12 +148,15 @@ export const EffectStack: React.FC<EffectStackProps> = ({
         );
     }
 
-    return (
-        <EffectComposer multisampling={multisampling}>
-            <>
-                {effects}
-                {children}
-            </>
-        </EffectComposer>
-    );
+    // Combine effects and children into a single array for EffectComposer
+    const allEffects = [...effects];
+    if (children) {
+        if (Array.isArray(children)) {
+            allEffects.push(...(children as React.ReactElement[]));
+        } else {
+            allEffects.push(children as React.ReactElement);
+        }
+    }
+
+    return <EffectComposer multisampling={multisampling}>{allEffects}</EffectComposer>;
 };

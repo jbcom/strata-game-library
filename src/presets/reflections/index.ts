@@ -33,8 +33,9 @@ export function createReflectionProbe(options: ReflectionProbeOptions): Reflecti
         size = 10,
         resolution = 256,
         updateRate = 0, // 0 = every frame
-        boxProjection = false,
-        boxSize = new THREE.Vector3(size, size, size),
+        // Reserved for future box projection implementation
+        boxProjection: _boxProjection = false,
+        boxSize: _boxSize = new THREE.Vector3(size, size, size),
         renderObjects,
     } = options;
 

@@ -19,7 +19,7 @@
 
 import { useFrame } from '@react-three/fiber';
 import type React from 'react';
-import { createContext, useContext, useMemo, useRef } from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef } from 'react';
 import * as YUKA from 'yuka';
 import type { YukaEntityManagerContextValue, YukaEntityManagerProps } from './types';
 
@@ -59,13 +59,13 @@ export function YukaEntityManager({ children }: YukaEntityManagerProps): React.J
     const managerRef = useRef<YUKA.EntityManager>(new YUKA.EntityManager());
     const timeRef = useRef<YUKA.Time>(new YUKA.Time());
 
-    const register = (entity: YUKA.GameEntity) => {
+    const register = useCallback((entity: YUKA.GameEntity) => {
         managerRef.current.add(entity);
-    };
+    }, []);
 
-    const unregister = (entity: YUKA.GameEntity) => {
+    const unregister = useCallback((entity: YUKA.GameEntity) => {
         managerRef.current.remove(entity);
-    };
+    }, []);
 
     useFrame(() => {
         const delta = timeRef.current.update().getDelta();
@@ -79,7 +79,7 @@ export function YukaEntityManager({ children }: YukaEntityManagerProps): React.J
             register,
             unregister,
         }),
-        []
+        [register, unregister]
     );
 
     return <YukaContext.Provider value={contextValue}>{children}</YukaContext.Provider>;

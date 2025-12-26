@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createHologramMaterial } from '../../shaders/materials';
 import type { HologramMeshProps, HologramMeshRef } from './types';
@@ -37,6 +37,7 @@ export const HologramMesh = forwardRef<HologramMeshRef, HologramMeshProps>(
     ) => {
         const meshRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createHologramMaterial(materialOptions),
             [
@@ -46,7 +47,6 @@ export const HologramMesh = forwardRef<HologramMeshRef, HologramMeshProps>(
                 materialOptions.flickerSpeed,
                 materialOptions.fresnelPower,
                 materialOptions.alpha,
-                materialOptions,
             ]
         );
 

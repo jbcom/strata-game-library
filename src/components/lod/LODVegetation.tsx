@@ -1,5 +1,13 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import * as THREE from 'three';
 import { calculateLODLevel, createVegetationLODLevels, simplifyGeometry } from '../../core/lod';
 import { Impostor } from './Impostor';
@@ -166,7 +174,7 @@ export const LODVegetation = forwardRef<LODVegetationRef, LODVegetationProps>(
 
         return (
             <group ref={groupRef}>
-                {vegetationInstances.map((inst, i) => {
+                {vegetationInstances.map((inst) => {
                     if (!inst.visible) return null;
 
                     const geometry =
@@ -177,9 +185,10 @@ export const LODVegetation = forwardRef<LODVegetationRef, LODVegetationProps>(
                               : geometries.low;
 
                     if (inst.lodLevel >= 3 && impostorTexture) {
+                        const posKey = `${inst.position.x.toFixed(2)}-${inst.position.z.toFixed(2)}`;
                         return (
                             <Impostor
-                                key={i}
+                                key={`impostor-${posKey}`}
                                 texture={impostorTexture}
                                 position={inst.position}
                                 size={inst.scale.x}
@@ -188,9 +197,10 @@ export const LODVegetation = forwardRef<LODVegetationRef, LODVegetationProps>(
                         );
                     }
 
+                    const posKey = `${inst.position.x.toFixed(2)}-${inst.position.z.toFixed(2)}`;
                     return (
                         <mesh
-                            key={i}
+                            key={`veg-${posKey}`}
                             position={inst.position}
                             rotation={inst.rotation}
                             scale={inst.scale}

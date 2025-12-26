@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { createDefaultCloudSkyConfig } from '../../core/clouds';
 import { CloudLayer } from './CloudLayer';
 import type { CloudSkyProps } from './types';
@@ -39,7 +39,7 @@ export function CloudSky({
         <group>
             {config.layers.map((layer, index) => (
                 <CloudLayer
-                    key={index}
+                    key={`cloud-layer-${index}-${layer.altitude ?? 0}`}
                     {...layer}
                     wind={finalWind}
                     dayNight={finalDayNight}

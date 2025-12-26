@@ -552,7 +552,7 @@ export class ParticleEmitterCore {
         this.time += deltaTime;
         this.material.uniforms.uTime.value = this.time;
 
-        const { forces, behavior } = this.config;
+        const { forces } = this.config;
         const gravity = forces.gravity ?? new THREE.Vector3(0, 0, 0);
         const wind = forces.wind ?? new THREE.Vector3(0, 0, 0);
         const turbulence = forces.turbulence ?? 0;

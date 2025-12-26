@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import * as THREE from 'three';
 import { createOutlineMaterial } from '../../shaders/materials';
 import type { OutlineProps } from './types';
 
@@ -18,9 +17,10 @@ import type { OutlineProps } from './types';
  * ```
  */
 export const Outline: React.FC<OutlineProps> = ({ children, ...materialOptions }) => {
+    // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
     const outlineMaterial = useMemo(
         () => createOutlineMaterial(materialOptions),
-        [materialOptions.color, materialOptions.outlineWidth, materialOptions]
+        [materialOptions.color, materialOptions.outlineWidth]
     );
 
     return (
@@ -31,20 +31,17 @@ export const Outline: React.FC<OutlineProps> = ({ children, ...materialOptions }
                     return (
                         <>
                             {child}
-                            {React.cloneElement(
-                                meshChild,
-                                {
-                                    children: (
-                                        <>
-                                            {meshChild.props.children}
-                                            <primitive
-                                                object={outlineMaterial.clone()}
-                                                attach="material"
-                                            />
-                                        </>
-                                    ),
-                                }
-                            )}
+                            {React.cloneElement(meshChild, {
+                                children: (
+                                    <>
+                                        {meshChild.props.children}
+                                        <primitive
+                                            object={outlineMaterial.clone()}
+                                            attach="material"
+                                        />
+                                    </>
+                                ),
+                            })}
                         </>
                     );
                 }

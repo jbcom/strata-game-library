@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import { evaluateCatmullRom } from '../../core/camera';
 import { easeInOutCubic, lerp } from '../../core/math/utils';

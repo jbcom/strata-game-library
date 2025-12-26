@@ -172,7 +172,8 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
         // We can't await here in a sync factory,
         // but we can start the load.
         // The user should probably handle the promise if they care.
-        setTimeout(() => manager.load(config.initialScene!), 0);
+        const initialScene = config.initialScene;
+        setTimeout(() => manager.load(initialScene), 0);
     }
 
     return manager;

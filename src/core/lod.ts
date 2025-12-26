@@ -375,7 +375,9 @@ export function createImpostorTexture(
         if (node instanceof THREE.Mesh) {
             node.geometry?.dispose();
             if (Array.isArray(node.material)) {
-                node.material.forEach((m) => m.dispose());
+                for (const m of node.material) {
+                    m.dispose();
+                }
             } else {
                 node.material?.dispose();
             }

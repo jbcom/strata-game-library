@@ -1,6 +1,5 @@
 import { Line } from '@react-three/drei';
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import type * as THREE from 'three';
 import * as YUKA from 'yuka';
 import type { YukaPathProps, YukaPathRef } from './types';
 
@@ -107,17 +106,17 @@ export const YukaPath = forwardRef<YukaPathRef, YukaPathProps>(function YukaPath
             )}
 
             {showWaypoints &&
-                waypoints.map((wp, index) => (
-                    <mesh key={`waypoint-${index}`} position={wp}>
+                waypoints.map((wp) => (
+                    <mesh key={`waypoint-${wp[0]}-${wp[1]}-${wp[2]}`} position={wp}>
                         <sphereGeometry args={[waypointSize, 8, 8]} />
                         <meshBasicMaterial color={effectiveWaypointColor} />
                     </mesh>
                 ))}
 
             {showDirection &&
-                directionArrows.map((arrow, index) => (
+                directionArrows.map((arrow) => (
                     <mesh
-                        key={`arrow-${index}`}
+                        key={`arrow-${arrow.position[0]}-${arrow.position[1]}-${arrow.position[2]}`}
                         position={arrow.position}
                         rotation={arrow.rotation}
                     >

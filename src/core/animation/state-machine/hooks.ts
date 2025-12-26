@@ -60,7 +60,12 @@ export function useAnimationMachine(
     config: AnimationMachineConfig,
     options: UseAnimationMachineOptions = {}
 ): AnimationMachineReturn {
-    const { autoPlay = true, initialSpeed = 1.0, onStateChange, onAnimationComplete } = options;
+    const {
+        autoPlay = true,
+        initialSpeed = 1.0,
+        onStateChange,
+        onAnimationComplete: _onAnimationComplete,
+    } = options;
 
     const machine = useMemo(() => createAnimationMachine(config), [config]);
     const [state, send] = useMachine(machine);

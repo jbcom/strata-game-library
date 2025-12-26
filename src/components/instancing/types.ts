@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import type { InstanceData } from '../../core/instancing';
 import type { BiomeData } from '../../core/sdf';
 
 // Re-export types from core for convenience (used internally)

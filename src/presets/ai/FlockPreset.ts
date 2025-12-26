@@ -1,4 +1,4 @@
-import * as YUKA from 'yuka';
+
 import { createFlockMemberPreset } from './FlockMemberPreset';
 import type { AIPresetResult, FlockMemberPresetConfig } from './types';
 

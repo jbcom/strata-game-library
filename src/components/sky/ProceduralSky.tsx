@@ -47,6 +47,8 @@ export interface TimeOfDayState {
     sunIntensity: number;
     /** Sun angle in degrees (0 = horizon, 90 = zenith/noon, 180 = sunset). */
     sunAngle: number;
+    /** Alias for sunAngle. @deprecated Use sunAngle instead. */
+    sunElevation?: number;
     /** Ambient light level (0-1). Base light level for the scene. */
     ambientLight: number;
     /** Star visibility (0-1). 0 = hidden, 1 = fully visible. */
@@ -114,8 +116,20 @@ export function ProceduralSky({
     distance = 50,
 }: ProceduralSkyProps) {
     const meshRef = useRef<THREE.Mesh>(null);
-    const timeOfDay = { ...defaultTimeOfDay, ...timeOfDayProp };
-    const weather = { ...defaultWeather, ...weatherProp };
+    // biome-ignore lint/correctness/useExhaustiveDependencies: specific properties listed for stable dependency
+    const timeOfDay = useMemo(
+        () => ({ ...defaultTimeOfDay, ...timeOfDayProp }),
+        [
+            timeOfDayProp.sunIntensity,
+            timeOfDayProp.sunAngle,
+            timeOfDayProp.sunElevation,
+            timeOfDayProp.ambientLight,
+            timeOfDayProp.starVisibility,
+            timeOfDayProp.fogDensity,
+        ]
+    );
+    // biome-ignore lint/correctness/useExhaustiveDependencies: specific properties listed for stable dependency
+    const weather = useMemo(() => ({ ...defaultWeather, ...weatherProp }), [weatherProp.intensity]);
 
     const material = useMemo(() => {
         return createSkyMaterial({

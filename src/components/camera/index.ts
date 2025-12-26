@@ -10,4 +10,6 @@ export * from './OrbitCamera';
 export * from './FPSCamera';
 export * from './CinematicCamera';
 export * from './CameraShake';
+export * from './GyroscopeCamera';
 export * from './useCameraTransition';
+

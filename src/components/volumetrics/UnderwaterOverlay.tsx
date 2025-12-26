@@ -1,5 +1,5 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { createUnderwaterOverlayMaterial } from '../../core/volumetrics';
 import type { UnderwaterOverlayProps } from './types';

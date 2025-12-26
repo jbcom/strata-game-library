@@ -1,4 +1,4 @@
-import React from 'react';
+
 import * as THREE from 'three';
 import type { WeatherStateConfig } from '../../core/weather';
 import { Rain } from './Rain';

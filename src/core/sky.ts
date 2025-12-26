@@ -62,6 +62,11 @@ export interface TimeOfDayState {
     sunAngle: number;
 
     /**
+     * Alias for sunAngle. @deprecated Use sunAngle instead.
+     */
+    sunElevation?: number;
+
+    /**
      * Ambient light intensity (0-1).
      *
      * Base light level independent of direct sunlight.
@@ -171,9 +176,9 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
     if (
         timeOfDay &&
         timeOfDay.sunAngle !== undefined &&
-        (timeOfDay.sunAngle < 0 || timeOfDay.sunAngle > 180)
+        (timeOfDay.sunAngle < -180 || timeOfDay.sunAngle > 360)
     ) {
-        throw new Error('createSkyMaterial: sunAngle must be between 0 and 180');
+        throw new Error('createSkyMaterial: sunAngle must be between -180 and 360');
     }
 
     const defaultTimeOfDay: TimeOfDayState = {
@@ -189,6 +194,19 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
     };
 
     const mergedTimeOfDay = { ...defaultTimeOfDay, ...timeOfDay };
+    
+    // Handle sunElevation alias (deprecated)
+    if (timeOfDay?.sunElevation !== undefined) {
+        // Deprecation warning - only log once per session
+        if (typeof window !== 'undefined' && !(window as any).__strataWarnedSunElevation) {
+            console.warn(
+                'createSkyMaterial: sunElevation is deprecated, use sunAngle instead'
+            );
+            (window as any).__strataWarnedSunElevation = true;
+        }
+        mergedTimeOfDay.sunAngle = timeOfDay.sunElevation;
+    }
+
     const mergedWeather = { ...defaultWeather, ...weather };
 
     const uniforms = createSkyUniforms(mergedTimeOfDay, mergedWeather, gyroTilt);

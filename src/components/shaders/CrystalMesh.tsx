@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createCrystalMaterial } from '../../shaders/materials';
 import type { CrystalMeshProps, CrystalMeshRef } from './types';
@@ -37,14 +37,10 @@ export const CrystalMesh = forwardRef<CrystalMeshRef, CrystalMeshProps>(
     ) => {
         const meshRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props, individual values listed
         const material = useMemo(
             () => createCrystalMaterial(materialOptions),
-            [
-                materialOptions.color,
-                materialOptions.fresnelPower,
-                materialOptions.rainbowIntensity,
-                materialOptions,
-            ]
+            [materialOptions.color, materialOptions.fresnelPower, materialOptions.rainbowIntensity]
         );
 
         useFrame((state) => {

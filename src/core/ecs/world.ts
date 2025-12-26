@@ -153,7 +153,9 @@ export function createWorld<T extends BaseEntity>(config: WorldConfig<T> = {}): 
         }
         const e: T = { ...entity, id: entity.id ?? generateEntityId() };
         miniplexWorld.add(e);
-        entitiesById.set(e.id!, e);
+        if (e.id) {
+            entitiesById.set(e.id, e);
+        }
         log(`Spawned entity: ${e.id}`);
         return e;
     };
@@ -171,7 +173,9 @@ export function createWorld<T extends BaseEntity>(config: WorldConfig<T> = {}): 
         miniplexWorld.without(...c) as QueryResult<T>;
 
     const clear = (): void => {
-        [...miniplexWorld.entities].forEach((e) => miniplexWorld.remove(e));
+        for (const e of [...miniplexWorld.entities]) {
+            miniplexWorld.remove(e);
+        }
         entitiesById.clear();
         log('Cleared all entities');
     };

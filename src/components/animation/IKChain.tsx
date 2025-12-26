@@ -18,7 +18,7 @@
  */
 
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
     type BoneChain,
@@ -146,7 +146,7 @@ export const IKChain = forwardRef<IKChainRef, IKChainProps>(
             if (!visualize) return null;
 
             return boneLengths.map((length, i) => (
-                <group key={i}>
+                <group key={`bone-${i}-${length}`}>
                     <mesh position={[0, -length / 2, 0]}>
                         <cylinderGeometry args={[visualRadius, visualRadius * 0.8, length, 8]} />
                         <meshStandardMaterial color={visualColor} />

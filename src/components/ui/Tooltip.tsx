@@ -85,9 +85,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
             )}
             {stats && stats.length > 0 && (
                 <div>
-                    {stats.map((stat, i) => (
+                    {stats.map((stat) => (
                         <div
-                            key={i}
+                            key={`stat-${stat.label}`}
                             style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}
                         >
                             <span style={{ color: '#9ca3af' }}>{stat.label}</span>

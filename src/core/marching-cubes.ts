@@ -445,8 +445,9 @@ export function marchingCubes(
         // Use position as key for deduplication
         const key = `${pos.x.toFixed(6)},${pos.y.toFixed(6)},${pos.z.toFixed(6)}`;
 
-        if (vertexMap.has(key)) {
-            return vertexMap.get(key)!;
+        const existing = vertexMap.get(key);
+        if (existing !== undefined) {
+            return existing;
         }
 
         const index = vertices.length / 3;

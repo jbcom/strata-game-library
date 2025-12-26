@@ -38,8 +38,9 @@ export function loadTexture(path: string, renderer: THREE.WebGLRenderer): THREE.
     }
 
     // Check cache first
-    if (textureCache.has(path)) {
-        return textureCache.get(path)!;
+    const cached = textureCache.get(path);
+    if (cached) {
+        return cached;
     }
 
     const loader = new THREE.TextureLoader();
@@ -141,8 +142,9 @@ export async function preloadBiomeTextures(
         loader: THREE.TextureLoader
     ): Promise<THREE.Texture> => {
         // Check cache first
-        if (textureCache.has(path)) {
-            return Promise.resolve(textureCache.get(path)!);
+        const cached = textureCache.get(path);
+        if (cached) {
+            return Promise.resolve(cached);
         }
 
         return new Promise<THREE.Texture>((resolve, reject) => {
@@ -200,7 +202,9 @@ export async function preloadBiomeTextures(
  * Clear texture cache to free memory
  */
 export function clearTextureCache(): void {
-    textureCache.forEach((texture) => texture.dispose());
+    for (const texture of textureCache.values()) {
+        texture.dispose();
+    }
     textureCache.clear();
 }
 

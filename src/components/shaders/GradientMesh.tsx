@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createGradientMaterial } from '../../shaders/materials';
 import type { GradientMeshProps, GradientMeshRef } from './types';
@@ -35,6 +35,7 @@ export const GradientMesh = forwardRef<GradientMeshRef, GradientMeshProps>(
     ) => {
         const meshRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createGradientMaterial(materialOptions),
             [
@@ -43,7 +44,6 @@ export const GradientMesh = forwardRef<GradientMeshRef, GradientMeshProps>(
                 materialOptions.colorMiddle,
                 materialOptions.direction,
                 materialOptions.useThreeColors,
-                materialOptions,
             ]
         );
 

@@ -1,4 +1,4 @@
-import { useFrame, useThree } from '@react-three/fiber';
+
 import type React from 'react';
 import type { MinimapProps } from './types';
 

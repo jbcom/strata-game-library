@@ -15,3 +15,7 @@ export * from './DialogBox';
 export * from './Notification';
 export * from './Minimap';
 export * from './Crosshair';
+export * from './VirtualJoystick';
+export * from './ScreenFlash';
+export * from './KillStreakNotification';
+

@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { createGlitchMaterial } from '../../shaders/materials';
 import type { GlitchMeshProps, GlitchMeshRef } from './types';
@@ -37,6 +37,7 @@ export const GlitchMesh = forwardRef<GlitchMeshRef, GlitchMeshProps>(
     ) => {
         const meshRef = useRef<THREE.Mesh>(null);
 
+        // biome-ignore lint/correctness/useExhaustiveDependencies: materialOptions is spread from props
         const material = useMemo(
             () => createGlitchMaterial(materialOptions),
             [
@@ -44,7 +45,6 @@ export const GlitchMesh = forwardRef<GlitchMeshRef, GlitchMeshProps>(
                 materialOptions.glitchIntensity,
                 materialOptions.scanlineIntensity,
                 materialOptions.rgbShiftAmount,
-                materialOptions,
             ]
         );
 

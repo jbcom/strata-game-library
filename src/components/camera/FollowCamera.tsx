@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import React, { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import { calculateLookAhead, smoothDampVector3 } from '../../core/camera';
 import type { FollowCameraProps, FollowCameraRef } from './types';
