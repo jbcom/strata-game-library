@@ -23,6 +23,11 @@ This directory contains architectural documentation for Strata's evolution from 
 - [Migration Guide](./guides/MIGRATION.md) - Migrating from toolkit to framework usage
 - [Agent Instructions](./guides/AGENTS.md) - Instructions for AI agents working on Strata
 
+### Package Architecture
+- [Package Decomposition](./PACKAGE_DECOMPOSITION.md) - Strategy for optional @jbcom/strata-* packages
+- [Ecosystem Integration](./ECOSYSTEM_INTEGRATION.md) - TypeScript games using Strata API
+- [Issue Triage](./ISSUE_TRIAGE.md) - Current issue status and priorities
+
 ## Quick Links
 
 - [GitHub Epic #50](https://github.com/jbcom/nodejs-strata/issues/50) - Master tracking issue

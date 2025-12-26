@@ -284,7 +284,11 @@ export function smoothDampVector3(
  * camera.rotation.x += rotation.x;
  * ```
  */
-export class CameraShake {
+/**
+ * Core camera shake class for procedural camera movement.
+ * @category Player Experience
+ */
+export class CameraShakeCore {
     private trauma: number = 0;
     private traumaDecay: number;
     private maxAngle: number;
@@ -652,3 +656,15 @@ export function calculateScreenShakeIntensity(
         maxRotation: trauma * 0.05,
     };
 }
+
+/**
+ * @deprecated Use `CameraShakeCore` instead. This alias will be removed in v2.0.
+ * @category Player Experience
+ */
+export { CameraShakeCore as CameraShake };
+
+/**
+ * Type alias for backwards compatibility.
+ * @deprecated Use `CameraShakeCore` instead.
+ */
+export type CameraShakeType = CameraShakeCore;

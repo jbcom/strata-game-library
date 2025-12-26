@@ -16,6 +16,9 @@ import {
     type ParticleForces,
 } from '../../core/particles';
 
+// Core exports are now available from '@jbcom/strata' or '@jbcom/strata/core'
+// @deprecated Import ParticleEmitter, createParticleEmitter from '@jbcom/strata' instead
+// Re-exporting for backwards compatibility - will be removed in v2.0
 export { ParticleEmitter, createParticleEmitter };
 export type {
     ParticleEmitterConfig,
@@ -253,34 +256,34 @@ const particleVertexShader = /* glsl */ `
   attribute float instanceLifetime;
   attribute float instanceSize;
   attribute float instanceRotation;
-  
+
   uniform float uTime;
   uniform float uSizeStart;
   uniform float uSizeEnd;
-  
+
   varying float vAge;
   varying float vLifetime;
   varying vec2 vUv;
-  
+
   void main() {
       vUv = uv;
       vAge = instanceAge;
       vLifetime = instanceLifetime;
-      
+
       float t = instanceAge / instanceLifetime;
       float size = mix(uSizeStart, uSizeEnd, t);
-      
+
       vec3 pos = position * size;
-      
+
       float c = cos(instanceRotation);
       float s = sin(instanceRotation);
       pos.xy = vec2(
           pos.x * c - pos.y * s,
           pos.x * s + pos.y * c
       );
-      
+
       pos += instancePosition;
-      
+
       gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `;
@@ -291,21 +294,21 @@ const particleFragmentShader = /* glsl */ `
   uniform vec3 uColorEnd;
   uniform float uOpacityStart;
   uniform float uOpacityEnd;
-  
+
   varying float vAge;
   varying float vLifetime;
   varying vec2 vUv;
-  
+
   void main() {
       float t = vAge / vLifetime;
-      
+
       vec3 color = mix(uColorStart, uColorEnd, t);
       float opacity = mix(uOpacityStart, uOpacityEnd, t);
-      
+
       vec4 texColor = texture2D(uTexture, vUv);
       color *= texColor.rgb;
       opacity *= texColor.a;
-      
+
       gl_FragColor = vec4(color, opacity);
   }
 `;

@@ -12,8 +12,8 @@ import {
 } from '../../core/instancing';
 import type { BiomeData } from '../../core/sdf';
 
-export type { InstanceData } from '../../core/instancing';
-export type { BiomeData } from '../../core/sdf';
+// Types are now exported from core, import them from '@jbcom/strata' or '@jbcom/strata/core'
+// @deprecated Import InstanceData, BiomeData from '@jbcom/strata' instead
 
 export interface VegetationOptions {
     count: number;

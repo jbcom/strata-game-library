@@ -143,38 +143,38 @@ const particleVertexShader = /* glsl */ `
     uniform float uTime;
     uniform float uSizeStart;
     uniform float uSizeEnd;
-    
+
     attribute float instanceAge;
     attribute float instanceLifetime;
     attribute float instanceSize;
     attribute float instanceRotation;
     attribute float instanceColorIndex;
-    
+
     varying float vAge;
     varying float vLifetime;
     varying float vColorIndex;
     varying vec2 vUv;
-    
+
     void main() {
         vUv = uv;
         vAge = instanceAge;
         vLifetime = instanceLifetime;
         vColorIndex = instanceColorIndex;
-        
+
         float t = clamp(instanceAge / instanceLifetime, 0.0, 1.0);
         float size = mix(uSizeStart, uSizeEnd, t) * instanceSize;
-        
+
         vec4 mvPosition = modelViewMatrix * instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0);
-        
+
         float c = cos(instanceRotation);
         float s = sin(instanceRotation);
         vec2 rotatedPos = vec2(
             position.x * c - position.y * s,
             position.x * s + position.y * c
         );
-        
+
         mvPosition.xy += rotatedPos * size;
-        
+
         gl_Position = projectionMatrix * mvPosition;
     }
 `;
@@ -191,17 +191,17 @@ const particleFragmentShader = /* glsl */ `
     uniform int uColorGradientCount;
     uniform float uFadeIn;
     uniform float uFadeOut;
-    
+
     varying float vAge;
     varying float vLifetime;
     varying float vColorIndex;
     varying vec2 vUv;
-    
+
     vec3 getGradientColor(float t) {
         if (uColorGradientCount <= 1) {
             return mix(uColorStart, uColorEnd, t);
         }
-        
+
         for (int i = 0; i < 7; i++) {
             if (i + 1 >= uColorGradientCount) break;
             if (t >= uColorGradientStops[i] && t <= uColorGradientStops[i + 1]) {
@@ -211,13 +211,13 @@ const particleFragmentShader = /* glsl */ `
         }
         return uColorGradient[uColorGradientCount - 1];
     }
-    
+
     void main() {
         float t = clamp(vAge / vLifetime, 0.0, 1.0);
-        
+
         vec3 color = getGradientColor(t);
         float opacity = mix(uOpacityStart, uOpacityEnd, t);
-        
+
         // Fade in/out
         if (t < uFadeIn && uFadeIn > 0.0) {
             opacity *= t / uFadeIn;
@@ -225,7 +225,7 @@ const particleFragmentShader = /* glsl */ `
         if (t > (1.0 - uFadeOut) && uFadeOut > 0.0) {
             opacity *= (1.0 - t) / uFadeOut;
         }
-        
+
         if (uHasTexture) {
             vec4 texColor = texture2D(uTexture, vUv);
             color *= texColor.rgb;
@@ -236,7 +236,7 @@ const particleFragmentShader = /* glsl */ `
             if (dist > 1.0) discard;
             opacity *= 1.0 - smoothstep(0.5, 1.0, dist);
         }
-        
+
         gl_FragColor = vec4(color, opacity);
     }
 `;
@@ -279,7 +279,11 @@ function noise3D(x: number, y: number, z: number): number {
     );
 }
 
-export class ParticleEmitter {
+/**
+ * Core particle emitter class for GPU-based particle systems.
+ * @category Effects & Atmosphere
+ */
+export class ParticleEmitterCore {
     public readonly mesh: THREE.InstancedMesh;
     public readonly material: THREE.ShaderMaterial;
     public readonly geometry: THREE.BufferGeometry;
@@ -671,6 +675,24 @@ export class ParticleEmitter {
     }
 }
 
-export function createParticleEmitter(config?: ParticleEmitterConfig): ParticleEmitter {
-    return new ParticleEmitter(config);
+/**
+ * Factory function to create a new particle emitter.
+ * @param config - Optional configuration for the emitter
+ * @returns A new ParticleEmitterCore instance
+ * @category Effects & Atmosphere
+ */
+export function createParticleEmitter(config?: ParticleEmitterConfig): ParticleEmitterCore {
+    return new ParticleEmitterCore(config);
 }
+
+/**
+ * @deprecated Use `ParticleEmitterCore` instead. This alias will be removed in v2.0.
+ * @category Effects & Atmosphere
+ */
+export { ParticleEmitterCore as ParticleEmitter };
+
+/**
+ * Type alias for backwards compatibility.
+ * @deprecated Use `ParticleEmitterCore` instead.
+ */
+export type ParticleEmitterType = ParticleEmitterCore;

@@ -31,7 +31,11 @@ export interface WeatherTransition {
     elapsed: number;
 }
 
-export class WeatherSystem {
+/**
+ * Core weather system class for environmental simulation.
+ * @category World Building
+ */
+export class WeatherSystemCore {
     private currentState: WeatherStateConfig;
     private transition: WeatherTransition | null = null;
     private listeners: ((state: WeatherStateConfig) => void)[] = [];
@@ -164,8 +168,8 @@ function lerp(a: number, b: number, t: number): number {
     return a + (b - a) * t;
 }
 
-export function createWeatherSystem(initialState?: Partial<WeatherStateConfig>): WeatherSystem {
-    return new WeatherSystem(initialState);
+export function createWeatherSystem(initialState?: Partial<WeatherStateConfig>): WeatherSystemCore {
+    return new WeatherSystemCore(initialState);
 }
 
 export interface WindSimulationConfig {
@@ -239,3 +243,15 @@ export function getPrecipitationType(temperature: number): 'none' | 'rain' | 'sn
     if (temperature <= 2) return 'sleet';
     return 'rain';
 }
+
+/**
+ * @deprecated Use `WeatherSystemCore` instead. This alias will be removed in v2.0.
+ * @category World Building
+ */
+export { WeatherSystemCore as WeatherSystem };
+
+/**
+ * Type alias for backwards compatibility.
+ * @deprecated Use `WeatherSystemCore` instead.
+ */
+export type WeatherSystemType = WeatherSystemCore;
