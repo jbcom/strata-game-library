@@ -21,6 +21,7 @@ This directory contains architectural documentation for Strata's evolution from 
 
 ### Implementation Guides
 - [Migration Guide](./guides/MIGRATION.md) - Migrating from toolkit to framework usage
+- [v2.0 Migration Guide](./guides/MIGRATION_V2.md) - Migrating from @jbcom/strata to @strata/core
 - [Agent Instructions](./guides/AGENTS.md) - Instructions for AI agents working on Strata
 
 ### Package Architecture
