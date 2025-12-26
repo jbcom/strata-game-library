@@ -2,10 +2,11 @@
    Synced from jbcom-control-center - customize for your project
 
 =======================================
-PACKAGE_NAME Documentation
+strata-core Documentation
 =======================================
 
-.. TODO: Add your project description here
+Procedural 3D graphics for React Three Fiber. Layered terrain, water, vegetation, sky, and volumetrics.
+
 
 .. toctree::
    :maxdepth: 2
@@ -21,11 +22,25 @@ PACKAGE_NAME Documentation
    api/index
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Architecture
+
+   architecture/README
+
+.. toctree::
    :maxdepth: 1
    :caption: Development
 
-   development/contributing
+   contributing
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Enterprise
+
+   jbcom Hub <https://jbcom.github.io>
+   Agentic Docs <https://agentic.dev>
+   Strata Docs <https://strata.game>
+   Extended Data <https://extendeddata.dev>
 
 Indices and tables
 ==================

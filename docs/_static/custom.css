@@ -23,6 +23,54 @@
     --jb-glass-border: var(--border);
 }
 
+/* Sphinx RTD Theme Overrides */
+.wy-nav-side {
+    background: var(--bg-paper) !important;
+}
+
+.wy-side-nav-search {
+    background: var(--bg-default) !important;
+}
+
+.wy-nav-content-wrap {
+    background: var(--bg-default) !important;
+    color: var(--text-secondary);
+}
+
+.wy-body-for-nav {
+    background: var(--bg-default) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+}
+
+body {
+    font-family: 'Inter', sans-serif !important;
+    color: var(--text-secondary) !important;
+}
+
+code, pre {
+    font-family: 'JetBrains Mono', monospace !important;
+}
+
+.highlight {
+    background: var(--bg-paper) !important;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+}
+
+a {
+    color: var(--primary) !important;
+}
+
+a:hover {
+    color: var(--primary-light) !important;
+}
+
+
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text-secondary);
