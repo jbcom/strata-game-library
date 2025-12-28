@@ -1,6 +1,6 @@
 {
   "name": "@strata-game-library/core",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "description": "Procedural 3D graphics library for React Three Fiber - terrain, water, vegetation, sky, volumetrics, and characters",
   "type": "module",
   "main": "./dist/index.js",
