@@ -80,7 +80,7 @@ export function GPUInstancedMesh({
     }
 
     const instanceCount = Math.min(instances.length, count);
-    
+
     // Pass wind and LOD props to Instances if supported by material/shader
     return (
         <Instances
@@ -90,9 +90,9 @@ export function GPUInstancedMesh({
             castShadow={castShadow}
             receiveShadow={receiveShadow}
             {...({
-                enableWind,
-                windStrength,
-                lodDistance
+                enableWind: _enableWind,
+                windStrength: _windStrength,
+                lodDistance: _lodDistance,
             } as any)}
         >
             {/* drei's Instances expects geometry and material as primitive children */}
