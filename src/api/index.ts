@@ -42,12 +42,11 @@
  * @category Overview
  */
 
-export * from './createGame';
 export * from './compose';
+export * from './createGame';
 export * from './effects';
 export * from './entities';
 export * from './experience';
-export * from './presets';
 export * from './rendering';
 export * from './StrataGame';
 export * from './systems';

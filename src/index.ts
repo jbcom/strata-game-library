@@ -10,7 +10,6 @@
  * For granular imports, use submodule paths:
  * - @jbcom/strata/components - React Three Fiber components
  * - @jbcom/strata/shaders - GLSL shaders
- * - @jbcom/strata/presets - Pre-configured presets
  *
  * @packageDocumentation
  * @module strata
@@ -36,6 +35,6 @@ export * from './utils';
 // Export world topology
 export * from './world';
 
-// Note: Components and Presets have overlapping exports with core.
-// Import from ./components or ./presets directly if you need their specific versions.
+// Note: Components have overlapping exports with core.
+// Import from ./components directly if you need their specific versions.
 // The main entry point prioritizes core exports.

@@ -52,6 +52,7 @@ export {
     Water,
 } from '../components';
 export type {
+    AdvancedWaterMaterialOptions,
     BiomeData,
     CloudLayerConfig,
     CloudMaterialOptions,
@@ -106,4 +107,3 @@ export {
     sdTorus,
     warpedFbm,
 } from '../core';
-export type { AdvancedWaterMaterialOptions } from '../presets/water';

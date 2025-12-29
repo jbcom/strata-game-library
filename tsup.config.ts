@@ -20,7 +20,6 @@ export default defineConfig({
 		'components/index': 'src/components/index.ts',
 		'shaders/index': 'src/shaders/index.ts',
 		'utils/index': 'src/utils/index.ts',
-		'presets/index': 'src/presets/index.ts',
 		'api/index': 'src/api/index.ts',
 		'game/index': 'src/game/index.ts',
 		'compose/index': 'src/compose/index.ts',

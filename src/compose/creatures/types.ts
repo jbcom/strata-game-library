@@ -1,8 +1,9 @@
 import type * as THREE from 'three';
-import type { AIPresetName } from '../../presets/ai/types';
 import type { BiomeType } from '../../utils/texture-loader';
 import type { CoveringDefinition } from '../coverings';
 import type { SkeletonDefinition } from '../skeletons/types';
+
+export type AIPresetName = 'guard' | 'prey' | 'predator' | 'flockMember' | 'follower';
 
 export interface DropItem {
     item: string;
