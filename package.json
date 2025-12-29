@@ -32,8 +32,24 @@
       "import": "./dist/api/index.js"
     },
     "./game": {
-      "types": "./dist/api/index.d.ts",
-      "import": "./dist/api/index.js"
+      "types": "./dist/game/index.d.ts",
+      "import": "./dist/game/index.js"
+    },
+    "./compose": {
+      "types": "./dist/compose/index.d.ts",
+      "import": "./dist/compose/index.js"
+    },
+    "./world": {
+      "types": "./dist/world/index.d.ts",
+      "import": "./dist/world/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
     },
     "./core/marching-cubes": {
       "types": "./dist/core/marching-cubes.d.ts",
@@ -59,9 +75,61 @@
       "types": "./dist/core/weather.d.ts",
       "import": "./dist/core/weather.js"
     },
+    "./core/ecs": {
+      "types": "./dist/core/ecs/index.d.ts",
+      "import": "./dist/core/ecs/index.js"
+    },
+    "./core/math": {
+      "types": "./dist/core/math/index.d.ts",
+      "import": "./dist/core/math/index.js"
+    },
+    "./core/audio": {
+      "types": "./dist/core/audio/index.d.ts",
+      "import": "./dist/core/audio/index.js"
+    },
+    "./core/animation": {
+      "types": "./dist/core/animation/index.d.ts",
+      "import": "./dist/core/animation/index.js"
+    },
+    "./core/debug": {
+      "types": "./dist/core/debug/index.d.ts",
+      "import": "./dist/core/debug/index.js"
+    },
+    "./core/pathfinding": {
+      "types": "./dist/core/pathfinding/index.d.ts",
+      "import": "./dist/core/pathfinding/index.js"
+    },
+    "./core/shared": {
+      "types": "./dist/core/shared/index.d.ts",
+      "import": "./dist/core/shared/index.js"
+    },
     "./shaders/water": {
       "types": "./dist/shaders/water.d.ts",
       "import": "./dist/shaders/water.js"
+    },
+    "./shaders/clouds": {
+      "types": "./dist/shaders/clouds.d.ts",
+      "import": "./dist/shaders/clouds.js"
+    },
+    "./shaders/terrain": {
+      "types": "./dist/shaders/terrain.d.ts",
+      "import": "./dist/shaders/terrain.js"
+    },
+    "./shaders/volumetrics": {
+      "types": "./dist/shaders/volumetrics.d.ts",
+      "import": "./dist/shaders/volumetrics.js"
+    },
+    "./shaders/sky": {
+      "types": "./dist/shaders/sky.d.ts",
+      "import": "./dist/shaders/sky.js"
+    },
+    "./shaders/fur": {
+      "types": "./dist/shaders/fur.d.ts",
+      "import": "./dist/shaders/fur.js"
+    },
+    "./shaders/godRays": {
+      "types": "./dist/shaders/godRays.d.ts",
+      "import": "./dist/shaders/godRays.js"
     }
   },
   "files": [
@@ -69,8 +137,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "clean": "rimraf dist",
     "demo": "npx serve docs/demos",
     "docs:dev": "npx serve docs",
@@ -130,7 +198,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/strata-game-library/core"
+    "url": "git+https://github.com/strata-game-library/core.git"
   },
   "homepage": "https://github.com/strata-game-library/core#readme",
   "bugs": {
@@ -180,6 +248,7 @@
   },
   "devDependencies": {
     "@agentic-dev-library/triage": "^1.1.0",
+    "@agentic-dev-library/vitest-control": "github:agentic-dev-library/control#path:packages/vitest-agentic-control",
     "@biomejs/biome": "2.3.10",
     "@playwright/test": "^1.57.0",
     "@react-three/drei": "^10.7.7",
@@ -211,11 +280,11 @@
     "semantic-release": "^25.0.2",
     "simplex-noise": "^4.0.3",
     "three": "^0.182.0",
+    "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.15",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15",
-    "@agentic-dev-library/vitest-control": "github:agentic-dev-library/control#path:packages/vitest-agentic-control",
     "xstate": "^5.25.0",
     "yuka": "^0.7.8"
   }
