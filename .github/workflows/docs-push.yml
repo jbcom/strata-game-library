@@ -1,0 +1,83 @@
+# Centralized Documentation Sync
+# 
+# Builds local TypeDoc/Markdown documentation and pushes it to 
+# the organization's central Astro site (strata-game-library.github.io).
+#
+# Managed by: strata-game-library/control-center
+
+name: Docs Sync
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-docs:
+    name: Build & Push Docs
+    runs-on: ubuntu-latest
+    if: github.repository != 'strata-game-library/strata-game-library.github.io' && github.repository != 'strata-game-library/control-center'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          if [ -f "pnpm-lock.yaml" ]; then
+            npm install -g pnpm && pnpm install --frozen-lockfile
+          else
+            npm ci || npm install
+          fi
+
+      - name: Build TypeDoc (Markdown)
+        run: |
+          # Try to run typedoc if configured, otherwise just copy README
+          if grep -q "typedoc" package.json; then
+            npm run docs || npx typedoc --plugin typedoc-plugin-markdown --out temp-docs src/
+          else
+            mkdir -p temp-docs
+            cp README.md temp-docs/index.md || echo "No README.md"
+          fi
+
+      - name: Push to Central Docs Repo
+        env:
+          DOCS_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          # Clean repo name for path
+          REPO_ID=$(echo "$REPO_NAME" | sed 's/strata-//')
+          
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          git clone https://x-access-token:${DOCS_TOKEN}@github.com/strata-game-library/strata-game-library.github.io.git central-docs
+          
+          # Target directory in Astro content
+          TARGET_DIR="central-docs/src/content/docs/$REPO_ID"
+          mkdir -p "$TARGET_DIR"
+          
+          # Copy built docs
+          if [ -d "temp-docs" ]; then
+            cp -r temp-docs/* "$TARGET_DIR/"
+          fi
+          
+          cd central-docs
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "docs: sync from $REPO_NAME"
+            git push origin main
+          else
+            echo "No changes in docs."
+          fi
