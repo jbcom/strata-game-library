@@ -1,0 +1,29 @@
+---
+description: 3D, React Three Fiber, and Shader standards for Strata
+globs: "**/*.{ts,tsx,glsl,vert,frag}"
+---
+
+# 🧊 Strata 3D & Graphics Standards
+
+## React Three Fiber (R3F)
+
+1. **Object Reuse** - Use `useMemo` for geometries and materials. Avoid recreating objects in the render loop.
+2. **The Frame Loop** - Use `useFrame` sparingly. Keep logic inside `useFrame` minimal.
+3. **Component Structure** - Keep 3D components separate from UI components.
+
+## Shaders (GLSL)
+
+1. **Branding** - Shaders should be documented with their purpose and inputs.
+2. **Optimization** - Prefer texture lookups over complex math where possible. Use `varying` efficiently.
+3. **Strata Shaders** - When adding to the `shaders` repo, follow the `ShaderMaterial` pattern used in `core`.
+
+## Asset Handling
+
+1. **GLTF/GLB** - Always use `draco` compression for large models.
+2. **Textures** - Use KTX2 or Basis Universal for production-ready textures.
+3. **Validation** - Run the CI asset audit locally before pushing new assets.
+
+```bash
+# Validate GLB (if tools installed)
+gltf-validator -i model.glb
+```

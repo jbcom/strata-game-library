@@ -3,55 +3,23 @@ description: PR creation and review workflow
 globs: "**/*"
 ---
 
-# PR Workflow
+# 🌿 Strata PR Workflow
 
-## Creating PRs
+## Creating Pull Requests
 
-1. **One feature/fix per PR** - Keep scope minimal
-2. **Clear title**: `type(scope): description`
-3. **Body explains** WHAT, WHY, and HOW
+1. **Keep it Small** - One feature or fix per PR.
+2. **Conventional Commits**:
+   - `feat(core): add terrain collision`
+   - `fix(shaders): resolve water transparency bug`
+   - `docs: update API reference`
+3. **Draft First** - Start as a draft if not ready for review.
 
-### Conventional Commit Types
+## AI Review Trigger
 
-| Type | Use Case |
-|------|----------|
-| `feat` | New feature → minor bump |
-| `fix` | Bug fix → patch bump |
-| `docs` | Documentation only |
-| `chore` | Maintenance tasks |
-| `refactor` | Code restructuring |
-| `test` | Adding tests |
-
-## AI Peer Review
-
-**ALWAYS request AI reviews on PRs:**
-
-```
-/gemini review
-/q review
-@copilot review
-```
-
-## Addressing Feedback
-
-1. Make commits that fix issues
-2. Respond to EVERY comment (fix OR explain why not)
-3. Re-request review after significant changes
-
-### Resolving Review Threads
-
-```bash
-# Via GraphQL (preferred for batch resolution)
-gh api graphql -f query='mutation { 
-  resolveReviewThread(input: {threadId: "PRRT_xxx"}) { 
-    thread { isResolved } 
-  } 
-}'
-```
+Request AI review by mentioning `@claude` or using `/cursor review` in comments.
 
 ## Merging
 
-- ✅ Wait for CI to pass
-- ✅ Address all review comments  
-- ✅ Squash if commits are messy
-- ❌ Never use `--admin` to bypass checks
+1. Ensure **CI** passes.
+2. Get at least one human or AI approval.
+3. Squash and merge to keep `main` history clean.

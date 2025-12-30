@@ -1,58 +1,27 @@
 ---
-description: Session memory and handoff protocol
-globs: "**/*"
+description: Memory Bank management rules
+globs: "memory-bank/*.md"
 ---
 
-# Memory Bank Protocol
+# 🧠 Strata Memory Bank
 
-## Purpose
+The Memory Bank is the source of truth for the project's state.
 
-Memory bank provides session continuity between agent runs. It's the "living memory" pattern.
+## Core Files
 
-## Files
+1. `productContext.md`: Purpose and user experience.
+2. `activeContext.md`: Current focus and recent changes.
+3. `progress.md`: What's done and what's next.
+4. `decisionLog.md`: Why we made certain technical choices.
 
-| File | Purpose |
-|------|---------|
-| `memory-bank/activeContext.md` | Current state and focus |
-| `memory-bank/progress.md` | Session-by-session log |
+## Update Frequency
 
-## Session Start
+1. **Start of Session**: Read `activeContext.md` and `progress.md`.
+2. **After Significant Changes**: Update `activeContext.md` and `progress.md`.
+3. **End of Session**: Summarize progress and set the next session's context.
 
-```bash
-# Check context
-if [ -f memory-bank/activeContext.md ]; then
-  cat memory-bank/activeContext.md
-fi
+## Rules
 
-# Check for open issues
-gh issue list --label agent-session 2>/dev/null || true
-```
-
-## Session End
-
-```bash
-# Update context
-cat >> memory-bank/activeContext.md << 'EOF'
-
-## Session: $(date +%Y-%m-%d)
-
-### Completed
-- [x] Task 1
-
-### For Next Agent
-- [ ] Follow-up task
-EOF
-
-# Commit if changes
-git add memory-bank/
-git commit -m "docs: update memory bank for handoff" || true
-```
-
-## Handoff Notes
-
-When ending a session:
-
-1. **Summarize completed work** - What got done
-2. **List outstanding tasks** - What's left
-3. **Document blockers** - What stopped progress
-4. **Include references** - PRs, issues, file paths
+- Never delete the memory bank.
+- Keep it concise but comprehensive.
+- Use it to hand off context between AI sessions.

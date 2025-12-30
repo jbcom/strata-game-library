@@ -1,0 +1,35 @@
+---
+description: Documentation standards for Strata (TypeDoc & Astro)
+globs: ["docs/**/*", "src/**/*.ts", "README.md"]
+---
+
+# 📚 Strata Documentation Standards
+
+## API Documentation
+
+1. **TypeDoc** - All public APIs in `core` and plugins MUST have TSDoc comments.
+2. **TSDoc Pattern**:
+   ```typescript
+   /**
+    * Description of the function.
+    * 
+    * @param name - The name of the object
+    * @returns The generated 3D object
+    */
+   export function createObject(name: string) { ... }
+   ```
+3. **Auto-Sync** - Docs are automatically pushed to `strata-game-library.github.io` on push to `main`.
+
+## Central Docs (Astro)
+
+1. **Content Path** - The central docs repository is an Astro site.
+2. **Subdirectories** - Each repository maps to `src/content/docs/[repo-id]/`.
+3. **MDX Support** - Use MDX for interactive documentation examples.
+
+## READMEs
+
+1. Every repository must have a standard `README.md` with:
+   - Purpose
+   - Installation
+   - Quick Start
+   - License (MIT)

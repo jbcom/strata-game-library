@@ -1,34 +1,28 @@
 ---
-description: Fundamental rules for all jbcom repos
+description: Fundamental rules for all Strata repositories
 globs: "**/*"
 alwaysApply: true
 ---
 
-# Fundamentals
+# 🌌 Strata Fundamentals
 
-## Before Acting
+## Core Principles
 
-1. **Read before modifying** - Always read the file/code before editing
-2. **Run builds after changes** - Verify your changes compile/lint
-3. **Check git status** - Know what you're committing
+1. **Performance First** - Every 3D/WebGL change must consider framerate and memory.
+2. **Read Before Modifying** - Always read the context and existing patterns before editing.
+3. **Verify Everything** - Run `pnpm check` (lint + typecheck) after changes.
+4. **No React in Core** - `src/core/` must have **ZERO** React imports. Pure TypeScript only.
 
-## Making Changes
+## Development Workflow
 
-1. **One concern per commit** - Keep commits focused
-2. **Run linters/tests locally** before pushing
-3. **Don't consolidate code** without verifying the build
-
-## When Copying/Moving Files
-
-1. Read the file first
-2. Check if content is relevant to destination
-3. Update paths and references
-4. Remove tool-specific cruft that doesn't apply
+1. **Memory Bank** - Maintain `memory-bank/*.md` to track context across sessions.
+2. **One Concern per Commit** - Keep changes focused and atomic.
+3. **Ghost Testing** - Use `agentic-dev-library` for testing when available.
 
 ## Authentication
 
 ```bash
-# jbcom repos - ALWAYS use this pattern
+# ALWAYS use CI_GITHUB_TOKEN or GH_TOKEN
 GH_TOKEN="$GITHUB_TOKEN" gh <command>
 ```
 
@@ -37,8 +31,7 @@ GH_TOKEN="$GITHUB_TOKEN" gh <command>
 ```bash
 # Start of session
 cat memory-bank/activeContext.md 2>/dev/null || echo "No memory bank"
-gh issue list --label agent-session 2>/dev/null || true
 
-# End of session - update context
+# End of session
 echo "## Session: $(date +%Y-%m-%d)" >> memory-bank/activeContext.md
 ```

@@ -1,0 +1,40 @@
+---
+description: Strata Architecture and Game Framework standards
+globs: "src/**/*"
+---
+
+# 🏛️ Strata Architecture
+
+## Modular Structure
+
+- `src/core/`: Pure logic, math, ECS, AI, animation. **NO REACT.**
+- `src/components/`: React Three Fiber wrappers for core systems.
+- `src/shaders/`: GLSL shader collection.
+- `src/presets/`: Pre-configured behaviors and materials.
+- `src/game/`: Orchestration (Scene/Mode/Trigger).
+- `src/world/`: Topology and Region systems.
+
+## Framework Layers (Epic #50)
+
+1. **Layer 1: Orchestration** - Managing scene transitions and game modes.
+2. **Layer 2: Topology** - World graph and region connections.
+3. **Layer 3: Composition** - Creating objects via materials, skeletons, and props.
+4. **Layer 4: Definition** - `createGame()` declarative API.
+
+## Coding Standards
+
+- **Division by Zero**: Always check for `b !== 0` before `a / b`.
+- **Race Conditions**: Capture event targets before async operations.
+- **Memory Leaks**: Always cleanup subscriptions in `useEffect`.
+- **Object Reuse**: Use `useMemo` for R3F geometries/materials to avoid GC pressure.
+
+## Compositional System (RFC-002)
+
+Prefer defining entities via the compositional API:
+```typescript
+const creature = createCreature({
+  skeleton: 'quadruped_medium',
+  covering: { material: 'fur_otter' },
+  ai: 'prey'
+});
+```
