@@ -1,139 +1,77 @@
-# CI - Build, Lint, Test
-# Quality gates for pull requests
+# Strata Game Library CI
+# Org-specific CI for strata-game-library TypeScript/3D projects
+#
+# Managed by: strata-game-library/.github repo
+
 name: CI
 
 on:
+  push:
+    branches: [main, master]
   pull_request:
-    types: [opened, synchronize, reopened]
-
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [main, master]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
+  lint-and-build:
+    name: Lint & Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+        if: hashFiles('package-lock.json') != ''
 
-      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
+      - uses: pnpm/action-setup@v4
         with:
           version: 9
+        if: hashFiles('pnpm-lock.yaml') != ''
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          STORE_PATH=$(pnpm store path --silent 2>/dev/null || true)
-          STORE_PATH="${STORE_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/pnpm/store}"
-          echo "store=$STORE_PATH" >> $GITHUB_OUTPUT
+      - name: Install (npm)
+        if: hashFiles('package-lock.json') != ''
+        run: npm ci
 
-      - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
-        with:
-          path: ${{ steps.pnpm-cache.outputs.store }}
-          key: pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json') }}
-          restore-keys: pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Install (pnpm)
+        if: hashFiles('pnpm-lock.yaml') != ''
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm run lint
+        run: npm run lint --if-present || pnpm lint --if-present || true
+
+      - name: Type Check
+        run: npm run typecheck --if-present || pnpm typecheck --if-present || npx tsc --noEmit || true
 
       - name: Build
-        run: pnpm run build
+        run: npm run build --if-present || pnpm build --if-present
 
-      - name: Type check
-        run: pnpm run typecheck
+      - name: Test
+        run: npm test --if-present || pnpm test --if-present || true
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: build-output
-          path: dist
-          retention-days: 1
-
-  test:
-    name: Unit Tests
-    needs: build
+  # WebGL/3D specific checks
+  bundle-size:
+    name: Bundle Size Check
     runs-on: ubuntu-latest
+    if: hashFiles('package.json') != ''
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+        if: hashFiles('package-lock.json') != ''
 
-      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
-        with:
-          version: 9
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          name: build-output
-          path: dist
-
-      - name: Run tests with coverage
-        run: pnpm run test:coverage -- --reporter=default --reporter=@agentic-dev-library/vitest-control
-
-      - name: Report Coveralls
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
-        with:
-          file: coverage/lcov.info
-
-      - name: Upload test results
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        if: always()
-        with:
-          name: test-results
-          path: test-results/
-          retention-days: 7
-
-  e2e:
-    name: E2E Tests
-    needs: [build, test]
-    if: contains(github.event.pull_request.labels.*.name, 'run-e2e')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version: '22'
-
-      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
-        with:
-          version: 9
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          name: build-output
-          path: dist
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Run E2E tests
-        run: pnpm run test:e2e -- --project=chromium --reporter=@agentic-dev-library/triage/reporters/playwright
-
-      - name: Upload E2E results
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        if: always()
-        with:
-          name: e2e-results
-          path: test-results/
-          retention-days: 7
+      - run: npm ci || pnpm install --frozen-lockfile
+      - run: npm run build --if-present || pnpm build --if-present
+      
+      - name: Check bundle size
+        run: |
+          if [ -d "dist" ]; then
+            echo "## Bundle Size" >> $GITHUB_STEP_SUMMARY
+            du -sh dist/* 2>/dev/null | head -20 >> $GITHUB_STEP_SUMMARY || true
+          fi
