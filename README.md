@@ -1,64 +1,45 @@
-# @jbcom/strata
+# Org-Specific Overrides
 
-> The complete solution for foreground, midground, and background layer 3D gaming in Node.js
+Place files here to override enterprise defaults from jbcom/control-center.
 
-Strata provides everything you need to build high-quality 3D games and experiences, from terrain generation to character animation, all optimized for performance across mobile, web, and desktop.
+## Directory Structure
 
-[![CI](https://github.com/strata-game-library/core/actions/workflows/ci.yml/badge.svg)](https://github.com/strata-game-library/core/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/@jbcom/strata.svg)](https://www.npmjs.com/package/@jbcom/strata)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+```
+repository-files/
+├── always-sync/          # From enterprise (don't edit)
+├── initial-only/         # From enterprise (don't edit)  
+├── python/               # From enterprise (don't edit)
+├── nodejs/               # From enterprise (don't edit)
+├── go/                   # From enterprise (don't edit)
+├── rust/                 # From enterprise (don't edit)
+├── terraform/            # From enterprise (don't edit)
+└── org-overrides/        # YOUR ORG CUSTOMIZATIONS HERE
+    ├── .github/
+    │   └── workflows/    # Org-specific workflows
+    ├── .cursor/
+    │   └── rules/        # Org-specific Cursor rules
+    ├── CLAUDE.md         # Org-specific Claude instructions
+    └── AGENTS.md         # Org-specific agent instructions
+```
 
----
+## Merge Order
 
-## 📚 Documentation
+When syncing to repos, files are applied in this order:
+1. Enterprise `always-sync/` (base)
+2. Language-specific rules (python/, nodejs/, etc.)
+3. **Org overrides** (this directory - wins on conflicts)
+4. `initial-only/` (only if file doesn't exist)
 
-**Full documentation is available at [strata.game](https://strata.game)**
+## Examples
 
-- [Getting Started](https://strata.game/getting-started/)
-- [API Reference](https://strata.game/api/)
-- [Live Demos](https://strata.game/showcase/)
-- [Examples & Tutorials](https://strata.game/getting-started/quick-start/)
-
----
-
-## 🚀 Quick Start
-
+### Override CI workflow for your org
 ```bash
-pnpm install @jbcom/strata @react-three/fiber @react-three/drei three
+cp repository-files/always-sync/.github/workflows/ci.yml \
+   repository-files/org-overrides/.github/workflows/ci.yml
+# Then edit ci.yml with org-specific changes
 ```
 
-```tsx
-import { Canvas } from '@react-three/fiber';
-import { Water, ProceduralSky, GrassInstances } from '@jbcom/strata';
-
-function Game() {
-  return (
-    <Canvas>
-      <ProceduralSky sunPosition={[100, 50, 100]} />
-      <Water size={200} depth={20} />
-      <GrassInstances count={10000} spread={100} />
-    </Canvas>
-  );
-}
+### Add org-specific Cursor rule
+```bash
+echo "# My Org Rule" > repository-files/org-overrides/.cursor/rules/my-org.mdc
 ```
-
----
-
-## 🎮 Features
-
-- 🏔️ **Procedural Terrain** - SDF-based terrain generation with marching cubes
-- 🌊 **Advanced Water** - Realistic water with reflections, caustics, and foam
-- 🌿 **GPU Vegetation** - Thousands of instances with biome-based placement
-- ☁️ **Volumetric Effects** - Fog, atmospheric scattering, and weather
-- 🌅 **Procedural Sky** - Dynamic day/night cycle with stars and sun positioning
-- 🎮 **Character Animation** - IK chains, procedural walk, and physics
-
----
-
-## 🏢 Enterprise Context
-
-**Strata** is the Games & Procedural division of the [jbcom enterprise](https://jbcom.github.io). This package is part of a coherent suite of specialized tools, sharing a unified design system and interconnected with sibling organizations like [Agentic](https://agentic.dev) and [Extended Data](https://extendeddata.dev).
-
-## License
-
-MIT © [Jon Bogaty](https://github.com/jbcom)
