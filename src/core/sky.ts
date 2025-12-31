@@ -43,7 +43,7 @@ import { createSkyUniforms, skyFragmentShader, skyVertexShader } from '../shader
  *
  * @category World Building
  */
-export interface TimeOfDayState {
+export interface TimeOfDayStateCore {
     /**
      * Sun light intensity (0-1).
      *
@@ -92,7 +92,7 @@ export interface TimeOfDayState {
  * State representing weather intensity.
  * @category World Building
  */
-export interface WeatherState {
+export interface WeatherStateCore {
     /** Weather intensity (0-1). 0 = clear, 1 = stormy. */
     intensity: number;
 }
@@ -103,9 +103,9 @@ export interface WeatherState {
  */
 export interface SkyMaterialOptions {
     /** Time of day settings */
-    timeOfDay: Partial<TimeOfDayState>;
+    timeOfDay: Partial<TimeOfDayStateCore>;
     /** Weather settings */
-    weather?: Partial<WeatherState>;
+    weather?: Partial<WeatherStateCore>;
     /** Gyroscope tilt for mobile/VR effects */
     gyroTilt?: THREE.Vector2;
     /** Animation time in seconds */
@@ -160,7 +160,7 @@ export interface SkyMaterialOptions {
  * ```
  *
  * @see {@link createSkyGeometry} for creating the geometry
- * @see {@link TimeOfDayState} for all available time parameters
+ * @see {@link TimeOfDayStateCore} for all available time parameters
  */
 export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMaterial {
     const { timeOfDay, weather = {}, gyroTilt, time = 0 } = options;
@@ -181,7 +181,7 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
         throw new Error('createSkyMaterial: sunAngle must be between -180 and 360');
     }
 
-    const defaultTimeOfDay: TimeOfDayState = {
+    const defaultTimeOfDay: TimeOfDayStateCore = {
         sunIntensity: 1.0,
         sunAngle: 60,
         ambientLight: 0.8,
@@ -189,7 +189,7 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
         fogDensity: 0,
     };
 
-    const defaultWeather: WeatherState = {
+    const defaultWeather: WeatherStateCore = {
         intensity: 0,
     };
 
@@ -247,3 +247,15 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
 export function createSkyGeometry(size: [number, number] = [200, 100]): THREE.PlaneGeometry {
     return new THREE.PlaneGeometry(size[0], size[1], 1, 1);
 }
+
+/**
+ * @deprecated Use `TimeOfDayStateCore` instead. This alias will be removed in v2.0.
+ * @category World Building
+ */
+export type TimeOfDayState = TimeOfDayStateCore;
+
+/**
+ * @deprecated Use `WeatherStateCore` instead. This alias will be removed in v2.0.
+ * @category World Building
+ */
+export type WeatherState = WeatherStateCore;

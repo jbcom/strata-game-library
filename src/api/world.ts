@@ -61,7 +61,9 @@ export type {
     MarchingCubesOptions,
     MarchingCubesResult,
     TerrainChunk,
+    TimeOfDayStateCore,
     VolumetricCloudOptions,
+    WeatherStateCore,
 } from '../core';
 // Terrain Generation
 export {

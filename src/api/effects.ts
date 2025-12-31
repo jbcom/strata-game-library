@@ -102,6 +102,7 @@ export type {
     VolumetricPointLightMaterialOptions,
     VolumetricSpotlightMaterialOptions,
     WeatherStateConfig,
+    WeatherStateCore,
     WeatherTransition,
     WeatherType,
     WindConfig,
