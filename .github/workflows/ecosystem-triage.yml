@@ -146,7 +146,7 @@ jobs:
           ---
           <sub>🤖 Managed by Ecosystem Triage</sub>" \
               --label "synthesis" \
-              2>/dev/null | grep -oE '[0-9]+$')
+              --json number --jq '.number')
 
             # Link tracking issue to PR
             gh pr comment $PR_NUM --repo "${{ github.repository }}" --body "📦 **Tracking:** #$TRACKING_ISSUE" 2>/dev/null || true
