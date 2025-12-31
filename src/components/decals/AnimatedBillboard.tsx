@@ -4,9 +4,9 @@ import * as THREE from 'three';
 import {
     applySpriteSheetFrame,
     createSpriteSheetAnimation,
-    updateSpriteSheetAnimation,
     type SpriteAnimationState,
     type SpriteSheetConfig,
+    updateSpriteSheetAnimation,
 } from '../../core/decals';
 import type { AnimatedBillboardProps, AnimatedBillboardRef } from './types';
 

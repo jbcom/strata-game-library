@@ -1,7 +1,6 @@
-
+import type { VolumetricEffectsProps } from './types';
 import { UnderwaterOverlay } from './UnderwaterOverlay';
 import { VolumetricFogMesh } from './VolumetricFogMesh';
-import type { VolumetricEffectsProps } from './types';
 
 /**
  * Unified Volumetric Effects Manager.

@@ -4,13 +4,13 @@
  * @module components/postprocessing
  */
 
-export * from './types';
-export * from './EffectStack';
 export * from './CinematicEffects';
 export * from './DreamyEffects';
+export * from './DynamicDOF';
+export * from './EffectStack';
 export * from './HorrorEffects';
+export * from './MotionBlurEffect';
 export * from './NeonEffects';
 export * from './RealisticEffects';
+export * from './types';
 export * from './VintageEffects';
-export * from './DynamicDOF';
-export * from './MotionBlurEffect';

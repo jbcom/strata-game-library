@@ -4,13 +4,13 @@
  * @module components/shaders
  */
 
-export * from './types';
-export * from './ToonMesh';
-export * from './HologramMesh';
+export * from './CrystalMesh';
 export * from './DissolveMesh';
 export * from './Forcefield';
-export * from './Outline';
-export * from './GradientMesh';
 export * from './GlitchMesh';
-export * from './CrystalMesh';
+export * from './GradientMesh';
+export * from './HologramMesh';
+export * from './Outline';
 export * from './Raymarching';
+export * from './ToonMesh';
+export * from './types';

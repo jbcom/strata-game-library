@@ -24,7 +24,9 @@ export function CloudSky({
     dayNight: dayNightOverride,
 }: CloudSkyProps) {
     const config = useMemo(() => {
-        return configProp ? { ...createDefaultCloudSkyConfig(), ...configProp } : createDefaultCloudSkyConfig();
+        return configProp
+            ? { ...createDefaultCloudSkyConfig(), ...configProp }
+            : createDefaultCloudSkyConfig();
     }, [configProp]);
 
     const finalWind = useMemo(() => {

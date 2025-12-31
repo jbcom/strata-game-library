@@ -2,6 +2,7 @@
  * React hooks exports
  */
 
+export * from './useKeyboardControls';
 export type {
     UseAlignmentOptions,
     UseArriveOptions,
@@ -33,5 +34,3 @@ export {
     useWander,
     YUKA,
 } from './useYuka';
-export * from './useKeyboardControls';
-

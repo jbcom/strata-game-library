@@ -1,6 +1,5 @@
-
 import { create } from 'zustand';
-import type { GameMode, ModeInstance, ModeManager, ModeDefinition as ModeConfig } from './types';
+import type { GameMode, ModeDefinition as ModeConfig, ModeInstance, ModeManager } from './types';
 
 /**
  * Internal state for the ModeManager.

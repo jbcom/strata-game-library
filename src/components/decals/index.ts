@@ -4,8 +4,8 @@
  * @module components/decals
  */
 
-export * from './types';
-export * from './Decal';
-export * from './Billboard';
 export * from './AnimatedBillboard';
+export * from './Billboard';
+export * from './Decal';
 export * from './DecalPool';
+export * from './types';

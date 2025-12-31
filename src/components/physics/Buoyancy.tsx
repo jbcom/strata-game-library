@@ -1,5 +1,10 @@
-import { RigidBody, interactionGroups, type RapierRigidBody, type RigidBodyProps } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
+import {
+    interactionGroups,
+    type RapierRigidBody,
+    RigidBody,
+    type RigidBodyProps,
+} from '@react-three/rapier';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {

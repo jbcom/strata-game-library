@@ -25,7 +25,7 @@
  */
 
 import * as THREE from 'three';
-import { lerp, easeOutCubic, easeOutElastic } from './math/utils';
+import { easeOutCubic, easeOutElastic, lerp } from './math/utils';
 
 export { lerp, easeOutCubic, easeOutElastic };
 

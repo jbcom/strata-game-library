@@ -76,7 +76,10 @@ export const IKChain = forwardRef<IKChainRef, IKChainProps>(
             if (groupRef.current && boneLengths.length > 0) {
                 // Clear old visual bones if any
                 groupRef.current.children.forEach((child) => {
-                    if ((child as THREE.Object3D).type === 'Object3D' || (child as THREE.Mesh).isMesh) {
+                    if (
+                        (child as THREE.Object3D).type === 'Object3D' ||
+                        (child as THREE.Mesh).isMesh
+                    ) {
                         groupRef.current?.remove(child);
                     }
                 });

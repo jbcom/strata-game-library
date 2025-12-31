@@ -4,8 +4,8 @@
  * @module components/physics
  */
 
-export * from './CharacterController';
-export * from './VehicleBody';
-export * from './Destructible';
 export * from './Buoyancy';
+export * from './CharacterController';
+export * from './Destructible';
 export * from './Ragdoll';
+export * from './VehicleBody';

@@ -1,5 +1,5 @@
 import type * as THREE from 'three';
-import type { InputAxis, InputEvent, DragState } from '../../core/input';
+import type { DragState, InputAxis, InputEvent } from '../../core/input';
 
 /**
  * Base ref interface for all input controls.

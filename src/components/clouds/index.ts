@@ -4,7 +4,7 @@
  * @module components/clouds
  */
 
-export * from './types';
 export * from './CloudLayer';
-export * from './VolumetricClouds';
 export * from './CloudSky';
+export * from './types';
+export * from './VolumetricClouds';

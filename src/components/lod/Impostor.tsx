@@ -1,5 +1,13 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import {
+    forwardRef,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import * as THREE from 'three';
 import { updateBillboardRotation } from '../../core/decals';
 import { calculateImpostorAngle, createImpostorGeometry, updateImpostorUV } from '../../core/lod';

@@ -1,9 +1,8 @@
-
 import * as THREE from 'three';
 import type { WeatherStateConfig } from '../../core/weather';
+import { Lightning } from './Lightning';
 import { Rain } from './Rain';
 import { Snow } from './Snow';
-import { Lightning } from './Lightning';
 import type { WeatherSystemProps } from './types';
 
 /**

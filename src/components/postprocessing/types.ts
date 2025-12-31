@@ -1,6 +1,6 @@
+import type { ToneMappingMode } from 'postprocessing';
 import type React from 'react';
 import type * as THREE from 'three';
-import type { ToneMappingMode } from 'postprocessing';
 import type {
     BloomSettings,
     BrightnessContrastSettings,

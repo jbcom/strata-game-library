@@ -131,13 +131,7 @@ function fbm3DInternal(
  * @param config - FBM configuration.
  * @returns Normalized noise value in approximately [-1, 1].
  */
-export function fbm3D(
-    noise: Noise3D,
-    x: number,
-    y: number,
-    z: number,
-    config?: FBMConfig
-): number {
+export function fbm3D(noise: Noise3D, x: number, y: number, z: number, config?: FBMConfig): number {
     const octaves = config?.octaves ?? DEFAULT_FBM_CONFIG.octaves;
 
     if (octaves < 1) {
@@ -190,15 +184,7 @@ export function warpedNoise2D(
         fbm2DInternal(noise, x + 5.2, y + 1.3, 2, frequency, persistence, lacunarity) * strength;
 
     // Optimized: Direct call to avoid re-validating config and default resolution
-    return fbm2DInternal(
-        noise,
-        wx,
-        wy,
-        octaves,
-        frequency,
-        persistence,
-        lacunarity
-    );
+    return fbm2DInternal(noise, wx, wy, octaves, frequency, persistence, lacunarity);
 }
 
 /**
@@ -243,16 +229,7 @@ export function warpedNoise3D(
             strength;
 
     // Optimized: Direct call to avoid re-validating config and default resolution
-    return fbm3DInternal(
-        noise,
-        wx,
-        wy,
-        wz,
-        octaves,
-        frequency,
-        persistence,
-        lacunarity
-    );
+    return fbm3DInternal(noise, wx, wy, wz, octaves, frequency, persistence, lacunarity);
 }
 
 /**
@@ -341,12 +318,7 @@ export function createTerrainNoise(
  * @param config - FBM configuration.
  * @returns Ridged noise value in [0, 1].
  */
-export function ridgedNoise2D(
-    noise: Noise2D,
-    x: number,
-    y: number,
-    config?: FBMConfig
-): number {
+export function ridgedNoise2D(noise: Noise2D, x: number, y: number, config?: FBMConfig): number {
     const value = fbm2D(noise, x, y, config);
     return 1 - Math.abs(value);
 }

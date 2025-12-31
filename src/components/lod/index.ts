@@ -4,8 +4,8 @@
  * @module components/lod
  */
 
-export * from './types';
-export * from './LODMesh';
-export * from './LODGroup';
 export * from './Impostor';
+export * from './LODGroup';
+export * from './LODMesh';
 export * from './LODVegetation';
+export * from './types';

@@ -1,7 +1,7 @@
 import type * as THREE from 'three';
 import type { WeatherStateConfig } from '../core/weather';
-import type { BiomeType } from '../utils/texture-loader';
 import type { GameMode } from '../game/types';
+import type { BiomeType } from '../utils/texture-loader';
 
 /**
  * World Topology Type Definitions

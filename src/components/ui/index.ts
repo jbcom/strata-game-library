@@ -4,18 +4,17 @@
  * @module components/ui
  */
 
-export * from './types';
-export * from './HealthBar';
-export * from './Nameplate';
-export * from './DamageNumber';
-export * from './ProgressBar3D';
-export * from './Inventory';
-export * from './Tooltip';
-export * from './DialogBox';
-export * from './Notification';
-export * from './Minimap';
 export * from './Crosshair';
-export * from './VirtualJoystick';
-export * from './ScreenFlash';
+export * from './DamageNumber';
+export * from './DialogBox';
+export * from './HealthBar';
+export * from './Inventory';
 export * from './KillStreakNotification';
-
+export * from './Minimap';
+export * from './Nameplate';
+export * from './Notification';
+export * from './ProgressBar3D';
+export * from './ScreenFlash';
+export * from './Tooltip';
+export * from './types';
+export * from './VirtualJoystick';

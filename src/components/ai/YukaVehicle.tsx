@@ -2,9 +2,9 @@ import { useFrame } from '@react-three/fiber';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
-import { useYukaContext } from './YukaEntityManager';
-import { syncYukaToThree } from './utils';
 import type { YukaVehicleProps, YukaVehicleRef } from './types';
+import { syncYukaToThree } from './utils';
+import { useYukaContext } from './YukaEntityManager';
 
 /**
  * Autonomous vehicle agent with steering behaviors.

@@ -1,8 +1,8 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
-import { createPolygonsFromGeometry, threeVector3ToYuka, yukaVector3ToThree } from './utils';
 import type { YukaNavMeshProps, YukaNavMeshRef } from './types';
+import { createPolygonsFromGeometry, threeVector3ToYuka, yukaVector3ToThree } from './utils';
 
 /**
  * Navigation mesh component for AI pathfinding.

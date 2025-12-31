@@ -1,9 +1,9 @@
 import type * as THREE from 'three';
 import type {
+    ParticleEmitter as CoreParticleEmitter,
     EmissionShape,
     EmitterShapeParams,
     ParticleBehavior,
-    ParticleEmitter as CoreParticleEmitter,
     ParticleForces,
 } from '../../core/particles';
 

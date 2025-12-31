@@ -6,19 +6,9 @@ import {
     RigidBody,
 } from '@react-three/rapier';
 import type React from 'react';
-import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-} from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import {
-    CollisionLayer,
-    createDefaultVehicleConfig,
-    type VehicleConfig,
-} from '../../core/physics';
+import { CollisionLayer, createDefaultVehicleConfig, type VehicleConfig } from '../../core/physics';
 
 /**
  * Props for the VehicleBody component.

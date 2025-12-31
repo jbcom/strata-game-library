@@ -194,14 +194,12 @@ export function createSkyMaterial(options: SkyMaterialOptions): THREE.ShaderMate
     };
 
     const mergedTimeOfDay = { ...defaultTimeOfDay, ...timeOfDay };
-    
+
     // Handle sunElevation alias (deprecated)
     if (timeOfDay?.sunElevation !== undefined) {
         // Deprecation warning - only log once per session
         if (typeof window !== 'undefined' && !(window as any).__strataWarnedSunElevation) {
-            console.warn(
-                'createSkyMaterial: sunElevation is deprecated, use sunAngle instead'
-            );
+            console.warn('createSkyMaterial: sunElevation is deprecated, use sunAngle instead');
             (window as any).__strataWarnedSunElevation = true;
         }
         mergedTimeOfDay.sunAngle = timeOfDay.sunElevation;

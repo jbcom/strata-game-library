@@ -1,13 +1,6 @@
-import { RigidBody, interactionGroups, type RapierRigidBody } from '@react-three/rapier';
+import { interactionGroups, type RapierRigidBody, RigidBody } from '@react-three/rapier';
 import type React from 'react';
-import {
-    forwardRef,
-    useCallback,
-    useImperativeHandle,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import {
     CollisionLayer,

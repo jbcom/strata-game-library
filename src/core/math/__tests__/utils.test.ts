@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { smoothstep, smootherstep } from '../utils';
+import { describe, expect, it } from 'vitest';
+import { smootherstep, smoothstep } from '../utils';
 
 describe('math/utils security', () => {
     it('smoothstep handles zero range (division by zero prevention)', () => {
