@@ -55,7 +55,7 @@ jobs:
           # Run tests on PRs and pushes to main
           echo "should_test=true" >> $GITHUB_OUTPUT
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4 # v4.6.0
+        uses: actions/upload-artifact@v6 # v4.6.0
         with:
           name: build-output
           path: dist
@@ -89,7 +89,7 @@ jobs:
           file: coverage/lcov.info
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4 # v4.6.0
+        uses: actions/upload-artifact@v6 # v4.6.0
         if: always()
         with:
           name: test-results
@@ -125,7 +125,7 @@ jobs:
         run: pnpm run test:e2e -- --project=chromium --reporter=agentic-triage/reporters/playwright
 
       - name: Upload E2E results
-        uses: actions/upload-artifact@v4 # v4.6.0
+        uses: actions/upload-artifact@v6 # v4.6.0
         if: always()
         with:
           name: e2e-results

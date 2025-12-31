@@ -124,7 +124,7 @@ jobs:
             echo "# API Documentation\n\nSee source code for details." > docs-output/index.md
           fi
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v4
         with:
           name: docs-python
           path: docs-output/
@@ -179,7 +179,7 @@ jobs:
             echo "# API Documentation\n\nSee source code for details." > docs-output/index.md
           fi
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v4
         with:
           name: docs-nodejs
           path: docs-output/
@@ -218,7 +218,7 @@ jobs:
           mkdir -p docs-output
           cp -r target/doc/* docs-output/
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v4
         with:
           name: docs-rust
           path: docs-output/
@@ -254,7 +254,7 @@ jobs:
           # Try pkgsite for HTML (optional)
           go install golang.org/x/pkgsite/cmd/pkgsite@latest 2>/dev/null || true
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v4
         with:
           name: docs-go
           path: docs-output/
