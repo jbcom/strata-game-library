@@ -22,7 +22,7 @@ jobs:
     outputs:
       should_test: ${{ steps.changes.outputs.should_test }}
     steps:
-      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/checkout@v6 # v4.2.2
       - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
@@ -66,7 +66,7 @@ jobs:
     if: needs.build.outputs.should_test == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/checkout@v6 # v4.2.2
       - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
@@ -104,7 +104,7 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'run-e2e')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/checkout@v6 # v4.2.2
       - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'

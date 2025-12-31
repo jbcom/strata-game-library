@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository != 'strata-game-library/strata-game-library.github.io' && github.repository != 'strata-game-library/control-center'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
