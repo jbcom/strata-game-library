@@ -65,7 +65,7 @@ jobs:
       - name: Assess Merge Eligibility
         id: assess
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           # ══════════════════════════════════════════════════════════
@@ -223,7 +223,7 @@ jobs:
     steps:
       - name: Approve PR
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection
@@ -263,7 +263,7 @@ jobs:
     steps:
       - name: Check and Rebase
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection
@@ -299,7 +299,7 @@ jobs:
     steps:
       - name: Merge PR
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection

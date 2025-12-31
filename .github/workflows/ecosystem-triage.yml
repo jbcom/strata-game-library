@@ -51,7 +51,7 @@ jobs:
       - name: Triage PR Feedback
         id: triage
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # ══════════════════════════════════════════════════════════
           # RESOLVE PR CONTEXT

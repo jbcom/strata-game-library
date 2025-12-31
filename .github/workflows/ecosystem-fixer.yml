@@ -79,7 +79,7 @@ jobs:
       - name: Extract failure context via API
         id: context
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           INPUT_REPO: ${{ inputs.repository || github.repository }}
           INPUT_BRANCH: ${{ inputs.branch || github.event.workflow_run.head_branch }}
           INPUT_RUN_ID: ${{ inputs.run_id || github.event.workflow_run.id }}
@@ -144,7 +144,7 @@ jobs:
       - name: Query Ollama for fix
         env:
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           TARGET_REPO: ${{ needs.analyze.outputs.target_repo }}
           TARGET_BRANCH: ${{ needs.analyze.outputs.target_branch }}
           PR_NUM: ${{ needs.analyze.outputs.pr_number }}
@@ -220,7 +220,7 @@ jobs:
     steps:
       - name: Post notice
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           TARGET_REPO: ${{ needs.analyze.outputs.target_repo }}
           PR_NUM: ${{ needs.analyze.outputs.pr_number }}
         run: |

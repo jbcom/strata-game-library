@@ -213,7 +213,7 @@ jobs:
 
       - name: Triage Issues and PRs
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           REPO="${{ needs.dispatch.outputs.repo }}"
 
@@ -285,7 +285,7 @@ jobs:
 
       - name: Deep Codebase Assessment
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           REPO="${{ needs.dispatch.outputs.repo }}"

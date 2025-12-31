@@ -57,7 +57,7 @@ jobs:
       - name: Discover Managed Organizations
         id: discover
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "🔍 Discovering managed organizations..."
           echo ""
@@ -239,7 +239,7 @@ jobs:
     steps:
       - name: Generate Report
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "╔════════════════════════════════════════════════════════════╗"
           echo "║  📊 ECOSYSTEM SURVEYOR REPORT                              ║"

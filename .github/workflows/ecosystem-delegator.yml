@@ -109,7 +109,7 @@ jobs:
         if: contains(env.COMMENT_BODY, '/jules')
         env:
           GOOGLE_JULES_API_KEY: ${{ secrets.GOOGLE_JULES_API_KEY }}
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
           DEFAULT_BRANCH: ${{ inputs.default_branch || github.event.repository.default_branch || 'main' }}
         run: |
           # Extract prompt from comment, removing the /jules command
@@ -151,7 +151,7 @@ jobs:
         if: contains(env.COMMENT_BODY, '/cursor')
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Extract prompt from comment, removing the /cursor command
           PROMPT=$(echo "${COMMENT_BODY}" | sed -n 's|/cursor ||p')
