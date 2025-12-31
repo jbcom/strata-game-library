@@ -15,6 +15,7 @@ export default defineConfig({
 	retries: process.env.CI ? 2 : 0,
 	workers: process.env.CI ? 1 : undefined,
 	timeout: 30000,
+	outputDir: 'playwright-results',
 
 	// Reporters for CI integration
 	reporter: process.env.CI

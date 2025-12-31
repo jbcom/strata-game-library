@@ -57,22 +57,22 @@ jobs:
       - name: Discover Managed Organizations
         id: discover
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
         run: |
           echo "🔍 Discovering managed organizations..."
           echo ""
           echo "jbcom is PURELY control + documentation (no codebases)"
           echo "Syncing to org control centers that manage actual codebases..."
           echo ""
-          
+
           # Read managed orgs from enterprise org-registry
           MANAGED_ORGS=$(jq -r '.managedOrganizations[] | .org' .github/org-registry.json 2>/dev/null || echo "")
-          
+
           # Build matrix of orgs with accessible control centers
           ORGS="[]"
           for ORG in $MANAGED_ORGS; do
             CONTROL_CENTER=$(jq -r --arg org "$ORG" '.managedOrganizations[] | select(.org == $org) | .controlCenter' .github/org-registry.json)
-            
+
             if gh repo view "$CONTROL_CENTER" > /dev/null 2>&1; then
               ORGS=$(echo "$ORGS" | jq -c --arg org "$ORG" '. + [$org]')
               echo "  ✅ $CONTROL_CENTER"
@@ -80,12 +80,12 @@ jobs:
               echo "  ⚠️ $CONTROL_CENTER not found or not accessible"
             fi
           done
-          
+
           # Filter if specific org requested
           if [ -n "${{ inputs.target_org }}" ]; then
             ORGS=$(echo "$ORGS" | jq -c --arg org "${{ inputs.target_org }}" '[.[] | select(. == $org)]')
           fi
-          
+
           # Output compact JSON (single line) for GITHUB_OUTPUT
           echo "orgs=$(echo "$ORGS" | jq -c '.')" >> $GITHUB_OUTPUT
           echo ""
@@ -112,7 +112,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ matrix.org }}/control-center
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
           path: target
 
       - name: Load Org Context
@@ -120,17 +120,17 @@ jobs:
         run: |
           # Get org-specific context from enterprise registry
           ORG="${{ matrix.org }}"
-          
+
           ORG_CTX=$(jq --arg org "$ORG" '.managedOrganizations[] | select(.org == $org)' source/.github/org-registry.json 2>/dev/null || echo "{}")
-          
+
           # Extract values
           DOMAIN=$(echo "$ORG_CTX" | jq -r '.domain // "unknown"')
           FOCUS=$(echo "$ORG_CTX" | jq -r '.focus | join(", ") // ""')
-          
+
           echo "org=$ORG" >> $GITHUB_OUTPUT
           echo "domain=$DOMAIN" >> $GITHUB_OUTPUT
           echo "focus=$FOCUS" >> $GITHUB_OUTPUT
-          
+
           echo "📋 Context for $ORG:"
           echo "   Domain: $DOMAIN"
           echo "   Focus: $FOCUS"
@@ -140,27 +140,27 @@ jobs:
           ORG="${{ matrix.org }}"
           DOMAIN="${{ steps.context.outputs.domain }}"
           FOCUS="${{ steps.context.outputs.focus }}"
-          
+
           mkdir -p target/.github/metaprompts
-          
+
           # Process each metaprompt
           for PROMPT in source/.github/metaprompts/*.md; do
             FILENAME=$(basename "$PROMPT")
             echo "  Processing $FILENAME..."
-            
+
             # Inject org context
             sed -e "s|{{ORG_NAME}}|$ORG|g" \
                 -e "s|{{DOMAIN}}|$DOMAIN|g" \
                 -e "s|{{FOCUS_AREAS}}|$FOCUS|g" \
                 "$PROMPT" > "target/.github/metaprompts/$FILENAME"
           done
-          
+
           echo "✅ Metaprompts injected with $ORG context"
 
       - name: Sync Workflows
         run: |
           mkdir -p target/.github/workflows
-          
+
           # Copy ecosystem workflows
           for WF in ecosystem-triage.yml ecosystem-control.yml ecosystem-merge.yml ecosystem-agents.yml; do
             if [ -f "source/.github/workflows/$WF" ]; then
@@ -168,7 +168,7 @@ jobs:
               echo "  ✅ $WF"
             fi
           done
-          
+
           # Copy repository-files
           if [ -d "source/repository-files/always-sync" ]; then
             rsync -av --exclude='.git' source/repository-files/always-sync/ target/
@@ -180,7 +180,7 @@ jobs:
           ORG="${{ matrix.org }}"
           DOMAIN="${{ steps.context.outputs.domain }}"
           FOCUS="${{ steps.context.outputs.focus }}"
-          
+
           cat > target/.github/org-context.json << EOF
           {
             "org": "$ORG",
@@ -191,7 +191,7 @@ jobs:
             "syncedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
-          
+
           echo "✅ Created org-context.json for $ORG"
 
       - name: Commit and Push
@@ -200,25 +200,25 @@ jobs:
         run: |
           git config user.name "Ecosystem Surveyor"
           git config user.email "surveyor@${{ steps.context.outputs.domain }}"
-          
+
           git add -A
-          
+
           if git diff --staged --quiet; then
             echo "✅ No changes to sync"
             exit 0
           fi
-          
+
           git commit -m "chore: sync from jbcom/control-center
 
           Synced:
           - Metaprompts with org context
           - Ecosystem workflows
           - Repository files
-          
+
           Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
-          
+
           git push
-          
+
           echo "✅ Changes pushed to ${{ matrix.org }}/control-center"
 
       - name: Dry Run Report
@@ -239,7 +239,7 @@ jobs:
     steps:
       - name: Generate Report
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token }}
         run: |
           echo "╔════════════════════════════════════════════════════════════╗"
           echo "║  📊 ECOSYSTEM SURVEYOR REPORT                              ║"

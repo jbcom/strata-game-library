@@ -274,6 +274,7 @@
     "react-dom": "^19.2.3",
     "rimraf": "^6.1.2",
     "semantic-release": "^25.0.2",
+    "serve": "14.2.3",
     "simplex-noise": "^4.0.3",
     "three": "^0.182.0",
     "tsup": "^8.5.1",

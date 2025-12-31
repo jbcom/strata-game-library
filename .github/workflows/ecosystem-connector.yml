@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
 
       - name: Get diff
         id: diff
@@ -59,7 +59,7 @@ jobs:
           DIFF=$(git diff origin/${{ github.event.pull_request.base.ref }}...HEAD -- \
             '*.py' '*.ts' '*.js' '*.tsx' '*.jsx' '*.go' '*.rs' '*.tf' \
             ':!*.lock' ':!*-lock.*' ':!*.min.*' | head -5000)
-          
+
           if [ -z "$DIFF" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
           else
@@ -70,19 +70,20 @@ jobs:
       - name: Post review
         if: steps.diff.outputs.skip != 'true'
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          PR_NUM=${{ github.event.pull_request.number }}
-          TITLE="${{ github.event.pull_request.title }}"
+          TITLE="$PR_TITLE"
           
           # Check for existing review comment
           EXISTING=$(gh pr view $PR_NUM --json comments --jq '.comments[] | select(.body | contains("🤖 **Ecosystem Review**")) | .id' | head -1)
-          
+
           if [ -n "$EXISTING" ]; then
             echo "Review already posted, skipping"
             exit 0
           fi
-          
+
           # Post initial review acknowledgment
           gh pr comment $PR_NUM --body "🤖 **Ecosystem Review**
 
@@ -106,21 +107,21 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
 
       - name: Route and execute
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           COMMENT: ${{ github.event.comment.body }}
           ISSUE_NUM: ${{ github.event.issue.number }}
           IS_PR: ${{ github.event.issue.pull_request != null }}
         run: |
           TASK=$(echo "$COMMENT" | sed 's/@cascade//' | xargs)
-          
+
           # Determine optimal agent
           AGENT="manual"
           REASON="Default"
-          
+
           if echo "$TASK" | grep -qiE "(explain|what is|how does|why|describe|question)"; then
             AGENT="ollama"
             REASON="Quick question detected"
@@ -134,7 +135,7 @@ jobs:
             AGENT="claude"
             REASON="Code task detected"
           fi
-          
+
           # Post routing decision
           gh issue comment $ISSUE_NUM --body "🔀 **Cascade Routing**
 
@@ -145,7 +146,7 @@ jobs:
           ---
           To invoke directly:
           - \`/jules $TASK\` - Multi-file refactors
-          - \`/cursor $TASK\` - Complex debugging  
+          - \`/cursor $TASK\` - Complex debugging
           - \`@claude $TASK\` - Code implementation"
 
   # ============================================================
@@ -160,32 +161,32 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
 
       - name: Delegate to Jules
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           GOOGLE_JULES_API_KEY: ${{ secrets.GOOGLE_JULES_API_KEY }}
           ISSUE_NUM: ${{ github.event.issue.number }}
           COMMENT: ${{ github.event.comment.body }}
         run: |
           TASK=$(echo "$COMMENT" | sed 's|/jules||' | xargs)
-          
+
           if [ -z "$GOOGLE_JULES_API_KEY" ]; then
             gh issue comment $ISSUE_NUM --body "⚠️ **Jules unavailable**
-            
+
             \`GOOGLE_JULES_API_KEY\` not configured.
-            
+
             Please configure this secret or use a different agent."
             exit 0
           fi
-          
+
           gh issue comment $ISSUE_NUM --body "🤖 **Jules Delegated**
 
           **Task**: $TASK
 
           Jules will create a PR when complete.
-          
+
           ---
           *Session initiated via Google Jules API*"
 
@@ -201,32 +202,32 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
 
       - name: Delegate to Cursor
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           ISSUE_NUM: ${{ github.event.issue.number }}
           COMMENT: ${{ github.event.comment.body }}
         run: |
           TASK=$(echo "$COMMENT" | sed 's|/cursor||' | xargs)
-          
+
           if [ -z "$CURSOR_API_KEY" ]; then
             gh issue comment $ISSUE_NUM --body "⚠️ **Cursor unavailable**
-            
+
             \`CURSOR_API_KEY\` not configured.
-            
+
             Please configure this secret or use a different agent."
             exit 0
           fi
-          
+
           gh issue comment $ISSUE_NUM --body "🖱️ **Cursor Delegated**
 
           **Task**: $TASK
 
           Cursor Cloud Agent will handle this task.
-          
+
           ---
           *Background agent initiated*"
 
@@ -242,26 +243,26 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
 
       - name: Claude Code
-        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        if: env.ANTHROPIC_API_KEY != ''
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           allowed_bots: '*'
 
       - name: Claude unavailable
-        if: ${{ secrets.ANTHROPIC_API_KEY == '' }}
+        if: env.ANTHROPIC_API_KEY == ''
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           ISSUE_NUM: ${{ github.event.issue.number }}
         run: |
           gh issue comment $ISSUE_NUM --body "⚠️ **Claude unavailable**
-          
+
           \`ANTHROPIC_API_KEY\` not configured.
-          
+
           Please configure this secret or use a different agent."
 
   # ============================================================
@@ -277,24 +278,24 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.check_suite.head_branch }}
 
       - name: Analyze and suggest fix
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
         run: |
           PR_NUM=$(echo '${{ toJson(github.event.check_suite.pull_requests) }}' | jq -r '.[0].number')
-          
+
           if [ "$PR_NUM" = "null" ] || [ -z "$PR_NUM" ]; then
             echo "No PR associated with this check suite"
             exit 0
           fi
-          
+
           # Get failed check runs
           FAILED=$(gh api repos/${{ github.repository }}/check-suites/${{ github.event.check_suite.id }}/check-runs \
             --jq '.check_runs[] | select(.conclusion == "failure") | .name' | head -5)
-          
+
           gh pr comment $PR_NUM --body "❌ **CI Failure Detected**
 
           Failed checks:
@@ -316,29 +317,29 @@ jobs:
     steps:
       - name: Check and merge
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
         run: |
           PR_NUM=${{ github.event.pull_request.number }}
-          
+
           # Check if auto-merge label exists
           HAS_AUTO=$(gh pr view $PR_NUM --json labels --jq '.labels[].name' | grep -c "auto-merge" || true)
-          
+
           if [ "$HAS_AUTO" -eq 0 ]; then
             echo "No auto-merge label, skipping"
             exit 0
           fi
-          
+
           # Check all status checks
           STATUS=$(gh pr checks $PR_NUM --json state --jq '.[] | select(.state != "SUCCESS" and .state != "SKIPPED") | .state' | head -1)
-          
+
           if [ -n "$STATUS" ]; then
             echo "Checks not all passing, waiting..."
             exit 0
           fi
-          
+
           # Merge
           gh pr merge $PR_NUM --squash --delete-branch --body "Auto-merged after approval"
-          
+
           echo "✅ PR #$PR_NUM merged"
 
   # ============================================================
@@ -354,16 +355,16 @@ jobs:
     steps:
       - name: Auto-approve sync PRs
         env:
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN || github.token || secrets.GITHUB_TOKEN }}
         run: |
           PR_NUM=${{ github.event.pull_request.number }}
-          
+
           # Add label for tracking
           gh pr edit $PR_NUM --add-label "sync,auto-merge"
-          
+
           # Approve if from trusted source
           AUTHOR="${{ github.event.pull_request.user.login }}"
-          
+
           if [[ "$AUTHOR" == *"[bot]"* ]] || [ "$AUTHOR" = "jbcom" ]; then
             gh pr review $PR_NUM --approve --body "✅ Approved: Sync from control center"
           fi
