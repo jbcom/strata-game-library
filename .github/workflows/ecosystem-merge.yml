@@ -45,7 +45,7 @@ jobs:
   assess:
     name: Merge Assessment
     if: |
-      (github.event_name == 'check_suite' &&
+      (github.event_name == 'check_suite' && 
        github.event.check_suite.conclusion == 'success' &&
        github.event.check_suite.pull_requests[0] != null) ||
       (github.event_name == 'check_run' &&
@@ -65,7 +65,7 @@ jobs:
       - name: Assess Merge Eligibility
         id: assess
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
           # ══════════════════════════════════════════════════════════
@@ -97,19 +97,19 @@ jobs:
               PR_NUM=""
               ;;
           esac
-
+          
           [ -z "$PR_NUM" ] && echo "No PR number" && exit 0
           echo "pr_number=$PR_NUM" >> $GITHUB_OUTPUT
-
+          
           echo "╔════════════════════════════════════════════════════════════╗"
           echo "║  ⚖️ MERGE ASSESSMENT: PR #$PR_NUM                          ║"
           echo "╚════════════════════════════════════════════════════════════╝"
-
+          
           # ══════════════════════════════════════════════════════════
           # GET PR STATE
           # ══════════════════════════════════════════════════════════
           PR_DATA=$(gh pr view $PR_NUM --repo "${{ github.repository }}" --json isDraft,mergeable,reviewDecision,title,labels,mergeStateStatus 2>/dev/null || echo "{}")
-
+          
           IS_DRAFT=$(echo "$PR_DATA" | jq -r '.isDraft // false')
           MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable // "UNKNOWN"')
           MERGE_STATE=$(echo "$PR_DATA" | jq -r '.mergeStateStatus // "UNKNOWN"')
@@ -117,22 +117,22 @@ jobs:
           TITLE=$(echo "$PR_DATA" | jq -r '.title // "Unknown"')
           # shellcheck disable=SC2034
           HAS_AUTO=$(echo "$PR_DATA" | jq '[.labels[]?.name // empty] | map(select(. == "auto-merge")) | length')
-
+          
           echo ""
           echo "📋 PR: $TITLE"
           echo "   Draft: $IS_DRAFT | Mergeable: $MERGEABLE | State: $MERGE_STATE"
-
+          
           [ "$IS_DRAFT" = "true" ] && echo "⏸️ Draft - skipping" && exit 0
-
+          
           # ══════════════════════════════════════════════════════════
           # READ TRACKING ISSUE (KV Store)
           # ══════════════════════════════════════════════════════════
           echo ""
           echo "📖 Reading tracking issue..."
-
+          
           TRACKING=$(gh issue list --repo "${{ github.repository }}" --label "synthesis" --search "synthesis-pr-$PR_NUM in:title" --json number,labels --jq '.[0]' 2>/dev/null || echo "{}")
           TRACKING_NUM=$(echo "$TRACKING" | jq -r '.number // empty')
-
+          
           VERDICT="UNKNOWN"
           if [ -n "$TRACKING_NUM" ]; then
             # Check labels for verdict
@@ -148,21 +148,21 @@ jobs:
             echo "   No tracking issue found"
             VERDICT="CLEAR"  # No tracking = no known blockers
           fi
-
+          
           # ══════════════════════════════════════════════════════════
           # CHECK CI STATUS
           # ══════════════════════════════════════════════════════════
           echo ""
           echo "🔬 Checking CI..."
-
+          
           FAILED=$(gh pr checks $PR_NUM --json conclusion --jq '[.[] | select(.conclusion == "FAILURE" or .conclusion == "TIMED_OUT")] | length' 2>/dev/null || echo "0")
           PENDING=$(gh pr checks $PR_NUM --json state --jq '[.[] | select(.state == "PENDING" or .state == "QUEUED")] | length' 2>/dev/null || echo "0")
-
+          
           echo "   Failed: $FAILED | Pending: $PENDING"
-
+          
           CI_READY=false
           [ "$FAILED" -eq 0 ] && [ "$PENDING" -eq 0 ] && CI_READY=true
-
+          
           # ══════════════════════════════════════════════════════════
           # DECISION
           # ══════════════════════════════════════════════════════════
@@ -175,10 +175,10 @@ jobs:
           printf "│ %-21s │ %-31s │\n" "Verdict" "$VERDICT"
           printf "│ %-21s │ %-31s │\n" "Review" "$REVIEW"
           echo "└───────────────────────┴─────────────────────────────────┘"
-
+          
           CAN_MERGE=false
           REASON=""
-
+          
           if [ "$CI_READY" = true ] && [ "$MERGEABLE" = "MERGEABLE" ]; then
             case "$VERDICT" in
               READY|CLEAR)
@@ -202,10 +202,10 @@ jobs:
           elif [ "$MERGEABLE" != "MERGEABLE" ]; then
             REASON="PR not mergeable ($MERGEABLE)"
           fi
-
+          
           echo ""
           echo "can_merge=$CAN_MERGE" >> $GITHUB_OUTPUT
-
+          
           if [ "$CAN_MERGE" = true ]; then
             echo "✅ ELIGIBLE: $REASON"
           else
@@ -223,21 +223,21 @@ jobs:
     steps:
       - name: Approve PR
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection
-
+          
           # Check current review state
           REVIEW=$(gh pr view $PR_NUM --repo "${{ github.repository }}" --json reviewDecision --jq '.reviewDecision' 2>/dev/null || echo "")
-
+          
           if [ "$REVIEW" = "APPROVED" ]; then
             echo "✅ Already approved"
             exit 0
           fi
-
+          
           echo "📝 Approving PR #$PR_NUM..."
-
+          
           gh pr review $PR_NUM --approve --body "✅ **Auto-approved by Ecosystem Merge**
 
           | Check | Status |
@@ -247,7 +247,7 @@ jobs:
           | Queue | ✅ Clear |
 
           Proceeding with merge." 2>/dev/null || echo "Could not approve (may need different token)"
-
+          
           # Add auto-merge label
           gh label create "auto-merge" --repo "${{ github.repository }}" --color "0E8A16" 2>/dev/null || true
           gh pr edit $PR_NUM --repo "${{ github.repository }}" --add-label "auto-merge" 2>/dev/null || true
@@ -263,25 +263,25 @@ jobs:
     steps:
       - name: Check and Rebase
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection
-
+          
           # Check merge state
           MERGE_STATE=$(gh pr view $PR_NUM --repo "${{ github.repository }}" --json mergeStateStatus --jq '.mergeStateStatus' 2>/dev/null || echo "")
-
+          
           if [ "$MERGE_STATE" != "BEHIND" ]; then
             echo "✅ PR is up to date"
             exit 0
           fi
-
+          
           echo "🔄 PR is behind, attempting rebase..."
-
+          
           # Try GitHub's update branch API
           gh api -X PUT repos/${{ github.repository }}/pulls/$PR_NUM/update-branch \
             -f update_method=rebase 2>/dev/null && echo "✅ Rebased via API" && exit 0
-
+          
           echo "⚠️ API rebase failed, manual rebase may be needed"
 
   # ════════════════════════════════════════════════════════════════
@@ -299,38 +299,38 @@ jobs:
     steps:
       - name: Merge PR
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           PR_NUM: ${{ needs.assess.outputs.pr_number }}
         run: |
           # PR_NUM passed via env to prevent code injection
-
+          
           echo "🚀 Attempting to merge PR #$PR_NUM..."
-
+          
           # Final check
           PR_DATA=$(gh pr view $PR_NUM --repo "${{ github.repository }}" --json mergeable,mergeStateStatus,isDraft)
           MERGEABLE=$(echo "$PR_DATA" | jq -r '.mergeable')
           STATE=$(echo "$PR_DATA" | jq -r '.mergeStateStatus')
           DRAFT=$(echo "$PR_DATA" | jq -r '.isDraft')
-
+          
           if [ "$DRAFT" = "true" ]; then
             echo "⏸️ PR is draft - cannot merge"
             exit 0
           fi
-
+          
           if [ "$MERGEABLE" != "MERGEABLE" ]; then
             echo "⏸️ PR not mergeable: $MERGEABLE"
             exit 0
           fi
-
+          
           if [ "$STATE" = "BEHIND" ]; then
             echo "⏸️ PR is behind - waiting for rebase"
             exit 0
           fi
-
+          
           # Merge with squash
           if gh pr merge $PR_NUM --squash --delete-branch 2>/dev/null; then
             echo "✅ PR #$PR_NUM merged successfully!"
-
+            
             # Close tracking issue
             TRACKING=$(gh issue list --repo "${{ github.repository }}" --label "synthesis" --search "synthesis-pr-$PR_NUM in:title" --json number --jq '.[0].number // empty' 2>/dev/null)
             if [ -n "$TRACKING" ]; then

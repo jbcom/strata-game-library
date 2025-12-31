@@ -22,8 +22,8 @@ jobs:
     outputs:
       should_test: ${{ steps.changes.outputs.should_test }}
     steps:
-      - uses: actions/checkout@v6 # v4.2.2
-      - uses: actions/setup-node@v6 # v4.2.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
       - uses: pnpm/action-setup@v4 # v4.0.0
@@ -55,7 +55,7 @@ jobs:
           # Run tests on PRs and pushes to main
           echo "should_test=true" >> $GITHUB_OUTPUT
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v6 # v4.6.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         with:
           name: build-output
           path: dist
@@ -66,8 +66,8 @@ jobs:
     if: needs.build.outputs.should_test == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6 # v4.2.2
-      - uses: actions/setup-node@v6 # v4.2.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
       - uses: pnpm/action-setup@v4 # v4.0.0
@@ -75,7 +75,7 @@ jobs:
           version: 9
       - name: Install dependencies
         run: pnpm install
-      - uses: actions/download-artifact@v7 # v4.1.8
+      - uses: actions/download-artifact@v4 # v4.1.8
         with:
           name: build-output
           path: dist
@@ -89,7 +89,7 @@ jobs:
           file: coverage/lcov.info
 
       - name: Upload test results
-        uses: actions/upload-artifact@v6 # v4.6.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         if: always()
         with:
           name: test-results
@@ -104,8 +104,8 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'run-e2e')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6 # v4.2.2
-      - uses: actions/setup-node@v6 # v4.2.0
+      - uses: actions/checkout@v4 # v4.2.2
+      - uses: actions/setup-node@v4 # v4.2.0
         with:
           node-version: '22'
       - uses: pnpm/action-setup@v4 # v4.0.0
@@ -113,7 +113,7 @@ jobs:
           version: 9
       - name: Install dependencies
         run: pnpm install
-      - uses: actions/download-artifact@v7 # v4.1.8
+      - uses: actions/download-artifact@v4 # v4.1.8
         with:
           name: build-output
           path: dist
@@ -125,7 +125,7 @@ jobs:
         run: pnpm run test:e2e -- --project=chromium --reporter=agentic-triage/reporters/playwright
 
       - name: Upload E2E results
-        uses: actions/upload-artifact@v6 # v4.6.0
+        uses: actions/upload-artifact@v4 # v4.6.0
         if: always()
         with:
           name: e2e-results
