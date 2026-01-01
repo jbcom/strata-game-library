@@ -22,9 +22,6 @@ inputs:
   jules_api_key:
     description: 'Jules API key'
     required: false
-  cursor_api_key:
-    description: 'Cursor API key'
-    required: false
   workflow_run_id:
     description: 'Workflow run ID'
     required: false
@@ -38,66 +35,37 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup Python
-      uses: actions/setup-python@v5
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        python-version: '3.12'
-
-    - name: Install vendor-connectors
-      shell: bash
-      run: pip install vendor-connectors
+        node-version: '22'
 
     - name: Run CI Resolution
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github_token }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
+        JULES_API_KEY: ${{ inputs.jules_api_key }}
         GOOGLE_JULES_API_KEY: ${{ inputs.jules_api_key }}
-        CURSOR_API_KEY: ${{ inputs.cursor_api_key }}
-        INPUT_REPO: ${{ inputs.repository }}
-        INPUT_REPO_ALT: ${{ inputs.repo }}
-        INPUT_BRANCH: ${{ inputs.branch }}
-        INPUT_RUN_ID: ${{ inputs.workflow_run_id }}
       run: |
-        REPO="${INPUT_REPO:-${INPUT_REPO_ALT:-$GITHUB_REPOSITORY}}"
-        BRANCH="$INPUT_BRANCH"
-        RUN_ID="$INPUT_RUN_ID"
-        
-        echo "🔧 Resolving CI failure for $REPO on branch $BRANCH"
-        
-        # Get failure logs to temp file
-        gh run view "$RUN_ID" --repo "$REPO" --log-failed 2>/dev/null | head -500 > /tmp/failure.log || echo "Could not fetch logs" > /tmp/failure.log
-        
-        # Build task prompt
-        cat > /tmp/task.txt << 'TASK_EOF'
-        Fix the CI failure. Analyze the error log below, identify the root cause, fix the code, and commit the fix.
-        TASK_EOF
-        echo "" >> /tmp/task.txt
-        echo "Branch: $BRANCH" >> /tmp/task.txt
-        echo "" >> /tmp/task.txt
-        echo "Error log:" >> /tmp/task.txt
-        cat /tmp/failure.log >> /tmp/task.txt
-        
-        TASK=$(cat /tmp/task.txt)
-        
-        # Try Cursor agent first
-        if [ -n "$CURSOR_API_KEY" ]; then
-          echo "🤖 Spawning Cursor agent..."
-          if vendor-connectors call cursor create_agent --repository "$REPO" --prompt "$TASK" --ref "$BRANCH" 2>/dev/null; then
-            echo "✅ Cursor agent spawned"
-            exit 0
-          fi
-          echo "Cursor failed, trying Jules..."
-        fi
-        
-        # Fallback to Jules
-        if [ -n "$GOOGLE_JULES_API_KEY" ]; then
-          echo "🤖 Creating Jules session..."
-          if vendor-connectors call jules create_session --repo "$REPO" --prompt "$TASK" --branch "$BRANCH" 2>/dev/null; then
-            echo "✅ Jules session created"
-            exit 0
+        PR_NUM="${{ inputs.pr_number }}"
+        if [ -z "$PR_NUM" ] || [ "$PR_NUM" = "null" ]; then
+          if [ -f "$GITHUB_EVENT_PATH" ]; then
+            PR_NUM=$(jq -r '.pull_request.number // .number // empty' "$GITHUB_EVENT_PATH")
           fi
         fi
         
-        echo "⚠️ No AI agents available or both failed"
-        exit 1
+        if [ -z "$PR_NUM" ] || [ "$PR_NUM" = "null" ]; then
+          echo "❌ Error: Could not determine PR number." >&2
+          exit 1
+        fi
+        
+        REPO="${{ inputs.repo }}"
+        if [ -z "$REPO" ]; then
+          REPO="$GITHUB_REPOSITORY"
+        fi
+        
+        # Install peer dependencies first
+        npm install -g agentic-control@1.1.0 @ai-sdk/anthropic @ai-sdk/google ai-sdk-ollama @ai-sdk/openai
+        
+        agentic triage fix "$PR_NUM" --repo "$REPO" --iterations "${{ inputs.iterations }}"
