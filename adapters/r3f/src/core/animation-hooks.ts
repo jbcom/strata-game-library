@@ -10,15 +10,15 @@
 import { useFrame } from '@react-three/fiber';
 import { useMachine } from '@xstate/react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { createAnimationMachine } from './factory';
-import type {
-  AnimationContext,
-  AnimationEvent,
-  AnimationMachineConfig,
-  AnimationMachineReturn,
-  AnimationStateName,
-  UseAnimationMachineOptions,
-} from './types';
+import {
+  createAnimationMachine,
+  type AnimationContext,
+  type AnimationEvent,
+  type AnimationMachineConfig,
+  type AnimationMachineReturn,
+  type AnimationStateName,
+  type UseAnimationMachineOptions,
+} from '@strata-game-library/core';
 
 /**
  * React hook for managing animation state machines.
@@ -137,4 +137,4 @@ export function useAnimationMachine(
   };
 }
 
-export { useAnimationBlend, useCrossFade, useSyncAnimationActions } from './blend-hooks';
+export { useAnimationBlend, useCrossFade, useSyncAnimationActions } from './animation-blend-hooks';
