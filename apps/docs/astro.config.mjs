@@ -1,6 +1,7 @@
 // @ts-check
 
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 import { sidebar } from './sidebar.config.mjs';
 
@@ -78,6 +79,17 @@ export default defineConfig({
         },
       ],
       sidebar,
+      components: {
+        // Override Starlight components for custom rendering
+        // We can add custom component overrides here as needed
+      },
     }),
+    react(),
   ],
+  vite: {
+    ssr: {
+      // Three.js and R3F need to be externalized in SSR
+      noExternal: ['@react-three/fiber', '@react-three/drei', 'three'],
+    },
+  },
 });

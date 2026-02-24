@@ -3,9 +3,9 @@ title: Strata
 description: Layer by Layer, World by World — The complete game framework for procedural 3D worlds in React Three Fiber.
 template: splash
 hero:
-  tagline: "The complete game framework for building procedural 3D worlds. Terrain, water, vegetation, sky, physics, AI — everything you need to ship immersive games and experiences in React Three Fiber."
+  tagline: "Layer by Layer, World by World. The complete game framework for building procedural 3D worlds. Terrain, water, vegetation, sky, physics, AI — everything you need to ship immersive games and experiences in React Three Fiber."
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/strata-hero.svg
   actions:
     - text: Get Started
       link: /getting-started/
@@ -15,7 +15,7 @@ hero:
       link: /api/
       icon: open-book
       variant: secondary
-    - text: GitHub
+    - text: View on GitHub
       link: https://github.com/jbcom/strata-game-library
       icon: github
       variant: minimal
@@ -32,35 +32,106 @@ import { Card, CardGrid, LinkCard, Aside, Badge, Steps, Tabs, TabItem } from '@a
 ## What You Can Build
 
 <div class="feature-grid">
-  <div class="feature-card">
+  <div class="feature-card featured">
     <span class="feature-icon">🏔️</span>
     <h3>Procedural Terrain</h3>
     <p>SDF-based terrain with marching cubes, triplanar texturing, multi-biome blending, erosion simulation, and dynamic LOD. Create infinite worlds that feel alive.</p>
+    <span class="feature-tag">Core</span>
   </div>
-  <div class="feature-card">
+  <div class="feature-card featured">
     <span class="feature-icon">🌊</span>
     <h3>Advanced Water Systems</h3>
     <p>Realistic water with Gerstner waves, Fresnel reflections, underwater caustics, procedural foam, and depth-based transparency. Oceans, rivers, and lakes.</p>
+    <span class="feature-tag">Core</span>
   </div>
   <div class="feature-card">
     <span class="feature-icon">🌿</span>
     <h3>GPU Vegetation</h3>
     <p>Render 10,000+ instances at 60fps with GPU-accelerated instancing, procedural wind animation, seasonal changes, and biome-based distribution.</p>
+    <span class="feature-tag">Core</span>
   </div>
   <div class="feature-card">
     <span class="feature-icon">☀️</span>
     <h3>Procedural Sky & Atmosphere</h3>
     <p>Physically-based atmospheric scattering with dynamic day/night cycles, volumetric clouds, stars, and horizon fog. Beautiful at every time of day.</p>
+    <span class="feature-tag">Core</span>
   </div>
   <div class="feature-card">
     <span class="feature-icon">🌫️</span>
     <h3>Volumetric Effects</h3>
     <p>God rays, volumetric fog, underwater overlays, dust particles, and atmospheric haze. Depth and mood for every scene.</p>
+    <span class="feature-tag">Shaders</span>
   </div>
   <div class="feature-card">
     <span class="feature-icon">🎮</span>
     <h3>Game Framework</h3>
     <p>ECS architecture, physics integration, AI pathfinding, state management, animation system, and audio engine. Everything to ship a complete game.</p>
+    <span class="feature-tag">Framework</span>
+  </div>
+</div>
+
+---
+
+## The Strata Difference
+
+<div class="comparison-section">
+  <div class="comparison-header">
+    <h3>Without Strata</h3>
+    <div class="comparison-vs">VS</div>
+    <h3>With Strata</h3>
+  </div>
+  <div class="comparison-grid">
+    <div class="comparison-before">
+
+```tsx
+// Traditional Three.js terrain setup
+// 200+ lines of boilerplate...
+const geometry = new THREE.BufferGeometry();
+const vertices = [];
+const noise = createNoise2D();
+
+for (let x = 0; x < width; x++) {
+  for (let z = 0; z < depth; z++) {
+    const y = noise(x * 0.05, z * 0.05) * 20;
+    vertices.push(x, y, z);
+  }
+}
+
+geometry.setAttribute('position',
+  new THREE.Float32BufferAttribute(vertices, 3)
+);
+
+const material = new THREE.ShaderMaterial({
+  vertexShader: `// 100+ lines of GLSL...`,
+  fragmentShader: `// 150+ lines of GLSL...`,
+  uniforms: { /* ...dozens of uniforms */ }
+});
+
+// Still need: LOD, biomes, erosion,
+// triplanar texturing, physics...
+```
+
+  </div>
+  <div class="comparison-after">
+
+```tsx
+// With Strata — the same result in 3 lines
+import { Terrain } from '@strata-game-library/core';
+
+<Terrain
+  biome="alpine"
+  size={256}
+  resolution={128}
+  erosion={true}
+  lod={{ levels: 4 }}
+/>
+
+// That's it. Biomes, erosion, triplanar
+// texturing, LOD, physics colliders —
+// all included and optimized.
+```
+
+  </div>
   </div>
 </div>
 
@@ -72,60 +143,76 @@ import { Card, CardGrid, LinkCard, Aside, Badge, Steps, Tabs, TabItem } from '@a
   <div class="stat-item">
     <div class="stat-number">10x</div>
     <div class="stat-label">Code Reduction</div>
+    <div class="stat-detail">vs. raw Three.js</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">7</div>
     <div class="stat-label">Packages</div>
+    <div class="stat-detail">modular ecosystem</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">989</div>
     <div class="stat-label">Tests Passing</div>
+    <div class="stat-detail">comprehensive coverage</div>
   </div>
   <div class="stat-item">
     <div class="stat-number">60fps</div>
     <div class="stat-label">Target Performance</div>
+    <div class="stat-detail">GPU-optimized</div>
   </div>
 </div>
 
-| Capability | Without Strata | With Strata |
-|-----------|----------------|-------------|
-| Terrain System | 2,000+ lines | ~50 lines |
-| Water Rendering | 1,500+ lines | ~20 lines |
-| GPU Vegetation | 1,000+ lines | ~30 lines |
-| Full Game Scene | 5,000+ lines | ~200 lines |
+| Capability | Without Strata | With Strata | Reduction |
+|-----------|----------------|-------------|-----------|
+| Terrain System | 2,000+ lines | ~50 lines | **40x** |
+| Water Rendering | 1,500+ lines | ~20 lines | **75x** |
+| GPU Vegetation | 1,000+ lines | ~30 lines | **33x** |
+| Sky & Atmosphere | 800+ lines | ~15 lines | **53x** |
+| Full Game Scene | 5,000+ lines | ~200 lines | **25x** |
 
 ---
 
 ## Quick Start
 
-Install the core package and peer dependencies:
+<Steps>
+1. **Install** the core package and peer dependencies:
 
-```bash
-pnpm install @strata-game-library/core @react-three/fiber @react-three/drei three
-```
+   ```bash
+   pnpm install @strata-game-library/core @react-three/fiber @react-three/drei three
+   ```
 
-Build a complete scene in minutes:
+2. **Build** a complete scene in minutes:
 
-```tsx
-import { Canvas } from '@react-three/fiber';
-import {
-  ProceduralSky,
-  Water,
-  GrassInstances,
-  VolumetricFogMesh,
-} from '@strata-game-library/core';
+   ```tsx
+   import { Canvas } from '@react-three/fiber';
+   import {
+     ProceduralSky,
+     Water,
+     GrassInstances,
+     VolumetricFogMesh,
+   } from '@strata-game-library/core';
 
-function Game() {
-  return (
-    <Canvas camera={{ position: [0, 10, 20] }}>
-      <ProceduralSky sunPosition={[100, 50, 100]} />
-      <Water size={200} depth={20} />
-      <GrassInstances count={10000} spread={100} />
-      <VolumetricFogMesh density={0.02} />
-    </Canvas>
-  );
-}
-```
+   function Game() {
+     return (
+       <Canvas camera={{ position: [0, 10, 20] }}>
+         <ProceduralSky sunPosition={[100, 50, 100]} />
+         <Water size={200} depth={20} />
+         <GrassInstances count={10000} spread={100} />
+         <VolumetricFogMesh density={0.02} />
+       </Canvas>
+     );
+   }
+   ```
+
+3. **Customize** with presets or go fully declarative:
+
+   ```tsx
+   import { TerrainPresets, WaterPresets } from '@strata-game-library/presets';
+
+   <Terrain preset={TerrainPresets.Alpine} />
+   <Water preset={WaterPresets.CalmOcean} />
+   ```
+</Steps>
 
 <Aside type="tip" title="Framework Evolution">
   Strata is evolving from a toolkit into a **complete game framework**. The upcoming `createGame()` API will enable fully declarative game definitions. [Read the roadmap →](/getting-started/architecture/)
@@ -138,11 +225,31 @@ function Game() {
 Strata is built in layers — each one building on the last, like geological strata:
 
 <div class="layer-stack">
-  <div class="layer layer-4">Layer 4 &mdash; Presets & Game Framework</div>
-  <div class="layer layer-3">Layer 3 &mdash; React Three Fiber Components</div>
-  <div class="layer layer-2">Layer 2 &mdash; Core Algorithms (SDF, Noise, Marching Cubes)</div>
-  <div class="layer layer-1">Layer 1 &mdash; GLSL Shaders</div>
-  <div class="layer layer-0">Layer 0 &mdash; TypeScript Types & Utilities</div>
+  <div class="layer layer-4">
+    <span class="layer-label">Layer 4</span>
+    <span class="layer-name">Presets & Game Framework</span>
+    <span class="layer-desc">createGame(), scenes, modes, AI behaviors</span>
+  </div>
+  <div class="layer layer-3">
+    <span class="layer-label">Layer 3</span>
+    <span class="layer-name">React Three Fiber Components</span>
+    <span class="layer-desc">Terrain, Water, Sky, Vegetation, Characters</span>
+  </div>
+  <div class="layer layer-2">
+    <span class="layer-label">Layer 2</span>
+    <span class="layer-name">Core Algorithms</span>
+    <span class="layer-desc">SDF, Noise, Marching Cubes, Pathfinding, ECS</span>
+  </div>
+  <div class="layer layer-1">
+    <span class="layer-label">Layer 1</span>
+    <span class="layer-name">GLSL Shaders</span>
+    <span class="layer-desc">Terrain, water, sky, volumetrics, materials</span>
+  </div>
+  <div class="layer layer-0">
+    <span class="layer-label">Layer 0</span>
+    <span class="layer-name">TypeScript Types & Utilities</span>
+    <span class="layer-desc">Type-safe foundation for everything above</span>
+  </div>
 </div>
 
 Every layer is independently usable. Import just the shaders, or use the full framework — it's your choice.
@@ -152,60 +259,46 @@ Every layer is independently usable. Import just the shaders, or use the full fr
 ## Package Ecosystem
 
 <div class="package-grid">
-  <a href="/core/" class="package-card">
-    <code>@strata-game-library/core</code>
+  <a href="/core/" class="package-card package-primary">
+    <div class="package-header">
+      <code>@strata-game-library/core</code>
+      <span class="package-badge">Main</span>
+    </div>
     <p>Terrain, water, vegetation, sky, characters, ECS, physics, AI, animation, and audio. The heart of Strata.</p>
   </a>
   <a href="/shaders/" class="package-card">
-    <code>@strata-game-library/shaders</code>
+    <div class="package-header">
+      <code>@strata-game-library/shaders</code>
+    </div>
     <p>Standalone GLSL shader collection. Use with any Three.js project — no React required.</p>
   </a>
   <a href="/presets/" class="package-card">
-    <code>@strata-game-library/presets</code>
+    <div class="package-header">
+      <code>@strata-game-library/presets</code>
+    </div>
     <p>Production-ready configurations for terrain biomes, weather systems, water types, and more.</p>
   </a>
   <a href="/packages/audio-synth/" class="package-card">
-    <code>@strata-game-library/audio-synth</code>
+    <div class="package-header">
+      <code>@strata-game-library/audio-synth</code>
+      <span class="package-badge new">New</span>
+    </div>
     <p>Procedural audio synthesis and spatial sound design for immersive game audio.</p>
   </a>
   <a href="/packages/model-synth/" class="package-card">
-    <code>@strata-game-library/model-synth</code>
+    <div class="package-header">
+      <code>@strata-game-library/model-synth</code>
+      <span class="package-badge new">New</span>
+    </div>
     <p>AI-powered 3D model generation. Create game assets from text descriptions.</p>
   </a>
   <a href="/mobile/" class="package-card">
-    <code>Mobile Plugins</code>
+    <div class="package-header">
+      <code>Mobile Plugins</code>
+    </div>
     <p>React Native and Capacitor plugins for cross-platform games with unified input and haptics.</p>
   </a>
 </div>
-
----
-
-## Live Showcase
-
-Experience Strata in action:
-
-<CardGrid>
-  <LinkCard
-    title="🏔️ Terrain Demo"
-    description="Procedural terrain with biomes, caves, erosion, and dynamic LOD"
-    href="/showcase/terrain/"
-  />
-  <LinkCard
-    title="🌊 Water Demo"
-    description="Ocean rendering with reflections, caustics, foam, and underwater effects"
-    href="/showcase/water/"
-  />
-  <LinkCard
-    title="🌿 Vegetation Demo"
-    description="GPU-instanced grass, trees, and rocks with seasonal wind"
-    href="/showcase/vegetation/"
-  />
-  <LinkCard
-    title="☀️ Sky & Volumetrics"
-    description="Day/night cycle, clouds, god rays, and atmospheric haze"
-    href="/showcase/sky/"
-  />
-</CardGrid>
 
 ---
 
@@ -236,6 +329,35 @@ const game = createGame({
 
 <StrataGame game={game} />
 ```
+
+---
+
+## Live Showcase
+
+Experience Strata in action:
+
+<CardGrid>
+  <LinkCard
+    title="Terrain Demo"
+    description="Procedural terrain with biomes, caves, erosion, and dynamic LOD"
+    href="/showcase/terrain/"
+  />
+  <LinkCard
+    title="Water Demo"
+    description="Ocean rendering with reflections, caustics, foam, and underwater effects"
+    href="/showcase/water/"
+  />
+  <LinkCard
+    title="Vegetation Demo"
+    description="GPU-instanced grass, trees, and rocks with seasonal wind"
+    href="/showcase/vegetation/"
+  />
+  <LinkCard
+    title="Sky & Volumetrics"
+    description="Day/night cycle, clouds, god rays, and atmospheric haze"
+    href="/showcase/sky/"
+  />
+</CardGrid>
 
 ---
 

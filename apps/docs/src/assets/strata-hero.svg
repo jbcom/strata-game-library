@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 480" fill="none">
+  <defs>
+    <!-- Gradient definitions matching Strata brand -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="layer0" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="layer1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="layer2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="layer3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="layer4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="crystal" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="crystalHighlight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Stars shimmer filter -->
+    <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+    </filter>
+    <filter id="crystalGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="480" fill="url(#sky)"/>
+
+  <!-- Stars -->
+  <g opacity="0.7">
+    <circle cx="80" cy="40" r="1.5" fill="#e2e8f0" filter="url(#starGlow)"/>
+    <circle cx="150" cy="80" r="1" fill="#94a3b8"/>
+    <circle cx="250" cy="30" r="1.5" fill="#e2e8f0" filter="url(#starGlow)"/>
+    <circle cx="350" cy="60" r="1" fill="#94a3b8"/>
+    <circle cx="420" cy="25" r="1.5" fill="#e2e8f0" filter="url(#starGlow)"/>
+    <circle cx="500" cy="70" r="1" fill="#94a3b8"/>
+    <circle cx="530" cy="35" r="1.5" fill="#e2e8f0" filter="url(#starGlow)"/>
+    <circle cx="45" cy="100" r="1" fill="#94a3b8"/>
+    <circle cx="180" cy="120" r="1" fill="#cbd5e1"/>
+    <circle cx="470" cy="110" r="1" fill="#cbd5e1"/>
+    <circle cx="560" cy="95" r="1" fill="#94a3b8"/>
+    <circle cx="310" cy="105" r="1.5" fill="#e2e8f0" filter="url(#starGlow)"/>
+  </g>
+
+  <!-- Crystal glow behind -->
+  <ellipse cx="300" cy="180" rx="80" ry="100" fill="url(#glow)" opacity="0.3" filter="url(#crystalGlow)"/>
+
+  <!-- Main crystal / diamond shape -->
+  <g>
+    <!-- Crystal body -->
+    <path d="M300 100 L360 180 L300 210 L240 180 Z" fill="url(#crystal)" opacity="0.9"/>
+    <!-- Crystal highlight facet -->
+    <path d="M300 100 L300 210 L240 180 Z" fill="url(#crystalHighlight)" opacity="0.3"/>
+    <!-- Crystal right facet (darker) -->
+    <path d="M300 100 L360 180 L300 210 Z" fill="#0d9488" opacity="0.3"/>
+    <!-- Crystal inner line -->
+    <line x1="300" y1="100" x2="300" y2="210" stroke="#38bdf8" stroke-width="0.5" opacity="0.4"/>
+    <!-- Crystal base line -->
+    <line x1="240" y1="180" x2="360" y2="180" stroke="#38bdf8" stroke-width="0.5" opacity="0.3"/>
+  </g>
+
+  <!-- Light rays from crystal -->
+  <g opacity="0.15">
+    <line x1="300" y1="155" x2="200" y2="80" stroke="#38bdf8" stroke-width="1"/>
+    <line x1="300" y1="155" x2="400" y2="70" stroke="#14b8a6" stroke-width="1"/>
+    <line x1="300" y1="155" x2="150" y2="130" stroke="#0ea5e9" stroke-width="0.8"/>
+    <line x1="300" y1="155" x2="450" y2="120" stroke="#10b981" stroke-width="0.8"/>
+  </g>
+
+  <!-- Geological strata layers -->
+  <!-- Layer 4 (top) - Presets & Game Framework - Amber -->
+  <g>
+    <path d="M100 240 Q200 225 300 230 Q400 235 500 240 L500 270 Q400 265 300 260 Q200 255 100 270 Z" fill="url(#layer4)" opacity="0.85"/>
+    <text x="300" y="258" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fef3c7" opacity="0.9">Presets &amp; Game Framework</text>
+  </g>
+
+  <!-- Layer 3 - R3F Components - Green -->
+  <g>
+    <path d="M80 270 Q190 260 300 265 Q410 270 520 275 L520 305 Q410 300 300 295 Q190 290 80 305 Z" fill="url(#layer3)" opacity="0.85"/>
+    <text x="300" y="291" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#d1fae5" opacity="0.9">React Three Fiber Components</text>
+  </g>
+
+  <!-- Layer 2 - Core Algorithms - Cyan/Blue -->
+  <g>
+    <path d="M60 305 Q180 295 300 300 Q420 305 540 310 L540 340 Q420 335 300 330 Q180 325 60 340 Z" fill="url(#layer2)" opacity="0.85"/>
+    <text x="300" y="326" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#e0f2fe" opacity="0.9">Core Algorithms (SDF, Noise, Marching Cubes)</text>
+  </g>
+
+  <!-- Layer 1 - GLSL Shaders - Purple -->
+  <g>
+    <path d="M40 340 Q170 330 300 335 Q430 340 560 345 L560 375 Q430 370 300 365 Q170 360 40 375 Z" fill="url(#layer1)" opacity="0.85"/>
+    <text x="300" y="361" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#ede9fe" opacity="0.9">GLSL Shaders</text>
+  </g>
+
+  <!-- Layer 0 (bottom) - Types & Utilities - Slate -->
+  <g>
+    <path d="M20 375 Q160 365 300 370 Q440 375 580 380 L580 410 Q440 405 300 400 Q160 395 20 410 Z" fill="url(#layer0)" opacity="0.85"/>
+    <text x="300" y="396" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0" opacity="0.9">TypeScript Types &amp; Utilities</text>
+  </g>
+
+  <!-- Terrain surface features on top layer -->
+  <g opacity="0.3">
+    <!-- Small trees/vegetation hints -->
+    <path d="M160 232 L165 220 L170 232" fill="#10b981" opacity="0.5"/>
+    <path d="M200 228 L204 218 L208 228" fill="#10b981" opacity="0.4"/>
+    <path d="M380 234 L384 222 L388 234" fill="#10b981" opacity="0.5"/>
+    <path d="M430 236 L434 224 L438 236" fill="#10b981" opacity="0.4"/>
+    <!-- Water hint -->
+    <path d="M260 232 Q280 228 300 232 Q320 236 340 232" fill="none" stroke="#38bdf8" stroke-width="1.5" opacity="0.4"/>
+  </g>
+
+  <!-- Decorative grid lines (subtle) -->
+  <g opacity="0.06" stroke="#38bdf8" stroke-width="0.5">
+    <line x1="0" y1="240" x2="600" y2="240"/>
+    <line x1="0" y1="280" x2="600" y2="280"/>
+    <line x1="0" y1="320" x2="600" y2="320"/>
+    <line x1="0" y1="360" x2="600" y2="360"/>
+    <line x1="0" y1="400" x2="600" y2="400"/>
+    <line x1="100" y1="200" x2="100" y2="440"/>
+    <line x1="200" y1="200" x2="200" y2="440"/>
+    <line x1="300" y1="200" x2="300" y2="440"/>
+    <line x1="400" y1="200" x2="400" y2="440"/>
+    <line x1="500" y1="200" x2="500" y2="440"/>
+  </g>
+
+  <!-- Bottom fade -->
+  <rect x="0" y="420" width="600" height="60" fill="url(#sky)" opacity="0.8"/>
+</svg>
