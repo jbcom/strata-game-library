@@ -1,52 +1,102 @@
 ---
-title: "Presets"
+title: Presets
+description: Production-ready configurations for Strata features
 ---
 
-# Org-Specific Overrides
+# Presets
 
-Place files here to override enterprise defaults from jbcom/control-center.
+The `@strata-game-library/presets` package provides production-ready configurations for all Strata features. Use presets to quickly set up terrain biomes, weather systems, water types, vegetation patterns, and more.
 
-## Directory Structure
-
-```
-repository-files/
-├── always-sync/          # From enterprise (don't edit)
-├── initial-only/         # From enterprise (don't edit)
-├── python/               # From enterprise (don't edit)
-├── nodejs/               # From enterprise (don't edit)
-├── go/                   # From enterprise (don't edit)
-├── rust/                 # From enterprise (don't edit)
-├── terraform/            # From enterprise (don't edit)
-└── org-overrides/        # YOUR ORG CUSTOMIZATIONS HERE
-    ├── .github/
-    │   └── workflows/    # Org-specific workflows
-    ├── .cursor/
-    │   └── rules/        # Org-specific Cursor rules
-    ├── CLAUDE.md         # Org-specific Claude instructions
-    └── AGENTS.md         # Org-specific agent instructions
-```
-
-## Merge Order
-
-When syncing to repos, files are applied in this order:
-
-1. Enterprise `always-sync/` (base)
-2. Language-specific rules (python/, nodejs/, etc.)
-3. **Org overrides** (this directory - wins on conflicts)
-4. `initial-only/` (only if file doesn't exist)
-
-## Examples
-
-### Override CI workflow for your org
+## Installation
 
 ```bash
-cp repository-files/always-sync/.github/workflows/ci.yml \
-   repository-files/org-overrides/.github/workflows/ci.yml
-# Then edit ci.yml with org-specific changes
+pnpm add @strata-game-library/presets
 ```
 
-### Add org-specific Cursor rule
+## Quick Start
 
-```bash
-echo "# My Org Rule" > repository-files/org-overrides/.cursor/rules/my-org.mdc
+```tsx
+import { TerrainPresets, WaterPresets } from '@strata-game-library/presets';
+
+<Terrain preset={TerrainPresets.Alpine} />
+<Water preset={WaterPresets.CalmOcean} />
 ```
+
+## Available Presets
+
+### Terrain Biomes
+
+Pre-configured terrain generation for different environments.
+
+- [Terrain Presets](/presets/terrain/) — Alpine, desert, tropical, tundra, volcanic
+
+### Weather Systems
+
+Dynamic weather configuration with wind, rain, snow, and fog.
+
+- [Weather Presets](/presets/weather/) — Clear, overcast, rain, thunderstorm, snow, fog
+
+### Water Types
+
+Water rendering configurations for different bodies of water.
+
+- [Water Presets](/presets/water/) — Calm ocean, rough sea, river, lake, swamp
+
+### Vegetation
+
+Vegetation distribution and appearance for different biomes.
+
+- [Vegetation Presets](/presets/vegetation/) — Forest, grassland, savanna, jungle, tundra
+
+### Clouds
+
+Volumetric cloud configurations for different weather and altitudes.
+
+- [Cloud Presets](/presets/clouds/) — Cumulus, stratus, cirrus, storm clouds
+
+### Camera
+
+Camera behavior presets for different game modes.
+
+- [Camera Presets](/presets/camera/) — Follow, orbit, first-person, cinematic
+
+### Animation
+
+Character and object animation presets.
+
+- [Animation Presets](/presets/animation/) — Walk cycles, idle, combat, swimming
+
+### Physics
+
+Physics simulation presets for different environments.
+
+- [Physics Presets](/presets/physics/) — Earth gravity, low gravity, underwater, zero-G
+
+### Audio
+
+Audio settings for different environments and moods.
+
+- [Audio Presets](/presets/audio/) — Forest ambience, cave echo, underwater, wind
+
+## Combining Presets
+
+Presets can be combined and customized:
+
+```tsx
+import { TerrainPresets, WaterPresets, WeatherPresets } from '@strata-game-library/presets';
+
+// Use a preset as a base and override specific values
+<Terrain
+  preset={TerrainPresets.Alpine}
+  resolution={128}       // Override resolution
+  erosion={true}         // Enable erosion
+/>
+
+// Combine multiple presets for a complete scene
+<Weather preset={WeatherPresets.LightRain} />
+<Water preset={WaterPresets.RoughSea} />
+```
+
+## Full API Reference
+
+See the [detailed TypeDoc documentation](/packages/presets/) for all preset definitions and types.

@@ -413,13 +413,9 @@ function CustomTrees() {
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/vegetation-showcase/"
-  class="showcase-iframe"
-  title="Vegetation Demo"
-></iframe>
+See the [interactive vegetation demo](/showcase/vegetation/) running live in your browser.
 
-[View Full Demo](https://jbcom/strata-game-library/examples/vegetation-showcase/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/vegetation-showcase)
+[View Live Demo](/showcase/vegetation/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase)
 
 ## Related
 

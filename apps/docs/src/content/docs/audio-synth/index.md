@@ -1,52 +1,86 @@
 ---
-title: "Audio Synth"
+title: Audio Synth
+description: Procedural audio synthesis and spatial sound design for game audio
 ---
 
-# Org-Specific Overrides
+# Audio Synth
 
-Place files here to override enterprise defaults from jbcom/control-center.
+The `@strata-game-library/audio-synth` package provides procedural audio synthesis for game sound effects and music. Generate sounds programmatically without audio files — explosions, footsteps, UI clicks, ambient music, and more.
 
-## Directory Structure
-
-```
-repository-files/
-├── always-sync/          # From enterprise (don't edit)
-├── initial-only/         # From enterprise (don't edit)
-├── python/               # From enterprise (don't edit)
-├── nodejs/               # From enterprise (don't edit)
-├── go/                   # From enterprise (don't edit)
-├── rust/                 # From enterprise (don't edit)
-├── terraform/            # From enterprise (don't edit)
-└── org-overrides/        # YOUR ORG CUSTOMIZATIONS HERE
-    ├── .github/
-    │   └── workflows/    # Org-specific workflows
-    ├── .cursor/
-    │   └── rules/        # Org-specific Cursor rules
-    ├── CLAUDE.md         # Org-specific Claude instructions
-    └── AGENTS.md         # Org-specific agent instructions
-```
-
-## Merge Order
-
-When syncing to repos, files are applied in this order:
-
-1. Enterprise `always-sync/` (base)
-2. Language-specific rules (python/, nodejs/, etc.)
-3. **Org overrides** (this directory - wins on conflicts)
-4. `initial-only/` (only if file doesn't exist)
-
-## Examples
-
-### Override CI workflow for your org
+## Installation
 
 ```bash
-cp repository-files/always-sync/.github/workflows/ci.yml \
-   repository-files/org-overrides/.github/workflows/ci.yml
-# Then edit ci.yml with org-specific changes
+pnpm add @strata-game-library/audio-synth
 ```
 
-### Add org-specific Cursor rule
+## Quick Start
 
-```bash
-echo "# My Org Rule" > repository-files/org-overrides/.cursor/rules/my-org.mdc
+```tsx
+import { AudioSynthProvider, usePlaySFX, usePlayMusic } from '@strata-game-library/audio-synth';
+
+function Game() {
+  return (
+    <AudioSynthProvider>
+      <GameContent />
+    </AudioSynthProvider>
+  );
+}
+
+function GameContent() {
+  const playSFX = usePlaySFX();
+  const playMusic = usePlayMusic();
+
+  return (
+    <button onClick={() => playSFX('explosion')}>
+      Play Explosion
+    </button>
+  );
+}
 ```
+
+## Features
+
+- **Procedural SFX** — Generate sound effects from parameters, not audio files
+- **Music Patterns** — Compose and play music programmatically
+- **Spatial Audio** — 3D positional sound that follows objects in the scene
+- **React Integration** — Hooks and context providers for React apps
+- **Preset Library** — Built-in presets for common game sounds
+
+## SFX Presets
+
+Built-in sound effect presets:
+
+| Preset | Description |
+|--------|-------------|
+| `explosion` | Rumbling explosion with decay |
+| `laser` | Sci-fi laser beam |
+| `gunshot` | Firearm discharge |
+| `footstep` | Walking sound |
+| `impact` | Physical collision |
+| `pickup` | Item collection |
+| `powerup` | Power-up activation |
+| `select` | UI selection |
+| `confirm` | UI confirmation |
+| `error` | UI error notification |
+| `ricochet` | Bullet ricochet |
+
+## Music Patterns
+
+Built-in music patterns for different game states:
+
+| Pattern | Description |
+|---------|-------------|
+| `ambient` | Calm background atmosphere |
+| `exploration` | Adventurous exploration theme |
+| `combat` | Intense battle music |
+| `menu` | Main menu background |
+| `defeat` | Game over theme |
+
+## API Reference
+
+See the [detailed API documentation](/packages/audio-synth/) for complete type definitions and usage examples.
+
+## Related
+
+- [Audio Presets](/presets/audio/) — Pre-configured audio settings
+- [API Reference](/packages/audio-synth/) — Full TypeDoc documentation

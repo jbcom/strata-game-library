@@ -1,52 +1,98 @@
 ---
-title: "Shaders"
+title: Shaders
+description: Standalone GLSL shader collection for Three.js
 ---
 
-# Org-Specific Overrides
+# Shaders
 
-Place files here to override enterprise defaults from jbcom/control-center.
+The `@strata-game-library/shaders` package provides a standalone collection of production-ready GLSL shaders. Use them with any Three.js project — no React required.
 
-## Directory Structure
-
-```
-repository-files/
-├── always-sync/          # From enterprise (don't edit)
-├── initial-only/         # From enterprise (don't edit)
-├── python/               # From enterprise (don't edit)
-├── nodejs/               # From enterprise (don't edit)
-├── go/                   # From enterprise (don't edit)
-├── rust/                 # From enterprise (don't edit)
-├── terraform/            # From enterprise (don't edit)
-└── org-overrides/        # YOUR ORG CUSTOMIZATIONS HERE
-    ├── .github/
-    │   └── workflows/    # Org-specific workflows
-    ├── .cursor/
-    │   └── rules/        # Org-specific Cursor rules
-    ├── CLAUDE.md         # Org-specific Claude instructions
-    └── AGENTS.md         # Org-specific agent instructions
-```
-
-## Merge Order
-
-When syncing to repos, files are applied in this order:
-
-1. Enterprise `always-sync/` (base)
-2. Language-specific rules (python/, nodejs/, etc.)
-3. **Org overrides** (this directory - wins on conflicts)
-4. `initial-only/` (only if file doesn't exist)
-
-## Examples
-
-### Override CI workflow for your org
+## Installation
 
 ```bash
-cp repository-files/always-sync/.github/workflows/ci.yml \
-   repository-files/org-overrides/.github/workflows/ci.yml
-# Then edit ci.yml with org-specific changes
+pnpm add @strata-game-library/shaders
 ```
 
-### Add org-specific Cursor rule
+## Available Shaders
 
-```bash
-echo "# My Org Rule" > repository-files/org-overrides/.cursor/rules/my-org.mdc
+### Terrain
+
+Shaders for procedural terrain rendering with height-based texture blending and triplanar mapping.
+
+- [Terrain Shaders](/shaders/terrain/) — Triplanar texturing, biome blending, erosion effects
+
+### Water
+
+Realistic water rendering with wave simulation and reflections.
+
+- [Water Shaders](/shaders/water/) — Gerstner waves, Fresnel reflections, caustics
+
+### Sky & Atmosphere
+
+Physically-based atmospheric scattering for realistic skies.
+
+- [Sky Shaders](/shaders/sky/) — Rayleigh/Mie scattering, day/night cycle
+
+### Clouds
+
+Volumetric cloud rendering.
+
+- [Cloud Shaders](/shaders/clouds/) — Ray-marched clouds, weather systems
+
+### Volumetric Effects
+
+Fog, god rays, and underwater overlays.
+
+- [Volumetric Shaders](/shaders/volumetrics/) — Distance fog, volumetric light, underwater
+
+### Material Effects
+
+Advanced material shaders for special effects.
+
+- [Material Shaders](/shaders/materials/) — Fur, hologram, toon, scanline, glitch
+
+### Vegetation
+
+Wind animation for instanced vegetation.
+
+- [Vegetation Shaders](/shaders/vegetation/) — Wind bending, sway, seasonal color
+
+## Usage Without React
+
+All shaders can be used directly with Three.js:
+
+```ts
+import { waterFragmentShader, waterVertexShader } from '@strata-game-library/shaders';
+
+const material = new THREE.ShaderMaterial({
+  vertexShader: waterVertexShader,
+  fragmentShader: waterFragmentShader,
+  uniforms: {
+    uTime: { value: 0 },
+    uWaveHeight: { value: 1.0 },
+    uWaterColor: { value: new THREE.Color('#006994') },
+  },
+});
 ```
+
+## Shader Chunks
+
+Reusable GLSL snippets for building custom shaders:
+
+```ts
+import { ShaderChunks, noiseSnippet } from '@strata-game-library/shaders';
+
+// Use noise functions in your own shaders
+const customShader = `
+  ${noiseSnippet}
+
+  void main() {
+    float n = fbm(vPosition.xz * 0.1);
+    gl_FragColor = vec4(vec3(n), 1.0);
+  }
+`;
+```
+
+## Full API Reference
+
+See the [detailed TypeDoc documentation](/packages/shaders/) for all exported shaders, uniforms, and types.

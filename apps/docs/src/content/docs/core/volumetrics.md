@@ -442,13 +442,9 @@ function VolumetricFogCustom() {
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/sky-volumetrics/"
-  class="showcase-iframe"
-  title="Volumetrics Demo"
-></iframe>
+See the [interactive sky & volumetrics demo](/showcase/sky/) running live in your browser.
 
-[View Full Demo](https://jbcom/strata-game-library/examples/sky-volumetrics/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/sky-volumetrics)
+[View Live Demo](/showcase/sky/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics)
 
 ## Related
 
