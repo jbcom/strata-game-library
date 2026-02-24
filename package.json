@@ -28,6 +28,12 @@
     "type": "git",
     "url": "git+https://github.com/jbcom/strata-game-library.git"
   },
+  "pnpm": {
+    "overrides": {
+      "minimatch": ">=10.2.2",
+      "@isaacs/brace-expansion": ">=5.0.1"
+    }
+  },
   "devDependencies": {
     "@biomejs/biome": "2.3.10",
     "@nx/js": "22.5.2",
