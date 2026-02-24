@@ -1,0 +1,31 @@
+# Automerge - Auto-merge Dependabot PRs after CI passes
+#
+# Approves and enables auto-merge (squash) for PRs opened by Dependabot.
+# GitHub will merge the PR automatically once all required status checks pass.
+name: Automerge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ────────────────────────────────────────────────────────────────────
+  # Approve and auto-merge Dependabot PRs
+  # ────────────────────────────────────────────────────────────────────
+  dependabot:
+    name: Dependabot Auto-merge
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    env:
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Approve PR
+        run: gh pr review "$PR_URL" --approve
+
+      - name: Enable auto-merge
+        run: gh pr merge "$PR_URL" --auto --squash
