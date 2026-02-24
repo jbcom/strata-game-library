@@ -12,12 +12,13 @@ Terrain, water, vegetation, sky, physics, AI, animation, audio -- everything you
 ## Quick Start
 
 ```bash
-pnpm add @strata-game-library/core @react-three/fiber @react-three/drei three
+pnpm add @strata-game-library/core @strata-game-library/r3f @react-three/fiber @react-three/drei three
 ```
 
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { ProceduralSky, Water, GrassInstances, VolumetricFogMesh } from '@strata-game-library/core';
+import { ProceduralSky, Water, GrassInstances, VolumetricFogMesh } from '@strata-game-library/r3f';
+import { createGame } from '@strata-game-library/core';
 
 function Game() {
   return (
@@ -31,11 +32,14 @@ function Game() {
 }
 ```
 
+`@strata-game-library/core` provides pure TypeScript algorithms, ECS, state management, and the `createGame()` API. `@strata-game-library/r3f` provides all React Three Fiber components and hooks.
+
 ## Packages
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@strata-game-library/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@strata-game-library/core)](https://www.npmjs.com/package/@strata-game-library/core) | R3F components, ECS, physics, AI, animation, audio |
+| [`@strata-game-library/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@strata-game-library/core)](https://www.npmjs.com/package/@strata-game-library/core) | Pure TS algorithms, ECS, physics, AI, state, game orchestration |
+| [`@strata-game-library/r3f`](adapters/r3f) | [![npm](https://img.shields.io/npm/v/@strata-game-library/r3f)](https://www.npmjs.com/package/@strata-game-library/r3f) | React Three Fiber components, hooks, StrataGame |
 | [`@strata-game-library/shaders`](packages/shaders) | [![npm](https://img.shields.io/npm/v/@strata-game-library/shaders)](https://www.npmjs.com/package/@strata-game-library/shaders) | Standalone GLSL shaders for Three.js |
 | [`@strata-game-library/presets`](packages/presets) | [![npm](https://img.shields.io/npm/v/@strata-game-library/presets)](https://www.npmjs.com/package/@strata-game-library/presets) | Production-ready configurations (30+ categories) |
 | [`@strata-game-library/audio-synth`](plugins/audio-synth) | [![npm](https://img.shields.io/npm/v/@strata-game-library/audio-synth)](https://www.npmjs.com/package/@strata-game-library/audio-synth) | Procedural audio synthesis with Tone.js |
@@ -86,17 +90,18 @@ pnpm run typecheck    # TypeScript type checking
 ```text
 strata/
   packages/
-    core/              # Main library (R3F components, systems)
+    core/              # Pure TypeScript algorithms, ECS, state, game orchestration
     shaders/           # Standalone GLSL shaders
-    presets/            # Configuration presets
+    presets/           # Configuration presets
+  adapters/
+    r3f/               # React Three Fiber components & hooks (@strata-game-library/r3f)
   plugins/
-    audio-synth/       # Audio synthesis
-    model-synth/       # AI model generation
-    capacitor/         # Capacitor mobile plugin
+    audio-synth/       # Audio synthesis (Tone.js)
+    model-synth/       # AI model generation (Meshy API)
+    capacitor/         # Native mobile via Capacitor
     react-native/      # React Native bridge
-  adapters/            # Renderer adapters (future)
   apps/
-    docs/              # Documentation site (strata.game)
+    docs/              # Documentation site (Astro Starlight)
     examples/          # Example projects
 ```
 

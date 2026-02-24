@@ -47,7 +47,9 @@
       "@strata-game-library/audio-synth",
       "@strata-game-library/capacitor",
       "@strata-game-library/model-synth",
-      "@strata-game-library/react-native"
+      "@strata-game-library/react-native",
+      "@strata-game-library/reactylon",
+      "@strata-game-library/astro"
     ],
     "projectsRelationship": "independent",
     "changelog": {

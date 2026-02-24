@@ -52,34 +52,37 @@ pnpm run demo              # Serve demo files
 ## Architecture
 
 ```text
-src/
-├── core/           # Pure TypeScript (NO React imports!)
-│   ├── ai/         # AI logic and pathfinding
-│   ├── animation/  # Animation and IK solvers
-│   ├── audio/      # Audio system core
-│   ├── camera/     # Camera math and utilities
-│   ├── debug/      # Debug tools
-│   ├── decals/     # Decals and billboards logic
-│   ├── ecs/        # Entity component system
-│   ├── math/       # General math, noise, vectors
-│   ├── state/      # State management core
-│   └── ...
-├── components/     # Modular React Three Fiber components
-│   ├── ai/         # AI components
-│   ├── animation/  # Animation components
-│   ├── audio/      # Audio components
-│   ├── camera/     # Camera components
-│   ├── ...         # (Physics, Sky, UI, etc.)
-├── shaders/        # GLSL shaders
-├── presets/        # Pre-configured modular logic
-│   ├── ai/         # AI behavior presets
-│   ├── physics/    # Physical presets
-│   └── ...
-├── hooks/          # React hooks
-└── api/            # High-level API
+packages/
+├── core/              # Pure TypeScript (NO React imports!)
+│   └── src/
+│       ├── core/      # AI, animation, audio, camera, ECS, math, state
+│       ├── compose/   # Compositional object system
+│       ├── game/      # Game orchestration, scenes, modes
+│       ├── world/     # World topology, regions
+│       ├── api/       # High-level API (createGame, etc.)
+│       └── types/     # Shared TypeScript types
+├── shaders/           # Standalone GLSL shaders
+└── presets/           # Pre-configured game presets
+adapters/
+└── r3f/               # React Three Fiber adapter (@strata-game-library/r3f)
+    └── src/
+        ├── components/  # R3F components (Terrain, Water, Sky, etc.)
+        ├── hooks/       # React hooks (useECS, useFrame wrappers)
+        └── StrataGame.tsx  # Top-level game component
+plugins/
+├── audio-synth/       # Tone.js audio synthesis
+├── model-synth/       # AI 3D model generation (Meshy API)
+├── capacitor/         # Native mobile via Capacitor
+└── react-native/      # React Native bridge
+apps/
+├── docs/              # Astro Starlight documentation site
+└── examples/          # Example projects
 ```
 
-**Key Rule**: `src/core/` must have NO React imports - pure TypeScript only.
+**Key Rules**:
+
+- `packages/core/` must have NO React imports -- pure TypeScript only.
+- All React Three Fiber components and hooks live in `adapters/r3f/`.
 
 ## Code Standards
 
@@ -112,11 +115,20 @@ Before completing work:
 
 ```text
 .
-├── src/                 # Source code
-├── tests/               # Test files
-├── docs/                # Documentation & TypeDoc output
-├── examples/            # Working example projects
-├── memory-bank/         # AI context files
+├── packages/            # Core library packages
+│   ├── core/            # Pure TS algorithms, ECS, state, game orchestration
+│   ├── shaders/         # GLSL shaders
+│   └── presets/         # Configuration presets
+├── adapters/
+│   └── r3f/             # React Three Fiber components & hooks
+├── plugins/             # Optional extensions
+│   ├── audio-synth/     # Procedural audio (Tone.js)
+│   ├── model-synth/     # AI model generation
+│   ├── capacitor/       # Mobile (Capacitor)
+│   └── react-native/    # React Native bridge
+├── apps/
+│   ├── docs/            # Documentation site (Astro Starlight)
+│   └── examples/        # Example projects
 ├── .github/
 │   ├── workflows/       # CI/CD (SHA-pinned actions)
 │   └── agents/          # Agent-specific instructions
