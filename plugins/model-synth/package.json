@@ -1,6 +1,6 @@
 {
   "name": "@strata-game-library/model-synth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Procedural 3D model generation using Meshy API - characters, props, animations for React Three Fiber games",
   "type": "module",
   "main": "./dist/index.js",

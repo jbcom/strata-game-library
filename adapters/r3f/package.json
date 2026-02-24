@@ -1,6 +1,6 @@
 {
   "name": "@strata-game-library/r3f",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Three Fiber components for Strata - terrain, water, vegetation, sky, volumetrics, physics, animation",
   "type": "module",
   "main": "./dist/index.js",
@@ -20,7 +20,10 @@
       "import": "./dist/hooks/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -31,7 +34,15 @@
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm run build"
   },
-  "keywords": ["strata", "react-three-fiber", "r3f", "threejs", "3d", "webgl", "game"],
+  "keywords": [
+    "strata",
+    "react-three-fiber",
+    "r3f",
+    "threejs",
+    "3d",
+    "webgl",
+    "game"
+  ],
   "author": "Jon Bogaty <jon@jonbogaty.com>",
   "license": "MIT",
   "repository": {
@@ -39,9 +50,13 @@
     "url": "git+https://github.com/jbcom/strata-game-library.git",
     "directory": "adapters/r3f"
   },
-  "bugs": { "url": "https://github.com/jbcom/strata-game-library/issues" },
+  "bugs": {
+    "url": "https://github.com/jbcom/strata-game-library/issues"
+  },
   "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/r3f#readme",
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@strata-game-library/core": "workspace:*",
     "@strata-game-library/shaders": "workspace:*",
@@ -64,10 +79,18 @@
     "zustand": ">=4.0.0"
   },
   "peerDependenciesMeta": {
-    "yuka": { "optional": true },
-    "@react-three/rapier": { "optional": true },
-    "postprocessing": { "optional": true },
-    "zustand": { "optional": true }
+    "yuka": {
+      "optional": true
+    },
+    "@react-three/rapier": {
+      "optional": true
+    },
+    "postprocessing": {
+      "optional": true
+    },
+    "zustand": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@react-three/drei": "^10.7.7",
