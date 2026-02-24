@@ -4,15 +4,11 @@
  * @module presets/vegetation
  */
 
-import {
-  createInstancedMesh,
-  generateInstanceData,
-} from '@strata-game-library/core/core/instancing';
-import type { BiomeData } from '@strata-game-library/core/core/sdf';
+import type { BiomeData } from '@strata-game-library/core';
+import { createInstancedMesh, generateInstanceData } from '@strata-game-library/core';
 import * as THREE from 'three';
 
-export type { InstanceData } from '@strata-game-library/core/core/instancing';
-export type { BiomeData } from '@strata-game-library/core/core/sdf';
+export type { BiomeData, InstanceData } from '@strata-game-library/core';
 
 export interface VegetationOptions {
   count: number;
