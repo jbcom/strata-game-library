@@ -16,6 +16,7 @@ export default defineConfig({
       logo: {
         light: './src/assets/strata-logo.svg',
         dark: './src/assets/strata-logo.svg',
+        replacesTitle: true,
       },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/jbcom/strata-game-library' },
