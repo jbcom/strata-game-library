@@ -1,3 +1,7 @@
+---
+title: "BuildingForm"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "SkyUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

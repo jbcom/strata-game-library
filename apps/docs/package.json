@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "echo 'Docs build disabled - auto-generated TypeDoc content needs frontmatter fix'",
-    "build:astro": "astro build",
+    "build": "node ../../scripts/fix-docs-frontmatter.mjs && astro build",
     "preview": "astro preview"
   },
   "nx": {

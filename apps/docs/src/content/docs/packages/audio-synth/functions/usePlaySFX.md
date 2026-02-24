@@ -1,3 +1,7 @@
+---
+title: "usePlaySFX"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

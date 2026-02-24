@@ -1,3 +1,7 @@
+---
+title: "SFXPresetId"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

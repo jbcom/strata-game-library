@@ -1,3 +1,7 @@
+---
+title: "terrainFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

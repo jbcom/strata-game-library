@@ -1,3 +1,7 @@
+---
+title: "createMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

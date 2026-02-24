@@ -1,3 +1,7 @@
+---
+title: "DeviceType"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "atmosphereShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

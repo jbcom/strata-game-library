@@ -1,3 +1,7 @@
+---
+title: "createEquipment"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

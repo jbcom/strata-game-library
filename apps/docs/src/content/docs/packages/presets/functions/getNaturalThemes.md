@@ -1,3 +1,7 @@
+---
+title: "getNaturalThemes"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

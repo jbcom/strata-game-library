@@ -1,3 +1,7 @@
+---
+title: "volumetricSpotlightVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

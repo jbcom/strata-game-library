@@ -41,16 +41,16 @@ lint-yaml:
 
 # Run biome check on TypeScript/JavaScript
 lint-ts:
-    pnpm exec biome check src/ tests/
+    pnpm exec biome check packages/
 
 # Run biome format check
 format-check:
-    pnpm exec biome format --check src/ tests/
+    pnpm exec biome format --check packages/
 
 # Format all files with biome
 format:
-    pnpm exec biome format --write src/ tests/
-    pnpm exec biome check --write src/ tests/
+    pnpm exec biome format --write packages/
+    pnpm exec biome check --write packages/
 
 # TypeScript type checking
 typecheck:

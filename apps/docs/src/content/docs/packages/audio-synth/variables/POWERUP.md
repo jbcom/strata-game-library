@@ -1,3 +1,7 @@
+---
+title: "POWERUP"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "EQUIPMENT_FORMS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

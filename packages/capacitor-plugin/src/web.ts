@@ -631,23 +631,23 @@ export class StrataWeb extends WebPlugin implements StrataPlugin, StrataPlatform
     }
   }
 
-  addListener(
+  override addListener(
     eventName: 'deviceChange',
     callback: (profile: DeviceProfile) => void
   ): Promise<{ remove: () => Promise<void> }>;
-  addListener(
+  override addListener(
     eventName: 'inputChange',
     callback: (snapshot: InputSnapshot) => void
   ): Promise<{ remove: () => Promise<void> }>;
-  addListener(
+  override addListener(
     eventName: 'gamepadConnected',
     callback: (info: { index: number; id: string }) => void
   ): Promise<{ remove: () => Promise<void> }>;
-  addListener(
+  override addListener(
     eventName: 'gamepadDisconnected',
     callback: (info: { index: number }) => void
   ): Promise<{ remove: () => Promise<void> }>;
-  async addListener(
+  override async addListener(
     eventName: 'deviceChange' | 'inputChange' | 'gamepadConnected' | 'gamepadDisconnected',
     callback: (data: any) => void
   ): Promise<{ remove: () => Promise<void> }> {

@@ -1,3 +1,7 @@
+---
+title: "GradientMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

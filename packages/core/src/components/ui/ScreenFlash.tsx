@@ -26,14 +26,13 @@ export function ScreenFlash({
   const transitionDuration = duration / 2;
 
   useEffect(() => {
-    if (active) {
-      setIsFlashing(true);
-      const timer = setTimeout(() => {
-        setIsFlashing(false);
-        onComplete?.();
-      }, duration);
-      return () => clearTimeout(timer);
-    }
+    if (!active) return undefined;
+    setIsFlashing(true);
+    const timer = setTimeout(() => {
+      setIsFlashing(false);
+      onComplete?.();
+    }, duration);
+    return () => clearTimeout(timer);
   }, [active, duration, onComplete]);
 
   return (

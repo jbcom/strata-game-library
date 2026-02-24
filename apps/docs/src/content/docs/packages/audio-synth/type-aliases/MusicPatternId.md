@@ -1,3 +1,7 @@
+---
+title: "MusicPatternId"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

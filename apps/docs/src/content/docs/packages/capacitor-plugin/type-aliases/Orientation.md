@@ -1,3 +1,7 @@
+---
+title: "Orientation"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

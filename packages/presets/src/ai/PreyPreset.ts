@@ -47,23 +47,23 @@ export function createPreyPreset(config: PreyPresetConfig = {}): AIPresetResult 
   vehicle.steering.add(fleeBehavior);
 
   class WanderState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = maxSpeed;
       wanderBehavior.active = true;
       fleeBehavior.active = false;
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   class FleeState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = fleeSpeed;
       wanderBehavior.active = false;
       fleeBehavior.active = true;
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   const stateMachine = new YUKA.StateMachine(vehicle);

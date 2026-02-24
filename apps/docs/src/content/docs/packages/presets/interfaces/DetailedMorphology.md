@@ -1,3 +1,7 @@
+---
+title: "DetailedMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

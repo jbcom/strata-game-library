@@ -1,3 +1,7 @@
+---
+title: "StrataPlugin"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

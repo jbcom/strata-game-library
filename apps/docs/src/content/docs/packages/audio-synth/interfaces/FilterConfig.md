@@ -1,3 +1,7 @@
+---
+title: "FilterConfig"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

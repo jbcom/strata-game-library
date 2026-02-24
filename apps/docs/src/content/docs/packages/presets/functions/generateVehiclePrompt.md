@@ -1,3 +1,7 @@
+---
+title: "generateVehiclePrompt"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

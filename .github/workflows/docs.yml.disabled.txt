@@ -1,3 +1,0 @@
-# Documentation has been centralized to https://strata.game
-# This workflow is disabled. See strata-game-library.github.io for the unified docs site.
-# To re-enable, rename this file to docs.yml

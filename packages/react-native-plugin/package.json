@@ -60,16 +60,12 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.0",
     "@react-native/babel-preset": "^0.83.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/react-native": "^13.3.3",
+    "@testing-library/react": "^16.3.1",
     "@types/react": "^19.0.0",
     "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-native": "^0.83.1",
-    "react-test-renderer": "^19.2.3",
     "rimraf": "^6.1.0",
-    "semantic-release": "^25.0.2",
     "tsup": "^8.5.0",
     "typescript": "^5.9.0",
     "vitest": "^4.0.15"

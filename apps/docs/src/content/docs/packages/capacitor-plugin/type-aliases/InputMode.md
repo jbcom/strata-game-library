@@ -1,3 +1,7 @@
+---
+title: "InputMode"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

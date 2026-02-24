@@ -1,3 +1,7 @@
+---
+title: "TouchOptions"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

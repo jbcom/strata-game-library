@@ -1,3 +1,7 @@
+---
+title: "PerformanceMode"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

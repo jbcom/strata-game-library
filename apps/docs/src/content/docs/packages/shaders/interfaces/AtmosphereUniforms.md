@@ -1,3 +1,7 @@
+---
+title: "AtmosphereUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

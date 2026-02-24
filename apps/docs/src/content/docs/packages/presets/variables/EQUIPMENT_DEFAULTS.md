@@ -1,3 +1,7 @@
+---
+title: "EQUIPMENT_DEFAULTS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

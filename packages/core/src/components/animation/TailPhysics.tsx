@@ -93,7 +93,7 @@ export const TailPhysics = forwardRef<TailPhysicsRef, TailPhysicsProps>(
       return Array.from({ length: segmentCount }, (_, i) => (
         <object3D
           key={`segment-${i}-${segmentLength}`}
-          ref={(el) => {
+          ref={(el: THREE.Object3D | null) => {
             if (el) segmentsRef.current[i] = el;
           }}
           position={[0, -segmentLength * (i + 1), 0]}

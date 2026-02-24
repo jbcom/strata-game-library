@@ -1,3 +1,7 @@
+---
+title: "VolumetricCloudUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

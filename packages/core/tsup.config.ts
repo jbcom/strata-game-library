@@ -46,9 +46,8 @@ export default defineConfig({
 	// Output format - ESM only (the package is "type": "module")
 	format: ['esm'],
 
-	// DTS generation disabled temporarily — pre-existing R3F v9.5 JSX type augmentation issue
-	// TODO: Fix R3F types and re-enable (see three-types.d.ts not exported from main entry)
-	dts: false,
+	// DTS generation enabled — R3F JSX types provided by src/react-three-fiber.d.ts shim
+	dts: true,
 
 	// Clean output directory before each build
 	clean: true,

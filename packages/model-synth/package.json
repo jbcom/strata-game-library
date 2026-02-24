@@ -26,7 +26,8 @@
     "dev": "tsup --watch",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
@@ -59,12 +60,12 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2",
     "zod": "^3.23.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
     "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^4.0.16",
     "tsup": "^8.0.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"

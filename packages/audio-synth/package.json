@@ -35,6 +35,8 @@
 		"lint": "biome lint src/",
 		"lint:fix": "biome lint --write src/",
 		"format": "biome format --write src/",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
 		"prepublishOnly": "pnpm run build"
 	},
 	"keywords": [
@@ -70,10 +72,12 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.10",
+		"@vitest/coverage-v8": "^4.0.16",
 		"@types/react": "^19.0.0",
 		"react": "^19.0.0",
 		"tone": "^15.0.0",
 		"tsup": "^8.5.0",
-		"typescript": "^5.9.0"
+		"typescript": "^5.9.0",
+		"vitest": "^4.0.16"
 	}
 }

@@ -1,3 +1,7 @@
+---
+title: "raymarchingFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "MountParams"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

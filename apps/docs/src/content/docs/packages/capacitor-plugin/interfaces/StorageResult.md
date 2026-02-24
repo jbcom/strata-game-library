@@ -1,3 +1,7 @@
+---
+title: "StorageResult"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "GUNSHOT"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

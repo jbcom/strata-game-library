@@ -1,3 +1,7 @@
+---
+title: "Vector2Representation"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

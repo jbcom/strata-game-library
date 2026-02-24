@@ -3,7 +3,6 @@
  * Handles preview and refine tasks for text-based 3D model generation
  */
 
-import fetch from 'node-fetch';
 import { MeshyBaseClient } from './base.js';
 
 export interface CreateTaskParams {

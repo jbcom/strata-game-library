@@ -1,3 +1,7 @@
+---
+title: "EXPLOSION"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

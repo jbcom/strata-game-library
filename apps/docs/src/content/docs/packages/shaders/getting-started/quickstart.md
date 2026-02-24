@@ -1,3 +1,7 @@
+---
+title: "quickstart"
+---
+
 # Quickstart
 
 This guide will help you get started with PACKAGE_NAME.

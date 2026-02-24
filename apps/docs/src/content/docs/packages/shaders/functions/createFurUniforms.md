@@ -1,3 +1,7 @@
+---
+title: "createFurUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

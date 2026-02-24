@@ -1,3 +1,7 @@
+---
+title: "EXPLORATION_THEME"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

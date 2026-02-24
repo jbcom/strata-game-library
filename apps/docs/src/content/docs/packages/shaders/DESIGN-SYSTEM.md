@@ -1,3 +1,7 @@
+---
+title: "DESIGN-SYSTEM"
+---
+
 # jbcom Design System
 
 > **This is the definitive branding guide for ALL jbcom repositories.** All documentation sites MUST follow these specifications to ensure brand consistency across the ecosystem.

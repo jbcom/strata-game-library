@@ -1,3 +1,7 @@
+---
+title: "quadrupedToMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

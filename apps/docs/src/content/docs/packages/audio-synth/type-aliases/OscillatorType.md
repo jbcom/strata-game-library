@@ -1,3 +1,7 @@
+---
+title: "OscillatorType"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

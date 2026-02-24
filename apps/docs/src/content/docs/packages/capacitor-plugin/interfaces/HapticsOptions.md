@@ -1,3 +1,7 @@
+---
+title: "HapticsOptions"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

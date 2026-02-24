@@ -3,6 +3,8 @@ import type { SoundManager } from '../core/audio/sound-manager';
 import type { SystemFn } from '../core/ecs/types';
 import type { InputManager } from '../core/input';
 import type { GameStoreApi } from '../core/state';
+import type { BiomeType } from '../utils/texture-loader';
+import type { ConnectionType } from '../world/types';
 
 /**
  * Unique identifier for a game mode.
@@ -222,7 +224,7 @@ export interface RegionDefinition {
   center: [number, number, number];
   radius?: number;
   size?: [number, number, number];
-  biome?: string;
+  biome?: BiomeType;
   difficulty?: number;
 }
 
@@ -230,7 +232,7 @@ export interface ConnectionDefinition {
   id?: string;
   from: string;
   to: string;
-  type: string;
+  type: ConnectionType;
   fromPosition?: [number, number, number];
   toPosition?: [number, number, number];
   traversalMode?: string;
@@ -243,7 +245,7 @@ export interface Region {
   type: string;
   center: Vector3;
   bounds: any;
-  biome?: string;
+  biome?: BiomeType;
   difficulty: number;
   discovered: boolean;
   visitCount: number;

@@ -1,3 +1,7 @@
+---
+title: "ToonMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

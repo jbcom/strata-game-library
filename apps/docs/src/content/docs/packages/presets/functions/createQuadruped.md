@@ -1,3 +1,7 @@
+---
+title: "createQuadruped"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "raymarchingVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

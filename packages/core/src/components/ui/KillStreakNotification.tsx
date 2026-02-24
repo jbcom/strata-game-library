@@ -35,14 +35,13 @@ export function KillStreakNotification({
   const [currentStreak, setCurrentStreak] = useState(0);
 
   useEffect(() => {
-    if (streak >= 2) {
-      setCurrentStreak(streak);
-      setIsVisible(true);
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, duration);
-      return () => clearTimeout(timer);
-    }
+    if (streak < 2) return undefined;
+    setCurrentStreak(streak);
+    setIsVisible(true);
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, duration);
+    return () => clearTimeout(timer);
   }, [streak, duration]);
 
   if (!isVisible || currentStreak < 2) return null;

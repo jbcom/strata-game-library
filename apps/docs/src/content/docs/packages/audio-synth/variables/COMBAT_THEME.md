@@ -1,3 +1,7 @@
+---
+title: "COMBAT_THEME"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

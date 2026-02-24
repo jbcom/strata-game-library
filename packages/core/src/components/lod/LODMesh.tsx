@@ -150,7 +150,7 @@ export const LODMesh = forwardRef<LODMeshRef, LODMeshProps>(
         {levels.map((level, i) => (
           <mesh
             key={`lod-mesh-${level.distance}`}
-            ref={(el) => {
+            ref={(el: THREE.Mesh | null) => {
               if (el) meshRefs.current[i] = el;
             }}
             geometry={level.geometry}

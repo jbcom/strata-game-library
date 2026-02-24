@@ -1,3 +1,7 @@
+---
+title: "RARITY_MODIFIERS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

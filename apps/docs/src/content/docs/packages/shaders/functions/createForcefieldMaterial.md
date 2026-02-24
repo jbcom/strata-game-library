@@ -1,3 +1,7 @@
+---
+title: "createForcefieldMaterial"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "DeviceInfo"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

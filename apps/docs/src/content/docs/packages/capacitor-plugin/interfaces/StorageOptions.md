@@ -1,3 +1,7 @@
+---
+title: "StorageOptions"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

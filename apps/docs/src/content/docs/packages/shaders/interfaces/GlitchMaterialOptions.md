@@ -1,3 +1,7 @@
+---
+title: "GlitchMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

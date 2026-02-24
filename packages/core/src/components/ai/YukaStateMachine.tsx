@@ -17,15 +17,15 @@ class YukaState extends YUKA.State<YUKA.GameEntity> {
     this._onExit = config.onExit;
   }
 
-  enter(entity: YUKA.GameEntity): void {
+  override enter(entity: YUKA.GameEntity): void {
     if (this._onEnter) this._onEnter(entity);
   }
 
-  execute(entity: YUKA.GameEntity): void {
+  override execute(entity: YUKA.GameEntity): void {
     if (this._onExecute) this._onExecute(entity);
   }
 
-  exit(entity: YUKA.GameEntity): void {
+  override exit(entity: YUKA.GameEntity): void {
     if (this._onExit) this._onExit(entity);
   }
 }

@@ -1,3 +1,7 @@
+---
+title: "Vector2"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

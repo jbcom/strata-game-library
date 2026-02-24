@@ -1,3 +1,7 @@
+---
+title: "useAudioReady"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

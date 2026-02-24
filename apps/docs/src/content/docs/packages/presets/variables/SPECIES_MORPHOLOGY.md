@@ -1,3 +1,7 @@
+---
+title: "SPECIES_MORPHOLOGY"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

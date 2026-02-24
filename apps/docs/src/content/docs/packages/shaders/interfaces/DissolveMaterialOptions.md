@@ -1,3 +1,7 @@
+---
+title: "DissolveMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

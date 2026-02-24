@@ -1,3 +1,7 @@
+---
+title: "createSimpleTerrainUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

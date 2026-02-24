@@ -1,3 +1,7 @@
+---
+title: "WhiskerMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

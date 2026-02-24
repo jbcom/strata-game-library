@@ -1,3 +1,7 @@
+---
+title: "createVolumetricFogMeshUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "CrystalMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "SnoutMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

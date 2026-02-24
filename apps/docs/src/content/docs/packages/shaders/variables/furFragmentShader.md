@@ -1,3 +1,7 @@
+---
+title: "furFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

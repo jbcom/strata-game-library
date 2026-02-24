@@ -1,3 +1,7 @@
+---
+title: "volumetricCloudFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "ForcefieldMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "godRaysFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

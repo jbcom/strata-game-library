@@ -1,3 +1,7 @@
+---
+title: "createOutlineMaterial"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

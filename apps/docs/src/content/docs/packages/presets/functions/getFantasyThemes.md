@@ -1,3 +1,7 @@
+---
+title: "getFantasyThemes"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

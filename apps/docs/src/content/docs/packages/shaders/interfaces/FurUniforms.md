@@ -1,3 +1,7 @@
+---
+title: "FurUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

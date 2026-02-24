@@ -1,3 +1,7 @@
+---
+title: "BuildingParams"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

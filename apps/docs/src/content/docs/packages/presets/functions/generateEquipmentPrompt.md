@@ -1,3 +1,7 @@
+---
+title: "generateEquipmentPrompt"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

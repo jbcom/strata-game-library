@@ -1,3 +1,7 @@
+---
+title: "cloudLayerFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

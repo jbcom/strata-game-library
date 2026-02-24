@@ -1,3 +1,7 @@
+---
+title: "MusicNote"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

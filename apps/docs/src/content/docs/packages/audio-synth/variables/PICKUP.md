@@ -1,3 +1,7 @@
+---
+title: "PICKUP"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

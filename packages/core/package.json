@@ -203,14 +203,10 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
-    "@agentic-dev-library/triage": "^1.1.0",
-    "@agentic-dev-library/vitest-control": "github:agentic-dev-library/control#path:packages/vitest-agentic-control",
     "@playwright/test": "^1.57.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
     "@react-three/postprocessing": "^3.0.4",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
     "@testing-library/react": "^16.3.0",
     "@types/howler": "^2.2.12",
     "@types/node": "^25.0.2",
@@ -231,7 +227,6 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rimraf": "^6.1.2",
-    "semantic-release": "^25.0.2",
     "simplex-noise": "^4.0.3",
     "three": "^0.182.0",
     "tsup": "^8.5.1",

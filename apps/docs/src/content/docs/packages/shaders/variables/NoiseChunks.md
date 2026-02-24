@@ -1,3 +1,7 @@
+---
+title: "NoiseChunks"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

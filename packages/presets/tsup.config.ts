@@ -15,10 +15,13 @@ export default defineConfig({
 	}, {}),
 	format: ['esm'],
 
-	// DTS generation disabled — @strata-game-library/core has dts: false (R3F type issue)
-	// so .d.ts files are unavailable for deep subpath imports like core/weather.
-	// TODO: Re-enable once core re-enables its own DTS generation.
-	dts: false,
+	// DTS generation enabled — core now provides .d.ts files
+	dts: {
+		compilerOptions: {
+			// Follow workspace symlinks to resolve @strata-game-library/core types
+			preserveSymlinks: false,
+		},
+	},
 
 	clean: true,
 	sourcemap: true,

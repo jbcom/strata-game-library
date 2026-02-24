@@ -239,3 +239,7 @@ export class WorldGraph {
 export function createWorldGraph(definition: WorldGraphDefinition): WorldGraph {
   return new WorldGraph(definition);
 }
+
+export function isWorldGraph(obj: any): obj is WorldGraph {
+  return obj && typeof obj.getRegion === 'function';
+}

@@ -1,3 +1,7 @@
+---
+title: "noiseSnippet"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

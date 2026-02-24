@@ -1,3 +1,7 @@
+---
+title: "CloudLayerUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

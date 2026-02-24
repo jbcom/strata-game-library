@@ -1,3 +1,7 @@
+---
+title: "IUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -4,6 +4,7 @@ import { createRegistry } from '../game/Registry';
 import { createSceneManager } from '../game/SceneManager';
 import type { Game, GameDefinition } from '../game/types';
 import { createWorldGraph, isWorldGraph } from '../game/WorldGraph';
+import type { WorldGraphDefinition as WorldGraphDef } from '../world/types';
 
 /**
  * Creates a new Strata game instance from a declarative definition.
@@ -23,7 +24,7 @@ export function createGame(definition: GameDefinition): Game {
   // 2. Create world graph
   const worldGraph = isWorldGraph(definition.world)
     ? definition.world
-    : createWorldGraph(definition.world);
+    : createWorldGraph(definition.world as WorldGraphDef);
 
   // 3. Create ECS world
   const world = createWorld();

@@ -1,3 +1,7 @@
+---
+title: "COLLECTIBLE_DEFAULTS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

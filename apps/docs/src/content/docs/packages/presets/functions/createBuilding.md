@@ -1,3 +1,7 @@
+---
+title: "createBuilding"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

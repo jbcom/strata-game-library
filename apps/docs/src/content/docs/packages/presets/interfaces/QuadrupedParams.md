@@ -1,3 +1,7 @@
+---
+title: "QuadrupedParams"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

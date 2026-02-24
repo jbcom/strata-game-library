@@ -1,3 +1,7 @@
+---
+title: "createWaterUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

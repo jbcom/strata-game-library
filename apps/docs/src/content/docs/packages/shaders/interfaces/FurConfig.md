@@ -1,3 +1,7 @@
+---
+title: "FurConfig"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

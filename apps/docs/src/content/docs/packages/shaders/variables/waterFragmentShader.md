@@ -1,3 +1,7 @@
+---
+title: "waterFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

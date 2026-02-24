@@ -1,3 +1,7 @@
+---
+title: "createCollectible"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

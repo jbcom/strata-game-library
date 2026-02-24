@@ -26,8 +26,9 @@ export * from './game';
 // Export hooks
 export * from './hooks';
 
-// Export shaders
-export * from './shaders';
+// Shaders from @strata-game-library/shaders are available via the ./shaders subpath export.
+// They are not re-exported here to avoid duplicate export conflicts with ./core/shaders
+// (ShaderChunks, noiseSnippet). Import from '@strata-game-library/core/shaders' instead.
 
 // Export utils
 export * from './utils';

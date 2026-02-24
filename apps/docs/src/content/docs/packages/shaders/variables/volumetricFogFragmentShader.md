@@ -1,3 +1,7 @@
+---
+title: "volumetricFogFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

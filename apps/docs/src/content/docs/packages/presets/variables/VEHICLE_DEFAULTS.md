@@ -1,3 +1,7 @@
+---
+title: "VEHICLE_DEFAULTS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

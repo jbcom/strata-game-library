@@ -1,3 +1,7 @@
+---
+title: "EarMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

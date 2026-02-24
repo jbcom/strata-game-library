@@ -1,3 +1,7 @@
+---
+title: "suggestEquipmentStats"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

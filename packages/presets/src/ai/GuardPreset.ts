@@ -53,23 +53,23 @@ export function createGuardPreset(config: GuardPresetConfig): AIPresetResult {
   vehicle.steering.add(seekBehavior);
 
   class PatrolState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = patrolSpeed;
       followPathBehavior.active = true;
       seekBehavior.active = false;
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   class ChaseState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = chaseSpeed;
       followPathBehavior.active = false;
       seekBehavior.active = true;
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   const stateMachine = new YUKA.StateMachine(vehicle);

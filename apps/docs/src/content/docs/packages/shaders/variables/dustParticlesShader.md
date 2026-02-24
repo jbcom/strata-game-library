@@ -1,3 +1,7 @@
+---
+title: "dustParticlesShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

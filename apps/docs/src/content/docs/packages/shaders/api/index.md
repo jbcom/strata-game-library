@@ -1,3 +1,7 @@
+---
+title: "Api"
+---
+
 # API Reference
 
 Module documentation is auto-generated from the source code.

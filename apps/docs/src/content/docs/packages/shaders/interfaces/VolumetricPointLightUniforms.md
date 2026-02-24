@@ -1,3 +1,7 @@
+---
+title: "VolumetricPointLightUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,5 +1,5 @@
 ---
-title: README
+title: "Audio Synth"
 ---
 
 **@strata-game-library/audio-synth**

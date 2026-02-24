@@ -1,3 +1,7 @@
+---
+title: "UnderwaterOverlayUniforms"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

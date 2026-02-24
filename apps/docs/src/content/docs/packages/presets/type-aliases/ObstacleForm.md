@@ -1,3 +1,7 @@
+---
+title: "ObstacleForm"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

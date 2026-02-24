@@ -1,3 +1,7 @@
+---
+title: "instancingWindVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

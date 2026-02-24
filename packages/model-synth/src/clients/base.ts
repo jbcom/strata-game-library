@@ -9,8 +9,6 @@
  * - Error Codes: https://docs.meshy.ai/en/api/errors
  */
 
-import type { RequestInit, Response } from 'node-fetch';
-
 /**
  * Meshy rate limits per tier
  */
@@ -119,8 +117,6 @@ export abstract class MeshyBaseClient {
    * Make authenticated request with retry logic
    */
   protected async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const fetch = (await import('node-fetch')).default;
-
     // Rate limiting check
     await this.checkRateLimit();
 
@@ -142,7 +138,7 @@ export abstract class MeshyBaseClient {
 
         // Handle errors
         if (!response.ok) {
-          await this.handleErrorResponse(response as Response, attempt);
+          await this.handleErrorResponse(response, attempt);
         }
 
         // Success - record request time for rate limiting
@@ -267,16 +263,15 @@ export abstract class MeshyBaseClient {
    * Download file from URL (common across all APIs)
    */
   protected async downloadFile(url: string, outputPath: string): Promise<void> {
-    const fetch = (await import('node-fetch')).default;
     const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Failed to download from ${url}: ${response.status}`);
     }
 
-    const buffer = await response.buffer();
-    const fs = await import('fs');
-    const path = await import('path');
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const fs = await import('node:fs');
+    const path = await import('node:path');
 
     // Ensure directory exists
     const dir = path.dirname(outputPath);

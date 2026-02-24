@@ -1,3 +1,7 @@
+---
+title: "HAZARD_MODIFIERS"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

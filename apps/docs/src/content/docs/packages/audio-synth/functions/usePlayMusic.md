@@ -1,3 +1,7 @@
+---
+title: "usePlayMusic"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

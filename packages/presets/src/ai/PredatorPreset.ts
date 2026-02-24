@@ -64,7 +64,7 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
   }
 
   class PatrolState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = maxSpeed * 0.5;
       seekBehavior.active = false;
       if (followPathBehavior) {
@@ -74,12 +74,12 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
         wanderBehavior.active = true;
       }
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   class PursueState extends YUKA.State<YUKA.Vehicle> {
-    enter(entity: YUKA.Vehicle): void {
+    override enter(entity: YUKA.Vehicle): void {
       entity.maxSpeed = pursuitSpeed;
       wanderBehavior.active = false;
       if (followPathBehavior) {
@@ -87,8 +87,8 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
       }
       seekBehavior.active = true;
     }
-    execute(): void {}
-    exit(): void {}
+    override execute(): void {}
+    override exit(): void {}
   }
 
   const stateMachine = new YUKA.StateMachine(vehicle);

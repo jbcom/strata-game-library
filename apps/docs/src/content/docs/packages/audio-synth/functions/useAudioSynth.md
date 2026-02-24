@@ -1,3 +1,7 @@
+---
+title: "useAudioSynth"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

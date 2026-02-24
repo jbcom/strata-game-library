@@ -1,3 +1,7 @@
+---
+title: "InputMapping"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

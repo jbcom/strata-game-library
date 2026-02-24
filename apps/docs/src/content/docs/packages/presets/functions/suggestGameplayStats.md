@@ -1,3 +1,7 @@
+---
+title: "suggestGameplayStats"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

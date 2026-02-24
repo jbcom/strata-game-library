@@ -1,3 +1,7 @@
+---
+title: "underwaterShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

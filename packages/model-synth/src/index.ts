@@ -158,8 +158,7 @@ export class ModelSynth {
     tPose?: boolean;
   }): Promise<MeshyTask> {
     const makeRequest = async (url: string, init: RequestInit) => {
-      const fetch = (await import('node-fetch')).default;
-      const response = await fetch(url, init as import('node-fetch').RequestInit);
+      const response = await fetch(url, init);
       if (!response.ok) {
         throw new Error(`Request failed: ${response.status}`);
       }

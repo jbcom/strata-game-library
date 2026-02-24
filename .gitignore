@@ -41,3 +41,22 @@ junit.xml
 package-lock.json
 yarn.lock
 docs/api/
+
+# Core dumps (use /core to match only root-level, not packages/core/)
+/core
+*.core
+
+# PR review artifacts
+all_comments.json
+review_threads*.json
+cursor_review_comments.json
+pr_details*.json
+final_resolve_check.json
+unresolved_ids.txt
+
+# IDE/agent configs
+.cursor/
+.kiro/
+.Jules/
+.crew/
+.triage-recordings/

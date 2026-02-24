@@ -1,5 +1,5 @@
 ---
-title: README
+title: "Capacitor Plugin"
 ---
 
 **@strata-game-library/capacitor-plugin**

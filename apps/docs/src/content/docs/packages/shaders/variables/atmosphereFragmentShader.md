@@ -1,3 +1,7 @@
+---
+title: "atmosphereFragmentShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

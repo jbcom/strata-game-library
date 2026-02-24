@@ -1,3 +1,7 @@
+---
+title: "VehicleParams"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

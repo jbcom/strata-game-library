@@ -1,3 +1,7 @@
+---
+title: "godRaysVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

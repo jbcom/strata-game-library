@@ -1,3 +1,7 @@
+---
+title: "terrainVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

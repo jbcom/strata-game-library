@@ -1,5 +1,30 @@
-import { resolve } from 'node:path';
+import { createRequire } from 'node:module';
+import { dirname, resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
+
+const require = createRequire(import.meta.url);
+
+/**
+ * Resolve a package to its ESM entry point (the "module" field in package.json).
+ * Falls back to the default entry if no "module" field exists.
+ */
+function resolveEsmEntry(pkg: string): string {
+    const pkgJsonPath = require.resolve(`${pkg}/package.json`);
+    const pkgDir = dirname(pkgJsonPath);
+    const pkgJson = require(pkgJsonPath);
+    if (pkgJson.module) {
+        return resolve(pkgDir, pkgJson.module);
+    }
+    return pkgDir;
+}
+
+/**
+ * Resolve a package to its directory (for packages that need to be anchored
+ * to a specific location in pnpm's virtual store).
+ */
+function resolvePkgDir(pkg: string): string {
+    return dirname(require.resolve(`${pkg}/package.json`));
+}
 
 /**
  * Main Vitest configuration
@@ -33,12 +58,43 @@ export default defineConfig({
                 '**/*.config.ts',
                 '**/index.ts',
             ],
+            thresholds: {
+                lines: 60,
+                branches: 50,
+                functions: 60,
+                statements: 60,
+            },
+        },
+        // Inline @react-three/drei and tunnel-rat so Vite processes them
+        // through its transform pipeline instead of externalizing them to
+        // Node's native module resolution. This works together with the
+        // resolve.alias entries below to ensure ESM resolution.
+        server: {
+            deps: {
+                inline: ['@react-three/drei', 'tunnel-rat'],
+            },
         },
     },
     resolve: {
         alias: {
             '@jbcom/strata': resolve(__dirname, 'src'),
             '@jbcom/strata/core': resolve(__dirname, 'src/core'),
+            // Force ESM resolution for packages that ship dual CJS/ESM bundles.
+            // In Vitest's SSR mode, Vite resolves the "main" (CJS) field by
+            // default. The CJS entry of @react-three/drei loads tunnel-rat's CJS
+            // entry, which uses require('react') - this fails in the ESM + jsdom
+            // test environment. Aliasing to the "module" entry avoids this.
+            '@react-three/drei': resolveEsmEntry('@react-three/drei'),
+            'tunnel-rat': resolveEsmEntry('tunnel-rat'),
+            // Anchor react and react-dom to the versions installed in this
+            // package. tunnel-rat does not declare react as a peer dependency,
+            // so pnpm does not symlink react into tunnel-rat's node_modules.
+            // When Vite inlines tunnel-rat's ESM entry and encounters
+            // `import React from 'react'`, it cannot resolve react from
+            // tunnel-rat's location in the pnpm virtual store. These aliases
+            // ensure react is always resolvable.
+            react: resolvePkgDir('react'),
+            'react-dom': resolvePkgDir('react-dom'),
         },
     },
 });

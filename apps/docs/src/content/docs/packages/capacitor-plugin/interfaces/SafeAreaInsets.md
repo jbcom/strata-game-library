@@ -1,3 +1,7 @@
+---
+title: "SafeAreaInsets"
+---
+
 [**@strata-game-library/capacitor-plugin**](../README.md)
 
 ***

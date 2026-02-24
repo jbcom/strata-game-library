@@ -1,3 +1,7 @@
+---
+title: "CreatureTheme"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "TENSION_THEME"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

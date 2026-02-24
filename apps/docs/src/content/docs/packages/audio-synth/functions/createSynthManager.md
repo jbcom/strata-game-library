@@ -1,3 +1,7 @@
+---
+title: "createSynthManager"
+---
+
 [**@strata-game-library/audio-synth**](../README.md)
 
 ***

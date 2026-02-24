@@ -1,3 +1,7 @@
+---
+title: "ALL_THEMES"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***

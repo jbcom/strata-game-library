@@ -1,3 +1,7 @@
+---
+title: "waterVertexShader"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

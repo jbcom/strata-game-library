@@ -1,3 +1,7 @@
+---
+title: "ScanlineMaterialOptions"
+---
+
 [**@strata-game-library/shaders**](../README.md)
 
 ***

@@ -1,3 +1,7 @@
+---
+title: "CoatMorphology"
+---
+
 [**@strata-game-library/presets**](../README.md)
 
 ***
