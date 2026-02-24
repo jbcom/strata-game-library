@@ -15,7 +15,7 @@ Strata is built as a layered architecture, with each layer building on the previ
 │   Ready-to-use configurations, game state, controllers  │
 ├─────────────────────────────────────────────────────────┤
 │          Layer 3: React Three Fiber Components          │
-│   <Water>, <Terrain>, <GrassInstances>, <ProceduralSky> │
+│   <Water>, <GrassInstances>, <ProceduralSky>, <VolumetricFogMesh> │
 ├─────────────────────────────────────────────────────────┤
 │          Layer 2: Core Algorithms                       │
 │   SDF, Marching Cubes, Noise, Materials                 │
@@ -223,27 +223,28 @@ The highest layer provides ready-to-use configurations and game framework utilit
 ### Presets
 
 ```tsx
-import { createTerrainPreset, TerrainBiomes } from '@strata-game-library/presets/terrain';
-import { createWeatherPreset, WeatherPresets } from '@strata-game-library/presets/weather';
-import { createWaterPreset, WaterTypes } from '@strata-game-library/presets/water';
+import { tropicalOceanWater, arcticWater } from '@strata-game-library/presets';
 
-const terrain = createTerrainPreset({
-  biomes: [TerrainBiomes.GRASSLAND, TerrainBiomes.MOUNTAIN],
-  resolution: 128
-});
+// Apply a water preset directly
+<Water {...tropicalOceanWater} />
 
-const weather = createWeatherPreset(WeatherPresets.RAIN);
-const water = createWaterPreset(WaterTypes.OCEAN);
+// Or configure AI behaviors
+import { guardPreset, followerPreset } from '@strata-game-library/presets';
 ```
 
-### Game Framework (Coming Soon)
+### Game Framework
 
 ```tsx
-import {
-  useGameState,
-  useCharacterController,
-  useInventory
-} from '@strata-game-library/core/game';
+import { createGame, StrataGame } from '@strata-game-library/core/api';
+import { SceneManager, ModeManager, TriggerSystem } from '@strata-game-library/core/game';
+
+// Declarative game definition
+const game = createGame({
+  scenes: { overworld: { ... }, dungeon: { ... } },
+  modes: { exploration: { ... }, combat: { ... } },
+});
+
+<StrataGame game={game} />
 ```
 
 ## Package Structure
@@ -256,7 +257,7 @@ The core library with components, algorithms, and utilities:
 
 ```tsx
 // Main package - components
-import { Water, ProceduralSky, Terrain, GrassInstances } from '@strata-game-library/core';
+import { Water, ProceduralSky, GrassInstances, VolumetricFogMesh } from '@strata-game-library/core';
 
 // Subpath: Core algorithms
 import { marchingCubes, noise3D, sdSphere } from '@strata-game-library/core';
@@ -286,8 +287,8 @@ import {
 Pre-configured settings (requires `@strata-game-library/core`):
 
 ```tsx
-import { createTerrainPreset, TerrainBiomes } from '@strata-game-library/presets/terrain';
-import { createWaterPreset, WaterTypes } from '@strata-game-library/presets/water';
+import { tropicalOceanWater, arcticWater } from '@strata-game-library/presets';
+import { guardPreset, flockMemberPreset } from '@strata-game-library/presets';
 ```
 
 ### Mobile Plugins

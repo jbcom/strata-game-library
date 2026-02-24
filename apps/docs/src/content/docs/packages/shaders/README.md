@@ -1,53 +1,42 @@
 ---
-title: "Shaders"
+title: "Shaders Overview"
 ---
 
-# Documentation
+# Shaders Package
 
-This directory contains documentation for this project.
+`@strata-game-library/shaders` provides standalone GLSL shaders for Three.js applications.
 
-## Documentation Tooling
+## Shader Categories
 
-Choose the appropriate documentation tooling based on your project’s primary language:
+| Category | Shaders |
+|----------|---------|
+| **Terrain** | Heightmap blending, triplanar mapping, erosion |
+| **Water** | Gerstner waves, reflections, caustics, foam |
+| **Sky** | Atmospheric scattering, day/night, stars |
+| **Clouds** | Volumetric clouds, layered cloud planes |
+| **Volumetrics** | Fog, god rays, underwater, dust particles |
+| **Fur** | Shell-based fur rendering |
+| **Raymarching** | SDF raymarching utilities |
 
-| Language               | Tool           | Configuration Location     |
-|------------------------|----------------|----------------------------|
-| **Python**             | Sphinx         | Language-specific scaffold |
-| **TypeScript/Node.js** | TypeDoc        | Language-specific scaffold |
-| **Go**                 | godoc          | Built into Go toolchain    |
-| **Terraform**          | terraform-docs | Language-specific scaffold |
+## Usage
 
-## jbcom Brand Guidelines
+```tsx
+import { waterVertexShader, waterFragmentShader } from '@strata-game-library/shaders';
 
-All jbcom repositories follow a unified design system for consistent branding.
-
-See [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) for:
-
-- **Color Palette** - Cyan primary (#06b6d4), dark backgrounds
-- **Typography** - Space Grotesk (headings), Inter (body), JetBrains Mono (code)
-- **Accessibility** - WCAG AA compliance required
-
-## Directory Structure
-
-```default
-docs/
-├── README.md           # This file
-├── DESIGN-SYSTEM.md    # jbcom brand guidelines
-├── getting-started/    # User onboarding docs
-│   ├── installation.md
-│   └── quickstart.md
-└── development/        # Contributor docs
-    └── contributing.md
+const material = new THREE.ShaderMaterial({
+  vertexShader: waterVertexShader,
+  fragmentShader: waterFragmentShader,
+  uniforms: {
+    uTime: { value: 0 },
+    uWaterColor: { value: new THREE.Color(0x0077be) },
+  }
+});
 ```
 
-## Quick Start
+## Installation
 
-1. Choose your documentation tool based on language
-2. Apply the jbcom brand colors and typography
-3. Follow the structure conventions from DESIGN-SYSTEM.md
-4. Ensure accessibility requirements are met
+```bash
+pnpm add @strata-game-library/shaders
+```
 
-## Additional Resources
-
-- [jbcom Design System](DESIGN-SYSTEM.md) - Brand specifications
-- [GitHub Pages](https://pages.github.com/) - Hosting documentation
+See the [full shader reference](/shaders/) for all available exports.

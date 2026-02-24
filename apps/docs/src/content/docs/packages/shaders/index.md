@@ -1,36 +1,11 @@
 ---
-title: Index
+title: "@strata-game-library/shaders"
 ---
 
-<!-- PACKAGE_NAME documentation master file
-Synced from jbcom-control-center - customize for your project -->
+# @strata-game-library/shaders
 
-# PACKAGE_NAME Documentation
+Standalone GLSL shaders for Three.js -- terrain, water, sky, volumetrics, clouds, fur, and more.
 
-<!-- TODO: Add your project description here -->
+This package provides raw GLSL shader strings that work with any Three.js project, independent of React or React Three Fiber.
 
-# Getting Started
-
-* [Installation](getting-started/installation.md)
-  * [Requirements](getting-started/installation.md#requirements)
-  * [Install from PyPI](getting-started/installation.md#install-from-pypi)
-  * [Install from Source](getting-started/installation.md#install-from-source)
-  * [Development Installation](getting-started/installation.md#development-installation)
-* [Quickstart](getting-started/quickstart.md)
-  * [Basic Usage](getting-started/quickstart.md#basic-usage)
-  * [Next Steps](getting-started/quickstart.md#next-steps)
-
-# API Reference
-
-* [API Reference](api/index.md)
-  * [Modules](api/modules.md)
-
-# Development
-
-* [Contributing](development/contributing.md)
-
-## Indices and tables
-
-* [Index](genindex.md)
-* [Module Index](py-modindex.md)
-* [Search Page](search.md)
+See the [Shaders documentation](/shaders/) for usage guides and the API reference below for individual shader exports.
