@@ -2,79 +2,15 @@
  * @module Rendering
  * @category Rendering Pipeline
  *
- * Rendering Pipeline - Shaders, Post-Processing, and Materials
+ * Rendering Pipeline - Core utilities for shaders, post-processing, and materials.
  *
- * Low-level rendering tools for graphics programmers - custom shaders,
- * post-processing effects, and advanced materials.
- *
- * @example
- * ```tsx
- * import { CinematicEffects, ToonMesh, DissolveMesh } from '@jbcom/strata/api/rendering';
- *
- * function StylizedScene() {
- *   return (
- *     <>
- *       <CinematicEffects intensity={0.8} />
- *       <ToonMesh geometry={geometry} outlineWidth={0.02} />
- *       <DissolveMesh progress={0.5} edgeColor="cyan" />
- *     </>
- *   );
- * }
- * ```
+ * For React Three Fiber components, use @strata-game-library/r3f.
  */
 
 // GLSL Shaders (raw)
 export * from '@strata-game-library/shaders';
-export type {
-  CinematicEffectsProps,
-  CrystalMeshProps,
-  CrystalMeshRef,
-  DissolveMeshProps,
-  DissolveMeshRef,
-  DreamyEffectsProps,
-  DynamicDOFProps,
-  DynamicDOFRef,
-  EffectStackProps,
-  ForcefieldProps,
-  ForcefieldRef,
-  GlitchMeshProps,
-  GlitchMeshRef,
-  GradientMeshProps,
-  GradientMeshRef,
-  HologramMeshProps,
-  HologramMeshRef,
-  HorrorEffectsProps,
-  MotionBlurEffectProps,
-  NeonEffectsProps,
-  OutlineProps,
-  RealisticEffectsProps,
-  ToonMeshProps,
-  ToonMeshRef,
-  VintageEffectsProps,
-} from '../components';
-// Post-Processing Effects - React components
-// Stylized Shaders
-// Ray Marching - React component
-export {
-  CinematicEffects,
-  CrystalMesh,
-  DissolveMesh,
-  DreamyEffects,
-  DynamicDOF,
-  EffectStack,
-  Forcefield,
-  GlitchMesh,
-  GradientMesh,
-  HologramMesh,
-  HorrorEffects,
-  MotionBlurEffect,
-  NeonEffects,
-  Outline,
-  Raymarching,
-  RealisticEffects,
-  ToonMesh,
-  VintageEffects,
-} from '../components';
+
+// Core types
 export type {
   BloomSettings,
   BrightnessContrastSettings,
@@ -91,8 +27,8 @@ export type {
   ToneMappingSettings,
   VignetteSettings,
 } from '../core';
-// Post-Processing Effects - Core utilities
-// Ray Marching - Core utilities
+
+// Core utilities
 export {
   apertureToBokehScale,
   blendPostProcessingPresets,

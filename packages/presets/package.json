@@ -185,6 +185,7 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
     "@strata-game-library/core": "workspace:*",
+    "@strata-game-library/r3f": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/three": "^0.182.0",
     "@vitejs/plugin-react": "^5.1.2",
@@ -202,6 +203,7 @@
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.0",
     "@strata-game-library/core": ">=1.4.0",
+    "@strata-game-library/r3f": ">=0.1.0",
     "react": ">=18.0.0",
     "three": ">=0.150.0",
     "yuka": ">=0.7.0"

@@ -6,6 +6,11 @@ import type { GameStoreApi } from '../core/state';
 import type { BiomeType } from '../utils/texture-loader';
 import type { ConnectionType } from '../world/types';
 
+/** Renderer-agnostic node type — renderers provide their own concrete types. */
+type RendererNode = unknown;
+/** Renderer-agnostic component type — renderers provide their own concrete types. */
+type RendererComponent<P = Record<string, never>> = ((props: P) => RendererNode) | undefined;
+
 /**
  * Unique identifier for a game mode.
  */
@@ -68,8 +73,8 @@ export interface GameDefinition {
 
   // === UI ===
   ui?: {
-    hud?: React.ComponentType;
-    menus?: Record<string, React.ComponentType>;
+    hud?: RendererComponent;
+    menus?: Record<string, RendererComponent>;
     theme?: any; // UITheme
     fonts?: any[]; // FontDefinition
   };
@@ -157,13 +162,13 @@ export interface SceneDefinition {
   id: string;
   setup?: () => Promise<void>;
   teardown?: () => Promise<void>;
-  render: () => React.ReactNode;
-  ui?: () => React.ReactNode;
+  render: () => RendererNode;
+  ui?: () => RendererNode;
 }
 
 export interface SceneManagerConfig {
   initialScene: string;
-  loadingComponent?: React.ComponentType<{ progress: number }>;
+  loadingComponent?: RendererComponent<{ progress: number }>;
 }
 
 export interface SceneManager {
@@ -182,7 +187,7 @@ export interface ModeDefinition {
   id: string;
   systems: SystemFn<any>[];
   inputMap: any; // InputMapping
-  ui?: React.ComponentType<{ instance: ModeInstance }>;
+  ui?: RendererComponent<{ instance: ModeInstance }>;
   camera?: any;
   physics?: any;
   setup?: (props?: any) => Promise<void>;

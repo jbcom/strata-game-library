@@ -4,6 +4,9 @@
  * Powered by Miniplex, this module provides a reactive ECS architecture
  * optimized for managing complex game state and large numbers of entities.
  *
+ * For React hooks (useSystem, useScheduler) and React bindings (createReactAPI),
+ * use @strata-game-library/r3f.
+ *
  * @packageDocumentation
  * @module core/ecs
  * @category Game Systems
@@ -19,15 +22,12 @@
  */
 
 export { World } from 'miniplex';
-export { default as createReactAPI } from 'miniplex-react';
-export type { SystemScheduler, UseSystemOptions } from './systems';
+export type { SystemScheduler } from './systems';
 export {
   combineSystems,
   conditionalSystem,
   createSystem,
   createSystemScheduler,
-  useScheduler,
-  useSystem,
   withTiming,
 } from './systems';
 export type {

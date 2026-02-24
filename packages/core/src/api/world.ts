@@ -24,33 +24,7 @@
  * ```
  */
 
-export type {
-  CloudLayerProps,
-  CloudSkyProps,
-  TimeOfDayState,
-  VolumetricCloudsProps,
-} from '../components';
-// Water Systems
-// Vegetation
-// Sky & Atmosphere
-// Volumetric Effects
-export {
-  AdvancedWater,
-  CloudLayer,
-  CloudSky,
-  createTimeOfDay,
-  EnhancedFog,
-  GPUInstancedMesh,
-  GrassInstances,
-  ProceduralSky,
-  RockInstances,
-  TreeInstances,
-  UnderwaterOverlay,
-  VolumetricClouds,
-  VolumetricEffects,
-  VolumetricFogMesh,
-  Water,
-} from '../components';
+// Note: React components (Water, ProceduralSky, etc.) are now in @strata-game-library/r3f.
 export type {
   AdvancedWaterMaterialOptions,
   BiomeData,

@@ -1,7 +1,7 @@
 {
   "name": "@strata-game-library/core",
   "version": "1.4.11",
-  "description": "Procedural 3D graphics library for React Three Fiber - terrain, water, vegetation, sky, volumetrics, and characters",
+  "description": "Pure TypeScript algorithms for procedural 3D graphics - terrain, water, vegetation, sky, volumetrics, ECS, pathfinding, physics",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -10,10 +10,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.js"
     },
     "./shaders": {
       "types": "./dist/shaders/index.d.ts",
@@ -39,65 +35,113 @@
       "types": "./dist/world/index.d.ts",
       "import": "./dist/world/index.js"
     },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
-    },
     "./core": {
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js"
-    },
-    "./core/marching-cubes": {
-      "types": "./dist/core/marching-cubes.d.ts",
-      "import": "./dist/core/marching-cubes.js"
-    },
-    "./core/sdf": {
-      "types": "./dist/core/sdf.d.ts",
-      "import": "./dist/core/sdf.js"
-    },
-    "./core/instancing": {
-      "types": "./dist/core/instancing.d.ts",
-      "import": "./dist/core/instancing.js"
-    },
-    "./core/ui": {
-      "types": "./dist/core/ui.d.ts",
-      "import": "./dist/core/ui.js"
-    },
-    "./core/state": {
-      "types": "./dist/core/state/index.d.ts",
-      "import": "./dist/core/state/index.js"
-    },
-    "./core/weather": {
-      "types": "./dist/core/weather.d.ts",
-      "import": "./dist/core/weather.js"
-    },
-    "./core/ecs": {
-      "types": "./dist/core/ecs/index.d.ts",
-      "import": "./dist/core/ecs/index.js"
-    },
-    "./core/math": {
-      "types": "./dist/core/math/index.d.ts",
-      "import": "./dist/core/math/index.js"
-    },
-    "./core/audio": {
-      "types": "./dist/core/audio/index.d.ts",
-      "import": "./dist/core/audio/index.js"
     },
     "./core/animation": {
       "types": "./dist/core/animation/index.d.ts",
       "import": "./dist/core/animation/index.js"
     },
-    "./core/debug": {
-      "types": "./dist/core/debug/index.d.ts",
-      "import": "./dist/core/debug/index.js"
+    "./core/audio": {
+      "types": "./dist/core/audio/index.d.ts",
+      "import": "./dist/core/audio/index.js"
+    },
+    "./core/camera": {
+      "types": "./dist/core/camera.d.ts",
+      "import": "./dist/core/camera.js"
+    },
+    "./core/clouds": {
+      "types": "./dist/core/clouds.d.ts",
+      "import": "./dist/core/clouds.js"
+    },
+    "./core/decals": {
+      "types": "./dist/core/decals.d.ts",
+      "import": "./dist/core/decals.js"
+    },
+    "./core/ecs": {
+      "types": "./dist/core/ecs/index.d.ts",
+      "import": "./dist/core/ecs/index.js"
+    },
+    "./core/godRays": {
+      "types": "./dist/core/godRays.d.ts",
+      "import": "./dist/core/godRays.js"
+    },
+    "./core/input": {
+      "types": "./dist/core/input.d.ts",
+      "import": "./dist/core/input.js"
+    },
+    "./core/instancing": {
+      "types": "./dist/core/instancing.d.ts",
+      "import": "./dist/core/instancing.js"
+    },
+    "./core/lod": {
+      "types": "./dist/core/lod.d.ts",
+      "import": "./dist/core/lod.js"
+    },
+    "./core/marching-cubes": {
+      "types": "./dist/core/marching-cubes.d.ts",
+      "import": "./dist/core/marching-cubes.js"
+    },
+    "./core/math": {
+      "types": "./dist/core/math/index.d.ts",
+      "import": "./dist/core/math/index.js"
+    },
+    "./core/math/utils": {
+      "types": "./dist/core/math/utils.d.ts",
+      "import": "./dist/core/math/utils.js"
+    },
+    "./core/particles": {
+      "types": "./dist/core/particles.d.ts",
+      "import": "./dist/core/particles.js"
     },
     "./core/pathfinding": {
       "types": "./dist/core/pathfinding/index.d.ts",
       "import": "./dist/core/pathfinding/index.js"
     },
+    "./core/physics": {
+      "types": "./dist/core/physics.d.ts",
+      "import": "./dist/core/physics.js"
+    },
+    "./core/postProcessing": {
+      "types": "./dist/core/postProcessing.d.ts",
+      "import": "./dist/core/postProcessing.js"
+    },
+    "./core/raymarching": {
+      "types": "./dist/core/raymarching.d.ts",
+      "import": "./dist/core/raymarching.js"
+    },
+    "./core/sdf": {
+      "types": "./dist/core/sdf.d.ts",
+      "import": "./dist/core/sdf.js"
+    },
     "./core/shared": {
       "types": "./dist/core/shared/index.d.ts",
       "import": "./dist/core/shared/index.js"
+    },
+    "./core/sky": {
+      "types": "./dist/core/sky.d.ts",
+      "import": "./dist/core/sky.js"
+    },
+    "./core/state": {
+      "types": "./dist/core/state/index.d.ts",
+      "import": "./dist/core/state/index.js"
+    },
+    "./core/ui": {
+      "types": "./dist/core/ui.d.ts",
+      "import": "./dist/core/ui.js"
+    },
+    "./core/volumetrics": {
+      "types": "./dist/core/volumetrics.d.ts",
+      "import": "./dist/core/volumetrics.js"
+    },
+    "./core/water": {
+      "types": "./dist/core/water.d.ts",
+      "import": "./dist/core/water.js"
+    },
+    "./core/weather": {
+      "types": "./dist/core/weather.d.ts",
+      "import": "./dist/core/weather.js"
     }
   },
   "files": [
@@ -127,10 +171,7 @@
     "strata",
     "3d-graphics",
     "procedural-generation",
-    "three.js",
-    "react-three-fiber",
-    "r3f",
-    "webgl",
+    "algorithms",
     "sdf",
     "marching-cubes",
     "gpu-instancing",
@@ -138,12 +179,10 @@
     "volumetric",
     "terrain",
     "water",
-    "fog",
-    "vegetation",
-    "fur",
-    "character-animation",
-    "shaders",
-    "glsl"
+    "ecs",
+    "pathfinding",
+    "physics",
+    "animation"
   ],
   "author": "Jon Bogaty <jon@jonbogaty.com>",
   "license": "MIT",
@@ -160,72 +199,44 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@react-three/drei": ">=9.0.0",
-    "@react-three/fiber": ">=8.0.0",
-    "@react-three/rapier": ">=1.0.0",
-    "postprocessing": ">=6.0.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
     "three": ">=0.150.0",
-    "yuka": ">=0.7.0",
-    "zustand": ">=4.0.0"
+    "yuka": ">=0.7.0"
   },
   "peerDependenciesMeta": {
     "yuka": {
       "optional": true
     },
-    "@react-three/rapier": {
-      "optional": true
-    },
-    "postprocessing": {
-      "optional": true
-    },
-    "zustand": {
+    "three": {
       "optional": true
     }
   },
   "dependencies": {
     "@strata-game-library/shaders": "workspace:*",
     "@types/howler": "^2.2.12",
-    "@xstate/react": "^6.0.0",
     "howler": "^2.2.4",
     "immer": "^11.0.1",
-    "leva": "^0.10.1",
     "maath": "^0.10.8",
     "miniplex": "^2.0.0",
-    "miniplex-react": "^2.0.1",
     "ngraph.graph": "^20.1.1",
     "ngraph.path": "^1.6.1",
     "simplex-noise": "^4.0.3",
-    "tunnel-rat": "^0.1.2",
     "xstate": "^5.25.0",
     "zundo": "^2.3.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.4.2",
-    "@react-three/postprocessing": "^3.0.4",
-    "@testing-library/react": "^16.3.0",
     "@types/howler": "^2.2.12",
     "@types/node": "^25.0.2",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
     "@types/three": "^0.182.0",
     "@types/yuka": "^0.7.4",
     "@vitest/coverage-v8": "^4.0.15",
-    "@xstate/react": "^6.0.0",
     "glob": "^13.0.0",
     "howler": "^2.2.4",
     "jsdom": "^27.3.0",
-    "maath": "^0.10.8",
     "miniplex": "^2.0.0",
-    "miniplex-react": "^2.0.1",
     "ngraph.graph": "^20.1.1",
     "ngraph.path": "^1.6.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
     "rimraf": "^6.1.3",
     "simplex-noise": "^4.0.3",
     "three": "^0.182.0",

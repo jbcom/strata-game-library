@@ -1,18 +1,13 @@
 /**
- * @jbcom/strata
+ * @strata-game-library/core
  *
- * The complete solution for foreground, midground, and background layer
- * 3D gaming in Node.js. Provides terrain, water, vegetation, characters,
- * fur, shells, molecular rendering, and more.
+ * Pure TypeScript algorithms for procedural 3D graphics.
+ * Terrain, water, vegetation, ECS, pathfinding, physics, animation, and more.
  *
- * Organized into submodules for easy integration into your game.
- *
- * For granular imports, use submodule paths:
- * - @jbcom/strata/components - React Three Fiber components
- * - @jbcom/strata/shaders - GLSL shaders
+ * For React Three Fiber components, use @strata-game-library/r3f.
  *
  * @packageDocumentation
- * @module strata
+ * @module strata/core
  */
 
 // Export compositional system
@@ -22,9 +17,6 @@ export * from './core';
 
 // Export game orchestration
 export * from './game';
-
-// Export hooks
-export * from './hooks';
 
 // Shaders from @strata-game-library/shaders are available via the ./shaders subpath export.
 // They are not re-exported here to avoid duplicate export conflicts with ./core/shaders
@@ -36,6 +28,5 @@ export * from './utils';
 // Export world topology
 export * from './world';
 
-// Note: Components have overlapping exports with core.
-// Import from ./components directly if you need their specific versions.
-// The main entry point prioritizes core exports.
+// Note: React hooks and R3F components have been extracted to @strata-game-library/r3f.
+// Import from '@strata-game-library/r3f' for React Three Fiber integration.

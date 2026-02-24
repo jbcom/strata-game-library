@@ -2,54 +2,12 @@
  * @module Systems
  * @category Game Systems
  *
- * Game Systems - State Management, Save/Load, and ECS
+ * Game Systems - Core utilities for state management, save/load, and ECS.
  *
- * The infrastructure that powers your game - state management with
- * undo/redo, save/load, checkpoints, and entity component systems.
- *
- * @example
- * ```tsx
- * import { GameStateProvider, useGameState, useSaveLoad } from '@jbcom/strata/api/systems';
- *
- * function Game() {
- *   const { saveGame, loadGame } = useSaveLoad();
- *   const health = useGameState(state => state.player.health);
- *
- *   return <HealthDisplay health={health} onSave={saveGame} />;
- * }
- * ```
+ * For React Three Fiber components, use @strata-game-library/r3f.
  */
 
-export type {
-  AutoSaveConfig,
-  CheckpointData,
-  GameStateContextValue,
-  GameStateProviderProps,
-  GameStore,
-  GameStoreApi,
-  PersistGateProps,
-  StateChangeEvent,
-  StateDebuggerProps,
-  UseAutoSaveOptions,
-  UseAutoSaveReturn,
-  UseCheckpointReturn,
-  UseSaveLoadOptions,
-  UseSaveLoadReturn,
-  UseUndoReturn,
-} from '../components';
-// State Management - React components and hooks
-export {
-  GameStateContext,
-  GameStateProvider,
-  PersistGate,
-  StateDebugger,
-  useAutoSave,
-  useCheckpoint,
-  useGameState,
-  useGameStateContext,
-  useSaveLoad,
-  useUndo,
-} from '../components';
+// Core types
 export type {
   CheckpointOptions,
   GameStoreActions,
@@ -60,7 +18,8 @@ export type {
   StateListener,
   StoreConfig,
 } from '../core';
-// State Management - Core utilities
+
+// Core utilities
 export {
   calculateChecksum,
   create,

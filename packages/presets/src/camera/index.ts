@@ -8,7 +8,7 @@ import type {
   CinematicCameraProps,
   FollowCameraProps,
   OrbitCameraProps,
-} from '@strata-game-library/core/components';
+} from '@strata-game-library/r3f';
 import * as THREE from 'three';
 
 /**

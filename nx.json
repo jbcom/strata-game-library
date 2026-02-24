@@ -42,6 +42,7 @@
     "projects": [
       "@strata-game-library/shaders",
       "@strata-game-library/core",
+      "@strata-game-library/r3f",
       "@strata-game-library/presets",
       "@strata-game-library/audio-synth",
       "@strata-game-library/capacitor",

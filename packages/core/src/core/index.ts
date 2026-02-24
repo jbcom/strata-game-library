@@ -8,7 +8,7 @@ export * from './animation';
 export * from './audio';
 export * from './camera';
 export * from './clouds';
-export * from './debug';
+// Debug tools (React-dependent) moved to @strata-game-library/r3f
 export * from './decals';
 export * from './ecs';
 export * from './godRays';

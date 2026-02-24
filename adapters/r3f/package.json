@@ -1,0 +1,91 @@
+{
+  "name": "@strata-game-library/r3f",
+  "version": "0.1.0",
+  "description": "React Three Fiber components for Strata - terrain, water, vegetation, sky, volumetrics, physics, animation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": ["strata", "react-three-fiber", "r3f", "threejs", "3d", "webgl", "game"],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "adapters/r3f"
+  },
+  "bugs": { "url": "https://github.com/jbcom/strata-game-library/issues" },
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/r3f#readme",
+  "publishConfig": { "access": "public" },
+  "dependencies": {
+    "@strata-game-library/core": "workspace:*",
+    "@strata-game-library/shaders": "workspace:*",
+    "@types/howler": "^2.2.12",
+    "@xstate/react": "^6.0.0",
+    "howler": "^2.2.4",
+    "leva": "^0.10.1",
+    "miniplex-react": "^2.0.1",
+    "tunnel-rat": "^0.1.2"
+  },
+  "peerDependencies": {
+    "@react-three/drei": ">=9.0.0",
+    "@react-three/fiber": ">=8.0.0",
+    "@react-three/rapier": ">=1.0.0",
+    "postprocessing": ">=6.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "three": ">=0.150.0",
+    "yuka": ">=0.7.0",
+    "zustand": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "yuka": { "optional": true },
+    "@react-three/rapier": { "optional": true },
+    "postprocessing": { "optional": true },
+    "zustand": { "optional": true }
+  },
+  "devDependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.182.0",
+    "@types/yuka": "^0.7.4",
+    "@vitest/coverage-v8": "^4.0.15",
+    "jsdom": "^27.3.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "three": "^0.182.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15",
+    "yuka": "^0.7.8"
+  }
+}

@@ -23,63 +23,7 @@
  * ```
  */
 
-// Weather state from components
-export type {
-  AnimatedBillboardProps,
-  AnimatedBillboardRef,
-  BillboardProps,
-  BillboardRef,
-  DecalPoolProps,
-  DecalPoolRef,
-  DecalProps,
-  DecalRef,
-  GodRaysProps,
-  GodRaysRef,
-  ImpostorProps,
-  ImpostorRef,
-  LightningProps,
-  LODGroupProps,
-  LODGroupRef,
-  LODMeshProps,
-  LODMeshRef,
-  LODVegetationProps,
-  LODVegetationRef,
-  ParticleBurstProps,
-  ParticleEmitterProps,
-  ParticleEmitterRef,
-  RainProps,
-  SnowProps,
-  VolumetricPointLightProps,
-  VolumetricPointLightRef,
-  VolumetricSpotlightProps,
-  VolumetricSpotlightRef,
-  WeatherState,
-  WeatherSystemProps,
-} from '../components';
-// Particle Systems - React components
-// Weather Effects - React components
-// Decals & Billboards - React components
-// LOD System - React components
-// God Rays & Volumetric Lighting - React components
-export {
-  AnimatedBillboard,
-  Billboard,
-  Decal,
-  DecalPool,
-  GodRays,
-  Impostor,
-  Lightning,
-  LightShafts,
-  LODGroup,
-  LODMesh,
-  LODVegetation,
-  ParticleBurst,
-  ParticleEmitter,
-  Rain,
-  Snow,
-  VolumetricPointLight,
-  VolumetricSpotlight,
-} from '../components';
+// React components moved to @strata-game-library/r3f
 export type {
   BillboardConfig,
   DecalInstance,

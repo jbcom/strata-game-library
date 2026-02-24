@@ -30,6 +30,7 @@ export default defineConfig({
 	jsx: 'automatic',
 	external: [
 		'@strata-game-library/core',
+		'@strata-game-library/r3f',
 		'@react-three/fiber',
 		'react',
 		'three',

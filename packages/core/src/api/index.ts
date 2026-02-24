@@ -48,6 +48,6 @@ export * from './effects';
 export * from './entities';
 export * from './experience';
 export * from './rendering';
-export * from './StrataGame';
+// StrataGame moved to @strata-game-library/r3f (React-dependent)
 export * from './systems';
 export * from './world';

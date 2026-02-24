@@ -1,5 +1,7 @@
-import type React from 'react';
 import { create } from 'zustand';
+
+/** Renderer-agnostic node type — renderers provide their own concrete types. */
+export type RendererNode = unknown;
 
 /**
  * Represents a top-level game state with a complete render tree.
@@ -11,10 +13,10 @@ export interface Scene {
   setup: () => Promise<void>;
   /** Called after the scene is unloaded. Useful for cleanup. */
   teardown: () => Promise<void>;
-  /** React Three Fiber content to render for this scene. */
-  render: () => React.ReactNode;
+  /** Content to render for this scene. */
+  render: () => RendererNode;
   /** Optional 2D UI overlay for this scene. */
-  ui?: () => React.ReactNode;
+  ui?: () => RendererNode;
 }
 
 /**
@@ -23,8 +25,8 @@ export interface Scene {
 export interface SceneManagerConfig {
   /** The ID of the scene to load initially. */
   initialScene?: string;
-  /** Optional component to display during scene transitions. */
-  loadingComponent?: React.ComponentType<{ progress: number }>;
+  /** Optional loading component factory. */
+  loadingComponent?: (props: { progress: number }) => RendererNode;
 }
 
 /**

@@ -3,12 +3,8 @@ import { defineConfig } from 'tsup';
 /**
  * tsup configuration for @strata-game-library/core
  *
- * This configuration ensures the package works correctly in:
- * - Node.js ESM (with proper .js extensions)
- * - Bundlers (Vite, Webpack, esbuild)
- * - TypeScript projects with any moduleResolution setting
- *
- * @see https://github.com/strata-game-library/core/issues/128
+ * Pure TypeScript algorithms — NO React dependencies.
+ * React Three Fiber components are in @strata-game-library/r3f.
  */
 export default defineConfig({
 	// Entry points matching package.json exports
@@ -17,36 +13,47 @@ export default defineConfig({
 		index: 'src/index.ts',
 
 		// Subpath exports
-		'components/index': 'src/components/index.ts',
 		'shaders/index': 'src/shaders.ts',
 		'utils/index': 'src/utils/index.ts',
 		'api/index': 'src/api/index.ts',
 		'game/index': 'src/game/index.ts',
 		'compose/index': 'src/compose/index.ts',
 		'world/index': 'src/world/index.ts',
-		'hooks/index': 'src/hooks/index.ts',
 
 		// Core submodule exports
 		'core/index': 'src/core/index.ts',
-		'core/marching-cubes': 'src/core/marching-cubes.ts',
-		'core/sdf': 'src/core/sdf.ts',
-		'core/instancing': 'src/core/instancing.ts',
-		'core/ui': 'src/core/ui.ts',
-		'core/state/index': 'src/core/state/index.ts',
-		'core/weather': 'src/core/weather.ts',
-		'core/ecs/index': 'src/core/ecs/index.ts',
-		'core/math/index': 'src/core/math/index.ts',
-		'core/audio/index': 'src/core/audio/index.ts',
 		'core/animation/index': 'src/core/animation/index.ts',
-		'core/debug/index': 'src/core/debug/index.ts',
+		'core/audio/index': 'src/core/audio/index.ts',
+		'core/camera': 'src/core/camera.ts',
+		'core/clouds': 'src/core/clouds.ts',
+		'core/decals': 'src/core/decals.ts',
+		'core/ecs/index': 'src/core/ecs/index.ts',
+		'core/godRays': 'src/core/godRays.ts',
+		'core/input': 'src/core/input.ts',
+		'core/instancing': 'src/core/instancing.ts',
+		'core/lod': 'src/core/lod.ts',
+		'core/marching-cubes': 'src/core/marching-cubes.ts',
+		'core/math/index': 'src/core/math/index.ts',
+		'core/math/utils': 'src/core/math/utils.ts',
+		'core/particles': 'src/core/particles.ts',
 		'core/pathfinding/index': 'src/core/pathfinding/index.ts',
+		'core/physics': 'src/core/physics.ts',
+		'core/postProcessing': 'src/core/postProcessing.ts',
+		'core/raymarching': 'src/core/raymarching.ts',
+		'core/sdf': 'src/core/sdf.ts',
 		'core/shared/index': 'src/core/shared/index.ts',
+		'core/sky': 'src/core/sky.ts',
+		'core/state/index': 'src/core/state/index.ts',
+		'core/ui': 'src/core/ui.ts',
+		'core/volumetrics': 'src/core/volumetrics.ts',
+		'core/water': 'src/core/water.ts',
+		'core/weather': 'src/core/weather.ts',
 	},
 
 	// Output format - ESM only (the package is "type": "module")
 	format: ['esm'],
 
-	// DTS generation enabled — R3F JSX types provided by src/react-three-fiber.d.ts shim
+	// DTS generation enabled
 	dts: true,
 
 	// Clean output directory before each build
@@ -61,33 +68,21 @@ export default defineConfig({
 	// Target ES2022 (matches tsconfig)
 	target: 'ES2022',
 
-	// Preserve JSX for React Three Fiber
-	jsx: 'automatic',
-
 	// External packages (don't bundle dependencies)
 	external: [
 		'@strata-game-library/shaders',
-		'react',
-		'react-dom',
 		'three',
-		'@react-three/fiber',
-		'@react-three/drei',
-		'@react-three/rapier',
-		'@react-three/postprocessing',
-		'postprocessing',
 		'zustand',
 		'yuka',
 		'xstate',
-		'@xstate/react',
 		'howler',
-		'leva',
 		'maath',
+		'maath/misc',
+		'maath/random',
 		'miniplex',
-		'miniplex-react',
 		'ngraph.graph',
 		'ngraph.path',
 		'simplex-noise',
-		'tunnel-rat',
 		'zundo',
 		'immer',
 	],
