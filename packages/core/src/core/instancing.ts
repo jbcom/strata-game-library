@@ -9,7 +9,7 @@
  * @category Rendering Pipeline
  *
  * ## Interactive Demos
- * - 🎮 [Vegetation Showcase](https://github.com/jbcom/nodejs-strata/tree/main/examples/vegetation-showcase)
+ * - 🎮 [Vegetation Showcase](https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase)
  *
  * ## Why Instancing?
  * Traditional rendering creates a new draw call per object. GPU instancing sends geometry once,

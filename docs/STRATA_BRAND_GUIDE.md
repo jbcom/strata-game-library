@@ -396,7 +396,7 @@ Each subdomain maintains the Strata brand but with feature-specific accents:
   <p>The game framework for React Three Fiber</p>
   
   [![npm](https://img.shields.io/npm/v/@jbcom/strata)](https://www.npmjs.com/package/@jbcom/strata)
-  [![license](https://img.shields.io/github/license/jbcom/nodejs-strata)](LICENSE)
+  [![license](https://img.shields.io/github/license/jbcom/strata-game-library)](LICENSE)
 </div>
 ```
 
@@ -446,4 +446,4 @@ Each subdomain maintains the Strata brand but with feature-specific accents:
 
 *Brand Guide Version: 1.0.0*
 *Last Updated: December 23, 2025*
-*Maintained by: jbcom/nodejs-strata*
+*Maintained by: jbcom/strata-game-library*

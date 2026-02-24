@@ -10,17 +10,17 @@ GPU-accelerated instancing capable of rendering 10,000+ instances of grass, tree
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/vegetation-showcase/"
+  src="https://jbcom/strata-game-library/examples/vegetation-showcase/"
   class="showcase-iframe"
   title="Vegetation Demo"
   loading="lazy"
 ></iframe>
 
 <div class="demo-controls">
-  <a href="https://strata-game-library.github.io/examples/vegetation-showcase/" target="_blank" class="demo-btn">
+  <a href="https://jbcom/strata-game-library/examples/vegetation-showcase/" target="_blank" class="demo-btn">
     Open Full Screen ↗
   </a>
-  <a href="https://github.com/strata-game-library/examples/tree/main/vegetation-showcase" target="_blank" class="demo-btn">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/vegetation-showcase" target="_blank" class="demo-btn">
     View Source ↗
   </a>
 </div>

@@ -24,7 +24,7 @@ jobs:
   sync-docs:
     name: Build & Push Docs
     runs-on: ubuntu-latest
-    if: github.repository != 'strata-game-library/strata-game-library.github.io' && github.repository != 'strata-game-library/control-center'
+    if: github.repository != 'jbcom/strata-game-library' && github.repository != 'strata-game-library/control-center'
     steps:
       - uses: actions/checkout@v6
 
@@ -62,7 +62,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-          git clone https://x-access-token:${DOCS_TOKEN}@github.com/strata-game-library/strata-game-library.github.io.git central-docs
+          git clone https://x-access-token:${DOCS_TOKEN}@github.com/jbcom/strata-game-library.git central-docs
 
           # Target directory in Astro content
           TARGET_DIR="central-docs/src/content/docs/$REPO_ID"

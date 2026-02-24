@@ -260,7 +260,7 @@ Migrate from custom R3F implementation to @jbcom/strata for:
 [X] hours
 
 ### Related
-- jbcom/nodejs-strata#101 - EPIC: Strata Game Studio
+- jbcom/strata-game-library#101 - EPIC: Strata Game Studio
 ```
 
 ---

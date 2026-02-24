@@ -253,10 +253,10 @@ Each package needs proper TypeScript configuration for source maps and declarati
 
 ## Related Issues
 
-- [#85](https://github.com/jbcom/nodejs-strata/issues/85) - Remove type re-exports from presets
-- [#86](https://github.com/jbcom/nodejs-strata/issues/86) - Rename conflicting core exports
-- [#87](https://github.com/jbcom/nodejs-strata/issues/87) - Create Strata 2.0 Migration Guide
-- [#89](https://github.com/jbcom/nodejs-strata/issues/89) - Extract presets and shaders to standalone packages
+- [#85](https://github.com/jbcom/strata-game-library/issues/85) - Remove type re-exports from presets
+- [#86](https://github.com/jbcom/strata-game-library/issues/86) - Rename conflicting core exports
+- [#87](https://github.com/jbcom/strata-game-library/issues/87) - Create Strata 2.0 Migration Guide
+- [#89](https://github.com/jbcom/strata-game-library/issues/89) - Extract presets and shaders to standalone packages
 
 ## Migration from @jbcom/strata to @strata/*
 

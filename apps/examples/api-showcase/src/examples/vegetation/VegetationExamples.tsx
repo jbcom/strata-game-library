@@ -30,8 +30,8 @@ import * as THREE from 'three';
  * scene.add(grassMesh);
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts generateInstanceData}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts generateInstanceData}
  *
  * @category Basic
  * @apiExample createGrassInstances
@@ -78,7 +78,7 @@ export function Example_BasicGrassInstances() {
  * });
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
  * @param heightFunction - Custom function (x, z) => y for terrain following
  * @param seed - Random seed for deterministic placement
  * @param enableWind - Enable wind animation
@@ -152,8 +152,8 @@ export function Example_AdvancedGrassWithHeightFunction() {
  * ];
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts#L60 generateInstanceData}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/sdf.ts#L280 getBiomeAt}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts#L60 generateInstanceData}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/sdf.ts#L280 getBiomeAt}
  *
  * @category Advanced
  * @apiExample BiomeData, createGrassInstances
@@ -219,7 +219,7 @@ export function Example_MultiBiomeGrassDistribution() {
  * });
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L118 createTreeInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L118 createTreeInstances}
  *
  * @category Basic
  * @apiExample createTreeInstances
@@ -282,7 +282,7 @@ export function Example_TreeInstances() {
  * });
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L155 createRockInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L155 createRockInstances}
  *
  * @category Basic
  * @apiExample createRockInstances
@@ -350,8 +350,8 @@ export function Example_RockInstances() {
  * });
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L29 createVegetationMesh}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts#L85 createInstancedMesh}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L29 createVegetationMesh}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts#L85 createInstancedMesh}
  *
  * @category Advanced
  * @apiExample createVegetationMesh
@@ -427,8 +427,8 @@ export function Example_CustomVegetation() {
  * // Use this data for custom rendering or physics objects
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts#L60 generateInstanceData}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts#L85 createInstancedMesh}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts#L60 generateInstanceData}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts#L85 createInstancedMesh}
  *
  * @category Advanced
  * @apiExample generateInstanceData
@@ -514,7 +514,7 @@ export function Example_DirectInstanceGeneration() {
  * });
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts Vegetation API}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts Vegetation API}
  *
  * @category Complete
  * @apiExample Multi-layer vegetation scene

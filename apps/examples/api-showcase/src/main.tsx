@@ -37,7 +37,7 @@ function App() {
           examples of every Strata API.
         </p>
         <a
-          href="https://github.com/jbcom/nodejs-strata-examples/tree/main/api-showcase"
+          href="https://github.com/jbcom/strata-game-library/tree/main/api-showcase"
           style={{ color: '#06b6d4' }}
         >
           View Source

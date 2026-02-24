@@ -12,11 +12,11 @@
  * <iframe src="../../demos/water.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
  *
  * - 🎮 [Full Screen Water Demo](../../demos/water.html)
- * - 📦 [Water Scene Example](https://github.com/jbcom/nodejs-strata/tree/main/examples/water-scene)
+ * - 📦 [Water Scene Example](https://github.com/jbcom/strata-game-library/tree/main/examples/water-scene)
  *
  * ## API Documentation
  * - [Full API Reference](http://jonbogaty.com/nodejs-strata/api)
- * - [Examples → API Mapping](https://github.com/jbcom/nodejs-strata/blob/main/EXAMPLES_API_MAP.md#water-system-apis)
+ * - [Examples → API Mapping](https://github.com/jbcom/strata-game-library/blob/main/EXAMPLES_API_MAP.md#water-system-apis)
  *
  * @example
  * ```tsx

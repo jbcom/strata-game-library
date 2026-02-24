@@ -10,17 +10,17 @@ Procedural terrain generation using Signed Distance Functions (SDFs) and the Mar
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/basic-terrain/"
+  src="https://jbcom/strata-game-library/examples/basic-terrain/"
   class="showcase-iframe"
   title="Terrain Demo"
   loading="lazy"
 ></iframe>
 
 <div class="demo-controls">
-  <a href="https://strata-game-library.github.io/examples/basic-terrain/" target="_blank" class="demo-btn">
+  <a href="https://jbcom/strata-game-library/examples/basic-terrain/" target="_blank" class="demo-btn">
     Open Full Screen ↗
   </a>
-  <a href="https://github.com/strata-game-library/examples/tree/main/basic-terrain" target="_blank" class="demo-btn">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/basic-terrain" target="_blank" class="demo-btn">
     View Source ↗
   </a>
 </div>

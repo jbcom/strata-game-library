@@ -229,4 +229,4 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 
 ---
 
-*Master Issue: [GitHub Epic #50](https://github.com/jbcom/nodejs-strata/issues/50)*
+*Master Issue: [GitHub Epic #50](https://github.com/jbcom/strata-game-library/issues/50)*

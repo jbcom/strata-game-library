@@ -169,13 +169,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/strata-game-library/strata.git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
     "directory": "packages/presets"
   },
   "bugs": {
-    "url": "https://github.com/strata-game-library/strata/issues"
+    "url": "https://github.com/jbcom/strata-game-library/issues"
   },
-  "homepage": "https://github.com/strata-game-library/strata/tree/main/packages/presets#readme",
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/packages/presets#readme",
   "publishConfig": {
     "access": "public"
   },

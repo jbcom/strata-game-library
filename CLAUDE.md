@@ -9,12 +9,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **@jbcom/strata** - Evolving from a procedural 3D graphics library into a **complete game framework** for React Three Fiber.
 
 ### Current (Toolkit)
+
 Terrain, water, vegetation, sky, volumetrics, ECS, physics, AI, animation.
 
 ### In Development (Framework)
+
 Game orchestration, world topology, compositional objects, declarative game definition.
 
-**See:** [Architecture Docs](docs/architecture/README.md) | [Epic #50](https://github.com/jbcom/nodejs-strata/issues/50)
+**See:** [Architecture Docs](docs/architecture/README.md) | [Epic #50](https://github.com/jbcom/strata-game-library/issues/50)
 
 ## Quick Start
 
@@ -49,7 +51,7 @@ pnpm run demo              # Serve demo files
 
 ## Architecture
 
-```
+```text
 src/
 ├── core/           # Pure TypeScript (NO React imports!)
 │   ├── ai/         # AI logic and pathfinding
@@ -99,6 +101,7 @@ git commit -m "test: add pathfinding tests"             # → no release
 ## Quality Checklist
 
 Before completing work:
+
 - [ ] All tests pass (`pnpm run test`)
 - [ ] Linting passes (`pnpm run lint`)
 - [ ] Type checking passes (`pnpm run typecheck`)
@@ -107,7 +110,7 @@ Before completing work:
 
 ## Project Structure
 
-```
+```text
 .
 ├── src/                 # Source code
 ├── tests/               # Test files
@@ -184,4 +187,3 @@ const game = createGame({
 
 <StrataGame game={game} />
 ```
-

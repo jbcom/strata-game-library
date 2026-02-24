@@ -27,8 +27,8 @@ import * as THREE from 'three';
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/sky.ts#L32 createSkyMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/sky.ts#L32 createSkyMaterial}
  *
  * @category Basic
  * @apiExample ProceduralSky
@@ -69,7 +69,7 @@ export function Example_BasicSky() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Preset
  * @apiExample ProceduralSky - Dawn
@@ -114,7 +114,7 @@ export function Example_DawnSky() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Preset
  * @apiExample ProceduralSky - Noon
@@ -159,7 +159,7 @@ export function Example_NoonSky() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Preset
  * @apiExample ProceduralSky - Sunset
@@ -204,7 +204,7 @@ export function Example_SunsetSky() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Preset
  * @apiExample ProceduralSky - Night
@@ -253,7 +253,7 @@ export function Example_NightSky() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Preset
  * @apiExample ProceduralSky with Weather
@@ -318,7 +318,7 @@ export function Example_StormySky() {
  * }
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx#L56 ProceduralSky}
  *
  * @category Advanced
  * @apiExample Animated Day/Night Cycle
@@ -365,8 +365,8 @@ export function Example_AnimatedDayNightCycle() {
  * const fogMesh = new THREE.Mesh(fogGeometry, fogMaterial);
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/volumetrics.ts#L37 createVolumetricFogMeshMaterial}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/shaders/volumetrics-components.ts Volumetrics Shaders}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/volumetrics.ts#L37 createVolumetricFogMeshMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/shaders/volumetrics-components.ts Volumetrics Shaders}
  *
  * @category Advanced
  * @apiExample createVolumetricFogMeshMaterial
@@ -420,7 +420,7 @@ export function Example_VolumetricFog() {
  * }
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/volumetrics.ts#L73 createUnderwaterOverlayMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/volumetrics.ts#L73 createUnderwaterOverlayMaterial}
  *
  * @category Advanced
  * @apiExample createUnderwaterOverlayMaterial
@@ -499,8 +499,8 @@ export function Example_UnderwaterEffect() {
  * }
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/components/Sky.tsx ProceduralSky}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/volumetrics.ts Volumetrics}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/components/Sky.tsx ProceduralSky}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/volumetrics.ts Volumetrics}
  *
  * @category Complete
  * @apiExample Complete atmospheric scene

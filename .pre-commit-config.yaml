@@ -53,7 +53,7 @@ repos:
     hooks:
       - id: markdownlint
         args: [--fix, --disable, MD013, MD033, MD041, --]
-        exclude: ^(CHANGELOG\.md|docs/|apps/docs/)
+        exclude: ^(CHANGELOG\.md|docs/|apps/docs/|memory-bank/|STRATA_2_0_PLAN\.md|DEMO_GALLERY_IMPLEMENTATION\.md)
 
   # ===========================================
   # Shell script linting

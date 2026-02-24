@@ -39,7 +39,7 @@ Clone the examples repository and run locally for the best experience:
 
 ```bash
 # Clone examples
-git clone https://github.com/strata-game-library/examples.git
+git clone https://github.com/jbcom/strata-game-library.git
 cd examples
 
 # Install dependencies
@@ -80,11 +80,11 @@ If performance is poor, try:
 
 Every demo includes source code that you can use directly in your projects:
 
-- [Basic Terrain Source](https://github.com/strata-game-library/examples/tree/main/basic-terrain)
-- [Water Scene Source](https://github.com/strata-game-library/examples/tree/main/water-scene)
-- [Vegetation Showcase Source](https://github.com/strata-game-library/examples/tree/main/vegetation-showcase)
-- [Sky Volumetrics Source](https://github.com/strata-game-library/examples/tree/main/sky-volumetrics)
-- [API Showcase Source](https://github.com/strata-game-library/examples/tree/main/api-showcase)
+- [Basic Terrain Source](https://github.com/jbcom/strata-game-library/tree/main/basic-terrain)
+- [Water Scene Source](https://github.com/jbcom/strata-game-library/tree/main/water-scene)
+- [Vegetation Showcase Source](https://github.com/jbcom/strata-game-library/tree/main/vegetation-showcase)
+- [Sky Volumetrics Source](https://github.com/jbcom/strata-game-library/tree/main/sky-volumetrics)
+- [API Showcase Source](https://github.com/jbcom/strata-game-library/tree/main/api-showcase)
 
 ## Related
 

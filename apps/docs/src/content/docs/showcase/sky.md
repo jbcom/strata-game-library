@@ -10,17 +10,17 @@ Physically-based atmospheric scattering with dynamic day/night cycle, stars, vol
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/sky-volumetrics/"
+  src="https://jbcom/strata-game-library/examples/sky-volumetrics/"
   class="showcase-iframe"
   title="Sky & Volumetrics Demo"
   loading="lazy"
 ></iframe>
 
 <div class="demo-controls">
-  <a href="https://strata-game-library.github.io/examples/sky-volumetrics/" target="_blank" class="demo-btn">
+  <a href="https://jbcom/strata-game-library/examples/sky-volumetrics/" target="_blank" class="demo-btn">
     Open Full Screen ↗
   </a>
-  <a href="https://github.com/strata-game-library/examples/tree/main/sky-volumetrics" target="_blank" class="demo-btn">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/sky-volumetrics" target="_blank" class="demo-btn">
     View Source ↗
   </a>
 </div>

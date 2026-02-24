@@ -122,7 +122,7 @@ curl -X POST 'https://jules.googleapis.com/v1alpha/sessions' \
   -d '{
     "prompt": "Refactor the ECS system...",
     "sourceContext": {
-      "source": "sources/github/jbcom/nodejs-strata",
+      "source": "sources/github/jbcom/strata-game-library",
       "githubRepoContext": { "startingBranch": "main" }
     },
     "automationMode": "AUTO_CREATE_PR",
@@ -152,7 +152,7 @@ curl -X POST 'https://api.cursor.com/agents/launch' \
   -u "$CURSOR_API_KEY:" \
   -H 'Content-Type: application/json' \
   -d '{
-    "repository": "jbcom/nodejs-strata",
+    "repository": "jbcom/strata-game-library",
     "task": "Implement WebGPU rendering backend",
     "branch": "main"
   }'

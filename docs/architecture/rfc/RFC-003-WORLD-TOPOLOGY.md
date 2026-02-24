@@ -1,8 +1,8 @@
 # RFC-003: World Topology System
 
 > **Status**: Proposed
-> **Issue**: [#53](https://github.com/jbcom/nodejs-strata/issues/53)
-> **Epic**: [#50](https://github.com/jbcom/nodejs-strata/issues/50)
+> **Issue**: [#53](https://github.com/jbcom/strata-game-library/issues/53)
+> **Epic**: [#50](https://github.com/jbcom/strata-game-library/issues/50)
 
 ## Summary
 

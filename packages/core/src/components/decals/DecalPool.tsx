@@ -79,7 +79,7 @@ interface PooledDecal {
  * };
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/tree/main/examples Example demos}
+ * @see {@link https://github.com/jbcom/strata-game-library/tree/main/examples Example demos}
  */
 export const DecalPool = forwardRef<DecalPoolRef, DecalPoolProps>(
   (

@@ -2,7 +2,7 @@
 /**
  * Simple Jules API wrapper for creating sessions
  * Usage: JULES_API_KEY=xxx node scripts/jules-session.mjs <repo> "<prompt>"
- * 
+ *
  * For local interactive use: npx @google/jules
  */
 
@@ -96,7 +96,7 @@ Commands:
 Usage:
   JULES_API_KEY=xxx node scripts/jules-session.mjs sources
   JULES_API_KEY=xxx node scripts/jules-session.mjs sessions
-  JULES_API_KEY=xxx node scripts/jules-session.mjs create jbcom/nodejs-strata "Fix issue #85"
+  JULES_API_KEY=xxx node scripts/jules-session.mjs create jbcom/strata-game-library "Fix issue #85"
 
 For interactive local use:
   npx @google/jules

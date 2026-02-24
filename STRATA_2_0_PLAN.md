@@ -559,33 +559,33 @@ Issues are tracked in jbcom organization projects:
 
 | Issue | Title | Milestone | Project |
 |-------|-------|-----------|---------|
-| [#50](https://github.com/jbcom/nodejs-strata/issues/50) | EPIC: Strata Game Framework | M5-M8 | Roadmap ✅ |
-| [#84](https://github.com/jbcom/nodejs-strata/issues/84) | EPIC: Strata 2.0 Export Reorganization | M1-M2 | Roadmap ✅ |
-| [#85](https://github.com/jbcom/nodejs-strata/issues/85) | Remove type re-exports from presets | M1 | Ecosystem ✅ |
-| [#86](https://github.com/jbcom/nodejs-strata/issues/86) | Rename conflicting core exports | M1 | Ecosystem ✅ |
-| [#87](https://github.com/jbcom/nodejs-strata/issues/87) | Create Strata 2.0 Migration Guide | M1 | Ecosystem ✅ |
-| [#88](https://github.com/jbcom/nodejs-strata/issues/88) | Clean up internal/triage | M2 | Ecosystem ✅ |
-| [#89](https://github.com/jbcom/nodejs-strata/issues/89) | Extract presets and shaders to packages | M2 | Ecosystem ✅ |
+| [#50](https://github.com/jbcom/strata-game-library/issues/50) | EPIC: Strata Game Framework | M5-M8 | Roadmap ✅ |
+| [#84](https://github.com/jbcom/strata-game-library/issues/84) | EPIC: Strata 2.0 Export Reorganization | M1-M2 | Roadmap ✅ |
+| [#85](https://github.com/jbcom/strata-game-library/issues/85) | Remove type re-exports from presets | M1 | Ecosystem ✅ |
+| [#86](https://github.com/jbcom/strata-game-library/issues/86) | Rename conflicting core exports | M1 | Ecosystem ✅ |
+| [#87](https://github.com/jbcom/strata-game-library/issues/87) | Create Strata 2.0 Migration Guide | M1 | Ecosystem ✅ |
+| [#88](https://github.com/jbcom/strata-game-library/issues/88) | Clean up internal/triage | M2 | Ecosystem ✅ |
+| [#89](https://github.com/jbcom/strata-game-library/issues/89) | Extract presets and shaders to packages | M2 | Ecosystem ✅ |
 
 ### Sub-Package: nodejs-strata-shaders
 
 | Issue | Title | Milestone | Project |
 |-------|-------|-----------|---------|
-| [#1](https://github.com/jbcom/nodejs-strata-shaders/issues/1) | Initial setup: Extract shaders from nodejs-strata | M2 | Ecosystem ✅ |
+| [#1](https://github.com/jbcom/strata-game-library/issues/1) | Initial setup: Extract shaders from nodejs-strata | M2 | Ecosystem ✅ |
 
 ### Sub-Package: nodejs-strata-presets
 
 | Issue | Title | Milestone | Project |
 |-------|-------|-----------|---------|
-| [#1](https://github.com/jbcom/nodejs-strata-presets/issues/1) | Initial setup: Extract presets from nodejs-strata | M2 | Ecosystem ✅ |
+| [#1](https://github.com/jbcom/strata-game-library/issues/1) | Initial setup: Extract presets from nodejs-strata | M2 | Ecosystem ✅ |
 
 ### Sub-Package: nodejs-strata-examples
 
 | Issue | Title | Milestone | Project |
 |-------|-------|-----------|---------|
-| [#2](https://github.com/jbcom/nodejs-strata-examples/issues/2) | CI/CD to verify examples build with latest strata | M4 | Ecosystem ✅ |
-| [#3](https://github.com/jbcom/nodejs-strata-examples/issues/3) | Deploy examples to GitHub Pages | M4 | Ecosystem ✅ |
-| [#4](https://github.com/jbcom/nodejs-strata-examples/issues/4) | Migrate examples from main strata repo | M2 | Ecosystem ✅ |
+| [#2](https://github.com/jbcom/strata-game-library/issues/2) | CI/CD to verify examples build with latest strata | M4 | Ecosystem ✅ |
+| [#3](https://github.com/jbcom/strata-game-library/issues/3) | Deploy examples to GitHub Pages | M4 | Ecosystem ✅ |
+| [#4](https://github.com/jbcom/strata-game-library/issues/4) | Migrate examples from main strata repo | M2 | Ecosystem ✅ |
 
 ### Content Migration Plan
 
@@ -689,7 +689,7 @@ All v2.0 issues should have:
 
 ## Part 10: Strata Game Studio Vision
 
-> **New Epic: [#101](https://github.com/jbcom/nodejs-strata/issues/101) - Strata Game Studio**
+> **New Epic: [#101](https://github.com/jbcom/strata-game-library/issues/101) - Strata Game Studio**
 
 ### Unified Platform Architecture
 
@@ -793,10 +793,10 @@ nodejs-strata-studio/          # Monorepo (from typescript-tutor)
 
 | Repo | Issue | Title |
 |------|-------|-------|
-| nodejs-strata | [#101](https://github.com/jbcom/nodejs-strata/issues/101) | EPIC: Strata Game Studio |
-| typescript-tutor | [#1](https://github.com/jbcom/nodejs-strata-typescript-tutor/issues/1) | Consolidation as Professor Pixel frontend |
-| typescript-tutor | [#25](https://github.com/jbcom/nodejs-strata-typescript-tutor/issues/25) | Convert lessons to TypeScript/Strata |
-| typescript-tutor | [#26](https://github.com/jbcom/nodejs-strata-typescript-tutor/issues/26) | Full Strata sub-package alignment |
+| nodejs-strata | [#101](https://github.com/jbcom/strata-game-library/issues/101) | EPIC: Strata Game Studio |
+| typescript-tutor | [#1](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/1) | Consolidation as Professor Pixel frontend |
+| typescript-tutor | [#25](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/25) | Convert lessons to TypeScript/Strata |
+| typescript-tutor | [#26](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/26) | Full Strata sub-package alignment |
 | python-agentic-game-dev | [#1](https://github.com/jbcom/python-agentic-game-development/issues/1) | Merge into unified platform |
 | rust-agentic-game-generator | [#21](https://github.com/jbcom/rust-agentic-game-generator/issues/21) | Split and align with ecosystem |
 

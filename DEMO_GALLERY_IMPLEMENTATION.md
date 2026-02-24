@@ -7,6 +7,7 @@ This document summarizes the comprehensive demo gallery and showcase system impl
 ## Problem Statement
 
 Strata has an incredible API covering:
+
 - Vegetation systems (GPU instancing, biomes)
 - Water rendering (caustics, reflections, foam)
 - Sky & atmosphere (day/night, weather, volumetrics)
@@ -30,16 +31,16 @@ Every example includes:
 ```typescript
 /**
  * Example Name: Feature Description
- * 
+ *
  * @example
  * ```tsx
  * // Copy-paste ready code
  * const mesh = createGrassInstances(1000, 50, biomes);
  * ```
- * 
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/instancing.ts generateInstanceData}
- * 
+ *
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/instancing.ts generateInstanceData}
+ *
  * @category Basic|Advanced|Complete
  * @apiExample createGrassInstances
  */
@@ -61,6 +62,7 @@ export function Example_FeatureName() {
 **26 comprehensive examples** organized by system:
 
 #### Vegetation System (8 examples)
+
 - `Example_BasicGrassInstances` - Simple grass placement
 - `Example_AdvancedGrassWithHeightFunction` - Terrain-following grass
 - `Example_MultiBiomeGrassDistribution` - Biome-based density
@@ -71,6 +73,7 @@ export function Example_FeatureName() {
 - `Example_CompleteVegetationScene` - Full integration
 
 **APIs Demonstrated**:
+
 - `createGrassInstances(count, areaSize, biomes, options)`
 - `createTreeInstances(count, areaSize, biomes, options)`
 - `createRockInstances(count, areaSize, biomes, options)`
@@ -79,6 +82,7 @@ export function Example_FeatureName() {
 - `BiomeData` type system
 
 #### Water System (8 examples)
+
 - `Example_BasicWater` - Simple animated water
 - `Example_AdvancedWaterWithCaustics` - Full-featured water
 - `Example_CustomWaterMaterial` - Core API usage
@@ -89,12 +93,14 @@ export function Example_FeatureName() {
 - `Example_CompleteWaterScene` - Full setup
 
 **APIs Demonstrated**:
+
 - `<Water>` component
 - `<AdvancedWater>` component
 - `createWaterMaterial()`
 - `createAdvancedWaterMaterial(options)`
 
 #### Sky & Volumetrics (10 examples)
+
 - `Example_BasicSky` - Default sky
 - `Example_DawnSky` - Dawn preset
 - `Example_NoonSky` - Noon preset
@@ -107,6 +113,7 @@ export function Example_FeatureName() {
 - `Example_CompleteAtmosphericScene` - Full atmosphere
 
 **APIs Demonstrated**:
+
 - `<ProceduralSky>` component
 - `TimeOfDayState` type
 - `WeatherState` type
@@ -117,9 +124,11 @@ export function Example_FeatureName() {
 ### 2. Interactive Demonstrations
 
 #### Vegetation Showcase
+
 **File**: `examples/vegetation-showcase/`
 
 **Features**:
+
 - Up to 50,000 GPU-instanced objects
 - Interactive Leva controls for:
   - Grass count (0-20,000)
@@ -133,15 +142,18 @@ export function Example_FeatureName() {
 - Real-time performance stats
 
 **Demonstrates**:
+
 - Full vegetation API
 - Biome system
 - Performance optimization
 - Interactive parameter tuning
 
 #### Sky & Volumetrics Showcase
+
 **File**: `examples/sky-volumetrics/`
 
 **Features**:
+
 - Time-of-day presets:
   - Custom
   - Dawn
@@ -160,6 +172,7 @@ export function Example_FeatureName() {
 - Performance monitoring
 
 **Demonstrates**:
+
 - Sky API
 - Weather system
 - Time-of-day transitions
@@ -168,13 +181,16 @@ export function Example_FeatureName() {
 ### 3. Documentation Infrastructure
 
 #### EXAMPLES_API_MAP.md
+
 Complete cross-reference document mapping:
+
 - Every API method to its examples
 - Examples to their source files
 - Parameters to their demonstrations
 - Use cases to relevant examples
 
 **Structure**:
+
 ```markdown
 ## API Method Name
 
@@ -192,19 +208,23 @@ Complete cross-reference document mapping:
 ```
 
 #### Enhanced README.md
+
 - Better showcase section with online demo links
 - Clear call-to-action for demo gallery
 - Links to all documentation resources
 - Emphasis on JSDoc-linked examples
 
 #### examples/README.md
+
 - Comprehensive guide to all examples
 - How to run each example
 - What each example demonstrates
 - API coverage information
 
 #### examples/api-showcase/README.md
+
 Detailed guide to the JSDoc-linked system:
+
 - How to use the examples
 - How to find examples by API
 - How to find examples by feature
@@ -216,6 +236,7 @@ Detailed guide to the JSDoc-linked system:
 **File**: `docs/index.html`
 
 Enhanced the main demo gallery page with:
+
 - Links to comprehensive examples
 - Visual showcase of each feature
 - Clear navigation structure
@@ -227,6 +248,7 @@ Enhanced the main demo gallery page with:
 **TypeDoc API Documentation**: 651+ files generated in `docs/api/`
 
 Includes:
+
 - Complete API reference
 - Type definitions
 - Function signatures
@@ -239,28 +261,33 @@ All with JSDoc annotations preserved and rendered.
 ## Benefits of This Approach
 
 ### 1. Discoverability
+
 - Every API method is findable through examples
 - Examples are searchable by API, category, feature
 - EXAMPLES_API_MAP provides quick lookup
 
 ### 2. Traceability
+
 - JSDoc `@see` tags link directly to GitHub source
 - Developers can see both example AND implementation
 - Changes to API are easy to track to affected examples
 
 ### 3. Learnability
+
 - Progressive complexity (Basic → Advanced → Complete)
 - Copy-paste ready code
 - Working implementations, not pseudocode
 - Explains WHY not just HOW
 
 ### 4. Maintainability
+
 - Examples stay in sync with API through JSDoc
 - TypeDoc generates documentation automatically
 - Consistent structure makes updates easy
 - Clear ownership of each example
 
 ### 5. Reusability
+
 - Production-quality code
 - Proper error handling
 - Performance optimizations
@@ -278,14 +305,14 @@ All with JSDoc annotations preserved and rendered.
 
 /**
  * Example N: [Feature Name]
- * 
+ *
  * [Description]
- * 
+ *
  * @example
  * ```tsx
  * // Usage code
  * ```
- * 
+ *
  * @see {@link [GitHub URL] API Name}
  * @category [Basic|Advanced|Complete]
  * @apiExample [API Method Name]
@@ -319,6 +346,7 @@ Every example returns structured metadata:
 ```
 
 This metadata can power:
+
 - Interactive documentation browsers
 - Example search engines
 - API coverage reports
@@ -327,6 +355,7 @@ This metadata can power:
 ## Files Created/Modified
 
 ### New Files (27)
+
 - `examples/api-showcase/README.md`
 - `examples/api-showcase/package.json`
 - `examples/api-showcase/src/examples/index.ts`
@@ -339,11 +368,13 @@ This metadata can power:
 - `DEMO_GALLERY_IMPLEMENTATION.md`
 
 ### Modified Files (3)
+
 - `README.md` - Enhanced showcase section
 - `examples/README.md` - Added new examples
 - `docs/index.html` - Enhanced demo gallery
 
 ### Generated Files (651+)
+
 - `docs/api/**/*` - TypeDoc-generated documentation
 
 ## Usage Guide
@@ -385,6 +416,7 @@ pnpm demo
 ### Online Access
 
 When deployed to GitHub Pages:
+
 - **Demo Gallery**: `https://jbcom.github.io/nodejs-strata/`
 - **API Documentation**: `https://jbcom.github.io/nodejs-strata/api/`
 
@@ -401,6 +433,7 @@ The system is designed to scale. Additional examples can be added for:
 - **State Management**: Game state patterns
 
 Each addition follows the same pattern:
+
 1. Create example file in appropriate directory
 2. Use JSDoc annotations
 3. Return structured metadata
@@ -412,6 +445,7 @@ Each addition follows the same pattern:
 This implementation transforms Strata's documentation from "here are the APIs" to "here's how to use every API with working, production-ready examples that link directly to source code."
 
 The JSDoc-linked approach ensures:
+
 - **Discoverability**: Find examples for any API
 - **Traceability**: See both example and implementation
 - **Maintainability**: Examples stay in sync
@@ -422,6 +456,6 @@ This sets a new standard for graphics library documentation where the breadth an
 
 ---
 
-**Created**: 2025-12-18  
-**PR**: Create interactive demos and showcase gallery  
+**Created**: 2025-12-18
+**PR**: Create interactive demos and showcase gallery
 **Branch**: copilot/create-interactive-demo-gallery

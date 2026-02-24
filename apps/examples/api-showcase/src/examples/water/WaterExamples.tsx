@@ -27,8 +27,8 @@ import * as THREE from 'three';
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L21 Water Component}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/water.ts#L30 createWaterMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L21 Water Component}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/water.ts#L30 createWaterMaterial}
  *
  * @category Basic
  * @apiExample Water
@@ -73,8 +73,8 @@ export function Example_BasicWater() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater Component}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/water.ts#L120 createAdvancedWaterMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater Component}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/water.ts#L120 createAdvancedWaterMaterial}
  *
  * @category Advanced
  * @apiExample AdvancedWater, createAdvancedWaterMaterial
@@ -126,8 +126,8 @@ export function Example_AdvancedWaterWithCaustics() {
  * }
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/core/water.ts#L30 createWaterMaterial}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/shaders/water.ts Water Shaders}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/core/water.ts#L30 createWaterMaterial}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/shaders/water.ts Water Shaders}
  *
  * @category Core
  * @apiExample createWaterMaterial
@@ -177,7 +177,7 @@ export function Example_CustomWaterMaterial() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
  *
  * @category Preset
  * @apiExample AdvancedWater - Ocean Preset
@@ -226,7 +226,7 @@ export function Example_DeepOceanWater() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
  *
  * @category Preset
  * @apiExample AdvancedWater - Tropical Preset
@@ -275,7 +275,7 @@ export function Example_TropicalLagoonWater() {
  * />
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
  *
  * @category Preset
  * @apiExample AdvancedWater - Swamp Preset
@@ -330,8 +330,8 @@ export function Example_MurkySwampWater() {
  * </mesh>
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/shaders/water.ts Water Caustics Shader}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx#L59 AdvancedWater}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/shaders/water.ts Water Caustics Shader}
  *
  * @category Advanced
  * @apiExample AdvancedWater with caustics projection
@@ -400,7 +400,7 @@ export function Example_WaterWithCausticsProjection() {
  * }
  * ```
  *
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/water/Water.tsx Water Components}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/water/Water.tsx Water Components}
  *
  * @category Complete
  * @apiExample Complete water scene integration

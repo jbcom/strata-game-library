@@ -18,7 +18,7 @@ Procedural 3D graphics library for React Three Fiber.
 ### Package Status
 
 - **Registry**: npm (@jbcom/strata)
-- **Repository**: github.com/jbcom/nodejs-strata
+- **Repository**: github.com/jbcom/strata-game-library
 - **Framework**: React Three Fiber
 - **Dependencies**: three, @react-three/fiber, @react-three/drei
 
@@ -43,7 +43,7 @@ pnpm run format:check  # Biome format check
 
 ### Recent Changes (2025-12-18)
 
-- **Migration completed**: All references updated from jbdevprimary/strata to jbcom/nodejs-strata
+- **Migration completed**: All references updated from jbdevprimary/strata to jbcom/strata-game-library
 - **17 PRs merged**: Dependency updates and infrastructure sync
 - **Documentation system**: Using TypeDoc for API documentation
 - **Issues addressed**:

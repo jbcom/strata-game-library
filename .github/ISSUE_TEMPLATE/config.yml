@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: 📚 Documentation
-    url: https://github.com/jbcom/nodejs-strata/blob/main/docs/GETTING_STARTED.md
+    url: https://github.com/jbcom/strata-game-library/blob/main/docs/GETTING_STARTED.md
     about: Check the docs before filing an issue
   - name: 💬 Discussions
-    url: https://github.com/jbcom/nodejs-strata/discussions
+    url: https://github.com/jbcom/strata-game-library/discussions
     about: Ask questions and discuss ideas
   - name: 📂 Demo Source Code
-    url: https://github.com/jbcom/nodejs-strata/tree/main/docs/demos
+    url: https://github.com/jbcom/strata-game-library/tree/main/docs/demos
     about: Browse demo source code and examples

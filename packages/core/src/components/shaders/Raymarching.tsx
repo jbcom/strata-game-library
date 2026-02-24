@@ -10,7 +10,7 @@
  *
  * ## Interactive Demos
  * - 🎮 [Live Raymarching Demo](http://jonbogaty.com/nodejs-strata/demos/raymarching.html)
- * - 📦 [Fractal World Example](https://github.com/jbcom/nodejs-strata/tree/main/examples/raymarching-fractals)
+ * - 📦 [Fractal World Example](https://github.com/jbcom/strata-game-library/tree/main/examples/raymarching-fractals)
  *
  * @example
  * ```tsx

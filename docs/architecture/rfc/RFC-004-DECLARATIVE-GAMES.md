@@ -1,8 +1,8 @@
 # RFC-004: Declarative Game Definition
 
 > **Status**: Proposed
-> **Issue**: [#54](https://github.com/jbcom/nodejs-strata/issues/54)
-> **Epic**: [#50](https://github.com/jbcom/nodejs-strata/issues/50)
+> **Issue**: [#54](https://github.com/jbcom/strata-game-library/issues/54)
+> **Epic**: [#50](https://github.com/jbcom/strata-game-library/issues/50)
 
 ## Summary
 

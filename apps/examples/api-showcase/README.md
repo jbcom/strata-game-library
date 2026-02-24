@@ -148,7 +148,7 @@ Every example includes direct links to source code:
 
 ```typescript
 /**
- * @see {@link https://github.com/jbcom/nodejs-strata/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/src/presets/vegetation/index.ts#L84 createGrassInstances}
  */
 ```
 

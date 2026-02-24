@@ -16,7 +16,7 @@
  * ## Interactive Demos
  *
  * - 🎮 [Live Animation Demo](http://jonbogaty.com/nodejs-strata/demos/animation.html) - See IK, springs, and gaits in action
- * - 📦 [Character Examples](https://github.com/jbcom/nodejs-strata/tree/main/examples/characters) - Full character implementations
+ * - 📦 [Character Examples](https://github.com/jbcom/strata-game-library/tree/main/examples/characters) - Full character implementations
  * - 📚 [API Reference](http://jonbogaty.com/nodejs-strata/api) - Complete documentation
  *
  * ## Quick Start

@@ -13,11 +13,11 @@
  * <iframe src="../../demos/sky.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
  *
  * - 🎮 [Full Screen Sky Demo](../../demos/sky.html)
- * - 📦 [Sky & Volumetrics Example](https://github.com/jbcom/nodejs-strata/tree/main/examples/sky-volumetrics)
+ * - 📦 [Sky & Volumetrics Example](https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics)
  *
  * ## API Documentation
  * - [Full API Reference](http://jonbogaty.com/nodejs-strata/api)
- * - [Examples → API Mapping](https://github.com/jbcom/nodejs-strata/blob/main/EXAMPLES_API_MAP.md#sky-and-atmosphere)
+ * - [Examples → API Mapping](https://github.com/jbcom/strata-game-library/blob/main/EXAMPLES_API_MAP.md#sky-and-atmosphere)
  *
  * @example
  * ```tsx

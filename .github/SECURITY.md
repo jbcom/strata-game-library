@@ -199,16 +199,16 @@ Extremely high values for resolution, particle count, etc. can cause browser fre
 
 Security patches are released as needed. Monitor:
 
-- [GitHub Security Advisories](https://github.com/jbcom/nodejs-strata/security/advisories)
-- [Releases](https://github.com/jbcom/nodejs-strata/releases)
+- [GitHub Security Advisories](https://github.com/jbcom/strata-game-library/security/advisories)
+- [Releases](https://github.com/jbcom/strata-game-library/releases)
 - [CHANGELOG.md](../CHANGELOG.md)
 
 ## Questions?
 
 For non-security issues:
 
-- Open a [bug report](https://github.com/jbcom/nodejs-strata/issues/new?template=bug_report.md)
-- Start a [discussion](https://github.com/jbcom/nodejs-strata/discussions)
+- Open a [bug report](https://github.com/jbcom/strata-game-library/issues/new?template=bug_report.md)
+- Start a [discussion](https://github.com/jbcom/strata-game-library/discussions)
 
 For security issues: **<jon@jonbogaty.com>**
 

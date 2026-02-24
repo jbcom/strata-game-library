@@ -10,11 +10,11 @@
  *
  * ## Interactive Demos
  * - 🎮 [Live Animation Demo](http://jonbogaty.com/nodejs-strata/demos/animation.html)
- * - 📦 [Procedural Character Example](https://github.com/jbcom/nodejs-strata/tree/main/examples/characters)
+ * - 📦 [Procedural Character Example](https://github.com/jbcom/strata-game-library/tree/main/examples/characters)
  *
  * ## API Documentation
  * - [Full API Reference](http://jonbogaty.com/nodejs-strata/api)
- * - [Examples → API Mapping](https://github.com/jbcom/nodejs-strata/blob/main/EXAMPLES_API_MAP.md#animation-system)
+ * - [Examples → API Mapping](https://github.com/jbcom/strata-game-library/blob/main/EXAMPLES_API_MAP.md#animation-system)
  */
 
 import { useFrame } from '@react-three/fiber';

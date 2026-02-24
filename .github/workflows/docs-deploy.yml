@@ -21,7 +21,7 @@ jobs:
   build:
     name: Build & Deploy
     runs-on: ubuntu-latest
-    if: github.repository == 'strata-game-library/strata-game-library.github.io'
+    if: github.repository == 'jbcom/strata-game-library'
     steps:
       - uses: actions/checkout@v6
 
@@ -46,7 +46,7 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
-    if: github.repository == 'strata-game-library/strata-game-library.github.io'
+    if: github.repository == 'jbcom/strata-game-library'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

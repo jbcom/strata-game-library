@@ -1,8 +1,8 @@
 # RFC-001: Game Orchestration Architecture
 
 > **Status**: Proposed
-> **Issue**: [#51](https://github.com/jbcom/nodejs-strata/issues/51)
-> **Epic**: [#50](https://github.com/jbcom/nodejs-strata/issues/50)
+> **Issue**: [#51](https://github.com/jbcom/strata-game-library/issues/51)
+> **Epic**: [#50](https://github.com/jbcom/strata-game-library/issues/50)
 
 ## Summary
 

@@ -7,7 +7,7 @@
  *
  * ## Interactive Demos
  * - 🎮 [Live Demo](http://jonbogaty.com/nodejs-strata/demos/godrays.html)
- * - 📦 [Example Source](https://github.com/jbcom/nodejs-strata/tree/main/examples/sky-volumetrics)
+ * - 📦 [Example Source](https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics)
  *
  * @example
  * ```tsx

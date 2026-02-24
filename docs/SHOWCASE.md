@@ -9,7 +9,7 @@ Procedural terrain generation using SDFs and marching cubes with triplanar textu
 
 <iframe src="demos/terrain.html" class="showcase-iframe"></iframe>
 
-[View Full Screen](demos/terrain.html) • [Source Code](https://github.com/jbcom/nodejs-strata/blob/main/examples/basic-terrain/src/App.tsx)
+[View Full Screen](demos/terrain.html) • [Source Code](https://github.com/jbcom/strata-game-library/blob/main/examples/basic-terrain/src/App.tsx)
 
 ---
 
@@ -18,7 +18,7 @@ Realistic water rendering featuring Gerstner wave simulation, Fresnel-based refl
 
 <iframe src="demos/water.html" class="showcase-iframe"></iframe>
 
-[View Full Screen](demos/water.html) • [Source Code](https://github.com/jbcom/nodejs-strata/blob/main/examples/water-scene/src/App.tsx)
+[View Full Screen](demos/water.html) • [Source Code](https://github.com/jbcom/strata-game-library/blob/main/examples/water-scene/src/App.tsx)
 
 ---
 
@@ -27,7 +27,7 @@ GPU-accelerated instancing capable of rendering 10,000+ instances of grass, tree
 
 <iframe src="demos/vegetation.html" class="showcase-iframe"></iframe>
 
-[View Full Screen](demos/vegetation.html) • [Source Code](https://github.com/jbcom/nodejs-strata/blob/main/examples/vegetation-showcase/src/App.tsx)
+[View Full Screen](demos/vegetation.html) • [Source Code](https://github.com/jbcom/strata-game-library/blob/main/examples/vegetation-showcase/src/App.tsx)
 
 ---
 
@@ -36,4 +36,4 @@ Physically-based atmospheric scattering with a dynamic day/night cycle, stars, s
 
 <iframe src="demos/sky.html" class="showcase-iframe"></iframe>
 
-[View Full Screen](demos/sky.html) • [Source Code](https://github.com/jbcom/nodejs-strata/blob/main/examples/sky-volumetrics/src/App.tsx)
+[View Full Screen](demos/sky.html) • [Source Code](https://github.com/jbcom/strata-game-library/blob/main/examples/sky-volumetrics/src/App.tsx)

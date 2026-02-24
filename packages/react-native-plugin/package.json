@@ -45,12 +45,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/strata-game-library/strata",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
     "directory": "packages/react-native-plugin"
   },
-  "homepage": "https://strata.game/react-native-plugin",
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/packages/react-native-plugin#readme",
   "bugs": {
-    "url": "https://github.com/strata-game-library/strata/issues"
+    "url": "https://github.com/jbcom/strata-game-library/issues"
   },
   "peerDependencies": {
     "@strata-game-library/core": ">=1.4.0",

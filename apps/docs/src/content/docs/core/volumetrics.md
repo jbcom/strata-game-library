@@ -443,12 +443,12 @@ function VolumetricFogCustom() {
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/sky-volumetrics/"
+  src="https://jbcom/strata-game-library/examples/sky-volumetrics/"
   class="showcase-iframe"
   title="Volumetrics Demo"
 ></iframe>
 
-[View Full Demo](https://strata-game-library.github.io/examples/sky-volumetrics/) | [View Source](https://github.com/strata-game-library/examples/tree/main/sky-volumetrics)
+[View Full Demo](https://jbcom/strata-game-library/examples/sky-volumetrics/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/sky-volumetrics)
 
 ## Related
 

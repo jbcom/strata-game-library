@@ -10,11 +10,11 @@
  *
  * ## Interactive Demos
  * - 🎮 [Live AI Demo](http://jonbogaty.com/nodejs-strata/demos/ai.html)
- * - 📦 [AI Navigation Example](https://github.com/jbcom/nodejs-strata/tree/main/examples/ai-navigation)
+ * - 📦 [AI Navigation Example](https://github.com/jbcom/strata-game-library/tree/main/examples/ai-navigation)
  *
  * ## API Documentation
  * - [Full API Reference](http://jonbogaty.com/nodejs-strata/api)
- * - [Examples → API Mapping](https://github.com/jbcom/nodejs-strata/blob/main/EXAMPLES_API_MAP.md#ai-and-navigation)
+ * - [Examples → API Mapping](https://github.com/jbcom/strata-game-library/blob/main/EXAMPLES_API_MAP.md#ai-and-navigation)
  */
 
 import { useFrame } from '@react-three/fiber';

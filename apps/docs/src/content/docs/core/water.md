@@ -385,12 +385,12 @@ const pool = createWaterPreset(WaterTypes.POOL);
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/water-scene/"
+  src="https://jbcom/strata-game-library/examples/water-scene/"
   class="showcase-iframe"
   title="Water Demo"
 ></iframe>
 
-[View Full Demo](https://strata-game-library.github.io/examples/water-scene/) | [View Source](https://github.com/strata-game-library/examples/tree/main/water-scene)
+[View Full Demo](https://jbcom/strata-game-library/examples/water-scene/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/water-scene)
 
 ## Related
 

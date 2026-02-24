@@ -10,17 +10,17 @@ Realistic water rendering featuring Gerstner wave simulation, Fresnel-based refl
 ## Live Demo
 
 <iframe
-  src="https://strata-game-library.github.io/examples/water-scene/"
+  src="https://jbcom/strata-game-library/examples/water-scene/"
   class="showcase-iframe"
   title="Water Demo"
   loading="lazy"
 ></iframe>
 
 <div class="demo-controls">
-  <a href="https://strata-game-library.github.io/examples/water-scene/" target="_blank" class="demo-btn">
+  <a href="https://jbcom/strata-game-library/examples/water-scene/" target="_blank" class="demo-btn">
     Open Full Screen ↗
   </a>
-  <a href="https://github.com/strata-game-library/examples/tree/main/water-scene" target="_blank" class="demo-btn">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/water-scene" target="_blank" class="demo-btn">
     View Source ↗
   </a>
 </div>

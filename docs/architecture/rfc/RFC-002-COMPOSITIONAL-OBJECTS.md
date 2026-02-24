@@ -1,8 +1,8 @@
 # RFC-002: Compositional Object System
 
 > **Status**: Proposed
-> **Issue**: [#52](https://github.com/jbcom/nodejs-strata/issues/52)
-> **Epic**: [#50](https://github.com/jbcom/nodejs-strata/issues/50)
+> **Issue**: [#52](https://github.com/jbcom/strata-game-library/issues/52)
+> **Epic**: [#50](https://github.com/jbcom/strata-game-library/issues/50)
 
 ## Summary
 

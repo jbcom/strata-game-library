@@ -51,7 +51,7 @@ Push your branch and create a pull request.
 | `examples` | Example applications |
 | `react-native-plugin` | React Native plugin |
 | `capacitor-plugin` | Capacitor plugin |
-| `strata-game-library.github.io` | Documentation (this site) |
+| `jbcom/strata-game-library` | Documentation (this site) |
 
 ## Development Setup
 
@@ -67,7 +67,7 @@ pnpm test # Run tests
 ### Documentation
 
 ```bash
-cd strata-game-library.github.io
+cd jbcom/strata-game-library
 pnpm install
 pnpm dev  # Dev server at localhost:4321
 ```

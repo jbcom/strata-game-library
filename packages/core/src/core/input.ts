@@ -21,7 +21,7 @@
  *
  * **API Documentation:**
  * - [Full API Reference](http://jonbogaty.com/nodejs-strata/api)
- * - [Examples → API Mapping](https://github.com/jbcom/nodejs-strata/blob/main/EXAMPLES_API_MAP.md#input)
+ * - [Examples → API Mapping](https://github.com/jbcom/strata-game-library/blob/main/EXAMPLES_API_MAP.md#input)
  *
  * @packageDocumentation
  * @module core/input

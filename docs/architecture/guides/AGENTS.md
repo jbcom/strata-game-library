@@ -218,4 +218,4 @@ pnpm run docs       # Generate TypeDoc
 ---
 
 *Last updated: December 2024*
-*Tracking: [GitHub Epic #50](https://github.com/jbcom/nodejs-strata/issues/50)*
+*Tracking: [GitHub Epic #50](https://github.com/jbcom/strata-game-library/issues/50)*
