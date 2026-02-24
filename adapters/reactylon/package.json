@@ -1,0 +1,44 @@
+{
+  "name": "@strata-game-library/reactylon",
+  "version": "0.1.0",
+  "description": "Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "test": "vitest run --passWithNoTests",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": ["strata", "babylonjs", "reactylon", "3d", "game"],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "adapters/reactylon"
+  },
+  "publishConfig": { "access": "public" },
+  "dependencies": {
+    "@strata-game-library/core": "workspace:*",
+    "@strata-game-library/shaders": "workspace:*"
+  },
+  "peerDependencies": {
+    "@babylonjs/core": ">=8.0.0",
+    "react": ">=18.0.0",
+    "reactylon": ">=0.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "react": "^19.2.3",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  }
+}
