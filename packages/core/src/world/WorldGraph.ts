@@ -11,7 +11,7 @@ export class WorldGraph {
   public regions: Map<string, Region> = new Map();
   public connections: Connection[] = [];
 
-  private eventHandlers: Map<string, Set<(...args: any[]) => void>> = new Map();
+  private eventHandlers: Map<string, Set<(...args: unknown[]) => void>> = new Map();
 
   constructor(definition?: WorldGraphDefinition) {
     if (definition) {
@@ -212,21 +212,21 @@ export class WorldGraph {
     }
   }
 
-  public on(event: string, handler: (...args: any[]) => void): void {
+  public on(event: string, handler: (...args: unknown[]) => void): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, new Set());
     }
     this.eventHandlers.get(event)?.add(handler);
   }
 
-  public off(event: string, handler: (...args: any[]) => void): void {
+  public off(event: string, handler: (...args: unknown[]) => void): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
       handlers.delete(handler);
     }
   }
 
-  public emit(event: string, ...args: any[]): void {
+  public emit(event: string, ...args: unknown[]): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
       for (const handler of handlers) {
@@ -240,6 +240,7 @@ export function createWorldGraph(definition: WorldGraphDefinition): WorldGraph {
   return new WorldGraph(definition);
 }
 
-export function isWorldGraph(obj: any): obj is WorldGraph {
-  return obj && typeof obj.getRegion === 'function';
+export function isWorldGraph(obj: unknown): obj is WorldGraph {
+  if (!obj || typeof obj !== 'object') return false;
+  return 'getRegion' in obj && typeof (obj as WorldGraph).getRegion === 'function';
 }

@@ -12,7 +12,9 @@ import type { WorldGraphDefinition as WorldGraphDef } from '../world/types';
  * @param definition - The game definition object
  * @returns A complete Game instance
  */
-export function createGame(definition: GameDefinition): Game {
+export function createGame<TState extends Record<string, unknown> = Record<string, unknown>>(
+  definition: GameDefinition<TState>
+): Game<TState> {
   // 1. Create content registries
   const registries = {
     materials: createRegistry(definition.content.materials),
@@ -30,7 +32,7 @@ export function createGame(definition: GameDefinition): Game {
   const world = createWorld();
 
   // 4. Create state store
-  const store = createGameStore(definition.initialState || ({} as any));
+  const store = createGameStore<TState>((definition.initialState ?? {}) as TState);
 
   // 5. Create managers
   const sceneManager = createSceneManager({
@@ -38,10 +40,10 @@ export function createGame(definition: GameDefinition): Game {
   });
 
   // Managers that need game instance reference
-  let gameInstance: Game;
+  let gameInstance: Game<TState>;
   const modeManager = createModeManager(definition.defaultMode);
 
-  const inputManager = createInputManager(definition.controls as any);
+  const inputManager = createInputManager();
   const audioManager = createSoundManager();
 
   // 6. Register scenes

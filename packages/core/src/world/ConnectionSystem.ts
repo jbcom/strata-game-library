@@ -16,7 +16,7 @@ export interface ConnectionSystemState {
 }
 
 export interface ModeManager {
-  push(modeId: string, props?: any): void;
+  push(modeId: string, props?: Record<string, unknown>): void;
 }
 
 /**
@@ -28,18 +28,26 @@ export interface ModeManager {
  * @param modeManager The mode manager to trigger traversal modes
  * @returns A system function for the ECS
  */
+/** Entity with a level field, used for level-gated unlock conditions. */
+interface LeveledEntity {
+  level?: number;
+  inventory?: string[];
+  lastTeleportTime?: number;
+  [key: string]: unknown;
+}
+
 export function createConnectionSystem<T extends ConnectionSystemEntity>(
   worldGraph: WorldGraph,
-  gameStore: GameStoreApi<ConnectionSystemState & any>,
+  gameStore: GameStoreApi<ConnectionSystemState & Record<string, unknown>>,
   modeManager?: ModeManager
 ): SystemFn<T> {
   const TRIGGER_RADIUS = 5;
 
   return (world: StrataWorld<T>, _deltaTime: number) => {
     // 1. Find the player entity
-    let player: any = null;
-    for (const entity of world.query('isPlayer' as any, 'transform' as any)) {
-      player = entity;
+    let player: (T & LeveledEntity) | null = null;
+    for (const entity of world.query('isPlayer' as keyof T, 'transform' as keyof T)) {
+      player = entity as T & LeveledEntity;
       break;
     }
     if (!player || !player.transform) return;
@@ -86,11 +94,11 @@ export function createConnectionSystem<T extends ConnectionSystemEntity>(
           if (connection.type === 'portal') {
             // Add cooldown to prevent infinite teleportation
             const now = Date.now();
-            const lastTeleport = (player as any).lastTeleportTime || 0;
+            const lastTeleport = player.lastTeleportTime ?? 0;
             if (now - lastTeleport > 1000) {
               // 1 second cooldown
               player.transform.position.copy(connection.toPosition);
-              (player as any).lastTeleportTime = now;
+              player.lastTeleportTime = now;
             }
           }
         }
@@ -102,14 +110,17 @@ export function createConnectionSystem<T extends ConnectionSystemEntity>(
 /**
  * Simple helper to check if an unlock condition is met.
  */
-function checkUnlockCondition(condition: UnlockCondition | undefined, player: any): boolean {
+function checkUnlockCondition(
+  condition: UnlockCondition | undefined,
+  player: LeveledEntity
+): boolean {
   if (!condition || condition.type === 'default') return true;
 
   switch (condition.type) {
     case 'level':
-      return (player.level || 0) >= condition.minLevel;
+      return (player.level ?? 0) >= condition.minLevel;
     case 'key':
-      return player.inventory?.includes(condition.itemId);
+      return player.inventory?.includes(condition.itemId) ?? false;
     case 'custom':
       return condition.check(player);
     default:

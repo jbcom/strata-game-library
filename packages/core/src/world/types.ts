@@ -96,7 +96,7 @@ export type UnlockCondition =
   | { type: 'reputation'; faction: string; minRep: number }
   | { type: 'ability'; abilityId: string }
   | { type: 'time'; timeRange: [number, number] }
-  | { type: 'custom'; check: (entity: any) => boolean };
+  | { type: 'custom'; check: (entity: Record<string, unknown>) => boolean };
 
 export interface Connection {
   id: string;

@@ -39,7 +39,7 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
       useStore.getState().modes.set(mode.id, mode);
     },
 
-    push: (modeId: GameMode, props: any = {}) => {
+    push: (modeId: GameMode, props: Record<string, unknown> = {}) => {
       const state = useStore.getState();
       const config = state.modes.get(modeId);
       if (!config) throw new Error(`Mode "${modeId}" not registered.`);
@@ -85,7 +85,7 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
       });
     },
 
-    replace: (modeId: GameMode, props: any = {}) => {
+    replace: (modeId: GameMode, props: Record<string, unknown> = {}) => {
       const state = useStore.getState();
       const config = state.modes.get(modeId);
       if (!config) throw new Error(`Mode "${modeId}" not registered.`);

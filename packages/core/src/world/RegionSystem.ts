@@ -26,14 +26,14 @@ export interface RegionSystemState {
  */
 export function createRegionSystem<T extends RegionSystemEntity>(
   worldGraph: WorldGraph,
-  gameStore: GameStoreApi<RegionSystemState & any>
+  gameStore: GameStoreApi<RegionSystemState & Record<string, unknown>>
 ): SystemFn<T> {
   let currentRegion: Region | null = null;
 
   return (world: StrataWorld<T>, _deltaTime: number) => {
     // 1. Find the player entity
-    let player: any = null;
-    for (const entity of world.query('isPlayer' as any, 'transform' as any)) {
+    let player: T | null = null;
+    for (const entity of world.query('isPlayer' as keyof T, 'transform' as keyof T)) {
       player = entity;
       break;
     }

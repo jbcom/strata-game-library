@@ -50,7 +50,7 @@ export function createSpawnSystem<T extends SpawnSystemEntity>(
         const spawnCreatures =
           region.spawnTable.creatures && region.spawnTable.creatures.length > 0;
         const spawnResources =
-          region.spawnTable.resources && (region.spawnTable.resources as any).length > 0;
+          region.spawnTable.resources && region.spawnTable.resources.length > 0;
 
         let spawnType: 'creatures' | 'resources' | null = null;
         if (spawnCreatures && spawnResources) {
@@ -114,7 +114,7 @@ function spawnEntityAtRandomPosition<T extends SpawnSystemEntity>(
         position: position.clone().add(offset),
         rotation: new THREE.Euler(0, Math.random() * Math.PI * 2, 0),
       },
-    } as any);
+    } as unknown as T);
   }
 }
 
