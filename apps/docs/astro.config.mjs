@@ -11,14 +11,33 @@ export default defineConfig({
     starlight({
       title: 'Strata',
       description:
-        'Layer by Layer, World by World - Procedural 3D graphics library for React Three Fiber',
+        'Layer by Layer, World by World — The complete game framework for procedural 3D worlds in React Three Fiber',
       customCss: ['./src/styles/custom.css'],
       logo: {
         light: './src/assets/strata-logo.svg',
         dark: './src/assets/strata-logo.svg',
       },
-      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/strata-game-library' }],
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/jbcom/strata-game-library' },
+      ],
       head: [
+        // Font preloading for Space Grotesk
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preconnect',
+            href: 'https://fonts.googleapis.com',
+          },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preconnect',
+            href: 'https://fonts.gstatic.com',
+            crossorigin: '',
+          },
+        },
+        // Open Graph
         {
           tag: 'meta',
           attrs: {
@@ -29,8 +48,31 @@ export default defineConfig({
         {
           tag: 'meta',
           attrs: {
+            property: 'og:type',
+            content: 'website',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:site_name',
+            content: 'Strata Game Library',
+          },
+        },
+        // Twitter
+        {
+          tag: 'meta',
+          attrs: {
             name: 'twitter:card',
             content: 'summary_large_image',
+          },
+        },
+        // Theme color
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'theme-color',
+            content: '#0b1120',
           },
         },
       ],

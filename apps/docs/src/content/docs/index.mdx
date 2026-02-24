@@ -1,9 +1,9 @@
 ---
 title: Strata
-description: Layer by Layer, World by World - Procedural 3D graphics library for React Three Fiber
+description: Layer by Layer, World by World — The complete game framework for procedural 3D worlds in React Three Fiber.
 template: splash
 hero:
-  tagline: Build worlds. Ship games. The complete solution for procedural 3D graphics in React Three Fiber.
+  tagline: "The complete game framework for building procedural 3D worlds. Terrain, water, vegetation, sky, physics, AI — everything you need to ship immersive games and experiences in React Three Fiber."
   image:
     file: ../../assets/houston.webp
   actions:
@@ -11,81 +11,109 @@ hero:
       link: /getting-started/
       icon: right-arrow
       variant: primary
-    - text: Live Demos
-      link: /showcase/
-      icon: external
+    - text: API Reference
+      link: /api/
+      icon: open-book
       variant: secondary
     - text: GitHub
-      link: https://github.com/strata-game-library
+      link: https://github.com/jbcom/strata-game-library
       icon: github
       variant: minimal
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, Aside, Badge, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-## Layer by Layer, World by World
+<div class="mission-block">
+  <blockquote>
+    "Build complete 3D worlds in under 1,000 lines of code. Layer by layer, from shaders to game logic — Strata handles the complexity so you can focus on creating."
+  </blockquote>
+</div>
 
-Strata is the Games & Procedural division of the [jbcom enterprise](https://jbcom.github.io). We provide everything you need to build high-quality 3D games and experiences, from terrain generation to character animation, all optimized for performance across mobile, web, and desktop.
+## What You Can Build
 
-<CardGrid stagger>
-  <Card title="🏔️ Procedural Terrain" icon="document">
-    SDF-based terrain generation with marching cubes, triplanar texturing, and multi-biome blending. Create infinite, explorable worlds.
-  </Card>
-  <Card title="🌊 Advanced Water" icon="seti:svg">
-    Realistic water rendering with Gerstner waves, Fresnel reflections, underwater caustics, and procedural foam effects.
-  </Card>
-  <Card title="🌿 GPU Vegetation" icon="seti:javascript">
-    Render 10,000+ instances at 60fps with GPU-accelerated instancing, procedural wind animation, and biome-based distribution.
-  </Card>
-  <Card title="☀️ Procedural Sky" icon="sun">
-    Physically-based atmospheric scattering with dynamic day/night cycles, stars, sun/moon positioning, and horizon fog.
-  </Card>
-  <Card title="🌫️ Volumetric Effects" icon="seti:default">
-    God rays, volumetric fog, underwater overlays, and atmospheric effects for immersive environments.
-  </Card>
-  <Card title="🎮 Cross-Platform" icon="laptop">
-    Native plugins for React Native and Capacitor with unified input, haptics, and device detection.
-  </Card>
-</CardGrid>
+<div class="feature-grid">
+  <div class="feature-card">
+    <span class="feature-icon">🏔️</span>
+    <h3>Procedural Terrain</h3>
+    <p>SDF-based terrain with marching cubes, triplanar texturing, multi-biome blending, erosion simulation, and dynamic LOD. Create infinite worlds that feel alive.</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🌊</span>
+    <h3>Advanced Water Systems</h3>
+    <p>Realistic water with Gerstner waves, Fresnel reflections, underwater caustics, procedural foam, and depth-based transparency. Oceans, rivers, and lakes.</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🌿</span>
+    <h3>GPU Vegetation</h3>
+    <p>Render 10,000+ instances at 60fps with GPU-accelerated instancing, procedural wind animation, seasonal changes, and biome-based distribution.</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">☀️</span>
+    <h3>Procedural Sky & Atmosphere</h3>
+    <p>Physically-based atmospheric scattering with dynamic day/night cycles, volumetric clouds, stars, and horizon fog. Beautiful at every time of day.</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🌫️</span>
+    <h3>Volumetric Effects</h3>
+    <p>God rays, volumetric fog, underwater overlays, dust particles, and atmospheric haze. Depth and mood for every scene.</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🎮</span>
+    <h3>Game Framework</h3>
+    <p>ECS architecture, physics integration, AI pathfinding, state management, animation system, and audio engine. Everything to ship a complete game.</p>
+  </div>
+</div>
 
 ---
 
-## Package Ecosystem
+## The Numbers
 
-<CardGrid>
-  <LinkCard
-    title="@strata-game-library/core"
-    description="Core library - terrain, water, vegetation, sky, characters, and more"
-    href="/core/"
-  />
-  <LinkCard
-    title="@strata-game-library/shaders"
-    description="Standalone GLSL shader collection for any Three.js project"
-    href="/shaders/"
-  />
-  <LinkCard
-    title="@strata-game-library/presets"
-    description="Ready-to-use configurations for all Strata systems"
-    href="/presets/"
-  />
-  <LinkCard
-    title="Mobile Plugins"
-    description="React Native and Capacitor plugins for cross-platform games"
-    href="/mobile/"
-  />
-</CardGrid>
+<div class="stats-grid">
+  <div class="stat-item">
+    <div class="stat-number">10x</div>
+    <div class="stat-label">Code Reduction</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">7</div>
+    <div class="stat-label">Packages</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">989</div>
+    <div class="stat-label">Tests Passing</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">60fps</div>
+    <div class="stat-label">Target Performance</div>
+  </div>
+</div>
+
+| Capability | Without Strata | With Strata |
+|-----------|----------------|-------------|
+| Terrain System | 2,000+ lines | ~50 lines |
+| Water Rendering | 1,500+ lines | ~20 lines |
+| GPU Vegetation | 1,000+ lines | ~30 lines |
+| Full Game Scene | 5,000+ lines | ~200 lines |
 
 ---
 
 ## Quick Start
 
+Install the core package and peer dependencies:
+
 ```bash
 pnpm install @strata-game-library/core @react-three/fiber @react-three/drei three
 ```
 
+Build a complete scene in minutes:
+
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { Water, ProceduralSky, GrassInstances, VolumetricFogMesh } from '@strata-game-library/core';
+import {
+  ProceduralSky,
+  Water,
+  GrassInstances,
+  VolumetricFogMesh,
+} from '@strata-game-library/core';
 
 function Game() {
   return (
@@ -99,77 +127,131 @@ function Game() {
 }
 ```
 
+<Aside type="tip" title="Framework Evolution">
+  Strata is evolving from a toolkit into a **complete game framework**. The upcoming `createGame()` API will enable fully declarative game definitions. [Read the roadmap →](/getting-started/architecture/)
+</Aside>
+
+---
+
+## Architecture
+
+Strata is built in layers — each one building on the last, like geological strata:
+
+<div class="layer-stack">
+  <div class="layer layer-4">Layer 4 &mdash; Presets & Game Framework</div>
+  <div class="layer layer-3">Layer 3 &mdash; React Three Fiber Components</div>
+  <div class="layer layer-2">Layer 2 &mdash; Core Algorithms (SDF, Noise, Marching Cubes)</div>
+  <div class="layer layer-1">Layer 1 &mdash; GLSL Shaders</div>
+  <div class="layer layer-0">Layer 0 &mdash; TypeScript Types & Utilities</div>
+</div>
+
+Every layer is independently usable. Import just the shaders, or use the full framework — it's your choice.
+
+---
+
+## Package Ecosystem
+
+<div class="package-grid">
+  <a href="/core/" class="package-card">
+    <code>@strata-game-library/core</code>
+    <p>Terrain, water, vegetation, sky, characters, ECS, physics, AI, animation, and audio. The heart of Strata.</p>
+  </a>
+  <a href="/shaders/" class="package-card">
+    <code>@strata-game-library/shaders</code>
+    <p>Standalone GLSL shader collection. Use with any Three.js project — no React required.</p>
+  </a>
+  <a href="/presets/" class="package-card">
+    <code>@strata-game-library/presets</code>
+    <p>Production-ready configurations for terrain biomes, weather systems, water types, and more.</p>
+  </a>
+  <a href="/packages/audio-synth/" class="package-card">
+    <code>@strata-game-library/audio-synth</code>
+    <p>Procedural audio synthesis and spatial sound design for immersive game audio.</p>
+  </a>
+  <a href="/packages/model-synth/" class="package-card">
+    <code>@strata-game-library/model-synth</code>
+    <p>AI-powered 3D model generation. Create game assets from text descriptions.</p>
+  </a>
+  <a href="/mobile/" class="package-card">
+    <code>Mobile Plugins</code>
+    <p>React Native and Capacitor plugins for cross-platform games with unified input and haptics.</p>
+  </a>
+</div>
+
 ---
 
 ## Live Showcase
 
-Experience Strata in action with our interactive demos:
+Experience Strata in action:
 
 <CardGrid>
   <LinkCard
     title="🏔️ Terrain Demo"
-    description="Procedural terrain with biomes, caves, and dynamic LOD"
+    description="Procedural terrain with biomes, caves, erosion, and dynamic LOD"
     href="/showcase/terrain/"
   />
   <LinkCard
     title="🌊 Water Demo"
-    description="Advanced water with reflections, caustics, and foam"
+    description="Ocean rendering with reflections, caustics, foam, and underwater effects"
     href="/showcase/water/"
   />
   <LinkCard
     title="🌿 Vegetation Demo"
-    description="GPU-instanced grass, trees, and rocks with wind"
+    description="GPU-instanced grass, trees, and rocks with seasonal wind"
     href="/showcase/vegetation/"
   />
   <LinkCard
     title="☀️ Sky & Volumetrics"
-    description="Day/night cycle, clouds, and atmospheric effects"
+    description="Day/night cycle, clouds, god rays, and atmospheric haze"
     href="/showcase/sky/"
   />
 </CardGrid>
 
 ---
 
-## Why Strata?
+## The Vision
 
-| Feature | Without Strata | With Strata |
-|---------|----------------|-------------|
-| Terrain System | 2000+ lines | ~50 lines |
-| Water Rendering | 1500+ lines | ~20 lines |
-| Vegetation | 1000+ lines | ~30 lines |
-| Full Scene | 5000+ lines | ~200 lines |
-
-**10x code reduction.** Build complete 3D worlds in under 1,000 lines of code.
-
----
-
-## Architecture
-
-Strata is organized into three layers, each building on the previous:
-
-<div class="layer-stack">
-  <div class="layer layer-4">Layer 4: Presets & Game Framework</div>
-  <div class="layer layer-3">Layer 3: React Three Fiber Components</div>
-  <div class="layer layer-2">Layer 2: Core Algorithms (SDF, Noise, Marching Cubes, Materials)</div>
-  <div class="layer layer-1">Layer 1: GLSL Shaders</div>
-  <div class="layer layer-0">Layer 0: TypeScript Types & Utilities</div>
+<div class="mission-block">
+  <blockquote>
+    "Games should be defined, not engineered. Strata's goal is to make building 3D worlds as natural as writing a document — declarative, composable, and beautiful by default."
+  </blockquote>
 </div>
 
+The upcoming `createGame()` API will enable fully declarative game definitions:
+
+```tsx
+import { createGame, StrataGame } from '@strata-game-library/core';
+
+const game = createGame({
+  world: {
+    terrain: 'alpine',
+    water: { type: 'ocean', depth: 50 },
+    vegetation: { density: 0.8, season: 'summer' },
+    sky: { timeOfDay: 14, weather: 'partly-cloudy' },
+  },
+  creatures: [otter, deer, eagle],
+  modes: { exploration, racing, combat },
+  state: 'rpg',
+});
+
+<StrataGame game={game} />
+```
+
 ---
 
-## Enterprise Context
+## Part of jbcom
 
-Strata is part of the [jbcom enterprise](https://jbcom.github.io) ecosystem, sharing a unified design system with:
+Strata is the Games & Procedural division of the [jbcom enterprise](https://jbcom.github.io), building alongside:
 
 <CardGrid>
   <LinkCard
     title="Agentic"
-    description="AI & Machine Learning division"
+    description="AI & Machine Learning — intelligent systems and autonomous agents"
     href="https://agentic.dev"
   />
   <LinkCard
     title="Extended Data"
-    description="Infrastructure & Data Engineering"
+    description="Infrastructure & Data Engineering — the backbone of modern applications"
     href="https://extendeddata.dev"
   />
 </CardGrid>
