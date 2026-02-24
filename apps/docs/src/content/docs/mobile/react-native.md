@@ -5,12 +5,12 @@ description: Cross-platform input, device detection, and haptics for React Nativ
 
 # React Native Plugin
 
-The `@strata-game-library/react-native-plugin` provides native mobile capabilities for React Native games built with Strata.
+The `@strata-game-library/react-native` provides native mobile capabilities for React Native games built with Strata.
 
 ## Installation
 
 ```bash
-npm install @strata-game-library/react-native-plugin
+npm install @strata-game-library/react-native
 ```
 
 ### iOS Setup
@@ -39,7 +39,7 @@ Automatically linked via autolinking.
 Returns the current device profile:
 
 ```tsx
-import { useDevice } from '@strata-game-library/react-native-plugin';
+import { useDevice } from '@strata-game-library/react-native';
 
 function Game() {
   const device = useDevice();
@@ -64,7 +64,7 @@ function Game() {
 Returns the current input state (requires `StrataInputProvider`):
 
 ```tsx
-import { useInput, StrataInputProvider } from '@strata-game-library/react-native-plugin';
+import { useInput, StrataInputProvider } from '@strata-game-library/react-native';
 
 function Game() {
   const input = useInput();
@@ -96,7 +96,7 @@ function App() {
 Returns haptic feedback controls:
 
 ```tsx
-import { useHaptics } from '@strata-game-library/react-native-plugin';
+import { useHaptics } from '@strata-game-library/react-native';
 
 function Game() {
   const { trigger, isSupported } = useHaptics();
@@ -129,7 +129,7 @@ function Game() {
 Returns localized control hints based on input mode:
 
 ```tsx
-import { useControlHints } from '@strata-game-library/react-native-plugin';
+import { useControlHints } from '@strata-game-library/react-native';
 
 function ControlsOverlay() {
   const hints = useControlHints();
@@ -151,7 +151,7 @@ function ControlsOverlay() {
 Wraps your app to capture and process input events:
 
 ```tsx
-import { StrataInputProvider } from '@strata-game-library/react-native-plugin';
+import { StrataInputProvider } from '@strata-game-library/react-native';
 
 function App() {
   return (
@@ -176,7 +176,7 @@ function App() {
 On-screen virtual joystick:
 
 ```tsx
-import { VirtualJoystick } from '@strata-game-library/react-native-plugin';
+import { VirtualJoystick } from '@strata-game-library/react-native';
 
 <VirtualJoystick
   position="left"          // 'left' | 'right'
@@ -199,7 +199,7 @@ import { VirtualJoystick } from '@strata-game-library/react-native-plugin';
 Lock screen orientation:
 
 ```typescript
-import { setOrientation } from '@strata-game-library/react-native-plugin';
+import { setOrientation } from '@strata-game-library/react-native';
 
 // Lock to landscape
 await setOrientation('landscape');
@@ -216,7 +216,7 @@ await setOrientation('auto');
 Get device performance tier:
 
 ```typescript
-import { getPerformanceLevel } from '@strata-game-library/react-native-plugin';
+import { getPerformanceLevel } from '@strata-game-library/react-native';
 
 const level = await getPerformanceLevel();
 // 'low' | 'medium' | 'high'

@@ -38,10 +38,10 @@ function Game() {
 | [`@strata-game-library/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@strata-game-library/core)](https://www.npmjs.com/package/@strata-game-library/core) | R3F components, ECS, physics, AI, animation, audio |
 | [`@strata-game-library/shaders`](packages/shaders) | [![npm](https://img.shields.io/npm/v/@strata-game-library/shaders)](https://www.npmjs.com/package/@strata-game-library/shaders) | Standalone GLSL shaders for Three.js |
 | [`@strata-game-library/presets`](packages/presets) | [![npm](https://img.shields.io/npm/v/@strata-game-library/presets)](https://www.npmjs.com/package/@strata-game-library/presets) | Production-ready configurations (30+ categories) |
-| [`@strata-game-library/audio-synth`](packages/audio-synth) | [![npm](https://img.shields.io/npm/v/@strata-game-library/audio-synth)](https://www.npmjs.com/package/@strata-game-library/audio-synth) | Procedural audio synthesis with Tone.js |
-| [`@strata-game-library/model-synth`](packages/model-synth) | [![npm](https://img.shields.io/npm/v/@strata-game-library/model-synth)](https://www.npmjs.com/package/@strata-game-library/model-synth) | AI-powered 3D model generation |
-| [`@strata-game-library/capacitor-plugin`](packages/capacitor-plugin) | [![npm](https://img.shields.io/npm/v/@strata-game-library/capacitor-plugin)](https://www.npmjs.com/package/@strata-game-library/capacitor-plugin) | Native mobile integration via Capacitor |
-| [`@strata-game-library/react-native-plugin`](packages/react-native-plugin) | [![npm](https://img.shields.io/npm/v/@strata-game-library/react-native-plugin)](https://www.npmjs.com/package/@strata-game-library/react-native-plugin) | React Native bridge |
+| [`@strata-game-library/audio-synth`](plugins/audio-synth) | [![npm](https://img.shields.io/npm/v/@strata-game-library/audio-synth)](https://www.npmjs.com/package/@strata-game-library/audio-synth) | Procedural audio synthesis with Tone.js |
+| [`@strata-game-library/model-synth`](plugins/model-synth) | [![npm](https://img.shields.io/npm/v/@strata-game-library/model-synth)](https://www.npmjs.com/package/@strata-game-library/model-synth) | AI-powered 3D model generation |
+| [`@strata-game-library/capacitor`](plugins/capacitor) | [![npm](https://img.shields.io/npm/v/@strata-game-library/capacitor)](https://www.npmjs.com/package/@strata-game-library/capacitor) | Native mobile integration via Capacitor |
+| [`@strata-game-library/react-native`](plugins/react-native) | [![npm](https://img.shields.io/npm/v/@strata-game-library/react-native)](https://www.npmjs.com/package/@strata-game-library/react-native) | React Native bridge |
 
 ## Architecture
 
@@ -89,10 +89,12 @@ strata/
     core/              # Main library (R3F components, systems)
     shaders/           # Standalone GLSL shaders
     presets/            # Configuration presets
+  plugins/
     audio-synth/       # Audio synthesis
     model-synth/       # AI model generation
-    capacitor-plugin/  # Capacitor mobile plugin
-    react-native-plugin/ # React Native bridge
+    capacitor/         # Capacitor mobile plugin
+    react-native/      # React Native bridge
+  adapters/            # Renderer adapters (future)
   apps/
     docs/              # Documentation site (strata.game)
     examples/          # Example projects

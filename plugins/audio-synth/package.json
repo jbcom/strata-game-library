@@ -57,12 +57,12 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/jbcom/strata-game-library.git",
-		"directory": "packages/audio-synth"
+		"directory": "plugins/audio-synth"
 	},
 	"bugs": {
 		"url": "https://github.com/jbcom/strata-game-library/issues"
 	},
-	"homepage": "https://github.com/jbcom/strata-game-library/tree/main/packages/audio-synth#readme",
+	"homepage": "https://github.com/jbcom/strata-game-library/tree/main/plugins/audio-synth#readme",
 	"publishConfig": {
 		"access": "public"
 	},

@@ -1,7 +1,7 @@
-# @strata-game-library/capacitor-plugin
+# @strata-game-library/capacitor
 
-[![npm version](https://img.shields.io/npm/v/@strata-game-library/capacitor-plugin)](https://www.npmjs.com/package/@strata-game-library/capacitor-plugin)
-[![license](https://img.shields.io/npm/l/@strata-game-library/capacitor-plugin)](https://github.com/jbcom/strata-game-library/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@strata-game-library/capacitor)](https://www.npmjs.com/package/@strata-game-library/capacitor)
+[![license](https://img.shields.io/npm/l/@strata-game-library/capacitor)](https://github.com/jbcom/strata-game-library/blob/main/LICENSE)
 [![build](https://img.shields.io/github/actions/workflow/status/jbcom/strata-game-library/ci.yml?branch=main)](https://github.com/jbcom/strata-game-library/actions)
 
 Cross-platform input, device detection, and haptics for Strata 3D games using Ionic Capacitor.
@@ -9,7 +9,7 @@ Cross-platform input, device detection, and haptics for Strata 3D games using Io
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/capacitor-plugin @capacitor/core
+pnpm add @strata-game-library/capacitor @capacitor/core
 ```
 
 Peer dependency:
@@ -27,7 +27,7 @@ npx cap sync
 ## Quick Start
 
 ```ts
-import { StrataPlugin } from '@strata-game-library/capacitor-plugin';
+import { StrataPlugin } from '@strata-game-library/capacitor';
 
 // Trigger haptic feedback
 await StrataPlugin.hapticImpact({ style: 'medium' });
@@ -40,7 +40,7 @@ console.log(info.platform, info.hasGyroscope);
 Using the React hooks:
 
 ```tsx
-import { useHaptics, useDeviceMotion } from '@strata-game-library/capacitor-plugin/react';
+import { useHaptics, useDeviceMotion } from '@strata-game-library/capacitor/react';
 
 function GameControls() {
   const { impact } = useHaptics();
@@ -64,8 +64,8 @@ function GameControls() {
 
 | Path | Contents |
 |------|----------|
-| `@strata-game-library/capacitor-plugin` | Core plugin API |
-| `@strata-game-library/capacitor-plugin/react` | React hooks and components |
+| `@strata-game-library/capacitor` | Core plugin API |
+| `@strata-game-library/capacitor/react` | React hooks and components |
 
 ## Platform Support
 

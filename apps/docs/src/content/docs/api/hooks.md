@@ -73,7 +73,7 @@ function InteractiveFur() {
 Get device information (React Native / Capacitor).
 
 ```tsx
-import { useDevice } from '@strata-game-library/capacitor-plugin/react';
+import { useDevice } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const device = useDevice();
@@ -103,7 +103,7 @@ function Game() {
 Get unified input state (React Native / Capacitor).
 
 ```tsx
-import { useInput } from '@strata-game-library/capacitor-plugin/react';
+import { useInput } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const { leftStick, rightStick, buttons, isPressed } = useInput();
@@ -135,7 +135,7 @@ function Game() {
 Trigger haptic feedback (React Native / Capacitor).
 
 ```tsx
-import { useHaptics } from '@strata-game-library/capacitor-plugin/react';
+import { useHaptics } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const { light, medium, heavy, custom, isSupported } = useHaptics();
@@ -163,7 +163,7 @@ function Game() {
 Get localized control hints based on input mode.
 
 ```tsx
-import { useControlHints } from '@strata-game-library/capacitor-plugin/react';
+import { useControlHints } from '@strata-game-library/capacitor/react';
 
 function HelpOverlay() {
   const hints = useControlHints();
@@ -191,7 +191,7 @@ function HelpOverlay() {
 All-in-one hook for Capacitor plugin.
 
 ```tsx
-import { useStrata } from '@strata-game-library/capacitor-plugin/react';
+import { useStrata } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const {

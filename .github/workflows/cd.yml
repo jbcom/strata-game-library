@@ -5,7 +5,7 @@
 #   2. Docs deployment to GitHub Pages (on push to main)
 #
 # Nx Release reads the dependency graph and publishes in order:
-#   shaders -> core -> presets, react-native-plugin -> audio-synth, capacitor-plugin, model-synth
+#   shaders -> core -> presets, react-native -> audio-synth, capacitor, model-synth
 name: CD
 
 on:

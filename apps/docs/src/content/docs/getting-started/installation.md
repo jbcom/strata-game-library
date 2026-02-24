@@ -71,14 +71,14 @@ pnpm add @strata-game-library/presets @strata-game-library/core
 For React Native projects:
 
 ```bash
-npm install @strata-game-library/react-native-plugin
+npm install @strata-game-library/react-native
 cd ios && pod install
 ```
 
 For Capacitor projects:
 
 ```bash
-pnpm add @strata-game-library/capacitor-plugin
+pnpm add @strata-game-library/capacitor
 npx cap sync
 ```
 

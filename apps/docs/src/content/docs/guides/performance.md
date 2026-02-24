@@ -114,7 +114,7 @@ Target < 100 draw calls on mobile:
 ## Adaptive Quality
 
 ```tsx
-import { useDevice } from '@strata-game-library/capacitor-plugin/react';
+import { useDevice } from '@strata-game-library/capacitor/react';
 
 function AdaptiveScene() {
   const device = useDevice();

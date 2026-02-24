@@ -1,7 +1,7 @@
-# @strata-game-library/react-native-plugin
+# @strata-game-library/react-native
 
-[![npm version](https://img.shields.io/npm/v/@strata-game-library/react-native-plugin)](https://www.npmjs.com/package/@strata-game-library/react-native-plugin)
-[![license](https://img.shields.io/npm/l/@strata-game-library/react-native-plugin)](https://github.com/jbcom/strata-game-library/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@strata-game-library/react-native)](https://www.npmjs.com/package/@strata-game-library/react-native)
+[![license](https://img.shields.io/npm/l/@strata-game-library/react-native)](https://github.com/jbcom/strata-game-library/blob/main/LICENSE)
 [![build](https://img.shields.io/github/actions/workflow/status/jbcom/strata-game-library/ci.yml?branch=main)](https://github.com/jbcom/strata-game-library/actions)
 
 React Native plugin for Strata 3D -- cross-platform input, device detection, and haptics for mobile games.
@@ -9,7 +9,7 @@ React Native plugin for Strata 3D -- cross-platform input, device detection, and
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/react-native-plugin
+pnpm add @strata-game-library/react-native
 ```
 
 Peer dependencies:
@@ -27,7 +27,7 @@ cd ios && pod install
 ## Quick Start
 
 ```tsx
-import { StrataView, useStrataInput } from '@strata-game-library/react-native-plugin';
+import { StrataView, useStrataInput } from '@strata-game-library/react-native';
 
 function GameScreen() {
   const { touches, tilt } = useStrataInput();
@@ -66,7 +66,7 @@ function GameScreen() {
 This plugin works alongside `@strata-game-library/core` to bring the full Strata experience to mobile:
 
 ```tsx
-import { StrataView } from '@strata-game-library/react-native-plugin';
+import { StrataView } from '@strata-game-library/react-native';
 import { Terrain, Water } from '@strata-game-library/core/components';
 
 function MobileGame() {

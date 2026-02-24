@@ -2,11 +2,11 @@
 title: "OrientationOptions"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / OrientationOptions
+[@strata-game-library/capacitor](../globals.md) / OrientationOptions
 
 # Interface: OrientationOptions
 

@@ -2,11 +2,11 @@
 title: "version"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / version
+[@strata-game-library/capacitor](../globals.md) / version
 
 # Variable: version
 

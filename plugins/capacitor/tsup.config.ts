@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 /**
- * tsup configuration for @strata-game-library/capacitor-plugin
+ * tsup configuration for @strata-game-library/capacitor
  *
  * Ensures proper Node.js ESM support with correct .js extensions
  */
@@ -22,6 +22,6 @@ export default defineConfig({
 	minify: false,
 	keepNames: true,
 	banner: {
-		js: '/* @strata-game-library/capacitor-plugin - ESM Build */',
+		js: '/* @strata-game-library/capacitor - ESM Build */',
 	},
 });

@@ -73,79 +73,6 @@ importers:
 
   apps/examples: {}
 
-  packages/audio-synth:
-    devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.3.10
-        version: 2.3.10
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.7
-      '@vitest/coverage-v8':
-        specifier: ^4.0.16
-        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
-      react:
-        specifier: ^19.0.0
-        version: 19.2.3
-      tone:
-        specifier: ^15.0.0
-        version: 15.1.22
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.9.0
-        version: 5.9.3
-      vitest:
-        specifier: ^4.0.16
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-
-  packages/capacitor-plugin:
-    dependencies:
-      '@capacitor/core':
-        specifier: ^8.0.0
-        version: 8.1.0
-      react:
-        specifier: '>=18.0.0'
-        version: 19.2.3
-    devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.3.0
-        version: 2.3.10
-      '@capacitor/cli':
-        specifier: ^8.0.0
-        version: 8.1.0
-      '@capacitor/docgen':
-        specifier: 0.3.1
-        version: 0.3.1
-      '@playwright/browser-chromium':
-        specifier: ^1.57.0
-        version: 1.58.2
-      '@playwright/test':
-        specifier: ^1.57.0
-        version: 1.57.0
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.7
-      '@vitest/coverage-v8':
-        specifier: ^4.0.16
-        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
-      jsdom:
-        specifier: ^27.3.0
-        version: 27.4.0
-      rimraf:
-        specifier: ^6.1.0
-        version: 6.1.2
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.9.0
-        version: 5.9.3
-      vitest:
-        specifier: ^4.0.16
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-
   packages/core:
     dependencies:
       '@react-three/rapier':
@@ -267,31 +194,6 @@ importers:
         specifier: ^0.7.8
         version: 0.7.8
 
-  packages/model-synth:
-    dependencies:
-      zod:
-        specifier: ^3.23.0
-        version: 3.25.76
-    devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.3.10
-        version: 2.3.10
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.19.11
-      '@vitest/coverage-v8':
-        specifier: ^4.0.16
-        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
-      tsup:
-        specifier: ^8.0.0
-        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      vitest:
-        specifier: ^4.0.16
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-
   packages/presets:
     devDependencies:
       '@biomejs/biome':
@@ -349,7 +251,132 @@ importers:
         specifier: ^0.7.8
         version: 0.7.8
 
-  packages/react-native-plugin:
+  packages/shaders:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.3.10
+        version: 2.3.10
+      '@types/three':
+        specifier: ^0.182.0
+        version: 0.182.0
+      '@vitest/coverage-v8':
+        specifier: ^4.0.16
+        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+      glob:
+        specifier: ^13.0.0
+        version: 13.0.0
+      three:
+        specifier: ^0.182.0
+        version: 0.182.0
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
+  plugins/audio-synth:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.3.10
+        version: 2.3.10
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.7
+      '@vitest/coverage-v8':
+        specifier: ^4.0.16
+        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+      react:
+        specifier: ^19.0.0
+        version: 19.2.3
+      tone:
+        specifier: ^15.0.0
+        version: 15.1.22
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
+  plugins/capacitor:
+    dependencies:
+      '@capacitor/core':
+        specifier: ^8.0.0
+        version: 8.1.0
+      react:
+        specifier: '>=18.0.0'
+        version: 19.2.3
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.3.0
+        version: 2.3.10
+      '@capacitor/cli':
+        specifier: ^8.0.0
+        version: 8.1.0
+      '@capacitor/docgen':
+        specifier: 0.3.1
+        version: 0.3.1
+      '@playwright/browser-chromium':
+        specifier: ^1.57.0
+        version: 1.58.2
+      '@playwright/test':
+        specifier: ^1.57.0
+        version: 1.57.0
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.7
+      '@vitest/coverage-v8':
+        specifier: ^4.0.16
+        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+      jsdom:
+        specifier: ^27.3.0
+        version: 27.4.0
+      rimraf:
+        specifier: ^6.1.0
+        version: 6.1.2
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
+  plugins/model-synth:
+    dependencies:
+      zod:
+        specifier: ^3.23.0
+        version: 3.25.76
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.3.10
+        version: 2.3.10
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.11
+      '@vitest/coverage-v8':
+        specifier: ^4.0.16
+        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@22.19.11)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
+  plugins/react-native:
     dependencies:
       '@strata-game-library/core':
         specifier: '>=1.4.0'
@@ -387,33 +414,6 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^4.0.15
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
-
-  packages/shaders:
-    devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.3.10
-        version: 2.3.10
-      '@types/three':
-        specifier: ^0.182.0
-        version: 0.182.0
-      '@vitest/coverage-v8':
-        specifier: ^4.0.16
-        version: 4.0.18(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
-      glob:
-        specifier: ^13.0.0
-        version: 13.0.0
-      three:
-        specifier: ^0.182.0
-        version: 0.182.0
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.1(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      vitest:
-        specifier: ^4.0.16
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.0.3)(jsdom@27.4.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
 packages:
@@ -13544,7 +13544,7 @@ snapshots:
 
   standardized-audio-context@25.3.77:
     dependencies:
-      '@babel/runtime': 7.28.4
+      '@babel/runtime': 7.28.6
       automation-events: 7.1.15
       tslib: 2.8.1
 

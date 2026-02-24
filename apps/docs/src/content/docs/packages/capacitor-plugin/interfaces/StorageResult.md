@@ -2,11 +2,11 @@
 title: "StorageResult"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / StorageResult
+[@strata-game-library/capacitor](../globals.md) / StorageResult
 
 # Interface: StorageResult\<T\>
 

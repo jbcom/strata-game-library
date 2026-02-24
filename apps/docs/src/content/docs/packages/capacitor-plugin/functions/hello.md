@@ -2,11 +2,11 @@
 title: "hello"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / hello
+[@strata-game-library/capacitor](../globals.md) / hello
 
 # Function: hello()
 

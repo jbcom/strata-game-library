@@ -2,11 +2,11 @@
 title: "Platform"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / Platform
+[@strata-game-library/capacitor](../globals.md) / Platform
 
 # Type Alias: Platform
 

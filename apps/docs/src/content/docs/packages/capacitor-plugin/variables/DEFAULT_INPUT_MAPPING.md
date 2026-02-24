@@ -2,11 +2,11 @@
 title: "DEFAULT_INPUT_MAPPING"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / DEFAULT\_INPUT\_MAPPING
+[@strata-game-library/capacitor](../globals.md) / DEFAULT\_INPUT\_MAPPING
 
 # Variable: DEFAULT\_INPUT\_MAPPING
 

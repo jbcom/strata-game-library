@@ -49,8 +49,8 @@ Push your branch and create a pull request.
 | `shaders` | GLSL shaders |
 | `presets` | Preset configurations |
 | `examples` | Example applications |
-| `react-native-plugin` | React Native plugin |
-| `capacitor-plugin` | Capacitor plugin |
+| `react-native` | React Native plugin |
+| `capacitor` | Capacitor plugin |
 | `jbcom/strata-game-library` | Documentation (this site) |
 
 ## Development Setup

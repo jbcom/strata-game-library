@@ -5,12 +5,12 @@ description: Cross-platform input, device detection, and haptics for Capacitor g
 
 # Capacitor Plugin
 
-The `@strata-game-library/capacitor-plugin` provides cross-platform capabilities for web, iOS, Android, and Electron games.
+The `@strata-game-library/capacitor` provides cross-platform capabilities for web, iOS, Android, and Electron games.
 
 ## Installation
 
 ```bash
-pnpm install @strata-game-library/capacitor-plugin
+pnpm install @strata-game-library/capacitor
 npx cap sync
 ```
 
@@ -28,7 +28,7 @@ npx cap sync
 ### Strata Object
 
 ```typescript
-import { Strata } from '@strata-game-library/capacitor-plugin';
+import { Strata } from '@strata-game-library/capacitor';
 
 // Get device profile
 const profile = await Strata.getDeviceProfile();
@@ -58,7 +58,7 @@ await Strata.configureTouchHandling({
 ### Setup with Provider
 
 ```tsx
-import { DeviceProvider } from '@strata-game-library/capacitor-plugin/react';
+import { DeviceProvider } from '@strata-game-library/capacitor/react';
 
 function App() {
   return (
@@ -72,7 +72,7 @@ function App() {
 ### `useDevice()`
 
 ```tsx
-import { useDevice } from '@strata-game-library/capacitor-plugin/react';
+import { useDevice } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const device = useDevice();
@@ -97,7 +97,7 @@ function Game() {
 ### `useInput()`
 
 ```tsx
-import { useInput } from '@strata-game-library/capacitor-plugin/react';
+import { useInput } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const { leftStick, rightStick, buttons, isPressed } = useInput();
@@ -123,7 +123,7 @@ function Game() {
 ### `useHaptics()`
 
 ```tsx
-import { useHaptics } from '@strata-game-library/capacitor-plugin/react';
+import { useHaptics } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const { light, medium, heavy, custom } = useHaptics();
@@ -146,7 +146,7 @@ function Game() {
 ### `useControlHints()`
 
 ```tsx
-import { useControlHints } from '@strata-game-library/capacitor-plugin/react';
+import { useControlHints } from '@strata-game-library/capacitor/react';
 
 function HelpOverlay() {
   const hints = useControlHints();
@@ -166,7 +166,7 @@ function HelpOverlay() {
 All-in-one hook:
 
 ```tsx
-import { useStrata } from '@strata-game-library/capacitor-plugin/react';
+import { useStrata } from '@strata-game-library/capacitor/react';
 
 function Game() {
   const {
@@ -204,7 +204,7 @@ function Game() {
 For games, disable default touch behaviors:
 
 ```typescript
-import { Strata } from '@strata-game-library/capacitor-plugin';
+import { Strata } from '@strata-game-library/capacitor';
 
 // At app startup
 await Strata.configureTouchHandling({
@@ -217,7 +217,7 @@ await Strata.configureTouchHandling({
 ### Virtual Joysticks
 
 ```tsx
-import { VirtualJoystick, VirtualButton } from '@strata-game-library/capacitor-plugin/react';
+import { VirtualJoystick, VirtualButton } from '@strata-game-library/capacitor/react';
 
 function TouchControls() {
   return (
@@ -239,7 +239,7 @@ function TouchControls() {
 ## Performance Adaptation
 
 ```tsx
-import { useDevice } from '@strata-game-library/capacitor-plugin/react';
+import { useDevice } from '@strata-game-library/capacitor/react';
 
 function AdaptiveScene() {
   const device = useDevice();

@@ -1,5 +1,5 @@
 {
-  "name": "@strata-game-library/capacitor-plugin",
+  "name": "@strata-game-library/capacitor",
   "version": "1.0.2",
   "description": "Cross-platform input, device detection, and haptics for Strata 3D games",
   "type": "module",
@@ -51,7 +51,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jbcom/strata-game-library.git",
-    "directory": "packages/capacitor-plugin"
+    "directory": "plugins/capacitor"
   },
   "publishConfig": {
     "access": "public"

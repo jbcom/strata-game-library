@@ -44,9 +44,9 @@
       "@strata-game-library/core",
       "@strata-game-library/presets",
       "@strata-game-library/audio-synth",
-      "@strata-game-library/capacitor-plugin",
+      "@strata-game-library/capacitor",
       "@strata-game-library/model-synth",
-      "@strata-game-library/react-native-plugin"
+      "@strata-game-library/react-native"
     ],
     "projectsRelationship": "independent",
     "changelog": {

@@ -5,12 +5,12 @@ description: Strata Capacitor plugin for native mobile integration
 
 # Capacitor Plugin
 
-The `@strata-game-library/capacitor-plugin` provides native mobile integration for Strata applications using Ionic Capacitor. Deploy your 3D games and experiences to iOS and Android with native performance.
+The `@strata-game-library/capacitor` provides native mobile integration for Strata applications using Ionic Capacitor. Deploy your 3D games and experiences to iOS and Android with native performance.
 
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/capacitor-plugin
+pnpm add @strata-game-library/capacitor
 npx cap sync
 ```
 
@@ -27,7 +27,7 @@ npx cap sync
 ## Quick Start
 
 ```tsx
-import { StrataCapacitor } from '@strata-game-library/capacitor-plugin';
+import { StrataCapacitor } from '@strata-game-library/capacitor';
 
 // Initialize the plugin
 await StrataCapacitor.initialize({

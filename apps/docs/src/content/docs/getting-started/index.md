@@ -97,8 +97,8 @@ Strata is organized into several focused packages:
 | `@strata-game-library/core` | Core library with all features | [![npm](https://img.shields.io/npm/v/@strata-game-library/core.svg)](https://www.npmjs.com/package/@strata-game-library/core) |
 | `@strata-game-library/shaders` | Standalone GLSL shader collection | [![npm](https://img.shields.io/npm/v/@strata-game-library/shaders.svg)](https://www.npmjs.com/package/@strata-game-library/shaders) |
 | `@strata-game-library/presets` | Ready-to-use configurations | [![npm](https://img.shields.io/npm/v/@strata-game-library/presets.svg)](https://www.npmjs.com/package/@strata-game-library/presets) |
-| `@strata-game-library/react-native-plugin` | React Native mobile plugin | [![npm](https://img.shields.io/npm/v/@strata-game-library/react-native-plugin.svg)](https://www.npmjs.com/package/@strata-game-library/react-native-plugin) |
-| `@strata-game-library/capacitor-plugin` | Capacitor mobile plugin | [![npm](https://img.shields.io/npm/v/@strata-game-library/capacitor-plugin.svg)](https://www.npmjs.com/package/@strata-game-library/capacitor-plugin) |
+| `@strata-game-library/react-native` | React Native mobile plugin | [![npm](https://img.shields.io/npm/v/@strata-game-library/react-native.svg)](https://www.npmjs.com/package/@strata-game-library/react-native) |
+| `@strata-game-library/capacitor` | Capacitor mobile plugin | [![npm](https://img.shields.io/npm/v/@strata-game-library/capacitor.svg)](https://www.npmjs.com/package/@strata-game-library/capacitor) |
 
 ## Why Strata?
 

@@ -2,11 +2,11 @@
 title: "PerformanceMode"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / PerformanceMode
+[@strata-game-library/capacitor](../globals.md) / PerformanceMode
 
 # Interface: PerformanceMode
 

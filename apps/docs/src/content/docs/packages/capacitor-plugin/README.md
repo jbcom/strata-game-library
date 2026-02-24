@@ -1,8 +1,8 @@
 ---
-title: "@strata-game-library/capacitor-plugin"
+title: "@strata-game-library/capacitor"
 ---
 
-# @strata-game-library/capacitor-plugin
+# @strata-game-library/capacitor
 
 Native mobile integration for Strata applications using Ionic Capacitor.
 

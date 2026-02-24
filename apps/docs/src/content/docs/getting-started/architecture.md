@@ -297,10 +297,10 @@ Platform-specific capabilities:
 
 ```tsx
 // React Native
-import { useDevice, useHaptics } from '@strata-game-library/react-native-plugin';
+import { useDevice, useHaptics } from '@strata-game-library/react-native';
 
 // Capacitor (Web/iOS/Android/Electron)
-import { useDevice, useInput } from '@strata-game-library/capacitor-plugin/react';
+import { useDevice, useInput } from '@strata-game-library/capacitor/react';
 ```
 
 ## Directory Structure

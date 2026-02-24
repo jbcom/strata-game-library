@@ -11,8 +11,8 @@ Strata provides mobile plugins for both React Native and Capacitor, enabling cro
 
 | Plugin | Platform | Use Case |
 |--------|----------|----------|
-| [@strata-game-library/react-native-plugin](/mobile/react-native/) | React Native | Native mobile apps |
-| [@strata-game-library/capacitor-plugin](/mobile/capacitor/) | Capacitor | Hybrid web/mobile apps |
+| [@strata-game-library/react-native](/mobile/react-native/) | React Native | Native mobile apps |
+| [@strata-game-library/capacitor](/mobile/capacitor/) | Capacitor | Hybrid web/mobile apps |
 
 ## Features
 
@@ -56,12 +56,12 @@ Both plugins provide:
 ### React Native
 
 ```bash
-npm install @strata-game-library/react-native-plugin
+npm install @strata-game-library/react-native
 cd ios && pod install
 ```
 
 ```tsx
-import { useDevice, useInput, useHaptics } from '@strata-game-library/react-native-plugin';
+import { useDevice, useInput, useHaptics } from '@strata-game-library/react-native';
 
 function Game() {
   const device = useDevice();
@@ -75,12 +75,12 @@ function Game() {
 ### Capacitor
 
 ```bash
-pnpm install @strata-game-library/capacitor-plugin
+pnpm install @strata-game-library/capacitor
 npx cap sync
 ```
 
 ```tsx
-import { DeviceProvider, useDevice, useInput } from '@strata-game-library/capacitor-plugin/react';
+import { DeviceProvider, useDevice, useInput } from '@strata-game-library/capacitor/react';
 
 function App() {
   return (

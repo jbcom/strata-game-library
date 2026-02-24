@@ -2,11 +2,11 @@
 title: "SafeAreaInsets"
 ---
 
-[**@strata-game-library/capacitor-plugin**](../README.md)
+[**@strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor-plugin](../globals.md) / SafeAreaInsets
+[@strata-game-library/capacitor](../globals.md) / SafeAreaInsets
 
 # Interface: SafeAreaInsets
 

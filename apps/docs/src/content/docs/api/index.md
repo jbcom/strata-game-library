@@ -14,8 +14,8 @@ This section provides complete API documentation for all Strata packages.
 | `@strata-game-library/core` | Core library with components and algorithms | This page |
 | `@strata-game-library/shaders` | Standalone GLSL shader collection | [Shaders](/shaders/) |
 | `@strata-game-library/presets` | Pre-configured settings | [Presets](/presets/) |
-| `@strata-game-library/react-native-plugin` | React Native mobile plugin | [React Native](/mobile/react-native/) |
-| `@strata-game-library/capacitor-plugin` | Capacitor mobile plugin | [Capacitor](/mobile/capacitor/) |
+| `@strata-game-library/react-native` | React Native mobile plugin | [React Native](/mobile/react-native/) |
+| `@strata-game-library/capacitor` | Capacitor mobile plugin | [Capacitor](/mobile/capacitor/) |
 
 ## Core Package Exports
 

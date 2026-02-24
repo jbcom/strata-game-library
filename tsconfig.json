@@ -5,9 +5,9 @@
     { "path": "packages/core" },
     { "path": "packages/shaders" },
     { "path": "packages/presets" },
-    { "path": "packages/audio-synth" },
-    { "path": "packages/model-synth" },
-    { "path": "packages/capacitor-plugin" },
-    { "path": "packages/react-native-plugin" }
+    { "path": "plugins/audio-synth" },
+    { "path": "plugins/model-synth" },
+    { "path": "plugins/capacitor" },
+    { "path": "plugins/react-native" }
   ]
 }
