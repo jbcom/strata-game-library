@@ -1,13 +1,16 @@
-# CD - Release & Publish (Nx monorepo)
+# CD - Release, Publish & Deploy (Nx monorepo)
 #
-# Triggered by version tags (v*) or manually.
-# Uses Nx Release to version, changelog, publish, and create GitHub releases.
-# Nx Release reads the dependency graph from nx.json and publishes in order:
+# Handles:
+#   1. npm publish via Nx Release (on version tags or manual dispatch)
+#   2. Docs deployment to GitHub Pages (on push to main)
+#
+# Nx Release reads the dependency graph and publishes in order:
 #   shaders -> core -> presets, react-native-plugin -> audio-synth, capacitor-plugin, model-synth
 name: CD
 
 on:
   push:
+    branches: [main]
     tags:
       - 'v*'
   workflow_dispatch:
@@ -22,9 +25,10 @@ permissions:
   contents: write
   id-token: write
   packages: write
+  pages: write
 
 concurrency:
-  group: cd-release
+  group: cd-${{ github.ref_type == 'tag' && 'release' || 'deploy' }}
   cancel-in-progress: false
 
 env:
@@ -32,8 +36,12 @@ env:
   PNPM_VERSION: 9
 
 jobs:
+  # ────────────────────────────────────────────────────────────────────
+  # npm Release & Publish (tags only or manual dispatch)
+  # ────────────────────────────────────────────────────────────────────
   release:
     name: Release & Publish
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -72,3 +80,48 @@ jobs:
             DRY_RUN_FLAG="--dry-run"
           fi
           pnpm nx release $DRY_RUN_FLAG
+
+  # ────────────────────────────────────────────────────────────────────
+  # Deploy docs to GitHub Pages (push to main)
+  # ────────────────────────────────────────────────────────────────────
+  docs:
+    name: Deploy Docs
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages (docs depends on type exports)
+        run: pnpm nx run-many -t build --exclude @strata-game-library/docs
+
+      - name: Build docs
+        run: pnpm nx run @strata-game-library/docs:build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: apps/docs/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
