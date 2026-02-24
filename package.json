@@ -1,164 +1,18 @@
 {
-  "name": "@strata-game-library/core",
-  "version": "1.4.11",
-  "description": "Procedural 3D graphics library for React Three Fiber - terrain, water, vegetation, sky, volumetrics, and characters",
+  "name": "@strata-game-library/monorepo",
+  "private": true,
+  "description": "Strata Game Library - monorepo for procedural 3D graphics and game framework",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.js"
-    },
-    "./shaders": {
-      "types": "./dist/shaders/index.d.ts",
-      "import": "./dist/shaders/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
-    },
-    "./api": {
-      "types": "./dist/api/index.d.ts",
-      "import": "./dist/api/index.js"
-    },
-    "./game": {
-      "types": "./dist/game/index.d.ts",
-      "import": "./dist/game/index.js"
-    },
-    "./compose": {
-      "types": "./dist/compose/index.d.ts",
-      "import": "./dist/compose/index.js"
-    },
-    "./world": {
-      "types": "./dist/world/index.d.ts",
-      "import": "./dist/world/index.js"
-    },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
-    },
-    "./core": {
-      "types": "./dist/core/index.d.ts",
-      "import": "./dist/core/index.js"
-    },
-    "./core/marching-cubes": {
-      "types": "./dist/core/marching-cubes.d.ts",
-      "import": "./dist/core/marching-cubes.js"
-    },
-    "./core/sdf": {
-      "types": "./dist/core/sdf.d.ts",
-      "import": "./dist/core/sdf.js"
-    },
-    "./core/instancing": {
-      "types": "./dist/core/instancing.d.ts",
-      "import": "./dist/core/instancing.js"
-    },
-    "./core/ui": {
-      "types": "./dist/core/ui.d.ts",
-      "import": "./dist/core/ui.js"
-    },
-    "./core/state": {
-      "types": "./dist/core/state/index.d.ts",
-      "import": "./dist/core/state/index.js"
-    },
-    "./core/weather": {
-      "types": "./dist/core/weather.d.ts",
-      "import": "./dist/core/weather.js"
-    },
-    "./core/ecs": {
-      "types": "./dist/core/ecs/index.d.ts",
-      "import": "./dist/core/ecs/index.js"
-    },
-    "./core/math": {
-      "types": "./dist/core/math/index.d.ts",
-      "import": "./dist/core/math/index.js"
-    },
-    "./core/audio": {
-      "types": "./dist/core/audio/index.d.ts",
-      "import": "./dist/core/audio/index.js"
-    },
-    "./core/animation": {
-      "types": "./dist/core/animation/index.d.ts",
-      "import": "./dist/core/animation/index.js"
-    },
-    "./core/debug": {
-      "types": "./dist/core/debug/index.d.ts",
-      "import": "./dist/core/debug/index.js"
-    },
-    "./core/pathfinding": {
-      "types": "./dist/core/pathfinding/index.d.ts",
-      "import": "./dist/core/pathfinding/index.js"
-    },
-    "./core/shared": {
-      "types": "./dist/core/shared/index.d.ts",
-      "import": "./dist/core/shared/index.js"
-    },
-    "./shaders/water": {
-      "types": "./dist/shaders/water.d.ts",
-      "import": "./dist/shaders/water.js"
-    },
-    "./shaders/clouds": {
-      "types": "./dist/shaders/clouds.d.ts",
-      "import": "./dist/shaders/clouds.js"
-    },
-    "./shaders/terrain": {
-      "types": "./dist/shaders/terrain.d.ts",
-      "import": "./dist/shaders/terrain.js"
-    },
-    "./shaders/volumetrics": {
-      "types": "./dist/shaders/volumetrics.d.ts",
-      "import": "./dist/shaders/volumetrics.js"
-    },
-    "./shaders/sky": {
-      "types": "./dist/shaders/sky.d.ts",
-      "import": "./dist/shaders/sky.js"
-    },
-    "./shaders/fur": {
-      "types": "./dist/shaders/fur.d.ts",
-      "import": "./dist/shaders/fur.js"
-    },
-    "./shaders/godRays": {
-      "types": "./dist/shaders/godRays.d.ts",
-      "import": "./dist/shaders/godRays.js"
-    }
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "clean": "rimraf dist",
-    "demo": "npx serve docs/demos",
-    "docs:dev": "npx serve docs",
-    "docs:build": "echo 'Static docs ready in docs/'",
-    "docs:typedoc": "typedoc",
-    "lint": "biome lint src/",
-    "lint:fix": "biome lint --write src/",
-    "format": "biome format --write src/ tests/",
-    "format:check": "biome format src/ tests/",
-    "check": "biome check src/",
-    "check:fix": "biome check --write src/",
-    "test": "vitest run",
-    "test:unit": "vitest run --config tests/unit/vitest.config.ts",
-    "test:integration": "vitest run --config tests/integration/vitest.config.ts",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test --project=chromium",
-    "test:e2e:ui": "playwright test --ui",
-    "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e",
-    "prepublishOnly": "pnpm run build && pnpm run test:unit",
-    "prepare": "husky",
-    "triage": "agentic-dev-triage",
-    "typecheck": "tsc --noEmit",
-    "docs": "typedoc"
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "typecheck": "nx run-many -t typecheck",
+    "affected:build": "nx affected -t build",
+    "affected:test": "nx affected -t test",
+    "affected:lint": "nx affected -t lint",
+    "graph": "nx graph",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -168,121 +22,19 @@
       "biome format --write --no-errors-on-unmatched"
     ]
   },
-  "keywords": [
-    "strata",
-    "3d-graphics",
-    "procedural-generation",
-    "three.js",
-    "react-three-fiber",
-    "r3f",
-    "webgl",
-    "sdf",
-    "marching-cubes",
-    "gpu-instancing",
-    "raymarching",
-    "volumetric",
-    "terrain",
-    "water",
-    "fog",
-    "vegetation",
-    "fur",
-    "character-animation",
-    "shaders",
-    "glsl"
-  ],
   "author": "Jon Bogaty <jon@jonbogaty.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/strata-game-library/core.git"
   },
-  "homepage": "https://github.com/strata-game-library/core#readme",
-  "bugs": {
-    "url": "https://github.com/strata-game-library/core/issues"
-  },
-  "peerDependencies": {
-    "@react-three/drei": ">=9.0.0",
-    "@react-three/fiber": ">=8.0.0",
-    "@react-three/rapier": ">=1.0.0",
-    "postprocessing": ">=6.0.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "three": ">=0.150.0",
-    "yuka": ">=0.7.0",
-    "zustand": ">=4.0.0"
-  },
-  "peerDependenciesMeta": {
-    "yuka": {
-      "optional": true
-    },
-    "@react-three/rapier": {
-      "optional": true
-    },
-    "postprocessing": {
-      "optional": true
-    },
-    "zustand": {
-      "optional": true
-    }
-  },
-  "dependencies": {
-    "@types/howler": "^2.2.12",
-    "@xstate/react": "^6.0.0",
-    "howler": "^2.2.4",
-    "immer": "^11.0.1",
-    "leva": "^0.10.1",
-    "maath": "^0.10.8",
-    "miniplex": "^2.0.0",
-    "miniplex-react": "^2.0.1",
-    "ngraph.graph": "^20.1.1",
-    "ngraph.path": "^1.6.1",
-    "simplex-noise": "^4.0.3",
-    "tunnel-rat": "^0.1.2",
-    "xstate": "^5.25.0",
-    "zundo": "^2.3.0",
-    "zustand": "^5.0.9"
-  },
   "devDependencies": {
-    "@agentic-dev-library/triage": "^1.1.0",
-    "@agentic-dev-library/vitest-control": "github:agentic-dev-library/control#path:packages/vitest-agentic-control",
     "@biomejs/biome": "2.3.10",
-    "@playwright/test": "^1.57.0",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.4.2",
-    "@react-three/postprocessing": "^3.0.4",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@testing-library/react": "^16.3.0",
-    "@types/howler": "^2.2.12",
-    "@types/node": "^25.0.2",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.182.0",
-    "@types/yuka": "^0.7.4",
-    "@vitest/coverage-v8": "^4.0.15",
-    "@xstate/react": "^6.0.0",
-    "howler": "^2.2.4",
+    "@nx/js": "22.5.2",
     "husky": "^9.1.7",
-    "jsdom": "^27.3.0",
     "lint-staged": "^16.2.7",
-    "maath": "^0.10.8",
-    "miniplex": "^2.0.0",
-    "miniplex-react": "^2.0.1",
-    "ngraph.graph": "^20.1.1",
-    "ngraph.path": "^1.6.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "nx": "22.5.2",
     "rimraf": "^6.1.2",
-    "semantic-release": "^25.0.2",
-    "serve": "14.2.3",
-    "simplex-noise": "^4.0.3",
-    "three": "^0.182.0",
-    "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "typedoc": "^0.28.15",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.15",
-    "xstate": "^5.25.0",
-    "yuka": "^0.7.8"
+    "typescript": "^5.9.3"
   }
 }

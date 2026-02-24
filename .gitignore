@@ -27,6 +27,10 @@ npm-debug.log*
 .cache/
 .parcel-cache/
 
+# Nx
+.nx/cache
+.nx/workspace-data
+
 # Playwright
 test-results/
 playwright-report/
