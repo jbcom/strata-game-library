@@ -2,6 +2,7 @@
 
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
+import strata from '@strata-game-library/astro';
 import { defineConfig } from 'astro/config';
 import { sidebar } from './sidebar.config.mjs';
 
@@ -85,11 +86,6 @@ export default defineConfig({
       },
     }),
     react(),
+    strata(),
   ],
-  vite: {
-    ssr: {
-      // Three.js and R3F need to be externalized in SSR
-      noExternal: ['@react-three/fiber', '@react-three/drei', 'three'],
-    },
-  },
 });

@@ -1,0 +1,101 @@
+/*
+  Strata Game Library - Design Tokens
+  "Layer by Layer, World by World"
+
+  CSS custom properties, color palettes, fonts, gradients, spacing.
+*/
+
+/* ===== FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ===== CORE THEME: DARK MODE ===== */
+:root {
+  /* Accent palette */
+  --sl-color-accent-low: #0c2d3e;
+  --sl-color-accent: #0ea5e9;
+  --sl-color-accent-high: #bae6fd;
+  --sl-color-text-accent: #38bdf8;
+
+  /* Background */
+  --sl-color-bg: #0b1120;
+  --sl-color-bg-nav: rgba(11, 17, 32, 0.85);
+  --sl-color-bg-sidebar: #0f172a;
+  --sl-color-black: #080d19;
+
+  /* Text */
+  --sl-color-white: #f1f5f9;
+  --sl-color-gray-1: #e2e8f0;
+  --sl-color-gray-2: #94a3b8;
+  --sl-color-gray-3: #64748b;
+  --sl-color-gray-4: #334155;
+  --sl-color-gray-5: #1e293b;
+  --sl-color-gray-6: #0f172a;
+
+  /* Typography */
+  --sl-font: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Strata-specific tokens */
+  --strata-gradient: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 40%, #10b981 70%, #f59e0b 100%);
+  --strata-gradient-subtle: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(20, 184, 166, 0.1) 50%, rgba(16, 185, 129, 0.05) 100%);
+  --strata-glow: 0 0 40px rgba(14, 165, 233, 0.15), 0 0 80px rgba(14, 165, 233, 0.05);
+  --strata-border: 1px solid rgba(14, 165, 233, 0.2);
+  --strata-radius: 12px;
+}
+
+/* ===== LIGHT MODE ===== */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e0f2fe;
+  --sl-color-accent: #0284c7;
+  --sl-color-accent-high: #0c4a6e;
+  --sl-color-text-accent: #0369a1;
+
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.9);
+  --sl-color-bg-sidebar: #f8fafc;
+  --sl-color-black: #0f172a;
+
+  --sl-color-white: #0f172a;
+  --sl-color-gray-1: #1e293b;
+  --sl-color-gray-2: #475569;
+  --sl-color-gray-3: #94a3b8;
+  --sl-color-gray-4: #cbd5e1;
+  --sl-color-gray-5: #e2e8f0;
+  --sl-color-gray-6: #f1f5f9;
+
+  --strata-gradient-subtle: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(20, 184, 166, 0.05) 50%, rgba(16, 185, 129, 0.03) 100%);
+  --strata-glow: 0 0 40px rgba(14, 165, 233, 0.08), 0 0 80px rgba(14, 165, 233, 0.03);
+  --strata-border: 1px solid rgba(14, 165, 233, 0.15);
+}
+
+/* ===== GLOBAL TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', var(--sl-font);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ===== SELECTION COLOR ===== */
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+  color: inherit;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sl-color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sl-color-gray-4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sl-color-gray-3);
+}

@@ -1,0 +1,63 @@
+{
+  "name": "@strata-game-library/astro",
+  "version": "0.1.0",
+  "description": "Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css/tokens.css": "./src/css/tokens.css",
+    "./css/components.css": "./src/css/components.css",
+    "./css/starlight.css": "./src/css/starlight.css"
+  },
+  "files": [
+    "dist/",
+    "src/css/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --passWithNoTests"
+  },
+  "keywords": [
+    "astro",
+    "strata",
+    "starlight",
+    "react-three-fiber",
+    "vite-plugin",
+    "css-tokens",
+    "game-framework"
+  ],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "plugins/astro"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "astro": ">=4.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.6.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vite": "^6.3.0",
+    "vitest": "^4.0.16"
+  }
+}
