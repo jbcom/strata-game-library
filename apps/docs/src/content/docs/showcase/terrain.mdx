@@ -1,38 +1,42 @@
 ---
 title: Terrain Demo
-description: Interactive procedural terrain generation demo
+description: Interactive procedural terrain generation with biomes, erosion, and dynamic LOD
 ---
 
-# 🏔️ Terrain Demo
+import TerrainDemo from '../../../components/TerrainDemo.tsx';
 
 Procedural terrain generation using Signed Distance Functions (SDFs) and the Marching Cubes algorithm with triplanar texturing and multi-biome blending.
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/basic-terrain/"
-  class="showcase-iframe"
-  title="Terrain Demo"
-  loading="lazy"
-></iframe>
+<TerrainDemo client:load />
 
-<div class="demo-controls">
-  <a href="https://jbcom/strata-game-library/examples/basic-terrain/" target="_blank" class="demo-btn">
-    Open Full Screen ↗
+<div class="demo-actions">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/examples/basic-terrain" target="_blank">
+    View Source Code
   </a>
-  <a href="https://github.com/jbcom/strata-game-library/tree/main/basic-terrain" target="_blank" class="demo-btn">
-    View Source ↗
+  <a href="/getting-started/quick-start/">
+    Get Started with Terrain
   </a>
 </div>
 
 ## Features Demonstrated
 
-- **SDF-Based Terrain** - Mathematically defined terrain allowing caves and overhangs
-- **Marching Cubes** - Efficient mesh generation from SDF
-- **Biome Blending** - Smooth transitions between terrain types
-- **Triplanar Texturing** - No texture stretching on steep surfaces
-- **Height-Based Materials** - Different textures at different elevations
-- **Dynamic LOD** - Level of detail based on camera distance
+<div class="showcase-features">
+  <span class="pill">SDF-Based Terrain</span>
+  <span class="pill">Marching Cubes</span>
+  <span class="pill">Biome Blending</span>
+  <span class="pill">Triplanar Texturing</span>
+  <span class="pill">Height-Based Materials</span>
+  <span class="pill">Dynamic LOD</span>
+</div>
+
+- **SDF-Based Terrain** — Mathematically defined terrain allowing caves and overhangs
+- **Marching Cubes** — Efficient mesh generation from signed distance fields
+- **Biome Blending** — Smooth transitions between terrain types (water, sand, grass, rock, snow)
+- **Triplanar Texturing** — No texture stretching on steep surfaces
+- **Height-Based Materials** — Different textures at different elevations
+- **Dynamic LOD** — Level of detail based on camera distance
 
 ## Code Example
 
@@ -68,7 +72,6 @@ function TerrainDemo() {
 | Left Click + Drag | Rotate camera |
 | Right Click + Drag | Pan camera |
 | Scroll | Zoom in/out |
-| UI Controls | Adjust terrain parameters |
 
 ## Key Parameters
 

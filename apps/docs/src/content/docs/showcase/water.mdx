@@ -1,38 +1,42 @@
 ---
 title: Water Demo
-description: Interactive water rendering demo with waves, reflections, and caustics
+description: Interactive water rendering with Gerstner waves, reflections, and caustics
 ---
 
-# 🌊 Water Demo
+import WaterDemo from '../../../components/WaterDemo.tsx';
 
 Realistic water rendering featuring Gerstner wave simulation, Fresnel-based reflections, procedural foam, and underwater caustics.
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/water-scene/"
-  class="showcase-iframe"
-  title="Water Demo"
-  loading="lazy"
-></iframe>
+<WaterDemo client:load />
 
-<div class="demo-controls">
-  <a href="https://jbcom/strata-game-library/examples/water-scene/" target="_blank" class="demo-btn">
-    Open Full Screen ↗
+<div class="demo-actions">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/examples/water-scene" target="_blank">
+    View Source Code
   </a>
-  <a href="https://github.com/jbcom/strata-game-library/tree/main/water-scene" target="_blank" class="demo-btn">
-    View Source ↗
+  <a href="/getting-started/quick-start/">
+    Get Started with Water
   </a>
 </div>
 
 ## Features Demonstrated
 
-- **Gerstner Waves** - Realistic wave motion with circular particle paths
-- **Fresnel Reflections** - Angle-dependent reflectivity
-- **Screen-Space Reflections** - Real-time scene reflections
-- **Underwater Caustics** - Light patterns on submerged surfaces
-- **Procedural Foam** - Foam at wave peaks and shorelines
-- **Depth-Based Coloring** - Darker color in deeper areas
+<div class="showcase-features">
+  <span class="pill">Gerstner Waves</span>
+  <span class="pill">Fresnel Reflections</span>
+  <span class="pill">Screen-Space Reflections</span>
+  <span class="pill">Underwater Caustics</span>
+  <span class="pill">Procedural Foam</span>
+  <span class="pill">Depth-Based Coloring</span>
+</div>
+
+- **Gerstner Waves** — Realistic wave motion with circular particle paths
+- **Fresnel Reflections** — Angle-dependent reflectivity
+- **Screen-Space Reflections** — Real-time scene reflections
+- **Underwater Caustics** — Light patterns on submerged surfaces
+- **Procedural Foam** — Foam at wave peaks and shorelines
+- **Depth-Based Coloring** — Darker color in deeper areas
 
 ## Code Example
 
@@ -69,7 +73,6 @@ function WaterDemo() {
 |---------|--------|
 | Left Click + Drag | Rotate camera |
 | Scroll | Zoom in/out |
-| UI Sliders | Adjust water parameters |
 
 ## Key Parameters
 

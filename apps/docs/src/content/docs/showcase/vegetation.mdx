@@ -1,44 +1,53 @@
 ---
 title: Vegetation Demo
-description: Interactive GPU-instanced vegetation demo with wind animation
+description: GPU-instanced vegetation with wind animation at 60fps
 ---
 
-# 🌿 Vegetation Demo
+import VegetationDemo from '../../../components/VegetationDemo.tsx';
 
 GPU-accelerated instancing capable of rendering 10,000+ instances of grass, trees, and rocks at 60fps with procedural wind animation.
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/vegetation-showcase/"
-  class="showcase-iframe"
-  title="Vegetation Demo"
-  loading="lazy"
-></iframe>
+<VegetationDemo client:load />
 
-<div class="demo-controls">
-  <a href="https://jbcom/strata-game-library/examples/vegetation-showcase/" target="_blank" class="demo-btn">
-    Open Full Screen ↗
+<div class="demo-actions">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase" target="_blank">
+    View Source Code
   </a>
-  <a href="https://github.com/jbcom/strata-game-library/tree/main/vegetation-showcase" target="_blank" class="demo-btn">
-    View Source ↗
+  <a href="/getting-started/quick-start/">
+    Get Started with Vegetation
   </a>
 </div>
 
 ## Features Demonstrated
 
-- **GPU Instancing** - Render thousands of instances efficiently
-- **Wind Animation** - Procedural wind affecting all vegetation
-- **Height Variation** - Natural size variation
-- **Color Variation** - Subtle color differences
-- **Terrain Following** - Vegetation placed on terrain surface
-- **Level of Detail** - Reduced complexity at distance
+<div class="showcase-features">
+  <span class="pill">GPU Instancing</span>
+  <span class="pill">Wind Animation</span>
+  <span class="pill">Height Variation</span>
+  <span class="pill">Color Variation</span>
+  <span class="pill">Terrain Following</span>
+  <span class="pill">Level of Detail</span>
+</div>
+
+- **GPU Instancing** — Render thousands of instances efficiently with InstancedMesh
+- **Wind Animation** — Procedural wind affecting all vegetation in vertex shader
+- **Height Variation** — Natural size variation for organic appearance
+- **Color Variation** — Subtle color differences across instances
+- **Terrain Following** — Vegetation placed on terrain surface
+- **Level of Detail** — Reduced complexity at distance
 
 ## Code Example
 
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { GrassInstances, TreeInstances, RockInstances, ProceduralSky } from '@strata-game-library/core';
+import {
+  GrassInstances,
+  TreeInstances,
+  RockInstances,
+  ProceduralSky,
+} from '@strata-game-library/core';
 import { OrbitControls } from '@react-three/drei';
 
 function VegetationDemo() {
@@ -80,7 +89,6 @@ function VegetationDemo() {
 |---------|--------|
 | Left Click + Drag | Rotate camera |
 | Scroll | Zoom in/out |
-| UI Sliders | Adjust vegetation parameters |
 
 ## Key Parameters
 
@@ -93,13 +101,6 @@ function VegetationDemo() {
 | `heightVariation` | Range of height differences |
 | `colorVariation` | Range of color differences |
 
-## Performance Notes
-
-- Uses InstancedMesh for efficient rendering
-- All animation calculated in vertex shader
-- No CPU overhead per instance
-- Demo maintains 60fps with 15,000+ instances
-
 ## Instance Counts by Platform
 
 | Platform | Grass | Trees | Rocks |
@@ -107,6 +108,13 @@ function VegetationDemo() {
 | Mobile | 5,000 | 200 | 100 |
 | Desktop | 15,000 | 500 | 200 |
 | High-end | 50,000 | 2,000 | 500 |
+
+## Performance Notes
+
+- Uses InstancedMesh for efficient rendering
+- All animation calculated in vertex shader
+- No CPU overhead per instance
+- Demo maintains 60fps with 15,000+ instances
 
 ## Related
 

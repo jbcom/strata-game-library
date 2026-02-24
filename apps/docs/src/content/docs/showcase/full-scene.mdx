@@ -1,40 +1,44 @@
 ---
 title: Full Scene Demo
-description: Complete integration of all Strata features in an explorable environment
+description: Complete integration of terrain, water, vegetation, sky, and volumetric effects
 ---
 
-# 🎬 Full Scene Demo
+import FullSceneDemo from '../../../components/FullSceneDemo.tsx';
 
-Complete integration of all Strata features—terrain, water, vegetation, sky, and volumetrics—into a cohesive, explorable 3D environment.
+Complete integration of all Strata features — terrain, water, vegetation, sky, and volumetrics — into a cohesive, explorable 3D environment.
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/api-showcase/"
-  class="showcase-iframe"
-  title="Full Scene Demo"
-  loading="lazy"
-></iframe>
+<FullSceneDemo client:load />
 
-<div class="demo-controls">
-  <a href="https://jbcom/strata-game-library/examples/api-showcase/" target="_blank" class="demo-btn">
-    Open Full Screen ↗
+<div class="demo-actions">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/examples/api-showcase" target="_blank">
+    View Source Code
   </a>
-  <a href="https://github.com/jbcom/strata-game-library/tree/main/api-showcase" target="_blank" class="demo-btn">
-    View Source ↗
+  <a href="/getting-started/quick-start/">
+    Get Started
   </a>
 </div>
 
 ## Features Integrated
 
-This demo combines all Strata features:
+<div class="showcase-features">
+  <span class="pill">Procedural Terrain</span>
+  <span class="pill">Advanced Water</span>
+  <span class="pill">GPU Vegetation</span>
+  <span class="pill">Procedural Sky</span>
+  <span class="pill">Volumetric Fog</span>
+  <span class="pill">Interactive Controls</span>
+</div>
 
-- 🏔️ **Procedural Terrain** with multiple biomes
-- 🌊 **Advanced Water** with reflections and caustics
-- 🌿 **GPU Vegetation** covering the terrain
-- ☀️ **Procedural Sky** with day/night cycle
-- 🌫️ **Volumetric Fog** for atmosphere
-- 🎮 **Interactive Controls** for exploration
+This demo combines all Strata features into a single cohesive scene:
+
+- **Procedural Terrain** with multiple biomes and height-based materials
+- **Advanced Water** with reflections and wave animation
+- **GPU Vegetation** covering the terrain hillsides
+- **Procedural Sky** with atmospheric scattering
+- **Volumetric Particles** for atmosphere and depth
+- **Interactive Controls** for exploration
 
 ## Complete Code Example
 
@@ -141,18 +145,6 @@ Full Scene
 | Left Click + Drag | Orbit camera |
 | Right Click + Drag | Pan camera |
 | Scroll Wheel | Zoom in/out |
-| Time Slider | Change time of day |
-
-## Customization
-
-The demo includes UI controls to adjust:
-
-- Time of day
-- Weather conditions
-- Water parameters
-- Vegetation density
-- Fog intensity
-- Camera settings
 
 ## Related
 

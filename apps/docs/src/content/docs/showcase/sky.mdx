@@ -1,44 +1,52 @@
 ---
 title: Sky & Volumetrics Demo
-description: Interactive procedural sky, clouds, and atmospheric effects demo
+description: Procedural sky with day/night cycle, atmospheric scattering, and volumetric effects
 ---
 
-# ☀️ Sky & Volumetrics Demo
+import SkyDemo from '../../../components/SkyDemo.tsx';
 
 Physically-based atmospheric scattering with dynamic day/night cycle, stars, volumetric clouds, and god rays.
 
 ## Live Demo
 
-<iframe
-  src="https://jbcom/strata-game-library/examples/sky-volumetrics/"
-  class="showcase-iframe"
-  title="Sky & Volumetrics Demo"
-  loading="lazy"
-></iframe>
+<SkyDemo client:load />
 
-<div class="demo-controls">
-  <a href="https://jbcom/strata-game-library/examples/sky-volumetrics/" target="_blank" class="demo-btn">
-    Open Full Screen ↗
+<div class="demo-actions">
+  <a href="https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics" target="_blank">
+    View Source Code
   </a>
-  <a href="https://github.com/jbcom/strata-game-library/tree/main/sky-volumetrics" target="_blank" class="demo-btn">
-    View Source ↗
+  <a href="/getting-started/quick-start/">
+    Get Started with Sky
   </a>
 </div>
 
 ## Features Demonstrated
 
-- **Atmospheric Scattering** - Rayleigh and Mie scattering
-- **Day/Night Cycle** - Sun position affects all lighting
-- **Dynamic Stars** - Stars visible at night with twinkle
-- **Moon Phases** - Accurate moon phase rendering
-- **Volumetric Fog** - Height-based atmospheric fog
-- **God Rays** - Volumetric light shafts
+<div class="showcase-features">
+  <span class="pill">Atmospheric Scattering</span>
+  <span class="pill">Day/Night Cycle</span>
+  <span class="pill">Dynamic Stars</span>
+  <span class="pill">Moon Phases</span>
+  <span class="pill">Volumetric Fog</span>
+  <span class="pill">God Rays</span>
+</div>
+
+- **Atmospheric Scattering** — Rayleigh and Mie scattering for realistic sky colors
+- **Day/Night Cycle** — Sun position affects all lighting and atmosphere
+- **Dynamic Stars** — Stars visible at night with twinkle effect
+- **Moon Phases** — Accurate moon phase rendering
+- **Volumetric Fog** — Height-based atmospheric fog with depth
+- **God Rays** — Volumetric light shafts through the atmosphere
 
 ## Code Example
 
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { ProceduralSky, VolumetricFogMesh, createTimeOfDay } from '@strata-game-library/core';
+import {
+  ProceduralSky,
+  VolumetricFogMesh,
+  createTimeOfDay,
+} from '@strata-game-library/core';
 import { OrbitControls } from '@react-three/drei';
 import { useState, useEffect } from 'react';
 
@@ -68,7 +76,6 @@ function SkyDemo() {
       />
 
       <ambientLight intensity={0.2} />
-
       <OrbitControls />
     </Canvas>
   );
@@ -81,7 +88,6 @@ function SkyDemo() {
 |---------|--------|
 | Left Click + Drag | Rotate camera |
 | Time Slider | Change time of day |
-| UI Controls | Adjust atmospheric parameters |
 
 ## Key Parameters
 
