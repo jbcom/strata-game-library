@@ -1,0 +1,57 @@
+# Release - Publish to npm (Nx monorepo)
+#
+# Triggered when a GitHub Release is published. Builds all packages
+# and publishes them to npm with OIDC provenance attestation.
+#
+# Nx Release reads the dependency graph and publishes in order:
+#   shaders -> core -> presets, react-native-plugin -> audio-synth, capacitor-plugin, model-synth
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: 9
+
+jobs:
+  # ────────────────────────────────────────────────────────────────────
+  # Publish all packages to npm with provenance
+  # ────────────────────────────────────────────────────────────────────
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm nx run-many -t build
+
+      - name: Publish with provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm publish -r --access public --no-git-checks --provenance
