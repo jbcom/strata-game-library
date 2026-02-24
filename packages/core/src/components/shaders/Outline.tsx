@@ -1,5 +1,5 @@
+import { createOutlineMaterial } from '@strata-game-library/shaders/materials';
 import React, { useMemo } from 'react';
-import { createOutlineMaterial } from '../../shaders/materials';
 import type { OutlineProps } from './types';
 
 /**

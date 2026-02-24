@@ -1,0 +1,212 @@
+{
+  "name": "@strata-game-library/presets",
+  "version": "1.1.1",
+  "description": "Pre-configured presets for Strata 3D - ready-to-use terrain, weather, physics settings",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./ai": {
+      "types": "./dist/ai/index.d.ts",
+      "import": "./dist/ai/index.js"
+    },
+    "./animation": {
+      "types": "./dist/animation/index.d.ts",
+      "import": "./dist/animation/index.js"
+    },
+    "./audio": {
+      "types": "./dist/audio/index.d.ts",
+      "import": "./dist/audio/index.js"
+    },
+    "./billboards": {
+      "types": "./dist/billboards/index.d.ts",
+      "import": "./dist/billboards/index.js"
+    },
+    "./camera": {
+      "types": "./dist/camera/index.d.ts",
+      "import": "./dist/camera/index.js"
+    },
+    "./characters": {
+      "types": "./dist/characters/index.d.ts",
+      "import": "./dist/characters/index.js"
+    },
+    "./clouds": {
+      "types": "./dist/clouds/index.d.ts",
+      "import": "./dist/clouds/index.js"
+    },
+    "./decals": {
+      "types": "./dist/decals/index.d.ts",
+      "import": "./dist/decals/index.js"
+    },
+    "./fur": {
+      "types": "./dist/fur/index.d.ts",
+      "import": "./dist/fur/index.js"
+    },
+    "./input": {
+      "types": "./dist/input/index.d.ts",
+      "import": "./dist/input/index.js"
+    },
+    "./lighting": {
+      "types": "./dist/lighting/index.d.ts",
+      "import": "./dist/lighting/index.js"
+    },
+    "./lod": {
+      "types": "./dist/lod/index.d.ts",
+      "import": "./dist/lod/index.js"
+    },
+    "./molecular": {
+      "types": "./dist/molecular/index.d.ts",
+      "import": "./dist/molecular/index.js"
+    },
+    "./particles": {
+      "types": "./dist/particles/index.d.ts",
+      "import": "./dist/particles/index.js"
+    },
+    "./physics": {
+      "types": "./dist/physics/index.d.ts",
+      "import": "./dist/physics/index.js"
+    },
+    "./postprocessing": {
+      "types": "./dist/postprocessing/index.d.ts",
+      "import": "./dist/postprocessing/index.js"
+    },
+    "./reflections": {
+      "types": "./dist/reflections/index.d.ts",
+      "import": "./dist/reflections/index.js"
+    },
+    "./shaders": {
+      "types": "./dist/shaders/index.d.ts",
+      "import": "./dist/shaders/index.js"
+    },
+    "./shadows": {
+      "types": "./dist/shadows/index.d.ts",
+      "import": "./dist/shadows/index.js"
+    },
+    "./state": {
+      "types": "./dist/state/index.d.ts",
+      "import": "./dist/state/index.js"
+    },
+    "./terrain": {
+      "types": "./dist/terrain/index.d.ts",
+      "import": "./dist/terrain/index.js"
+    },
+    "./ui": {
+      "types": "./dist/ui/index.d.ts",
+      "import": "./dist/ui/index.js"
+    },
+    "./vegetation": {
+      "types": "./dist/vegetation/index.d.ts",
+      "import": "./dist/vegetation/index.js"
+    },
+    "./water": {
+      "types": "./dist/water/index.d.ts",
+      "import": "./dist/water/index.js"
+    },
+    "./weather": {
+      "types": "./dist/weather/index.d.ts",
+      "import": "./dist/weather/index.js"
+    },
+    "./creatures": {
+      "types": "./dist/creatures/index.d.ts",
+      "import": "./dist/creatures/index.js"
+    },
+    "./structures": {
+      "types": "./dist/structures/building.d.ts",
+      "import": "./dist/structures/building.js"
+    },
+    "./collectibles": {
+      "types": "./dist/collectibles/index.d.ts",
+      "import": "./dist/collectibles/index.js"
+    },
+    "./obstacles": {
+      "types": "./dist/obstacles/index.d.ts",
+      "import": "./dist/obstacles/index.js"
+    },
+    "./equipment": {
+      "types": "./dist/equipment/index.d.ts",
+      "import": "./dist/equipment/index.js"
+    },
+    "./vehicles": {
+      "types": "./dist/vehicles/index.d.ts",
+      "import": "./dist/vehicles/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "format": "biome format --write src/",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "strata",
+    "presets",
+    "configuration",
+    "terrain",
+    "weather",
+    "physics",
+    "animation",
+    "react-three-fiber",
+    "r3f",
+    "threejs"
+  ],
+  "author": "Jon Bogaty <jon@jbcom.io>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strata-game-library/strata.git",
+    "directory": "packages/presets"
+  },
+  "bugs": {
+    "url": "https://github.com/strata-game-library/strata/issues"
+  },
+  "homepage": "https://github.com/strata-game-library/strata/tree/main/packages/presets#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
+    "@playwright/test": "^1.57.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@strata-game-library/core": "workspace:*",
+    "@types/react": "^19.0.0",
+    "@types/three": "^0.182.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/coverage-v8": "^3.1.0",
+    "glob": "^13.0.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "semantic-release": "^25.0.2",
+    "three": "^0.182.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^3.2.4",
+    "yuka": "^0.7.8"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": ">=8.0.0",
+    "@strata-game-library/core": ">=1.4.0",
+    "react": ">=18.0.0",
+    "three": ">=0.150.0",
+    "yuka": ">=0.7.0"
+  }
+}

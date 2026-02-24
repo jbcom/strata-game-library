@@ -1,6 +1,6 @@
+import { createOutlineMaterial, createToonMaterial } from '@strata-game-library/shaders/materials';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createOutlineMaterial, createToonMaterial } from '../../shaders/materials';
 import type { ToonMeshProps, ToonMeshRef } from './types';
 
 /**

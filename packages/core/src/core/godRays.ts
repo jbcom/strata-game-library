@@ -8,7 +8,6 @@
  * @module core/godRays
  */
 
-import * as THREE from 'three';
 import {
   godRaysFragmentShader,
   godRaysVertexShader,
@@ -16,7 +15,8 @@ import {
   volumetricPointLightVertexShader,
   volumetricSpotlightFragmentShader,
   volumetricSpotlightVertexShader,
-} from '../shaders/godRays';
+} from '@strata-game-library/shaders/godRays';
+import * as THREE from 'three';
 
 /**
  * Options for creating a god rays material.

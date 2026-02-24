@@ -1,0 +1,122 @@
+{
+  "name": "@strata-game-library/shaders",
+  "version": "1.0.2",
+  "description": "GLSL shader collection for Strata 3D - terrain, water, clouds, volumetric effects",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./chunks": {
+      "types": "./dist/chunks.d.ts",
+      "import": "./dist/chunks.js"
+    },
+    "./clouds": {
+      "types": "./dist/clouds.d.ts",
+      "import": "./dist/clouds.js"
+    },
+    "./fur": {
+      "types": "./dist/fur.d.ts",
+      "import": "./dist/fur.js"
+    },
+    "./godRays": {
+      "types": "./dist/godRays.d.ts",
+      "import": "./dist/godRays.js"
+    },
+    "./instancing-wind": {
+      "types": "./dist/instancing-wind.d.ts",
+      "import": "./dist/instancing-wind.js"
+    },
+    "./materials": {
+      "types": "./dist/materials/index.d.ts",
+      "import": "./dist/materials/index.js"
+    },
+    "./raymarching": {
+      "types": "./dist/raymarching.d.ts",
+      "import": "./dist/raymarching.js"
+    },
+    "./sky": {
+      "types": "./dist/sky.d.ts",
+      "import": "./dist/sky.js"
+    },
+    "./terrain": {
+      "types": "./dist/terrain.d.ts",
+      "import": "./dist/terrain.js"
+    },
+    "./volumetrics": {
+      "types": "./dist/volumetrics.d.ts",
+      "import": "./dist/volumetrics.js"
+    },
+    "./volumetrics-components": {
+      "types": "./dist/volumetrics-components.d.ts",
+      "import": "./dist/volumetrics-components.js"
+    },
+    "./water": {
+      "types": "./dist/water.d.ts",
+      "import": "./dist/water.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "format": "biome format --write src/",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "glsl",
+    "shaders",
+    "three",
+    "threejs",
+    "webgl",
+    "terrain",
+    "water",
+    "clouds",
+    "volumetric",
+    "react-three-fiber",
+    "r3f",
+    "strata"
+  ],
+  "author": "Jon Bogaty <jon@jbcom.io>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strata-game-library/core.git",
+    "directory": "packages/shaders"
+  },
+  "bugs": {
+    "url": "https://github.com/strata-game-library/shaders/issues"
+  },
+  "homepage": "https://github.com/strata-game-library/shaders#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/three": "^0.182.0",
+    "glob": "^13.0.0",
+    "semantic-release": "^25.0.2",
+    "three": "^0.182.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "three": ">=0.150.0"
+  }
+}

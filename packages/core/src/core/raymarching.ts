@@ -4,8 +4,11 @@
  * Pure TypeScript functions for ray marching setup
  */
 
+import {
+  raymarchingFragmentShader,
+  raymarchingVertexShader,
+} from '@strata-game-library/shaders/raymarching';
 import * as THREE from 'three';
-import { raymarchingFragmentShader, raymarchingVertexShader } from '../shaders/raymarching';
 
 export interface RaymarchingMaterialOptions {
   sdfFunction: string; // GLSL code for sceneSDF function

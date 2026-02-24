@@ -11,9 +11,9 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^(docs/|\.triage-recordings/)
+        exclude: ^(docs/|apps/docs/|\.triage-recordings/)
       - id: end-of-file-fixer
-        exclude: ^(docs/|\.triage-recordings/)
+        exclude: ^(docs/|apps/docs/|\.triage-recordings/)
       - id: check-yaml
         args: [--unsafe]  # Allow custom tags
         exclude: ^(\.github/workflows/|pnpm-lock\.yaml)  # actionlint handles workflows, pnpm-lock has special syntax
@@ -53,7 +53,7 @@ repos:
     hooks:
       - id: markdownlint
         args: [--fix, --disable, MD013, MD033, MD041, --]
-        exclude: ^(CHANGELOG\.md|docs/)
+        exclude: ^(CHANGELOG\.md|docs/|apps/docs/)
 
   # ===========================================
   # Shell script linting
@@ -84,7 +84,7 @@ repos:
         entry: pnpm exec biome check --write --no-errors-on-unmatched
         language: system
         types_or: [javascript, jsx, ts, tsx, json]
-        files: ^(src/|tests/)
+        files: ^(packages/core/src/|packages/core/tests/)
         pass_filenames: true
 
       - id: biome-format
@@ -92,7 +92,7 @@ repos:
         entry: pnpm exec biome format --write --no-errors-on-unmatched
         language: system
         types_or: [javascript, jsx, ts, tsx, json, markdown, yaml]
-        files: ^(src/|tests/|\.github/)
+        files: ^(packages/core/src/|packages/core/tests/|\.github/)
         pass_filenames: true
 
   # ===========================================

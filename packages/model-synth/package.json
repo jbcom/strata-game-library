@@ -1,0 +1,80 @@
+{
+  "name": "@strata-game-library/model-synth",
+  "version": "0.1.0",
+  "description": "Procedural 3D model generation using Meshy API - characters, props, animations for React Three Fiber games",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./clients/*": {
+      "import": "./dist/clients/*.js",
+      "types": "./dist/clients/*.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "vitest run --passWithNoTests",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "meshy",
+    "3d-models",
+    "procedural-generation",
+    "react-three-fiber",
+    "game-development",
+    "ai",
+    "text-to-3d",
+    "rigging",
+    "animations",
+    "strata"
+  ],
+  "author": "jbcom",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/strata-game-library/strata.git",
+    "directory": "packages/model-synth"
+  },
+  "bugs": {
+    "url": "https://github.com/strata-game-library/strata/issues"
+  },
+  "homepage": "https://github.com/strata-game-library/strata/tree/main/packages/model-synth#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  }
+}

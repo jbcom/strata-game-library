@@ -2,6 +2,12 @@
   "extends": "./tsconfig.base.json",
   "files": [],
   "references": [
-    { "path": "packages/core" }
+    { "path": "packages/core" },
+    { "path": "packages/shaders" },
+    { "path": "packages/presets" },
+    { "path": "packages/audio-synth" },
+    { "path": "packages/model-synth" },
+    { "path": "packages/capacitor-plugin" },
+    { "path": "packages/react-native-plugin" }
   ]
 }

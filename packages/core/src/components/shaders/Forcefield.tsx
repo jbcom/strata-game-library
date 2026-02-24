@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
+import { createForcefieldMaterial } from '@strata-game-library/shaders/materials';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createForcefieldMaterial } from '../../shaders/materials';
 import type { ForcefieldProps, ForcefieldRef } from './types';
 
 /**

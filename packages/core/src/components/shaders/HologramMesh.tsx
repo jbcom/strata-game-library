@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
+import { createHologramMaterial } from '@strata-game-library/shaders/materials';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createHologramMaterial } from '../../shaders/materials';
 import type { HologramMeshProps, HologramMeshRef } from './types';
 
 /**

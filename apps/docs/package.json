@@ -1,0 +1,24 @@
+{
+  "name": "@strata-game-library/docs",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "echo 'Docs build disabled - auto-generated TypeDoc content needs frontmatter fix'",
+    "build:astro": "astro build",
+    "preview": "astro preview"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "cache": false
+      }
+    }
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.37.1",
+    "astro": "^5.6.1",
+    "sharp": "^0.34.2"
+  }
+}

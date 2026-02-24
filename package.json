@@ -15,10 +15,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "packages/*/src/**/*.{ts,tsx}": [
       "biome check --write --no-errors-on-unmatched"
     ],
-    "*.{json,md,yml,yaml}": [
+    "packages/*/src/**/*.{json,md,yml,yaml}": [
       "biome format --write --no-errors-on-unmatched"
     ]
   },

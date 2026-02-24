@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
+import { createDissolveMaterial } from '@strata-game-library/shaders/materials';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createDissolveMaterial } from '../../shaders/materials';
 import type { DissolveMeshProps, DissolveMeshRef } from './types';
 
 /**

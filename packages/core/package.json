@@ -185,6 +185,7 @@
     }
   },
   "dependencies": {
+    "@strata-game-library/shaders": "workspace:*",
     "@types/howler": "^2.2.12",
     "@xstate/react": "^6.0.0",
     "howler": "^2.2.4",

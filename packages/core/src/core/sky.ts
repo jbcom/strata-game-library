@@ -33,8 +33,12 @@
  * ```
  */
 
+import {
+  createSkyUniforms,
+  skyFragmentShader,
+  skyVertexShader,
+} from '@strata-game-library/shaders/sky';
 import * as THREE from 'three';
-import { createSkyUniforms, skyFragmentShader, skyVertexShader } from '../shaders/sky';
 
 /**
  * State representing the time of day and atmospheric conditions.

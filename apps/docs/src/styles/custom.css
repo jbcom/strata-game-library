@@ -1,0 +1,31 @@
+/*
+  strata-game-library Documentation Portal
+
+  BRANDING HIERARCHY:
+  1. Enterprise base (jbcom.github.io) - fonts, core colors, layout
+  2. Org theme - accent colors (below)
+  3. Org customizations - unique to this org
+
+  Owner: Jon Bogaty (jbcom)
+  Part of the jbcom Enterprise ecosystem
+*/
+
+/* ===== LAYER 1: Enterprise Base ===== */
+@import url('https://raw.githubusercontent.com/jbcom/jbcom.github.io/main/enterprise-branding/starlight-base.css');
+
+/* ===== LAYER 2: Org Theme (Teal) ===== */
+/*
+  Strata Division - Branding Override
+  Org: strata-game-library
+*/
+
+:root {
+  /* Teal/Cyan Theme */
+  --sl-color-accent-low: #042f2e;
+  --sl-color-accent: #06b6d4;
+  --sl-color-accent-high: #99f6e4;
+  --sl-color-text-accent: #06b6d4;
+}
+
+/* ===== LAYER 3: Org-Specific Customizations ===== */
+/* Add styles unique to strata-game-library below */

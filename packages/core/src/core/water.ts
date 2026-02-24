@@ -4,13 +4,13 @@
  * Pure TypeScript functions for creating water materials
  */
 
-import * as THREE from 'three';
 import {
   advancedWaterFragmentShader,
   advancedWaterVertexShader,
   waterFragmentShader,
   waterVertexShader,
-} from '../shaders/water';
+} from '@strata-game-library/shaders/water';
+import * as THREE from 'three';
 
 export interface WaterMaterialOptions {
   time?: number;

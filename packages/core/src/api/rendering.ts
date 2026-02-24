@@ -23,6 +23,8 @@
  * ```
  */
 
+// GLSL Shaders (raw)
+export * from '@strata-game-library/shaders';
 export type {
   CinematicEffectsProps,
   CrystalMeshProps,
@@ -105,9 +107,6 @@ export {
   getTimeOfDayEffects,
   lutConfigs,
 } from '../core';
-
-// GLSL Shaders (raw)
-export * from '../shaders';
 
 // Utilities
 export * from '../utils';

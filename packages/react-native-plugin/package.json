@@ -1,0 +1,80 @@
+{
+  "name": "@strata-game-library/react-native-plugin",
+  "version": "1.1.0",
+  "description": "React Native plugin for Strata 3D - cross-platform input, device detection, and haptics for mobile games",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "android",
+    "ios",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "format": "biome format --write src/"
+  },
+  "keywords": [
+    "react-native",
+    "strata",
+    "input",
+    "gamepad",
+    "touch",
+    "haptics",
+    "device-detection",
+    "cross-platform",
+    "mobile",
+    "ios",
+    "android"
+  ],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/strata-game-library/strata",
+    "directory": "packages/react-native-plugin"
+  },
+  "homepage": "https://strata.game/react-native-plugin",
+  "bugs": {
+    "url": "https://github.com/strata-game-library/strata/issues"
+  },
+  "peerDependencies": {
+    "@strata-game-library/core": ">=1.4.0",
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.0",
+    "@react-native/babel-preset": "^0.83.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/react-native": "^13.3.3",
+    "@types/react": "^19.0.0",
+    "react": "^19.2.3",
+    "react-native": "^0.83.1",
+    "react-test-renderer": "^19.2.3",
+    "rimraf": "^6.1.0",
+    "semantic-release": "^25.0.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.15"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

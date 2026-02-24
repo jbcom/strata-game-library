@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
+import { createGlitchMaterial } from '@strata-game-library/shaders/materials';
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { createGlitchMaterial } from '../../shaders/materials';
 import type { GlitchMeshProps, GlitchMeshRef } from './types';
 
 /**

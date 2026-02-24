@@ -8,8 +8,8 @@
  * @module core/volumetrics
  */
 
+import { underwaterShader, volumetricFogShader } from '@strata-game-library/shaders/volumetrics';
 import * as THREE from 'three';
-import { underwaterShader, volumetricFogShader } from '../shaders/volumetrics';
 
 // Extract individual shaders from the shader objects
 const volumetricFogMeshVertexShader = volumetricFogShader.vertexShader;

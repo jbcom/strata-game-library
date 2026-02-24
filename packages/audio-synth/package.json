@@ -1,0 +1,79 @@
+{
+	"name": "@strata-game-library/audio-synth",
+	"version": "1.0.2",
+	"description": "Procedural audio synthesis for Strata 3D using Tone.js - SFX, music, and ambient sound generation",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./core": {
+			"types": "./dist/core.d.ts",
+			"import": "./dist/core.js"
+		},
+		"./components": {
+			"types": "./dist/components.d.ts",
+			"import": "./dist/components.js"
+		},
+		"./presets": {
+			"types": "./dist/presets.d.ts",
+			"import": "./dist/presets.js"
+		}
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsup",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint src/",
+		"lint:fix": "biome lint --write src/",
+		"format": "biome format --write src/",
+		"prepublishOnly": "pnpm run build"
+	},
+	"keywords": [
+		"strata",
+		"audio",
+		"synthesis",
+		"procedural",
+		"tone.js",
+		"sfx",
+		"music",
+		"game-audio",
+		"react-three-fiber",
+		"r3f",
+		"threejs"
+	],
+	"author": "Strata Game Library Contributors",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/strata-game-library/strata.git",
+		"directory": "packages/audio-synth"
+	},
+	"bugs": {
+		"url": "https://github.com/strata-game-library/strata/issues"
+	},
+	"homepage": "https://github.com/strata-game-library/strata/tree/main/packages/audio-synth#readme",
+	"publishConfig": {
+		"access": "public"
+	},
+	"peerDependencies": {
+		"react": ">=18.0.0",
+		"tone": ">=14.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.10",
+		"@types/react": "^19.0.0",
+		"react": "^19.0.0",
+		"tone": "^15.0.0",
+		"tsup": "^8.5.0",
+		"typescript": "^5.9.0"
+	}
+}

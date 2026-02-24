@@ -43,7 +43,6 @@
  * ```
  */
 
-import * as THREE from 'three';
 import {
   cloudLayerFragmentShader,
   cloudLayerVertexShader,
@@ -51,7 +50,8 @@ import {
   createVolumetricCloudUniforms,
   volumetricCloudFragmentShader,
   volumetricCloudVertexShader,
-} from '../shaders/clouds';
+} from '@strata-game-library/shaders/clouds';
+import * as THREE from 'three';
 
 /**
  * Configuration for a single cloud layer.

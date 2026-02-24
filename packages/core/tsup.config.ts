@@ -18,7 +18,7 @@ export default defineConfig({
 
 		// Subpath exports
 		'components/index': 'src/components/index.ts',
-		'shaders/index': 'src/shaders/index.ts',
+		'shaders/index': 'src/shaders.ts',
 		'utils/index': 'src/utils/index.ts',
 		'api/index': 'src/api/index.ts',
 		'game/index': 'src/game/index.ts',
@@ -41,15 +41,6 @@ export default defineConfig({
 		'core/debug/index': 'src/core/debug/index.ts',
 		'core/pathfinding/index': 'src/core/pathfinding/index.ts',
 		'core/shared/index': 'src/core/shared/index.ts',
-
-		// Shader submodule exports
-		'shaders/water': 'src/shaders/water.ts',
-		'shaders/clouds': 'src/shaders/clouds.ts',
-		'shaders/terrain': 'src/shaders/terrain.ts',
-		'shaders/volumetrics': 'src/shaders/volumetrics.ts',
-		'shaders/sky': 'src/shaders/sky.ts',
-		'shaders/fur': 'src/shaders/fur.ts',
-		'shaders/godRays': 'src/shaders/godRays.ts',
 	},
 
 	// Output format - ESM only (the package is "type": "module")
@@ -76,6 +67,7 @@ export default defineConfig({
 
 	// External packages (don't bundle dependencies)
 	external: [
+		'@strata-game-library/shaders',
 		'react',
 		'react-dom',
 		'three',

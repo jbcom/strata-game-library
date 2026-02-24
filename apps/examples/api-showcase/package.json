@@ -1,0 +1,36 @@
+{
+  "name": "api-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Comprehensive API showcase with JSDoc-linked examples for every Strata feature",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && pnpm run docs",
+    "preview": "vite preview",
+    "docs": "typedoc --out docs src/examples/index.ts"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.19.3",
+    "@jbcom/strata": "workspace:*",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "@react-three/rapier": "^2.2.0",
+    "leva": "^0.10.1",
+    "postprocessing": "^6.38.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "three": "^0.182.0",
+    "yuka": "^0.7.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.182.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "typedoc": "^0.28.15",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

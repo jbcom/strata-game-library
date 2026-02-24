@@ -1,5 +1,3 @@
-import type React from 'react';
-import type * as THREE from 'three';
 import type {
   CrystalMaterialOptions,
   DissolveMaterialOptions,
@@ -9,7 +7,9 @@ import type {
   HologramMaterialOptions,
   OutlineMaterialOptions,
   ToonMaterialOptions,
-} from '../../shaders/materials';
+} from '@strata-game-library/shaders/materials';
+import type React from 'react';
+import type * as THREE from 'three';
 
 /**
  * Common props for shader-based mesh components.
