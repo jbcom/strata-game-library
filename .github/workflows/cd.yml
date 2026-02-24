@@ -1,34 +1,23 @@
-# CD - Release, Publish & Deploy (Nx monorepo)
+# CD - Version, Changelog & Deploy Docs (Nx monorepo)
 #
 # Handles:
-#   1. npm publish via Nx Release (on version tags or manual dispatch)
-#   2. Docs deployment to GitHub Pages (on push to main)
+#   1. Nx Release: version bumps, changelogs, tags, and GitHub Releases (on push to main)
+#   2. Docs deployment to GitHub Pages (after release succeeds)
 #
-# Nx Release reads the dependency graph and publishes in order:
-#   shaders -> core -> presets, react-native -> audio-synth, capacitor, model-synth
+# npm publishing is handled separately by release.yml (triggered by GitHub Releases).
 name: CD
 
 on:
   push:
     branches: [main]
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Dry run (no publish)'
-        required: false
-        default: 'false'
-        type: boolean
 
 permissions:
   contents: write
-  id-token: write
-  packages: write
   pages: write
+  id-token: write
 
 concurrency:
-  group: cd-${{ github.ref_type == 'tag' && 'release' || 'deploy' }}
+  group: cd-deploy
   cancel-in-progress: false
 
 env:
@@ -37,11 +26,11 @@ env:
 
 jobs:
   # ────────────────────────────────────────────────────────────────────
-  # npm Release & Publish (tags only or manual dispatch)
+  # Nx Release: version bumps, changelogs, tags, GitHub Releases
   # ────────────────────────────────────────────────────────────────────
   release:
-    name: Release & Publish
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    name: Version & Release
+    if: "!contains(github.event.head_commit.message, '[skip actions]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -56,7 +45,6 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -65,28 +53,26 @@ jobs:
       - name: Build all packages
         run: pnpm nx run-many -t build
 
+      - name: Run all tests
+        run: pnpm nx run-many -t test
+
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Nx Release (version + changelog + publish)
+      - name: Nx Release (version + changelog + tag + GitHub Release)
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          DRY_RUN_FLAG=""
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            DRY_RUN_FLAG="--dry-run"
-          fi
-          pnpm nx release $DRY_RUN_FLAG
+        run: pnpm nx release
 
   # ────────────────────────────────────────────────────────────────────
-  # Deploy docs to GitHub Pages (push to main)
+  # Deploy docs to GitHub Pages (after release succeeds)
   # ────────────────────────────────────────────────────────────────────
   docs:
     name: Deploy Docs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: release
+    if: "!contains(github.event.head_commit.message, '[skip actions]')"
     runs-on: ubuntu-latest
     permissions:
       pages: write
