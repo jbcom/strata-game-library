@@ -114,12 +114,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run ${{ matrix.task }}
-        run: |
-          if [ "${{ matrix.task }}" = "test" ]; then
-            pnpm nx run "${{ matrix.package }}:${{ matrix.task }}" -- --coverage
-          else
-            pnpm nx run "${{ matrix.package }}:${{ matrix.task }}"
-          fi
+        run: pnpm nx run "${{ matrix.package }}:${{ matrix.task }}"
         continue-on-error: ${{ matrix.task == 'typecheck' }}
 
       - name: Upload coverage

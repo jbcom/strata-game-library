@@ -64,7 +64,8 @@ jobs:
       - name: Nx Release (version + changelog + tag + GitHub Release)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm nx release
+          NODE_ENV: production
+        run: pnpm nx release --skip-publish --yes
 
   # ────────────────────────────────────────────────────────────────────
   # Deploy docs to GitHub Pages (after release succeeds)
