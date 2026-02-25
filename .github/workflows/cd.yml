@@ -61,11 +61,34 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Nx Release (version + changelog + tag + GitHub Release)
+      - name: Nx Release (version + changelog + tag)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_ENV: production
-        run: pnpm nx release --skip-publish --yes
+        run: pnpm nx release --skip-publish
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get all new tags created by nx release on HEAD
+          NEW_TAGS=$(git tag --points-at HEAD 2>/dev/null || true)
+          if [ -z "$NEW_TAGS" ]; then
+            echo "No new tags created, skipping GitHub Release"
+            exit 0
+          fi
+          PRIMARY_TAG=$(echo "$NEW_TAGS" | head -1)
+          {
+            echo "## Packages released"
+            echo ""
+            for tag in $NEW_TAGS; do
+              echo "- \`$tag\`"
+            done
+            echo ""
+            echo "See individual package CHANGELOGs for details."
+          } > /tmp/release-notes.md
+          gh release create "$PRIMARY_TAG" \
+            --title "Release $(date -u +%Y-%m-%d)" \
+            --notes-file /tmp/release-notes.md
 
   # ────────────────────────────────────────────────────────────────────
   # Deploy docs to GitHub Pages (after release succeeds)
