@@ -51,7 +51,5 @@ jobs:
       - name: Build all packages
         run: pnpm nx run-many -t build
 
-      - name: Publish with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish with OIDC provenance
         run: pnpm publish -r --access public --no-git-checks --provenance
