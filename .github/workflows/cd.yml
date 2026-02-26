@@ -11,6 +11,7 @@ name: CD
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,7 +33,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────
   release-please:
     name: Release Please
-    if: "!contains(github.event.head_commit.message, '[skip actions]')"
+    if: "!contains(github.event.head_commit.message || '', '[skip actions]')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -40,7 +41,7 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -49,7 +50,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────
   docs:
     name: Deploy Docs
-    if: "!contains(github.event.head_commit.message, '[skip actions]') && !cancelled()"
+    if: "!contains(github.event.head_commit.message || '', '[skip actions]') && !cancelled()"
     runs-on: ubuntu-latest
     permissions:
       pages: write
