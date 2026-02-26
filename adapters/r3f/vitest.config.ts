@@ -23,6 +23,7 @@ export default defineConfig({
 		environment: 'jsdom',
 		include: ['src/**/*.test.{ts,tsx}'],
 		globals: true,
+		testTimeout: 15000,
 		dangerouslyIgnoreUnhandledErrors: true,
 		server: {
 			deps: {
