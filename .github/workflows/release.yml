@@ -3,8 +3,8 @@
 # Triggered when a GitHub Release is published. Builds all packages
 # and publishes them to npm with OIDC provenance.
 #
-# Authentication: NPM_TOKEN for registry auth, id-token: write for
-# OIDC provenance attestation (Sigstore).
+# Authentication: Pure OIDC — id-token: write provides keyless npm auth
+# and Sigstore provenance attestation. No stored tokens required.
 name: Release
 
 on:
@@ -43,7 +43,6 @@ jobs:
       - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -53,6 +52,4 @@ jobs:
         run: pnpm nx run-many -t build
 
       - name: Publish with OIDC provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm publish -r --access public --no-git-checks --provenance
