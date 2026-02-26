@@ -1,10 +1,15 @@
 # Release - Publish to npm (Nx monorepo)
 #
 # Triggered when a GitHub Release is published. Builds all packages
-# and publishes them to npm with OIDC provenance attestation.
+# and publishes them to npm.
 #
-# Nx Release reads the dependency graph and publishes in order:
-#   shaders -> core -> presets, react-native-plugin -> audio-synth, capacitor-plugin, model-synth
+# Authentication: Uses NPM_TOKEN secret for npm auth. If OIDC provenance
+# is configured on the npm org, the --provenance flag will be used.
+#
+# Prerequisites:
+#   1. Create @strata-game-library org on npmjs.com
+#   2. Add NPM_TOKEN (automation token) as a repository secret
+#   3. Optionally configure OIDC provenance on the npm org
 name: Release
 
 on:
@@ -25,7 +30,7 @@ env:
 
 jobs:
   # ────────────────────────────────────────────────────────────────────
-  # Publish all packages to npm with provenance
+  # Publish all packages to npm
   # ────────────────────────────────────────────────────────────────────
   publish:
     name: Publish to npm
@@ -51,5 +56,45 @@ jobs:
       - name: Build all packages
         run: pnpm nx run-many -t build
 
-      - name: Publish with OIDC provenance
-        run: pnpm publish -r --access public --no-git-checks --provenance
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Publish each package individually to handle already-published versions
+          PACKAGES=$(pnpm ls -r --depth -1 --json | node -e "
+            const data = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+            data.forEach(pkg => {
+              if (pkg.name && !pkg.private && pkg.path) {
+                console.log(pkg.path);
+              }
+            });
+          ")
+
+          FAILED=0
+          for PKG_PATH in $PACKAGES; do
+            PKG_NAME=$(node -e "console.log(require('$PKG_PATH/package.json').name)")
+            PKG_VERSION=$(node -e "console.log(require('$PKG_PATH/package.json').version)")
+            echo "::group::Publishing $PKG_NAME@$PKG_VERSION"
+
+            # Check if already published
+            if npm view "$PKG_NAME@$PKG_VERSION" version 2>/dev/null; then
+              echo "$PKG_NAME@$PKG_VERSION already published, skipping"
+              echo "::endgroup::"
+              continue
+            fi
+
+            # Attempt publish with provenance, fall back without
+            if pnpm --filter "$PKG_NAME" publish --access public --no-git-checks --provenance 2>/dev/null; then
+              echo "Published $PKG_NAME@$PKG_VERSION with provenance"
+            elif pnpm --filter "$PKG_NAME" publish --access public --no-git-checks; then
+              echo "Published $PKG_NAME@$PKG_VERSION without provenance"
+            else
+              echo "::error::Failed to publish $PKG_NAME@$PKG_VERSION"
+              FAILED=1
+            fi
+            echo "::endgroup::"
+          done
+
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi

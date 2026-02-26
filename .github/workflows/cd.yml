@@ -1,8 +1,9 @@
-# CD - Version, Changelog & Deploy Docs (Nx monorepo)
+# CD - Release Please & Deploy Docs (Nx monorepo)
 #
 # Handles:
-#   1. Nx Release: version bumps, changelogs, tags, and GitHub Releases (on push to main)
-#   2. Docs deployment to GitHub Pages (after release succeeds)
+#   1. Release Please: creates/updates Release PRs with version bumps and changelogs.
+#      When a Release PR is merged, creates GitHub Releases (which trigger release.yml).
+#   2. Docs deployment to GitHub Pages (on every push to main).
 #
 # npm publishing is handled separately by release.yml (triggered by GitHub Releases).
 name: CD
@@ -13,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
   pages: write
   id-token: write
 
@@ -26,80 +28,28 @@ env:
 
 jobs:
   # ────────────────────────────────────────────────────────────────────
-  # Nx Release: version bumps, changelogs, tags, GitHub Releases
+  # Release Please: version bumps, changelogs, tags, GitHub Releases
   # ────────────────────────────────────────────────────────────────────
-  release:
-    name: Version & Release
+  release-please:
+    name: Release Please
     if: "!contains(github.event.head_commit.message, '[skip actions]')"
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build all packages
-        run: pnpm nx run-many -t build
-
-      - name: Run all tests
-        run: pnpm nx run-many -t test
-
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Nx Release (version + changelog + tag)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm nx release --skip-publish
-
-      - name: Push tags and version commits
-        run: git push --follow-tags
-
-      - name: Create GitHub Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Get all new tags created by nx release on HEAD
-          NEW_TAGS=$(git tag --points-at HEAD 2>/dev/null || true)
-          if [ -z "$NEW_TAGS" ]; then
-            echo "No new tags created, skipping GitHub Release"
-            exit 0
-          fi
-          PRIMARY_TAG=$(echo "$NEW_TAGS" | head -1)
-          {
-            echo "## Packages released"
-            echo ""
-            for tag in $NEW_TAGS; do
-              echo "- \`$tag\`"
-            done
-            echo ""
-            echo "See individual package CHANGELOGs for details."
-          } > /tmp/release-notes.md
-          gh release create "$PRIMARY_TAG" \
-            --title "Release $(date -u +%Y-%m-%d)" \
-            --notes-file /tmp/release-notes.md
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   # ────────────────────────────────────────────────────────────────────
-  # Deploy docs to GitHub Pages (after release succeeds)
+  # Deploy docs to GitHub Pages (independent of release)
   # ────────────────────────────────────────────────────────────────────
   docs:
     name: Deploy Docs
-    needs: release
-    if: "always() && !contains(github.event.head_commit.message, '[skip actions]') && !cancelled()"
+    if: "!contains(github.event.head_commit.message, '[skip actions]') && !cancelled()"
     runs-on: ubuntu-latest
     permissions:
       pages: write
