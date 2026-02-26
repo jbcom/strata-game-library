@@ -1,7 +1,8 @@
-# Automerge - Auto-merge Dependabot PRs after CI passes
+# Automerge - Auto-merge Dependabot and Release Please PRs after CI passes
 #
-# Approves and enables auto-merge (squash) for PRs opened by Dependabot.
-# GitHub will merge the PR automatically once all required status checks pass.
+# Approves and enables auto-merge (squash) for PRs opened by Dependabot
+# or Release Please. GitHub will merge the PR automatically once all
+# required status checks pass.
 name: Automerge
 
 on:
@@ -19,6 +20,23 @@ jobs:
   dependabot:
     name: Dependabot Auto-merge
     if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    env:
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Approve PR
+        run: gh pr review "$PR_URL" --approve
+
+      - name: Enable auto-merge
+        run: gh pr merge "$PR_URL" --auto --squash
+
+  # ────────────────────────────────────────────────────────────────────
+  # Approve and auto-merge Release Please PRs
+  # ────────────────────────────────────────────────────────────────────
+  release-please:
+    name: Release Please Auto-merge
+    if: startsWith(github.head_ref, 'release-please--')
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{ github.event.pull_request.html_url }}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "include-v-in-tag": false,
+  "tag-separator": "@",
+  "separate-pull-requests": false,
+  "group-pull-request-title-pattern": "chore: release ${branch}",
+  "pull-request-title-pattern": "chore: release ${branch}",
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance" },
+    { "type": "refactor", "section": "Refactoring" },
+    { "type": "docs", "section": "Documentation", "hidden": true },
+    { "type": "test", "section": "Tests", "hidden": true },
+    { "type": "ci", "section": "CI/CD", "hidden": true },
+    { "type": "chore", "section": "Miscellaneous", "hidden": true }
+  ],
+  "packages": {
+    "packages/core": {
+      "component": "@strata-game-library/core"
+    },
+    "packages/shaders": {
+      "component": "@strata-game-library/shaders"
+    },
+    "packages/presets": {
+      "component": "@strata-game-library/presets"
+    },
+    "adapters/r3f": {
+      "component": "@strata-game-library/r3f"
+    },
+    "adapters/reactylon": {
+      "component": "@strata-game-library/reactylon"
+    },
+    "plugins/audio-synth": {
+      "component": "@strata-game-library/audio-synth"
+    },
+    "plugins/model-synth": {
+      "component": "@strata-game-library/model-synth"
+    },
+    "plugins/capacitor": {
+      "component": "@strata-game-library/capacitor"
+    },
+    "plugins/react-native": {
+      "component": "@strata-game-library/react-native"
+    },
+    "plugins/astro": {
+      "component": "@strata-game-library/astro"
+    }
+  }
+}

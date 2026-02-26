@@ -1,0 +1,12 @@
+{
+  "packages/core": "1.5.0",
+  "packages/shaders": "1.1.0",
+  "packages/presets": "1.2.1",
+  "adapters/r3f": "0.2.1",
+  "adapters/reactylon": "0.2.1",
+  "plugins/audio-synth": "1.1.0",
+  "plugins/model-synth": "0.2.0",
+  "plugins/capacitor": "1.1.0",
+  "plugins/react-native": "1.2.0",
+  "plugins/astro": "0.2.0"
+}

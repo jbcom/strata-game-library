@@ -37,38 +37,5 @@
       "cache": true
     }
   },
-  "parallel": 3,
-  "release": {
-    "projects": [
-      "@strata-game-library/shaders",
-      "@strata-game-library/core",
-      "@strata-game-library/r3f",
-      "@strata-game-library/presets",
-      "@strata-game-library/audio-synth",
-      "@strata-game-library/capacitor",
-      "@strata-game-library/model-synth",
-      "@strata-game-library/react-native",
-      "@strata-game-library/reactylon",
-      "@strata-game-library/astro"
-    ],
-    "projectsRelationship": "independent",
-    "changelog": {
-      "automaticFromRef": true,
-      "projectChangelogs": true,
-      "workspaceChangelog": false
-    },
-    "version": {
-      "conventionalCommits": true,
-      "fallbackCurrentVersionResolver": "disk",
-      "generatorOptions": {
-        "updateDependents": "auto"
-      }
-    },
-    "releaseTagPattern": "{projectName}@{version}",
-    "git": {
-      "commit": true,
-      "commitMessage": "chore(release): {projectName} {version} [skip actions]",
-      "tag": true
-    }
-  }
+  "parallel": 3
 }
