@@ -1,3 +1,14 @@
+## 0.2.1 (2026-02-26)
+
+### 🚀 Features
+
+- **reactylon:** implement Water, Sky, Terrain components and materials ([79d50dbb](https://github.com/jbcom/strata-game-library/commit/79d50dbb))
+
+### ❤️ Thank You
+
+- Claude Opus 4.6
+- Jon B @jbdevprimary
+
 ## 0.2.0 (2026-02-24)
 
 ### 🚀 Features

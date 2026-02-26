@@ -1,3 +1,14 @@
+## 0.2.1 (2026-02-26)
+
+### 🩹 Fixes
+
+- **r3f:** increase test timeout for CI dynamic imports ([#12](https://github.com/jbcom/strata-game-library/pull/12))
+
+### ❤️ Thank You
+
+- Claude Opus 4.6
+- Jon Bogaty @jbdevprimary
+
 ## 0.2.0 (2026-02-24)
 
 ### 🩹 Fixes

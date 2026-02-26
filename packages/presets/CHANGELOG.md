@@ -1,3 +1,9 @@
+## 1.2.1 (2026-02-26)
+
+### 🧱 Updated Dependencies
+
+- Updated @strata-game-library/r3f to 0.2.1
+
 ## 1.2.0 (2026-02-24)
 
 ### 🩹 Fixes
