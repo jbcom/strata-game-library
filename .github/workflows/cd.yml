@@ -66,6 +66,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm nx release --skip-publish
 
+      - name: Push tags and version commits
+        run: git push --follow-tags
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +99,7 @@ jobs:
   docs:
     name: Deploy Docs
     needs: release
-    if: "!contains(github.event.head_commit.message, '[skip actions]')"
+    if: "always() && !contains(github.event.head_commit.message, '[skip actions]') && !cancelled()"
     runs-on: ubuntu-latest
     permissions:
       pages: write
