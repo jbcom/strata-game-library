@@ -1,10 +1,11 @@
 # Release - Publish to npm (Nx monorepo)
 #
 # Triggered when a GitHub Release is published. Builds all packages
-# and publishes them to npm with OIDC provenance.
+# and publishes them to npm with OIDC trusted publishing.
 #
 # Authentication: Pure OIDC — id-token: write provides keyless npm auth
 # and Sigstore provenance attestation. No stored tokens required.
+# Requires npm 11.5.1+ for trusted publishing support.
 name: Release
 
 on:
@@ -43,7 +44,11 @@ jobs:
       - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
