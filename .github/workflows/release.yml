@@ -3,13 +3,14 @@
 # Triggered when a GitHub Release is published. Builds all packages
 # and publishes them to npm with OIDC provenance.
 #
-# Authentication: Uses npm OIDC provenance (id-token: write) for
-# keyless authentication. No stored npm tokens required.
+# Authentication: NPM_TOKEN for registry auth, id-token: write for
+# OIDC provenance attestation (Sigstore).
 name: Release
 
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -52,4 +53,6 @@ jobs:
         run: pnpm nx run-many -t build
 
       - name: Publish with OIDC provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm publish -r --access public --no-git-checks --provenance
