@@ -6,6 +6,9 @@
 # Authentication: Pure OIDC — id-token: write provides keyless npm auth
 # and Sigstore provenance attestation. No stored tokens required.
 # Requires npm 11.5.1+ for trusted publishing support.
+#
+# Publishes each package individually so failures (version exists,
+# no trusted publisher configured, etc.) don't block other packages.
 name: Release
 
 on:
@@ -56,5 +59,39 @@ jobs:
       - name: Build all packages
         run: pnpm nx run-many -t build
 
-      - name: Publish with OIDC provenance
-        run: pnpm publish -r --access public --no-git-checks --provenance
+      - name: Publish packages with OIDC provenance
+        run: |
+          # Publish each package individually so one failure doesn't block others.
+          # Packages without trusted publishing configured or with version conflicts
+          # will fail gracefully while the rest still publish.
+          failed=()
+          succeeded=()
+
+          for pkg_dir in packages/core packages/shaders packages/presets \
+                         adapters/r3f adapters/reactylon \
+                         plugins/audio-synth plugins/model-synth \
+                         plugins/capacitor plugins/react-native plugins/astro; do
+            pkg_name=$(node -p "require('./${pkg_dir}/package.json').name")
+            pkg_version=$(node -p "require('./${pkg_dir}/package.json').version")
+
+            echo "::group::Publishing ${pkg_name}@${pkg_version}"
+            if (cd "${pkg_dir}" && npm publish --access public --provenance 2>&1); then
+              echo "✅ ${pkg_name}@${pkg_version} published successfully"
+              succeeded+=("${pkg_name}")
+            else
+              echo "⚠️ ${pkg_name}@${pkg_version} failed to publish (may already exist or lack trusted publisher)"
+              failed+=("${pkg_name}")
+            fi
+            echo "::endgroup::"
+          done
+
+          echo ""
+          echo "=== Publish Summary ==="
+          echo "Succeeded (${#succeeded[@]}): ${succeeded[*]}"
+          echo "Failed (${#failed[@]}): ${failed[*]}"
+
+          # Fail the job only if ALL packages failed
+          if [ ${#succeeded[@]} -eq 0 ] && [ ${#failed[@]} -gt 0 ]; then
+            echo "::error::All packages failed to publish"
+            exit 1
+          fi

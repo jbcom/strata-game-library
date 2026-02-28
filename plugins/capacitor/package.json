@@ -53,6 +53,10 @@
     "url": "git+https://github.com/jbcom/strata-game-library.git",
     "directory": "plugins/capacitor"
   },
+  "bugs": {
+    "url": "https://github.com/jbcom/strata-game-library/issues"
+  },
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/plugins/capacitor#readme",
   "publishConfig": {
     "access": "public"
   },

@@ -36,6 +36,10 @@
 		"url": "git+https://github.com/jbcom/strata-game-library.git",
 		"directory": "adapters/reactylon"
 	},
+	"bugs": {
+		"url": "https://github.com/jbcom/strata-game-library/issues"
+	},
+	"homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/reactylon#readme",
 	"publishConfig": {
 		"access": "public"
 	},
