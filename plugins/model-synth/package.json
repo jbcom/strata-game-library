@@ -43,7 +43,7 @@
     "animations",
     "strata"
   ],
-  "author": "jbcom",
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
