@@ -1,3 +1,12 @@
+---
+title: "Installation"
+description: "Installation instructions for the Strata library"
+status: deprecated
+implementation: 100
+last_updated: 2026-03-01
+area: getting-started
+---
+
 # Installation
 
 ## Requirements

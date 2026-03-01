@@ -1,3 +1,12 @@
+---
+title: "Strata Package Decomposition Strategy"
+description: "Strategy for decomposing Strata into modular optional companion packages"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Package Decomposition Strategy
 
 ## Overview
@@ -42,6 +51,7 @@ The main package remains the primary entry point, containing:
 ```
 
 **Exports:**
+
 - `@strata/core` - Main entry (core + game + world + compose)
 - `@strata/core/components` - React components
 - `@strata/core/api` - High-level API

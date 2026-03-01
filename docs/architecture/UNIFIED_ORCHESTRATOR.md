@@ -1,3 +1,12 @@
+---
+title: "Unified Multi-Agent Orchestrator"
+description: "Autonomous development loop combining Ollama, Jules, and Cursor cloud agents"
+status: draft
+implementation: 15
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Unified Multi-Agent Orchestrator
 
 > **EPIC**: [control-center#422](https://github.com/jbcom/control-center/issues/422)
@@ -75,12 +84,14 @@ A **fully self-contained autonomous development loop** that combines multiple AI
 **Role**: Fast inline changes, code review, task routing
 
 **Strengths**:
+
 - Sub-second response times
 - Structured JSON output
 - Cost-effective for high volume
 - Good for deterministic tasks
 
 **Use Cases**:
+
 - Quick fixes (<5 lines)
 - Dependency updates
 - Code review analysis
@@ -88,6 +99,7 @@ A **fully self-contained autonomous development loop** that combines multiple AI
 - Comment thread resolution
 
 **API**:
+
 ```bash
 curl -X POST '$OLLAMA_HOST/api/chat' \
   -H 'Authorization: Bearer $OLLAMA_API_KEY' \
@@ -104,18 +116,21 @@ curl -X POST '$OLLAMA_HOST/api/chat' \
 **Role**: Async complex refactoring, multi-file changes
 
 **Strengths**:
+
 - Full repository context
 - Async operation (doesn't block)
 - AUTO_CREATE_PR mode
 - Good for large changes
 
 **Use Cases**:
+
 - Multi-file refactoring
 - Feature implementation
 - Documentation generation
 - Migration tasks
 
 **API**:
+
 ```bash
 curl -X POST 'https://jules.googleapis.com/v1alpha/sessions' \
   -H 'X-Goog-Api-Key: $GOOGLE_JULES_API_KEY' \
@@ -135,18 +150,21 @@ curl -X POST 'https://jules.googleapis.com/v1alpha/sessions' \
 **Role**: Long-running background processes, complex debugging
 
 **Strengths**:
+
 - Full IDE context
 - Debugging capability
 - Multi-step reasoning
 - MCP tool integration
 
 **Use Cases**:
+
 - Complex bug fixes
 - Large features (>100 lines)
 - Architectural changes
 - Performance optimization
 
 **API**:
+
 ```bash
 curl -X POST 'https://api.cursor.com/agents/launch' \
   -u "$CURSOR_API_KEY:" \
@@ -163,6 +181,7 @@ curl -X POST 'https://api.cursor.com/agents/launch' \
 **Role**: PR quality gates
 
 **Available Reviewers**:
+
 | Reviewer | Trigger | Strengths |
 |----------|---------|-----------|
 | Gemini Code Assist | Auto on PR | Deep analysis |
@@ -205,26 +224,31 @@ curl -X POST 'https://api.cursor.com/agents/launch' \
 ## Implementation Phases
 
 ### Phase 1: Jules Integration ✅
+
 - [x] Add GOOGLE_JULES_API_KEY org secret
 - [ ] Add delegate-to-jules job to ollama-cloud-pr-review.yml
 - [ ] Create jules-issue-automation.yml workflow
 
 ### Phase 2: Cursor Cloud Integration
+
 - [ ] Add CURSOR_API_KEY org secret
 - [ ] Create cursor-agent-launcher.yml workflow
 - [ ] Add long-running task delegation
 
 ### Phase 3: Unified Router
+
 - [ ] Create task-router.yml workflow
 - [ ] Implement routing logic (Ollama decides which agent)
 - [ ] Add session/agent tracking
 
 ### Phase 4: Feedback Loop
+
 - [ ] Aggregate feedback from all AI reviewers
 - [ ] Cross-agent fix coordination
 - [ ] Conflict resolution
 
 ### Phase 5: Monitoring & Dashboard
+
 - [ ] Session status tracking
 - [ ] PR lifecycle metrics
 - [ ] Agent performance analytics

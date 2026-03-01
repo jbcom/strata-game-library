@@ -1,3 +1,14 @@
+/**
+ * React hook for persistent game storage via the Capacitor plugin.
+ *
+ * Provides save/load/delete/list/clear operations for game data with
+ * namespace isolation, loading state tracking, and error handling.
+ * Uses localStorage on web and native platform storage on iOS/Android.
+ *
+ * @module useStorage
+ * @category Player Experience
+ */
+
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { StorageOptions, StorageResult } from '../definitions.js';
 import { Strata } from '../index.js';

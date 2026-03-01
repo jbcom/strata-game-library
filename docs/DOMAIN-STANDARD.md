@@ -1,3 +1,12 @@
+---
+title: "Multi-Repo Domain Standard"
+description: "Standard for granting dedicated domains to project ecosystems"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: standards
+---
+
 # Multi-Repo Domain Standard
 
 This document outlines the standard for granting a dedicated domain to a project ecosystem.
@@ -6,10 +15,10 @@ This document outlines the standard for granting a dedicated domain to a project
 
 A project qualifies for a dedicated domain when it meets the following criteria:
 
-1.  **3+ repositories** exist under the same namespace prefix.
-2.  **Cross-repo dependencies** exist (repos depend on each other).
-3.  **Unified brand identity** is maintained across repos.
-4.  **Public API surface** warrants dedicated documentation.
+1. **3+ repositories** exist under the same namespace prefix.
+2. **Cross-repo dependencies** exist (repos depend on each other).
+3. **Unified brand identity** is maintained across repos.
+4. **Public API surface** warrants dedicated documentation.
 
 ## Agentic Ecosystem Example
 

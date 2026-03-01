@@ -1,3 +1,12 @@
+---
+title: "Strata Ecosystem Integration Report"
+description: "Analysis of TypeScript games in arcade-cabinet organization for Strata API integration"
+status: active
+implementation: 30
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Ecosystem Integration Report
 
 ## Overview
@@ -49,6 +58,7 @@ pnpm update @jbcom/strata
 ```
 
 **Benefits:**
+
 - Access to new compositional object system
 - Improved vegetation instancing
 - Better water rendering
@@ -57,6 +67,7 @@ pnpm update @jbcom/strata
 ### 2. Otterfall - Full Migration
 
 **Current Stack:**
+
 - `@react-three/drei`
 - `@react-three/fiber`
 - `@react-three/postprocessing`
@@ -83,6 +94,7 @@ import { createGame, StrataGame } from '@jbcom/strata/api';
 **Estimated Effort:** 20-30 hours
 
 **Key Migrations:**
+
 1. Replace custom terrain with `Terrain` component
 2. Replace water with `AdvancedWater`
 3. Replace sky with `ProceduralSky`
@@ -92,6 +104,7 @@ import { createGame, StrataGame } from '@jbcom/strata/api';
 ### 3. Realm Walker - Partial Integration
 
 **Current Stack:**
+
 - `@react-three/drei`
 - `@react-three/fiber`
 - `better-sqlite3` (persistence)
@@ -114,6 +127,7 @@ import { createGame, StrataGame } from '@jbcom/strata/api';
 **Current:** TypeScript project (private)
 
 **Action Items:**
+
 1. [ ] Review current implementation
 2. [ ] Identify rendering requirements
 3. [ ] Assess Strata compatibility

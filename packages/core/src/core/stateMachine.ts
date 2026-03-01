@@ -1,3 +1,15 @@
+/**
+ * Finite state machine implementation for AI behaviors and game logic.
+ *
+ * Provides a generic, context-aware state machine with automatic transition
+ * evaluation, state history tracking, pause/resume support, and serialization.
+ * Used by the AI system for creature behaviors (idle, patrol, chase, flee)
+ * and by game systems for managing complex state flows.
+ *
+ * @module StateMachine
+ * @category Game Systems
+ */
+
 import * as THREE from 'three';
 
 export interface StateCallbacks<T = any> {

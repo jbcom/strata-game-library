@@ -1,3 +1,15 @@
+/**
+ * React hook for triggering haptic feedback.
+ *
+ * Provides memoized callback functions for light, medium, and heavy
+ * haptic intensities, as well as custom vibration durations. Delegates
+ * to the platform-appropriate haptics implementation (Web Vibration API,
+ * gamepad rumble, or native haptics via Capacitor).
+ *
+ * @module useHaptics
+ * @category Player Experience
+ */
+
 import { useCallback } from 'react';
 import type { HapticsOptions } from '../definitions.js';
 import { Strata } from '../index.js';

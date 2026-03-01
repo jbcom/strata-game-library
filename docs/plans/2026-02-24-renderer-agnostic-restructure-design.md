@@ -1,3 +1,12 @@
+---
+title: "Renderer-Agnostic Restructure Design"
+description: "Design for restructuring monorepo with renderer-agnostic core, R3F/Reactylon adapters, and release automation"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: plans
+---
+
 # Renderer-Agnostic Restructure & Release Automation
 
 **Date:** 2026-02-24
@@ -18,6 +27,7 @@
 Strata's core value is its algorithms (noise, SDF, marching cubes, ECS, pathfinding, state machines, physics logic, animation math). These are renderer-agnostic. The React component layer becomes a thin adapter that wraps core algorithms for a specific renderer.
 
 This means:
+
 - `core` = pure TypeScript, zero React imports, zero renderer dependencies
 - `r3f` = React Three Fiber adapter (current `core/components/` extracted)
 - `reactylon` = Babylon.js adapter via Reactylon (new)
@@ -96,6 +106,7 @@ packages:
 The key migration is splitting `packages/core`:
 
 **Stays in `packages/core/src/`:**
+
 - `core/` — all pure TS algorithms (ai, animation, audio, camera, debug, ecs, math, pathfinding, state, weather, etc.)
 - `api/` — createGame, StrataGame, entities, effects, rendering, compose, world, systems, experience
 - `game/` — SceneManager, ModeManager, TriggerSystem, TransitionManager
@@ -106,6 +117,7 @@ The key migration is splitting `packages/core`:
 - `utils/` — utility functions
 
 **Moves to `adapters/r3f/src/`:**
+
 - `components/` — all React Three Fiber components (ai, animation, audio, camera, clouds, decals, input, instancing, lod, parallax, particles, physics, postprocessing, shaders, sky, state, ui, volumetrics, water, weather)
 - `hooks/` — renderer-specific hooks (useFrame wrappers, etc.)
 

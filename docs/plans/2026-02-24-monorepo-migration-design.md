@@ -1,3 +1,12 @@
+---
+title: "Monorepo Migration Design"
+description: "Design document for consolidating strata-game-library into a single Nx + pnpm monorepo"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: plans
+---
+
 # Monorepo Migration Design
 
 **Date:** 2026-02-24
@@ -15,6 +24,7 @@ Consolidate all repositories into a single Nx + pnpm monorepo with publishable p
 ## Tool Choice: Nx + pnpm Workspaces
 
 **Why Nx:**
+
 - Industry-standard task orchestration for JS/TS monorepos
 - Computation caching (local + remote) eliminates redundant builds/tests
 - Dependency graph analysis enables affected-only CI
@@ -22,6 +32,7 @@ Consolidate all repositories into a single Nx + pnpm monorepo with publishable p
 - Integrates natively with pnpm workspaces
 
 **Why not alternatives:**
+
 - Turborepo: JS/TS only, less capable dependency graph
 - Moon: Immature Swift/Kotlin support
 - Bazel: Overkill for this scale (~20K LOC total)
@@ -126,6 +137,7 @@ strata/                          # monorepo root
 ### packages/shaders (from standalone shaders repo)
 
 Standalone wins every 1:1 comparison. Actions:
+
 - Use standalone `src/` as-is
 - **Merge from core**: Add `refractionRatio` parameter to CrystalMaterial
 - Includes `types.ts` (IUniforms, UniformValue) and `chunks.ts` (NoiseChunks, MathChunks)
@@ -178,6 +190,7 @@ Standalone wins every 1:1 comparison. Actions:
 ### apps/examples (merged from both repos)
 
 Best version per project:
+
 | Example | Source | Reason |
 |---------|--------|--------|
 | basic-terrain | standalone | Uses actual fbm API |
@@ -212,6 +225,7 @@ Best version per project:
 ## Configuration Strategy
 
 ### tsconfig.base.json
+
 - strict: true
 - noUnusedLocals: true
 - noUnusedParameters: true
@@ -219,11 +233,13 @@ Best version per project:
 - Each package extends with `"extends": "../../tsconfig.base.json"`
 
 ### biome.json
+
 - 2-space indentation (standardized across all packages)
 - Root config, packages inherit automatically
 - Replaces eslint in model-synth, ruff references in any Python
 
 ### nx.json
+
 - `targetDefaults` for build, test, lint, typecheck
 - `namedInputs` for production vs test files
 - Task pipeline: test depends on build, lint is independent

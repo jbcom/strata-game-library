@@ -1,3 +1,14 @@
+/**
+ * React hooks for the Strata Capacitor plugin.
+ *
+ * Provides React hooks and context providers for device detection, input
+ * handling, haptic feedback, control hints, and persistent game storage.
+ * Wraps the Capacitor plugin API in idiomatic React patterns.
+ *
+ * @module CapacitorReact
+ * @category Player Experience
+ */
+
 import { useEffect, useState } from 'react';
 import type { DeviceInfo, SafeAreaInsets } from '../definitions.js';
 import { Strata } from '../index.js';

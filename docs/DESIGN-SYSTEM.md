@@ -1,3 +1,12 @@
+---
+title: "jbcom Design System"
+description: "Definitive branding guide for all jbcom repositories including colors, typography, and components"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: branding
+---
+
 # jbcom Design System
 
 > **This is the definitive branding guide for ALL jbcom repositories.** All documentation sites MUST follow these specifications to ensure brand consistency across the ecosystem.
@@ -177,6 +186,7 @@ Each language ecosystem uses its best-fit documentation tooling with jbcom brand
 | `index.rst` | Documentation root |
 
 Usage:
+
 1. Copy scaffold to your `docs/` directory
 2. Run `sphinx-build -b html docs docs/_build`
 
@@ -190,6 +200,7 @@ Usage:
 | `jbcom-typedoc.css` | jbcom-branded theme CSS |
 
 Usage:
+
 1. Copy scaffold to your `docs/` directory
 2. Run `npx typedoc`
 
@@ -203,11 +214,12 @@ Usage:
 | `jbcom-doc2go.css` | jbcom-branded theme CSS |
 
 Usage:
+
 1. Install: `go install go.abhg.dev/doc2go@latest`
 2. Generate: `doc2go -out docs/api ./...`
 3. Apply branding: Copy `jbcom-doc2go.css` and inject into HTML
 
-Note: godoc is deprecated. Use [doc2go](https://go.abhg.dev/doc2go/) for modern, 
+Note: godoc is deprecated. Use [doc2go](https://go.abhg.dev/doc2go/) for modern,
 module-aware static documentation with pkg.go.dev-like styling.
 
 ### terraform-docs (Terraform)
@@ -220,6 +232,7 @@ module-aware static documentation with pkg.go.dev-like styling.
 | `.terraform-docs.yml` | terraform-docs config |
 
 Usage:
+
 1. Add `.terraform-docs.yml` to module root
 2. Run `terraform-docs markdown table .`
 
@@ -233,8 +246,10 @@ Usage:
 | `jbcom-rustdoc.css` | jbcom-branded rustdoc CSS |
 
 Usage:
+
 1. Write doc comments in source code (`///` and `//!`)
 2. Generate with custom CSS:
+
 ```bash
 RUSTDOCFLAGS="--extend-css docs/jbcom-rustdoc.css" cargo doc --no-deps
 ```

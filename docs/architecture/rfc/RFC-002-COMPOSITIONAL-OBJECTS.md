@@ -1,3 +1,12 @@
+---
+title: "RFC-002: Compositional Object System"
+description: "Materials, skeletons, coverings, props, and creatures through composition"
+status: proposed
+implementation: 40
+last_updated: 2026-03-01
+area: rfc
+---
+
 # RFC-002: Compositional Object System
 
 > **Status**: Proposed
@@ -13,11 +22,13 @@ This RFC proposes a compositional system for defining game objects through mater
 > "Wooden boards bound by metal banding form a panel; enough panels in 3D space form an ammo crate."
 
 All game objects can be decomposed into:
+
 1. **Rigid shapes** (box, cylinder, sphere, mesh)
 2. **Materials** (wood, metal, fur, stone)
 3. **Composition rules** (how parts connect)
 
 This insight enables:
+
 - **Massive code reduction**: Define objects declaratively
 - **Procedural variation**: Generate variations automatically
 - **Efficient rendering**: Share materials, instance similar objects

@@ -1,3 +1,15 @@
+/**
+ * Capacitor plugin for native mobile platform integration.
+ *
+ * Bridges Strata games to native iOS/Android capabilities including device
+ * detection, haptic feedback, input handling, screen orientation, safe area
+ * insets, and persistent storage. Falls back to web implementations when
+ * running in a browser.
+ *
+ * @module Capacitor
+ * @category Player Experience
+ */
+
 import { registerPlugin } from '@capacitor/core';
 import type { StrataPlugin } from './definitions.js';
 

@@ -1,3 +1,14 @@
+/**
+ * Type definitions for the material system.
+ *
+ * Defines the interfaces for material properties including solid surfaces,
+ * shell-based rendering (fur, grass), volumetric effects (crystals, glass),
+ * and organic subsurface scattering (skin, flesh).
+ *
+ * @module MaterialTypes
+ * @category Entities & Simulation
+ */
+
 import type * as THREE from 'three';
 
 export type MaterialType = 'solid' | 'shell' | 'volumetric' | 'organic';

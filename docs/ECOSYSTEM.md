@@ -1,3 +1,12 @@
+---
+title: "Ecosystem Workflows"
+description: "Unified family of GitHub Actions workflows powered by @agentic/control"
+status: active
+implementation: 60
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Ecosystem Workflows
 
 The **Ecosystem** is a unified family of GitHub Actions workflows powered by `@agentic/control`.

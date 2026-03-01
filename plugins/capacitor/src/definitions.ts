@@ -1,3 +1,15 @@
+/**
+ * Type definitions for the Capacitor plugin.
+ *
+ * Defines device profiles, input snapshots, haptics options, storage APIs,
+ * and the full StrataPlugin interface that native and web implementations
+ * must satisfy. Supports multi-platform input (touch, keyboard, gamepad)
+ * and cross-platform persistent storage.
+ *
+ * @module CapacitorDefinitions
+ * @category Player Experience
+ */
+
 export type InputMode = 'touch' | 'keyboard' | 'gamepad' | 'hybrid';
 export type DeviceType = 'mobile' | 'tablet' | 'foldable' | 'desktop';
 export type Platform = 'ios' | 'android' | 'windows' | 'macos' | 'linux' | 'web';

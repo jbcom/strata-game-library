@@ -1,3 +1,23 @@
+/**
+ * Top-level React Three Fiber game component.
+ *
+ * StrataGame is the primary entry point for rendering a Strata game in React.
+ * It wraps the R3F Canvas, initializes the game lifecycle, provides game context
+ * to child components, and renders scene/mode content with UI overlays.
+ *
+ * @module StrataGame
+ * @category Player Experience
+ *
+ * @example
+ * ```tsx
+ * import { StrataGame } from '@strata-game-library/r3f';
+ *
+ * <StrataGame game={myGame} loading={<LoadingScreen />}>
+ *   <CustomOverlay />
+ * </StrataGame>
+ * ```
+ */
+
 import { Canvas } from '@react-three/fiber';
 import type React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';

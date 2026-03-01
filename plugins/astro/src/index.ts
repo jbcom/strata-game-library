@@ -1,3 +1,15 @@
+/**
+ * Astro integration for Strata documentation and demo sites.
+ *
+ * Configures Vite SSR settings for React Three Fiber, Three.js, Babylon.js,
+ * and Reactylon compatibility within Astro projects. Applies the Strata Vite
+ * plugin for dependency optimization and optionally injects CSS design tokens
+ * and Starlight theme overrides.
+ *
+ * @module AstroIntegration
+ * @category Rendering Pipeline
+ */
+
 import type { AstroIntegration } from 'astro';
 import { strataVitePlugin } from './vite-plugin.js';
 

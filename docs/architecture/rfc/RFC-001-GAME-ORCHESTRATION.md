@@ -1,3 +1,12 @@
+---
+title: "RFC-001: Game Orchestration Architecture"
+description: "Scenes, modes, triggers, and transitions for the core game orchestration layer"
+status: active
+implementation: 60
+last_updated: 2026-03-01
+area: rfc
+---
+
 # RFC-001: Game Orchestration Architecture
 
 > **Status**: Proposed
@@ -60,6 +69,7 @@ function createSceneManager(config: SceneManagerConfig): SceneManager;
 ```
 
 **Usage Example**:
+
 ```typescript
 const scenes = createSceneManager({ initialScene: 'title' });
 
@@ -142,6 +152,7 @@ function createModeManager(defaultMode: GameMode): ModeManager;
 ```
 
 **Usage Example**:
+
 ```typescript
 const modes = createModeManager('exploration');
 
@@ -169,6 +180,7 @@ const currentWaterway = modes.current.props.waterway;
 ```
 
 **UI Component with Props**:
+
 ```typescript
 // RacingHUD can access runtime props via the instance
 function RacingHUD({ instance }: { instance: ModeInstance }) {
@@ -250,6 +262,7 @@ function createTriggerSystem(): SystemFn {
 ```
 
 **Usage Example**:
+
 ```typescript
 // River crossing trigger - props are preserved in ModeInstance
 world.add({
@@ -314,6 +327,7 @@ function createTransitionManager(): TransitionManager;
 ```
 
 **Integration with SceneManager**:
+
 ```typescript
 // Scene load with transition
 async function loadWithTransition(sceneId: string) {
@@ -326,6 +340,7 @@ async function loadWithTransition(sceneId: string) {
 ## Integration
 
 ### With Existing ECS
+
 ```typescript
 // Triggers are components
 world.add({
@@ -340,6 +355,7 @@ useFrame((_, delta) => {
 ```
 
 ### With State Management
+
 ```typescript
 // Modes affect game state - access config via instance
 const modeManager = createModeManager('exploration');
@@ -354,6 +370,7 @@ modeManager.on('modeChange', (instance: ModeInstance) => {
 ```
 
 ### With Input
+
 ```typescript
 // Each mode has its own input map
 // keyboard: string[] of key identifiers; gamepad: logical control name
@@ -371,16 +388,19 @@ const racingInputs: InputMapping = {
 ## Alternatives Considered
 
 ### 1. React Router Pattern
+
 Treat scenes as routes with URL-based navigation.
 
 **Rejected**: Doesn't handle mode stacking well; games aren't document-based.
 
 ### 2. Bevy-like State Machine
+
 Use a formal state machine for all game states.
 
 **Rejected**: Too rigid for overlapping modes; poor React integration.
 
 ### 3. External Framework
+
 Use Phaser or similar for orchestration.
 
 **Rejected**: Would require abandoning R3F paradigm; too heavy.

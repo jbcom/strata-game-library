@@ -1,3 +1,12 @@
+---
+title: "Monorepo Migration Implementation Plan"
+description: "Task-by-task implementation plan for consolidating 11 repos into a single monorepo"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: plans
+---
+
 # Monorepo Migration Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
@@ -15,6 +24,7 @@
 ### Task 1: Update pnpm-workspace.yaml
 
 **Files:**
+
 - Modify: `pnpm-workspace.yaml`
 
 **Step 1: Update workspace config**
@@ -48,6 +58,7 @@ git commit -m "chore: configure pnpm workspace for packages/* and apps/*"
 ### Task 2: Create tsconfig.base.json (shared compiler options)
 
 **Files:**
+
 - Create: `tsconfig.base.json`
 - Modify: `tsconfig.json` (will become the root entry for project references later)
 
@@ -96,6 +107,7 @@ git commit -m "chore: add shared tsconfig.base.json for monorepo"
 ### Task 3: Update root biome.json for monorepo
 
 **Files:**
+
 - Modify: `biome.json`
 
 **Step 1: Update biome.json**
@@ -195,6 +207,7 @@ git commit -m "chore: update biome.json for monorepo (2-space indent, packages/a
 ### Task 4: Install Nx and create nx.json
 
 **Files:**
+
 - Modify: `package.json` (add nx devDependency)
 - Create: `nx.json`
 
@@ -279,6 +292,7 @@ git commit -m "chore: add Nx 20 for monorepo task orchestration"
 ### Task 5: Update root package.json scripts for Nx
 
 **Files:**
+
 - Modify: `package.json`
 
 **Step 1: Add Nx-based root scripts**
@@ -319,6 +333,7 @@ git commit -m "chore: add Nx-based monorepo scripts to root package.json"
 ### Task 6: Create vitest workspace config
 
 **Files:**
+
 - Create: `vitest.workspace.ts`
 
 **Step 1: Create vitest workspace config**
@@ -347,6 +362,7 @@ git commit -m "chore: add vitest workspace config for multi-package testing"
 ### Task 7: Create packages/core directory structure
 
 **Files:**
+
 - Create: `packages/core/` directory
 - Move: `src/` -> `packages/core/src/`
 - Move: `tests/` -> `packages/core/tests/`
@@ -381,12 +397,14 @@ git commit -m "refactor: move src/ and tests/ into packages/core/"
 ### Task 8: Create packages/core/package.json
 
 **Files:**
+
 - Create: `packages/core/package.json`
 - Modify: root `package.json`
 
 **Step 1: Create the core package.json**
 
 Create `packages/core/package.json` using the contents of the current root `package.json`, with these changes:
+
 - Keep `name`, `version`, `description`, `type`, `main`, `module`, `types`, `exports`, `files`, `keywords`, `author`, `license`, `publishConfig`
 - Keep `peerDependencies`, `peerDependenciesMeta`, `dependencies`
 - Move test/build-related `devDependencies` to the package level (vitest, @testing-library/react, jsdom, @vitest/coverage-v8, @playwright/test, @types/*)
@@ -396,6 +414,7 @@ Create `packages/core/package.json` using the contents of the current root `pack
 The `exports` map stays the same since the source paths are unchanged (src/ is now packages/core/src/ but the package itself is rooted at packages/core/).
 
 Key script changes:
+
 ```json
 {
   "scripts": {
@@ -423,6 +442,7 @@ Key script changes:
 **Step 2: Slim down root package.json**
 
 Update the root `package.json` to become the monorepo root:
+
 - Change `name` to `@strata-game-library/monorepo`
 - Set `"private": true`
 - Remove all `exports`, `main`, `module`, `types`, `files`, `peerDependencies`, `dependencies`
@@ -478,6 +498,7 @@ git commit -m "refactor: split root package.json into monorepo root + packages/c
 ### Task 9: Create packages/core/tsconfig.json
 
 **Files:**
+
 - Create: `packages/core/tsconfig.json`
 - Modify: root `tsconfig.json` (becomes project references entry point)
 
@@ -529,6 +550,7 @@ git commit -m "refactor: create packages/core/tsconfig.json extending base"
 ### Task 10: Move tsup.config.ts to packages/core
 
 **Files:**
+
 - Move: `tsup.config.ts` -> `packages/core/tsup.config.ts`
 
 **Step 1: Move the config**
@@ -556,6 +578,7 @@ git commit -m "refactor: move tsup.config.ts to packages/core"
 ### Task 11: Move remaining core config files
 
 **Files:**
+
 - Move: `vitest.config.ts` -> `packages/core/vitest.config.ts` (if exists at root)
 - Move: `.releaserc.json` -> `packages/core/.releaserc.json`
 - Move: `playwright.config.ts` -> `packages/core/playwright.config.ts` (if exists)
@@ -573,6 +596,7 @@ ls vitest.config.ts playwright.config.ts 2>/dev/null
 ```
 
 If they exist, move them:
+
 ```bash
 git mv vitest.config.ts packages/core/vitest.config.ts 2>/dev/null
 git mv playwright.config.ts packages/core/playwright.config.ts 2>/dev/null
@@ -595,6 +619,7 @@ git commit -m "refactor: move release and test configs to packages/core"
 ### Task 12: Install core dependencies and verify full build/test cycle
 
 **Files:**
+
 - Modify: `packages/core/package.json` (ensure all deps listed)
 
 **Step 1: Install all workspace dependencies**
@@ -608,6 +633,7 @@ pnpm install
 ```bash
 cd packages/core && pnpm run build
 ```
+
 Expected: Build succeeds, `packages/core/dist/` contains all expected outputs
 
 **Step 3: Verify tests pass**
@@ -615,6 +641,7 @@ Expected: Build succeeds, `packages/core/dist/` contains all expected outputs
 ```bash
 cd packages/core && pnpm run test:unit
 ```
+
 Expected: All unit tests pass
 
 **Step 4: Verify Nx can run the targets**
@@ -623,6 +650,7 @@ Expected: All unit tests pass
 pnpm nx run @strata-game-library/core:build
 pnpm nx run @strata-game-library/core:test
 ```
+
 Expected: Both succeed. Second run should show "cache hit" for build.
 
 **Step 5: Commit any lockfile changes**
@@ -639,6 +667,7 @@ git commit -m "chore: update lockfile after core package migration"
 ### Task 13: Copy shaders from standalone repo
 
 **Files:**
+
 - Create: `packages/shaders/`
 - Create: `packages/shaders/src/` (from `/Users/jbogaty/src/strata-game-library/shaders/src/`)
 
@@ -666,6 +695,7 @@ git commit -m "feat(shaders): add standalone shaders source (superior implementa
 ### Task 14: Create packages/shaders/package.json
 
 **Files:**
+
 - Create: `packages/shaders/package.json`
 
 **Step 1: Create the package.json**
@@ -784,6 +814,7 @@ git commit -m "feat(shaders): add package.json for shaders package"
 ### Task 15: Create packages/shaders/tsconfig.json and tsup.config.ts
 
 **Files:**
+
 - Create: `packages/shaders/tsconfig.json`
 - Create: `packages/shaders/tsup.config.ts`
 
@@ -828,6 +859,7 @@ Add shaders to the root tsconfig.json references:
 pnpm install
 cd packages/shaders && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 5: Commit**
@@ -842,6 +874,7 @@ git commit -m "feat(shaders): add build configuration for shaders package"
 ### Task 16: Merge refractionRatio into shaders CrystalMaterial
 
 **Files:**
+
 - Modify: `packages/shaders/src/materials/index.ts`
 
 **Step 1: Read both versions of materials/index.ts**
@@ -857,6 +890,7 @@ Find the CrystalMaterial creation function in `packages/shaders/src/materials/in
 ```bash
 cd packages/shaders && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 4: Commit**
@@ -871,6 +905,7 @@ git commit -m "feat(shaders): merge refractionRatio into CrystalMaterial from co
 ### Task 17: Remove old shaders from core and add dependency
 
 **Files:**
+
 - Delete: `packages/core/src/shaders/` (entire directory)
 - Modify: `packages/core/package.json` (add shaders dependency)
 - Modify: `packages/core/tsup.config.ts` (remove shader entries)
@@ -908,6 +943,7 @@ This maintains backward compatibility for consumers importing from `@strata-game
 Remove all `shaders/*` entries from the entry map in `packages/core/tsup.config.ts`:
 
 Remove these lines:
+
 ```typescript
 'shaders/index': 'src/shaders/index.ts',
 'shaders/water': 'src/shaders/water.ts',
@@ -920,6 +956,7 @@ Remove these lines:
 ```
 
 Replace with a single re-export entry:
+
 ```typescript
 'shaders/index': 'src/shaders.ts',
 ```
@@ -936,6 +973,7 @@ Remove the individual shader subpath exports (`./shaders/water`, `./shaders/clou
 pnpm install
 cd packages/core && pnpm run build
 ```
+
 Expected: Build succeeds. The `shaders/index.js` output re-exports from the shaders package.
 
 **Step 7: Commit**
@@ -952,6 +990,7 @@ git commit -m "refactor(core): replace inline shaders with @strata-game-library/
 ### Task 18: Copy presets from standalone repo
 
 **Files:**
+
 - Create: `packages/presets/`
 
 **Step 1: Create directory and copy**
@@ -976,12 +1015,14 @@ git commit -m "feat(presets): add presets source from standalone repo"
 ### Task 19: Create packages/presets/package.json and tsconfig.json
 
 **Files:**
+
 - Create: `packages/presets/package.json`
 - Create: `packages/presets/tsconfig.json`
 
 **Step 1: Create package.json**
 
 Copy from the standalone presets repo and update:
+
 - Change `@strata-game-library/core` dependency to `"workspace:*"`
 - Update `repository.url` to monorepo URL with `"directory": "packages/presets"`
 - Keep all 28+ subpath exports as-is
@@ -1021,6 +1062,7 @@ Add presets:
 pnpm install
 cd packages/presets && pnpm run build
 ```
+
 Expected: Build succeeds (the `workspace:*` reference to core resolves within the monorepo)
 
 **Step 5: Run tests**
@@ -1028,6 +1070,7 @@ Expected: Build succeeds (the `workspace:*` reference to core resolves within th
 ```bash
 cd packages/presets && pnpm run test
 ```
+
 Expected: Tests pass
 
 **Step 6: Commit**
@@ -1044,6 +1087,7 @@ git commit -m "feat(presets): configure presets package with workspace:* depende
 ### Task 20: Migrate audio-synth
 
 **Files:**
+
 - Create: `packages/audio-synth/`
 
 **Step 1: Copy source**
@@ -1056,6 +1100,7 @@ cp -r /Users/jbogaty/src/strata-game-library/audio-synth/src packages/audio-synt
 **Step 2: Create package.json**
 
 Create `packages/audio-synth/package.json` based on the standalone version, with these changes:
+
 - Keep `name`: `@strata-game-library/audio-synth`
 - Change `build` script from `tsc` to `tsup`
 - Add `tsup` to devDependencies
@@ -1116,6 +1161,7 @@ Add audio-synth to references.
 pnpm install
 cd packages/audio-synth && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 7: Commit**
@@ -1130,6 +1176,7 @@ git commit -m "feat(audio-synth): migrate audio-synth with tsup build"
 ### Task 21: Migrate model-synth from feature branch
 
 **Files:**
+
 - Create: `packages/model-synth/`
 
 **Step 1: Copy source from feature branch**
@@ -1239,6 +1286,7 @@ Add model-synth to references.
 pnpm install
 cd packages/model-synth && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 7: Commit**
@@ -1255,6 +1303,7 @@ git commit -m "feat(model-synth): migrate model-synth from feature branch with t
 ### Task 22: Migrate capacitor-plugin
 
 **Files:**
+
 - Create: `packages/capacitor-plugin/`
 
 **Step 1: Copy source, native code, and configs**
@@ -1271,6 +1320,7 @@ cp /Users/jbogaty/src/strata-game-library/capacitor-plugin/vitest.config.ts pack
 **Step 2: Create package.json**
 
 Copy from standalone repo, update:
+
 - Repository URL to monorepo with `"directory": "packages/capacitor-plugin"`
 - Keep `capacitor` config section as-is
 
@@ -1300,6 +1350,7 @@ Add capacitor-plugin.
 pnpm install
 cd packages/capacitor-plugin && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 6: Run tests**
@@ -1307,6 +1358,7 @@ Expected: Build succeeds
 ```bash
 cd packages/capacitor-plugin && pnpm run test
 ```
+
 Expected: Tests pass
 
 **Step 7: Commit**
@@ -1321,6 +1373,7 @@ git commit -m "feat(capacitor-plugin): migrate capacitor plugin with native ios/
 ### Task 23: Migrate react-native-plugin
 
 **Files:**
+
 - Create: `packages/react-native-plugin/`
 
 **Step 1: Copy source and native code**
@@ -1335,6 +1388,7 @@ cp -r /Users/jbogaty/src/strata-game-library/react-native-plugin/android package
 **Step 2: Create package.json**
 
 Copy from standalone repo, with changes:
+
 - Change `build` script from `tsc` to `tsup`
 - Change `test` script from `jest` to `vitest run`
 - Replace jest devDependency with vitest
@@ -1392,6 +1446,7 @@ Add react-native-plugin.
 pnpm install
 cd packages/react-native-plugin && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 7: Commit**
@@ -1408,6 +1463,7 @@ git commit -m "feat(react-native-plugin): migrate with tsup build and vitest"
 ### Task 24: Migrate docs site
 
 **Files:**
+
 - Create: `apps/docs/`
 
 **Step 1: Copy the Astro docs site**
@@ -1448,6 +1504,7 @@ cp /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/sidebar.
 pnpm install
 cd apps/docs && pnpm run build
 ```
+
 Expected: Astro site builds successfully
 
 **Step 4: Commit**
@@ -1462,6 +1519,7 @@ git commit -m "feat(docs): migrate Astro docs site to apps/docs"
 ### Task 25: Merge examples from both repos
 
 **Files:**
+
 - Create: `apps/examples/`
 
 **Step 1: Create directory structure**
@@ -1529,6 +1587,7 @@ Or if examples are independent Vite apps, each one has its own package.json and 
 pnpm install
 cd apps/examples/basic-terrain && pnpm run build
 ```
+
 Expected: Build succeeds
 
 **Step 6: Commit**
@@ -1545,6 +1604,7 @@ git commit -m "feat(examples): merge best examples from both repos"
 ### Task 26: Create unified CI workflow with Nx
 
 **Files:**
+
 - Modify: `.github/workflows/ci.yml`
 
 **Step 1: Replace the CI workflow**
@@ -1642,6 +1702,7 @@ Key improvement: `fetch-depth: 0` enables Nx to diff against origin/main for aff
 **Step 2: Remove redundant ecosystem/AI workflows**
 
 Review `.github/workflows/` and remove files that were part of the control-center sync cascade:
+
 - `ecosystem-*.yml` files (10 files)
 - Any sync-related workflows
 
@@ -1659,6 +1720,7 @@ git commit -m "ci: replace single-package CI with Nx affected workflow"
 ### Task 27: Create per-package release workflow
 
 **Files:**
+
 - Modify: `.github/workflows/cd.yml`
 
 **Step 1: Create a release workflow that handles multiple packages**
@@ -1720,6 +1782,7 @@ git commit -m "ci: add per-package release workflow with Nx affected"
 ### Task 28: Remove old root-level files that moved to packages/core
 
 **Files:**
+
 - Delete: any remaining configs at root that belong in packages/core
 - Verify: root only has monorepo-level configs
 
@@ -1759,6 +1822,7 @@ pnpm install
 ```bash
 pnpm nx run-many -t build
 ```
+
 Expected: All packages build successfully
 
 **Step 3: Run all tests**
@@ -1766,6 +1830,7 @@ Expected: All packages build successfully
 ```bash
 pnpm nx run-many -t test
 ```
+
 Expected: All tests pass
 
 **Step 4: Run lint across all packages**
@@ -1773,6 +1838,7 @@ Expected: All tests pass
 ```bash
 pnpm nx run-many -t lint
 ```
+
 Expected: No lint errors
 
 **Step 5: Run type checking**
@@ -1780,6 +1846,7 @@ Expected: No lint errors
 ```bash
 pnpm nx run-many -t typecheck
 ```
+
 Expected: No type errors
 
 **Step 6: View the dependency graph**
@@ -1787,7 +1854,9 @@ Expected: No type errors
 ```bash
 pnpm nx graph
 ```
+
 Expected: Graph shows:
+
 - `core` depends on `shaders`
 - `presets` depends on `core`
 - Native plugins are standalone (or depend on core via peer dep)
@@ -1798,6 +1867,7 @@ Expected: Graph shows:
 ```bash
 pnpm nx run-many -t build
 ```
+
 Expected: All targets show "[local cache]" on second run
 
 **Step 8: Commit lockfile if changed**
@@ -1812,6 +1882,7 @@ git commit -m "chore: final lockfile after full monorepo verification"
 ### Task 30: Update documentation
 
 **Files:**
+
 - Modify: `CLAUDE.md`
 - Modify: `README.md`
 - Modify: `AGENTS.md`
@@ -1819,6 +1890,7 @@ git commit -m "chore: final lockfile after full monorepo verification"
 **Step 1: Update CLAUDE.md**
 
 Update the project overview, directory structure, and commands sections to reflect the monorepo structure. Key changes:
+
 - Architecture section shows `packages/` and `apps/` structure
 - Commands use `pnpm nx run-many -t build` instead of `pnpm run build`
 - Per-package commands: `pnpm nx run @strata-game-library/core:build`

@@ -1,3 +1,12 @@
+---
+title: "Strata Game Framework Vision"
+description: "High-level vision for transforming Strata from rendering toolkit to complete game framework"
+status: active
+implementation: 40
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Game Framework Vision
 
 > **Goal**: Transform Strata from a rendering toolkit into a complete game framework that enables developers to declaratively define entire games in 1/10th the code.
@@ -31,6 +40,7 @@ Strata currently provides excellent **primitives**:
 ```
 
 But developers must manually implement:
+
 - Scene management and transitions
 - Game mode states (exploration, combat, racing)
 - Spatial triggers and portals
@@ -80,6 +90,7 @@ But developers must manually implement:
 **Purpose**: Manage the runtime lifecycle of games.
 
 ### SceneManager
+
 ```typescript
 interface SceneManager {
   register(scene: Scene): void;
@@ -92,6 +103,7 @@ interface SceneManager {
 ```
 
 ### ModeManager
+
 ```typescript
 interface ModeManager {
   register(mode: ModeConfig): void;
@@ -104,6 +116,7 @@ interface ModeManager {
 ```
 
 ### TriggerSystem
+
 ```typescript
 // Spatial triggers as ECS components
 world.add({
@@ -122,6 +135,7 @@ world.add({
 **Purpose**: Define the spatial structure of game worlds.
 
 ### WorldGraph
+
 ```typescript
 const world = createWorldGraph({
   regions: {
@@ -145,9 +159,11 @@ const world = createWorldGraph({
 **Purpose**: Define game objects through composition.
 
 ### The Core Insight
+>
 > "Wooden boards bound by metal banding form a panel; enough panels in 3D space form an ammo crate."
 
 All game objects decompose into:
+
 1. **Rigid shapes** (box, cylinder, sphere, mesh)
 2. **Materials** (wood, metal, fur, stone)
 3. **Composition rules** (how parts connect)
@@ -162,6 +178,7 @@ All game objects decompose into:
 | **Organic** | Flesh, Leather, Bark | subsurface scattering |
 
 ### Skeletons
+
 ```typescript
 const otterSkeleton = createQuadrupedSkeleton({
   bodyLength: 0.6,
@@ -172,6 +189,7 @@ const otterSkeleton = createQuadrupedSkeleton({
 ```
 
 ### Coverings
+
 ```typescript
 const otterCovering = {
   skeleton: 'otter',
@@ -184,6 +202,7 @@ const otterCovering = {
 ```
 
 ### Props
+
 ```typescript
 const woodenCrate = createProp({
   id: 'crate_wooden',

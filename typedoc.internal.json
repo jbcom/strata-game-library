@@ -1,0 +1,43 @@
+{
+    "extends": "./typedoc.json",
+    "entryPoints": [
+        "packages/core/src/index.ts",
+        "packages/core/src/core/index.ts",
+        "packages/core/src/components/index.ts",
+        "packages/core/src/compose/materials/index.ts",
+        "packages/core/src/compose/materials/types.ts",
+        "packages/core/src/compose/props/index.ts",
+        "packages/core/src/compose/skeletons/index.ts",
+        "packages/core/src/compose/creatures/index.ts",
+        "packages/core/src/world/index.ts",
+        "packages/core/src/world/WorldGraph.ts",
+        "packages/core/src/game/index.ts",
+        "packages/core/src/game/Registry.ts",
+        "packages/core/src/core/stateMachine.ts",
+        "packages/core/src/utils/index.ts",
+        "packages/shaders/src/index.ts",
+        "packages/presets/src/index.ts",
+        "adapters/r3f/src/index.ts",
+        "adapters/r3f/src/StrataGame.tsx",
+        "adapters/reactylon/src/index.ts",
+        "plugins/audio-synth/src/index.ts",
+        "plugins/model-synth/src/index.ts",
+        "plugins/astro/src/index.ts",
+        "plugins/astro/src/vite-plugin.ts",
+        "plugins/react-native/src/index.tsx",
+        "plugins/capacitor/src/index.ts",
+        "plugins/capacitor/src/contract.ts",
+        "plugins/capacitor/src/definitions.ts",
+        "plugins/capacitor/src/web.ts",
+        "plugins/capacitor/src/react/index.ts"
+    ],
+    "out": "docs/internal",
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "excludeInternal": false,
+    "validation": {
+        "notExported": true,
+        "invalidLink": true,
+        "notDocumented": false
+    }
+}

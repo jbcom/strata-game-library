@@ -1,3 +1,15 @@
+/**
+ * React context and hook for device profile information.
+ *
+ * Provides a DeviceProvider context that tracks the current device type,
+ * platform, input mode, orientation, screen dimensions, and safe area
+ * insets. Automatically updates when device characteristics change
+ * (e.g., orientation rotation, gamepad connection).
+ *
+ * @module useDevice
+ * @category Player Experience
+ */
+
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 import type { DeviceProfile } from '../definitions.js';
 import { Strata } from '../index.js';

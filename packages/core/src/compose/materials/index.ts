@@ -1,3 +1,14 @@
+/**
+ * Built-in material presets for the compositional object system.
+ *
+ * Provides a registry of pre-configured materials (fur, metal, wood, shell,
+ * crystal, organic) that can be referenced by ID when composing creatures,
+ * props, and other game objects.
+ *
+ * @module Materials
+ * @category Entities & Simulation
+ */
+
 import {
   createFurMaterial,
   createMetalMaterial,

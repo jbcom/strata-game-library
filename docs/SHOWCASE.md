@@ -1,3 +1,12 @@
+---
+title: "Visual Showcase"
+description: "Interactive demos showcasing Strata's terrain, water, vegetation, and sky systems"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: getting-started
+---
+
 # Visual Showcase
 
 Experience Strata's high-performance 3D systems in action. These interactive demos showcase the library's capabilities across terrain, water, vegetation, and atmospheric layers.
@@ -5,6 +14,7 @@ Experience Strata's high-performance 3D systems in action. These interactive dem
 ---
 
 ## 🏔️ Procedural Terrain
+
 Procedural terrain generation using SDFs and marching cubes with triplanar texturing and multi-biome blending.
 
 <iframe src="demos/terrain.html" class="showcase-iframe"></iframe>
@@ -14,6 +24,7 @@ Procedural terrain generation using SDFs and marching cubes with triplanar textu
 ---
 
 ## 🌊 Advanced Water System
+
 Realistic water rendering featuring Gerstner wave simulation, Fresnel-based reflections, procedural foam, and underwater caustics.
 
 <iframe src="demos/water.html" class="showcase-iframe"></iframe>
@@ -23,6 +34,7 @@ Realistic water rendering featuring Gerstner wave simulation, Fresnel-based refl
 ---
 
 ## 🌿 GPU Vegetation
+
 GPU-accelerated instancing capable of rendering 10,000+ instances of grass, trees, and rocks at 60fps with procedural wind animation.
 
 <iframe src="demos/vegetation.html" class="showcase-iframe"></iframe>
@@ -32,6 +44,7 @@ GPU-accelerated instancing capable of rendering 10,000+ instances of grass, tree
 ---
 
 ## ☀️ Procedural Sky
+
 Physically-based atmospheric scattering with a dynamic day/night cycle, stars, sun/moon positioning, and horizon fog blending.
 
 <iframe src="demos/sky.html" class="showcase-iframe"></iframe>

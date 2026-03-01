@@ -1,3 +1,12 @@
+---
+title: "RFC-003: World Topology System"
+description: "Regions, connections, navigation, and procedural world generation"
+status: active
+implementation: 70
+last_updated: 2026-03-01
+area: rfc
+---
+
 # RFC-003: World Topology System
 
 > **Status**: Proposed
@@ -11,6 +20,7 @@ This RFC proposes a world topology layer that defines regions, connections, and 
 ## Motivation
 
 Games have spatial structure beyond raw coordinates:
+
 - A marsh connects to a forest via a river
 - A dungeon has rooms connected by corridors
 - A city has districts connected by streets
@@ -38,6 +48,7 @@ Currently, developers must implement this topology manually. The World Topology 
 ```
 
 Rivers are **connections** that:
+
 1. **Can be traversed** - Triggers racing mini-game
 2. **Have unlock state** - First crossing unlocks fast travel
 3. **Affect gameplay** - River difficulty, weather effects
@@ -378,6 +389,7 @@ function generateWorldGraph(config: ProceduralWorldConfig): WorldGraph {
 ## Integration
 
 ### With Game Orchestration
+
 ```typescript
 // Region change triggers mode transitions
 worldGraph.on('regionChange', (from, to) => {
@@ -391,6 +403,7 @@ worldGraph.on('regionChange', (from, to) => {
 ```
 
 ### With State Management
+
 ```typescript
 // World state persists
 const worldState = useSaveLoad({
@@ -403,6 +416,7 @@ const worldState = useSaveLoad({
 ```
 
 ### With Spawning
+
 ```typescript
 // Regions define spawn tables
 const marshSpawnTable: SpawnTable = {

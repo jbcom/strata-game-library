@@ -1,3 +1,12 @@
+---
+title: "RFC-004: Declarative Game Definition"
+description: "Top-level createGame() API for declarative game definition with 10x code reduction"
+status: proposed
+implementation: 0
+last_updated: 2026-03-01
+area: rfc
+---
+
 # RFC-004: Declarative Game Definition
 
 > **Status**: Proposed
@@ -41,6 +50,7 @@ function App() {
 ## Goals
 
 ### 1. Massive Code Reduction
+
 | Component | Manual Implementation | Declarative |
 |-----------|----------------------|-------------|
 | ECS Setup | 200+ lines | 0 lines |
@@ -52,7 +62,9 @@ function App() {
 | **Total** | **1600+ lines** | **110 lines** |
 
 ### 2. Configuration Over Implementation
+
 Everything is data, not code:
+
 - Creatures are JSON-serializable definitions
 - Props are compositions of shapes and materials
 - Scenes are top-level game states with render trees (see RFC-001)
@@ -60,13 +72,17 @@ Everything is data, not code:
 - World structure is a graph definition
 
 ### 3. Hot Reloading
+
 Change a definition, see it update:
+
 - Creature colors update in real-time
 - Region boundaries adjust instantly
 - Scene and mode transitions work immediately
 
 ### 4. Type Safety
+
 Full TypeScript support:
+
 - Autocomplete for all configuration
 - Compile-time validation
 - Discriminated unions for type narrowing
@@ -681,6 +697,7 @@ export const racing: ModeDefinition = {
 ## Migration Path
 
 ### Phase 1: Opt-in (Current games work)
+
 Existing games can use createGame() alongside manual code:
 
 ```tsx
@@ -693,13 +710,16 @@ Existing games can use createGame() alongside manual code:
 ```
 
 ### Phase 2: Gradual Adoption
+
 Move features incrementally to declarative:
+
 1. Move creatures to creature registry
 2. Move props to prop registry
 3. Move mode logic to mode definitions
 4. Move world structure to WorldGraph
 
 ### Phase 3: Full Declaration
+
 Remove all manual implementation, game is pure configuration.
 
 ## Success Metrics

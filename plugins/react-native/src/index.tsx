@@ -1,3 +1,15 @@
+/**
+ * React Native bridge for Strata games on iOS and Android.
+ *
+ * Provides hooks and components for native device detection, touch input
+ * capture via gesture responders, haptic feedback through native modules,
+ * screen orientation control, and adaptive control hints. Includes the
+ * StrataInputProvider component for wrapping game views with touch tracking.
+ *
+ * @module ReactNative
+ * @category Player Experience
+ */
+
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {

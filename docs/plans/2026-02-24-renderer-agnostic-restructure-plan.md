@@ -1,3 +1,12 @@
+---
+title: "Renderer-Agnostic Restructure Implementation Plan"
+description: "Task-by-task plan for restructuring into renderer-agnostic architecture with adapters and plugins"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: plans
+---
+
 # Renderer-Agnostic Restructure Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
@@ -15,6 +24,7 @@
 ### Task 1: Create release.yml workflow
 
 **Files:**
+
 - Create: `.github/workflows/release.yml`
 
 **Step 1: Write the release.yml workflow**
@@ -84,11 +94,13 @@ git commit -m "ci: add release.yml for OIDC npm publishing on GitHub Release"
 ### Task 2: Refactor cd.yml to use Nx Release on push to main
 
 **Files:**
+
 - Modify: `.github/workflows/cd.yml`
 
 **Step 1: Rewrite cd.yml**
 
 Replace the entire file. Key changes:
+
 - Remove tag trigger (release.yml handles publish)
 - Remove workflow_dispatch (no manual releases needed)
 - Keep push-to-main trigger only
@@ -99,6 +111,7 @@ Replace the entire file. Key changes:
 - Keep the docs deployment job unchanged
 
 The release job should:
+
 1. Checkout with full git history
 2. Install pnpm + node
 3. Install dependencies
@@ -117,6 +130,7 @@ Update the `nx.json` commit message from `[skip ci]` to `[skip actions]`.
 **Step 2: Update nx.json commit message**
 
 Change line 69 in `nx.json`:
+
 ```json
 "commitMessage": "chore(release): {projectName} {version} [skip actions]"
 ```
@@ -124,6 +138,7 @@ Change line 69 in `nx.json`:
 **Step 3: Verify the cd.yml skips on release commits**
 
 The `if` condition should be:
+
 ```yaml
 if: "!contains(github.event.head_commit.message, '[skip actions]')"
 ```
@@ -140,6 +155,7 @@ git commit -m "ci: refactor cd.yml to Nx Release on push-to-main, use [skip acti
 ### Task 3: Create automerge.yml workflow
 
 **Files:**
+
 - Create: `.github/workflows/automerge.yml`
 
 **Step 1: Write the automerge workflow**
@@ -188,6 +204,7 @@ git commit -m "ci: add automerge workflow for Dependabot PRs"
 ### Task 4: Remove CI trigger on push to main
 
 **Files:**
+
 - Modify: `.github/workflows/ci.yml`
 
 **Step 1: Update ci.yml triggers**
@@ -195,6 +212,7 @@ git commit -m "ci: add automerge workflow for Dependabot PRs"
 Remove `push: branches: [main]` from the `on` section. CI should only run on PRs and the weekly schedule. Push-to-main is handled by cd.yml which runs its own build + test before releasing.
 
 Change:
+
 ```yaml
 on:
   push:
@@ -206,6 +224,7 @@ on:
 ```
 
 To:
+
 ```yaml
 on:
   pull_request:
@@ -228,6 +247,7 @@ git commit -m "ci: remove push-to-main trigger from ci.yml (cd.yml handles it)"
 ### Task 5: Create directory structure and update workspace config
 
 **Files:**
+
 - Create: `adapters/` directory
 - Create: `plugins/` directory
 - Modify: `pnpm-workspace.yaml`
@@ -262,6 +282,7 @@ git commit -m "refactor: create adapters/ and plugins/ directories, update works
 ### Task 6: Move plugin packages to plugins/ directory
 
 **Files:**
+
 - Move: `packages/audio-synth` -> `plugins/audio-synth`
 - Move: `packages/model-synth` -> `plugins/model-synth`
 - Move: `packages/capacitor-plugin` -> `plugins/capacitor`
@@ -280,6 +301,7 @@ git mv packages/react-native-plugin plugins/react-native
 **Step 2: Update package.json repository.directory for each**
 
 For each moved package, update the `repository.directory` field:
+
 - `plugins/audio-synth/package.json`: `"directory": "plugins/audio-synth"`
 - `plugins/model-synth/package.json`: `"directory": "plugins/model-synth"`
 - `plugins/capacitor/package.json`: `"directory": "plugins/capacitor"`, also update `"name"` to `"@strata-game-library/capacitor"`
@@ -288,6 +310,7 @@ For each moved package, update the `repository.directory` field:
 **Step 3: Update nx.json release projects**
 
 Replace the old package names in the `release.projects` array:
+
 - `@strata-game-library/capacitor-plugin` -> `@strata-game-library/capacitor`
 - `@strata-game-library/react-native-plugin` -> `@strata-game-library/react-native`
 
@@ -323,6 +346,7 @@ git commit -m "refactor: move plugin packages to plugins/ directory, rename capa
 This is the biggest task. It creates the `@strata-game-library/r3f` adapter package.
 
 **Files:**
+
 - Create: `adapters/r3f/package.json`
 - Create: `adapters/r3f/tsconfig.json`
 - Create: `adapters/r3f/tsup.config.ts`
@@ -472,6 +496,7 @@ git mv packages/core/src/components adapters/r3f/src/components
 **Step 5: Create adapters/r3f/src/index.ts**
 
 This file re-exports everything from the components directory:
+
 ```typescript
 export * from './components/index.js';
 ```
@@ -479,6 +504,7 @@ export * from './components/index.js';
 **Step 6: Update import paths in moved component files**
 
 All component files that import from `../core/...` need updated paths to import from `@strata-game-library/core` instead. This is a search-and-replace across all files in `adapters/r3f/src/components/`:
+
 - `from '../core/` -> `from '@strata-game-library/core/core/`
 - `from '../../core/` -> `from '@strata-game-library/core/core/`
 - `from '../hooks/` -> check if renderer-specific or pure
@@ -491,11 +517,13 @@ All component files that import from `../core/...` need updated paths to import 
 **Step 7: Update packages/core**
 
 Remove the `components` export from:
+
 - `packages/core/package.json` exports map
 - `packages/core/tsup.config.ts` entry points
 - `packages/core/src/index.ts` (remove component re-exports)
 
 Remove R3F-specific peer dependencies from `packages/core/package.json`:
+
 - `@react-three/drei`
 - `@react-three/fiber`
 - `@react-three/rapier`
@@ -544,6 +572,7 @@ git commit -m "refactor: extract R3F components from core to adapters/r3f"
 ### Task 8: Update presets to depend on r3f (if needed)
 
 **Files:**
+
 - Modify: `packages/presets/package.json` (add r3f dependency if presets import components)
 
 **Step 1: Check if presets imports from core/components**
@@ -575,6 +604,7 @@ git commit -m "refactor: update presets to import from r3f adapter"
 ### Task 9: Create the @strata-game-library/astro plugin package
 
 **Files:**
+
 - Create: `plugins/astro/package.json`
 - Create: `plugins/astro/tsconfig.json`
 - Create: `plugins/astro/tsup.config.ts`
@@ -691,6 +721,7 @@ export function strataVitePlugin(): Plugin {
 **Step 4: Extract CSS from apps/docs into plugin**
 
 Split `apps/docs/src/styles/custom.css` (1,079 lines) into three files:
+
 - `plugins/astro/src/css/tokens.css` — CSS custom properties, colors, fonts, gradients
 - `plugins/astro/src/css/components.css` — Cards, badges, grids, demo containers, stats
 - `plugins/astro/src/css/starlight.css` — Starlight-specific overrides (header, sidebar, hero)
@@ -722,6 +753,7 @@ git commit -m "feat: create @strata-game-library/astro integration plugin"
 ### Task 10: Dogfood the Astro plugin in docs site
 
 **Files:**
+
 - Modify: `apps/docs/package.json` (add @strata-game-library/astro dep)
 - Modify: `apps/docs/astro.config.mjs` (use plugin instead of manual config)
 - Modify: `apps/docs/src/styles/custom.css` (replace with imports from plugin)
@@ -735,6 +767,7 @@ git commit -m "feat: create @strata-game-library/astro integration plugin"
 **Step 2: Update astro.config.mjs**
 
 Replace manual Vite SSR config with plugin import:
+
 ```js
 import strata from '@strata-game-library/astro';
 
@@ -752,6 +785,7 @@ Remove the manual `vite: { ssr: { noExternal: [...] } }` block.
 **Step 3: Update custom.css to import from plugin**
 
 Replace bulk of custom.css with:
+
 ```css
 @import '@strata-game-library/astro/css/tokens.css';
 @import '@strata-game-library/astro/css/components.css';
@@ -780,6 +814,7 @@ git commit -m "refactor(docs): dogfood @strata-game-library/astro plugin"
 ### Task 11: Create the @strata-game-library/reactylon adapter package
 
 **Files:**
+
 - Create: `adapters/reactylon/package.json`
 - Create: `adapters/reactylon/tsconfig.json`
 - Create: `adapters/reactylon/tsup.config.ts`
@@ -872,6 +907,7 @@ git commit -m "feat: scaffold @strata-game-library/reactylon adapter for Babylon
 ### Task 12: Update nx.json with all 10 release projects
 
 **Files:**
+
 - Modify: `nx.json`
 
 **Step 1: Update release.projects**
@@ -903,6 +939,7 @@ git commit -m "chore: update nx.json with all 10 release projects"
 ### Task 13: Update CI coverage paths
 
 **Files:**
+
 - Modify: `.github/workflows/ci.yml`
 
 **Step 1: Update coverage upload path**
@@ -928,6 +965,7 @@ git commit -m "ci: update coverage paths for adapters/ and plugins/ directories"
 ### Task 14: Update root README.md and CLAUDE.md
 
 **Files:**
+
 - Modify: `README.md`
 - Modify: `CLAUDE.md`
 

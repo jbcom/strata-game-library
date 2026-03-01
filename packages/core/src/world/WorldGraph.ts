@@ -1,3 +1,18 @@
+/**
+ * World graph data structure for defining game world topology.
+ *
+ * The WorldGraph represents the game world as a graph of interconnected regions.
+ * Each region has a spatial position, bounding shape, biome type, and gameplay
+ * properties. Connections between regions define traversal paths with optional
+ * unlock conditions, enabling progressive world exploration.
+ *
+ * Supports pathfinding (BFS), spatial queries, region discovery tracking,
+ * and event-driven notifications for world state changes.
+ *
+ * @module WorldGraph
+ * @category World Building
+ */
+
 import * as THREE from 'three';
 import type {
   BoundingShape,

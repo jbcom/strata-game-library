@@ -1,3 +1,12 @@
+---
+title: "Getting Started with Strata"
+description: "Quick start guide for the Strata procedural 3D graphics library for React Three Fiber"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: getting-started
+---
+
 # Strata
 
 **Procedural 3D graphics library for React Three Fiber**
@@ -32,6 +41,7 @@ function Game() {
 ## What's Included
 
 ### 🌊 Water Simulation
+
 Realistic water rendering with reflections, refraction, and foam.
 
 **Components:** `Water`, `AdvancedWater`
@@ -42,6 +52,7 @@ Realistic water rendering with reflections, refraction, and foam.
 ```
 
 ### 🌿 Vegetation Instancing
+
 GPU-instanced vegetation for rendering thousands of instances efficiently.
 
 **Components:** `GrassInstances`, `TreeInstances`, `RockInstances`, `GPUInstancedMesh`
@@ -53,6 +64,7 @@ GPU-instanced vegetation for rendering thousands of instances efficiently.
 ```
 
 ### 🌅 Sky & Atmosphere
+
 Procedural sky rendering with time-of-day support.
 
 **Components:** `ProceduralSky`
@@ -63,6 +75,7 @@ Procedural sky rendering with time-of-day support.
 ```
 
 ### 🌫️ Volumetric Effects
+
 Fog, underwater overlays, and atmospheric effects.
 
 **Components:** `VolumetricEffects`, `VolumetricFogMesh`, `UnderwaterOverlay`, `EnhancedFog`
@@ -73,6 +86,7 @@ Fog, underwater overlays, and atmospheric effects.
 ```
 
 ### 🎨 Ray Marching
+
 Ray-marched rendering for procedural geometry and effects.
 
 **Components:** `Raymarching`
@@ -82,9 +96,11 @@ Ray-marched rendering for procedural geometry and effects.
 ```
 
 ### 🔧 Core Algorithms
+
 Pure TypeScript implementations for terrain generation, SDF operations, and marching cubes.
 
 **Functions:**
+
 - **SDF:** `sdSphere`, `sdBox`, `sdPlane`, `sdCapsule`, `sdTorus`, `sdCone`
 - **SDF Operations:** `opUnion`, `opSubtraction`, `opIntersection`, `opSmoothUnion`, `opSmoothSubtraction`, `opSmoothIntersection`
 - **Noise:** `noise3D`, `fbm`, `warpedFbm`
@@ -99,12 +115,15 @@ Pure TypeScript implementations for terrain generation, SDF operations, and marc
 Strata is organized into three main layers:
 
 ### Core Layer (`src/core/`)
+
 Pure TypeScript algorithms with no React dependencies. Includes SDF operations, marching cubes, noise generation, and material creation functions.
 
 ### Component Layer (`src/components/`)
+
 React Three Fiber components that wrap core algorithms into reusable UI elements.
 
 ### Presets Layer (`src/presets/`)
+
 Pre-configured combinations of components for common use cases (background, midground, foreground layers).
 
 ### Example Usage
