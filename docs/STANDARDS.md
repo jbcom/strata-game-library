@@ -1,3 +1,12 @@
+---
+title: "Strata Development Standards"
+description: "Code organization, JSDoc, testing, and quality standards for all Strata library code"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: standards
+---
+
 # Strata Development Standards
 
 All code in the Strata library MUST follow these standards. No exceptions.
@@ -5,11 +14,13 @@ All code in the Strata library MUST follow these standards. No exceptions.
 ## Code Organization
 
 ### File Size Limits
+
 - **Maximum**: 400 lines of code per file
 - **Preferred**: ≤300 lines per file
 - **Action**: Split file when exceeding limit or handling multiple responsibilities
 
 ### Directory Structure
+
 ```
 src/core/<domain>/
 ├── index.ts           # Public exports only
@@ -25,6 +36,7 @@ src/core/<domain>/
 ```
 
 ### Naming Conventions
+
 | Type | Convention | Example |
 |------|-----------|---------|
 | Files | kebab-case | `game-store.ts` |
@@ -36,6 +48,7 @@ src/core/<domain>/
 | Constants | SCREAMING_SNAKE | `DEFAULT_CONFIG` |
 
 ### Module Rules
+
 1. One responsibility per module
 2. Export through barrel files (`index.ts`) only
 3. No circular dependencies
@@ -46,6 +59,7 @@ src/core/<domain>/
 ## JSDoc Documentation
 
 ### Required Tags
+
 Every exported symbol MUST have:
 
 ```typescript
@@ -76,6 +90,7 @@ export function createGameStore<T>(config: StoreConfig<T>): GameStore<T> {
 ```
 
 ### Documentation Checklist
+
 - [ ] All exported functions have JSDoc
 - [ ] All exported classes have JSDoc
 - [ ] All exported interfaces have JSDoc with property descriptions
@@ -89,6 +104,7 @@ export function createGameStore<T>(config: StoreConfig<T>): GameStore<T> {
 ## Testing Requirements
 
 ### Coverage Targets
+
 - **Minimum**: 90% statement coverage
 - **Minimum**: 90% branch coverage
 - **Goal**: 100% for core business logic
@@ -103,6 +119,7 @@ Every function/class MUST have tests for:
 4. **Error Cases** - Invalid inputs, thrown exceptions, failures
 
 ### Test File Structure
+
 ```typescript
 // src/core/state/__tests__/store.test.ts
 
@@ -136,11 +153,13 @@ describe('createGameStore', () => {
 ```
 
 ### Integration Tests
+
 - Test adapter implementations against shared contract fixtures
 - Test library wrapper behavior matches underlying library
 - Use real library instances, not mocks, for integration tests
 
 ### Mocking Strategy
+
 ```typescript
 // Mock external libraries with typed facades
 vi.mock('howler', () => ({
@@ -157,6 +176,7 @@ vi.mock('howler', () => ({
 ## Library Alignment
 
 ### Version Policy
+
 - Pin exact versions in package.json (no `^` or `~`)
 - Update versions deliberately with changelog review
 - Run contract tests before version bumps
@@ -164,6 +184,7 @@ vi.mock('howler', () => ({
 ### Wrapper Strategy
 
 **DO**: Thin wrappers that add Strata-specific behavior only
+
 ```typescript
 // Good: Re-export with minimal wrapper
 import { useFrame } from '@react-three/fiber';
@@ -181,6 +202,7 @@ export function useWaterAnimation(ref: RefObject<Mesh>) {
 ```
 
 **DON'T**: Duplicate library functionality
+
 ```typescript
 // Bad: Reimplementing what @react-three/fiber already does
 export function useCustomFrame(callback: () => void) {
@@ -192,12 +214,14 @@ export function useCustomFrame(callback: () => void) {
 ```
 
 ### Re-export Rules
+
 1. Re-export vendor types directly when possible
 2. Mirror vendor APIs, don't reinvent them
 3. Add Strata-specific convenience methods as extensions
 4. Document which features come from which library
 
 ### Contract Tests
+
 ```typescript
 // Ensure our wrapper matches underlying library behavior
 describe('three.js contract', () => {
@@ -213,6 +237,7 @@ describe('three.js contract', () => {
 ## Cleanup Protocol
 
 ### Forbidden Patterns
+
 - ❌ Commented-out code
 - ❌ `console.log` statements (use proper logging)
 - ❌ `any` type without justification
@@ -221,12 +246,14 @@ describe('three.js contract', () => {
 - ❌ TODO comments without issue references
 
 ### Cleanup Actions
+
 1. Delete superseded legacy files with each module delivery
 2. Run `pnpm run lint` before committing
 3. Run `pnpm run format:check` before committing
 4. Run `pnpm run test:coverage` to verify coverage
 
 ### Dead Code Detection
+
 ```bash
 # Run ts-prune to find unused exports
 npx ts-prune
@@ -236,6 +263,7 @@ pnpm run lint
 ```
 
 ### Legacy Code Handling
+
 - If code must be temporarily retained, move to `src/legacy/`
 - Add removal deadline in comment: `// REMOVE BY: 2025-01-15`
 - Create GitHub issue tracking removal

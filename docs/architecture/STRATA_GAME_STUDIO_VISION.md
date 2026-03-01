@@ -1,3 +1,12 @@
+---
+title: "Strata Game Studio: Unified Vision"
+description: "Unifying four game development paradigms under the Strata brand"
+status: draft
+implementation: 10
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Game Studio: Unified Vision
 
 > **Unifying four game development paradigms under one powerful brand**
@@ -15,6 +24,7 @@ Today, game development tooling is fragmented across multiple repositories with 
 | `rust-agentic-game-development` | Rust | Core AI client libraries | `strata-ai-core` (crate) |
 
 **Plus validation games:**
+
 - `nodejs-rivermarsh` - Mobile exploration
 - `nodejs-otter-river-rush` - Racing
 - `nodejs-otterfall` - 3D adventure
@@ -75,11 +85,13 @@ Today, game development tooling is fragmented across multiple repositories with 
 **AI-powered game creation wizard with Professor Pixel as guide.**
 
 Consolidates:
+
 - Game wizard flows from typescript-tutor (platformer, racing, RPG, dungeon, space, puzzle)
 - AI generation capabilities from rust-agentic-game-generator
 - Orchestration via agentic-control
 
 **Key Features:**
+
 - Conversational game design with Professor Pixel
 - Template-based project scaffolding
 - Asset selection and customization
@@ -90,6 +102,7 @@ Consolidates:
 **Domain:** `workshop.strata.game`
 
 **Agentic Control Integration:**
+
 ```yaml
 # .agentic-control/workshop.yaml
 flows:
@@ -111,11 +124,13 @@ flows:
 **Interactive education platform for TypeScript game development.**
 
 Consolidates:
+
 - Curriculum from typescript-tutor
 - Teaching methodology from Professor Pixel's Arcade Academy
 - Integration with actual Strata APIs
 
 **Curriculum:**
+
 1. **TypeScript Foundations** - Variables, types, functions
 2. **React Basics** - Components, hooks, state
 3. **3D Concepts** - Three.js, R3F fundamentals
@@ -147,17 +162,20 @@ Consolidates:
 **The AI brain powering Workshop, Learn, and Arcade.**
 
 Consolidates:
+
 - `rust-agentic-game-development` - Core AI client (multi-provider LLM)
 - `rust-agentic-game-generator` - RPG generation algorithms
 - `python-agentic-game-development` - Python bindings + training data
 
 **Capabilities:**
+
 - **Asset Generation** - Sprites, 3D models, audio via external APIs
 - **Code Generation** - TypeScript/Strata code from natural language
 - **Game Blending** - Combine genres and mechanics
 - **Dialogue** - Professor Pixel personality and teaching
 
 **Architecture:**
+
 ```
 ┌──────────────────────────────────────────────────┐
 │                   Strata AI                      │
@@ -270,6 +288,7 @@ nodejs-strata-typescript-tutor/    # Stays as-is (correct name)
 ```
 
 **Deployments via GitHub Pages:**
+
 - `learn.strata.game` → Education platform
 - `workshop.strata.game` → Game creation wizard
 
@@ -327,18 +346,21 @@ ai:
 ## Success Metrics
 
 ### Brand Unification
+
 - [ ] All game-related repos use "Strata" branding
 - [ ] Professor Pixel appears across all properties
 - [ ] Consistent visual design (colors, typography)
 - [ ] Cross-linking between all subdomains
 
 ### Technical Integration
+
 - [ ] Workshop generates valid Strata Engine code
 - [ ] Learn curriculum teaches actual Strata APIs
 - [ ] Arcade showcases run on Strata Engine
 - [ ] AI capabilities accessible from all platforms
 
 ### User Journey
+
 - [ ] New user: Learn → Workshop → Publish to Arcade
 - [ ] Experienced dev: Strata Engine docs → Examples
 - [ ] AI-assisted: Workshop wizard → Generated project

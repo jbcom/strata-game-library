@@ -1,3 +1,12 @@
+---
+title: "AI Design Automation Research"
+description: "Research and recommendations for AI-owned end-to-end UI/UX design process"
+status: draft
+implementation: 20
+last_updated: 2026-03-01
+area: architecture
+---
+
 # AI Design Automation Research
 
 > **Goal**: Fully AI-owned end-to-end design process for UI, layout, typography, and branding.
@@ -18,12 +27,14 @@ These platforms generate complete applications from prompts, including design:
 #### Recommendation: v0 Platform API + 21st.dev Magic MCP
 
 **v0 Platform API** provides:
+
 - Text-to-app generation pipeline
 - React + Tailwind + shadcn/ui output
 - Programmatic access (same infrastructure as v0.dev)
 - Can be called from CI/CD or agentic workflows
 
 **21st.dev Magic MCP** provides:
+
 - IDE integration (Cursor, Windsurf, VSCode)
 - Natural language → component generation
 - Works within existing development workflow

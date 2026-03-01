@@ -1,3 +1,12 @@
+---
+title: "Arcade Cabinet Ecosystem Triage Plan"
+description: "Comprehensive triage of arcade-cabinet game repos for Strata integration"
+status: active
+implementation: 30
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Arcade Cabinet Ecosystem Triage Plan
 
 **Generated:** 2025-12-26
@@ -91,6 +100,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 103 | Remove preset re-exports | Open | Superseded by #117 |
 
 #### Recommended Actions
+
 1. ✅ Complete PR #117 (current work)
 2. Implement #86 (rename exports)
 3. Create strata-shaders and strata-presets repos (#89)
@@ -134,6 +144,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 62 | Leveling system | Review & merge |
 
 #### Recommended Actions
+
 1. Batch merge dependabot PRs (#71-75)
 2. Review and merge feature PRs (#62, #64, #67)
 3. Prioritize boss battle (#40) with strata TriggerSystem
@@ -160,6 +171,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 2 | Dependabot config | Open | Merge |
 
 #### Recommended Actions
+
 1. **Merge PR #3** - Fix runtime crash (blocks all development)
 2. Create and merge strata update PR
 3. Merge dependabot config (#2)
@@ -192,6 +204,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 46 | ora | Review (major) |
 
 #### Recommended Actions
+
 1. Close #9 as duplicate of #49
 2. Merge safe dependabot PRs (#48, #51)
 3. Review major version bumps (#46, #47, #50)
@@ -220,6 +233,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 19 | Claude workflow | Open | Review |
 
 #### Recommended Actions
+
 1. Review Claude workflow PR (#19)
 2. Plan strata integration (#20):
    - WorldGraph for region management
@@ -254,6 +268,7 @@ The arcade-cabinet organization contains 5 TypeScript games that should integrat
 | 20 | pnpm v10 | Review |
 
 #### Recommended Actions
+
 1. Batch merge non-major PRs (#23, #24, #25, #27)
 2. Review major version PRs (#20, #21, #26)
 3. Integrate strata (#28) to resolve code quality issues (#13-16):
@@ -356,36 +371,42 @@ Recommend adding consistent labels across all repos:
 ## Appendix: Full Issue/PR Counts
 
 ### nodejs-strata
+
 - Open Issues: 6
 - Open PRs: 2 (1 draft, 1 open)
 - Closed Issues: 26
 - Merged PRs: 100+
 
 ### rivermarsh
+
 - Open Issues: 12
 - Open PRs: 6 (5 dependabot, 1 feature)
 - Closed Issues: 14
 - Merged PRs: 15+
 
 ### protocol-silent-night
+
 - Open Issues: 1
 - Open PRs: 4
 - Closed Issues: 0
 - Merged PRs: 2
 
 ### otter-river-rush
+
 - Open Issues: 4
 - Open PRs: 6 (5 dependabot, 1 feature)
 - Closed Issues: 10
 - Merged PRs: 10+
 
 ### ebb-and-bloom
+
 - Open Issues: 2
 - Open PRs: 1
 - Closed Issues: 3
 - Merged PRs: 8
 
 ### realm-walker
+
 - Open Issues: 6
 - Open PRs: 8 (7 renovate, 1 draft)
 - Closed Issues: 1

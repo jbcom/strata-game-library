@@ -1,3 +1,12 @@
+---
+title: "Strata Issue Triage Summary"
+description: "Open issues by priority with dependency analysis and recommended actions"
+status: active
+implementation: 50
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Issue Triage Summary
 
 Generated: 2025-12-26
@@ -53,6 +62,7 @@ Generated: 2025-12-26
 ### 1. Close Issue #85 (Partially Complete)
 
 The type re-exports have been addressed:
+
 - `src/presets/terrain/index.ts` - Removed re-exports, added deprecation
 - `src/presets/vegetation/index.ts` - Removed re-exports, added deprecation
 - `src/presets/particles/index.ts` - Added deprecation notice
@@ -64,6 +74,7 @@ The type re-exports have been addressed:
 **Blocks:** #87, #89
 
 **Action Plan:**
+
 1. Rename `ParticleEmitter` → `ParticleEmitterCore` in core
 2. Rename `CameraShake` → `CameraShakeCore` in core
 3. Rename `WeatherSystem` → `WeatherSystemCore` in core
@@ -77,6 +88,7 @@ The type re-exports have been addressed:
 **Blocks:** Nothing
 
 **Action Plan:**
+
 1. Create `strata-game-library/shaders` repository
 2. Create `strata-game-library/presets` repository
 3. Implement transparent folding mechanism
@@ -89,6 +101,7 @@ The type re-exports have been addressed:
 **Blocks:** Nothing
 
 **Action Plan:**
+
 1. Document all breaking changes
 2. Create import migration examples
 3. Add codemods if feasible
@@ -106,9 +119,11 @@ The type re-exports have been addressed:
 ## Cross-Repository Issues (arcade-cabinet)
 
 ### arcade-cabinet/rivermarsh
+
 **Status:** ✅ Using Strata ^1.4.10
 
 ### arcade-cabinet/protocol-silent-night
+
 | # | Title | Priority |
 |---|-------|----------|
 | 7 | Update @jbcom/strata to ^1.4.10 | High |
@@ -116,6 +131,7 @@ The type re-exports have been addressed:
 **Status:** ⚠️ Using Strata ^1.0.0 (outdated)
 
 ### arcade-cabinet/otter-river-rush
+
 | # | Title | Priority |
 |---|-------|----------|
 | 49 | Integrate @jbcom/strata for water, terrain, effects | Medium |
@@ -123,6 +139,7 @@ The type re-exports have been addressed:
 **Status:** ❌ Not using Strata
 
 ### arcade-cabinet/ebb-and-bloom
+
 | # | Title | Priority |
 |---|-------|----------|
 | 20 | Integrate @jbcom/strata for world topology and AI | Medium |
@@ -130,6 +147,7 @@ The type re-exports have been addressed:
 **Status:** ❌ Not using Strata
 
 ### arcade-cabinet/realm-walker
+
 | # | Title | Priority |
 |---|-------|----------|
 | 28 | Integrate @jbcom/strata for world management | Medium |

@@ -1,3 +1,15 @@
+/**
+ * React context and hook for unified input state.
+ *
+ * Provides an InputProvider context that streams real-time input snapshots
+ * from keyboard, gamepad, and touch sources. The useInput hook exposes
+ * stick positions, button states, trigger values, and active touches
+ * with memoized values to minimize unnecessary re-renders.
+ *
+ * @module useInput
+ * @category Player Experience
+ */
+
 import {
   createContext,
   type ReactNode,

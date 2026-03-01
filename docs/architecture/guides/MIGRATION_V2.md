@@ -1,3 +1,12 @@
+---
+title: "Strata 2.0 Migration Guide"
+description: "Migration guide from @jbcom/strata v1.x to @strata/core v2.0"
+status: draft
+implementation: 0
+last_updated: 2026-03-01
+area: guides
+---
+
 # Strata 2.0 Migration Guide
 
 This guide covers migrating from `@jbcom/strata` v1.x to `@strata/core` v2.0.
@@ -161,6 +170,7 @@ npx @strata/codemod migrate-v2 ./src
 ```
 
 This will:
+
 - Update import paths
 - Rename deprecated classes
 - Update type imports

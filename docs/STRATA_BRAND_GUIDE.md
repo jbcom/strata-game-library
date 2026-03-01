@@ -1,3 +1,12 @@
+---
+title: "Strata Brand Guide"
+description: "Visual identity, color palette, typography, and brand guidelines for Strata"
+status: active
+implementation: 100
+last_updated: 2026-03-01
+area: branding
+---
+
 # Strata Brand Guide
 
 > **Within jbcom. Beyond ordinary.**
@@ -63,6 +72,7 @@ Strata operates **within the jbcom ecosystem** while establishing its own visual
 #### Strata Feature Colors
 
 These colors represent Strata's core capabilities and may be used for:
+
 - Feature categorization
 - Documentation section headers
 - Interactive demos
@@ -131,6 +141,7 @@ These colors represent Strata's core capabilities and may be used for:
 ```
 
 **Design Principles**:
+
 1. **Layered underlines**: Three horizontal lines beneath the wordmark, representing strata/layers
 2. **Gradient effect**: Lines can fade from terrain brown → water blue → sky purple
 3. **Clean letterforms**: Using Space Grotesk Bold
@@ -345,6 +356,7 @@ When describing Strata's layered architecture, use stacked/layered text treatmen
 ### strata.game
 
 The apex domain `strata.game` should convey:
+
 - **Authority**: This is THE source for Strata
 - **Modernity**: Cutting-edge game development
 - **Professionalism**: Enterprise-ready framework

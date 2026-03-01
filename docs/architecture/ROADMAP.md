@@ -1,3 +1,12 @@
+---
+title: "Strata Game Framework Roadmap"
+description: "Implementation timeline and phases for evolving Strata into a game framework"
+status: active
+implementation: 30
+last_updated: 2026-03-01
+area: architecture
+---
+
 # Strata Game Framework Roadmap
 
 ## Overview
@@ -9,6 +18,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 **Goal**: Establish architectural foundation through RFCs and documentation.
 
 ### Deliverables
+
 - [x] Epic #50: Master tracking issue
 - [ ] RFC #51: Game Orchestration Architecture
 - [ ] RFC #52: Compositional Object System
@@ -19,6 +29,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 - [ ] Initial PR for peer review
 
 ### Success Criteria
+
 - All RFCs reviewed and approved
 - Clear implementation path defined
 - Agent documentation complete
@@ -32,29 +43,34 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ### Deliverables
 
 #### SceneManager
+
 - [ ] Scene interface and lifecycle
 - [ ] Scene registration and loading
 - [ ] Scene stack (push/pop for overlays)
 - [ ] Async scene loading with progress
 
 #### ModeManager
+
 - [ ] Mode interface and configuration
 - [ ] Mode stack with push/pop/replace
 - [ ] Mode-specific system activation
 - [ ] Mode transition hooks
 
 #### TriggerSystem
+
 - [ ] Trigger component for ECS
 - [ ] Proximity, collision, interaction triggers
 - [ ] Trigger conditions and actions
 - [ ] Cooldown and one-shot triggers
 
 #### TransitionSystem
+
 - [ ] Fade, crossfade, wipe effects
 - [ ] Configurable duration and easing
 - [ ] Async transition promises
 
 ### Success Criteria
+
 - All orchestration primitives implemented
 - Unit tests with 80%+ coverage
 - Integration tests for mode switching
@@ -69,6 +85,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ### Deliverables
 
 #### Material System
+
 - [ ] Material interface and registry
 - [ ] Solid materials (wood, stone, metal)
 - [ ] Shell materials (fur, feathers, scales)
@@ -76,6 +93,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 - [ ] Organic materials (flesh, leather)
 
 #### Skeleton System
+
 - [ ] Skeleton interface with bones
 - [ ] Biped skeleton preset
 - [ ] Quadruped skeleton preset
@@ -83,23 +101,27 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 - [ ] Custom skeleton builder
 
 #### Covering System
+
 - [ ] Region-based material application
 - [ ] Pattern and color variation
 - [ ] LOD for coverings
 
 #### Prop System
+
 - [ ] Prop interface with components
 - [ ] Furniture presets (table, chair, bed)
 - [ ] Container presets (crate, barrel, chest)
 - [ ] Structural presets (wall, door, fence)
 
 #### Creature System
+
 - [ ] Creature interface
 - [ ] Species definitions
 - [ ] Animation integration
 - [ ] AI behavior integration
 
 ### Success Criteria
+
 - 10+ material presets
 - 5+ skeleton presets
 - 20+ prop presets
@@ -115,27 +137,32 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ### Deliverables
 
 #### WorldGraph
+
 - [ ] Region interface and registry
 - [ ] Connection interface and types
 - [ ] Path finding across regions
 - [ ] Procedural world generation
 
 #### RegionSystem
+
 - [ ] Region detection from position
 - [ ] Region change events
 - [ ] Region-specific behavior activation
 
 #### ConnectionSystem
+
 - [ ] Connection traversal logic
 - [ ] Unlock conditions and state
 - [ ] Connection triggers
 
 #### SpawnSystem
+
 - [ ] Spawn point definitions
 - [ ] Spawn rules and weights
 - [ ] Entity pooling integration
 
 ### Success Criteria
+
 - Multi-region world demo
 - River connections with racing mode
 - Portal/door connections
@@ -150,6 +177,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ### Deliverables
 
 #### createGame API
+
 - [ ] GameDefinition interface
 - [ ] Content registries
 - [ ] World integration
@@ -157,17 +185,20 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 - [ ] Control integration
 
 #### StrataGame Component
+
 - [ ] Game context provider
 - [ ] System orchestration
 - [ ] UI overlay integration
 - [ ] Hot reload support
 
 #### Presets
+
 - [ ] RPG game preset
 - [ ] Platformer game preset
 - [ ] Sandbox game preset
 
 ### Success Criteria
+
 - Complete game in <100 lines
 - Hot reload working
 - Full TypeScript coverage
@@ -182,6 +213,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ### Deliverables
 
 #### Rivermarsh Port
+
 - [ ] Port to declarative definition
 - [ ] All creatures as creature definitions
 - [ ] All biomes as regions
@@ -189,11 +221,13 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 - [ ] Racing mode integration
 
 #### Metrics
+
 - [ ] Code reduction analysis
 - [ ] Performance benchmarks
 - [ ] Mobile testing
 
 ### Success Criteria
+
 - Rivermarsh < 1000 lines of game code
 - Feature parity with current version
 - 60fps on mobile devices
@@ -203,12 +237,14 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 ## Future Phases
 
 ### Phase 7: Advanced Features
+
 - Multiplayer support
 - Procedural narrative system
 - Advanced AI behaviors
 - VR/AR support
 
 ### Phase 8: Tooling
+
 - Visual world editor
 - Material editor
 - Creature designer

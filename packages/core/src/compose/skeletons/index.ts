@@ -1,3 +1,15 @@
+/**
+ * Skeleton presets and registry for creature body plans.
+ *
+ * Provides factory functions and pre-configured skeletons for common body
+ * types: biped, quadruped (small/medium/large), avian, and serpentine.
+ * Skeletons define bone hierarchies, joint constraints, and proportions
+ * used by the animation and creature composition systems.
+ *
+ * @module Skeletons
+ * @category Entities & Simulation
+ */
+
 import {
   createAvianSkeleton,
   createBipedSkeleton,

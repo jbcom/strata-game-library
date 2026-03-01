@@ -1,3 +1,12 @@
+---
+title: "Contributing"
+description: "Guide for contributing to the Strata game library project"
+status: deprecated
+implementation: 100
+last_updated: 2026-03-01
+area: guides
+---
+
 # Contributing
 
 Thank you for your interest in contributing to PACKAGE_NAME!
@@ -26,6 +35,7 @@ uv run pytest --cov=PACKAGE_NAME
 ## Code Style
 
 This project uses:
+
 - [Ruff](https://docs.astral.sh/ruff/) for linting and formatting
 - Type hints throughout
 
@@ -63,6 +73,7 @@ make html
 ## Commit Messages
 
 Use conventional commits:
+
 - `feat:` New features
 - `fix:` Bug fixes
 - `docs:` Documentation changes

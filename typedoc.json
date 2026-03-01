@@ -6,7 +6,14 @@
         "packages/core/src/components/index.ts",
         "packages/shaders/src/index.ts",
         "packages/core/src/utils/index.ts",
-        "packages/presets/src/index.ts"
+        "packages/presets/src/index.ts",
+        "adapters/r3f/src/index.ts",
+        "adapters/reactylon/src/index.ts",
+        "plugins/audio-synth/src/index.ts",
+        "plugins/model-synth/src/index.ts",
+        "plugins/astro/src/index.ts",
+        "plugins/react-native/src/index.tsx",
+        "plugins/capacitor/src/index.ts"
     ],
     "entryPointStrategy": "expand",
     "out": "apps/docs/src/content/docs/api",

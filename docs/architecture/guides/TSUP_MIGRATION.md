@@ -1,3 +1,12 @@
+---
+title: "tsup Migration Guide"
+description: "Guide for migrating Strata packages from tsc to tsup for proper Node.js ESM support"
+status: implemented
+implementation: 100
+last_updated: 2026-03-01
+area: guides
+---
+
 # TypeScript Package Release: tsup Migration Guide
 
 This guide documents how to migrate Strata packages from `tsc` to `tsup` for proper Node.js ESM support.
@@ -99,6 +108,7 @@ npx @arethetypeswrong/cli --pack .
 ```
 
 Expected output:
+
 - `publint`: "All good!"
 - `attw`: 🟢 for node16 (from ESM) and bundler
 

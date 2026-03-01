@@ -1,3 +1,12 @@
+---
+title: "Quickstart"
+description: "Quick start guide for basic usage of the Strata library"
+status: deprecated
+implementation: 100
+last_updated: 2026-03-01
+area: getting-started
+---
+
 # Quickstart
 
 This guide will help you get started with PACKAGE_NAME.

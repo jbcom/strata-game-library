@@ -1,3 +1,12 @@
+---
+title: "Migration Guide: Toolkit to Framework"
+description: "Step-by-step guide for migrating from Strata rendering toolkit to complete game framework"
+status: proposed
+implementation: 0
+last_updated: 2026-03-01
+area: guides
+---
+
 # Migration Guide: Toolkit to Framework
 
 This guide helps you migrate from using Strata as a rendering toolkit to using it as a complete game framework.
@@ -26,6 +35,7 @@ grep -r "scene.add" src/          # Direct Three.js
 ```
 
 **Questions to answer:**
+
 1. How many game modes do you have?
 2. How many creature/entity types?
 3. How many regions/levels?
@@ -36,11 +46,13 @@ grep -r "scene.add" src/          # Direct Three.js
 ### Phase 1: Add Strata Alongside Existing Code
 
 Install the latest Strata:
+
 ```bash
 npm install @jbcom/strata@latest
 ```
 
 Create a minimal game definition:
+
 ```typescript
 // src/game.ts
 import { createGame } from '@jbcom/strata/game';
@@ -76,6 +88,7 @@ export const game = createGame({
 ```
 
 Wrap your existing app:
+
 ```tsx
 // src/App.tsx
 import { StrataGame } from '@jbcom/strata/game';
@@ -96,6 +109,7 @@ function App() {
 ### Phase 2: Migrate State Management
 
 **Before (manual Zustand):**
+
 ```typescript
 // src/stores/gameStore.ts
 import { create } from 'zustand';
@@ -122,6 +136,7 @@ export const useGameStore = create<GameState>()(
 ```
 
 **After (Strata state preset):**
+
 ```typescript
 // src/game.ts
 import { createGame, createRPGState } from '@jbcom/strata/game';
@@ -147,6 +162,7 @@ const { player, inventory } = useGameState();
 ### Phase 3: Migrate Creatures
 
 **Before (manual components):**
+
 ```tsx
 // src/components/Otter.tsx
 export function Otter({ position, variant }: OtterProps) {
@@ -170,6 +186,7 @@ export function Otter({ position, variant }: OtterProps) {
 ```
 
 **After (creature definition):**
+
 ```typescript
 // src/creatures/otter.ts
 import { CreatureDefinition } from '@jbcom/strata/compose';
@@ -208,6 +225,7 @@ export const riverOtter: CreatureDefinition = {
 ### Phase 4: Migrate Props
 
 **Before (manual mesh creation):**
+
 ```tsx
 // src/components/WoodenCrate.tsx
 export function WoodenCrate({ position }: Props) {
@@ -236,6 +254,7 @@ export function WoodenCrate({ position }: Props) {
 ```
 
 **After (prop definition):**
+
 ```typescript
 // src/props/containers.ts
 export const woodenCrate: PropDefinition = {
@@ -257,6 +276,7 @@ export const woodenCrate: PropDefinition = {
 ### Phase 5: Migrate World Structure
 
 **Before (hardcoded positions):**
+
 ```tsx
 // src/scenes/GameWorld.tsx
 export function GameWorld() {
@@ -277,6 +297,7 @@ export function GameWorld() {
 ```
 
 **After (world graph):**
+
 ```typescript
 // src/world.ts
 export const world = createWorldGraph({
@@ -297,6 +318,7 @@ export const world = createWorldGraph({
 ```
 
 **Benefits:**
+
 - Automatic region detection
 - Built-in navigation
 - Persistence of discovered regions
@@ -307,6 +329,7 @@ export const world = createWorldGraph({
 ### Phase 6: Migrate Game Modes
 
 **Before (manual mode switching):**
+
 ```tsx
 // src/App.tsx
 function App() {
@@ -335,6 +358,7 @@ function App() {
 ```
 
 **After (mode definitions):**
+
 ```typescript
 // src/modes/index.ts
 export const modes = {
@@ -360,6 +384,7 @@ export const modes = {
 ```
 
 **Benefits:**
+
 - Automatic input remapping
 - Mode stacking (pause menu over gameplay)
 - System activation/deactivation
@@ -370,42 +395,49 @@ export const modes = {
 ## Checklist
 
 ### Before Migration
+
 - [ ] Read all RFC documents
 - [ ] Inventory current features
 - [ ] Plan migration phases
 - [ ] Set up test coverage
 
 ### Phase 1: Setup
+
 - [ ] Install latest Strata
 - [ ] Create minimal game definition
 - [ ] Wrap existing app in StrataGame
 - [ ] Verify existing features still work
 
 ### Phase 2: State
+
 - [ ] Identify current state shape
 - [ ] Map to state preset (RPG, Action, etc.)
 - [ ] Migrate to createGameStore
 - [ ] Update state access patterns
 
 ### Phase 3: Content
+
 - [ ] Define materials
 - [ ] Define creature definitions
 - [ ] Define prop definitions
 - [ ] Register in game content
 
 ### Phase 4: World
+
 - [ ] Map current areas to regions
 - [ ] Define connections between regions
 - [ ] Set up traversal modes
 - [ ] Test navigation
 
 ### Phase 5: Modes
+
 - [ ] Identify current game modes
 - [ ] Create mode definitions
 - [ ] Migrate input handling
 - [ ] Migrate mode-specific UI
 
 ### Phase 6: Cleanup
+
 - [ ] Remove manual implementations
 - [ ] Run full test suite
 - [ ] Performance benchmark
@@ -416,22 +448,29 @@ export const modes = {
 ## Common Issues
 
 ### "My custom system doesn't work"
+
 Systems must follow the signature:
+
 ```typescript
 type SystemFn = (world: World, delta: number) => void;
 ```
 
 ### "My creature looks wrong"
+
 Check material and skeleton compatibility. Shell materials (fur) need appropriate geometry.
 
 ### "Mode transitions are jarring"
+
 Use transition configuration:
+
 ```typescript
 modeManager.push('combat', {}, { transition: { type: 'fade', duration: 0.3 } });
 ```
 
 ### "State isn't persisting"
+
 Ensure you're using the game's store, not a separate Zustand store:
+
 ```typescript
 const state = game.store.getState();  // ✅
 const state = useMyStore();  // ❌ (separate store)

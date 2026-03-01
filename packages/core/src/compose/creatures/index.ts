@@ -1,3 +1,14 @@
+/**
+ * Creature composition system and preset definitions.
+ *
+ * Creatures are composed from skeletons, material coverings, AI behaviors,
+ * stats, animations, and spawn rules. This module provides the creature
+ * registry and built-in presets like the river otter.
+ *
+ * @module Creatures
+ * @category Entities & Simulation
+ */
+
 import { COVERINGS } from '../coverings';
 import type { CreatureDefinition } from './types';
 

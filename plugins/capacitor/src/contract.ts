@@ -1,3 +1,14 @@
+/**
+ * Platform adapter contract for the Capacitor plugin.
+ *
+ * Defines the abstract interface that platform-specific implementations
+ * (web, iOS, Android) must fulfill. Covers device profiling, input capture,
+ * haptic feedback, control hints, and event listeners for device/input changes.
+ *
+ * @module CapacitorContract
+ * @category Player Experience
+ */
+
 import type {
   ControlHints,
   DeviceProfile,

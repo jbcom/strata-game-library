@@ -1,3 +1,15 @@
+/**
+ * Web implementation of the Strata Capacitor plugin.
+ *
+ * Provides browser-based fallbacks for all native platform capabilities
+ * including device detection via user agent and media queries, keyboard/gamepad/touch
+ * input polling, Web Vibration API haptics, gamepad rumble via the Haptic Actuator API,
+ * localStorage-based game save persistence, and screen orientation lock.
+ *
+ * @module CapacitorWeb
+ * @category Player Experience
+ */
+
 import { WebPlugin } from '@capacitor/core';
 import type { StrataPlatformAdapter } from './contract.js';
 import type {
