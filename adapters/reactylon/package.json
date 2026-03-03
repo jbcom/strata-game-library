@@ -53,8 +53,8 @@
 		"reactylon": ">=0.1.0"
 	},
 	"devDependencies": {
-		"@types/react": "^19.2.7",
-		"react": "^19.2.3",
+		"@types/react": "^19.2.14",
+		"react": "^19.2.4",
 		"tsup": "^8.5.1",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.15"
