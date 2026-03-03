@@ -97,7 +97,7 @@
 		"@react-three/fiber": "^9.4.2",
 		"@react-three/postprocessing": "^3.0.4",
 		"@react-three/rapier": "^2.2.0",
-		"@testing-library/react": "^16.3.0",
+		"@testing-library/react": "^16.3.2",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"@types/three": "^0.182.0",
