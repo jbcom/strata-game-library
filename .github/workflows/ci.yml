@@ -119,7 +119,7 @@ jobs:
 
       - name: Upload coverage
         if: matrix.task == 'test' && always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: coverage-${{ strategy.job-index }}
           path: |
@@ -207,7 +207,7 @@ jobs:
         run: pnpm nx affected -t test:e2e --base=origin/${{ github.base_ref }}
 
       - name: Upload E2E results
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: always()
         with:
           name: e2e-results
