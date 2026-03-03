@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.5",
-    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.18",
     "@types/react": "^19.0.0",
     "react": "^19.0.0",
     "tone": "^15.0.0",
