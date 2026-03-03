@@ -61,7 +61,7 @@
 		"@strata-game-library/core": "workspace:*",
 		"@strata-game-library/shaders": "workspace:*",
 		"@types/howler": "^2.2.12",
-		"@xstate/react": "^6.0.0",
+		"@xstate/react": "^6.1.0",
 		"howler": "^2.2.4",
 		"leva": "^0.10.1",
 		"miniplex-react": "^2.0.1",
