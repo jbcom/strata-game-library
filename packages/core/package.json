@@ -227,7 +227,7 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/howler": "^2.2.12",
-    "@types/node": "^25.0.2",
+    "@types/node": "^25.4.0",
     "@types/three": "^0.182.0",
     "@types/yuka": "^0.7.4",
     "@vitest/coverage-v8": "^4.0.18",
