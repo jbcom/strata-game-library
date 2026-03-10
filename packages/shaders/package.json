@@ -108,7 +108,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.5",
+    "@biomejs/biome": "^2.4.6",
     "@vitest/coverage-v8": "^4.0.18",
     "@types/three": "^0.182.0",
     "glob": "^13.0.6",
