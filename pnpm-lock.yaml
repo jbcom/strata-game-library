@@ -104,8 +104,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       postprocessing:
-        specifier: ^6.38.0
-        version: 6.38.0(three@0.183.2)
+        specifier: ^6.38.3
+        version: 6.38.3(three@0.183.2)
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -496,7 +496,7 @@ importers:
     dependencies:
       '@strata-game-library/core':
         specifier: '>=1.4.0'
-        version: 1.4.12(a08807696118305d6028f7491108a7cd)
+        version: 1.4.12(c00f59ed073efe2acb3cce9ca0850a1d)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.4.5
@@ -5607,10 +5607,10 @@ packages:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postprocessing@6.38.0:
-    resolution: {integrity: sha512-tisx8XN/PWTL3uXz2mt8bjlMS1wiOUSCK3ixi4zjwUCFmP8XW8hNhXwrxwd2zf2VmCyCQ3GUaLm7GLnkkBbDsQ==}
+  postprocessing@6.38.3:
+    resolution: {integrity: sha512-5qCFp8j62nWL6sSVv/RKuHscQUIV+VMMgWeHLYZQEBpAk7G+r3jA3bSKON7gZjiuxdZ/F4PXj2Jc1oPh/7Eg+g==}
     peerDependencies:
-      three: '>= 0.157.0 < 0.182.0'
+      three: '>= 0.157.0 < 0.184.0'
 
   potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
@@ -9315,8 +9315,8 @@ snapshots:
     dependencies:
       '@react-three/fiber': 9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.0(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2)
       maath: 0.6.0(@types/three@0.182.0)(three@0.183.2)
-      n8ao: 1.10.1(postprocessing@6.38.0(three@0.183.2))(three@0.183.2)
-      postprocessing: 6.38.0(three@0.183.2)
+      n8ao: 1.10.1(postprocessing@6.38.3(three@0.183.2))(three@0.183.2)
+      postprocessing: 6.38.3(three@0.183.2)
       react: 19.2.4
       three: 0.183.2
     transitivePeerDependencies:
@@ -9535,7 +9535,7 @@ snapshots:
     dependencies:
       react: 19.2.4
 
-  '@strata-game-library/core@1.4.12(a08807696118305d6028f7491108a7cd)':
+  '@strata-game-library/core@1.4.12(c00f59ed073efe2acb3cce9ca0850a1d)':
     dependencies:
       '@react-three/drei': 10.7.7(@react-three/fiber@9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.0(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2))(@types/react@19.2.14)(@types/three@0.182.0)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2)
       '@react-three/fiber': 9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.0(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2)
@@ -9558,7 +9558,7 @@ snapshots:
       zundo: 2.3.0(zustand@5.0.11(@types/react@19.2.14)(immer@11.1.4)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))
     optionalDependencies:
       '@react-three/rapier': 2.2.0(@react-three/fiber@9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.0(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2))(react@19.2.4)(three@0.183.2)
-      postprocessing: 6.38.0(three@0.183.2)
+      postprocessing: 6.38.3(three@0.183.2)
       yuka: 0.7.8
       zustand: 5.0.11(@types/react@19.2.14)(immer@11.1.4)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
     transitivePeerDependencies:
@@ -12725,9 +12725,9 @@ snapshots:
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
-  n8ao@1.10.1(postprocessing@6.38.0(three@0.183.2))(three@0.183.2):
+  n8ao@1.10.1(postprocessing@6.38.3(three@0.183.2))(three@0.183.2):
     dependencies:
-      postprocessing: 6.38.0(three@0.183.2)
+      postprocessing: 6.38.3(three@0.183.2)
       three: 0.183.2
 
   nanoid@3.3.11: {}
@@ -13081,7 +13081,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postprocessing@6.38.0(three@0.183.2):
+  postprocessing@6.38.3(three@0.183.2):
     dependencies:
       three: 0.183.2
 
