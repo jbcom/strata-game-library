@@ -187,7 +187,7 @@
 		"@strata-game-library/core": "workspace:*",
 		"@strata-game-library/r3f": "workspace:*",
 		"@types/react": "^19.2.14",
-		"@types/three": "^0.182.0",
+		"@types/three": "^0.183.1",
 		"@vitejs/plugin-react": "^5.1.2",
 		"@vitest/coverage-v8": "^4.0.18",
 		"glob": "^13.0.6",

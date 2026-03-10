@@ -110,7 +110,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.6",
     "@vitest/coverage-v8": "^4.0.18",
-    "@types/three": "^0.182.0",
+    "@types/three": "^0.183.1",
     "glob": "^13.0.6",
     "three": "^0.183.2",
     "tsup": "^8.5.0",
