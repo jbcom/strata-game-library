@@ -220,7 +220,7 @@
     "ngraph.graph": "^20.1.2",
     "ngraph.path": "^1.6.1",
     "simplex-noise": "^4.0.3",
-    "xstate": "^5.25.0",
+    "xstate": "^5.28.0",
     "zundo": "^2.3.0",
     "zustand": "^5.0.11"
   },
@@ -243,7 +243,7 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
-    "xstate": "^5.25.0",
+    "xstate": "^5.28.0",
     "yuka": "^0.7.8"
   }
 }

@@ -47,7 +47,7 @@ importers:
         version: 2.2.12
       '@xstate/react':
         specifier: ^6.1.0
-        version: 6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.25.0)
+        version: 6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.28.0)
       howler:
         specifier: ^2.2.4
         version: 2.2.4
@@ -125,8 +125,8 @@ importers:
         specifier: ^4.0.18
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@25.4.0)(jsdom@28.1.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
       xstate:
-        specifier: ^5.25.0
-        version: 5.25.0
+        specifier: ^5.28.0
+        version: 5.28.0
       yuka:
         specifier: ^0.7.8
         version: 0.7.8
@@ -240,8 +240,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       xstate:
-        specifier: ^5.25.0
-        version: 5.25.0
+        specifier: ^5.28.0
+        version: 5.28.0
       zundo:
         specifier: ^2.3.0
         version: 2.3.0(zustand@5.0.11(@types/react@19.2.14)(immer@11.1.4)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))
@@ -6857,8 +6857,8 @@ packages:
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
-  xstate@5.25.0:
-    resolution: {integrity: sha512-yyWzfhVRoTHNLjLoMmdwZGagAYfmnzpm9gPjlX2MhJZsDojXGqRxODDOi4BsgGRKD46NZRAdcLp6CKOyvQS0Bw==}
+  xstate@5.28.0:
+    resolution: {integrity: sha512-Iaqq6ZrUzqeUtA3hC5LQKZfR8ZLzEFTImMHJM3jWEdVvXWdKvvVLXZEiNQWm3SCA9ZbEou/n5rcsna1wb9t28A==}
 
   xxhash-wasm@1.1.0:
     resolution: {integrity: sha512-147y/6YNh+tlp6nd/2pWq38i9h6mz/EuQ6njIrmW8D1BS5nCqs0P6DG+m6zTGnNz5I+uhZ0SHxBs9BsPrwcKDA==}
@@ -9548,7 +9548,7 @@ snapshots:
       '@react-three/drei': 10.7.7(@react-three/fiber@9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2))(@types/react@19.2.14)(@types/three@0.182.0)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2)
       '@react-three/fiber': 9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2)
       '@types/howler': 2.2.12
-      '@xstate/react': 6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.25.0)
+      '@xstate/react': 6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.28.0)
       howler: 2.2.4
       immer: 11.1.4
       leva: 0.10.1(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -9562,7 +9562,7 @@ snapshots:
       simplex-noise: 4.0.3
       three: 0.183.2
       tunnel-rat: 0.1.2(@types/react@19.2.14)(immer@11.1.4)(react@19.2.4)
-      xstate: 5.25.0
+      xstate: 5.28.0
       zundo: 2.3.0(zustand@5.0.11(@types/react@19.2.14)(immer@11.1.4)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))
     optionalDependencies:
       '@react-three/rapier': 2.2.0(@react-three/fiber@9.5.0(@types/react@19.2.14)(immer@11.1.4)(react-dom@19.2.4(react@19.2.4))(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.4))(react@19.2.4)(three@0.183.2))(react@19.2.4)(three@0.183.2)
@@ -9827,13 +9827,13 @@ snapshots:
 
   '@xmldom/xmldom@0.8.11': {}
 
-  '@xstate/react@6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.25.0)':
+  '@xstate/react@6.1.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.28.0)':
     dependencies:
       react: 19.2.4
       use-isomorphic-layout-effect: 1.2.1(@types/react@19.2.14)(react@19.2.4)
       use-sync-external-store: 1.6.0(react@19.2.4)
     optionalDependencies:
-      xstate: 5.25.0
+      xstate: 5.28.0
     transitivePeerDependencies:
       - '@types/react'
 
@@ -14330,7 +14330,7 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  xstate@5.25.0: {}
+  xstate@5.28.0: {}
 
   xxhash-wasm@1.1.0: {}
 
