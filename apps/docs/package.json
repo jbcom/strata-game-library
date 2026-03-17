@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/react": "^5.0.0",
     "@astrojs/starlight": "^0.37.7",
     "@strata-game-library/astro": "workspace:*",
     "@react-three/drei": "^10.7.7",
