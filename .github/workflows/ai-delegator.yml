@@ -48,7 +48,7 @@ jobs:
 
       - name: Claude Code Action
         if: steps.check-key.outputs.available == 'true'
-        uses: anthropics/claude-code-action@6e2bd52842c65e914eba5c8badd17560bd26b5de # v1
+        uses: anthropics/claude-code-action@1c8b699d43e9bfed42b48ef15da85d89bab70960 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.CI_GITHUB_TOKEN }}
