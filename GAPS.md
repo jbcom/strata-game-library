@@ -1,109 +1,103 @@
-# Library Gaps & Integration Issues
+# Library Gaps & Consolidation Backlog
 
-## 🔴 CRITICAL GAPS
+Snapshot date: `2026-04-16`
 
-### 1. GPU Wind/LOD Not Implemented
+Full backlog and acceptance criteria: [docs/plans/2026-04-16-remaining-work-prd.md](docs/plans/2026-04-16-remaining-work-prd.md)
 
-**Location**: `src/components/Instancing.tsx:GPUInstancedMesh`
-**Status**: ✅ DOCUMENTED - Props are documented with JSDoc as "reserved for future GPU shader integration"
-**Impact**: Developers can see the props are placeholders via IDE tooltips
-**Current Approach**: Option C - Documented as reserved for future implementation
+This file tracks the highest-signal gaps left after consolidating the historical split repositories back into this monorepo.
 
-### 2. Type Name Conflicts
+## 1. Package Consolidation
 
-**Issue**:
+Current state:
 
-- `InstanceData` exported from both core and components (same type, OK but confusing)
-- `BiomeData` has 3 aliases: SDFBiomeData, InstancingBiomeData, InstanceBiomeData
-- Two different `BiomeData` interfaces (SDF vs Instancing) with compatible but different `type` fields
+- `packages/strata-game-library` now exists as a real workspace package.
+- The umbrella package exposes a runtime-light root plus explicit subpaths such as `strata-game-library/r3f`.
+- Umbrella-package `build` and `test` now build internal workspace dependencies first, so local verification no longer depends on ambient prebuilt package state.
+- Release-please metadata includes the new package.
 
-**Fix**:
+Remaining work:
 
-- Keep separate exports but document clearly
-- SDF BiomeData has union type, Instancing has string type
-- They're compatible but serve different purposes
+1. Publish `strata-game-library` to npm.
+2. Decide the migration policy for `@strata-game-library/*` packages:
+   - keep them indefinitely,
+   - deprecate them after umbrella publish,
+   - or keep only a subset as advanced/direct entrypoints.
+3. Resolve package publish drift:
+   - publish or intentionally fold `r3f`, `reactylon`, `model-synth`, and `astro`
+   - finish the rename transition for `capacitor` and `react-native`
+4. Add deprecation/migration messaging once the package strategy is final.
 
-## 🟡 INTEGRATION GAPS
+## 2. Framework Implementation Gaps
 
-### 3. Missing Core Material Factories
+### Composition Layer
 
-**Status**: ✅ FIXED - Created core/sky.ts and core/volumetrics.ts
+- `packages/core/src/compose/creatures/index.ts`
+  - `createCreature()` and `resolveCreatureComposition()` now exist.
+  - Remaining gap: richer runtime assembly beyond normalized definitions and resolved material bindings.
+- `packages/core/src/compose/props/index.ts`
+  - `createProp()` and `resolvePropComposition()` now exist.
+  - Remaining gap: deeper composition features such as runtime prop assembly, richer interaction helpers, and material variation.
+- `packages/core/src/compose/materials/`
+  - Factories and presets exist, but material physics, procedural variation, and swapping are still limited.
 
-### 4. Inline Shaders in Components
+### Declarative Game Layer
 
-**Status**: ✅ FIXED - Extracted to shader files
+- `packages/core/src/api/createGame.ts`
+  - Exists and now resolves built-in state presets into concrete initial store state.
+  - Basic validation for empty scene/mode records, missing default keys, and duplicate content ids now exists.
+  - Scene and mode lifecycle callbacks now receive runtime context, and mode `setup` / `teardown` now run as part of manager operations.
+  - Active mode `inputMap` definitions now drive the live `InputManager` action map.
+  - `InputManager` now also exposes snapshots/subscriptions, so adapter layers can react to live action state instead of only listening to raw events.
+  - The created `Game` instance now exposes pause snapshots/subscriptions, and pausing reduces the active action map to the mode's pause binding.
+  - The created `Game` instance also tracks `activeProfileId`, so generated save-shell flows can stay anchored to the current profile instead of always routing back through the selector.
+  - `GameDefinition.transitions` plus scene/mode-level `transition` defaults now make transitions declarative instead of runtime-only.
+  - Transition-aware scene/mode helpers now route through `TransitionManager`.
+  - Remaining gap: richer declarative orchestration, deeper transition choreography, and fuller game-shell behavior beyond the current pause/status/loading/scene-card helpers are still not fully realized.
+- `packages/core/src/game/game-presets.ts`
+  - Helper templates now exist for `rpg`, `action`, `puzzle`, `sandbox`, `racing`, and `platformer`.
+  - They now include genre-specific mode input maps, built-in `ui.shell` HUD/pause/loading metadata, built-in announcement-style scene shell metadata for the default starting scenes, opt-in `titleScene` / `menuScene` / `saveScene` / `settingsScene` / `sessionShell` synthesis, genre-aware shell copy/action labels, shared `createSceneShellFlow()`-backed flow generation, generated save-profile selector/archive flows, runtime save metadata surfaces, state-aware profile entry labels, direct latest-save/start-new profile entry behavior, active-profile-aware continue actions in generated title/menu shells, active-profile archive reopen behavior across generated save actions, selector-level clear actions, default profile-scoped `storageSlot` namespacing, slot-level archive capability metadata, and merge matching overrides with preset defaults.
+  - Remaining gap: they still provide structural defaults, not rich genre-specific systems, content packs, or gameplay logic.
+- `packages/core/src/game/scene-shell-presets.ts`
+  - Reusable scene-shell builders, scene-definition builders, and shell-action builders now exist for announcement/title/menu/session/archive/profile cards, persistence actions, and other runtime-backed shell actions.
+  - Remaining gap: there are still no opinionated end-to-end title/menu/session/archive game-shell packs layered on top of those primitives.
+- `adapters/r3f/src/StrataGame.tsx`
+  - Scene and mode subscriptions are now wired.
+  - `useScene()`, `useMode()`, `useInput()`, `useActionPressed()`, `useControlHints()`, `useGameStatus()`, and `useTransition()` now exist.
+  - The core `InputManager` now attaches to the canvas DOM element during the default R3F mount path.
+  - A built-in transition overlay now reflects `TransitionManager` state.
+  - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` now exist, and `StrataGame` can also synthesize the same HUD/pause/loading scaffold from `ui.shell` metadata while rendering runtime-backed announcement/title/menu/session scene cards from `scene.shell`.
+  - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
 
-### 5. Missing Shader Exports
+### Platform / Integration
 
-**Status**: ✅ FIXED - Sky and volumetrics shaders now exported
+- `plugins/model-synth/src/index.ts`
+  - TODOs remain for rigging and animation support.
+- `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
+  - Gamepad detection is a TODO.
+- `plugins/react-native/ios/StrataModule.swift`
+  - MFi controller detection is a TODO.
+- `packages/core/src/core/shared/platform.ts`
+  - React Native support is explicitly not yet implemented in shared platform helpers.
 
-### 6. createInstancingSetup Was Broken
+## 3. Verification Gaps
 
-**Status**: ✅ FIXED - Replaced with createInstancedMesh (returns THREE.InstancedMesh)
+- Full workspace `pnpm run typecheck` is still blocked by `apps/docs`.
+- Browser integration coverage is not part of normal CI at the moment:
+  - `packages/core/tests/integration-playwright/README.md` marks those tests as temporarily disabled in CI.
+- `adapters/reactylon` and `plugins/astro` still carry lint warnings.
 
-### 7. Core Module Had React Dependency
+## 4. Documentation Gaps
 
-**Status**: ✅ FIXED - Removed drei from core/instancing.ts
+- The main README and umbrella package README now reflect the new root/subpath contract.
+- `PUBLIC_API.md`, `IMPLEMENTATION_STATUS.md`, and this file now reflect the current audit.
+- Remaining work is to keep the broader planning/memory docs aligned as implementation moves.
 
-## 🟢 DOCUMENTATION GAPS
+## 5. Recommended Order
 
-### 8. API.md Missing Components
-
-**Status**: ✅ COMPLETE - All components documented:
-
-- Sky: `ProceduralSky` component and `createSkyMaterial` core function
-- VolumetricEffects: `VolumetricEffects`, `VolumetricFogMesh`, `UnderwaterOverlay`, `EnhancedFog`
-- Raymarching: `<Raymarching>` component documented
-
-### 9. Missing Examples
-
-**Status**: ✅ MOSTLY COMPLETE
-
-- ✅ Core-only usage: `examples/basic-terrain/src/core-usage.ts` and `examples/README.md` Core-Only section
-- ✅ Shader-only usage: `examples/api-showcase` with 26+ JSDoc-linked examples
-- ⚠️ Combined SDF + marching cubes + instancing example: Not yet implemented (low priority)
-
-### 10. Missing Integration Tests
-
-**Status**: ⚠️ PARTIAL - Unit tests exist (1033 tests) but no end-to-end integration tests
-
-- Unit tests cover individual functions well
-- No tests showing core + components working together
-- No tests for shader material creation
-- No tests for end-to-end workflows
-
-## 🔵 ARCHITECTURAL GAPS
-
-### 11. No Seeded Random for Instancing
-
-**Status**: ✅ FIXED - `generateInstanceData` accepts optional `seed` parameter for deterministic generation
-
-### 12. No Material Disposal in Some Components
-
-**Status**: ✅ FIXED - Added disposal to Water, Sky, VolumetricEffects
-
-### 13. Missing Error Handling
-
-**Status**: ✅ FIXED - Input validation added to `generateInstanceData` and `createInstancedMesh`:
-
-- Validates count > 0
-- Validates areaSize > 0
-- Validates required parameters (geometry, material, instances)
-- Throws descriptive errors
-
-### 14. Performance Optimizations Missing
-
-- No caching of SDF calculations
-- No LOD system for marching cubes
-- No chunking strategy documented
-
-## 📋 PRIORITY FIXES
-
-1. ~~**HIGH**: Implement or remove GPU wind/LOD props~~ ✅ DOCUMENTED
-2. ~~**HIGH**: Add seeded random to generateInstanceData~~ ✅ FIXED
-3. ~~**MEDIUM**: Add input validation and error handling~~ ✅ FIXED
-4. ~~**MEDIUM**: Complete API.md documentation~~ ✅ COMPLETE
-5. **MEDIUM**: Add integration tests (end-to-end workflows)
-6. **LOW**: Add combined SDF + marching cubes + instancing example
-7. **LOW**: Add performance optimization examples
-8. **LOW**: Document chunking strategies
+1. Publish and verify the umbrella package.
+2. Finalize the package migration/deprecation strategy.
+3. Finish the composition layer:
+   - expand runtime composition behavior beyond definition normalization
+   - add richer material variation / swapping / physics metadata flow
+4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
+5. Restore docs typecheck and browser integration coverage to the regular verification path.
