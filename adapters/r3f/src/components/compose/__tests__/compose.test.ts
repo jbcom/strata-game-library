@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
+import { getDefaultRuntimePropInteractionAction } from '../RuntimeProp';
 
 describe('R3F runtime composition components', () => {
   it('exports runtime composition renderers', async () => {
@@ -18,6 +19,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.RuntimeGeometry).toBeDefined();
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
+    expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
   });
 
   it('creates Three materials from core material definitions', () => {
@@ -64,5 +66,19 @@ describe('R3F runtime composition components', () => {
 
     expect(prop.runtime.nodes[0]?.shape).toBe('mesh');
     expect(prop.runtime.nodes[0]?.mesh).toBe('/models/crate.glb');
+  });
+
+  it('maps R3F runtime prop nodes to core interaction actions', () => {
+    const prop = resolvePropComposition('crate_wooden');
+    const node = prop.runtime.nodes[0];
+
+    expect(node).toBeDefined();
+    if (!node) {
+      throw new Error('Expected crate_wooden to resolve at least one runtime node');
+    }
+
+    expect(getDefaultRuntimePropInteractionAction(prop.runtime, node)?.id).toBe(
+      'crate_wooden:interaction:container'
+    );
   });
 });

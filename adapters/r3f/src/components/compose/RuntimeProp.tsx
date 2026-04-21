@@ -1,8 +1,10 @@
 import type { ThreeEvent } from '@react-three/fiber';
 import {
   type CreatePropInput,
+  executePropInteractionAction,
   type PropComposition,
   type PropRuntimeAssembly,
+  type PropRuntimeInteractionAction,
   type PropRuntimeNode,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
@@ -62,6 +64,17 @@ function getNodeMaterial(
   return { material, slot };
 }
 
+export function getDefaultRuntimePropInteractionAction(
+  runtime: PropRuntimeAssembly,
+  node: PropRuntimeNode
+): PropRuntimeInteractionAction | undefined {
+  return (
+    runtime.interactionActions.find(
+      (action) => action.enabled && action.nodeIds.includes(node.id)
+    ) ?? runtime.interactionActions.find((action) => action.nodeIds.includes(node.id))
+  );
+}
+
 /**
  * Renders a core `PropRuntimeAssembly` or prop definition through React Three Fiber.
  */
@@ -77,6 +90,9 @@ export function RuntimeProp({
   assetMaterialMode,
   renderNode,
   onNodeClick,
+  interactionState,
+  selectInteractionAction,
+  onInteraction,
 }: RuntimePropProps) {
   const runtime = useMemo(() => resolveRuntimeProp(prop), [prop]);
   const materialOptions = useMemo(
@@ -92,6 +108,30 @@ export function RuntimeProp({
     number,
     number,
   ];
+  const handleNodeClick =
+    onNodeClick || onInteraction
+      ? (node: PropRuntimeNode, event: ThreeEvent<MouseEvent>) => {
+          onNodeClick?.(node, event);
+
+          if (!onInteraction) {
+            return;
+          }
+
+          const selectedAction = selectInteractionAction
+            ? selectInteractionAction(node, runtime)
+            : getDefaultRuntimePropInteractionAction(runtime, node);
+
+          if (!selectedAction) {
+            return;
+          }
+
+          onInteraction(executePropInteractionAction(runtime, selectedAction, interactionState), {
+            runtime,
+            node,
+            event,
+          });
+        }
+      : undefined;
 
   return (
     <group name={runtime.id} position={position} rotation={rotation} scale={groupScale}>
@@ -114,8 +154,8 @@ export function RuntimeProp({
               castShadow={castShadow}
               receiveShadow={receiveShadow}
               onClick={
-                onNodeClick
-                  ? (event: ThreeEvent<MouseEvent>) => onNodeClick(node, event)
+                handleNodeClick
+                  ? (event: ThreeEvent<MouseEvent>) => handleNodeClick(node, event)
                   : undefined
               }
             />
@@ -133,7 +173,9 @@ export function RuntimeProp({
             receiveShadow={receiveShadow}
             userData={{ runtimeNode: node, runtimeMaterialSlot: slot }}
             onClick={
-              onNodeClick ? (event: ThreeEvent<MouseEvent>) => onNodeClick(node, event) : undefined
+              handleNodeClick
+                ? (event: ThreeEvent<MouseEvent>) => handleNodeClick(node, event)
+                : undefined
             }
           >
             <RuntimeGeometry shape={node.shape} size={node.size} />

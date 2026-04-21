@@ -8,6 +8,9 @@ import type {
   MaterialDefinition,
   PropComposition,
   PropRuntimeAssembly,
+  PropRuntimeInteractionAction,
+  PropRuntimeInteractionResult,
+  PropRuntimeInteractionState,
   PropRuntimeNode,
   RuntimeMaterialSlot,
 } from '@strata-game-library/core/compose';
@@ -33,6 +36,22 @@ export interface RuntimeShapeRenderContext {
   materialSlot: RuntimeMaterialSlot;
 }
 
+export type RuntimePropInteractionSelector = (
+  node: PropRuntimeNode,
+  runtime: PropRuntimeAssembly
+) => string | PropRuntimeInteractionAction | null | undefined;
+
+export interface RuntimePropInteractionContext {
+  runtime: PropRuntimeAssembly;
+  node: PropRuntimeNode;
+  event: ThreeEvent<MouseEvent>;
+}
+
+export type RuntimePropInteractionHandler = (
+  result: PropRuntimeInteractionResult,
+  context: RuntimePropInteractionContext
+) => void;
+
 export interface RuntimePropProps extends RuntimeMaterialOptions {
   prop: RuntimePropInput;
   position?: [number, number, number];
@@ -43,6 +62,9 @@ export interface RuntimePropProps extends RuntimeMaterialOptions {
   assetMaterialMode?: RuntimeAssetMaterialMode;
   renderNode?: (node: PropRuntimeNode, context: RuntimeShapeRenderContext) => React.ReactNode;
   onNodeClick?: (node: PropRuntimeNode, event: ThreeEvent<MouseEvent>) => void;
+  interactionState?: PropRuntimeInteractionState;
+  selectInteractionAction?: RuntimePropInteractionSelector;
+  onInteraction?: RuntimePropInteractionHandler;
 }
 
 export interface RuntimeCreatureProps extends RuntimeMaterialOptions {

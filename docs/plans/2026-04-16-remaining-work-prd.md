@@ -166,10 +166,12 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
+- `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
-- Remaining work is richer creature rig/animation asset loading, adapter-level interaction wiring, and deeper procedural material traits.
+- Babylon prop instances now carry interaction metadata and expose `executeInteraction()` backed by the core prop interaction executor.
+- Remaining work is richer creature rig/animation asset loading, higher-level interaction UX/physics integration, and deeper procedural material traits.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

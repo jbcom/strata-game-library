@@ -97,7 +97,16 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.root.scaling.asArray()).toEqual([2, 2, 2]);
     expect(instance.meshes).toHaveLength(descriptor.nodes.length);
     expect(Object.keys(instance.materials)).toEqual(Object.keys(descriptor.materialSlots));
+    expect(instance.root.metadata.strataRuntimeInteractionActions[0]?.id).toBe(
+      'crate_wooden:interaction:container'
+    );
     expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('prop-node');
+    expect(instance.meshes[0]?.metadata.strataRuntimeInteractionActions[0]?.action).toBe(
+      'open-container'
+    );
+    expect(instance.executeInteraction('crate_wooden:interaction:container').nextState.open).toBe(
+      true
+    );
 
     instance.dispose();
     scene.dispose();

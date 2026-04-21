@@ -9,6 +9,12 @@ import {
   TransformNode,
   Vector3,
 } from '@babylonjs/core';
+import {
+  executePropInteractionAction,
+  type PropRuntimeInteractionAction,
+  type PropRuntimeInteractionResult,
+  type PropRuntimeInteractionState,
+} from '@strata-game-library/core/compose';
 import type {
   ReactylonRuntimeCreatureBoneDescriptor,
   ReactylonRuntimeCreatureDescriptor,
@@ -77,6 +83,10 @@ export interface BabylonRuntimePropInstance {
   root: TransformNode;
   meshes: AbstractMesh[];
   materials: Record<string, BabylonMaterial>;
+  executeInteraction(
+    action: string | PropRuntimeInteractionAction,
+    state?: PropRuntimeInteractionState
+  ): PropRuntimeInteractionResult;
   dispose(): void;
 }
 
@@ -244,6 +254,30 @@ function mergeMetadata(
     : metadata;
 }
 
+function clonePropInteractionAction(
+  action: PropRuntimeInteractionAction
+): PropRuntimeInteractionAction {
+  return {
+    ...action,
+    nodeIds: [...action.nodeIds],
+    payload: action.payload
+      ? {
+          ...action.payload,
+          contents: action.payload.contents ? [...action.payload.contents] : undefined,
+        }
+      : undefined,
+  };
+}
+
+function propInteractionActionsForNode(
+  descriptor: ReactylonRuntimePropDescriptor,
+  nodeId: string
+): PropRuntimeInteractionAction[] {
+  return descriptor.interactionActions
+    .filter((action) => action.nodeIds.includes(nodeId))
+    .map(clonePropInteractionAction);
+}
+
 function applyMeshTransform(
   mesh: AbstractMesh,
   root: TransformNode,
@@ -306,6 +340,7 @@ export function instantiateBabylonRuntimeProp(
   root.metadata = mergeMetadata(root.metadata, {
     strataRuntimeKind: 'prop',
     strataRuntime: descriptor,
+    strataRuntimeInteractionActions: descriptor.interactionActions.map(clonePropInteractionAction),
   });
 
   for (const node of descriptor.nodes) {
@@ -332,6 +367,7 @@ export function instantiateBabylonRuntimeProp(
         strataRuntimeNode: node,
         strataRuntimeMaterialSlot: materialSlot,
         strataRuntimeMeshSource: node.mesh,
+        strataRuntimeInteractionActions: propInteractionActionsForNode(descriptor, node.id),
       });
       meshes.push(mesh);
     }
@@ -343,6 +379,7 @@ export function instantiateBabylonRuntimeProp(
     root,
     meshes,
     materials,
+    executeInteraction: (action, state) => executePropInteractionAction(descriptor, action, state),
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }

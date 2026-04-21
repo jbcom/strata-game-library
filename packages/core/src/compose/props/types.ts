@@ -111,6 +111,10 @@ export interface PropRuntimeInteractionResult {
   nextState: PropRuntimeInteractionState;
 }
 
+export interface PropRuntimeInteractionSource {
+  interactionActions: PropRuntimeInteractionAction[];
+}
+
 export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
   components: PropComponent[];
 }

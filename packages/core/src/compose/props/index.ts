@@ -26,9 +26,9 @@ import type {
   CreatePropInput,
   PropComposition,
   PropDefinition,
-  PropRuntimeAssembly,
   PropRuntimeInteractionAction,
   PropRuntimeInteractionResult,
+  PropRuntimeInteractionSource,
   PropRuntimeInteractionState,
   PropRuntimeNode,
   ResolvedPropComponent,
@@ -393,7 +393,7 @@ function interactionEffectsBase(
 }
 
 export function findPropInteractionAction(
-  runtime: PropRuntimeAssembly,
+  runtime: PropRuntimeInteractionSource,
   action: string | PropRuntimeInteractionAction
 ): PropRuntimeInteractionAction | undefined {
   const actionId = typeof action === 'string' ? action : action.id;
@@ -401,7 +401,7 @@ export function findPropInteractionAction(
 }
 
 export function executePropInteractionAction(
-  runtime: PropRuntimeAssembly,
+  runtime: PropRuntimeInteractionSource,
   action: string | PropRuntimeInteractionAction,
   state: PropRuntimeInteractionState = {}
 ): PropRuntimeInteractionResult {

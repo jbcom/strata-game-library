@@ -92,7 +92,9 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
 
-The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers.
+The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
+
+The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems.
 
 ### Game State Presets
 

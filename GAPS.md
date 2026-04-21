@@ -51,7 +51,7 @@ Remaining work:
   - R3F can now render mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`.
   - Reactylon can now consume the runtime plan through `StrataRuntimeProp` descriptors.
   - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials, with custom mesh factories for asset-backed nodes.
-  - Remaining gap: adapter-level interaction wiring, creature rig/animation asset loading, and visual Babylon examples are still incomplete.
+  - Remaining gap: higher-level interaction UX/physics integration, creature rig/animation asset loading, and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/materials/`
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Remaining gap: richer procedural texture/material traits remain thin.
@@ -85,12 +85,14 @@ Remaining work:
   - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
 - `adapters/r3f/src/components/compose/`
   - `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives and static GLB prop-node loading with orientation-aware capsule geometry.
+  - `RuntimeProp` can now route node clicks through the core prop interaction executor via `onInteraction`, `interactionState`, and `selectInteractionAction`.
   - `apps/examples/api-showcase` now includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`.
   - Remaining gap: richer creature asset loading, shell/physics integration, and deeper WebGL runtime assertions beyond bundle/smoke coverage.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
   - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, and runtime metadata, with custom mesh-factory seams for asset-backed nodes.
-  - Remaining gap: async GLB loading and visual example coverage are still thin.
+  - Babylon prop instances now expose interaction metadata on roots/nodes and an `executeInteraction()` helper backed by the core prop interaction executor.
+  - Remaining gap: async GLB loading, higher-level interaction UX integration, and visual example coverage are still thin.
 
 ### Platform / Integration
 
