@@ -523,11 +523,29 @@ export function Example_CompleteVegetationScene() {
   const areaSize = 200;
 
   // Define comprehensive biome system
-  const grassBiomes: BiomeData[] = [];
+  const grassBiomes: BiomeData[] = [
+    {
+      type: 'savanna',
+      center: new THREE.Vector2(-40, -20),
+      radius: 140,
+    },
+  ];
 
-  const forestBiomes: BiomeData[] = [];
+  const forestBiomes: BiomeData[] = [
+    {
+      type: 'forest',
+      center: new THREE.Vector2(45, 20),
+      radius: 120,
+    },
+  ];
 
-  const rockyBiomes: BiomeData[] = [];
+  const rockyBiomes: BiomeData[] = [
+    {
+      type: 'mountain',
+      center: new THREE.Vector2(20, 60),
+      radius: 110,
+    },
+  ];
 
   const heightFunction = (x: number, z: number): number => {
     return (

@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { exampleResolve } from '../vite.shared';
 
 export default defineConfig({
+  base: './',
   plugins: [react()],
   resolve: exampleResolve,
   server: {

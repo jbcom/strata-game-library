@@ -5,7 +5,8 @@
   "scripts": {
     "build": "pnpm run verify",
     "lint": "pnpm run verify",
-    "test": "pnpm run verify",
+    "test": "pnpm run verify && pnpm run test:e2e",
+    "test:e2e": "playwright test --project=chromium",
     "typecheck": "pnpm run verify",
     "verify": "node scripts/verify.mjs"
   },
@@ -25,6 +26,7 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.183.1",
