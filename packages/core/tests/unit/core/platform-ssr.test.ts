@@ -11,6 +11,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   detectCapabilities,
   detectPlatform,
+  isReactNative,
   resetPlatformCache,
 } from '../../../src/core/shared/platform';
 
@@ -44,6 +45,7 @@ describe('Platform Detection - SSR Environment', () => {
 
       resetPlatformCache();
       expect(detectPlatform()).toBe('native');
+      expect(isReactNative()).toBe(true);
     });
 
     it('detects React Native via __REACT_NATIVE__ global', () => {

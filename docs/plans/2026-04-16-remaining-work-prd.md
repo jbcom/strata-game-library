@@ -238,8 +238,9 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 
 - The active React Native Android module now reports `hasGamepad` / `inputMode` from Android `InputDevice` enumeration and exposes `getInputSnapshot()` with connected controller ids, button state, sticks, and triggers.
 - The active React Native iOS module now reports `hasGamepad` / `inputMode` from `GameController` and exposes `getInputSnapshot()` for MFi/GameController buttons, sticks, triggers, and connected controllers.
+- Core shared platform helpers now expose `isReactNative()` and `selectAdapter()` accepts an explicit `reactNative` adapter slot instead of describing React Native as unimplemented.
 - The TypeScript React Native hook tests now cover controller-aware `useDevice()` profiles and native `useInput()` snapshot polling.
-- Remaining platform work in this stream is now focused on `model-synth` rigging/animation, core shared platform React Native adapter semantics, and native-example/build verification.
+- Remaining platform work in this stream is now focused on `model-synth` rigging/animation, deeper core/native capability bridging, and native-example/build verification.
 
 ## Workstream 7: Verification and CI Hardening
 

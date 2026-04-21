@@ -39,7 +39,7 @@ All historical repositories were clean on `main` at audit time. The monorepo rem
 | `examples` | Private `@strata/examples@1.0.0` | `apps/examples` | Migrated and expanded | Add meaningful example verification targets where missing |
 | `model-synth` | `template@0.1.0` | `plugins/model-synth` | Current monorepo implementation supersedes old template scaffold | Finish documented rigging/animation support or explicitly mark unsupported |
 | `presets` | `@strata-game-library/presets@1.1.1` | `packages/presets` | Migrated and improved by current `@strata-game-library/presets@1.2.2` | Keep browser preset coverage in regular verification |
-| `react-native-plugin` | `@strata-game-library/react-native-plugin@1.1.0` | `plugins/react-native` | Migrated, renamed, and superseded by `@strata-game-library/react-native@1.3.0` | Publish renamed package, then deprecate legacy `-plugin` name; finish controller detection |
+| `react-native-plugin` | `@strata-game-library/react-native-plugin@1.1.0` | `plugins/react-native` | Migrated, renamed, and superseded by `@strata-game-library/react-native@1.3.0` | Publish renamed package, then deprecate legacy `-plugin` name; validate native example/build coverage |
 | `shaders` | `@strata-game-library/shaders@1.0.2` | `packages/shaders` | Migrated and improved by current `@strata-game-library/shaders@1.1.0` | Keep shader package tests and docs aligned |
 | `strata-game-library.github.io` | `app@0.0.1` | `apps/docs` | Superseded by Astro Starlight docs site | Continue public migration/adoption doc cleanup |
 
@@ -66,7 +66,7 @@ All historical repositories were clean on `main` at audit time. The monorepo rem
 | `packages/shaders` | `@strata-game-library/shaders@1.1.0` | Runtime code is migrated and versioned forward. Current package is canonical. |
 | `packages/presets` | `@strata-game-library/presets@1.2.2` | Runtime code is migrated and materially expanded. Current test count is higher than historical repo. |
 | `plugins/capacitor` | `@strata-game-library/capacitor@1.2.0` | Runtime code is migrated and renamed. Historical example/e2e assets were not fully adopted into regular verification. |
-| `plugins/react-native` | `@strata-game-library/react-native@1.3.0` | Runtime code and test intent are migrated under the renamed package. Native controller TODOs remain. |
+| `plugins/react-native` | `@strata-game-library/react-native@1.3.0` | Runtime code and test intent are migrated under the renamed package. Native controller detection and input snapshots now exist; native example/build verification remains. |
 | `plugins/model-synth` | `@strata-game-library/model-synth@0.2.0` | Current code supersedes the historical template package with real Meshy clients and schemas. |
 | `apps/examples` | Private examples app group | Main historical examples are present, and new declarative/world-topology examples were added. Example verification remains thin. |
 | `apps/docs` | Private Starlight app | Historical public docs are superseded by the Starlight site plus generated TypeDoc API pages. |

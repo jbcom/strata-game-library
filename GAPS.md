@@ -81,7 +81,7 @@ Remaining work:
 - `plugins/react-native/ios/StrataModule.swift`
   - iOS GameController/MFi detection and native `getInputSnapshot()` now exist; remaining work is native-example/build verification.
 - `packages/core/src/core/shared/platform.ts`
-  - React Native support is explicitly not yet implemented in shared platform helpers.
+  - React Native detection and explicit `reactNative` adapter selection now exist; remaining work is deeper capability bridging beyond static platform/capability detection.
 
 ## 3. Verification Gaps
 

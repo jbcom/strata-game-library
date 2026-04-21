@@ -11,6 +11,7 @@ import {
   detectPlatform,
   isCapacitor,
   isNative,
+  isReactNative,
   isWeb,
   resetPlatformCache,
   selectAdapter,
@@ -92,6 +93,10 @@ describe('Platform Detection', () => {
 
     it('isNative returns false in browser environment', () => {
       expect(isNative()).toBe(false);
+    });
+
+    it('isReactNative returns false in browser environment', () => {
+      expect(isReactNative()).toBe(false);
     });
   });
 
@@ -177,6 +182,25 @@ describe('Platform Detection', () => {
       };
       const result = selectAdapter(adapters, 'native');
       expect(result).toBe('nativeAdapter');
+    });
+
+    it('returns explicit reactNative adapter when available', () => {
+      const adapters: AdapterMap<string> = {
+        web: 'webAdapter',
+        reactNative: 'reactNativeAdapter',
+      };
+      const result = selectAdapter(adapters, 'native');
+      expect(result).toBe('reactNativeAdapter');
+    });
+
+    it('prefers reactNative adapter over generic native adapter', () => {
+      const adapters: AdapterMap<string> = {
+        web: 'webAdapter',
+        native: 'nativeAdapter',
+        reactNative: 'reactNativeAdapter',
+      };
+      const result = selectAdapter(adapters, 'native');
+      expect(result).toBe('reactNativeAdapter');
     });
 
     it('throws error when native adapter is missing', () => {

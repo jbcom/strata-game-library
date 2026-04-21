@@ -88,7 +88,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 - `plugins/react-native/ios/StrataModule.swift`
   - iOS GameController/MFi detection and native `getInputSnapshot()` now exist for connected controller buttons, sticks, and triggers.
 - `packages/core/src/core/shared/platform.ts`
-  - React Native support is still explicitly marked as not yet implemented in core shared platform helpers.
+  - React Native detection now has an `isReactNative()` alias and `selectAdapter()` accepts an explicit `reactNative` adapter slot in addition to the generic `native` slot.
 
 ## Verification Snapshot
 
@@ -108,6 +108,8 @@ Verified during this session:
 - `pnpm --dir plugins/react-native test`: passed, covering controller-aware device profiles and native input snapshot polling
 - `pnpm nx run @strata-game-library/react-native:test --skip-nx-cache`: passed for the same React Native coverage through the CI-style Nx target
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after React Native mobile docs updates
+- `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after React Native adapter-map changes
+- `pnpm --dir packages/core test:unit -- tests/unit/core/platform.test.ts tests/unit/core/platform-ssr.test.ts`: passed, 39 files / 994 tests
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:

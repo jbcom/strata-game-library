@@ -47,6 +47,25 @@ For tree-shaking and runtime-specific imports:
 
 `StrataGame` is the adapter-owned mount surface and creates its own R3F `Canvas`.
 
+### Platform Helpers
+
+```ts
+type Platform = 'web' | 'capacitor' | 'native'
+
+interface AdapterMap<T> {
+  web: T
+  capacitor?: T
+  reactNative?: T
+  native?: T
+}
+
+detectPlatform(): Platform
+isReactNative(): boolean
+selectAdapter<T>(adapters: AdapterMap<T>, platform?: Platform): T
+```
+
+`reactNative` is the preferred explicit adapter slot for React Native runtimes. `native` remains supported as the backward-compatible generic native slot.
+
 ### Composition API
 
 ```ts
