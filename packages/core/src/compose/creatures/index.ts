@@ -370,8 +370,9 @@ function estimateBoneVolume(shape: BoneDefinition['shape'], size: RuntimeVector3
     case 'cylinder':
       return Math.PI * (x / 2) * (z / 2) * y;
     case 'capsule': {
-      const radius = (y + z) / 4;
-      const cylinderLength = Math.max(0, x - 2 * radius);
+      const [length, diameterA, diameterB] = [x, y, z].sort((a, b) => b - a);
+      const radius = (diameterA + diameterB) / 4;
+      const cylinderLength = Math.max(0, length - 2 * radius);
       return Math.PI * radius * radius * cylinderLength + (4 / 3) * Math.PI * radius ** 3;
     }
     case 'box':
@@ -408,6 +409,13 @@ function runtimePhysicsSource(
   return hasMaterial ? 'material' : 'implicit';
 }
 
+function materialIdsByType(): Record<string, string[]> {
+  return Object.values(MATERIALS).reduce<Record<string, string[]>>((groups, material) => {
+    groups[material.type] = [...(groups[material.type] ?? []), material.id];
+    return groups;
+  }, {});
+}
+
 function buildCreatureRuntime(
   definition: CreatureDefinition,
   skeleton: SkeletonDefinition,
@@ -436,6 +444,7 @@ function buildCreatureRuntime(
   }));
   const hasBonePhysics = skeleton.bones.some((bone) => bone.physics);
   const hasMaterialPhysics = prepared.some((entry) => entry.material.material.physics);
+  const swappableMaterialIds = materialIdsByType();
   const bones: CreatureRuntimeBone[] = prepared.map((entry) => {
     const materialPhysics = entry.material.material.physics;
     const materialSlot = `${definition.id}:bone:${entry.bone.id}:${entry.material.materialId}`;
@@ -445,13 +454,9 @@ function buildCreatureRuntime(
       materialId: entry.material.materialId,
       material: entry.material.material,
       physics: materialPhysics,
-      swappableWith: Object.values(MATERIALS)
-        .filter(
-          (material) =>
-            material.id !== entry.material.materialId &&
-            material.type === entry.material.material.type
-        )
-        .map((material) => material.id),
+      swappableWith: (swappableMaterialIds[entry.material.material.type] ?? []).filter(
+        (materialId) => materialId !== entry.material.materialId
+      ),
     };
 
     return {

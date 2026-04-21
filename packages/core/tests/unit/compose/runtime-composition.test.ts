@@ -84,4 +84,59 @@ describe('runtime composition assembly', () => {
     expect(idle?.clip).toBe('otter_idle');
     expect(idle?.targetBones).toHaveLength(composition.skeleton.bones.length);
   });
+
+  it('estimates capsule runtime volumes by longest axis across props and creatures', () => {
+    const longYProp = resolvePropComposition({
+      id: 'capsule_y_prop',
+      components: [
+        {
+          shape: 'capsule',
+          size: [1, 4, 1],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+    });
+    const longXProp = resolvePropComposition({
+      id: 'capsule_x_prop',
+      components: [
+        {
+          shape: 'capsule',
+          size: [4, 1, 1],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+    });
+    const creature = resolveCreatureComposition({
+      id: 'capsule_creature',
+      skeleton: {
+        id: 'capsule_skeleton',
+        type: 'custom',
+        bones: [
+          {
+            id: 'body',
+            shape: 'capsule',
+            size: [4, 1, 1],
+            position: [0, 0, 0],
+          },
+        ],
+      },
+      covering: {
+        skeleton: 'capsule_skeleton',
+        regions: {
+          '*': { material: 'fur_otter' },
+        },
+      },
+      stats: { health: 1, speed: 1 },
+      ai: 'prey',
+      biomes: [],
+      spawnWeight: 1,
+    });
+
+    const propVolume = longYProp.runtime.nodes[0]?.volume ?? 0;
+
+    expect(longXProp.runtime.nodes[0]?.volume).toBeCloseTo(propVolume);
+    expect(creature.runtime.bones[0]?.volume).toBeCloseTo(propVolume);
+  });
 });

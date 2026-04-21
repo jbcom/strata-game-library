@@ -130,8 +130,9 @@ function estimateShapeVolume(
     case 'cylinder':
       return Math.PI * (x / 2) * (z / 2) * y;
     case 'capsule': {
-      const radius = (x + z) / 4;
-      const cylinderHeight = Math.max(0, y - 2 * radius);
+      const [length, diameterA, diameterB] = [x, y, z].sort((a, b) => b - a);
+      const radius = (diameterA + diameterB) / 4;
+      const cylinderHeight = Math.max(0, length - 2 * radius);
       return Math.PI * radius * radius * cylinderHeight + (4 / 3) * Math.PI * radius ** 3;
     }
     case 'box':
@@ -168,6 +169,13 @@ function runtimePhysicsSource(
   return hasMaterial ? 'material' : 'implicit';
 }
 
+function materialIdsByType(): Record<string, string[]> {
+  return Object.values(MATERIALS).reduce<Record<string, string[]>>((groups, material) => {
+    groups[material.type] = [...(groups[material.type] ?? []), material.id];
+    return groups;
+  }, {});
+}
+
 function buildPropRuntime(
   definition: PropDefinition,
   components: ResolvedPropComponent[]
@@ -193,6 +201,7 @@ function buildPropRuntime(
     physics: entry.component.material.physics,
     weight: entry.volume,
   }));
+  const swappableMaterialIds = materialIdsByType();
   const materialSlots: PropComposition['runtime']['materialSlots'] = {};
   const nodes: PropRuntimeNode[] = prepared.map((entry) => {
     const { component } = entry;
@@ -208,12 +217,9 @@ function buildPropRuntime(
       materialId: component.materialId,
       material: component.material,
       physics: materialPhysics,
-      swappableWith: Object.values(MATERIALS)
-        .filter(
-          (material) =>
-            material.id !== component.materialId && material.type === component.material.type
-        )
-        .map((material) => material.id),
+      swappableWith: (swappableMaterialIds[component.material.type] ?? []).filter(
+        (materialId) => materialId !== component.materialId
+      ),
     };
 
     return {
