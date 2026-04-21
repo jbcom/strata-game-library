@@ -1,6 +1,6 @@
 # Strata Implementation Status
 
-Snapshot date: `2026-04-16`
+Snapshot date: `2026-04-21`
 
 Full post-session remaining-work scope: [docs/plans/2026-04-16-remaining-work-prd.md](docs/plans/2026-04-16-remaining-work-prd.md)
 
@@ -18,7 +18,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs are now aligned, but some planning/status docs still need continued cleanup |
-| Full verification | Partial | Main test/lint runs pass, but docs typecheck and browser integration coverage still have known gaps |
+| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; browser integration coverage still has known gaps |
 
 ## Mature Areas
 
@@ -91,24 +91,18 @@ This document reflects the actual state of the repository after the umbrella-pac
 
 Verified during this session:
 
+- `pnpm run lint`: passed
+- `pnpm run typecheck`: passed, including `apps/docs`
+- `pnpm run build`: passed
 - `pnpm run test`: passed
-- `pnpm run lint`: passed, with warning debt remaining in `adapters/reactylon` and `plugins/astro`
-- `pnpm nx run-many -t typecheck --exclude=@strata-game-library/docs`: passed
-- `pnpm -F @strata-game-library/core typecheck`: passed
-- `pnpm -F @strata-game-library/core lint`: passed
-- `pnpm -F @strata-game-library/core build`: passed
-- `pnpm -F @strata-game-library/core test -- src/__tests__/input.test.ts tests/unit/game/game-presets.test.ts tests/unit/api/createGame.test.ts`: passed
-- `pnpm -F @strata-game-library/r3f typecheck`: passed
-- `pnpm -F @strata-game-library/r3f build`: passed
-- `pnpm -F @strata-game-library/r3f test -- src/__tests__/StrataGame.test.ts src/__tests__/StrataGameShell.test.tsx src/hooks/__tests__/hooks.test.ts src/hooks/__tests__/useInput.test.tsx src/hooks/__tests__/usePauseToggle.test.tsx src/components/ui/__tests__/ui.test.tsx src/components/ui/__tests__/game-ui.test.tsx`: passed
-- `pnpm -F strata-game-library lint`: passed
-- `pnpm -F strata-game-library typecheck`: passed
-- `pnpm -F strata-game-library build`: passed
-- `pnpm -F strata-game-library test -- tests/exports.test.ts`: passed
+- `pnpm run docs`: passed
+- `pnpm run docs:internal`: passed
+- `pnpm nx run @strata-game-library/docs:typecheck --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
+- `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
+- PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:
 
-- `apps/docs` still blocks a clean full-workspace `pnpm run typecheck` because `astro check` is not currently reliable there.
 - `packages/core/tests/integration-playwright/README.md` documents browser integration tests as temporarily disabled in CI.
 
 ## Done Means
@@ -120,4 +114,4 @@ The library should not be treated as a fully actualized game framework until all
 3. The composition layer graduates from normalized definitions to fuller runtime/render integration where needed.
 4. Declarative game helpers expand beyond the current core factory plus manager subscriptions into fuller lifecycle/preset ergonomics.
 5. Documentation and status files agree with the actual package and feature state.
-6. Docs typecheck and browser integration coverage are back in regular verification.
+6. Browser integration coverage is back in regular verification.

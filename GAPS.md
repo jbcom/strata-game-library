@@ -1,6 +1,6 @@
 # Library Gaps & Consolidation Backlog
 
-Snapshot date: `2026-04-16`
+Snapshot date: `2026-04-21`
 
 Full backlog and acceptance criteria: [docs/plans/2026-04-16-remaining-work-prd.md](docs/plans/2026-04-16-remaining-work-prd.md)
 
@@ -81,7 +81,7 @@ Remaining work:
 
 ## 3. Verification Gaps
 
-- Full workspace `pnpm run typecheck` is still blocked by `apps/docs`.
+- Full workspace `pnpm run typecheck` is now green, including `apps/docs`.
 - Browser integration coverage is not part of normal CI at the moment:
   - `packages/core/tests/integration-playwright/README.md` marks those tests as temporarily disabled in CI.
 - `adapters/reactylon` and `plugins/astro` still carry lint warnings.
@@ -100,4 +100,4 @@ Remaining work:
    - expand runtime composition behavior beyond definition normalization
    - add richer material variation / swapping / physics metadata flow
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
-5. Restore docs typecheck and browser integration coverage to the regular verification path.
+5. Restore browser integration coverage to the regular verification path and keep docs typecheck/build health as a release gate.
