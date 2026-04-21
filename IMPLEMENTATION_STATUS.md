@@ -84,9 +84,9 @@ This document reflects the actual state of the repository after the umbrella-pac
 - `plugins/model-synth/src/index.ts`
   - TODOs remain for optional rigging and animation handling.
 - `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
-  - Gamepad detection is still a TODO.
+  - Android controller detection and native `getInputSnapshot()` now exist through `InputDevice` enumeration plus button/axis state holders for host-forwarded events.
 - `plugins/react-native/ios/StrataModule.swift`
-  - MFi controller detection is still a TODO.
+  - iOS GameController/MFi detection and native `getInputSnapshot()` now exist for connected controller buttons, sticks, and triggers.
 - `packages/core/src/core/shared/platform.ts`
   - React Native support is still explicitly marked as not yet implemented in core shared platform helpers.
 
@@ -104,6 +104,10 @@ Verified during this session:
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
 - `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after bundling maath submodules into the core ESM output
 - `pnpm nx run @strata-game-library/core:test:e2e -- --project=chromium --reporter=list`: passed, 32 browser integration tests
+- `pnpm --dir plugins/react-native typecheck`: passed after native snapshot type updates
+- `pnpm --dir plugins/react-native test`: passed, covering controller-aware device profiles and native input snapshot polling
+- `pnpm nx run @strata-game-library/react-native:test --skip-nx-cache`: passed for the same React Native coverage through the CI-style Nx target
+- `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after React Native mobile docs updates
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:

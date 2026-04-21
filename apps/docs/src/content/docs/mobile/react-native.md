@@ -27,6 +27,7 @@ Automatically linked via autolinking.
 
 - **Device Detection** - Identify device type, platform, and performance capabilities
 - **Input Handling** - Unified touch input with `StrataInputProvider`
+- **Gamepad Support** - iOS GameController/MFi and Android InputDevice controller detection plus native input snapshots
 - **Haptic Feedback** - iOS Taptic Engine, Android Vibrator
 - **Safe Area Insets** - Native detection for notches
 - **Orientation** - Get and lock screen orientation
@@ -61,7 +62,7 @@ function Game() {
 
 ### `useInput()`
 
-Returns the current input state (requires `StrataInputProvider`):
+Returns the current input state. Touches come from `StrataInputProvider`; native controller snapshots are polled when the installed native module exposes `getInputSnapshot()`:
 
 ```tsx
 import { useInput, StrataInputProvider } from '@strata-game-library/react-native';
@@ -74,7 +75,7 @@ function Game() {
   const moveY = input.leftStick.y;
 
   // Check button presses
-  if (input.buttons.jump) {
+  if (input.buttons.a) {
     player.jump();
   }
 
@@ -99,12 +100,10 @@ Returns haptic feedback controls:
 import { useHaptics } from '@strata-game-library/react-native';
 
 function Game() {
-  const { trigger, isSupported } = useHaptics();
+  const { trigger } = useHaptics();
 
   const handleCollision = async () => {
-    if (isSupported) {
-      await trigger({ intensity: 'medium' });
-    }
+    await trigger({ intensity: 'medium' });
   };
 
   const handleExplosion = async () => {
@@ -116,7 +115,7 @@ function Game() {
 
   const handlePattern = async () => {
     await trigger({
-      pattern: [100, 50, 100, 50, 200], // on, off, on, off, on
+      duration: 100,
     });
   };
 
@@ -160,36 +159,11 @@ function App() {
         // Process raw input
         console.log(snapshot.touches);
       }}
-      joystickConfig={{
-        size: 100,
-        deadzone: 0.1,
-      }}
     >
       <Game />
     </StrataInputProvider>
   );
 }
-```
-
-### `<VirtualJoystick>`
-
-On-screen virtual joystick:
-
-```tsx
-import { VirtualJoystick } from '@strata-game-library/react-native';
-
-<VirtualJoystick
-  position="left"          // 'left' | 'right'
-  size={120}               // Diameter in pixels
-  innerSize={60}           // Inner stick size
-  deadzone={0.1}           // Dead zone radius
-  color="rgba(255,255,255,0.3)"
-  activeColor="rgba(255,255,255,0.5)"
-  onMove={(x, y) => {
-    // -1 to 1 for each axis
-    setMovement([x, y]);
-  }}
-/>
 ```
 
 ## Utilities
@@ -208,25 +182,20 @@ await setOrientation('landscape');
 await setOrientation('portrait');
 
 // Unlock
-await setOrientation('auto');
+await setOrientation('default');
 ```
 
-### `getPerformanceLevel()`
+### Performance Tier
 
-Get device performance tier:
+Use `useDevice().performanceMode` to adapt graphics:
 
-```typescript
-import { getPerformanceLevel } from '@strata-game-library/react-native';
-
-const level = await getPerformanceLevel();
-// 'low' | 'medium' | 'high'
-
-// Adjust graphics based on level
+```tsx
+const { performanceMode } = useDevice();
 const graphicsSettings = {
   low: { shadows: false, particles: 100 },
   medium: { shadows: true, particles: 500 },
   high: { shadows: true, particles: 2000 },
-}[level];
+}[performanceMode];
 ```
 
 ## Platform Support
@@ -239,6 +208,8 @@ const graphicsSettings = {
 | Haptics (Heavy) | ✅ Taptic | ✅ |
 | Safe Area Insets | ✅ | ✅ |
 | Orientation Lock | ✅ | ✅ |
+| Gamepad Detection | ✅ GameController/MFi | ✅ InputDevice |
+| Native Input Snapshot | ✅ | ✅ |
 | Performance Detection | ✅ | ✅ |
 | Low Power Mode | ✅ | ✅ |
 
@@ -246,7 +217,7 @@ const graphicsSettings = {
 
 1. **Use `useMemo`** for input processing to avoid re-renders
 2. **Debounce haptics** to prevent rapid successive calls
-3. **Check `isSupported`** before using haptics
+3. **Use controller-aware hints** from `useControlHints()` when `useDevice()` reports `inputMode: 'gamepad'`
 4. **Use orientation lock** to prevent layout shifts during gameplay
 
 ## Related

@@ -27,37 +27,48 @@ cd ios && pod install
 ## Quick Start
 
 ```tsx
-import { StrataView, useStrataInput } from '@strata-game-library/react-native';
+import { StrataInputProvider, useDevice, useHaptics, useInput } from '@strata-game-library/react-native';
 
 function GameScreen() {
-  const { touches, tilt } = useStrataInput();
+  const device = useDevice();
+  const input = useInput();
+  const haptics = useHaptics();
 
   return (
-    <StrataView
-      style={{ flex: 1 }}
-      onTouch={(e) => console.log(e.position)}
+    <GameCanvas
+      deviceProfile={device}
+      movement={input.leftStick}
+      actionPressed={input.buttons.a}
+      onCollision={() => haptics.trigger({ intensity: 'medium' })}
+    />
+  );
+}
+
+export function App() {
+  return (
+    <StrataInputProvider
+      onInput={(snapshot) => console.log(snapshot.touches)}
     >
-      {/* Your R3F scene renders here */}
-    </StrataView>
+      <GameScreen />
+    </StrataInputProvider>
   );
 }
 ```
 
 ## Features
 
-- **Native rendering bridge** -- High-performance GL surface for React Three Fiber scenes
-- **Touch input** -- Multi-touch tracking, gestures, and virtual joystick
-- **Haptic feedback** -- Impact, notification, and custom haptic patterns
-- **Device sensors** -- Accelerometer, gyroscope, and compass for tilt controls
-- **Gamepad support** -- External controller detection and button mapping
-- **Device detection** -- Performance profiling and capability queries
+- **Touch input** -- Multi-touch tracking through `StrataInputProvider`
+- **Haptic feedback** -- Impact feedback on iOS and Android vibration
+- **Gamepad support** -- External controller detection, control hints, and native input snapshots through iOS GameController/MFi and Android InputDevice
+- **Device detection** -- Screen, safe-area, orientation, performance, and capability queries
+- **Control hints** -- Adaptive hints for touch, keyboard, and gamepad modes
 - **Cross-platform** -- iOS and Android with unified API
 
 ## Platform Support
 
 | Platform | Minimum Version |
 |----------|-----------------|
-| iOS | 13.0+ |
+| iOS | 14.0+ |
 | Android | API 24+ (Android 7.0) |
 | React Native | 0.72+ |
 
@@ -66,15 +77,43 @@ function GameScreen() {
 This plugin works alongside `@strata-game-library/core` to bring the full Strata experience to mobile:
 
 ```tsx
-import { StrataView } from '@strata-game-library/react-native';
-import { Terrain, Water } from '@strata-game-library/core/components';
+import { createGame } from '@strata-game-library/core';
+import { StrataInputProvider, useDevice, useInput } from '@strata-game-library/react-native';
+
+const game = createGame({
+  id: 'mobile-adventure',
+  scenes: {
+    start: { id: 'start', name: 'Start' },
+  },
+  modes: {
+    play: { id: 'play', name: 'Play' },
+  },
+  initialScene: 'start',
+  initialMode: 'play',
+});
+
+game.inputManager.setActionMap({
+  jump: { keyboard: 'Space', gamepad: 'south' },
+});
 
 function MobileGame() {
+  const device = useDevice();
+  const input = useInput();
+
   return (
-    <StrataView style={{ flex: 1 }}>
-      <Terrain size={128} />
-      <Water position={[0, -1, 0]} />
-    </StrataView>
+    <GameCanvas
+      deviceProfile={device}
+      movement={input.leftStick}
+      jumpPressed={input.buttons.a}
+    />
+  );
+}
+
+export function App() {
+  return (
+    <StrataInputProvider>
+      <MobileGame />
+    </StrataInputProvider>
   );
 }
 ```

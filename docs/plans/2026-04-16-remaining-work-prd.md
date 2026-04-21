@@ -223,8 +223,8 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 1. `model-synth`
    - complete or explicitly bound rigging/animation support
 2. `react-native`
-   - Android gamepad detection
-   - iOS MFi controller detection
+   - Android gamepad detection and native input snapshots
+   - iOS GameController/MFi detection and native input snapshots
 3. shared platform helpers
    - remove or narrow "React Native not implemented" gaps
 4. verify that platform-specific packages still fit the final package strategy from Workstream 1
@@ -233,6 +233,13 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 
 - Plugin TODOs that affect real consumer expectations are either implemented or explicitly documented as unsupported.
 - Mobile/controller behavior has concrete testable expectations.
+
+### Progress Update: 2026-04-21
+
+- The active React Native Android module now reports `hasGamepad` / `inputMode` from Android `InputDevice` enumeration and exposes `getInputSnapshot()` with connected controller ids, button state, sticks, and triggers.
+- The active React Native iOS module now reports `hasGamepad` / `inputMode` from `GameController` and exposes `getInputSnapshot()` for MFi/GameController buttons, sticks, triggers, and connected controllers.
+- The TypeScript React Native hook tests now cover controller-aware `useDevice()` profiles and native `useInput()` snapshot polling.
+- Remaining platform work in this stream is now focused on `model-synth` rigging/animation, core shared platform React Native adapter semantics, and native-example/build verification.
 
 ## Workstream 7: Verification and CI Hardening
 

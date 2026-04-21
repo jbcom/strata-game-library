@@ -63,6 +63,7 @@ export interface InputSnapshot {
   buttons: Record<string, boolean>;
   triggers: { left: number; right: number };
   touches: TouchState[];
+  connectedGamepads?: Array<number | { index: number; id: string }>;
 }
 
 export interface HapticsOptions {

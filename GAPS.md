@@ -77,9 +77,9 @@ Remaining work:
 - `plugins/model-synth/src/index.ts`
   - TODOs remain for rigging and animation support.
 - `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
-  - Gamepad detection is a TODO.
+  - Android controller detection and native `getInputSnapshot()` now exist; remaining work is native-example/build verification and host activity forwarding documentation for button/axis state.
 - `plugins/react-native/ios/StrataModule.swift`
-  - MFi controller detection is a TODO.
+  - iOS GameController/MFi detection and native `getInputSnapshot()` now exist; remaining work is native-example/build verification.
 - `packages/core/src/core/shared/platform.ts`
   - React Native support is explicitly not yet implemented in shared platform helpers.
 
