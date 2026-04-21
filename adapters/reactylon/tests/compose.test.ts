@@ -1,6 +1,7 @@
 import { MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
 import {
   createMaterialVariant,
+  inferMaterialTraits,
   MATERIALS,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
@@ -18,12 +19,20 @@ describe('Reactylon runtime composition descriptors', () => {
   it('creates serializable material descriptors from runtime slots', () => {
     const prop = resolvePropComposition('crate_wooden');
     const slot = Object.values(prop.runtime.materialSlots)[0];
-    const descriptor = createReactylonRuntimeMaterialDescriptor(slot);
+    const descriptor = createReactylonRuntimeMaterialDescriptor(slot, {
+      materialOverrides: {
+        wood_oak: createMaterialVariant('wood_oak', {
+          id: 'wood_oak',
+          appendTraits: inferMaterialTraits('wood_oak'),
+        }),
+      },
+    });
 
     expect(descriptor.id).toBe(slot.id);
     expect(descriptor.materialId).toBe(slot.materialId);
     expect(descriptor.baseColor).toBe(MATERIALS.wood_oak.baseColor);
     expect(descriptor.physics?.density).toBeGreaterThan(0);
+    expect(descriptor.traits?.[0]?.type).toBe('grain');
     expect(descriptor.transparent).toBe(false);
   });
 

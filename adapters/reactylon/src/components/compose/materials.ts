@@ -21,6 +21,14 @@ function serializeColor(color: MaterialDefinition['baseColor']): ReactylonColorV
   return '#ffffff';
 }
 
+function cloneMaterialTraits(traits: MaterialDefinition['traits']): MaterialDefinition['traits'] {
+  return traits?.map((trait) => ({
+    ...trait,
+    channels: [...trait.channels],
+    tags: trait.tags ? [...trait.tags] : undefined,
+  }));
+}
+
 function resolveSlotMaterial(
   slot: RuntimeMaterialSlot,
   options: ReactylonRuntimeMaterialOptions
@@ -56,5 +64,6 @@ export function createReactylonRuntimeMaterialDescriptor(
     opacity,
     physics: material.physics ?? slot.physics,
     swappableWith: [...(slot.swappableWith ?? [])],
+    traits: cloneMaterialTraits(material.traits),
   };
 }

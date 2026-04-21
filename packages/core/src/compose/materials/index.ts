@@ -20,6 +20,11 @@ import {
 import type {
   MaterialDefinition,
   MaterialPhysics,
+  MaterialTrait,
+  MaterialTraitChannel,
+  MaterialTraitInferenceOptions,
+  MaterialTraitOptions,
+  MaterialTraitType,
   MaterialVariantOptions,
   MaterialVariantSetOptions,
 } from './types';
@@ -111,6 +116,10 @@ export function cloneMaterialDefinition(
       : overrides.volumetric,
     organic: material.organic ? { ...material.organic, ...overrides.organic } : overrides.organic,
     physics: material.physics ? { ...material.physics, ...overrides.physics } : overrides.physics,
+    traits:
+      overrides.traits !== undefined
+        ? overrides.traits.map(cloneMaterialTrait)
+        : material.traits?.map(cloneMaterialTrait),
   };
 }
 
@@ -146,6 +155,149 @@ function mergeMaterialPhysics(
   };
 }
 
+function defaultTraitChannels(type: MaterialTraitType): MaterialTraitChannel[] {
+  switch (type) {
+    case 'grain':
+      return ['baseColor', 'roughness', 'normal'];
+    case 'fiber':
+      return ['baseColor', 'normal', 'opacity'];
+    case 'scratches':
+      return ['roughness', 'normal', 'metalness'];
+    case 'wear':
+      return ['baseColor', 'roughness', 'normal'];
+    case 'patina':
+      return ['baseColor', 'roughness', 'metalness'];
+    case 'veins':
+      return ['baseColor', 'normal', 'opacity'];
+    case 'mottle':
+      return ['baseColor', 'roughness'];
+    case 'absorption':
+      return ['baseColor', 'opacity'];
+  }
+}
+
+function cloneMaterialTrait(trait: MaterialTrait): MaterialTrait {
+  return {
+    ...trait,
+    channels: [...trait.channels],
+    tags: trait.tags ? [...trait.tags] : undefined,
+  };
+}
+
+function materialTraitId(prefix: string, type: MaterialTraitType, suffix?: string): string {
+  return [prefix, type, suffix].filter(Boolean).join(':');
+}
+
+function grainScale(grain: MaterialDefinition['grain']): number {
+  switch (grain) {
+    case 'pine':
+      return 1.35;
+    case 'birch':
+      return 1.1;
+    case 'mahogany':
+      return 0.75;
+    default:
+      return 0.9;
+  }
+}
+
+export function createMaterialTrait(
+  type: MaterialTraitType,
+  options: MaterialTraitOptions = {}
+): MaterialTrait {
+  return {
+    id: options.id ?? type,
+    type,
+    intensity: clamp01(options.intensity ?? 0.5),
+    scale: Math.max(0.0001, options.scale ?? 1),
+    seed: options.seed ?? 0,
+    channels: options.channels ? [...options.channels] : defaultTraitChannels(type),
+    color: options.color,
+    secondaryColor: options.secondaryColor,
+    tags: options.tags ? [...options.tags] : undefined,
+  };
+}
+
+export function inferMaterialTraits(
+  material: string | MaterialDefinition,
+  options: MaterialTraitInferenceOptions = {}
+): MaterialTrait[] {
+  const resolved = resolveMaterialDefinition(material);
+  const idPrefix = options.idPrefix ?? resolved.id;
+  const intensity = options.intensity ?? 0.6;
+  const scale = options.scale ?? 1;
+  const seed = options.seed ?? 0;
+  const traits = options.includeExisting ? (resolved.traits ?? []).map(cloneMaterialTrait) : [];
+
+  if (resolved.grain) {
+    traits.push(
+      createMaterialTrait('grain', {
+        id: materialTraitId(idPrefix, 'grain', resolved.grain),
+        intensity,
+        scale: scale * grainScale(resolved.grain),
+        seed,
+        color: resolved.baseColor,
+        tags: ['wood', resolved.grain],
+      })
+    );
+  }
+
+  if (resolved.shell) {
+    traits.push(
+      createMaterialTrait('fiber', {
+        id: materialTraitId(idPrefix, 'fiber'),
+        intensity: clamp01(intensity + resolved.shell.colorVariation * 0.25),
+        scale: scale * Math.max(0.25, resolved.shell.length * 20),
+        seed: seed + 11,
+        color: resolved.baseColor,
+        tags: ['shell', 'fur'],
+      })
+    );
+  }
+
+  if (resolved.metalness > 0.5) {
+    traits.push(
+      createMaterialTrait('scratches', {
+        id: materialTraitId(idPrefix, 'scratches'),
+        intensity: clamp01(intensity * (1 - resolved.roughness * 0.5)),
+        scale: scale * 0.75,
+        seed: seed + 23,
+        tags: ['metal'],
+      })
+    );
+  }
+
+  if (resolved.type === 'volumetric') {
+    traits.push(
+      createMaterialTrait('veins', {
+        id: materialTraitId(idPrefix, 'veins'),
+        intensity: clamp01(intensity * (resolved.volumetric?.transparency ?? 0.8)),
+        scale: scale * 1.2,
+        seed: seed + 37,
+        color: resolved.baseColor,
+        secondaryColor: resolved.volumetric?.absorption,
+        tags: ['volumetric'],
+      })
+    );
+  }
+
+  if (resolved.type === 'organic') {
+    traits.push(
+      createMaterialTrait('mottle', {
+        id: materialTraitId(idPrefix, 'mottle'),
+        intensity,
+        scale: scale * 1.5,
+        seed: seed + 41,
+        color: resolved.baseColor,
+        secondaryColor: resolved.organic?.scatterColor,
+        tags: ['organic'],
+      })
+    );
+  }
+
+  return traits;
+}
+
 export function resolveMaterialDefinition(
   material: string | MaterialDefinition
 ): MaterialDefinition {
@@ -179,6 +331,14 @@ export function createMaterialVariant(
     resolved.organic && options.organic
       ? { ...resolved.organic, ...options.organic }
       : resolved.organic;
+  const traits = options.traits
+    ? options.traits.map(cloneMaterialTrait)
+    : resolved.traits || options.appendTraits
+      ? [
+          ...(resolved.traits ?? []).map(cloneMaterialTrait),
+          ...(options.appendTraits ?? []).map(cloneMaterialTrait),
+        ]
+      : undefined;
 
   return cloneMaterialDefinition(resolved, {
     id: options.id ?? `${resolved.id}_${options.suffix ?? 'variant'}`,
@@ -202,6 +362,7 @@ export function createMaterialVariant(
     volumetric,
     organic,
     physics: mergeMaterialPhysics(resolved.physics, options.physics),
+    traits,
   });
 }
 
@@ -232,6 +393,7 @@ export function createMaterialVariants(
       metalnessDelta: jitter(options.metalnessJitter),
       normalScaleDelta: jitter(options.normalScaleJitter),
       physics: options.physics,
+      traits: options.traits,
     })
   );
 }

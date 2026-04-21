@@ -6,6 +6,14 @@ function toColorRepresentation(color: MaterialDefinition['baseColor']): THREE.Co
   return color;
 }
 
+function cloneMaterialTraits(traits: MaterialDefinition['traits']): MaterialDefinition['traits'] {
+  return traits?.map((trait) => ({
+    ...trait,
+    channels: [...trait.channels],
+    tags: trait.tags ? [...trait.tags] : undefined,
+  }));
+}
+
 /**
  * Converts a core composition material definition into a Three.js material.
  */
@@ -32,7 +40,17 @@ export function createRuntimeMaterial(
     parameters.opacity = volumetricTransparency;
   }
 
-  return new THREE.MeshStandardMaterial(parameters);
+  const material = new THREE.MeshStandardMaterial(parameters);
+  const traits = cloneMaterialTraits(definition.traits);
+
+  if (traits) {
+    material.userData = {
+      ...material.userData,
+      strataMaterialTraits: traits,
+    };
+  }
+
+  return material;
 }
 
 /**

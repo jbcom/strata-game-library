@@ -163,15 +163,17 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
 - `executePropInteractionAction()` now executes those prop action descriptors into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
+- `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
 - `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
+- R3F and Reactylon material conversion now preserve procedural material trait metadata for future shader/texture pipelines.
 - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
 - Babylon prop instances now carry interaction metadata and expose `executeInteraction()` backed by the core prop interaction executor.
-- Remaining work is richer creature rig/animation asset loading, higher-level interaction UX/physics integration, and deeper procedural material traits.
+- Remaining work is richer creature rig/animation asset loading, higher-level interaction UX/physics integration, and actual procedural texture/shader generation from the new trait metadata.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

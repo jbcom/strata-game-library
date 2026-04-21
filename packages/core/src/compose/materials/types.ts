@@ -51,6 +51,36 @@ export interface MaterialPhysics {
   restitution: number; // 0-1 (bounciness)
 }
 
+export type MaterialTraitType =
+  | 'grain'
+  | 'fiber'
+  | 'scratches'
+  | 'wear'
+  | 'patina'
+  | 'veins'
+  | 'mottle'
+  | 'absorption';
+
+export type MaterialTraitChannel =
+  | 'baseColor'
+  | 'roughness'
+  | 'metalness'
+  | 'normal'
+  | 'opacity'
+  | 'emissive';
+
+export interface MaterialTrait {
+  id: string;
+  type: MaterialTraitType;
+  intensity: number; // 0-1
+  scale: number;
+  seed: number;
+  channels: MaterialTraitChannel[];
+  color?: string | THREE.Color;
+  secondaryColor?: string | THREE.Color;
+  tags?: string[];
+}
+
 export interface MaterialDefinition {
   id: string;
   type: MaterialType;
@@ -78,6 +108,9 @@ export interface MaterialDefinition {
   // Physics properties
   physics?: MaterialPhysics;
 
+  // Procedural material/texture metadata
+  traits?: MaterialTrait[];
+
   // Additional metadata
   grain?: 'oak' | 'pine' | 'birch' | 'mahogany'; // for wood
   pattern?: string; // for shell_turtle etc.
@@ -95,6 +128,8 @@ export interface MaterialVariantOptions {
   volumetric?: Partial<VolumetricProperties>;
   organic?: Partial<OrganicProperties>;
   physics?: Partial<MaterialPhysics>;
+  traits?: MaterialTrait[];
+  appendTraits?: MaterialTrait[];
 }
 
 export interface MaterialVariantSetOptions {
@@ -105,5 +140,25 @@ export interface MaterialVariantSetOptions {
   metalnessJitter?: number;
   normalScaleJitter?: number;
   physics?: Partial<MaterialPhysics>;
+  traits?: MaterialTrait[];
   rng?: () => number;
+}
+
+export interface MaterialTraitOptions {
+  id?: string;
+  intensity?: number;
+  scale?: number;
+  seed?: number;
+  channels?: MaterialTraitChannel[];
+  color?: string | THREE.Color;
+  secondaryColor?: string | THREE.Color;
+  tags?: string[];
+}
+
+export interface MaterialTraitInferenceOptions {
+  seed?: number;
+  intensity?: number;
+  scale?: number;
+  idPrefix?: string;
+  includeExisting?: boolean;
 }

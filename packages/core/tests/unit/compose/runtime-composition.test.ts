@@ -3,6 +3,7 @@ import {
   createMaterialVariant,
   createMaterialVariants,
   executePropInteractionAction,
+  inferMaterialTraits,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '../../../src/compose';
@@ -32,6 +33,29 @@ describe('runtime composition assembly', () => {
 
     expect(variants.map((material) => material.id)).toEqual(['band_iron_1', 'band_iron_2']);
     expect(variants[0]?.roughness).toBeCloseTo(0.5);
+  });
+
+  it('infers serializable procedural material traits', () => {
+    const woodTraits = inferMaterialTraits('wood_oak', { seed: 7 });
+
+    expect(woodTraits[0]).toMatchObject({
+      id: 'wood_oak:grain:oak',
+      type: 'grain',
+      seed: 7,
+      channels: ['baseColor', 'roughness', 'normal'],
+      tags: ['wood', 'oak'],
+    });
+
+    const scratched = createMaterialVariant('metal_iron', {
+      id: 'scratched_iron',
+      appendTraits: inferMaterialTraits('metal_iron', { seed: 11 }),
+    });
+
+    expect(scratched.traits?.[0]).toMatchObject({
+      id: 'metal_iron:scratches',
+      type: 'scratches',
+      seed: 34,
+    });
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

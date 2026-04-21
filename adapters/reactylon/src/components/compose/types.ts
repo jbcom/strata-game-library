@@ -42,6 +42,7 @@ export interface ReactylonRuntimeMaterialDescriptor {
   opacity: number;
   physics?: RuntimeMaterialSlot['physics'];
   swappableWith: string[];
+  traits?: MaterialDefinition['traits'];
 }
 
 export interface ReactylonRuntimePropNodeDescriptor {

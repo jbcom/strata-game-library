@@ -82,6 +82,8 @@ createProp(input: CreatePropInput | string): PropDefinition
 resolvePropComposition(input: CreatePropInput | string): PropComposition
 findPropInteractionAction(runtime, action): PropRuntimeInteractionAction | undefined
 executePropInteractionAction(runtime, action, state?): PropRuntimeInteractionResult
+createMaterialTrait(type, options?): MaterialTrait
+inferMaterialTraits(material, options?): MaterialTrait[]
 createMaterialVariant(material, options?): MaterialDefinition
 createMaterialVariants(material, options): MaterialDefinition[]
 ```
@@ -91,6 +93,8 @@ createMaterialVariants(material, options): MaterialDefinition[]
 `PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
 
 `executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
+
+`MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` provide serializable procedural material metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels. Variants can replace or append traits, and adapter material descriptors preserve trait metadata for future shader/texture pipelines.
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
