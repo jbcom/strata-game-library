@@ -155,7 +155,7 @@ function Particles({ count = 200 }: { count?: number }) {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={points} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[points, 3]} />
       </bufferGeometry>
       <pointsMaterial size={0.05} color="#38bdf8" transparent opacity={0.6} sizeAttenuation />
     </points>
