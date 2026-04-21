@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawn } from 'node:child_process';
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..');
@@ -58,14 +58,15 @@ async function verifyExamplePackages() {
     if (!entry.isDirectory() || ignoredDirs.has(entry.name) || entry.name === 'scripts') continue;
 
     const packageJsonPath = path.join(root, entry.name, 'package.json');
+    let packageJsonSource;
 
     try {
-      await stat(packageJsonPath);
+      packageJsonSource = await readFile(packageJsonPath, 'utf8');
     } catch {
       continue;
     }
 
-    const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf8'));
+    const packageJson = JSON.parse(packageJsonSource);
     const dependencyGroups = [
       packageJson.dependencies ?? {},
       packageJson.devDependencies ?? {},
@@ -105,8 +106,7 @@ async function verifyExampleBundles() {
     const indexHtml = path.join(root, example, 'index.html');
 
     try {
-      await stat(viteConfig);
-      await stat(indexHtml);
+      await Promise.all([readFile(viteConfig, 'utf8'), readFile(indexHtml, 'utf8')]);
     } catch {
       failures.push(`${example} is missing vite.config.ts or index.html for bundle verification`);
       continue;
