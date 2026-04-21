@@ -1,9 +1,9 @@
-import { AdvancedWater, ProceduralSky, Water } from '@jbcom/strata';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
 import type React from 'react';
 import { useState } from 'react';
+import { AdvancedWater, ProceduralSky, Water } from 'strata-game-library/r3f';
 import type * as THREE from 'three';
 import { SkyExamples, VegetationExamples, WaterExamples } from './examples';
 

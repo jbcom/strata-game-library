@@ -22,7 +22,7 @@ pnpm dev
 ### Water Component
 
 ```tsx
-import { Water, AdvancedWater } from '@jbcom/strata';
+import { Water, AdvancedWater } from 'strata-game-library/r3f';
 
 <Water
   size={100}
@@ -35,7 +35,7 @@ import { Water, AdvancedWater } from '@jbcom/strata';
 ### Core Water Material
 
 ```typescript
-import { createWaterMaterial, createWaterGeometry } from '@jbcom/strata';
+import { createWaterMaterial, createWaterGeometry } from 'strata-game-library/core';
 
 const geometry = createWaterGeometry(100, 256);
 const material = createWaterMaterial({

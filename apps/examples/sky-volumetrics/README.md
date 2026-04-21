@@ -34,7 +34,7 @@ Visit `http://localhost:3003` to see the demo.
 ### Basic Sky Setup
 
 ```typescript
-import { ProceduralSky } from '@jbcom/strata';
+import { ProceduralSky } from 'strata-game-library/r3f';
 
 <ProceduralSky
     timeOfDay={{
@@ -130,10 +130,10 @@ This system is perfect for:
 
 ```typescript
 // Install Strata
-pnpm install @jbcom/strata
+pnpm install strata-game-library
 
 // Import and use
-import { ProceduralSky } from '@jbcom/strata';
+import { ProceduralSky } from 'strata-game-library/r3f';
 import { useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 

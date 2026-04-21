@@ -18,7 +18,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
-| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, but adapter/example browser coverage is still thin |
+| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, but adapter/example browser coverage is still thin |
 
 ## Mature Areas
 
@@ -77,7 +77,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 - npm trusted publishing still needs to be verified for the first umbrella package release.
 - `r3f`, `reactylon`, `model-synth`, and `astro` still need standalone npm publication.
 - `capacitor` and `react-native` still need renamed-package publication before the old `capacitor-plugin` and `react-native-plugin` names can be deprecated.
-- Historical split-repo parity is now documented in `docs/architecture/CONSOLIDATION_PARITY_MATRIX.md`; remaining parity work is limited to old Capacitor example/e2e coverage and broader example verification.
+- Historical split-repo parity is now documented in `docs/architecture/CONSOLIDATION_PARITY_MATRIX.md`; remaining parity work is limited to old Capacitor example/e2e coverage and broader browser/runtime example verification.
 
 ### Platform / Plugin Gaps
 
@@ -113,11 +113,13 @@ Verified during this session:
 - `pnpm --dir plugins/model-synth typecheck`: passed after character rigging/animation orchestration updates
 - `pnpm --dir plugins/model-synth test`: passed, 38 tests covering Meshy clients and high-level character preview/refine/rigging/animation orchestration
 - `pnpm --dir plugins/model-synth test:smoke`: passed in no-key skip mode; live billable verification requires `MESHY_API_KEY`, `MESHY_SMOKE_CREATE_CHARACTER=1`, and `MESHY_SMOKE_CONFIRM_COSTS=1`
+- `pnpm --dir apps/examples verify`: passed, enforcing umbrella-package example dependencies and no legacy `@jbcom/strata` references outside generated docs
+- `NX_DAEMON=false pnpm nx run @strata-game-library/examples:test --skip-nx-cache`: passed after `pnpm nx reset`, including examples verification and dependency builds
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:
 
-- Adapter and example browser coverage is not yet as complete as the restored core browser integration suite.
+- Adapter and example browser/runtime coverage is not yet as complete as the restored core browser integration suite.
 - Live billable Meshy generation was not run in this repo because it requires real account credentials and explicit cost confirmation.
 
 ## Done Means

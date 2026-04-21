@@ -1,5 +1,12 @@
 {
   "name": "@strata-game-library/examples",
   "private": true,
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "scripts": {
+    "build": "pnpm run verify",
+    "lint": "pnpm run verify",
+    "test": "pnpm run verify",
+    "typecheck": "pnpm run verify",
+    "verify": "node scripts/verify.mjs"
+  }
 }

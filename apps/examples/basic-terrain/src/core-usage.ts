@@ -11,8 +11,8 @@
 
 import * as THREE from 'three';
 
-// In a real project, you would import from @jbcom/strata:
-// import { generateInstanceData, createInstancedMesh } from '@jbcom/strata/core';
+// In a real project, you would import from strata-game-library/core:
+// import { generateInstanceData, createInstancedMesh } from 'strata-game-library/core';
 
 /**
  * Example: Generate instanced vegetation data
@@ -21,7 +21,7 @@ import * as THREE from 'three';
  * of instances using seeded random for reproducible results.
  */
 export function generateVegetation() {
-  // Mock implementation - in real usage, import from @jbcom/strata
+  // Mock implementation - in real usage, import from strata-game-library/core
   const instances = [];
   const seed = 42; // Deterministic seed
 

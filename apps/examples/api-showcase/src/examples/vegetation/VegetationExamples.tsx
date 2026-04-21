@@ -7,14 +7,14 @@
  * @module examples/vegetation
  */
 
-import type { BiomeData } from '@jbcom/strata';
+import type { BiomeData } from 'strata-game-library/core';
+import { generateInstanceData } from 'strata-game-library/core';
 import {
   createGrassInstances,
   createRockInstances,
   createTreeInstances,
   createVegetationMesh,
-  generateInstanceData,
-} from '@jbcom/strata';
+} from 'strata-game-library/presets';
 import * as THREE from 'three';
 
 /**
@@ -24,7 +24,7 @@ import * as THREE from 'three';
  *
  * @example
  * ```tsx
- * import { createGrassInstances } from '@jbcom/strata';
+ * import { createGrassInstances } from 'strata-game-library/presets';
  *
  * const grassMesh = createGrassInstances(1000, 50, biomes);
  * scene.add(grassMesh);

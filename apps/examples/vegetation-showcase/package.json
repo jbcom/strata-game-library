@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@jbcom/strata": "workspace:*",
+    "strata-game-library": "workspace:*",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
     "leva": "^0.10.1",

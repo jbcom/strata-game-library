@@ -49,7 +49,7 @@ If these gaps are not closed, the repo will remain locally impressive but extern
 ### What is still not done
 
 - umbrella npm publish and migration policy execution
-- remaining parity closeout items for historical split-package examples/verification
+- remaining parity closeout items for historical split-package platform coverage and expanded browser/runtime example verification
 - richer runtime composition outputs for creatures/props/materials
 - deeper declarative game systems, persistence semantics, and game-shell packs
 - remaining plugin/platform productization and live-verification gaps
@@ -268,6 +268,13 @@ Make the current green local state durable and repeatable in normal verification
 - Adapter/example browser coverage gaps are tracked separately from core coverage.
 - Example apps have meaningful verification targets where needed.
 - Root verification does not depend on undocumented command ordering.
+
+### Progress Update: 2026-04-21
+
+- `apps/examples` now has a regular `verify` target wired through `build`, `lint`, `test`, and `typecheck`.
+- Historical example packages and source/docs imports now use the `strata-game-library` umbrella package contract instead of the old `@jbcom/strata` package name.
+- The examples verifier fails on legacy package references outside generated docs and on example packages that omit a `strata-game-library` dependency.
+- Remaining verification work is browser/runtime execution of representative examples, not basic package/import drift detection.
 
 ## Workstream 8: Documentation and Adoption Readiness
 

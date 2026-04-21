@@ -7,7 +7,10 @@
  * @module examples/sky
  */
 
-import { createUnderwaterOverlayMaterial, createVolumetricFogMeshMaterial } from '@jbcom/strata';
+import {
+  createUnderwaterOverlayMaterial,
+  createVolumetricFogMeshMaterial,
+} from 'strata-game-library/core';
 import * as THREE from 'three';
 
 /**
@@ -17,7 +20,7 @@ import * as THREE from 'three';
  *
  * @example
  * ```tsx
- * import { ProceduralSky } from '@jbcom/strata';
+ * import { ProceduralSky } from 'strata-game-library/r3f';
  *
  * <ProceduralSky
  *     timeOfDay={{
@@ -351,7 +354,7 @@ export function Example_AnimatedDayNightCycle() {
  *
  * @example
  * ```tsx
- * import { createVolumetricFogMeshMaterial } from '@jbcom/strata';
+ * import { createVolumetricFogMeshMaterial } from 'strata-game-library/core';
  * import * as THREE from 'three';
  *
  * const fogMaterial = createVolumetricFogMeshMaterial({
@@ -404,7 +407,7 @@ export function Example_VolumetricFog() {
  *
  * @example
  * ```tsx
- * import { createUnderwaterOverlayMaterial } from '@jbcom/strata';
+ * import { createUnderwaterOverlayMaterial } from 'strata-game-library/core';
  *
  * const underwaterMaterial = createUnderwaterOverlayMaterial({
  *     waterColor: new THREE.Color(0.0, 0.3, 0.5),
@@ -460,7 +463,8 @@ export function Example_UnderwaterEffect() {
  *
  * @example
  * ```tsx
- * import { ProceduralSky, createVolumetricFogMeshMaterial } from '@jbcom/strata';
+ * import { ProceduralSky } from 'strata-game-library/r3f';
+ * import { createVolumetricFogMeshMaterial } from 'strata-game-library/core';
  * import * as THREE from 'three';
  *
  * function AtmosphericScene() {

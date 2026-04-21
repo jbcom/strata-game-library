@@ -7,7 +7,7 @@
  * @module examples/water
  */
 
-import { createWaterMaterial } from '@jbcom/strata';
+import { createWaterMaterial } from 'strata-game-library/core';
 import * as THREE from 'three';
 
 /**
@@ -18,7 +18,7 @@ import * as THREE from 'three';
  *
  * @example
  * ```tsx
- * import { Water } from '@jbcom/strata';
+ * import { Water } from 'strata-game-library/r3f';
  *
  * <Water
  *     position={[0, 0, 0]}
@@ -60,7 +60,7 @@ export function Example_BasicWater() {
  *
  * @example
  * ```tsx
- * import { AdvancedWater } from '@jbcom/strata';
+ * import { AdvancedWater } from 'strata-game-library/r3f';
  *
  * <AdvancedWater
  *     position={[0, 0, 0]}
@@ -112,7 +112,7 @@ export function Example_AdvancedWaterWithCaustics() {
  *
  * @example
  * ```tsx
- * import { createWaterMaterial } from '@jbcom/strata';
+ * import { createWaterMaterial } from 'strata-game-library/core';
  * import * as THREE from 'three';
  *
  * const waterMaterial = createWaterMaterial();
