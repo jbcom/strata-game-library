@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "typecheck": "astro check"
+    "typecheck": "astro-check"
   },
   "nx": {
     "targets": {
