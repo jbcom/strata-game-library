@@ -48,8 +48,8 @@ If these gaps are not closed, the repo will remain locally impressive but extern
 
 ### What is still not done
 
-- umbrella npm publish and migration policy
-- explicit parity closeout for the historical split-package surface
+- umbrella npm publish and migration policy execution
+- remaining parity closeout items for historical split-package examples/verification
 - richer runtime composition outputs for creatures/props/materials
 - deeper declarative game systems, persistence semantics, and game-shell packs
 - remaining plugin/platform TODOs
@@ -109,6 +109,14 @@ Turn the umbrella package from a local workspace success into the supported exte
 - README, package README, public API docs, and migration guide agree on the contract.
 - Release-please and publish automation reflect the final package strategy.
 - Every existing package has an explicit disposition recorded: supported, deprecated, renamed, or folded.
+
+### Progress Update: 2026-04-21
+
+- Package strategy is now documented in `docs/architecture/PACKAGE_STRATEGY.md`.
+- Historical split-repo parity is now documented in `docs/architecture/CONSOLIDATION_PARITY_MATRIX.md`.
+- Public umbrella-package migration guidance is now documented in `apps/docs/src/content/docs/guides/umbrella-package-migration.md`.
+- The release workflow now includes `packages/strata-game-library` in the npm publish loop.
+- Remaining work is operational publish verification and legacy mobile-name deprecation after renamed package publication.
 
 ## Workstream 2: Consolidation Parity Closeout
 
@@ -274,8 +282,8 @@ Make the public story match the shipped product and migration path.
 ### Phase 1: Ship the Product Contract
 
 - publish umbrella package
-- finalize migration/deprecation policy
-- document consumer migration path
+- execute migration/deprecation policy
+- keep consumer migration path current
 
 ### Phase 2: Close Runtime Depth Gaps
 

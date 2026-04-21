@@ -14,18 +14,22 @@ Current state:
 - The umbrella package exposes a runtime-light root plus explicit subpaths such as `strata-game-library/r3f`.
 - Umbrella-package `build` and `test` now build internal workspace dependencies first, so local verification no longer depends on ambient prebuilt package state.
 - Release-please metadata includes the new package.
+- The release workflow now includes `packages/strata-game-library` in the npm publish loop.
+- The package strategy, public migration guide, and historical split-repo parity matrix are documented.
 
 Remaining work:
 
 1. Publish `strata-game-library` to npm.
-2. Decide the migration policy for `@strata-game-library/*` packages:
-   - keep them indefinitely,
-   - deprecate them after umbrella publish,
-   - or keep only a subset as advanced/direct entrypoints.
-3. Resolve package publish drift:
+2. Verify npm trusted publishing for the umbrella package and release-tracked scoped packages.
+3. Execute the documented migration policy:
+   - keep scoped packages as supported direct entrypoints during this cycle,
+   - publish `r3f`, `reactylon`, `model-synth`, and `astro`,
+   - publish renamed `capacitor` and `react-native` packages,
+   - deprecate only the legacy `capacitor-plugin` and `react-native-plugin` names after renamed package publication.
+4. Resolve package publish drift:
    - publish or intentionally fold `r3f`, `reactylon`, `model-synth`, and `astro`
    - finish the rename transition for `capacitor` and `react-native`
-4. Add deprecation/migration messaging once the package strategy is final.
+5. Confirm published package metadata with `npm view` after release.
 
 ## 2. Framework Implementation Gaps
 
@@ -90,12 +94,13 @@ Remaining work:
 
 - The main README and umbrella package README now reflect the new root/subpath contract.
 - `PUBLIC_API.md`, `IMPLEMENTATION_STATUS.md`, and this file now reflect the current audit.
+- [Package Strategy](docs/architecture/PACKAGE_STRATEGY.md), [Consolidation Parity Matrix](docs/architecture/CONSOLIDATION_PARITY_MATRIX.md), and the public umbrella-package migration guide now cover the package/migration closeout path.
 - Remaining work is to keep the broader planning/memory docs aligned as implementation moves.
 
 ## 5. Recommended Order
 
 1. Publish and verify the umbrella package.
-2. Finalize the package migration/deprecation strategy.
+2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
    - expand runtime composition behavior beyond definition normalization
    - add richer material variation / swapping / physics metadata flow

@@ -11,7 +11,7 @@ Working example projects that demonstrate how to use Strata's features. Clone th
 
 ```bash
 git clone https://github.com/jbcom/strata-game-library.git
-cd strata-game-library/examples
+cd strata-game-library
 pnpm install
 ```
 
@@ -22,82 +22,82 @@ pnpm install
 A minimal terrain setup demonstrating SDF-based terrain generation with biome blending.
 
 ```bash
-pnpm dev:terrain
+pnpm --dir apps/examples/basic-terrain dev
 ```
 
 - Procedural terrain with multi-biome blending
 - Triplanar texturing
 - Dynamic LOD
-- [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/basic-terrain)
+- [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/basic-terrain)
 
 ### Water Scene
 
 Ocean rendering with Gerstner waves, reflections, and caustics.
 
 ```bash
-pnpm dev:water
+pnpm --dir apps/examples/water-scene dev
 ```
 
 - Gerstner wave simulation
 - Fresnel reflections
 - Procedural foam
 - Underwater caustics
-- [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/water-scene)
+- [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/water-scene)
 
 ### Vegetation Showcase
 
 GPU-instanced grass, trees, and rocks with wind animation.
 
 ```bash
-pnpm dev:vegetation
+pnpm --dir apps/examples/vegetation-showcase dev
 ```
 
 - 15,000+ grass instances at 60fps
 - Procedural wind animation
 - Tree and rock placement
-- [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase)
+- [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/vegetation-showcase)
 
 ### Sky & Volumetrics
 
 Procedural sky with day/night cycle and volumetric effects.
 
 ```bash
-pnpm dev:sky
+pnpm --dir apps/examples/sky-volumetrics dev
 ```
 
 - Atmospheric scattering
 - Day/night cycle
 - Volumetric fog and god rays
 - Star rendering
-- [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics)
+- [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/sky-volumetrics)
 
 ### Full API Showcase
 
 Complete scene integrating all Strata features.
 
 ```bash
-pnpm dev:showcase
+pnpm --dir apps/examples/api-showcase dev
 ```
 
 - All features combined
 - Performance-optimized
 - Interactive controls
-- [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/api-showcase)
+- [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/api-showcase)
 
 ## Running Examples
 
 Each example is a standalone project with its own dependencies:
 
 ```bash
-# Install all example dependencies
+# Install workspace dependencies
 pnpm install
 
 # Run a specific example
-pnpm dev:terrain    # http://localhost:3000
-pnpm dev:water      # http://localhost:3001
-pnpm dev:vegetation # http://localhost:3002
-pnpm dev:sky        # http://localhost:3003
-pnpm dev:showcase   # http://localhost:3004
+pnpm --dir apps/examples/basic-terrain dev
+pnpm --dir apps/examples/water-scene dev
+pnpm --dir apps/examples/vegetation-showcase dev
+pnpm --dir apps/examples/sky-volumetrics dev
+pnpm --dir apps/examples/api-showcase dev
 ```
 
 ## Related

@@ -12,12 +12,12 @@ This document reflects the actual state of the repository after the umbrella-pac
 |------|--------|-------|
 | Core rendering/toolkit packages | Strong | Terrain, water, sky, shaders, ECS/state, pathfinding, physics primitives, presets, and most plugin/package test suites are in good shape |
 | Monorepo infrastructure | Strong | Nx + pnpm workspace, CI/CD, release-please, package metadata, and READMEs are established |
-| Umbrella package `strata-game-library` | In progress | Workspace package now exists and passes local `lint`, `typecheck`, `build`, and `test`; first npm publish has not happened |
+| Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
 | Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
-| Documentation/status tracking | Partial | Umbrella package docs are now aligned, but some planning/status docs still need continued cleanup |
+| Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; browser integration coverage still has known gaps |
 
 ## Mature Areas
@@ -26,6 +26,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 - The repo move to `jbcom/strata-game-library` is complete and the local checkout points at that GitHub repository.
 - The old split repositories have effectively been folded back into the monorepo for all runtime library code.
 - A first-pass single-install umbrella package now exists at `packages/strata-game-library`.
+- The package migration policy is documented: the umbrella package is the default install path, scoped packages remain supported direct entrypoints during this cycle, and only legacy mobile `-plugin` names are planned for deprecation after renamed package publication.
 
 ## Incomplete Areas
 
@@ -73,8 +74,10 @@ This document reflects the actual state of the repository after the umbrella-pac
 ### Package Consolidation / Publishing
 
 - `strata-game-library` is not yet published to npm.
-- The migration strategy for existing `@strata-game-library/*` consumers is not finalized.
-- `r3f`, `reactylon`, `model-synth`, and `astro` still need either standalone npm publication or an explicit decision to fold them behind umbrella-only subpaths.
+- npm trusted publishing still needs to be verified for the first umbrella package release.
+- `r3f`, `reactylon`, `model-synth`, and `astro` still need standalone npm publication.
+- `capacitor` and `react-native` still need renamed-package publication before the old `capacitor-plugin` and `react-native-plugin` names can be deprecated.
+- Historical split-repo parity is now documented in `docs/architecture/CONSOLIDATION_PARITY_MATRIX.md`; remaining parity work is limited to old Capacitor example/e2e coverage and broader example verification.
 
 ### Platform / Plugin Gaps
 
@@ -110,7 +113,7 @@ Known remaining verification gaps:
 The library should not be treated as a fully actualized game framework until all of the following are true:
 
 1. `strata-game-library` is published and versioned as the supported umbrella entrypoint.
-2. The scoped-package migration plan is explicit: keep, deprecate, or fold each existing package.
+2. The documented scoped-package migration plan is executed in npm publishing and deprecation metadata.
 3. The composition layer graduates from normalized definitions to fuller runtime/render integration where needed.
 4. Declarative game helpers expand beyond the current core factory plus manager subscriptions into fuller lifecycle/preset ergonomics.
 5. Documentation and status files agree with the actual package and feature state.

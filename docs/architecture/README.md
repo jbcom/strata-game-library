@@ -39,7 +39,9 @@ This directory contains architectural documentation for Strata's evolution from 
 
 ### Package Architecture
 
-- [Package Decomposition](./PACKAGE_DECOMPOSITION.md) - Strategy for optional @jbcom/strata-* packages
+- [Package Strategy](./PACKAGE_STRATEGY.md) - Current umbrella package, scoped package, migration, and publishing contract
+- [Consolidation Parity Matrix](./CONSOLIDATION_PARITY_MATRIX.md) - Historical split-repo inventory and migration disposition
+- [Package Decomposition](./PACKAGE_DECOMPOSITION.md) - Superseded strategy for optional @jbcom/strata-* packages
 - [Ecosystem Integration](./ECOSYSTEM_INTEGRATION.md) - TypeScript games using Strata API
 - [Issue Triage](./ISSUE_TRIAGE.md) - Current issue status and priorities
 

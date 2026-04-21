@@ -19,25 +19,31 @@ Strata requires React Three Fiber and Three.js as peer dependencies. This guide 
 ### Using pnpm (Recommended)
 
 ```bash
-pnpm add @strata-game-library/core @react-three/fiber @react-three/drei three
+pnpm add strata-game-library @react-three/fiber @react-three/drei three
 ```
 
 ### Using npm
 
 ```bash
-npm install @strata-game-library/core @react-three/fiber @react-three/drei three
+npm install strata-game-library @react-three/fiber @react-three/drei three
 ```
 
 ### Using yarn
 
 ```bash
-yarn add @strata-game-library/core @react-three/fiber @react-three/drei three
+yarn add strata-game-library @react-three/fiber @react-three/drei three
 ```
 
 ### Using bun
 
 ```bash
-bun add @strata-game-library/core @react-three/fiber @react-three/drei three
+bun add strata-game-library @react-three/fiber @react-three/drei three
+```
+
+`strata-game-library` is the new umbrella package and is pending its first npm publish. If the package is not available in npm yet, use the current published fallback:
+
+```bash
+pnpm add @strata-game-library/core @strata-game-library/r3f @react-three/fiber @react-three/drei three
 ```
 
 ## TypeScript Support
@@ -121,7 +127,7 @@ Create a simple test scene to verify everything is working:
 
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { Water, ProceduralSky } from '@strata-game-library/core';
+import { ProceduralSky, Water } from 'strata-game-library/r3f';
 import { OrbitControls } from '@react-three/drei';
 
 function App() {

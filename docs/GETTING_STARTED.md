@@ -3,7 +3,7 @@ title: "Getting Started with Strata"
 description: "Quick start guide for the Strata procedural 3D graphics library for React Three Fiber"
 status: active
 implementation: 100
-last_updated: 2026-03-01
+last_updated: 2026-04-21
 area: getting-started
 ---
 
@@ -18,12 +18,12 @@ Strata provides terrain generation, water simulation, vegetation instancing, sky
 ## Quick Start
 
 ```bash
-pnpm install @jbcom/strata @react-three/fiber @react-three/drei three
+pnpm install strata-game-library @react-three/fiber @react-three/drei three
 ```
 
 ```tsx
 import { Canvas } from '@react-three/fiber';
-import { Water, ProceduralSky, GrassInstances } from '@jbcom/strata';
+import { GrassInstances, ProceduralSky, Water } from 'strata-game-library/r3f';
 
 function Game() {
   return (
@@ -131,12 +131,12 @@ Pre-configured combinations of components for common use cases (background, midg
 ```tsx
 import { Canvas } from '@react-three/fiber';
 import {
-  ProceduralSky,
-  Water,
   GrassInstances,
+  ProceduralSky,
   TreeInstances,
+  Water,
   VolumetricFogMesh
-} from '@jbcom/strata';
+} from 'strata-game-library/r3f';
 
 function Scene() {
   return (
@@ -166,22 +166,22 @@ Import from the main package or specific submodules:
 
 ```tsx
 // Main package - all exports
-import { Water, ProceduralSky } from '@jbcom/strata';
+import { createRPGGame } from 'strata-game-library';
 
 // Core algorithms only
-import { marchingCubes, noise3D } from '@jbcom/strata/core';
+import { marchingCubes, noise3D } from 'strata-game-library/core';
 
 // Components only
-import { GrassInstances } from '@jbcom/strata/components';
+import { GrassInstances } from 'strata-game-library/components';
 
 // Shaders only
-import * as shaders from '@jbcom/strata/shaders';
+import * as shaders from 'strata-game-library/shaders';
 
 // Utils only
-import * as utils from '@jbcom/strata/utils';
+import * as utils from 'strata-game-library/utils';
 
 // Presets only
-import * as presets from '@jbcom/strata/presets';
+import * as presets from 'strata-game-library/presets';
 ```
 
 ---

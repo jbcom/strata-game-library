@@ -20,7 +20,7 @@ Internal planning and architecture documentation checked into the repository. Th
 
 | Subdirectory | Files | Purpose |
 |-------------|-------|---------|
-| `docs/architecture/` | 10 | Framework vision, roadmap, ecosystem analysis, AI automation |
+| `docs/architecture/` | 12 | Framework vision, roadmap, package strategy, split-repo parity, ecosystem analysis, AI automation |
 | `docs/architecture/rfc/` | 4 | RFC specifications for the 4 game framework layers |
 | `docs/architecture/guides/` | 4 | Migration guides (toolkit->framework, v2, declarative, tsup) |
 | `docs/plans/` | 4 | Historical implementation plans (monorepo migration, Feb 2026) |
@@ -122,7 +122,7 @@ Each documentation subdirectory has its own AGENTS.md with detailed file listing
 
 | Area | AGENTS.md | Files | Description |
 |------|-----------|-------|-------------|
-| Architecture | [docs/architecture/AGENTS.md](architecture/AGENTS.md) | 10 | Framework vision, roadmap, ecosystem analysis, AI automation |
+| Architecture | [docs/architecture/AGENTS.md](architecture/AGENTS.md) | 12 | Framework vision, roadmap, package strategy, split-repo parity, ecosystem analysis, AI automation |
 | RFCs | [docs/architecture/rfc/AGENTS.md](architecture/rfc/AGENTS.md) | 4 | Game framework layer specifications (RFC-001 through RFC-004) |
 | Guides | [docs/architecture/guides/AGENTS.md](architecture/guides/AGENTS.md) | 4 | Migration guides and development instructions |
 | Plans | [docs/plans/AGENTS.md](plans/AGENTS.md) | 4 | Historical implementation plans (monorepo, renderer-agnostic) |

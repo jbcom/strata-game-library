@@ -90,6 +90,7 @@ export const sidebar = [
   {
     label: 'Guides',
     items: [
+      { label: 'Umbrella Package Migration', link: '/guides/umbrella-package-migration/' },
       { label: 'Performance Tips', link: '/guides/performance/' },
       { label: 'TypeScript Usage', link: '/guides/typescript/' },
       { label: 'Contributing', link: '/guides/contributing/' },
