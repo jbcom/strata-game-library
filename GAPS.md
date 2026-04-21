@@ -46,9 +46,10 @@ Remaining work:
   - `createProp()` and `resolvePropComposition()` now exist.
   - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
   - R3F can now consume the runtime plan through `RuntimeProp`.
+  - R3F can now render mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`.
   - Reactylon can now consume the runtime plan through `StrataRuntimeProp` descriptors.
   - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials, with custom mesh factories for asset-backed nodes.
-  - Remaining gap: richer interaction helper semantics, async GLB/mesh loading, and visual Babylon examples are still incomplete.
+  - Remaining gap: richer interaction helper semantics, creature rig/animation asset loading, and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/materials/`
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Remaining gap: richer procedural texture/material traits remain thin.
@@ -81,9 +82,9 @@ Remaining work:
   - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` now exist, and `StrataGame` can also synthesize the same HUD/pause/loading scaffold from `ui.shell` metadata while rendering runtime-backed announcement/title/menu/session scene cards from `scene.shell`.
   - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
 - `adapters/r3f/src/components/compose/`
-  - `RuntimeProp`, `RuntimeCreature`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives with orientation-aware capsule geometry.
+  - `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives and static GLB prop-node loading with orientation-aware capsule geometry.
   - `apps/examples/api-showcase` now includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`.
-  - Remaining gap: asset-backed mesh loading, richer shell/physics integration, and deeper WebGL runtime assertions beyond bundle/smoke coverage.
+  - Remaining gap: richer creature asset loading, shell/physics integration, and deeper WebGL runtime assertions beyond bundle/smoke coverage.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
   - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, and runtime metadata, with custom mesh-factory seams for asset-backed nodes.
@@ -120,7 +121,7 @@ Remaining work:
 1. Publish and verify the umbrella package.
 2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
-   - wire runtime composition outputs into deeper examples, async GLB loading, and visual Babylon coverage
+   - wire runtime composition outputs into deeper examples, creature GLB/rig loading, and visual Babylon coverage
    - expand renderer-ready creature/prop assembly beyond primitive R3F example plans
    - add richer procedural material traits and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.

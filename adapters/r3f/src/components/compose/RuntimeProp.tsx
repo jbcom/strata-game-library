@@ -9,6 +9,7 @@ import {
 import { useMemo } from 'react';
 import type * as THREE from 'three';
 import { resolveRuntimeMaterial } from './materials';
+import { RuntimeAssetMesh } from './RuntimeAssetMesh';
 import { RuntimeGeometry } from './RuntimeGeometry';
 import type { RuntimeMaterialOptions, RuntimePropInput, RuntimePropProps } from './types';
 
@@ -73,6 +74,7 @@ export function RuntimeProp({
   receiveShadow = true,
   transparentVolumetrics,
   materialOverrides,
+  assetMaterialMode,
   renderNode,
   onNodeClick,
 }: RuntimePropProps) {
@@ -99,6 +101,25 @@ export function RuntimeProp({
 
         if (custom !== undefined) {
           return <group key={node.id}>{custom}</group>;
+        }
+
+        if (node.shape === 'mesh' && node.mesh) {
+          return (
+            <RuntimeAssetMesh
+              key={node.id}
+              node={node}
+              material={material}
+              materialSlot={slot}
+              materialMode={assetMaterialMode}
+              castShadow={castShadow}
+              receiveShadow={receiveShadow}
+              onClick={
+                onNodeClick
+                  ? (event: ThreeEvent<MouseEvent>) => onNodeClick(node, event)
+                  : undefined
+              }
+            />
+          );
         }
 
         return (

@@ -14,6 +14,7 @@ describe('R3F runtime composition components', () => {
 
     expect(compose.RuntimeProp).toBeDefined();
     expect(compose.RuntimeCreature).toBeDefined();
+    expect(compose.RuntimeAssetMesh).toBeDefined();
     expect(compose.RuntimeGeometry).toBeDefined();
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
@@ -45,5 +46,23 @@ describe('R3F runtime composition components', () => {
     expect(size.x).toBeGreaterThan(size.y);
     expect(size.x).toBeGreaterThan(size.z);
     geometry.dispose();
+  });
+
+  it('preserves mesh sources for R3F asset-backed prop nodes', () => {
+    const prop = resolvePropComposition({
+      id: 'asset_prop',
+      components: [
+        {
+          shape: 'mesh',
+          mesh: '/models/crate.glb',
+          size: [1, 1, 1],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+    });
+
+    expect(prop.runtime.nodes[0]?.shape).toBe('mesh');
+    expect(prop.runtime.nodes[0]?.mesh).toBe('/models/crate.glb');
   });
 });

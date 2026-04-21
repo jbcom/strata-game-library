@@ -13,6 +13,7 @@ import type {
 } from '@strata-game-library/core/compose';
 import type React from 'react';
 import type * as THREE from 'three';
+import type { RuntimeAssetMaterialMode } from './RuntimeAssetMesh';
 
 export type RuntimePropInput = string | CreatePropInput | PropComposition | PropRuntimeAssembly;
 
@@ -39,6 +40,7 @@ export interface RuntimePropProps extends RuntimeMaterialOptions {
   scale?: number | [number, number, number];
   castShadow?: boolean;
   receiveShadow?: boolean;
+  assetMaterialMode?: RuntimeAssetMaterialMode;
   renderNode?: (node: PropRuntimeNode, context: RuntimeShapeRenderContext) => React.ReactNode;
   onNodeClick?: (node: PropRuntimeNode, event: ThreeEvent<MouseEvent>) => void;
 }
