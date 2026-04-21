@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/jbcom/strata-game-library/compare/@strata-game-library/reactylon@0.3.0...@strata-game-library/reactylon@0.4.0) (2026-04-21)
+
+
+### Features
+
+* consolidate game library runtime ([47bdce2](https://github.com/jbcom/strata-game-library/commit/47bdce23170faf2ac826bfecafdc00cb9398eae5))
+
 ## [0.3.0](https://github.com/jbcom/strata-game-library/compare/@strata-game-library/reactylon@0.2.1...@strata-game-library/reactylon@0.3.0) (2026-02-26)
 
 
