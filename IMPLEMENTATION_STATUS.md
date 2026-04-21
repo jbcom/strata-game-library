@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, and physics metadata now exist; adapter consumption and renderer-ready rig/mesh generation remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, and first-pass R3F runtime renderers now exist; renderer-ready rig/mesh generation and broader adapter/example coverage remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
@@ -34,10 +34,10 @@ This document reflects the actual state of the repository after the umbrella-pac
 
 - `packages/core/src/compose/creatures/index.ts`
   - `createCreature()` and `resolveCreatureComposition()` now exist, and resolved compositions now include adapter-neutral runtime bones with serializable transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
-  - Remaining gap: they still do not generate renderer-ready creature rigs or meshes, and adapters do not yet consume the new runtime assembly plan directly.
+  - Remaining gap: they still do not generate renderer-ready creature rigs or asset-backed meshes.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist, and resolved compositions now include runtime nodes, material slots, interaction/audio metadata, bounds, and physics profiles.
-  - Remaining gap: they still do not build adapter-native render/runtime instances or rich interaction behavior.
+  - Remaining gap: they still do not build rich interaction behavior or asset-backed render instances.
 - `packages/core/src/compose/materials/`
   - Presets and factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` support deterministic runtime variation and swapping metadata.
   - Remaining gap: procedural texture/material traits and adapter-level material instantiation are still thin.
@@ -73,6 +73,9 @@ This document reflects the actual state of the repository after the umbrella-pac
   - `SceneManager` snapshots now expose `pendingSceneId` while scene loads are in flight, so shell UIs can render the actual destination scene.
   - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` helpers now provide a first-pass declarative game-shell scaffold, and `StrataGame` can synthesize the same HUD/pause/loading shell from `ui.shell` metadata while also rendering interactive announcement/title/menu/session scene cards from `scene.shell`.
   - Remaining gap: richer declarative orchestration beyond the current helpers and base component is still missing.
+- `adapters/r3f/src/components/compose/`
+  - `RuntimeProp` and `RuntimeCreature` now consume core composition runtime plans and render primitive R3F geometry with material overrides, custom node/bone render hooks, and material conversion helpers.
+  - Remaining gap: asset-backed GLB/mesh renderers, richer physics/shell integration, and example coverage are still incomplete.
 
 ### Package Consolidation / Publishing
 
@@ -124,6 +127,11 @@ Verified during this session:
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts tests/unit/api/exports.test.ts`: passed, including runtime composition assembly coverage
 - `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after composition runtime assembly updates
 - `pnpm --dir packages/strata-game-library exec tsup`: passed, confirming umbrella package declarations and subpath bundles still emit
+- `pnpm --dir adapters/r3f typecheck`: passed after R3F runtime composition renderer updates
+- `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, including runtime composition export/material coverage
+- `pnpm --dir adapters/r3f exec biome check src/components/compose src/components/index.ts`: passed for the new R3F compose component surface
+- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after R3F runtime composition renderer updates
+- `pnpm --dir packages/strata-game-library exec tsup`: passed after the R3F build, confirming umbrella bundles pick up the new runtime composition exports
 
 Known remaining verification gaps:
 

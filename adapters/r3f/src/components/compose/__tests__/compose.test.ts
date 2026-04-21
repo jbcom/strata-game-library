@@ -1,0 +1,35 @@
+import {
+  MATERIALS,
+  resolveCreatureComposition,
+  resolvePropComposition,
+} from '@strata-game-library/core/compose';
+import * as THREE from 'three';
+import { describe, expect, it } from 'vitest';
+import { createRuntimeMaterial } from '../materials';
+
+describe('R3F runtime composition components', () => {
+  it('exports runtime composition renderers', async () => {
+    const compose = await import('../index');
+
+    expect(compose.RuntimeProp).toBeDefined();
+    expect(compose.RuntimeCreature).toBeDefined();
+    expect(compose.RuntimeGeometry).toBeDefined();
+    expect(compose.createRuntimeMaterial).toBeTypeOf('function');
+    expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
+  });
+
+  it('creates Three materials from core material definitions', () => {
+    const material = createRuntimeMaterial(MATERIALS.wood_oak);
+
+    expect(material).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect((material as THREE.MeshStandardMaterial).roughness).toBe(MATERIALS.wood_oak.roughness);
+  });
+
+  it('accepts resolved core runtime composition outputs', () => {
+    const prop = resolvePropComposition('crate_wooden');
+    const creature = resolveCreatureComposition('otter_river', {}, () => 0.5);
+
+    expect(prop.runtime.nodes.length).toBeGreaterThan(0);
+    expect(creature.runtime.bones.length).toBeGreaterThan(0);
+  });
+});

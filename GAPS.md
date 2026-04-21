@@ -38,11 +38,13 @@ Remaining work:
 - `packages/core/src/compose/creatures/index.ts`
   - `createCreature()` and `resolveCreatureComposition()` now exist.
   - Resolved creature compositions now include adapter-neutral runtime bones, world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
-  - Remaining gap: adapter consumption and richer renderer-ready creature rig/mesh generation are still not implemented.
+  - R3F can now consume the runtime plan through `RuntimeCreature`.
+  - Remaining gap: richer renderer-ready creature rig/mesh generation, asset-backed meshes, and non-R3F adapter consumption are still incomplete.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist.
   - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
-  - Remaining gap: richer interaction helper semantics and adapter-level runtime instantiation are still incomplete.
+  - R3F can now consume the runtime plan through `RuntimeProp`.
+  - Remaining gap: richer interaction helper semantics, asset-backed mesh renderers, and non-R3F adapter consumption are still incomplete.
 - `packages/core/src/compose/materials/`
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Remaining gap: richer procedural texture/material traits and adapter material instantiation remain thin.
@@ -74,6 +76,9 @@ Remaining work:
   - A built-in transition overlay now reflects `TransitionManager` state.
   - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` now exist, and `StrataGame` can also synthesize the same HUD/pause/loading scaffold from `ui.shell` metadata while rendering runtime-backed announcement/title/menu/session scene cards from `scene.shell`.
   - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
+- `adapters/r3f/src/components/compose/`
+  - `RuntimeProp`, `RuntimeCreature`, `RuntimeGeometry`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives.
+  - Remaining gap: asset-backed mesh loading, richer shell/physics integration, and example coverage.
 
 ### Platform / Integration
 
@@ -106,8 +111,8 @@ Remaining work:
 1. Publish and verify the umbrella package.
 2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
-   - wire runtime composition outputs into adapters/examples
-   - expand renderer-ready creature/prop assembly beyond adapter-neutral plans
+   - wire runtime composition outputs into examples and non-R3F adapters
+   - expand renderer-ready creature/prop assembly beyond primitive R3F plans
    - add richer procedural material traits and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

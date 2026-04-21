@@ -38,7 +38,7 @@ For tree-shaking and runtime-specific imports:
 
 - `strata-game-library/core` - Pure TypeScript algorithms (no React)
 - `strata-game-library/r3f` - React Three Fiber adapter surface
-  Includes `StrataGame`, `useGame`, `useScene`, `useMode`, `useInput`, `useActionPressed`, `useControlHints`, `useGameStatus`, `usePauseToggle`, and `useTransition`
+  Includes `StrataGame`, `RuntimeProp`, `RuntimeCreature`, `useGame`, `useScene`, `useMode`, `useInput`, `useActionPressed`, `useControlHints`, `useGameStatus`, `usePauseToggle`, and `useTransition`
 - `strata-game-library/components` - React Three Fiber components
 - `strata-game-library/hooks` - React hooks for the R3F adapter
 - `strata-game-library/presets` - Organized game primitives by layer
@@ -84,6 +84,8 @@ createMaterialVariants(material, options): MaterialDefinition[]
 ```
 
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
+
+The R3F adapter consumes those plans through `RuntimeProp` and `RuntimeCreature`, with override hooks for custom node/bone renderers and custom Three.js materials.
 
 ### Game State Presets
 

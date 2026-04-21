@@ -30,6 +30,7 @@ export * from './animation';
 export * from './audio';
 export * from './camera';
 export * from './clouds';
+export * from './compose';
 export * from './decals';
 export * from './input';
 export * from './instancing';
