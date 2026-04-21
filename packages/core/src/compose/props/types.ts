@@ -49,6 +49,23 @@ export interface PropDefinition {
   };
 }
 
+export type PropInteractionType = NonNullable<PropDefinition['interaction']>['type'];
+
+export interface PropRuntimeInteractionAction {
+  id: string;
+  type: PropInteractionType;
+  action: string;
+  label: string;
+  enabled: boolean;
+  nodeIds: string[];
+  audio?: string;
+  payload?: {
+    capacity?: number;
+    contents?: string[];
+    command?: string;
+  };
+}
+
 export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
   components: PropComponent[];
 }
@@ -83,6 +100,7 @@ export interface PropRuntimeAssembly {
   bounds: RuntimeBounds;
   physics: RuntimePhysicsProfile;
   interaction?: PropDefinition['interaction'];
+  interactionActions: PropRuntimeInteractionAction[];
   audio?: PropDefinition['audio'];
 }
 

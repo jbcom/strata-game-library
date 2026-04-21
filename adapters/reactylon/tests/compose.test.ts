@@ -46,6 +46,8 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(descriptor.nodes.length).toBeGreaterThan(0);
     expect(descriptor.position).toEqual([1, 2, 3]);
     expect(descriptor.scale).toEqual([2, 2, 2]);
+    expect(descriptor.interactionActions[0]?.action).toBe('open-container');
+    expect(descriptor.interactionActions[0]?.nodeIds).toHaveLength(descriptor.nodes.length);
     expect(woodSlot?.baseColor).toBe('#c48a42');
   });
 

@@ -26,6 +26,7 @@ import type {
   CreatePropInput,
   PropComposition,
   PropDefinition,
+  PropRuntimeInteractionAction,
   PropRuntimeNode,
   ResolvedPropComponent,
 } from './types';
@@ -176,6 +177,67 @@ function materialIdsByType(): Record<string, string[]> {
   }, {});
 }
 
+function defaultInteractionAction(type: PropRuntimeInteractionAction['type']): string {
+  switch (type) {
+    case 'container':
+      return 'open-container';
+    case 'seat':
+      return 'sit';
+    case 'door':
+      return 'toggle-door';
+    case 'switch':
+      return 'toggle-switch';
+    case 'collectible':
+      return 'collect';
+  }
+}
+
+function defaultInteractionLabel(type: PropRuntimeInteractionAction['type'], name: string): string {
+  switch (type) {
+    case 'container':
+      return `Open ${name}`;
+    case 'seat':
+      return `Sit on ${name}`;
+    case 'door':
+      return `Open ${name}`;
+    case 'switch':
+      return `Use ${name}`;
+    case 'collectible':
+      return `Collect ${name}`;
+  }
+}
+
+function buildPropInteractionActions(
+  definition: PropDefinition,
+  nodes: PropRuntimeNode[]
+): PropRuntimeInteractionAction[] {
+  const interaction = definition.interaction;
+
+  if (!interaction) {
+    return [];
+  }
+
+  const payload: PropRuntimeInteractionAction['payload'] = {
+    ...(interaction.capacity !== undefined ? { capacity: interaction.capacity } : {}),
+    ...(interaction.contents ? { contents: [...interaction.contents] } : {}),
+    ...(interaction.action ? { command: interaction.action } : {}),
+  };
+  const type = interaction.type;
+
+  return [
+    {
+      id: `${definition.id}:interaction:${type}`,
+      type,
+      action: interaction.action ?? defaultInteractionAction(type),
+      label: defaultInteractionLabel(type, definition.name),
+      enabled: type !== 'container' || interaction.capacity !== 0,
+      nodeIds: nodes.map((node) => node.id),
+      audio: definition.audio?.interaction,
+      payload: Object.keys(payload).length > 0 ? payload : undefined,
+    },
+  ];
+}
+
 function buildPropRuntime(
   definition: PropDefinition,
   components: ResolvedPropComponent[]
@@ -280,6 +342,7 @@ function buildPropRuntime(
       source: runtimePhysicsSource(Boolean(definition.physics), hasMaterialPhysics),
     },
     interaction: definition.interaction,
+    interactionActions: buildPropInteractionActions(definition, nodes),
     audio: definition.audio,
   };
 }

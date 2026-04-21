@@ -108,6 +108,16 @@ export function resolveReactylonRuntimeProp(
     bounds: runtime.bounds,
     physics: runtime.physics,
     interaction: runtime.interaction,
+    interactionActions: (runtime.interactionActions ?? []).map((action) => ({
+      ...action,
+      nodeIds: [...action.nodeIds],
+      payload: action.payload
+        ? {
+            ...action.payload,
+            contents: action.payload.contents ? [...action.payload.contents] : undefined,
+          }
+        : undefined,
+    })),
     audio: runtime.audio,
   };
 }

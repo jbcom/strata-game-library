@@ -86,6 +86,7 @@ export interface ReactylonRuntimePropDescriptor {
   bounds: RuntimeBounds;
   physics: RuntimePhysicsProfile;
   interaction?: PropRuntimeAssembly['interaction'];
+  interactionActions: PropRuntimeAssembly['interactionActions'];
   audio?: PropRuntimeAssembly['audio'];
 }
 

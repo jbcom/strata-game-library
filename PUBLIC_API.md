@@ -86,6 +86,8 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
+`PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
+
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers.
 
 ### Game State Presets

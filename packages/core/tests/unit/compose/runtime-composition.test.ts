@@ -47,6 +47,16 @@ describe('runtime composition assembly', () => {
       source: 'mixed',
     });
     expect(runtime.interaction).toMatchObject({ type: 'container', capacity: 10 });
+    expect(runtime.interactionActions[0]).toMatchObject({
+      id: 'crate_wooden:interaction:container',
+      type: 'container',
+      action: 'open-container',
+      label: 'Open Wooden Crate',
+      enabled: true,
+      audio: 'crate_open',
+      payload: { capacity: 10 },
+    });
+    expect(runtime.interactionActions[0]?.nodeIds).toEqual(runtime.nodes.map((node) => node.id));
 
     const woodNode = runtime.nodes.find((node) => node.materialId === 'wood_oak');
     expect(woodNode).toBeDefined();
