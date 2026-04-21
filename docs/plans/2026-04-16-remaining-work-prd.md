@@ -274,7 +274,8 @@ Make the current green local state durable and repeatable in normal verification
 - `apps/examples` now has a regular `verify` target wired through `build`, `lint`, `test`, and `typecheck`.
 - Historical example packages and source/docs imports now use the `strata-game-library` umbrella package contract instead of the old `@jbcom/strata` package name.
 - The examples verifier fails on legacy package references outside generated docs and on example packages that omit a `strata-game-library` dependency.
-- Remaining verification work is browser/runtime execution of representative examples, not basic package/import drift detection.
+- The examples verifier now bundles the six nested Vite examples from the parent examples package, which caught and drove a real `strata-game-library/presets` vegetation export fix.
+- Remaining verification work is browser runtime execution of representative examples, not basic package/import/bundle drift detection.
 
 ## Workstream 8: Documentation and Adoption Readiness
 

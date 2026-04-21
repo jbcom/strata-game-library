@@ -7,6 +7,6 @@ export default defineConfig({
   plugins: [react()],
   resolve: exampleResolve,
   server: {
-    port: 3001,
+    port: 3004,
   },
 });

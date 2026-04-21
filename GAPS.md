@@ -87,8 +87,8 @@ Remaining work:
 
 - Full workspace `pnpm run typecheck` is now green, including `apps/docs`.
 - Core browser integration coverage is restored in the regular CI path.
-- `apps/examples` now verifies umbrella-package dependencies and blocks legacy `@jbcom/strata` references outside generated docs.
-- Adapter/example browser and runtime coverage still needs to become as complete as the core package coverage.
+- `apps/examples` now verifies umbrella-package dependencies, blocks legacy `@jbcom/strata` references outside generated docs, and bundles six nested Vite examples.
+- Adapter/example browser runtime coverage still needs to become as complete as the core package coverage.
 - `adapters/reactylon` and `plugins/astro` still carry lint warnings.
 
 ## 4. Documentation Gaps
@@ -106,4 +106,4 @@ Remaining work:
    - expand runtime composition behavior beyond definition normalization
    - add richer material variation / swapping / physics metadata flow
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
-5. Expand adapter/example browser/runtime coverage while keeping core browser integration, examples package/import verification, and docs typecheck/build as release gates.
+5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle verification, and docs typecheck/build as release gates.
