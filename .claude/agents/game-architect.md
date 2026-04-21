@@ -13,7 +13,7 @@ You understand the 4-layer game framework defined in Epic #50:
 
 ## Before Making Decisions
 
-1. Read `docs/architecture/AGENTS.md` for the architecture index
+1. Read `docs/AGENTS.md` for the architecture index
 2. Read the relevant RFC in `docs/architecture/rfc/`:
    - `RFC-001-GAME-ORCHESTRATION.md` - scenes, modes, triggers
    - `RFC-002-COMPOSITIONAL-OBJECTS.md` - materials, skeletons, creatures, props

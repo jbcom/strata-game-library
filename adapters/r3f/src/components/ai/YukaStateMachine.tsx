@@ -61,6 +61,7 @@ export const YukaStateMachine = forwardRef<YukaStateMachineRef, YukaStateMachine
       for (const config of states) {
         const state = new YukaState(config);
         statesMapRef.current.set(config.name, state);
+        sm.add(config.name, state);
       }
 
       if (globalState) {

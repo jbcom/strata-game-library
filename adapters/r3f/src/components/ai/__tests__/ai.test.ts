@@ -7,7 +7,10 @@
  */
 
 import * as THREE from 'three';
+import { act, render } from '@testing-library/react';
+import { createElement, createRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import type { YukaStateMachineRef } from '../types';
 
 vi.mock('@react-three/fiber', () => ({
   useFrame: (callback: any) => callback,
@@ -45,12 +48,40 @@ vi.mock('yuka', () => {
     exit(_entity: any) {}
   }
   class StateMachine<_T> {
+    owner: any;
     currentState: any = null;
     previousState: any = null;
     globalState: any = null;
-    changeTo(_state: any) {}
-    revert() {}
-    update() {}
+    states = new Map<string, any>();
+    constructor(owner?: any) {
+      this.owner = owner;
+    }
+    add(id: string, state: any) {
+      this.states.set(id, state);
+    }
+    get(id: string) {
+      return this.states.get(id);
+    }
+    changeTo(id: string) {
+      const nextState = this.get(id);
+      if (!nextState) return;
+      this.previousState = this.currentState;
+      this.currentState?.exit(this.owner);
+      this.currentState = nextState;
+      this.currentState.enter(this.owner);
+    }
+    revert() {
+      if (!this.previousState) return;
+      const nextState = this.previousState;
+      this.previousState = this.currentState;
+      this.currentState?.exit(this.owner);
+      this.currentState = nextState;
+      this.currentState.enter(this.owner);
+    }
+    update() {
+      this.globalState?.execute(this.owner);
+      this.currentState?.execute(this.owner);
+    }
   }
   class EntityManager {
     add(_entity: any) {}
@@ -99,6 +130,41 @@ describe('AI exports', () => {
     expect(aiModule.yukaVector3ToThree).toBeDefined();
     expect(aiModule.threeVector3ToYuka).toBeDefined();
     expect(aiModule.createPolygonsFromGeometry).toBeDefined();
+  });
+});
+
+describe('YukaStateMachine', () => {
+  it('registers named states before imperative transitions', async () => {
+    const { YukaStateMachine } = await import('../YukaStateMachine');
+    const ref = createRef<YukaStateMachineRef>();
+    const events: string[] = [];
+
+    render(
+      createElement(YukaStateMachine, {
+        ref,
+        initialState: 'idle',
+        states: [
+          {
+            name: 'idle',
+            onEnter: () => events.push('enter idle'),
+            onExit: () => events.push('exit idle'),
+          },
+          {
+            name: 'patrol',
+            onEnter: () => events.push('enter patrol'),
+          },
+        ],
+      })
+    );
+
+    expect(ref.current?.getCurrentState()).toBe('idle');
+
+    act(() => {
+      ref.current?.changeTo('patrol');
+    });
+
+    expect(ref.current?.getCurrentState()).toBe('patrol');
+    expect(events).toEqual(['enter idle', 'exit idle', 'enter patrol']);
   });
 });
 

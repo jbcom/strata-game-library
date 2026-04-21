@@ -25,7 +25,7 @@ import {
   createCreature,
   createProp,
   generateInstanceData,
-  createQuadruped,
+  createQuadrupedSkeleton,
   waterFragmentShader,
   // Presets
   ALL_THEMES
@@ -205,6 +205,11 @@ interface SceneShellSaveProfileDefinition {
   slots?: SceneShellSaveSlotDefinition[]
 }
 
+interface SceneShellProfileLoadTargetDefinition {
+  emptySceneId?: string
+  slots: string[]
+}
+
 type SceneShellActionDefinition =
   | {
       type: 'dismiss-shell'
@@ -272,6 +277,16 @@ type SceneShellActionDefinition =
       profileId: string
       slots: string[]
       emptySceneId?: string
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'load-active-profile'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      profiles: Record<string, SceneShellProfileLoadTargetDefinition>
+      fallbackSceneId?: string
       transition?: GameTransitionOptions
     }
   | {
@@ -356,6 +371,8 @@ createResumeSceneShellAction(options?): SceneShellActionDefinition
 createTogglePauseSceneShellAction(options?): SceneShellActionDefinition
 createSaveGameSceneShellAction(slot?: string, options?): SceneShellActionDefinition
 createLoadGameSceneShellAction(slot?: string, options?): SceneShellActionDefinition
+createLoadLatestProfileSceneShellAction(profileId: string, slots: string[], options?): SceneShellActionDefinition
+createLoadActiveProfileSceneShellAction(profiles: Record<string, SceneShellProfileLoadTargetDefinition>, options?): SceneShellActionDefinition
 createOpenActiveProfileArchiveSceneShellAction(profileSceneIds: Record<string, string>, options?): SceneShellActionDefinition
 createDeleteSaveSceneShellAction(slot: string, options?): SceneShellActionDefinition
 createClearProfileSceneShellAction(profileId: string, slots: string[], options?): SceneShellActionDefinition
