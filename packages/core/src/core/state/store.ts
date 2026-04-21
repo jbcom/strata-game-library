@@ -46,6 +46,7 @@ import type {
   CheckpointOptions,
   PersistenceAdapter,
   SaveData,
+  SaveInfo,
   StoreConfig,
 } from './types';
 import { calculateChecksum, verifyChecksum } from './types';
@@ -109,6 +110,8 @@ export interface GameStoreActions<T> {
   deleteSave: (slot: string) => Promise<boolean>;
   /** List all available save slots. */
   listSaves: () => Promise<string[]>;
+  /** Get metadata for a persisted save slot without loading the full state. */
+  getSaveInfo: (slot: string) => Promise<SaveInfo | null>;
   /** Create a named checkpoint (recovery point). */
   createCheckpoint: (name: string, options?: CheckpointOptions) => Promise<boolean>;
   /** Restore state from a named checkpoint. */
@@ -349,6 +352,15 @@ export function createGameStore<T extends object>(
 
         listSaves: async () => {
           return persistence.listSaves(mergedConfig.storagePrefix);
+        },
+
+        getSaveInfo: async (slot: string) => {
+          if (!mergedConfig.enablePersistence) {
+            return null;
+          }
+
+          const key = `${mergedConfig.storagePrefix}_${slot}`;
+          return persistence.getSaveInfo(key);
         },
 
         createCheckpoint: async (name: string, options: CheckpointOptions = {}) => {

@@ -1,6 +1,7 @@
 import type * as THREE from 'three';
 import type { BiomeType } from '../../utils/texture-loader';
 import type { CoveringDefinition } from '../coverings';
+import type { MaterialDefinition } from '../materials';
 import type { SkeletonDefinition } from '../skeletons/types';
 
 export type AIPresetName = 'guard' | 'prey' | 'predator' | 'flockMember' | 'follower';
@@ -71,4 +72,32 @@ export interface CreatureDefinition {
     hurt?: string;
     death?: string;
   };
+}
+
+export interface CreateCreatureInput
+  extends Partial<
+    Omit<CreatureDefinition, 'skeleton' | 'covering' | 'stats' | 'ai' | 'animations'>
+  > {
+  skeleton: string | SkeletonDefinition;
+  covering: Omit<CoveringDefinition, 'skeleton'> & Partial<Pick<CoveringDefinition, 'skeleton'>>;
+  stats: CreatureDefinition['stats'];
+  ai: CreatureDefinition['ai'];
+  animations?: Partial<CreatureDefinition['animations']>;
+}
+
+export interface ResolvedCreatureMaterial {
+  boneId: string;
+  pattern: string;
+  materialId: string;
+  color?: string | THREE.Color;
+  scale?: number;
+  variation?: number;
+  material: MaterialDefinition;
+}
+
+export interface CreatureComposition {
+  definition: CreatureDefinition;
+  skeleton: SkeletonDefinition;
+  scale: number;
+  materialsByBone: Record<string, ResolvedCreatureMaterial>;
 }

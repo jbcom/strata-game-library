@@ -136,6 +136,26 @@ describe('Hooks exports', () => {
     const hooks = await import('../index');
     expect(hooks.useKeyboardControls).toBeDefined();
     expect(typeof hooks.useKeyboardControls).toBe('function');
+    expect(hooks.useGameStatus).toBeDefined();
+    expect(typeof hooks.useGameStatus).toBe('function');
+    expect(hooks.usePauseToggle).toBeDefined();
+    expect(typeof hooks.usePauseToggle).toBe('function');
+    expect(hooks.useInput).toBeDefined();
+    expect(typeof hooks.useInput).toBe('function');
+    expect(hooks.useInputManager).toBeDefined();
+    expect(typeof hooks.useInputManager).toBe('function');
+    expect(hooks.useActionPressed).toBeDefined();
+    expect(typeof hooks.useActionPressed).toBe('function');
+    expect(hooks.useCurrentInputMap).toBeDefined();
+    expect(typeof hooks.useCurrentInputMap).toBe('function');
+    expect(hooks.useControlHints).toBeDefined();
+    expect(typeof hooks.useControlHints).toBe('function');
+    expect(hooks.useScene).toBeDefined();
+    expect(typeof hooks.useScene).toBe('function');
+    expect(hooks.useMode).toBeDefined();
+    expect(typeof hooks.useMode).toBe('function');
+    expect(hooks.useTransition).toBeDefined();
+    expect(typeof hooks.useTransition).toBe('function');
   });
 
   it('should export all Yuka behavior hooks from index', async () => {

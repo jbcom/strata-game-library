@@ -21,20 +21,14 @@ pnpm dev
 
 ## What This Example Shows
 
-### React Three Fiber Usage
+### Core Terrain Noise Usage
 
-The main `App.tsx` shows how to use Strata components in a React Three Fiber scene:
+The main `App.tsx` shows how to use Strata's core noise helpers inside a React Three Fiber scene:
 
 ```tsx
-import { Terrain } from '@jbcom/strata/components';
+import { fbm } from 'strata-game-library/core';
 
-function Scene() {
-  return (
-    <Canvas>
-      <Terrain size={100} resolution={64} />
-    </Canvas>
-  );
-}
+const height = fbm(x * 0.1, z * 0.1, 4, 2.0, 42) * 4;
 ```
 
 ### Core-Only Usage
@@ -42,7 +36,7 @@ function Scene() {
 The `core-usage.ts` file shows how to use Strata's core functions without React:
 
 ```typescript
-import { marchingCubes, createSphere } from '@jbcom/strata/core';
+import { marchingCubes, createSphere } from 'strata-game-library/core';
 
 // Generate mesh from SDF
 const geometry = marchingCubes(sdfFunction, bounds, resolution);

@@ -285,8 +285,8 @@ function VolumetricParticles({ count = PARTICLE_COUNT }: { count?: number }) {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-size" args={[sizes, 1]} />
       </bufferGeometry>
       <pointsMaterial
         size={0.12}
@@ -323,6 +323,7 @@ export default function SkyDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: '#0b0d1a' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -330,7 +331,6 @@ export default function SkyDemo() {
         camera={{ position: [0, 8, 35], fov: 55 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: false }}
-        style={{ background: '#0b0d1a' }}
       >
         <Atmosphere />
         <AnimatedSky />

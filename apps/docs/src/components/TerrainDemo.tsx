@@ -334,9 +334,7 @@ function AtmosphericParticles({ count = 300 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -376,7 +374,6 @@ export default function TerrainDemo() {
       <Canvas
         camera={{ position: [18, 12, 18], fov: 45 }}
         dpr={[1, 1.5]}
-        style={{ background: 'transparent' }}
         gl={{ antialias: true, alpha: true }}
         shadows
       >

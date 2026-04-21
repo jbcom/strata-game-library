@@ -78,6 +78,6 @@ Agent definitions provide specialized context and constraints. They are referenc
 
 - `CLAUDE.md` (project root) - Top-level Claude Code instructions
 - `AGENTS.md` (project root) - Multi-agent development instructions
-- `docs/architecture/AGENTS.md` - Architecture documentation index
+- `docs/AGENTS.md` - Architecture documentation index
 - `PUBLIC_API.md` - Stable API surface
 - `CONTRACT.md` - Stability guarantees

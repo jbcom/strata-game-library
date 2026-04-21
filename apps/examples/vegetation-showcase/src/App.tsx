@@ -1,22 +1,23 @@
-import type { BiomeData } from '@jbcom/strata';
+import { OrbitControls, Sky, Stats } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { button, folder, useControls } from 'leva';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { BiomeData } from 'strata-game-library/core';
 import {
-  createGrassInstances,
-  createRockInstances,
-  createTreeInstances,
-  createVegetationMesh,
   fbm,
   generateInstanceData,
   getBiomeAt,
   getTerrainHeight,
   noise3D,
-  ProceduralSky,
   sdTerrain,
-  Water,
-} from '@jbcom/strata';
-import { OrbitControls, Sky, Stats } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { button, folder, useControls } from 'leva';
-import { useEffect, useMemo, useRef, useState } from 'react';
+} from 'strata-game-library/core';
+import {
+  createGrassInstances,
+  createRockInstances,
+  createTreeInstances,
+  createVegetationMesh,
+} from 'strata-game-library/presets';
+import { ProceduralSky, Water } from 'strata-game-library/r3f';
 import * as THREE from 'three';
 
 /**

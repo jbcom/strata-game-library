@@ -1,5 +1,37 @@
 {
   "name": "@strata-game-library/examples",
   "private": true,
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "scripts": {
+    "build": "pnpm run verify",
+    "lint": "pnpm run verify",
+    "test": "pnpm run verify && pnpm run test:e2e",
+    "test:e2e": "playwright test --project=chromium",
+    "typecheck": "pnpm run verify",
+    "verify": "node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.19.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "@react-three/rapier": "^2.2.0",
+    "leva": "^0.10.1",
+    "postprocessing": "^6.38.2",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "strata-game-library": "workspace:*",
+    "three": "^0.182.0",
+    "yuka": "^0.7.8",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.183.1",
+    "@vitejs/plugin-react": "^5.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
 }

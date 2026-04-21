@@ -1,19 +1,24 @@
-import type { CSSProperties, ReactNode } from 'react';
 import type {
   CrosshairConfig,
   DamageNumberConfig,
   DialogChoice,
   DialogConfig,
   DialogLine,
+  GameHUDDefinition,
   InventoryConfig,
   InventorySlot,
   MinimapConfig,
   NameplateConfig,
   NotificationConfig,
+  PauseMenuDefinition,
   ProgressBarConfig,
+  SaveInfo,
+  SceneShellActionDefinition,
+  SceneShellDefinition,
   TooltipConfig,
   UIAnchor,
 } from '@strata-game-library/core';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
  * Props for the HealthBar component.
@@ -275,6 +280,63 @@ export interface CrosshairProps extends Partial<CrosshairConfig> {
   className?: string;
   /** Custom inline CSS styles. */
   style?: CSSProperties;
+}
+
+/**
+ * Props for the GameHUD component.
+ *
+ * Provides a lightweight screen-space overlay for current mode status, pressed
+ * actions, and the active control scheme.
+ *
+ * @category UI & Interaction
+ */
+export interface GameHUDProps extends GameHUDDefinition {
+  /** Custom CSS class for the HUD container. */
+  className?: string;
+  /** Custom inline CSS styles for the HUD container. */
+  style?: CSSProperties;
+}
+
+/**
+ * Props for the PauseMenu component.
+ *
+ * Renders a built-in pause overlay using the reactive game runtime status.
+ *
+ * @category UI & Interaction
+ */
+export interface PauseMenuProps extends PauseMenuDefinition {
+  /** Custom CSS class for the pause panel. */
+  className?: string;
+  /** Custom inline CSS styles for the pause panel. */
+  style?: CSSProperties;
+}
+
+/**
+ * Props for the SceneCard component.
+ *
+ * Renders a built-in scene-entry card using declarative scene shell metadata.
+ *
+ * @category UI & Interaction
+ */
+export interface SceneCardProps extends SceneShellDefinition {
+  /** Active runtime profile id used to annotate generated save-profile cards. */
+  activeProfileId?: string;
+  /** Runtime-known save slots used to annotate built-in archive cards. */
+  availableSaveSlots?: string[];
+  /** Runtime-known metadata for persisted save slots, keyed by slot or storageSlot id. */
+  saveSlotInfo?: Record<string, SaveInfo | null | undefined>;
+  /** Custom CSS class for the scene card. */
+  className?: string;
+  /** Async action handler for declarative scene-shell actions. */
+  onAction?: (action: SceneShellActionDefinition) => void | Promise<void>;
+  /** Currently pending action id, if any. */
+  pendingActionId?: string | null;
+  /** Explicit scene id to render in the card instead of reading the active scene. */
+  sceneId?: string;
+  /** Custom inline CSS styles for the scene card. */
+  style?: CSSProperties;
+  /** Whether to render the card. Default: true. */
+  visible?: boolean;
 }
 
 export type {

@@ -91,3 +91,35 @@ export const MATERIALS: Record<string, MaterialDefinition> = {
     },
   }),
 };
+
+export function cloneMaterialDefinition(
+  material: MaterialDefinition,
+  overrides: Partial<MaterialDefinition> = {}
+): MaterialDefinition {
+  return {
+    ...material,
+    ...overrides,
+    maps: material.maps ? { ...material.maps, ...overrides.maps } : overrides.maps,
+    shell: material.shell ? { ...material.shell, ...overrides.shell } : overrides.shell,
+    volumetric: material.volumetric
+      ? { ...material.volumetric, ...overrides.volumetric }
+      : overrides.volumetric,
+    organic: material.organic ? { ...material.organic, ...overrides.organic } : overrides.organic,
+    physics: material.physics ? { ...material.physics, ...overrides.physics } : overrides.physics,
+  };
+}
+
+export function resolveMaterialDefinition(
+  material: string | MaterialDefinition
+): MaterialDefinition {
+  if (typeof material !== 'string') {
+    return cloneMaterialDefinition(material);
+  }
+
+  const resolved = MATERIALS[material];
+  if (!resolved) {
+    throw new Error(`Unknown material: ${material}`);
+  }
+
+  return cloneMaterialDefinition(resolved);
+}

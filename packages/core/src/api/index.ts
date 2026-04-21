@@ -5,25 +5,25 @@
  *
  * ## Domains
  *
- * ### {@link world | World Building}
+ * ### World Building
  * Terrain, water, vegetation, sky, and atmosphere - the foundation of your 3D environment.
  *
- * ### {@link entities | Entities & Simulation}
+ * ### Entities & Simulation
  * Characters, physics, animation, and AI - dynamic objects that move and interact.
  *
- * ### {@link effects | Effects & Atmosphere}
+ * ### Effects & Atmosphere
  * Particles, weather, decals, lighting effects - visual polish that brings scenes to life.
  *
- * ### {@link experience | Player Experience}
+ * ### Player Experience
  * Cameras, input, audio, and UI - how players see, control, hear, and understand your game.
  *
- * ### {@link systems | Game Systems}
+ * ### Game Systems
  * State management, save/load, checkpoints - the infrastructure powering your game.
  *
- * ### {@link compose | Compositional Objects}
+ * ### Compositional Objects
  * Materials, skeletons, props, and creatures - define complex objects declaratively.
  *
- * ### {@link rendering | Rendering Pipeline}
+ * ### Rendering Pipeline
  * Shaders, post-processing, materials - low-level graphics for advanced customization.
  *
  * ## Quick Start
@@ -42,6 +42,9 @@
  * @category Overview
  */
 
+export * from '../game/game-presets';
+export * from '../game/scene-shell-presets';
+export * from '../game/shell-flow-presets';
 export * from './compose';
 export * from './createGame';
 export * from './effects';

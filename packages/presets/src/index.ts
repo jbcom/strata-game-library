@@ -46,6 +46,8 @@ export * from './equipment';
 export * from './obstacles';
 // Structures (buildings, etc.)
 export * from './structures/building';
+// Vegetation (grass, trees, rocks, instancing helpers)
+export * from './vegetation';
 
 // Vehicles (boats, carts, etc.)
 export * from './vehicles';

@@ -22,8 +22,8 @@
 
 import { forwardRef, useEffect, useMemo, useRef } from 'react';
 import {
-  createBabylonSkyShaderMaterial,
   type BabylonSkyMaterialHandle,
+  createBabylonSkyShaderMaterial,
 } from '../materials/skyMaterial.js';
 
 /** Time of day configuration for the sky. */
@@ -78,89 +78,93 @@ const defaultWeather: Required<WeatherState> = {
  * Uses Strata's atmospheric scattering shader adapted for Babylon.js.
  * Automatically updates time uniforms for smooth sky animation.
  */
-export const StrataSky = forwardRef<unknown, StrataSkyProps>(
-  function StrataSky(
-    {
-      timeOfDay: timeOfDayProp = {},
-      weather: weatherProp = {},
-      size = [200, 100],
-      distance = 50,
-      visible = true,
-    },
-    _ref,
-  ) {
-    const handleRef = useRef<BabylonSkyMaterialHandle | null>(null);
-    const animationRef = useRef<number>(0);
-    const startTimeRef = useRef<number>(performance.now());
-
-    const timeOfDay = useMemo(
-      () => ({ ...defaultTimeOfDay, ...timeOfDayProp }),
-      [
-        timeOfDayProp.sunIntensity,
-        timeOfDayProp.sunAngle,
-        timeOfDayProp.ambientLight,
-        timeOfDayProp.starVisibility,
-        timeOfDayProp.fogDensity,
-      ],
-    );
-
-    const weather = useMemo(
-      () => ({ ...defaultWeather, ...weatherProp }),
-      [weatherProp.intensity],
-    );
-
-    const materialHandle = useMemo(() => {
-      return createBabylonSkyShaderMaterial({
-        timeOfDay,
-        weather,
-      });
-    }, [timeOfDay, weather]);
-
-    handleRef.current = materialHandle;
-
-    // Sync timeOfDay and weather changes to the handle
-    useEffect(() => {
-      handleRef.current?.updateTimeOfDay(timeOfDay);
-    }, [timeOfDay]);
-
-    useEffect(() => {
-      handleRef.current?.updateWeather(weather);
-    }, [weather]);
-
-    // Animation loop
-    useEffect(() => {
-      if (!visible) return;
-
-      startTimeRef.current = performance.now();
-
-      const animate = () => {
-        const elapsed = (performance.now() - startTimeRef.current) / 1000;
-        handleRef.current?.updateTime(elapsed);
-        animationRef.current = requestAnimationFrame(animate);
-      };
-
-      animationRef.current = requestAnimationFrame(animate);
-
-      return () => {
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
-        handleRef.current?.dispose();
-      };
-    }, [visible]);
-
-    if (!visible) return null;
-
-    return (
-      <div
-        data-strata-sky="true"
-        data-distance={String(distance)}
-        data-size={size.join(',')}
-        style={{ display: 'none' }}
-      />
-    );
+export const StrataSky = forwardRef<unknown, StrataSkyProps>(function StrataSky(
+  {
+    timeOfDay: timeOfDayProp = {},
+    weather: weatherProp = {},
+    size = [200, 100],
+    distance = 50,
+    visible = true,
   },
-);
+  _ref
+) {
+  const handleRef = useRef<BabylonSkyMaterialHandle | null>(null);
+  const animationRef = useRef<number>(0);
+  const startTimeRef = useRef<number>(performance.now());
+  const { sunIntensity, sunAngle, ambientLight, starVisibility, fogDensity } = timeOfDayProp;
+  const weatherIntensity = weatherProp.intensity;
+
+  const timeOfDay = useMemo(
+    () => ({
+      ...defaultTimeOfDay,
+      ...(sunIntensity !== undefined ? { sunIntensity } : {}),
+      ...(sunAngle !== undefined ? { sunAngle } : {}),
+      ...(ambientLight !== undefined ? { ambientLight } : {}),
+      ...(starVisibility !== undefined ? { starVisibility } : {}),
+      ...(fogDensity !== undefined ? { fogDensity } : {}),
+    }),
+    [ambientLight, fogDensity, starVisibility, sunAngle, sunIntensity]
+  );
+
+  const weather = useMemo(
+    () => ({
+      ...defaultWeather,
+      ...(weatherIntensity !== undefined ? { intensity: weatherIntensity } : {}),
+    }),
+    [weatherIntensity]
+  );
+
+  const materialHandle = useMemo(() => {
+    return createBabylonSkyShaderMaterial({
+      timeOfDay,
+      weather,
+    });
+  }, [timeOfDay, weather]);
+
+  handleRef.current = materialHandle;
+
+  // Sync timeOfDay and weather changes to the handle
+  useEffect(() => {
+    handleRef.current?.updateTimeOfDay(timeOfDay);
+  }, [timeOfDay]);
+
+  useEffect(() => {
+    handleRef.current?.updateWeather(weather);
+  }, [weather]);
+
+  // Animation loop
+  useEffect(() => {
+    if (!visible) return;
+
+    startTimeRef.current = performance.now();
+
+    const animate = () => {
+      const elapsed = (performance.now() - startTimeRef.current) / 1000;
+      handleRef.current?.updateTime(elapsed);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      handleRef.current?.dispose();
+    };
+  }, [visible]);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      data-strata-sky="true"
+      data-distance={String(distance)}
+      data-size={size.join(',')}
+      style={{ display: 'none' }}
+    />
+  );
+});
 
 StrataSky.displayName = 'StrataSky';
 
@@ -173,10 +177,7 @@ StrataSky.displayName = 'StrataSky';
 export function createTimeOfDay(hour: number): Required<TimeOfDayState> {
   const normalizedHour = ((hour % 24) + 24) % 24;
 
-  const sunAngle = Math.max(
-    0,
-    Math.sin(((normalizedHour - 6) / 12) * Math.PI) * 90,
-  );
+  const sunAngle = Math.max(0, Math.sin(((normalizedHour - 6) / 12) * Math.PI) * 90);
 
   let sunIntensity = 0;
   if (normalizedHour >= 6 && normalizedHour <= 18) {

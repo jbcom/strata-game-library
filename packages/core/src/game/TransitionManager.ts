@@ -39,12 +39,22 @@ export interface TransitionManager {
   progress: number;
   /** The current transition configuration. */
   config: TransitionConfig | null;
+  /** Returns a snapshot of the current transition state. */
+  getSnapshot: () => TransitionManagerSnapshot;
+  /** Subscribes to transition state changes. */
+  subscribe: (listener: (snapshot: TransitionManagerSnapshot) => void) => () => void;
 }
 
 /**
  * Internal state for the TransitionManager.
  */
 interface TransitionState {
+  isTransitioning: boolean;
+  progress: number;
+  config: TransitionConfig | null;
+}
+
+export interface TransitionManagerSnapshot {
   isTransitioning: boolean;
   progress: number;
   config: TransitionConfig | null;
@@ -72,10 +82,26 @@ export function createTransitionManager(): TransitionManager {
 
   let animationFrameId: number | null = null;
 
+  const stopAnimation = () => {
+    if (animationFrameId !== null) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+  };
+
+  const getSnapshot = (): TransitionManagerSnapshot => {
+    const state = useStore.getState();
+    return {
+      config: state.config,
+      isTransitioning: state.isTransitioning,
+      progress: state.progress,
+    };
+  };
+
   const manager: TransitionManager = {
     start: (config: TransitionConfig) => {
       return new Promise((resolve) => {
-        manager.cancel();
+        stopAnimation();
 
         useStore.setState({
           isTransitioning: true,
@@ -85,6 +111,16 @@ export function createTransitionManager(): TransitionManager {
 
         const startTime = performance.now();
         const durationMs = config.duration * 1000;
+
+        if (durationMs <= 0) {
+          useStore.setState({
+            isTransitioning: false,
+            progress: 1,
+            config,
+          });
+          resolve();
+          return;
+        }
 
         const animate = (now: number) => {
           const elapsed = now - startTime;
@@ -110,10 +146,7 @@ export function createTransitionManager(): TransitionManager {
     },
 
     cancel: () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
+      stopAnimation();
       useStore.setState({
         isTransitioning: false,
         progress: 0,
@@ -130,6 +163,8 @@ export function createTransitionManager(): TransitionManager {
     get config() {
       return useStore.getState().config;
     },
+    getSnapshot,
+    subscribe: (listener) => useStore.subscribe(() => listener(getSnapshot())),
   };
 
   return manager;

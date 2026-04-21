@@ -6,7 +6,7 @@
  * @module components/sky/__tests__/sky.test
  */
 
-import { describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@react-three/fiber', () => ({
   useFrame: (callback: any) => callback,

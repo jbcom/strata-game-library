@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { SceneShellDefinition } from './types';
 
 /** Renderer-agnostic node type — renderers provide their own concrete types. */
 export type RendererNode = unknown;
@@ -17,6 +18,8 @@ export interface Scene {
   render: () => RendererNode;
   /** Optional 2D UI overlay for this scene. */
   ui?: () => RendererNode;
+  /** Optional declarative shell metadata for scene-entry UI. */
+  shell?: SceneShellDefinition;
 }
 
 /**
@@ -38,6 +41,15 @@ interface SceneState {
   stack: Scene[];
   isLoading: boolean;
   loadProgress: number;
+  pendingSceneId?: string;
+}
+
+export interface SceneManagerSnapshot {
+  current: Scene | null;
+  stack: Scene[];
+  isLoading: boolean;
+  loadProgress: number;
+  pendingSceneId?: string;
 }
 
 /**
@@ -60,6 +72,12 @@ export interface SceneManager {
   isLoading: boolean;
   /** Progress of the current load operation (0-100). */
   loadProgress: number;
+  /** The scene id currently being loaded, when available. */
+  pendingSceneId?: string;
+  /** Returns a snapshot of the current manager state. */
+  getSnapshot: () => SceneManagerSnapshot;
+  /** Subscribes to state changes. */
+  subscribe: (listener: (snapshot: SceneManagerSnapshot) => void) => () => void;
 }
 
 /**
@@ -87,7 +105,19 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
     stack: [],
     isLoading: false,
     loadProgress: 0,
+    pendingSceneId: undefined,
   }));
+
+  const getSnapshot = (): SceneManagerSnapshot => {
+    const state = useStore.getState();
+    return {
+      current: state.current,
+      stack: state.stack,
+      isLoading: state.isLoading,
+      loadProgress: state.loadProgress,
+      pendingSceneId: state.pendingSceneId,
+    };
+  };
 
   const manager: SceneManager = {
     register: (scene: Scene) => {
@@ -99,7 +129,7 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
       const scene = state.scenes.get(sceneId);
       if (!scene) throw new Error(`Scene "${sceneId}" not registered.`);
 
-      useStore.setState({ isLoading: true, loadProgress: 0 });
+      useStore.setState({ isLoading: true, loadProgress: 0, pendingSceneId: sceneId });
 
       if (state.current) {
         await state.current.teardown();
@@ -112,9 +142,10 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
           stack: [scene],
           isLoading: false,
           loadProgress: 100,
+          pendingSceneId: undefined,
         });
       } catch (error) {
-        useStore.setState({ isLoading: false });
+        useStore.setState({ isLoading: false, pendingSceneId: undefined });
         throw error;
       }
     },
@@ -124,7 +155,7 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
       const scene = state.scenes.get(sceneId);
       if (!scene) throw new Error(`Scene "${sceneId}" not registered.`);
 
-      useStore.setState({ isLoading: true, loadProgress: 0 });
+      useStore.setState({ isLoading: true, loadProgress: 0, pendingSceneId: sceneId });
 
       try {
         await scene.setup();
@@ -133,9 +164,10 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
           current: scene,
           isLoading: false,
           loadProgress: 100,
+          pendingSceneId: undefined,
         }));
       } catch (error) {
-        useStore.setState({ isLoading: false });
+        useStore.setState({ isLoading: false, pendingSceneId: undefined });
         throw error;
       }
     },
@@ -168,6 +200,11 @@ export function createSceneManager(config: SceneManagerConfig = {}): SceneManage
     get loadProgress() {
       return useStore.getState().loadProgress;
     },
+    get pendingSceneId() {
+      return useStore.getState().pendingSceneId;
+    },
+    getSnapshot,
+    subscribe: (listener) => useStore.subscribe(() => listener(getSnapshot())),
   };
 
   if (config.initialScene) {

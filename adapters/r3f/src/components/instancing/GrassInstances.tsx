@@ -12,11 +12,8 @@ import { generateBiomeInstanceData } from './utils';
  *
  * @category World Building
  *
- * ## Interactive Demos
- * <iframe src="../../demos/vegetation.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
- *
- * - 🎮 [Full Screen Vegetation Demo](../../demos/vegetation.html)
- * - 📦 [Vegetation Showcase](https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase)
+ * ## Related Example
+ * - [Vegetation Showcase](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/vegetation-showcase)
  *
  * @example
  * ```tsx

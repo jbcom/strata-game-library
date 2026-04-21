@@ -1,4 +1,5 @@
 import type * as THREE from 'three';
+import type { MaterialDefinition } from '../materials';
 
 export interface PropComponent {
   shape: 'box' | 'cylinder' | 'sphere' | 'capsule' | 'mesh';
@@ -39,4 +40,18 @@ export interface PropDefinition {
     impact?: string; // Sound on collision
     interaction?: string; // Sound on interact
   };
+}
+
+export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
+  components: PropComponent[];
+}
+
+export interface ResolvedPropComponent extends Omit<PropComponent, 'material'> {
+  materialId: string;
+  material: MaterialDefinition;
+}
+
+export interface PropComposition {
+  definition: PropDefinition;
+  components: ResolvedPropComponent[];
 }

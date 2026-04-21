@@ -42,6 +42,7 @@ export type {
   CheckpointOptions,
   PersistenceAdapter,
   SaveData,
+  SaveInfo,
   StateChangeEvent,
   StateChangeType,
   StateListener,

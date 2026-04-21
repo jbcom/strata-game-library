@@ -235,9 +235,7 @@ function FoamParticles({ count = 400 }: FoamParticlesProps) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
-          array={particleData.positions}
-          itemSize={3}
+          args={[particleData.positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -509,9 +507,7 @@ function SprayParticles({ count = 150 }: SprayParticlesProps) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
-          array={data.positions}
-          itemSize={3}
+          args={[data.positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -621,6 +617,7 @@ export default function WaterDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: '#0a0e1a' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -629,7 +626,6 @@ export default function WaterDemo() {
         dpr={[1, 1.5]}
         shadows
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        style={{ background: '#0a0e1a' }}
       >
         <Scene isHovered={isHovered} />
       </Canvas>

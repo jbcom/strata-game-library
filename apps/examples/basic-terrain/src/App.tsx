@@ -1,14 +1,14 @@
-import { fbm } from '@jbcom/strata';
 import { OrbitControls, Sky } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useMemo } from 'react';
+import { fbm } from 'strata-game-library/core';
 import * as THREE from 'three';
 
 /**
  * Simple terrain using marching cubes
  *
  * This example shows how to create procedural terrain with Strata's FBM noise.
- * For production use, import from @jbcom/strata instead.
+ * For production use, import from strata-game-library/core instead.
  */
 function Terrain() {
   const geometry = useMemo(() => {

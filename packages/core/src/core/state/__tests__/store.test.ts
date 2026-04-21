@@ -201,6 +201,19 @@ describe('createGameStore', () => {
       expect(saves.length).toBeGreaterThanOrEqual(2);
     });
 
+    it('retrieves save metadata without loading full state', async () => {
+      const store = createGameStore(initialState, { storagePrefix: 'info-test' });
+
+      await store.getState().save('slot1');
+
+      const saveInfo = await store.getState().getSaveInfo('slot1');
+
+      expect(saveInfo).toMatchObject({
+        version: 1,
+      });
+      expect(saveInfo?.timestamp).toBeTypeOf('number');
+    });
+
     it('deletes saves', async () => {
       const store = createGameStore(initialState);
 

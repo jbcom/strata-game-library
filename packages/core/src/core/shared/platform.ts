@@ -170,6 +170,10 @@ export function isNative(): boolean {
   return detectPlatform() === 'native';
 }
 
+export function isReactNative(): boolean {
+  return isNative();
+}
+
 export function resetPlatformCache(): void {
   cachedPlatform = null;
   cachedCapabilities = null;
@@ -178,6 +182,9 @@ export function resetPlatformCache(): void {
 export interface AdapterMap<T> {
   web: T;
   capacitor?: T;
+  /** Preferred explicit adapter slot for React Native runtimes. */
+  reactNative?: T;
+  /** Backward-compatible generic native adapter slot. */
   native?: T;
 }
 
@@ -196,14 +203,16 @@ export function selectAdapter<T>(adapters: AdapterMap<T>, platform?: Platform): 
     case 'capacitor':
       return adapters.capacitor ?? adapters.web;
     case 'native':
-      if (!adapters.native) {
-        throw new Error(
-          'No native adapter available for this feature. ' +
-            'React Native support is not yet implemented. ' +
-            'Please use the web or capacitor platform, or provide a native adapter via AdapterMap.'
-        );
+      if (adapters.reactNative !== undefined) {
+        return adapters.reactNative;
       }
-      return adapters.native;
+      if (adapters.native !== undefined) {
+        return adapters.native;
+      }
+      throw new Error(
+        'No native adapter available for this feature. ' +
+          'Please provide a reactNative or native adapter via AdapterMap.'
+      );
     default:
       return adapters.web;
   }

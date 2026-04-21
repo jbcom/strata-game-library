@@ -379,7 +379,7 @@ The sky shader is efficient, but consider:
 
 See the [interactive sky & volumetrics demo](/showcase/sky/) running live in your browser.
 
-[View Live Demo](/showcase/sky/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/sky-volumetrics)
+[View Live Demo](/showcase/sky/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/sky-volumetrics)
 
 ## Related
 

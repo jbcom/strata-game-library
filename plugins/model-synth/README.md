@@ -15,20 +15,32 @@ pnpm add @strata-game-library/model-synth
 ## Quick Start
 
 ```ts
-import { MeshyClient } from '@strata-game-library/model-synth';
+import { ModelSynth } from '@strata-game-library/model-synth';
 
-const client = new MeshyClient({ apiKey: process.env.MESHY_API_KEY });
+const synth = new ModelSynth({ apiKey: process.env.MESHY_API_KEY! });
 
-// Generate a 3D model from text
-const task = await client.textTo3D({
-  prompt: 'a medieval wooden treasure chest',
-  topology: 'quad',
+// Generate, rig, and animate a character.
+const otter = await synth.character({
+  prompt: 'a cute otter adventurer with a satchel',
+  style: 'cartoon',
+  rigged: true,
+  animations: [
+    'idle',
+    'walk',
+    {
+      name: 'jump60',
+      actionId: 466,
+      postProcess: { operation_type: 'change_fps', fps: 60 },
+    },
+  ],
 });
 
-// Poll for completion and download
-const result = await client.waitForResult(task.id);
-console.log(result.modelUrl); // URL to the generated GLB file
+console.log(otter.model_urls?.glb);
+console.log(otter.riggedModelUrls?.rigged);
+console.log(otter.animationUrls?.idle);
 ```
+
+When `rigged` or `animations` are requested, `character()` runs Text-to-3D preview, Text-to-3D refine, rigging, and animation tasks in sequence. This gives Meshy rigging a textured humanoid input instead of submitting an unrefined preview mesh.
 
 ## Features
 
@@ -43,20 +55,45 @@ console.log(result.modelUrl); // URL to the generated GLB file
 
 ```ts
 // Text to 3D
-const task = await client.textTo3D({ prompt, topology, artStyle });
+const preview = await synth.text3d.createPreviewTask(params, makeRequest);
 
-// Image to 3D
-const task = await client.imageTo3D({ imageUrl, topology });
+// Character workflow
+const character = await synth.character({
+  prompt: 'stylized fox hero',
+  rigged: true,
+  animations: ['idle', 'run', 466],
+});
 
-// Auto-rig a model
-const task = await client.autoRig({ modelUrl, skeletonType });
+// Props and collectibles
+const prop = await synth.prop({ prompt: 'mossy river rock' });
+const coin = await synth.collectible({ prompt: 'glowing gold coin' });
 
-// Generate animations
-const task = await client.animate({ riggedModelUrl, animation });
-
-// Check task status
-const status = await client.getTask(taskId);
+// Lower-level rigging/animation clients remain available
+const rig = await synth.rigging.createRiggingTask({ input_task_id: preview.id });
+const animation = await synth.animations.createAnimationTask({
+  rig_task_id: rig.id,
+  action_id: 30,
+});
 ```
+
+## Live Smoke Testing
+
+The package includes a gated smoke command for real Meshy credentials:
+
+```bash
+MESHY_API_KEY=... pnpm test:smoke
+```
+
+By default this only verifies authentication and task listing. To run the billable character workflow, explicitly opt in:
+
+```bash
+MESHY_API_KEY=... \
+MESHY_SMOKE_CREATE_CHARACTER=1 \
+MESHY_SMOKE_CONFIRM_COSTS=1 \
+pnpm test:smoke
+```
+
+The billable path creates preview, refine, rigging, and animation tasks, then fails if no rigged GLB or idle animation GLB is returned.
 
 ## Documentation
 

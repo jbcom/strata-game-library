@@ -19,9 +19,9 @@ import type { AIPresetResult, PredatorPresetConfig } from './types';
 export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPresetResult {
   const {
     patrolWaypoints = [],
-    pursuitSpeed = 12,
-    detectionRadius = 20,
     maxSpeed = 12,
+    pursuitSpeed = maxSpeed,
+    detectionRadius = 20,
     maxForce = 15,
     mass = 2,
   } = config;
@@ -65,7 +65,7 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
 
   class PatrolState extends YUKA.State<YUKA.Vehicle> {
     override enter(entity: YUKA.Vehicle): void {
-      entity.maxSpeed = maxSpeed * 0.5;
+      entity.maxSpeed = maxSpeed;
       seekBehavior.active = false;
       if (followPathBehavior) {
         followPathBehavior.active = true;
@@ -94,7 +94,9 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
   const stateMachine = new YUKA.StateMachine(vehicle);
   const patrolState = new PatrolState();
   const pursueState = new PursueState();
-  stateMachine.currentState = patrolState;
+  stateMachine.add('patrol', patrolState);
+  stateMachine.add('pursue', pursueState);
+  stateMachine.changeTo('patrol');
 
   const update = (_delta: number, context?: { preyPosition?: YUKA.Vector3 }) => {
     if (context?.preyPosition) {
@@ -102,12 +104,12 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
 
       if (distance < detectionRadius) {
         if (stateMachine.currentState !== pursueState) {
-          stateMachine.changeTo(pursueState);
+          stateMachine.changeTo('pursue');
         }
         seekBehavior.target = context.preyPosition;
       } else {
         if (stateMachine.currentState !== patrolState) {
-          stateMachine.changeTo(patrolState);
+          stateMachine.changeTo('patrol');
         }
       }
     }

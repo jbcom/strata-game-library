@@ -122,10 +122,12 @@ interface DeviceProfile {
 
 ```typescript
 interface InputSnapshot {
+  timestamp: number;
   leftStick: { x: number; y: number };
   rightStick: { x: number; y: number };
   buttons: Record<string, boolean>;
   triggers: { left: number; right: number };
+  connectedGamepads?: Array<number | { index: number; id: string }>;
   touches: Array<{
     id: number;
     position: { x: number; y: number };

@@ -12,12 +12,23 @@
  * - GLB/FBX/USDZ export formats
  */
 
-import { AnimationsAPI } from './clients/animations.js';
+import {
+  AnimationsAPI,
+  type AnimationTask,
+  type AnimationTaskParams,
+  OTTER_ANIMATIONS,
+} from './clients/animations.js';
 import { RetextureAPI } from './clients/retexture.js';
-import { RiggingAPI } from './clients/rigging.js';
-import { type MeshyTask, TextTo3DAPI } from './clients/text-to-3d.js';
+import { RiggingAPI, type RiggingTask, type RiggingTaskParams } from './clients/rigging.js';
+import { type CreateRefineTaskParams, type MeshyTask, TextTo3DAPI } from './clients/text-to-3d.js';
 
-export { AnimationsAPI } from './clients/animations.js';
+export {
+  AnimationsAPI,
+  type AnimationTask,
+  type AnimationTaskParams,
+  OTTER_ANIMATIONS,
+  ROCK_ANIMATIONS,
+} from './clients/animations.js';
 export {
   MeshyAuthError,
   MeshyBaseClient,
@@ -31,9 +42,11 @@ export {
 export { RetextureAPI, type RetextureTaskParams } from './clients/retexture.js';
 export { RiggingAPI, type RiggingTask } from './clients/rigging.js';
 export {
+  type CreateRefineTaskParams,
   type CreateTaskParams,
   type MeshyTask,
   TextTo3DAPI,
+  type TextTo3DTargetFormat,
 } from './clients/text-to-3d.js';
 
 /** Art style options for model generation */
@@ -51,6 +64,74 @@ export type ArtStyle =
 
 /** Model category for game assets */
 export type ModelCategory = 'character' | 'obstacle' | 'collectible' | 'prop' | 'environment';
+
+/** Named character animations bundled with Strata's default Meshy action-id map. */
+export type CharacterAnimationName = keyof typeof OTTER_ANIMATIONS;
+
+/** Character animation request accepted by {@link ModelSynth.character}. */
+export type CharacterAnimationRequest =
+  | CharacterAnimationName
+  | number
+  | {
+      name?: string;
+      actionId: number;
+      postProcess?: AnimationTaskParams['post_process'];
+    };
+
+export interface CharacterPollOptions {
+  maxRetries?: number;
+  intervalMs?: number;
+}
+
+/**
+ * Text-to-3D task augmented with optional rigging and animation pipeline results.
+ */
+export interface CharacterGenerationTask extends MeshyTask {
+  previewTask?: MeshyTask;
+  riggingTask?: RiggingTask;
+  riggedModelUrls?: Record<string, string | undefined>;
+  animationTasks?: Record<string, AnimationTask>;
+  animationUrls?: Record<string, string | null>;
+}
+
+type GeneratedModelTask = MeshyTask & {
+  previewTask?: MeshyTask;
+};
+
+interface ResolvedCharacterAnimation {
+  name: string;
+  actionId: number;
+  postProcess?: AnimationTaskParams['post_process'];
+}
+
+function resolveCharacterAnimation(request: CharacterAnimationRequest): ResolvedCharacterAnimation {
+  if (typeof request === 'number') {
+    return {
+      name: `action_${request}`,
+      actionId: request,
+    };
+  }
+
+  if (typeof request === 'string') {
+    const actionId = OTTER_ANIMATIONS[request];
+    if (actionId === undefined) {
+      throw new Error(
+        `Unknown character animation "${request}". Use one of ${Object.keys(OTTER_ANIMATIONS).join(', ')} or pass a numeric action id.`
+      );
+    }
+
+    return {
+      name: request,
+      actionId,
+    };
+  }
+
+  return {
+    name: request.name ?? `action_${request.actionId}`,
+    actionId: request.actionId,
+    postProcess: request.postProcess,
+  };
+}
 
 /**
  * ModelSynth - Unified API for procedural 3D model generation
@@ -101,20 +182,91 @@ export class ModelSynth {
     prompt: string;
     style?: ArtStyle;
     rigged?: boolean;
-    animations?: string[];
+    animations?: CharacterAnimationRequest[];
     polycount?: number;
-  }): Promise<MeshyTask> {
+    heightMeters?: number;
+    animationStyle?: RiggingTaskParams['animation_style'];
+    customAnimations?: RiggingTaskParams['custom_animations'];
+    fps?: RiggingTaskParams['fps'];
+    refine?: boolean;
+    refineOptions?: CreateRefineTaskParams;
+    poll?: CharacterPollOptions;
+  }): Promise<CharacterGenerationTask> {
+    const animationRequests = options.animations ?? [];
+    const resolvedAnimations = animationRequests.map(resolveCharacterAnimation);
+    const shouldRig = options.rigged || animationRequests.length > 0;
+    const shouldRefine = options.refine ?? shouldRig;
+
     const task = await this.generateModel({
       prompt: options.prompt,
       style: options.style || 'cartoon',
       polycount: options.polycount || 8000,
-      tPose: options.rigged,
+      tPose: shouldRig,
+      refine: shouldRefine,
+      refineOptions: shouldRefine
+        ? {
+            target_formats: ['glb'],
+            auto_size: true,
+            ...options.refineOptions,
+          }
+        : undefined,
     });
 
-    // TODO: Add rigging if requested
-    // TODO: Add animations if requested
+    const result: CharacterGenerationTask = { ...task };
 
-    return task;
+    if (!shouldRig) {
+      return result;
+    }
+
+    const riggingTask = await this.rigging.createRiggingTask({
+      input_task_id: task.id,
+      height_meters: options.heightMeters,
+      custom_animations: options.customAnimations,
+      animation_style: options.animationStyle,
+      fps: options.fps,
+    });
+
+    if (!riggingTask.id) {
+      throw new Error('No rigging task ID returned from createRiggingTask');
+    }
+
+    const completedRiggingTask = await this.rigging.pollRiggingTask(
+      riggingTask.id,
+      options.poll?.maxRetries,
+      options.poll?.intervalMs
+    );
+
+    result.riggingTask = completedRiggingTask;
+    result.riggedModelUrls = this.rigging.getAnimationUrls(completedRiggingTask);
+
+    if (resolvedAnimations.length > 0) {
+      result.animationTasks = {};
+      result.animationUrls = {};
+
+      for (const animation of resolvedAnimations) {
+        const animationTask = await this.animations.createAnimationTask({
+          rig_task_id: completedRiggingTask.id,
+          action_id: animation.actionId,
+          post_process: animation.postProcess,
+        });
+
+        if (!animationTask.id) {
+          throw new Error(`No animation task ID returned for ${animation.name}`);
+        }
+
+        const completedAnimationTask = await this.animations.pollAnimationTask(
+          animationTask.id,
+          options.poll?.maxRetries,
+          options.poll?.intervalMs
+        );
+
+        result.animationTasks[animation.name] = completedAnimationTask;
+        result.animationUrls[animation.name] =
+          this.animations.getAnimationGLB(completedAnimationTask);
+      }
+    }
+
+    return result;
   }
 
   /**
@@ -156,7 +308,9 @@ export class ModelSynth {
     style: ArtStyle;
     polycount: number;
     tPose?: boolean;
-  }): Promise<MeshyTask> {
+    refine?: boolean;
+    refineOptions?: CreateRefineTaskParams;
+  }): Promise<GeneratedModelTask> {
     const makeRequest = async (url: string, init: RequestInit) => {
       const response = await fetch(url, init);
       if (!response.ok) {
@@ -175,7 +329,27 @@ export class ModelSynth {
       makeRequest
     );
 
-    // Poll until complete
-    return this.text3d.pollTask(previewTask.id);
+    const completedPreviewTask = await this.text3d.pollTask(previewTask.id);
+
+    if (!options.refine) {
+      return completedPreviewTask;
+    }
+
+    const refineTask = await this.text3d.createRefineTask(
+      completedPreviewTask.id,
+      makeRequest,
+      options.refineOptions
+    );
+
+    if (!refineTask.id) {
+      throw new Error('No task ID returned from createRefineTask');
+    }
+
+    const completedRefineTask = await this.text3d.pollTask(refineTask.id);
+
+    return {
+      ...completedRefineTask,
+      previewTask: completedPreviewTask,
+    };
   }
 }

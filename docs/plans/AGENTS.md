@@ -9,16 +9,35 @@ last_updated: 2026-03-01
 
 ## Overview
 
-This directory contains dated implementation plans created during the February 2026 monorepo migration and renderer-agnostic restructure. These plans document the technical decisions and step-by-step instructions that produced the current monorepo structure. They are historical reference documents -- the work they describe has been completed.
+This directory now contains two kinds of planning documents:
+
+- historical implementation plans from the February 2026 monorepo migration and renderer-agnostic restructure
+- the active remaining-work PRD that captures the post-consolidation backlog after the April 2026 implementation push
 
 ## Documents
 
 | File | Date | Status | Description |
 |------|------|--------|-------------|
+| [2026-04-16-remaining-work-prd.md](2026-04-16-remaining-work-prd.md) | 2026-04-16 | Active | Canonical PRD for the work still left after the April 2026 consolidation session |
 | [2026-02-24-monorepo-migration-design.md](2026-02-24-monorepo-migration-design.md) | 2026-02-24 | Complete | Design doc: consolidate 11 repos into Nx + pnpm monorepo |
 | [2026-02-24-monorepo-migration-plan.md](2026-02-24-monorepo-migration-plan.md) | 2026-02-24 | Complete | Step-by-step implementation: 9 phases, 30+ tasks |
 | [2026-02-24-renderer-agnostic-restructure-design.md](2026-02-24-renderer-agnostic-restructure-design.md) | 2026-02-24 | Complete | Design doc: extract R3F, create adapters/, plugins/, workflows |
 | [2026-02-24-renderer-agnostic-restructure-plan.md](2026-02-24-renderer-agnostic-restructure-plan.md) | 2026-02-24 | Complete | Step-by-step implementation: 5 phases, 15 tasks |
+
+## Active Planning Doc
+
+### Remaining Work PRD (Current)
+
+**Problem:** The repo is locally green and materially more complete, but it still has unfinished work around package publishing, migration policy, runtime depth, platform parity, and CI/documentation hardening.
+
+**Current reference:** [2026-04-16-remaining-work-prd.md](2026-04-16-remaining-work-prd.md)
+
+**Use this document for:**
+
+- post-merge prioritization
+- umbrella-package publish and migration planning
+- Layer 3/4 completion work
+- verification and documentation hardening
 
 ## Plan Details
 
@@ -78,7 +97,8 @@ This directory contains dated implementation plans created during the February 2
 
 ## Key Context
 
-- These plans are HISTORICAL -- the work is complete
+- The April 2026 PRD is ACTIVE and should be treated as the current backlog contract
+- The February 2026 plans are HISTORICAL -- the work they describe is complete
 - The actual implementation may differ slightly from the plans (iteration during execution)
 - The monorepo migration plan is very detailed (~1000 lines) with exact file changes
 - Both plans reference commit messages in conventional format

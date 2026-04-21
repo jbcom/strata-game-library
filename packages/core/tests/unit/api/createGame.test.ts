@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createGame } from '../../../src/api/createGame';
+import { createActionState, createGame, createRPGState } from '../../../src/api/createGame';
 import type { GameDefinition } from '../../../src/game/types';
 
 /**
@@ -62,6 +62,68 @@ describe('createGame', () => {
 
     expect(game.definition.name).toBe('My RPG');
     expect(game.definition.version).toBe('2.0.0');
+  });
+
+  describe('validation', () => {
+    it('should throw when the initial scene is missing', () => {
+      expect(() =>
+        createGame(
+          makeMinimalDefinition({
+            initialScene: 'missing',
+          })
+        )
+      ).toThrow('Unknown scene "missing"');
+    });
+
+    it('should throw when the default mode is missing', () => {
+      expect(() =>
+        createGame(
+          makeMinimalDefinition({
+            defaultMode: 'missing',
+          })
+        )
+      ).toThrow('Unknown mode "missing"');
+    });
+
+    it('should throw when the game has no scenes', () => {
+      expect(() =>
+        createGame(
+          makeMinimalDefinition({
+            initialScene: 'title',
+            scenes: {},
+          })
+        )
+      ).toThrow('requires at least one scene');
+    });
+
+    it('should throw when the game has no modes', () => {
+      expect(() =>
+        createGame(
+          makeMinimalDefinition({
+            defaultMode: 'explore',
+            modes: {},
+          })
+        )
+      ).toThrow('requires at least one mode');
+    });
+
+    it('should throw when content registries contain duplicate ids', () => {
+      expect(() =>
+        createGame(
+          makeMinimalDefinition({
+            content: {
+              materials: [
+                { id: 'wood', type: 'wood', props: {} },
+                { id: 'wood', type: 'wood', props: {} },
+              ],
+              creatures: [],
+              props: [],
+              items: [],
+            },
+          })
+        )
+      ).toThrow('Duplicate material id "wood"');
+    });
   });
 
   // --- Registries ---
@@ -198,15 +260,100 @@ describe('createGame', () => {
       expect(game.store).toBeDefined();
     });
 
-    it('should initialize with custom initial state', () => {
+    it('should expose game-level persistence helpers that delegate to the store', async () => {
+      const game = createGame(makeMinimalDefinition());
+      const state = game.store.getState();
+      const save = vi.fn().mockResolvedValue(true);
+      const load = vi.fn().mockResolvedValue(true);
+      const deleteSave = vi.fn().mockResolvedValue(true);
+      const listSaves = vi.fn().mockResolvedValue(['camp', 'autosave']);
+      const getSaveInfo = vi.fn().mockResolvedValue({ timestamp: 1234, version: 2 });
+
+      state.save = save;
+      state.load = load;
+      state.deleteSave = deleteSave;
+      state.listSaves = listSaves;
+      state.getSaveInfo = getSaveInfo;
+
+      await expect(game.save('camp')).resolves.toBe(true);
+      await expect(game.load('camp')).resolves.toBe(true);
+      await expect(game.deleteSave('camp')).resolves.toBe(true);
+      await expect(game.listSaves()).resolves.toEqual(['camp', 'autosave']);
+      await expect(game.getSaveInfo('camp')).resolves.toEqual({ timestamp: 1234, version: 2 });
+
+      expect(save).toHaveBeenCalledWith('camp');
+      expect(load).toHaveBeenCalledWith('camp');
+      expect(deleteSave).toHaveBeenCalledWith('camp');
+      expect(listSaves).toHaveBeenCalledOnce();
+      expect(getSaveInfo).toHaveBeenCalledWith('camp');
+    });
+
+    it('should initialize with the default state for a built-in preset', () => {
+      const game = createGame(makeMinimalDefinition());
+
+      expect(game.store.getState().data.player.level).toBe(1);
+      expect(game.store.getState().data.currentRegion).toBe('start');
+      expect(game.store.getState().data.discoveredRegions).toEqual(['start']);
+    });
+
+    it('should deep-merge initial state overrides into built-in preset state', () => {
       const def = makeMinimalDefinition({
-        initialState: { score: 0, level: 1 },
+        initialState: {
+          currentRegion: 'marsh',
+          player: {
+            health: 72,
+            name: 'River Otter',
+          },
+        },
       });
       const game = createGame(def);
 
-      expect(game.store).toBeDefined();
-      // Store should exist and be callable
-      expect(game.store.getState).toBeTypeOf('function');
+      expect(game.store.getState().data.currentRegion).toBe('marsh');
+      expect(game.store.getState().data.player.name).toBe('River Otter');
+      expect(game.store.getState().data.player.health).toBe(72);
+      expect(game.store.getState().data.player.maxHealth).toBe(100);
+      expect(game.store.getState().data.player.stats.strength).toBe(10);
+    });
+
+    it('should initialize with custom initial state', () => {
+      const def = makeMinimalDefinition({
+        statePreset: 'action',
+        initialState: { player: { score: 9001 }, level: 4 },
+      });
+      const game = createGame(def);
+
+      expect(game.store.getState().data).toEqual(
+        createActionState({
+          player: { score: 9001 },
+          level: 4,
+        })
+      );
+    });
+
+    it('should preserve explicitly created preset state objects', () => {
+      const def = makeMinimalDefinition({
+        initialState: createRPGState({
+          currentRegion: 'forest',
+          player: {
+            level: 3,
+          },
+        }),
+      });
+      const game = createGame(def);
+
+      expect(game.store.getState().data.currentRegion).toBe('forest');
+      expect(game.store.getState().data.player.level).toBe(3);
+    });
+
+    it('should use an empty object for custom preset games without initial state', () => {
+      const game = createGame(
+        makeMinimalDefinition({
+          initialState: undefined,
+          statePreset: 'custom',
+        })
+      );
+
+      expect(game.store.getState().data).toEqual({});
     });
   });
 
@@ -275,6 +422,46 @@ describe('createGame', () => {
 
       expect(setup).toHaveBeenCalled();
     });
+
+    it('should provide scene lifecycle context from createGame wrappers', async () => {
+      const setup = vi.fn().mockResolvedValue(undefined);
+      const teardown = vi.fn().mockResolvedValue(undefined);
+      const def = makeMinimalDefinition({
+        scenes: {
+          gameplay: {
+            id: 'gameplay',
+            setup,
+            teardown,
+            render: () => null,
+          },
+        },
+        initialScene: 'gameplay',
+      });
+
+      const game = createGame(def);
+      await game.sceneManager.load('gameplay');
+      await game.sceneManager.load('gameplay');
+
+      expect(setup).toHaveBeenCalledWith(
+        expect.objectContaining({
+          audioManager: game.audioManager,
+          game,
+          inputManager: game.inputManager,
+          modeManager: game.modeManager,
+          scene: expect.objectContaining({ id: 'gameplay' }),
+          sceneManager: game.sceneManager,
+          store: game.store,
+          world: game.world,
+          worldGraph: game.worldGraph,
+        })
+      );
+      expect(teardown).toHaveBeenCalledWith(
+        expect.objectContaining({
+          game,
+          scene: expect.objectContaining({ id: 'gameplay' }),
+        })
+      );
+    });
   });
 
   // --- Mode Manager ---
@@ -305,6 +492,128 @@ describe('createGame', () => {
       expect(game.modeManager.hasMode('combat')).toBe(true);
       expect(game.modeManager.hasMode('menu')).toBe(true);
     });
+
+    it('should provide mode lifecycle context from createGame wrappers', async () => {
+      const onEnter = vi.fn();
+      const onPause = vi.fn();
+      const onResume = vi.fn();
+      const setup = vi.fn().mockResolvedValue(undefined);
+      const teardown = vi.fn().mockResolvedValue(undefined);
+
+      const def = makeMinimalDefinition({
+        modes: {
+          explore: {
+            id: 'explore',
+            systems: [],
+            inputMap: {},
+            onEnter,
+            onPause,
+            onResume,
+            setup,
+            teardown,
+          },
+          menu: {
+            id: 'menu',
+            systems: [],
+            inputMap: {},
+          },
+        },
+        defaultMode: 'explore',
+      });
+
+      const game = createGame(def);
+      await game.modeManager.push('explore', { source: 'test' });
+      game.pause();
+      game.resume();
+      await game.modeManager.push('menu');
+      await game.modeManager.pop();
+      await game.modeManager.replace('menu');
+
+      expect(setup).toHaveBeenCalledWith(
+        expect.objectContaining({
+          audioManager: game.audioManager,
+          game,
+          inputManager: game.inputManager,
+          modeManager: game.modeManager,
+          props: { source: 'test' },
+          sceneManager: game.sceneManager,
+          source: 'test',
+          store: game.store,
+          world: game.world,
+          worldGraph: game.worldGraph,
+        })
+      );
+      expect(onEnter).toHaveBeenCalledWith(
+        expect.objectContaining({
+          game,
+          props: { source: 'test' },
+          source: 'test',
+        })
+      );
+      expect(onPause).toHaveBeenCalledWith(
+        expect.objectContaining({
+          game,
+          props: { source: 'test' },
+        })
+      );
+      expect(onResume).toHaveBeenCalledWith(
+        expect.objectContaining({
+          game,
+          props: { source: 'test' },
+        })
+      );
+      expect(teardown).toHaveBeenCalledWith(
+        expect.objectContaining({
+          game,
+          props: { source: 'test' },
+        })
+      );
+    });
+
+    it('should remap active input actions when the mode changes', async () => {
+      const def = makeMinimalDefinition({
+        modes: {
+          explore: {
+            id: 'explore',
+            systems: [],
+            inputMap: {
+              moveForward: {
+                keyboard: ['w'],
+              },
+            },
+          },
+          menu: {
+            id: 'menu',
+            systems: [],
+            inputMap: {
+              confirm: {
+                keyboard: ['w'],
+              },
+            },
+          },
+        },
+        defaultMode: 'explore',
+      });
+
+      const game = createGame(def);
+      const element = document.createElement('div');
+
+      game.inputManager.attach(element);
+      await game.modeManager.push('explore');
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW', key: 'w' }));
+      expect(game.inputManager.isActionPressed('moveForward')).toBe(true);
+      expect(game.inputManager.isActionPressed('confirm')).toBe(false);
+
+      await game.modeManager.replace('menu');
+      expect(game.inputManager.isActionPressed('moveForward')).toBe(false);
+      expect(game.inputManager.isActionPressed('confirm')).toBe(true);
+
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', key: 'w' }));
+      expect(game.inputManager.isActionPressed('confirm')).toBe(false);
+
+      game.inputManager.detach();
+    });
   });
 
   // --- Input Manager ---
@@ -330,13 +639,25 @@ describe('createGame', () => {
   // --- Lifecycle Methods ---
 
   describe('lifecycle', () => {
-    it('should have start, pause, resume, and stop methods', () => {
+    it('should expose lifecycle and transition-aware orchestration helpers', () => {
       const game = createGame(makeMinimalDefinition());
 
       expect(game.start).toBeTypeOf('function');
+      expect(game.loadScene).toBeTypeOf('function');
+      expect(game.pushScene).toBeTypeOf('function');
+      expect(game.popScene).toBeTypeOf('function');
+      expect(game.pushMode).toBeTypeOf('function');
+      expect(game.replaceMode).toBeTypeOf('function');
+      expect(game.popMode).toBeTypeOf('function');
+      expect(game.save).toBeTypeOf('function');
+      expect(game.load).toBeTypeOf('function');
+      expect(game.deleteSave).toBeTypeOf('function');
+      expect(game.listSaves).toBeTypeOf('function');
+      expect(game.getSaveInfo).toBeTypeOf('function');
       expect(game.pause).toBeTypeOf('function');
       expect(game.resume).toBeTypeOf('function');
       expect(game.stop).toBeTypeOf('function');
+      expect(game.transitionManager).toBeDefined();
     });
 
     describe('start()', () => {
@@ -384,6 +705,158 @@ describe('createGame', () => {
         expect(onEnter).toHaveBeenCalled();
         expect(game.modeManager.current?.config.id).toBe('explore');
       });
+
+      it('should route scene changes through the transition manager when requested', async () => {
+        const transition = { type: 'fade', duration: 0.25, color: '#000' } as const;
+        const def = makeMinimalDefinition({
+          scenes: {
+            title: { id: 'title', render: () => null },
+            gameplay: { id: 'gameplay', render: () => null },
+          },
+          initialScene: 'title',
+        });
+
+        const game = createGame(def);
+        const startSpy = vi.spyOn(game.transitionManager, 'start').mockResolvedValue(undefined);
+
+        await game.start();
+        await game.loadScene('gameplay', { transition });
+
+        expect(startSpy).toHaveBeenNthCalledWith(1, transition);
+        expect(startSpy).toHaveBeenNthCalledWith(2, {
+          ...transition,
+          reverse: true,
+        });
+        expect(game.sceneManager.current?.id).toBe('gameplay');
+      });
+
+      it('should route mode changes through explicit transition pairs', async () => {
+        const def = makeMinimalDefinition({
+          modes: {
+            explore: { id: 'explore', systems: [], inputMap: {} },
+            combat: { id: 'combat', systems: [], inputMap: {} },
+          },
+          defaultMode: 'explore',
+        });
+
+        const game = createGame(def);
+        const transitionOut = { type: 'wipe', duration: 0.2, direction: 'left' } as const;
+        const transitionIn = {
+          type: 'fade',
+          duration: 0.15,
+          color: '#111',
+          reverse: true,
+        } as const;
+        const startSpy = vi.spyOn(game.transitionManager, 'start').mockResolvedValue(undefined);
+
+        await game.start();
+        await game.replaceMode('combat', { encounterId: 'boss' }, { transitionOut, transitionIn });
+
+        expect(startSpy).toHaveBeenNthCalledWith(1, transitionOut);
+        expect(startSpy).toHaveBeenNthCalledWith(2, transitionIn);
+        expect(game.modeManager.current?.config.id).toBe('combat');
+        expect(game.modeManager.current?.props).toEqual({ encounterId: 'boss' });
+      });
+
+      it('should use declarative game-level scene transition defaults when no runtime option is provided', async () => {
+        const transition = { type: 'fade', duration: 0.3, color: '#02060a' } as const;
+        const def = makeMinimalDefinition({
+          scenes: {
+            title: { id: 'title', render: () => null },
+            gameplay: { id: 'gameplay', render: () => null },
+          },
+          transitions: {
+            scenes: {
+              load: { transition },
+            },
+          },
+        });
+
+        const game = createGame(def);
+        const startSpy = vi.spyOn(game.transitionManager, 'start').mockResolvedValue(undefined);
+
+        await game.loadScene('gameplay');
+
+        expect(startSpy).toHaveBeenNthCalledWith(1, transition);
+        expect(startSpy).toHaveBeenNthCalledWith(2, {
+          ...transition,
+          reverse: true,
+        });
+      });
+
+      it('should let scene-specific transition defaults override game-level defaults', async () => {
+        const def = makeMinimalDefinition({
+          scenes: {
+            title: { id: 'title', render: () => null },
+            gameplay: {
+              id: 'gameplay',
+              render: () => null,
+              transition: {
+                transition: {
+                  type: 'wipe',
+                  duration: 0.2,
+                  direction: 'left',
+                },
+              },
+            },
+          },
+          transitions: {
+            scenes: {
+              load: {
+                transition: {
+                  type: 'fade',
+                  duration: 0.35,
+                  color: '#000',
+                },
+              },
+            },
+          },
+        });
+
+        const game = createGame(def);
+        const startSpy = vi.spyOn(game.transitionManager, 'start').mockResolvedValue(undefined);
+
+        await game.loadScene('gameplay');
+
+        expect(startSpy).toHaveBeenNthCalledWith(1, {
+          type: 'wipe',
+          duration: 0.2,
+          direction: 'left',
+        });
+        expect(startSpy).toHaveBeenNthCalledWith(2, {
+          type: 'wipe',
+          duration: 0.2,
+          direction: 'left',
+          reverse: true,
+        });
+      });
+
+      it('should use declarative mode transition defaults when changing modes', async () => {
+        const transition = { type: 'crossfade', duration: 0.16, color: '#10141a' } as const;
+        const def = makeMinimalDefinition({
+          modes: {
+            explore: { id: 'explore', systems: [], inputMap: {} },
+            combat: { id: 'combat', systems: [], inputMap: {} },
+          },
+          transitions: {
+            modes: {
+              replace: { transition },
+            },
+          },
+        });
+
+        const game = createGame(def);
+        const startSpy = vi.spyOn(game.transitionManager, 'start').mockResolvedValue(undefined);
+
+        await game.replaceMode('combat');
+
+        expect(startSpy).toHaveBeenNthCalledWith(1, transition);
+        expect(startSpy).toHaveBeenNthCalledWith(2, {
+          ...transition,
+          reverse: true,
+        });
+        expect(game.modeManager.current?.config.id).toBe('combat');
+      });
     });
 
     describe('pause()', () => {
@@ -421,6 +894,84 @@ describe('createGame', () => {
         // Before start(), no mode is active yet
         expect(() => game.pause()).not.toThrow();
       });
+
+      it('should expose reactive pause state and preserve the pause binding only', async () => {
+        const listener = vi.fn();
+        const def = makeMinimalDefinition({
+          modes: {
+            explore: {
+              id: 'explore',
+              systems: [],
+              inputMap: {
+                moveForward: {
+                  keyboard: ['w'],
+                },
+                pause: {
+                  keyboard: ['escape'],
+                },
+              },
+            },
+          },
+        });
+
+        const game = createGame(def);
+        const element = document.createElement('div');
+
+        game.inputManager.attach(element);
+        await game.start();
+        const unsubscribe = game.subscribe(listener);
+
+        expect(game.isPaused).toBe(false);
+        expect(game.getSnapshot()).toEqual({ activeProfileId: undefined, isPaused: false });
+        expect(game.inputManager.getActionMap()).toMatchObject({
+          moveForward: { keyboard: ['w'] },
+          pause: { keyboard: ['escape'] },
+        });
+
+        game.pause();
+
+        expect(game.isPaused).toBe(true);
+        expect(game.getSnapshot()).toEqual({ activeProfileId: undefined, isPaused: true });
+        expect(listener).toHaveBeenCalledWith({ activeProfileId: undefined, isPaused: true });
+        expect(game.inputManager.getActionMap()).toEqual({
+          pause: { keyboard: ['escape'] },
+        });
+
+        game.resume();
+
+        expect(game.isPaused).toBe(false);
+        expect(game.inputManager.getActionMap()).toMatchObject({
+          moveForward: { keyboard: ['w'] },
+          pause: { keyboard: ['escape'] },
+        });
+
+        unsubscribe();
+        game.inputManager.detach();
+      });
+    });
+
+    describe('setActiveProfile()', () => {
+      it('should expose reactive active profile state', () => {
+        const listener = vi.fn();
+        const game = createGame(makeMinimalDefinition());
+        const unsubscribe = game.subscribe(listener);
+
+        expect(game.activeProfileId).toBeUndefined();
+        expect(game.getSnapshot()).toEqual({ activeProfileId: undefined, isPaused: false });
+
+        game.setActiveProfile('campaign');
+
+        expect(game.activeProfileId).toBe('campaign');
+        expect(game.getSnapshot()).toEqual({ activeProfileId: 'campaign', isPaused: false });
+        expect(listener).toHaveBeenCalledWith({ activeProfileId: 'campaign', isPaused: false });
+
+        game.setActiveProfile(undefined);
+
+        expect(game.activeProfileId).toBeUndefined();
+        expect(game.getSnapshot()).toEqual({ activeProfileId: undefined, isPaused: false });
+
+        unsubscribe();
+      });
     });
 
     describe('resume()', () => {
@@ -431,6 +982,7 @@ describe('createGame', () => {
         });
 
         const game = createGame(def);
+        game.pause();
         game.resume();
 
         expect(onResume).toHaveBeenCalledOnce();
@@ -448,8 +1000,16 @@ describe('createGame', () => {
         const game = createGame(def);
         await game.start();
 
+        game.pause();
         game.resume();
         expect(modeResume).toHaveBeenCalled();
+      });
+
+      it('should not throw when resume is called before the game is paused', () => {
+        const game = createGame(makeMinimalDefinition());
+
+        expect(() => game.resume()).not.toThrow();
+        expect(game.isPaused).toBe(false);
       });
     });
 
@@ -466,6 +1026,15 @@ describe('createGame', () => {
         game.stop();
 
         expect(game.world.size).toBe(0);
+      });
+
+      it('should cancel any active transition state', () => {
+        const game = createGame(makeMinimalDefinition());
+        const cancelSpy = vi.spyOn(game.transitionManager, 'cancel');
+
+        game.stop();
+
+        expect(cancelSpy).toHaveBeenCalledOnce();
       });
     });
   });

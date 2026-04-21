@@ -70,7 +70,8 @@ jobs:
           for pkg_dir in packages/core packages/shaders packages/presets \
                          adapters/r3f adapters/reactylon \
                          plugins/audio-synth plugins/model-synth \
-                         plugins/capacitor plugins/react-native plugins/astro; do
+                         plugins/capacitor plugins/react-native plugins/astro \
+                         packages/strata-game-library; do
             pkg_name=$(node -p "require('./${pkg_dir}/package.json').name")
             pkg_version=$(node -p "require('./${pkg_dir}/package.json').version")
 

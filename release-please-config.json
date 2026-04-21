@@ -26,6 +26,9 @@
     "packages/presets": {
       "component": "@strata-game-library/presets"
     },
+    "packages/strata-game-library": {
+      "component": "strata-game-library"
+    },
     "adapters/r3f": {
       "component": "@strata-game-library/r3f"
     },

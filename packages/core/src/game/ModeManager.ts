@@ -10,6 +10,11 @@ interface ModeState {
   stack: ModeInstance[];
 }
 
+export interface ModeManagerSnapshot {
+  current: ModeInstance | null;
+  stack: ModeInstance[];
+}
+
 /**
  * Creates a new ModeManager instance.
  *
@@ -34,12 +39,20 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
     stack: [],
   }));
 
+  const getSnapshot = (): ModeManagerSnapshot => {
+    const state = useStore.getState();
+    return {
+      current: state.current,
+      stack: state.stack,
+    };
+  };
+
   const manager: ModeManager = {
     register: (mode: ModeConfig) => {
       useStore.getState().modes.set(mode.id, mode);
     },
 
-    push: (modeId: GameMode, props: Record<string, unknown> = {}) => {
+    push: async (modeId: GameMode, props: Record<string, unknown> = {}) => {
       const state = useStore.getState();
       const config = state.modes.get(modeId);
       if (!config) throw new Error(`Mode "${modeId}" not registered.`);
@@ -55,6 +68,7 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
         pushedAt: Date.now(),
       };
 
+      await config.setup?.(props);
       config.onEnter?.(props);
 
       useStore.setState((prev) => ({
@@ -63,12 +77,13 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
       }));
     },
 
-    pop: () => {
+    pop: async () => {
       const state = useStore.getState();
       if (state.stack.length === 0) return;
 
       const topInstance = state.stack[state.stack.length - 1];
       topInstance.config.onExit?.(topInstance.props);
+      await topInstance.config.teardown?.(topInstance.props);
 
       useStore.setState((prev) => {
         const newStack = prev.stack.slice(0, -1);
@@ -85,13 +100,14 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
       });
     },
 
-    replace: (modeId: GameMode, props: Record<string, unknown> = {}) => {
+    replace: async (modeId: GameMode, props: Record<string, unknown> = {}) => {
       const state = useStore.getState();
       const config = state.modes.get(modeId);
       if (!config) throw new Error(`Mode "${modeId}" not registered.`);
 
       if (state.current) {
         state.current.config.onExit?.(state.current.props);
+        await state.current.config.teardown?.(state.current.props);
       }
 
       const instance: ModeInstance = {
@@ -100,6 +116,7 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
         pushedAt: Date.now(),
       };
 
+      await config.setup?.(props);
       config.onEnter?.(props);
 
       useStore.setState((prev) => {
@@ -130,6 +147,8 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
     get stack() {
       return useStore.getState().stack;
     },
+    getSnapshot,
+    subscribe: (listener) => useStore.subscribe(() => listener(getSnapshot())),
   };
 
   if (defaultMode) {
@@ -137,7 +156,7 @@ export function createModeManager(defaultMode?: GameMode): ModeManager {
     // but if it's called immediately after creation:
     setTimeout(() => {
       if (manager.hasMode(defaultMode)) {
-        manager.push(defaultMode);
+        void manager.push(defaultMode);
       }
     }, 0);
   }

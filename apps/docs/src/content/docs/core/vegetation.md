@@ -415,7 +415,7 @@ function CustomTrees() {
 
 See the [interactive vegetation demo](/showcase/vegetation/) running live in your browser.
 
-[View Live Demo](/showcase/vegetation/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/vegetation-showcase)
+[View Live Demo](/showcase/vegetation/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/vegetation-showcase)
 
 ## Related
 

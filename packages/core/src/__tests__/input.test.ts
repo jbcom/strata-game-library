@@ -85,6 +85,112 @@ describe('InputManager', () => {
       manager.on('press', callback);
       expect(() => manager.off('press', callback)).not.toThrow();
     });
+
+    it('should emit mapped keyboard action events', () => {
+      const manager = new InputManager();
+      const element = document.createElement('div');
+      const onStart = vi.fn();
+      const onEnd = vi.fn();
+
+      manager.attach(element);
+      manager.setActionMap({
+        forward: {
+          keyboard: ['w', 'KeyW'],
+        },
+      });
+      manager.on('actionStart', onStart);
+      manager.on('actionEnd', onEnd);
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW', key: 'w' }));
+
+      expect(manager.isActionPressed('forward')).toBe(true);
+      expect(manager.getPressedActions()).toContain('forward');
+      expect(onStart).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: 'forward',
+          input: 'KeyW',
+          source: 'keyboard',
+          type: 'actionStart',
+        })
+      );
+
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', key: 'w' }));
+
+      expect(manager.isActionPressed('forward')).toBe(false);
+      expect(onEnd).toHaveBeenCalledWith(
+        expect.objectContaining({
+          action: 'forward',
+          input: 'KeyW',
+          source: 'keyboard',
+          type: 'actionEnd',
+        })
+      );
+
+      manager.detach();
+    });
+
+    it('should recompute active actions when the action map changes', () => {
+      const manager = new InputManager();
+      const element = document.createElement('div');
+
+      manager.attach(element);
+      manager.setActionMap({
+        forward: {
+          keyboard: ['w'],
+        },
+      });
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW', key: 'w' }));
+      expect(manager.isActionPressed('forward')).toBe(true);
+
+      manager.setActionMap({
+        confirm: {
+          keyboard: ['w'],
+        },
+      });
+
+      expect(manager.isActionPressed('forward')).toBe(false);
+      expect(manager.isActionPressed('confirm')).toBe(true);
+
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', key: 'w' }));
+      manager.detach();
+    });
+
+    it('should expose subscribable snapshots for reactive input state', () => {
+      const manager = new InputManager();
+      const element = document.createElement('div');
+      const snapshots: Array<ReturnType<InputManager['getSnapshot']>> = [];
+
+      manager.attach(element);
+      manager.setActionMap({
+        confirm: {
+          keyboard: ['enter'],
+        },
+      });
+
+      const unsubscribe = manager.subscribe((snapshot) => {
+        snapshots.push(snapshot);
+      });
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Enter', key: 'Enter' }));
+
+      expect(manager.getSnapshot()).toMatchObject({
+        activeActions: ['confirm'],
+        dragState: 'idle',
+        force: 0,
+        isPressed: false,
+      });
+      expect(snapshots.at(-1)).toMatchObject({
+        activeActions: ['confirm'],
+      });
+
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'Enter', key: 'Enter' }));
+
+      expect(manager.getSnapshot().activeActions).toEqual([]);
+
+      unsubscribe();
+      manager.detach();
+    });
   });
 
   describe('haptics', () => {
@@ -97,7 +203,7 @@ describe('InputManager', () => {
 
   describe('attach/detach', () => {
     it('should attach to element when available', () => {
-      const _manager = new InputManager();
+      expect(() => new InputManager()).not.toThrow();
     });
 
     it('should detach from element', () => {

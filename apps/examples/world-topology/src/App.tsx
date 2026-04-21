@@ -1,3 +1,6 @@
+import { Box, OrbitControls, Sphere, Text } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   createConnectionSystem,
   createGameStore,
@@ -5,10 +8,7 @@ import {
   createSpawnSystem,
   createWorld,
   createWorldGraph,
-} from '@jbcom/strata';
-import { Box, OrbitControls, Sphere, Text } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
-import React, { useEffect, useMemo, useState } from 'react';
+} from 'strata-game-library/core';
 import * as THREE from 'three';
 
 // 1. Define the world

@@ -16,7 +16,7 @@ export interface ConnectionSystemState {
 }
 
 export interface ModeManager {
-  push(modeId: string, props?: Record<string, unknown>): void;
+  push(modeId: string, props?: Record<string, unknown>): void | Promise<void>;
 }
 
 /**

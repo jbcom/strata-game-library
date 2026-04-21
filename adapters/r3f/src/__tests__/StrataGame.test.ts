@@ -13,6 +13,7 @@ vi.mock('@react-three/fiber', () => ({
   useFrame: (callback: any) => callback,
   useThree: () => ({
     camera: { add: vi.fn(), remove: vi.fn() },
+    gl: { domElement: document.createElement('canvas') },
   }),
 }));
 
@@ -47,6 +48,18 @@ describe('StrataGame exports', () => {
     const mod = await import('../StrataGame');
     expect(mod.useGame).toBeDefined();
     expect(typeof mod.useGame).toBe('function');
+  });
+
+  it('should export useScene, useMode, and useTransition hooks', async () => {
+    const mod = await import('../StrataGame');
+    expect(mod.useScene).toBeDefined();
+    expect(typeof mod.useScene).toBe('function');
+    expect(mod.useMode).toBeDefined();
+    expect(typeof mod.useMode).toBe('function');
+    expect(mod.useGameStatus).toBeDefined();
+    expect(typeof mod.useGameStatus).toBe('function');
+    expect(mod.useTransition).toBeDefined();
+    expect(typeof mod.useTransition).toBe('function');
   });
 
   it('should export StrataGameProps type (inferrable from component)', async () => {

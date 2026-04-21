@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * Playwright configuration for integration testing Strata's public API
  *
  * These tests verify that the library works correctly in a browser environment
- * by testing core functions, React components, and rendering capabilities.
+ * by testing core functions and framework-agnostic rendering capabilities.
  *
  * Uses Playwright's built-in webServer to spin up a static file server.
  */
@@ -52,11 +52,11 @@ export default defineConfig({
 		},
 	],
 
-	// Use serve package to spin up static file server from project root
+	// Use a repo-owned static file server from the package root
 	// This gives access to /dist/, /tests/integration-playwright/fixtures/, etc.
 	webServer: {
-		command: 'pnpm exec serve -C',
-		url: 'http://localhost:3000',
+		command: 'node tests/integration-playwright/fixtures/static-server.mjs',
+		url: 'http://localhost:3000/tests/integration-playwright/fixtures/test-server.html',
 		reuseExistingServer: !process.env.CI,
 		timeout: 120000,
 	},

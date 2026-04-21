@@ -22,9 +22,9 @@ export interface GuardPresetConfig extends AIPresetConfig {
   patrolWaypoints: Array<[number, number, number]>;
   /** Radius within which the guard detects targets. Default: 15. */
   detectionRadius?: number;
-  /** Speed when chasing a detected target. Default: 8. */
+  /** Speed when chasing a detected target. Default: maxSpeed. */
   chaseSpeed?: number;
-  /** Speed when patrolling the waypoints. Default: 3. */
+  /** Speed when patrolling the waypoints. Default: maxSpeed. */
   patrolSpeed?: number;
 }
 
@@ -48,7 +48,7 @@ export interface PreyPresetConfig extends AIPresetConfig {
 export interface PredatorPresetConfig extends AIPresetConfig {
   /** Optional path points for patrolling. If omitted, uses wandering. */
   patrolWaypoints?: Array<[number, number, number]>;
-  /** Speed when pursuing detected prey. Default: 12. */
+  /** Speed when pursuing detected prey. Default: maxSpeed. */
   pursuitSpeed?: number;
   /** Radius within which the predator detects prey. Default: 20. */
   detectionRadius?: number;

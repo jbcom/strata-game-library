@@ -28,6 +28,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "test": "vitest run",
+    "test:smoke": "pnpm build && node scripts/smoke.mjs",
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm build"
   },

@@ -32,11 +32,6 @@ import type { InventoryProps, InventoryRef, InventorySlot } from './types';
  *   onSlotDrop={(from, to) => swapItems(from, to)}
  * />
  * ```
- *
- * ## Interactive Demos
- * <iframe src="../../demos/ui.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
- *
- * - 🎮 [Live UI Demo](../../demos/ui.html)
  */
 export const Inventory = forwardRef<InventoryRef, InventoryProps>(
   (

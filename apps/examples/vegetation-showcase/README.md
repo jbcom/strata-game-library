@@ -102,8 +102,8 @@ This example demonstrates efficient GPU instancing:
 
 The code in this example is production-ready and can be copied directly into your project:
 
-1. Install Strata: `pnpm install @jbcom/strata`
-2. Import the functions: `import { createGrassInstances, createTreeInstances } from '@jbcom/strata'`
+1. Install Strata: `pnpm install strata-game-library`
+2. Import the functions: `import { createGrassInstances, createTreeInstances } from 'strata-game-library/presets'`
 3. Create instances with your biome and terrain data
 4. Add the meshes to your Three.js scene
 

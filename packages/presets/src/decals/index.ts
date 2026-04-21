@@ -105,7 +105,6 @@ function projectDecal(
   const vertices: number[] = [];
   const normals: number[] = [];
   const uvs: number[] = [];
-  const _indices: number[] = [];
 
   const positionAttribute = geometry.getAttribute('position');
   const normalAttribute = geometry.getAttribute('normal');

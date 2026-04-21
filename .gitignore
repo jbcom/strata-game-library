@@ -33,6 +33,7 @@ npm-debug.log*
 
 # Playwright
 test-results/
+playwright-results/
 playwright-report/
 playwright/.cache/
 junit.xml

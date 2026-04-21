@@ -217,7 +217,6 @@ export const CharacterController = forwardRef<CharacterControllerRef, CharacterC
       const hit = world.castRay(ray, rayLength, true);
 
       if (hit) {
-        const _hitPoint = ray.pointAt(hit.timeOfImpact);
         const normal = hit.collider.castRayAndGetNormal(ray, rayLength, true)?.normal;
 
         if (normal) {

@@ -75,7 +75,7 @@ export function createBillboard(options: BillboardOptions): THREE.Mesh {
       // Create rotation to face camera
       const up = new THREE.Vector3(0, 1, 0);
       const right = new THREE.Vector3().crossVectors(up, lookAt).normalize();
-      const _newUp = new THREE.Vector3().crossVectors(lookAt, right).normalize();
+      void right;
 
       mesh.lookAt(worldPos.clone().add(lookAt));
     }

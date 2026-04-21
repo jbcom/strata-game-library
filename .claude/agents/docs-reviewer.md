@@ -21,7 +21,7 @@ You ensure documentation across the monorepo is accurate, consistent, and up-to-
 1. Read `CLAUDE.md` for project overview and conventions
 2. Read `PUBLIC_API.md` to understand the declared stable surface
 3. Read `CONTRACT.md` for stability guarantees
-4. Check `docs/architecture/AGENTS.md` for the architecture document index
+4. Check `docs/AGENTS.md` for the architecture document index
 
 ## Review Process
 

@@ -125,7 +125,6 @@ function getRandomPositionInRegion(region: Region): THREE.Vector3 {
   if (bounds.type === 'sphere') {
     const r = Math.random() * bounds.radius;
     const theta = Math.random() * Math.PI * 2;
-    const _phi = Math.acos(2 * Math.random() - 1);
 
     // Simple 2D random for now if it's on terrain
     pos.x += r * Math.sin(theta);

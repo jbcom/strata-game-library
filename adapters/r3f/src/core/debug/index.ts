@@ -17,6 +17,7 @@ export {
   useCreateStore,
   useDebugControls,
   useDebugFolder,
+  useDebugPanel,
   useLightingDebug,
   usePhysicsDebug,
   usePostProcessingDebug,

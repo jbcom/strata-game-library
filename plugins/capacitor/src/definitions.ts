@@ -99,8 +99,7 @@ export interface HapticsOptions {
    * Custom intensity (0-1) for fine-grained control.
    * If specified, takes precedence over intensity preset.
    * Note: iOS will round to nearest preset (light/medium/heavy).
-   * @minimum 0
-   * @maximum 1
+   * Range: 0 to 1.
    */
   customIntensity?: number;
   /**

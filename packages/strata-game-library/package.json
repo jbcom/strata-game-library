@@ -1,0 +1,205 @@
+{
+  "name": "strata-game-library",
+  "version": "0.1.0",
+  "description": "Single-package entrypoint for Strata - declarative game APIs, React Three Fiber components, presets, shaders, and integrations",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./api": {
+      "types": "./dist/api.d.ts",
+      "import": "./dist/api.js"
+    },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "import": "./dist/components.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    },
+    "./game": {
+      "types": "./dist/game.d.ts",
+      "import": "./dist/game.js"
+    },
+    "./compose": {
+      "types": "./dist/compose.d.ts",
+      "import": "./dist/compose.js"
+    },
+    "./world": {
+      "types": "./dist/world.d.ts",
+      "import": "./dist/world.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
+    "./shaders": {
+      "types": "./dist/shaders.d.ts",
+      "import": "./dist/shaders.js"
+    },
+    "./presets": {
+      "types": "./dist/presets.d.ts",
+      "import": "./dist/presets.js"
+    },
+    "./r3f": {
+      "types": "./dist/r3f.d.ts",
+      "import": "./dist/r3f.js"
+    },
+    "./reactylon": {
+      "types": "./dist/reactylon.d.ts",
+      "import": "./dist/reactylon.js"
+    },
+    "./audio-synth": {
+      "types": "./dist/audio-synth.d.ts",
+      "import": "./dist/audio-synth.js"
+    },
+    "./model-synth": {
+      "types": "./dist/model-synth.d.ts",
+      "import": "./dist/model-synth.js"
+    },
+    "./capacitor": {
+      "types": "./dist/capacitor.d.ts",
+      "import": "./dist/capacitor.js"
+    },
+    "./react-native": {
+      "types": "./dist/react-native.d.ts",
+      "import": "./dist/react-native.js"
+    },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "import": "./dist/astro.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build:deps": "pnpm --dir ../.. --recursive --workspace-concurrency=1 --filter @strata-game-library/core --filter @strata-game-library/shaders --filter @strata-game-library/presets --filter @strata-game-library/r3f --filter @strata-game-library/reactylon --filter @strata-game-library/audio-synth --filter @strata-game-library/model-synth --filter @strata-game-library/capacitor --filter @strata-game-library/react-native --filter @strata-game-library/astro build",
+    "build": "pnpm run build:deps && tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/ tests/",
+    "lint:fix": "biome lint --write src/ tests/",
+    "test": "pnpm run build:deps && vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build && pnpm run test"
+  },
+  "keywords": [
+    "strata",
+    "game-framework",
+    "react-three-fiber",
+    "threejs",
+    "procedural-generation",
+    "terrain",
+    "water",
+    "sky",
+    "ecs",
+    "game"
+  ],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "packages/strata-game-library"
+  },
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/packages/strata-game-library#readme",
+  "bugs": {
+    "url": "https://github.com/jbcom/strata-game-library/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@babylonjs/core": ">=8.0.0",
+    "@react-three/drei": ">=9.0.0",
+    "@react-three/fiber": ">=8.0.0",
+    "@react-three/rapier": ">=1.0.0 || >=2.0.0",
+    "astro": ">=4.0.0",
+    "postprocessing": ">=6.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "reactylon": ">=0.1.0",
+    "three": ">=0.150.0",
+    "tone": ">=14.0.0",
+    "typescript": ">=5.0.0",
+    "yuka": ">=0.7.0",
+    "zustand": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@babylonjs/core": {
+      "optional": true
+    },
+    "@react-three/drei": {
+      "optional": true
+    },
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "@react-three/rapier": {
+      "optional": true
+    },
+    "astro": {
+      "optional": true
+    },
+    "postprocessing": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "reactylon": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    },
+    "tone": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    },
+    "yuka": {
+      "optional": true
+    },
+    "zustand": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
+    "@strata-game-library/astro": "workspace:*",
+    "@strata-game-library/audio-synth": "workspace:*",
+    "@strata-game-library/capacitor": "workspace:*",
+    "@strata-game-library/core": "workspace:*",
+    "@strata-game-library/model-synth": "workspace:*",
+    "@strata-game-library/presets": "workspace:*",
+    "@strata-game-library/r3f": "workspace:*",
+    "@strata-game-library/react-native": "workspace:*",
+    "@strata-game-library/reactylon": "workspace:*",
+    "@strata-game-library/shaders": "workspace:*",
+    "@vitest/coverage-v8": "^4.0.16",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

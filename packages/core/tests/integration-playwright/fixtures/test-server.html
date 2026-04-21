@@ -43,10 +43,17 @@
     <script type="importmap">
     {
         "imports": {
-            "react": "https://esm.sh/react@19.0.0",
-            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
-            "react-dom": "https://esm.sh/react-dom@19.0.0",
-            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "react": "https://esm.sh/react@19.2.5",
+            "react/jsx-runtime": "https://esm.sh/react@19.2.5/jsx-runtime",
+            "react-dom": "https://esm.sh/react-dom@19.2.5",
+            "react-dom/client": "https://esm.sh/react-dom@19.2.5/client",
+            "@strata-game-library/shaders": "/__workspace/packages/shaders/dist/index.js",
+            "@strata-game-library/shaders/clouds": "/__workspace/packages/shaders/dist/clouds.js",
+            "@strata-game-library/shaders/godRays": "/__workspace/packages/shaders/dist/godRays.js",
+            "@strata-game-library/shaders/raymarching": "/__workspace/packages/shaders/dist/raymarching.js",
+            "@strata-game-library/shaders/sky": "/__workspace/packages/shaders/dist/sky.js",
+            "@strata-game-library/shaders/volumetrics": "/__workspace/packages/shaders/dist/volumetrics.js",
+            "@strata-game-library/shaders/water": "/__workspace/packages/shaders/dist/water.js",
             "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.15.0?external=react,react-dom,three",
             "@react-three/drei": "https://esm.sh/@react-three/drei@9.114.0?external=react,three,@react-three/fiber",
             "@react-three/postprocessing": "https://esm.sh/@react-three/postprocessing@3.0.0?external=react,three,@react-three/fiber,postprocessing",
@@ -55,10 +62,16 @@
             "postprocessing": "https://esm.sh/postprocessing@6.0.0?external=three",
             "yuka": "https://esm.sh/yuka@0.7.8",
             "howler": "https://esm.sh/howler@2.2.4",
-            "zustand": "https://esm.sh/zustand@5.0.0?external=react",
+            "zustand": "https://esm.sh/zustand@5.0.11?external=react",
+            "zustand/middleware/immer": "https://esm.sh/zustand@5.0.11/middleware/immer?external=react,zustand,immer",
             "immer": "https://esm.sh/immer@11.0.0",
             "leva": "https://esm.sh/leva@0.10.1?external=react",
-            "maath": "https://esm.sh/maath@0.6.0?external=three",
+            "maath": "https://esm.sh/maath@0.10.8?external=three",
+            "maath/buffer": "https://esm.sh/maath@0.10.8/buffer?external=three",
+            "maath/easing": "https://esm.sh/maath@0.10.8/easing?external=three",
+            "maath/misc": "https://esm.sh/maath@0.10.8/misc?external=three",
+            "maath/random": "https://esm.sh/maath@0.10.8/random?external=three",
+            "maath/triangle": "https://esm.sh/maath@0.10.8/triangle?external=three",
             "miniplex": "https://esm.sh/miniplex@2.0.0",
             "miniplex-react": "https://esm.sh/miniplex-react@2.0.0?external=react,miniplex",
             "simplex-noise": "https://esm.sh/simplex-noise@4.0.3",
@@ -89,7 +102,7 @@
         }
 
         // Signal ready state
-        window.signalReady = function() {
+        window.signalReady = () => {
             window.testStatus.ready = true;
             updateStatus('Ready for testing');
         };
@@ -97,7 +110,7 @@
         // Handle errors
         window.addEventListener('error', (e) => {
             window.testStatus.error = e.message;
-            updateStatus('Error: ' + e.message);
+            updateStatus(`Error: ${e.message}`);
         });
 
         updateStatus('Initialized');

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Documentation site', () => {
   test('homepage loads with correct title', async ({ page }) => {
@@ -20,11 +20,10 @@ test.describe('Documentation site', () => {
 
   test('search functionality is present', async ({ page }) => {
     await page.goto('/');
-    // Starlight uses a search button
-    const searchButton = page.locator('[data-pagefind-ui], button[aria-label*="Search"], .pagefind-ui');
-    // At minimum, search input or button should exist
-    const searchElements = await page.locator('site-search, [data-pagefind-ui]').count();
-    expect(searchElements).toBeGreaterThanOrEqual(0); // Pagefind may load async
+    const searchLocator = page.locator(
+      'site-search, [data-pagefind-ui], button[aria-label*="Search"], .pagefind-ui'
+    );
+    expect(await searchLocator.count()).toBeGreaterThanOrEqual(0); // Pagefind may load async
   });
 });
 

@@ -16,4 +16,4 @@ export * from './components/index.js';
 export * from './hooks/index.js';
 
 // StrataGame top-level component
-export { StrataGame, useGame } from './StrataGame.js';
+export { StrataGame, useGame, useGameStatus, useMode, useScene, useTransition } from './StrataGame.js';

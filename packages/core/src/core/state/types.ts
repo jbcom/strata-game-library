@@ -30,6 +30,17 @@ export interface SaveData<T> {
 }
 
 /**
+ * Metadata describing a persisted save slot without loading full state.
+ * @category Game Systems
+ */
+export interface SaveInfo {
+  /** Save timestamp in milliseconds since epoch. */
+  timestamp: number;
+  /** Store version recorded in the save file. */
+  version: number;
+}
+
+/**
  * Named state snapshot for recovery.
  * @category Game Systems
  */
@@ -60,7 +71,7 @@ export interface PersistenceAdapter {
   /** List all available save keys with a specific prefix. */
   listSaves(prefix: string): Promise<string[]>;
   /** Get basic info about a save without loading the full state. */
-  getSaveInfo(key: string): Promise<{ timestamp: number; version: number } | null>;
+  getSaveInfo(key: string): Promise<SaveInfo | null>;
 }
 
 /**
@@ -140,6 +151,8 @@ export interface GameStoreActions<T> {
   deleteSave: (slot: string) => Promise<boolean>;
   /** List all active save slots. */
   listSaves: () => Promise<string[]>;
+  /** Get metadata for a persisted save slot without loading the full state. */
+  getSaveInfo: (slot: string) => Promise<SaveInfo | null>;
 
   /** Create a named recovery point in memory. */
   createCheckpoint: (name: string, options?: CheckpointOptions) => Promise<boolean>;

@@ -127,8 +127,13 @@ declare module 'yuka' {
     previousState: State<T>;
     globalState: State<T>;
     add(id: string, state: State<T>): this;
-    changeTo(state: State<T>): this;
+    remove(id: string): this;
+    get(id: string): State<T> | undefined;
+    changeTo(id: string): this;
     update(): this;
+    revert(): this;
+    in(id: string): boolean;
+    handleMessage(telegram: unknown): boolean;
   }
 
   export class State<T> {

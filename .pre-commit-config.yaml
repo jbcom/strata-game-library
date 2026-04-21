@@ -20,6 +20,8 @@ repos:
       - id: check-json
       - id: check-added-large-files
         args: [--maxkb=500]
+        # TypeDoc emits one large module index for the expanded public/internal API surface.
+        exclude: ^(apps/docs/src/content/docs/api/modules/strata_core\.html|docs/internal/modules/strata_core\.html)$
       - id: check-merge-conflict
       - id: check-case-conflict
       - id: detect-private-key
@@ -72,7 +74,8 @@ repos:
     hooks:
       - id: detect-secrets
         args: [--baseline, .secrets.baseline]
-        exclude: (pnpm-lock\.yaml|\.triage-recordings/)
+        # TypeDoc search/navigation indexes contain compressed high-entropy payloads.
+        exclude: (pnpm-lock\.yaml|\.triage-recordings/|apps/docs/src/content/docs/api/assets/(hierarchy|navigation|search)\.js|docs/internal/assets/(hierarchy|navigation|search)\.js)
 
   # ===========================================
   # TypeScript/JavaScript/JSON (Biome)

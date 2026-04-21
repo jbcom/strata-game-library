@@ -5,7 +5,7 @@ description: AI-powered 3D model generation for game assets
 
 # Model Synth
 
-The `@strata-game-library/model-synth` package provides AI-powered 3D model generation. Create game assets from text descriptions, generate procedural meshes, and build complex models from compositional primitives.
+The `@strata-game-library/model-synth` package provides Meshy-backed 3D model generation for game assets. It exposes a high-level `ModelSynth` workflow plus lower-level text-to-3D, rigging, animation, and retexture clients.
 
 ## Installation
 
@@ -16,56 +16,97 @@ pnpm add @strata-game-library/model-synth
 ## Quick Start
 
 ```tsx
-import { generateModel, ModelPreview } from '@strata-game-library/model-synth';
+import { ModelSynth } from '@strata-game-library/model-synth';
 
-// Generate a model from a text description
-const model = await generateModel({
-  prompt: 'medieval wooden barrel with iron bands',
-  style: 'low-poly',
-  polyCount: 500,
+const synth = new ModelSynth({ apiKey: process.env.MESHY_API_KEY! });
+
+const character = await synth.character({
+  prompt: 'stylized otter river explorer with a satchel',
+  style: 'cartoon',
+  rigged: true,
+  animations: [
+    'idle',
+    'walk',
+    'run',
+    {
+      name: 'jump60',
+      actionId: 466,
+      postProcess: { operation_type: 'change_fps', fps: 60 },
+    },
+  ],
 });
+
+console.log(character.model_urls?.glb);
+console.log(character.riggedModelUrls?.rigged);
+console.log(character.animationUrls?.idle);
 ```
+
+When `rigged` or `animations` are requested, `character()` runs the Text-to-3D preview and refine stages before submitting the resulting textured humanoid task to Meshy rigging. The default refine options request GLB output and auto sizing, and can be overridden through `refineOptions`.
 
 ## Features
 
 - **Text-to-3D** — Generate 3D models from natural language descriptions
-- **Style Control** — Low-poly, realistic, stylized, and more
-- **Procedural Meshes** — Algorithmic mesh generation for common game objects
-- **Compositional Building** — Combine primitive shapes into complex models
-- **LOD Generation** — Automatic level-of-detail variants
-- **UV Mapping** — Automatic UV unwrapping for generated models
+- **Style Control** — Realistic, cartoon, anime, voxel, PBR, fantasy, and more
+- **Character Pipeline** — Generate, rig, and optionally apply Meshy animation-library actions in one workflow
+- **Rigging Client** — Direct access to Meshy rigging tasks and rigged GLB/FBX URLs
+- **Animation Client** — Direct access to Meshy animation tasks and GLB/FBX animation outputs
+- **Retexture Client** — Texture variant generation for generated models
 
-## Compositional System
+## Character Workflow
 
-Build complex models from primitive shapes and materials:
+`ModelSynth.character()` returns the completed text-to-3D task augmented with optional `riggingTask`, `riggedModelUrls`, `animationTasks`, and `animationUrls` fields.
 
 ```tsx
-import { createProp } from '@strata-game-library/model-synth';
-
-const crate = createProp({
-  components: [
-    { shape: 'box', size: [1, 1, 1], material: 'wood_oak' },
-    { shape: 'box', size: [1.05, 0.03, 0.02], material: 'metal_iron', position: [0, 0.3, 0] },
-    { shape: 'box', size: [1.05, 0.03, 0.02], material: 'metal_iron', position: [0, -0.3, 0] },
-  ],
+const result = await synth.character({
+  prompt: 'armored fox knight',
+  rigged: true,
+  heightMeters: 1.4,
+  animationStyle: 'stylized',
+  fps: 30,
+  animations: ['idle', 'run', 466],
 });
+
+const riggedGlb = result.riggedModelUrls?.rigged;
+const runAnimation = result.animationUrls?.run;
 ```
 
-## Procedural Generation
+Named animations are resolved through Strata's bundled Meshy action-id map (`idle`, `walk`, `run`, `jump`, `collect`, `hit`, `death`, `victory`, and dodge/slide variants). Numeric Meshy action ids and named object requests are also accepted.
 
-Generate common game objects procedurally:
+## Live Smoke Testing
+
+`@strata-game-library/model-synth` includes a gated real-API smoke command:
+
+```bash
+MESHY_API_KEY=... pnpm --dir plugins/model-synth test:smoke
+```
+
+By default the command only verifies authentication by listing tasks. The full character pipeline is intentionally behind explicit cost confirmation:
+
+```bash
+MESHY_API_KEY=... \
+MESHY_SMOKE_CREATE_CHARACTER=1 \
+MESHY_SMOKE_CONFIRM_COSTS=1 \
+pnpm --dir plugins/model-synth test:smoke
+```
+
+The full path creates preview, refine, rigging, and animation tasks, then verifies that the completed result includes a rigged GLB and idle animation GLB.
+
+## Lower-Level Clients
 
 ```tsx
-import { generateTree, generateRock, generateBuilding } from '@strata-game-library/model-synth';
+const prop = await synth.prop({ prompt: 'mossy river rock', style: 'realistic' });
+const coin = await synth.collectible({ prompt: 'glowing gold coin', style: 'cartoon' });
 
-const tree = generateTree({ species: 'oak', height: 8, foliageDensity: 0.8 });
-const rock = generateRock({ size: 2, roughness: 0.6, moss: true });
-const house = generateBuilding({ style: 'medieval', floors: 2, width: 6 });
+const rig = await synth.rigging.createRiggingTask({ input_task_id: prop.id });
+const animation = await synth.animations.createAnimationTask({
+  rig_task_id: rig.id,
+  action_id: 30,
+});
 ```
 
 ## Status
 
-Model Synth is currently in active development. The compositional system is available for use, while AI-powered text-to-3D generation is in preview.
+Model Synth is currently in active development. Text-to-3D, rigging, animation, retexture, and high-level preview/refine/rigging/animation orchestration are implemented as task-based Meshy API workflows; production use should still validate the exact Meshy plan, rate limits, and generated asset licensing for your project.
 
 ## Related
 

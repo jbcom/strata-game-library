@@ -1,7 +1,7 @@
-import { ProceduralSky } from '@jbcom/strata';
 import { OrbitControls, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { folder, useControls } from 'leva';
+import { ProceduralSky } from 'strata-game-library/r3f';
 
 /**
  * Sky & Volumetrics Showcase

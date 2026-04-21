@@ -402,7 +402,7 @@ function terrainWithCaves(point: [number, number, number]): number {
 
 See the [interactive terrain demo](/showcase/terrain/) running live in your browser.
 
-[View Live Demo](/showcase/terrain/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/examples/basic-terrain)
+[View Live Demo](/showcase/terrain/) | [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/basic-terrain)
 
 ## Related
 

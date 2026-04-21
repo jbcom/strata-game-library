@@ -66,8 +66,7 @@ export function createReflectionProbe(options: ReflectionProbeOptions): Reflecti
     const currentTime = performance.now() / 1000;
 
     if (updateRate === 0 || currentTime - lastUpdateTime >= updateInterval) {
-      // Get objects to render (or use all objects)
-      const _objectsToRender = renderObjects ? renderObjects(scene) : scene.children;
+      void renderObjects;
 
       // Render cube map
       cubeCamera.update(renderer, scene);

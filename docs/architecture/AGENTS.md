@@ -21,6 +21,8 @@ This directory contains the architectural vision, RFCs, and implementation guide
 | [STRATA_GAME_STUDIO_VISION.md](STRATA_GAME_STUDIO_VISION.md) | Proposal | 10% | Unified brand: Engine, Workshop, Learn, Arcade pillars |
 | [UNIFIED_ORCHESTRATOR.md](UNIFIED_ORCHESTRATOR.md) | Proposal | Phase 1 partial | Multi-agent dev loop (Ollama + Jules + Cursor) |
 | [AI_DESIGN_AUTOMATION.md](AI_DESIGN_AUTOMATION.md) | Research | 20% | AI design pipeline: v0, Magic MCP, screenshot-to-code |
+| [PACKAGE_STRATEGY.md](PACKAGE_STRATEGY.md) | Active | 80% | Current umbrella/scoped package contract, migration, and publishing strategy |
+| [CONSOLIDATION_PARITY_MATRIX.md](CONSOLIDATION_PARITY_MATRIX.md) | Active | 70% | Historical split-repo inventory and parity decisions |
 | [PACKAGE_DECOMPOSITION.md](PACKAGE_DECOMPOSITION.md) | Superseded | Complete | Package split strategy (now implemented as monorepo) |
 | [ECOSYSTEM_INTEGRATION.md](ECOSYSTEM_INTEGRATION.md) | Reference | Partial | TypeScript game migration analysis (arcade-cabinet org) |
 | [ISSUE_TRIAGE.md](ISSUE_TRIAGE.md) | Stale | N/A | Issue triage from Dec 2025 (pre-monorepo) |
@@ -50,7 +52,9 @@ The framework vision adds four layers to Strata's existing rendering primitives:
 - The monorepo migration (Feb 2026) restructured packages but the framework layers predate it
 - `packages/core/` must remain pure TypeScript with NO React imports
 - All React components live in `adapters/r3f/`
-- The PACKAGE_DECOMPOSITION.md is superseded by the actual monorepo structure
+- PACKAGE_STRATEGY.md is the current package contract
+- CONSOLIDATION_PARITY_MATRIX.md records the historical split-repo inventory
+- PACKAGE_DECOMPOSITION.md is superseded by the actual monorepo structure
 - ISSUE_TRIAGE.md and ARCADE_CABINET_TRIAGE.md reference the old multi-repo setup
 
 ## Related
