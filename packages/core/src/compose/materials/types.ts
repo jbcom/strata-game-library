@@ -81,6 +81,55 @@ export interface MaterialTrait {
   tags?: string[];
 }
 
+export type MaterialProceduralAlgorithm =
+  | 'directional-noise'
+  | 'strand-noise'
+  | 'scratch-lines'
+  | 'edge-wear'
+  | 'oxidation-noise'
+  | 'branching-veins'
+  | 'cellular-mottle'
+  | 'depth-absorption';
+
+export type MaterialProceduralUniformType = 'float' | 'int' | 'color';
+export type MaterialProceduralColor = string | [number, number, number];
+
+export interface MaterialProceduralUniform {
+  name: string;
+  type: MaterialProceduralUniformType;
+  value: number | MaterialProceduralColor;
+}
+
+export interface MaterialProceduralLayer {
+  id: string;
+  traitId: string;
+  type: MaterialTraitType;
+  algorithm: MaterialProceduralAlgorithm;
+  functionName: string;
+  channels: MaterialTraitChannel[];
+  intensity: number;
+  scale: number;
+  seed: number;
+  color?: MaterialProceduralColor;
+  secondaryColor?: MaterialProceduralColor;
+  uniforms: MaterialProceduralUniform[];
+}
+
+export interface MaterialProceduralPlan {
+  materialId: string;
+  layers: MaterialProceduralLayer[];
+  channelLayers: Record<MaterialTraitChannel, string[]>;
+  uniforms: MaterialProceduralUniform[];
+  shaderChunk: string;
+}
+
+export interface MaterialProceduralPlanOptions {
+  traits?: MaterialTrait[];
+  inferTraits?: boolean;
+  includeShaderChunk?: boolean;
+  idPrefix?: string;
+}
+
 export interface MaterialDefinition {
   id: string;
   type: MaterialType;

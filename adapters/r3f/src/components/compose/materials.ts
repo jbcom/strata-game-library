@@ -1,4 +1,9 @@
-import type { MaterialDefinition } from '@strata-game-library/core/compose';
+import {
+  createMaterialProceduralPlan,
+  inferMaterialTraits,
+  type MaterialDefinition,
+  type MaterialTrait,
+} from '@strata-game-library/core/compose';
 import * as THREE from 'three';
 import type { RuntimeMaterialOptions } from './types';
 
@@ -12,6 +17,10 @@ function cloneMaterialTraits(traits: MaterialDefinition['traits']): MaterialDefi
     channels: [...trait.channels],
     tags: trait.tags ? [...trait.tags] : undefined,
   }));
+}
+
+function resolveMaterialTraits(definition: MaterialDefinition): MaterialTrait[] {
+  return cloneMaterialTraits(definition.traits) ?? inferMaterialTraits(definition);
 }
 
 /**
@@ -41,12 +50,17 @@ export function createRuntimeMaterial(
   }
 
   const material = new THREE.MeshStandardMaterial(parameters);
-  const traits = cloneMaterialTraits(definition.traits);
+  const traits = resolveMaterialTraits(definition);
+  const procedural =
+    traits.length > 0
+      ? createMaterialProceduralPlan(definition, { traits, includeShaderChunk: true })
+      : undefined;
 
-  if (traits) {
+  if (traits.length > 0 || procedural) {
     material.userData = {
       ...material.userData,
       strataMaterialTraits: traits,
+      strataMaterialProceduralPlan: procedural,
     };
   }
 

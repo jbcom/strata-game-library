@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, procedural shader/texture layer plans, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, built-output browser smoke, API-showcase composition-tab runtime exercise, and WebGL-backed canvas creation when Chromium exposes WebGL, but broader adapter/example visual runtime coverage is still thin |
@@ -44,7 +44,8 @@ This document reflects the actual state of the repository after the umbrella-pac
 - `packages/core/src/compose/materials/`
   - Presets and factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` support deterministic runtime variation and swapping metadata.
   - `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
-  - Remaining gap: actual procedural texture/shader generation and authoring UX are still thin.
+  - `createMaterialProceduralPlan()` now turns traits into deterministic adapter-neutral shader/texture layer plans with channels, uniforms, GLSL helper chunks, and per-trait algorithms.
+  - Remaining gap: renderer-specific shader application, generated texture baking, and authoring UX are still thin.
 
 ### Declarative Game Layer
 
@@ -82,13 +83,13 @@ This document reflects the actual state of the repository after the umbrella-pac
   - `RuntimeAssetMesh` now lets mesh-shaped prop nodes with a `mesh` URL render static GLB assets through Drei's GLTF cache while preserving runtime material metadata and a source-material mode.
   - `RuntimeCreatureAsset` now lets asset-bound runtime creatures render GLB models through Drei's GLTF cache and map logical animation names to source clip names, and `RuntimeCreature` can select that path through `assetMode` / `animation`.
   - `RuntimeProp` can now execute core prop interaction actions from node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
-  - Runtime material creation now carries core procedural material traits into Three.js material `userData`.
+  - Runtime material creation now infers or carries core procedural material traits and shader/texture layer plans into Three.js material `userData`.
   - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint, demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and runtime material variants through the consolidated package surface, and its browser smoke test exercises the composition tab.
   - Remaining gap: richer creature rig retargeting/skeletal animation control, physics/shell integration, and broader visual runtime assertions are still incomplete.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()` now consume the same core runtime plans and expose serializable Babylon/Reactylon descriptors with material slots, transforms, bounds, physics, prop interaction actions, animation metadata, IK, and spawn metadata.
   - Reactylon creature descriptors now preserve core creature asset bindings so Babylon loaders can consume the same model, rig, clip, and bone-map metadata.
-  - Reactylon runtime material descriptors now preserve core procedural material traits.
+  - Reactylon runtime material descriptors now infer or preserve core procedural material traits and shader/texture layer plans.
   - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams for asset-backed nodes, and executable prop interaction helpers.
   - Remaining gap: async GLB loading, richer rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still incomplete.
 
@@ -194,6 +195,18 @@ Verified during this session:
 - `pnpm --dir apps/examples exec biome check --write api-showcase/src/main.tsx tests/e2e/examples.spec.ts`: passed after wiring the API showcase entrypoint to the real app and adding browser runtime assertions
 - `pnpm --dir apps/examples/api-showcase exec tsc --noEmit`: passed after wiring the built API showcase entrypoint to the real tabbed app
 - `pnpm --dir apps/examples test`: passed, including six nested Vite builds, six Chromium built-output smoke tests, API-showcase composition-tab exercise, and WebGL-backed canvas assertions when Chromium exposes WebGL
+- `pnpm --dir packages/core typecheck`: passed after procedural material plan generation
+- `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1001 tests including procedural material plan coverage
+- `pnpm --dir packages/core check`: passed after procedural material plan generation
+- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after procedural material plan generation
+- `pnpm --dir adapters/r3f typecheck`: passed after carrying procedural material plans into Three.js material `userData`
+- `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 328 tests including R3F procedural plan metadata coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after R3F procedural material plan metadata
+- `pnpm --dir adapters/reactylon typecheck`: passed after preserving procedural material plans in descriptors
+- `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon procedural plan metadata coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon procedural material plan metadata
+- `pnpm --dir packages/strata-game-library exec tsup`: passed after procedural material plan exports and adapter metadata propagation
+- `git diff --check`: passed after procedural material plan updates
 
 Known remaining verification gaps:
 

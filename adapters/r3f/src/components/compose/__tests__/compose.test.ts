@@ -1,6 +1,4 @@
 import {
-  createMaterialVariant,
-  inferMaterialTraits,
   MATERIALS,
   resolveCreatureComposition,
   resolvePropComposition,
@@ -26,15 +24,17 @@ describe('R3F runtime composition components', () => {
   });
 
   it('creates Three materials from core material definitions', () => {
-    const material = createRuntimeMaterial(
-      createMaterialVariant(MATERIALS.wood_oak, {
-        appendTraits: inferMaterialTraits('wood_oak'),
-      })
-    );
+    const material = createRuntimeMaterial(MATERIALS.wood_oak);
 
     expect(material).toBeInstanceOf(THREE.MeshStandardMaterial);
     expect((material as THREE.MeshStandardMaterial).roughness).toBe(MATERIALS.wood_oak.roughness);
     expect(material.userData.strataMaterialTraits[0]?.type).toBe('grain');
+    expect(material.userData.strataMaterialProceduralPlan.layers[0]?.algorithm).toBe(
+      'directional-noise'
+    );
+    expect(material.userData.strataMaterialProceduralPlan.shaderChunk).toContain(
+      'strataProceduralNoise'
+    );
   });
 
   it('accepts resolved core runtime composition outputs', () => {

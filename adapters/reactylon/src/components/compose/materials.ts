@@ -1,5 +1,8 @@
 import {
+  createMaterialProceduralPlan,
+  inferMaterialTraits,
   type MaterialDefinition,
+  type MaterialTrait,
   type RuntimeMaterialSlot,
   resolveMaterialDefinition,
 } from '@strata-game-library/core/compose';
@@ -29,6 +32,10 @@ function cloneMaterialTraits(traits: MaterialDefinition['traits']): MaterialDefi
   }));
 }
 
+function resolveMaterialTraits(definition: MaterialDefinition): MaterialTrait[] {
+  return cloneMaterialTraits(definition.traits) ?? inferMaterialTraits(definition);
+}
+
 function resolveSlotMaterial(
   slot: RuntimeMaterialSlot,
   options: ReactylonRuntimeMaterialOptions
@@ -51,6 +58,7 @@ export function createReactylonRuntimeMaterialDescriptor(
     options.transparentVolumetrics && material.type === 'volumetric'
       ? (material.volumetric?.transparency ?? 0.65)
       : 1;
+  const traits = resolveMaterialTraits(material);
 
   return {
     id: slot.id,
@@ -64,6 +72,10 @@ export function createReactylonRuntimeMaterialDescriptor(
     opacity,
     physics: material.physics ?? slot.physics,
     swappableWith: [...(slot.swappableWith ?? [])],
-    traits: cloneMaterialTraits(material.traits),
+    traits,
+    procedural:
+      traits.length > 0
+        ? createMaterialProceduralPlan(material, { traits, includeShaderChunk: true })
+        : undefined,
   };
 }

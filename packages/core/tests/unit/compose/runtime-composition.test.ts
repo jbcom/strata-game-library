@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  createMaterialProceduralPlan,
   createMaterialVariant,
   createMaterialVariants,
   executePropInteractionAction,
@@ -56,6 +57,20 @@ describe('runtime composition assembly', () => {
       type: 'scratches',
       seed: 34,
     });
+
+    const plan = createMaterialProceduralPlan(scratched);
+    expect(plan.materialId).toBe('scratched_iron');
+    expect(plan.layers[0]).toMatchObject({
+      traitId: 'metal_iron:scratches',
+      type: 'scratches',
+      algorithm: 'scratch-lines',
+      channels: ['roughness', 'normal', 'metalness'],
+    });
+    expect(plan.channelLayers.roughness).toEqual([plan.layers[0]?.id]);
+    expect(plan.uniforms.map((uniform) => uniform.name)).toContain(
+      `${plan.layers[0]?.functionName}_intensity`
+    );
+    expect(plan.shaderChunk).toContain(`float ${plan.layers[0]?.functionName}`);
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

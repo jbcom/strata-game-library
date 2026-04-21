@@ -147,6 +147,7 @@ export function createBabylonRuntimeMaterial(
     : PBRMaterial.PBRMATERIAL_OPAQUE;
   material.metadata = {
     strataRuntimeMaterial: slot,
+    strataMaterialProceduralPlan: slot.procedural,
   };
 
   return material;

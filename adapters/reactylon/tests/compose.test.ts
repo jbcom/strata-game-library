@@ -1,7 +1,6 @@
 import { MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
 import {
   createMaterialVariant,
-  inferMaterialTraits,
   MATERIALS,
   resolveCreatureComposition,
   resolvePropComposition,
@@ -20,20 +19,15 @@ describe('Reactylon runtime composition descriptors', () => {
   it('creates serializable material descriptors from runtime slots', () => {
     const prop = resolvePropComposition('crate_wooden');
     const slot = Object.values(prop.runtime.materialSlots)[0];
-    const descriptor = createReactylonRuntimeMaterialDescriptor(slot, {
-      materialOverrides: {
-        wood_oak: createMaterialVariant('wood_oak', {
-          id: 'wood_oak',
-          appendTraits: inferMaterialTraits('wood_oak'),
-        }),
-      },
-    });
+    const descriptor = createReactylonRuntimeMaterialDescriptor(slot);
 
     expect(descriptor.id).toBe(slot.id);
     expect(descriptor.materialId).toBe(slot.materialId);
     expect(descriptor.baseColor).toBe(MATERIALS.wood_oak.baseColor);
     expect(descriptor.physics?.density).toBeGreaterThan(0);
     expect(descriptor.traits?.[0]?.type).toBe('grain');
+    expect(descriptor.procedural?.layers[0]?.algorithm).toBe('directional-noise');
+    expect(descriptor.procedural?.shaderChunk).toContain('strataProceduralNoise');
     expect(descriptor.transparent).toBe(false);
   });
 
@@ -98,6 +92,7 @@ describe('Reactylon runtime composition descriptors', () => {
       String(MATERIALS.wood_oak.baseColor).toLowerCase()
     );
     expect(material.metadata.strataRuntimeMaterial.id).toBe(descriptor.id);
+    expect(material.metadata.strataMaterialProceduralPlan).toBe(descriptor.procedural);
 
     scene.dispose();
     engine.dispose();
