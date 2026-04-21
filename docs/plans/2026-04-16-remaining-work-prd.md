@@ -161,6 +161,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `resolveCreatureComposition()` now returns a `runtime` assembly plan with serializable runtime bones, resolved world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
 - `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
 - Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
+- `executePropInteractionAction()` now executes those prop action descriptors into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
@@ -168,7 +169,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
-- Remaining work is richer creature rig/animation asset loading, interaction execution semantics, and deeper procedural material traits.
+- Remaining work is richer creature rig/animation asset loading, adapter-level interaction wiring, and deeper procedural material traits.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

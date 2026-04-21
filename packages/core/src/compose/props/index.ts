@@ -26,7 +26,10 @@ import type {
   CreatePropInput,
   PropComposition,
   PropDefinition,
+  PropRuntimeAssembly,
   PropRuntimeInteractionAction,
+  PropRuntimeInteractionResult,
+  PropRuntimeInteractionState,
   PropRuntimeNode,
   ResolvedPropComponent,
 } from './types';
@@ -344,6 +347,133 @@ function buildPropRuntime(
     interaction: definition.interaction,
     interactionActions: buildPropInteractionActions(definition, nodes),
     audio: definition.audio,
+  };
+}
+
+function cloneInteractionState(
+  state: PropRuntimeInteractionState = {}
+): PropRuntimeInteractionState {
+  return {
+    ...state,
+    contents: state.contents ? [...state.contents] : undefined,
+    disabledActionIds: state.disabledActionIds ? [...state.disabledActionIds] : undefined,
+  };
+}
+
+function withDisabledAction(
+  state: PropRuntimeInteractionState,
+  actionId: string
+): PropRuntimeInteractionState {
+  const disabled = new Set(state.disabledActionIds ?? []);
+  disabled.add(actionId);
+
+  return {
+    ...state,
+    disabledActionIds: [...disabled],
+  };
+}
+
+function disabledResult(
+  action: PropRuntimeInteractionAction | undefined,
+  status: PropRuntimeInteractionResult['status'],
+  state: PropRuntimeInteractionState
+): PropRuntimeInteractionResult {
+  return {
+    status,
+    action,
+    effects: [],
+    nextState: cloneInteractionState(state),
+  };
+}
+
+function interactionEffectsBase(
+  action: PropRuntimeInteractionAction
+): PropRuntimeInteractionResult['effects'] {
+  return action.audio ? [{ type: 'audio', cue: action.audio }] : [];
+}
+
+export function findPropInteractionAction(
+  runtime: PropRuntimeAssembly,
+  action: string | PropRuntimeInteractionAction
+): PropRuntimeInteractionAction | undefined {
+  const actionId = typeof action === 'string' ? action : action.id;
+  return runtime.interactionActions.find((entry) => entry.id === actionId);
+}
+
+export function executePropInteractionAction(
+  runtime: PropRuntimeAssembly,
+  action: string | PropRuntimeInteractionAction,
+  state: PropRuntimeInteractionState = {}
+): PropRuntimeInteractionResult {
+  const interactionAction = findPropInteractionAction(runtime, action);
+
+  if (!interactionAction) {
+    return disabledResult(undefined, 'not-found', state);
+  }
+
+  if (
+    !interactionAction.enabled ||
+    (state.disabledActionIds ?? []).includes(interactionAction.id)
+  ) {
+    return disabledResult(interactionAction, 'disabled', state);
+  }
+
+  const nextState = cloneInteractionState(state);
+  const effects = interactionEffectsBase(interactionAction);
+  const payloadItems = interactionAction.payload?.contents ?? state.contents ?? [];
+
+  switch (interactionAction.type) {
+    case 'container':
+      nextState.open = true;
+      effects.push({ type: 'state', key: 'open', value: true });
+      if (payloadItems.length > 0) {
+        effects.push({ type: 'inventory', operation: 'inspect', items: [...payloadItems] });
+      }
+      break;
+    case 'seat':
+      if (state.occupied) {
+        return disabledResult(interactionAction, 'already-occupied', state);
+      }
+      nextState.occupied = true;
+      effects.push({ type: 'state', key: 'occupied', value: true });
+      break;
+    case 'door': {
+      const open = !state.open;
+      nextState.open = open;
+      effects.push({ type: 'state', key: 'open', value: open });
+      break;
+    }
+    case 'switch': {
+      const active = !state.active;
+      nextState.active = active;
+      effects.push({ type: 'state', key: 'active', value: active });
+      if (interactionAction.payload?.command) {
+        effects.push({ type: 'command', command: interactionAction.payload.command });
+      }
+      break;
+    }
+    case 'collectible':
+      if (state.collected) {
+        return disabledResult(interactionAction, 'already-collected', state);
+      }
+      nextState.collected = true;
+      effects.push({ type: 'state', key: 'collected', value: true });
+      if (payloadItems.length > 0) {
+        effects.push({ type: 'inventory', operation: 'collect', items: [...payloadItems] });
+      }
+      return {
+        status: 'executed',
+        action: interactionAction,
+        effects,
+        nextState: withDisabledAction(nextState, interactionAction.id),
+      };
+  }
+
+  return {
+    status: 'executed',
+    action: interactionAction,
+    effects,
+    nextState,
   };
 }
 

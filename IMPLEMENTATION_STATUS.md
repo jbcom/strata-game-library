@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, prop interaction action descriptors, first-pass R3F runtime renderers, R3F static GLB prop-node loading, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig generation and full asset-pipeline integration remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig generation and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
@@ -38,7 +38,8 @@ This document reflects the actual state of the repository after the umbrella-pac
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist, and resolved compositions now include runtime nodes, material slots, interaction/audio metadata, bounds, and physics profiles.
   - Runtime prop output now also includes interaction action descriptors with stable ids, adapter labels, enabled state, affected node ids, audio cues, and payload metadata.
-  - Remaining gap: they still do not execute rich interaction behavior or build full asset-pipeline-backed render instances.
+  - `executePropInteractionAction()` now converts those descriptors plus optional state into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
+  - Remaining gap: adapters still need richer interaction wiring and full asset-pipeline-backed render instances.
 - `packages/core/src/compose/materials/`
   - Presets and factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` support deterministic runtime variation and swapping metadata.
   - Remaining gap: procedural texture/material traits are still thin.
@@ -148,6 +149,11 @@ Verified during this session:
 - `pnpm --dir adapters/reactylon exec biome check src/components/compose src/index.ts tests/compose.test.ts`: passed
 - `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after descriptor exports
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after Reactylon descriptor exports
+- `pnpm --dir packages/core typecheck`: passed after prop interaction execution helpers
+- `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 999 tests including interaction execution coverage
+- `pnpm --dir packages/core check`: passed after prop interaction execution helpers
+- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after prop interaction execution helpers
+- `pnpm --dir packages/strata-game-library exec tsup`: passed after prop interaction execution helpers
 
 Known remaining verification gaps:
 

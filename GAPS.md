@@ -46,11 +46,12 @@ Remaining work:
   - `createProp()` and `resolvePropComposition()` now exist.
   - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
   - Runtime prop output now includes interaction action descriptors for adapter/UI consumption.
+  - Core now includes pure interaction execution helpers that convert prop action descriptors into deterministic state, inventory, audio, and command effects.
   - R3F can now consume the runtime plan through `RuntimeProp`.
   - R3F can now render mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`.
   - Reactylon can now consume the runtime plan through `StrataRuntimeProp` descriptors.
   - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials, with custom mesh factories for asset-backed nodes.
-  - Remaining gap: richer interaction execution semantics, creature rig/animation asset loading, and visual Babylon examples are still incomplete.
+  - Remaining gap: adapter-level interaction wiring, creature rig/animation asset loading, and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/materials/`
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Remaining gap: richer procedural texture/material traits remain thin.

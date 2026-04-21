@@ -66,6 +66,51 @@ export interface PropRuntimeInteractionAction {
   };
 }
 
+export interface PropRuntimeInteractionState {
+  open?: boolean;
+  active?: boolean;
+  occupied?: boolean;
+  collected?: boolean;
+  contents?: string[];
+  disabledActionIds?: string[];
+}
+
+export type PropRuntimeInteractionStateKey = 'open' | 'active' | 'occupied' | 'collected';
+
+export type PropRuntimeInteractionEffect =
+  | {
+      type: 'state';
+      key: PropRuntimeInteractionStateKey;
+      value: boolean;
+    }
+  | {
+      type: 'audio';
+      cue: string;
+    }
+  | {
+      type: 'inventory';
+      operation: 'inspect' | 'collect';
+      items: string[];
+    }
+  | {
+      type: 'command';
+      command: string;
+    };
+
+export type PropRuntimeInteractionStatus =
+  | 'executed'
+  | 'disabled'
+  | 'not-found'
+  | 'already-collected'
+  | 'already-occupied';
+
+export interface PropRuntimeInteractionResult {
+  status: PropRuntimeInteractionStatus;
+  action?: PropRuntimeInteractionAction;
+  effects: PropRuntimeInteractionEffect[];
+  nextState: PropRuntimeInteractionState;
+}
+
 export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
   components: PropComponent[];
 }

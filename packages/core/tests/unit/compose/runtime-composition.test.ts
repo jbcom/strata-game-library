@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createMaterialVariant,
   createMaterialVariants,
+  executePropInteractionAction,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '../../../src/compose';
@@ -65,6 +66,78 @@ describe('runtime composition assembly', () => {
     expect(runtime.materialSlots[woodNode?.materialSlot ?? '']?.swappableWith).toContain(
       'wood_pine'
     );
+  });
+
+  it('executes prop runtime interaction actions as deterministic state effects', () => {
+    const crate = resolvePropComposition('crate_wooden', {
+      interaction: { type: 'container', capacity: 10, contents: ['coin', 'potion'] },
+    }).runtime;
+    const containerResult = executePropInteractionAction(
+      crate,
+      'crate_wooden:interaction:container'
+    );
+
+    expect(containerResult.status).toBe('executed');
+    expect(containerResult.nextState.open).toBe(true);
+    expect(containerResult.effects).toEqual([
+      { type: 'audio', cue: 'crate_open' },
+      { type: 'state', key: 'open', value: true },
+      { type: 'inventory', operation: 'inspect', items: ['coin', 'potion'] },
+    ]);
+
+    const switchProp = resolvePropComposition({
+      id: 'lever_a',
+      name: 'Lever A',
+      components: [
+        {
+          shape: 'box',
+          size: [0.2, 0.8, 0.2],
+          position: [0, 0, 0],
+          material: 'metal_iron',
+        },
+      ],
+      interaction: { type: 'switch', action: 'raise_gate' },
+    }).runtime;
+    const switchResult = executePropInteractionAction(switchProp, 'lever_a:interaction:switch', {
+      active: false,
+    });
+
+    expect(switchResult.nextState.active).toBe(true);
+    expect(switchResult.effects).toContainEqual({ type: 'state', key: 'active', value: true });
+    expect(switchResult.effects).toContainEqual({ type: 'command', command: 'raise_gate' });
+
+    const collectible = resolvePropComposition({
+      id: 'coin_gold',
+      name: 'Gold Coin',
+      components: [
+        {
+          shape: 'sphere',
+          size: [0.2, 0.2, 0.2],
+          position: [0, 0, 0],
+          material: 'metal_gold',
+        },
+      ],
+      interaction: { type: 'collectible', contents: ['coin_gold'] },
+    }).runtime;
+    const collected = executePropInteractionAction(
+      collectible,
+      'coin_gold:interaction:collectible'
+    );
+
+    expect(collected.status).toBe('executed');
+    expect(collected.nextState.collected).toBe(true);
+    expect(collected.nextState.disabledActionIds).toEqual(['coin_gold:interaction:collectible']);
+    expect(collected.effects).toContainEqual({
+      type: 'inventory',
+      operation: 'collect',
+      items: ['coin_gold'],
+    });
+
+    expect(
+      executePropInteractionAction(collectible, 'coin_gold:interaction:collectible', {
+        collected: true,
+      }).status
+    ).toBe('already-collected');
   });
 
   it('resolves creatures into runtime bones, materials, animation bindings, and spawn metadata', () => {

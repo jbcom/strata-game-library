@@ -80,6 +80,8 @@ createCreature(input: CreateCreatureInput | string): CreatureDefinition
 resolveCreatureComposition(input: CreateCreatureInput | string): CreatureComposition
 createProp(input: CreatePropInput | string): PropDefinition
 resolvePropComposition(input: CreatePropInput | string): PropComposition
+findPropInteractionAction(runtime, action): PropRuntimeInteractionAction | undefined
+executePropInteractionAction(runtime, action, state?): PropRuntimeInteractionResult
 createMaterialVariant(material, options?): MaterialDefinition
 createMaterialVariants(material, options): MaterialDefinition[]
 ```
@@ -87,6 +89,8 @@ createMaterialVariants(material, options): MaterialDefinition[]
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
 `PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
+
+`executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers.
 
