@@ -7,13 +7,64 @@
 import { describe, expect, it, vi } from 'vitest';
 import { TextTo3DAPI } from '../src/clients/text-to-3d.js';
 import {
+  type AnimationTask,
+  type CharacterAnimationRequest,
   MeshyAuthError,
   MeshyError,
   MeshyPaymentError,
   MeshyRateLimitError,
+  type MeshyTask,
   ModelSynth,
   RATE_LIMITS,
+  type RiggingTask,
 } from '../src/index.js';
+
+const completedModelTask = {
+  id: 'model-task-123',
+  status: 'SUCCEEDED',
+  progress: 100,
+  model_urls: { glb: 'https://example.com/model.glb' },
+  created_at: '1000',
+  finished_at: 2000,
+} satisfies MeshyTask;
+
+const pendingRiggingTask = {
+  id: 'rig-task-123',
+  status: 'PENDING',
+  progress: 0,
+  created_at: 1000,
+} satisfies RiggingTask;
+
+const completedRiggingTask = {
+  id: 'rig-task-123',
+  status: 'SUCCEEDED',
+  progress: 100,
+  created_at: 1000,
+  finished_at: 2000,
+  result: {
+    rigged_character_glb_url: 'https://example.com/rigged.glb',
+    basic_animations: {
+      walking_glb_url: 'https://example.com/walk.glb',
+      running_glb_url: 'https://example.com/run.glb',
+    },
+  },
+} satisfies RiggingTask;
+
+function stubGenerateModel(synth: ModelSynth) {
+  return vi
+    .spyOn(
+      synth as unknown as {
+        generateModel(options: {
+          prompt: string;
+          style: string;
+          polycount: number;
+          tPose?: boolean;
+        }): Promise<MeshyTask>;
+      },
+      'generateModel'
+    )
+    .mockResolvedValue(completedModelTask);
+}
 
 describe('Error classes', () => {
   it('MeshyError has correct properties', () => {
@@ -204,5 +255,128 @@ describe('ModelSynth', () => {
   it('accepts custom base URL', () => {
     const synth = new ModelSynth({ apiKey: 'test-key', baseUrl: 'https://custom.api.com/v3' }); // pragma: allowlist secret
     expect(synth).toBeDefined();
+  });
+
+  it('rigs generated characters when requested', async () => {
+    const synth = new ModelSynth({ apiKey: 'test-key' }); // pragma: allowlist secret
+    const generateModel = stubGenerateModel(synth);
+    const createRiggingTask = vi
+      .spyOn(synth.rigging, 'createRiggingTask')
+      .mockResolvedValue(pendingRiggingTask);
+    const pollRiggingTask = vi
+      .spyOn(synth.rigging, 'pollRiggingTask')
+      .mockResolvedValue(completedRiggingTask);
+
+    const result = await synth.character({
+      prompt: 'stylized otter adventurer',
+      rigged: true,
+      heightMeters: 1.2,
+      animationStyle: 'stylized',
+      fps: 30,
+      poll: { maxRetries: 1, intervalMs: 0 },
+    });
+
+    expect(generateModel).toHaveBeenCalledWith({
+      prompt: 'stylized otter adventurer',
+      style: 'cartoon',
+      polycount: 8000,
+      tPose: true,
+    });
+    expect(createRiggingTask).toHaveBeenCalledWith({
+      input_task_id: 'model-task-123',
+      height_meters: 1.2,
+      custom_animations: undefined,
+      animation_style: 'stylized',
+      fps: 30,
+    });
+    expect(pollRiggingTask).toHaveBeenCalledWith('rig-task-123', 1, 0);
+    expect(result.riggingTask).toBe(completedRiggingTask);
+    expect(result.riggedModelUrls?.rigged).toBe('https://example.com/rigged.glb');
+    expect(result.riggedModelUrls?.walking).toBe('https://example.com/walk.glb');
+  });
+
+  it('rigs and applies requested character animations', async () => {
+    const synth = new ModelSynth({ apiKey: 'test-key' }); // pragma: allowlist secret
+    const generateModel = stubGenerateModel(synth);
+    vi.spyOn(synth.rigging, 'createRiggingTask').mockResolvedValue(pendingRiggingTask);
+    vi.spyOn(synth.rigging, 'pollRiggingTask').mockResolvedValue(completedRiggingTask);
+    const createAnimationTask = vi
+      .spyOn(synth.animations, 'createAnimationTask')
+      .mockResolvedValueOnce({
+        id: 'anim-idle',
+        status: 'PENDING',
+        progress: 0,
+        created_at: 1000,
+      } satisfies AnimationTask)
+      .mockResolvedValueOnce({
+        id: 'anim-jump',
+        status: 'PENDING',
+        progress: 0,
+        created_at: 1000,
+      } satisfies AnimationTask);
+    vi.spyOn(synth.animations, 'pollAnimationTask')
+      .mockResolvedValueOnce({
+        id: 'anim-idle',
+        status: 'SUCCEEDED',
+        progress: 100,
+        created_at: 1000,
+        finished_at: 2000,
+        result: { animation_glb_url: 'https://example.com/idle.glb' },
+      } satisfies AnimationTask)
+      .mockResolvedValueOnce({
+        id: 'anim-jump',
+        status: 'SUCCEEDED',
+        progress: 100,
+        created_at: 1000,
+        finished_at: 2000,
+        result: { animation_glb_url: 'https://example.com/jump.glb' },
+      } satisfies AnimationTask);
+
+    const result = await synth.character({
+      prompt: 'animated otter adventurer',
+      animations: [
+        'idle',
+        { name: 'jump60', actionId: 466, postProcess: { operation_type: 'change_fps', fps: 60 } },
+      ],
+      poll: { maxRetries: 2, intervalMs: 0 },
+    });
+
+    expect(generateModel).toHaveBeenCalledWith({
+      prompt: 'animated otter adventurer',
+      style: 'cartoon',
+      polycount: 8000,
+      tPose: true,
+    });
+    expect(createAnimationTask).toHaveBeenNthCalledWith(1, {
+      rig_task_id: 'rig-task-123',
+      action_id: 0,
+      post_process: undefined,
+    });
+    expect(createAnimationTask).toHaveBeenNthCalledWith(2, {
+      rig_task_id: 'rig-task-123',
+      action_id: 466,
+      post_process: { operation_type: 'change_fps', fps: 60 },
+    });
+    expect(result.animationUrls).toEqual({
+      idle: 'https://example.com/idle.glb',
+      jump60: 'https://example.com/jump.glb',
+    });
+    expect(result.animationTasks?.idle.id).toBe('anim-idle');
+    expect(result.animationTasks?.jump60.id).toBe('anim-jump');
+  });
+
+  it('rejects unknown named character animations before rigging', async () => {
+    const synth = new ModelSynth({ apiKey: 'test-key' }); // pragma: allowlist secret
+    const generateModel = stubGenerateModel(synth);
+    const createRiggingTask = vi.spyOn(synth.rigging, 'createRiggingTask');
+
+    await expect(
+      synth.character({
+        prompt: 'otter adventurer',
+        animations: ['unknown' as CharacterAnimationRequest],
+      })
+    ).rejects.toThrow('Unknown character animation "unknown"');
+    expect(generateModel).not.toHaveBeenCalled();
+    expect(createRiggingTask).not.toHaveBeenCalled();
   });
 });

@@ -44,6 +44,12 @@ For tree-shaking and runtime-specific imports:
 - `strata-game-library/presets` - Organized game primitives by layer
 - `strata-game-library/shaders` - GLSL shader code and uniform factories
 - `strata-game-library/utils` - Utility functions (texture loading, etc.)
+- `strata-game-library/audio-synth` - Tone.js-backed game audio helpers
+- `strata-game-library/model-synth` - Meshy-backed text-to-3D, rigging, animation, and retexture clients
+- `strata-game-library/capacitor` - Capacitor/mobile bridge
+- `strata-game-library/react-native` - React Native bridge
+- `strata-game-library/reactylon` - Babylon.js/Reactylon adapter
+- `strata-game-library/astro` - Astro integration
 
 `StrataGame` is the adapter-owned mount surface and creates its own R3F `Canvas`.
 
@@ -363,6 +369,22 @@ interface SceneDefinition {
 Scene-level `shell` metadata is separate from `ui.shell` and describes the active scene's built-in announcement/title/menu/session/archive/profile card.
 In the R3F adapter, `scene.shell.actions` routes through the live `game.loadScene()`, `pushScene()`, `popScene()`, `pushMode()`, `replaceMode()`, `popMode()`, `pause()`, `resume()`, `save()`, `load()`, `deleteSave()`, `load-latest-profile`, `load-active-profile`, `open-active-profile-archive`, and profile-level `clear-profile` helpers.
 When `scene.shell.saveSlots` is present, the built-in archive card also reflects live slot availability, save timestamp/version metadata, and disables invalid `load-game` / `delete-save` actions automatically.
+
+### Model Synth Character Workflow
+
+```ts
+const synth = new ModelSynth({ apiKey: process.env.MESHY_API_KEY! })
+
+const character = await synth.character({
+  prompt: 'stylized otter adventurer',
+  rigged: true,
+  animations: ['idle', 'walk', { name: 'jump60', actionId: 466 }],
+})
+```
+
+`ModelSynth.character()` generates the model, optionally creates/polls a Meshy rigging task, and optionally creates/polls Meshy animation tasks. The returned task is augmented with `riggingTask`, `riggedModelUrls`, `animationTasks`, and `animationUrls` when those stages run.
+
+Named character animations resolve through Strata's bundled Meshy action-id map. Numeric Meshy action ids and named object requests are also accepted. Unknown named animation requests are rejected before text-to-3D model generation starts.
 
 ### Scene Shell Preset Helpers
 

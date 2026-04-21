@@ -18,7 +18,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
-| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, but adapter/example browser coverage is still thin |
+| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, but adapter/example browser coverage is still thin |
 
 ## Mature Areas
 
@@ -82,7 +82,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 ### Platform / Plugin Gaps
 
 - `plugins/model-synth/src/index.ts`
-  - TODOs remain for optional rigging and animation handling.
+  - High-level character generation now performs optional Meshy rigging and animation orchestration, returns rigging/animation task metadata and URL maps, and validates named animation requests before generating a model. Remaining work is live Meshy smoke verification and production guidance for plan/rate-limit/licensing constraints.
 - `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
   - Android controller detection and native `getInputSnapshot()` now exist through `InputDevice` enumeration plus button/axis state holders for host-forwarded events.
 - `plugins/react-native/ios/StrataModule.swift`
@@ -110,11 +110,14 @@ Verified during this session:
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after React Native mobile docs updates
 - `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after React Native adapter-map changes
 - `pnpm --dir packages/core test:unit -- tests/unit/core/platform.test.ts tests/unit/core/platform-ssr.test.ts`: passed, 39 files / 994 tests
+- `pnpm --dir plugins/model-synth typecheck`: passed after character rigging/animation orchestration updates
+- `pnpm --dir plugins/model-synth test`: passed, 37 tests covering Meshy clients and high-level character rigging/animation orchestration
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:
 
 - Adapter and example browser coverage is not yet as complete as the restored core browser integration suite.
+- Live Meshy API smoke verification was not run in this repo because it requires real account credentials and billable API calls.
 
 ## Done Means
 

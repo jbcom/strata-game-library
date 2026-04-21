@@ -31,7 +31,7 @@ Strata currently has four kinds of unfinished work:
 2. Runtime depth gaps.
    Composition and declarative game helpers are structurally useful but still thinner than the framework vision.
 3. Platform and plugin parity gaps.
-   Mobile/controller support and model-synth capabilities remain partial.
+   Mobile/controller support and model-synth orchestration are now materially implemented, but native/example verification and live API smoke coverage remain partial.
 4. Verification and documentation gaps.
    Browser integration coverage, migration guidance, and post-consolidation docs still need hardening.
 
@@ -52,7 +52,7 @@ If these gaps are not closed, the repo will remain locally impressive but extern
 - remaining parity closeout items for historical split-package examples/verification
 - richer runtime composition outputs for creatures/props/materials
 - deeper declarative game systems, persistence semantics, and game-shell packs
-- remaining plugin/platform TODOs
+- remaining plugin/platform productization and live-verification gaps
 - adapter/example browser coverage beyond the restored core browser integration path
 - complete public migration and adoption documentation
 
@@ -221,7 +221,8 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 ### Requirements
 
 1. `model-synth`
-   - complete or explicitly bound rigging/animation support
+   - complete high-level rigging/animation orchestration
+   - add live Meshy smoke verification guidance and production constraints
 2. `react-native`
    - Android gamepad detection and native input snapshots
    - iOS GameController/MFi detection and native input snapshots
@@ -240,7 +241,8 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 - The active React Native iOS module now reports `hasGamepad` / `inputMode` from `GameController` and exposes `getInputSnapshot()` for MFi/GameController buttons, sticks, triggers, and connected controllers.
 - Core shared platform helpers now expose `isReactNative()` and `selectAdapter()` accepts an explicit `reactNative` adapter slot instead of describing React Native as unimplemented.
 - The TypeScript React Native hook tests now cover controller-aware `useDevice()` profiles and native `useInput()` snapshot polling.
-- Remaining platform work in this stream is now focused on `model-synth` rigging/animation, deeper core/native capability bridging, and native-example/build verification.
+- `model-synth.character()` now creates and polls Meshy rigging tasks when `rigged` or `animations` are requested, maps named/default/numeric animation actions to Meshy animation tasks, returns rigging/animation task metadata and GLB URL maps, and validates unknown named animations before starting model generation.
+- Remaining platform work in this stream is now focused on live Meshy smoke verification, deeper core/native capability bridging, and native-example/build verification.
 
 ## Workstream 7: Verification and CI Hardening
 
@@ -304,7 +306,7 @@ Make the public story match the shipped product and migration path.
 
 - adapter/example browser verification
 - example verification
-- mobile/model-synth parity work
+- live plugin/API smoke verification and mobile native-example parity work
 
 ### Phase 4: Documentation Maturity
 
