@@ -43,8 +43,8 @@ Remaining work:
   - R3F can now render asset-bound runtime creatures with GLB models and logical-to-source animation clip mapping through `RuntimeCreatureAsset`.
   - Reactylon can now consume the runtime plan through `StrataRuntimeCreature` descriptors.
   - Reactylon descriptors now preserve creature asset bindings for Babylon-owned loaders.
-  - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials and async asset-backed creature meshes through `instantiateBabylonRuntimeCreatureAsset()`.
-  - Remaining gap: richer renderer-ready creature rig retargeting, skeletal animation control, and visual Babylon examples are still incomplete.
+  - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials and async asset-backed creature meshes through `instantiateBabylonRuntimeCreatureAsset()`, with logical `playAnimation()` mapping for loaded Babylon animation groups.
+  - Remaining gap: richer renderer-ready creature rig retargeting beyond loaded clip playback and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist.
   - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
@@ -98,9 +98,9 @@ Remaining work:
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
   - Reactylon creature descriptors now preserve core creature asset bindings for Babylon-owned loaders.
   - Reactylon runtime material descriptors now infer or preserve procedural material traits and shader/texture layer plans.
-  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, and runtime metadata.
+  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, loaded animation groups, logical animation playback, and runtime metadata.
   - Babylon prop instances now expose interaction metadata on roots/nodes and an `executeInteraction()` helper backed by the core prop interaction executor.
-  - Remaining gap: rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still thin.
+  - Remaining gap: deeper rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still thin.
 
 ### Platform / Integration
 

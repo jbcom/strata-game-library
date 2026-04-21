@@ -100,7 +100,7 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
-The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems. `instantiateBabylonRuntimePropAsync()` and `instantiateBabylonRuntimeCreatureAsset()` add async asset-loading paths for mesh-shaped prop nodes and asset-bound creatures through Babylon `SceneLoader` or an injected asset loader.
+The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems. `instantiateBabylonRuntimePropAsync()` and `instantiateBabylonRuntimeCreatureAsset()` add async asset-loading paths for mesh-shaped prop nodes and asset-bound creatures through Babylon `SceneLoader` or an injected asset loader; asset-backed creature instances expose loaded animation groups plus `playAnimation()` for logical-to-source clip selection.
 
 ### Game State Presets
 

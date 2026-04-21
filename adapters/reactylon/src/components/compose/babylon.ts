@@ -134,6 +134,8 @@ export interface BabylonRuntimeCreatureInstance {
   root: TransformNode;
   meshes: AbstractMesh[];
   materials: Record<string, BabylonMaterial>;
+  animationGroups: AnimationGroup[];
+  playAnimation(animation: string, loop?: boolean): boolean;
   dispose(): void;
 }
 
@@ -411,6 +413,30 @@ function attachLoadedMeshes(
   }
 }
 
+function resolveCreatureAnimationName(
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  animation: string
+): string {
+  return descriptor.asset?.animationClips[animation] ?? animation;
+}
+
+function playCreatureAnimation(
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  animationGroups: AnimationGroup[],
+  animation: string,
+  loop = true
+): boolean {
+  const clipName = resolveCreatureAnimationName(descriptor, animation);
+  const group = animationGroups.find((candidate) => candidate.name === clipName);
+
+  if (!group) {
+    return false;
+  }
+
+  group.start(loop);
+  return true;
+}
+
 function applyRootTransform(
   root: TransformNode,
   position: [number, number, number],
@@ -660,6 +686,8 @@ export function instantiateBabylonRuntimeCreature(
     root,
     meshes,
     materials,
+    animationGroups: [],
+    playAnimation: () => false,
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }
@@ -683,10 +711,9 @@ export async function instantiateBabylonRuntimeCreatureAsset(
   const root = new TransformNode(options.rootName ?? `${descriptor.id}:asset`, scene);
   const materials = buildMaterials(scene, descriptor.materialSlots, options);
   const meshes: AbstractMesh[] = [];
-  const animation =
-    options.animation && descriptor.asset
-      ? (descriptor.asset.animationClips[options.animation] ?? options.animation)
-      : options.animation;
+  const animation = options.animation
+    ? resolveCreatureAnimationName(descriptor, options.animation)
+    : undefined;
   const metadata = {
     strataRuntimeKind: 'creature-asset',
     strataRuntime: descriptor,
@@ -710,15 +737,12 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     options.assetLoader
   );
   const material = Object.values(materials)[0];
+  const animationGroups = loaded.animationGroups ?? [];
 
   attachLoadedMeshes(loaded.meshes, root, material, options.useSourceMaterials ?? true, metadata);
 
   if (animation) {
-    for (const animationGroup of loaded.animationGroups ?? []) {
-      if (animationGroup.name === animation) {
-        animationGroup.start(true);
-      }
-    }
+    playCreatureAnimation(descriptor, animationGroups, animation, true);
   }
 
   meshes.push(...loaded.meshes);
@@ -729,6 +753,9 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     root,
     meshes,
     materials,
+    animationGroups,
+    playAnimation: (nextAnimation, loop = true) =>
+      playCreatureAnimation(descriptor, animationGroups, nextAnimation, loop),
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }

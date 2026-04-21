@@ -1,11 +1,11 @@
-import { MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
+import { AnimationGroup, MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
 import {
   createMaterialVariant,
   MATERIALS,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
@@ -207,6 +207,8 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.kind).toBe('creature');
     expect(instance.root.metadata.strataRuntimeKind).toBe('creature');
     expect(instance.meshes).toHaveLength(descriptor.bones.length);
+    expect(instance.animationGroups).toEqual([]);
+    expect(instance.playAnimation('idle')).toBe(false);
     expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('creature-bone');
 
     instance.dispose();
@@ -217,6 +219,8 @@ describe('Reactylon runtime composition descriptors', () => {
   it('loads asset-backed creatures through the async Babylon asset pipeline', async () => {
     const engine = new NullEngine();
     const scene = new Scene(engine);
+    const animationGroup = new AnimationGroup('Idle', scene);
+    const start = vi.spyOn(animationGroup, 'start');
     const descriptor = resolveReactylonRuntimeCreature(
       resolveCreatureComposition('otter_river', {
         assets: {
@@ -230,7 +234,10 @@ describe('Reactylon runtime composition descriptors', () => {
       assetLoader: async (source, context) => {
         expect(source).toBe('/models/otter.glb');
         expect(context.kind).toBe('creature-asset');
-        return [MeshBuilder.CreateBox('loaded:otter', { size: 1 }, context.scene)];
+        return {
+          meshes: [MeshBuilder.CreateBox('loaded:otter', { size: 1 }, context.scene)],
+          animationGroups: [animationGroup],
+        };
       },
     });
     const loaded = instance.meshes[0];
@@ -240,6 +247,10 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(loaded?.metadata.strataRuntimeAssetModel).toBe('/models/otter.glb');
     expect(loaded?.metadata.strataRuntimeAnimation).toBe('Idle');
     expect(loaded?.metadata.strataRuntimeKind).toBe('creature-asset');
+    expect(instance.animationGroups).toEqual([animationGroup]);
+    expect(start).toHaveBeenCalledWith(true);
+    expect(instance.playAnimation('idle', false)).toBe(true);
+    expect(start).toHaveBeenCalledWith(false);
 
     instance.dispose();
     scene.dispose();

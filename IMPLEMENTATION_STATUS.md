@@ -90,8 +90,8 @@ This document reflects the actual state of the repository after the umbrella-pac
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()` now consume the same core runtime plans and expose serializable Babylon/Reactylon descriptors with material slots, transforms, bounds, physics, prop interaction actions, animation metadata, IK, and spawn metadata.
   - Reactylon creature descriptors now preserve core creature asset bindings so Babylon loaders can consume the same model, rig, clip, and bone-map metadata.
   - Reactylon runtime material descriptors now infer or preserve core procedural material traits and shader/texture layer plans.
-  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, runtime metadata, custom mesh-factory seams, and executable prop interaction helpers.
-  - Remaining gap: richer rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still incomplete.
+  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, runtime metadata, custom mesh-factory seams, logical animation playback helpers, and executable prop interaction helpers.
+  - Remaining gap: richer rig retargeting/control beyond loaded clip playback, higher-level interaction UX integration, and visual example coverage are still incomplete.
 
 ### Package Consolidation / Publishing
 
@@ -208,7 +208,7 @@ Verified during this session:
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after procedural material plan exports and adapter metadata propagation
 - `git diff --check`: passed after procedural material plan updates
 - `pnpm --dir adapters/reactylon typecheck`: passed after async Babylon asset loading helpers
-- `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including async prop-node and creature-asset loading coverage
+- `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including async prop-node loading, creature-asset loading, and Babylon animation playback coverage
 - `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after async Babylon asset loading helpers
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after async Babylon asset loading exports
 - `git diff --check`: passed after async Babylon asset loading updates
