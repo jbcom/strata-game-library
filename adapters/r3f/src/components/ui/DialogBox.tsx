@@ -41,11 +41,6 @@ import type { DialogBoxProps, DialogBoxRef } from './types';
  *   typewriterSpeed={40}
  * />
  * ```
- *
- * ## Interactive Demos
- * <iframe src="../../demos/ui.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
- *
- * - 🎮 [Live UI Demo](../../demos/ui.html)
  */
 export const DialogBox = forwardRef<DialogBoxRef, DialogBoxProps>(
   (

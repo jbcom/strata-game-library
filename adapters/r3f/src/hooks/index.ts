@@ -2,6 +2,17 @@
  * React hooks exports
  */
 
+export { useGameStatus, useMode, useScene, useTransition } from '../StrataGame';
+export type { ControlHint } from './useInput';
+export {
+  useActionPressed,
+  useControlHints,
+  useCurrentInputMap,
+  useInput,
+  useInputManager,
+} from './useInput';
+export type { UsePauseToggleOptions } from './useGameStatus';
+export { usePauseToggle } from './useGameStatus';
 export * from './useKeyboardControls';
 export type {
   UseAlignmentOptions,

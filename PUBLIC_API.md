@@ -1,43 +1,381 @@
 # Strata Public API Contract
 
-**This document defines the stable, public API of @jbcom/strata.**
+**Status note (2026-04-15):** The repo is transitioning from the historical `@jbcom/strata` documentation model to the new `strata-game-library` umbrella package plus the existing `@strata-game-library/*` workspace packages.
+
+This document describes the intended stable public API surface for the umbrella package and its subpath exports.
 
 All APIs listed here are guaranteed to follow semantic versioning:
+
 - **Major versions** (1.0.0 → 2.0.0): Breaking changes allowed
 - **Minor versions** (1.0.0 → 1.1.0): New features, backward compatible
 - **Patch versions** (1.0.0 → 1.0.1): Bug fixes only, backward compatible
 
 ## Package Exports
 
-### Main Export (`@jbcom/strata`)
+### Main Export (`strata-game-library`)
 
-All public APIs are available from the main export:
+The main export is the stable engine-facing surface: declarative game APIs, presets, and shaders.
+Framework adapters and plugins remain available from explicit subpaths.
 
 ```ts
-import { 
-  // Core algorithms
+import {
+  createGame,
+  createRPGGame,
+  createRPGState,
+  createCreature,
+  createProp,
   generateInstanceData,
-  createWaterMaterial,
-  // Components
-  Water,
-  Character,
+  createQuadruped,
+  waterFragmentShader,
   // Presets
-  createFurSystem,
-  // Types
-  FurOptions,
-  CharacterState
-} from '@jbcom/strata';
+  ALL_THEMES
+} from 'strata-game-library';
 ```
 
 ### Subpath Exports
 
-For tree-shaking and explicit imports:
+For tree-shaking and runtime-specific imports:
 
-- `@jbcom/strata/core` - Pure TypeScript algorithms (no React)
-- `@jbcom/strata/components` - React Three Fiber components
-- `@jbcom/strata/presets` - Organized game primitives by layer
-- `@jbcom/strata/shaders` - GLSL shader code and uniform factories
-- `@jbcom/strata/utils` - Utility functions (texture loading, etc.)
+- `strata-game-library/core` - Pure TypeScript algorithms (no React)
+- `strata-game-library/r3f` - React Three Fiber adapter surface
+  Includes `StrataGame`, `useGame`, `useScene`, `useMode`, `useInput`, `useActionPressed`, `useControlHints`, `useGameStatus`, `usePauseToggle`, and `useTransition`
+- `strata-game-library/components` - React Three Fiber components
+- `strata-game-library/hooks` - React hooks for the R3F adapter
+- `strata-game-library/presets` - Organized game primitives by layer
+- `strata-game-library/shaders` - GLSL shader code and uniform factories
+- `strata-game-library/utils` - Utility functions (texture loading, etc.)
+
+`StrataGame` is the adapter-owned mount surface and creates its own R3F `Canvas`.
+
+### Composition API
+
+```ts
+createCreature(input: CreateCreatureInput | string): CreatureDefinition
+resolveCreatureComposition(input: CreateCreatureInput | string): CreatureComposition
+createProp(input: CreatePropInput | string): PropDefinition
+resolvePropComposition(input: CreatePropInput | string): PropComposition
+```
+
+### Game State Presets
+
+```ts
+createRPGGame(options?): Game<RPGState>
+createActionGame(options?): Game<ActionState>
+createPuzzleGame(options?): Game<PuzzleState>
+createSandboxGame(options?): Game<SandboxState>
+createRacingGame(options?): Game<RacingState>
+createPlatformerGame(options?): Game<ActionState>
+
+createRPGState(overrides?): RPGState
+createActionState(overrides?): ActionState
+createPuzzleState(overrides?): PuzzleState
+createSandboxState(overrides?): SandboxState
+createRacingState(overrides?): RacingState
+createStateFromPreset(name, overrides?): RPGState | ActionState | PuzzleState | SandboxState | RacingState
+```
+
+### Declarative Transitions
+
+```ts
+interface GameDefinition {
+  transitions?: {
+    scenes?: {
+      load?: GameTransitionOptions
+      push?: GameTransitionOptions
+      pop?: GameTransitionOptions
+    }
+    modes?: {
+      push?: GameTransitionOptions
+      replace?: GameTransitionOptions
+      pop?: GameTransitionOptions
+    }
+  }
+}
+
+interface SceneDefinition {
+  transition?: GameTransitionOptions
+}
+
+interface ModeDefinition {
+  transition?: GameTransitionOptions
+}
+```
+
+Runtime call options still win, then scene/mode defaults, then game-level defaults.
+
+### Game Runtime Status
+
+```ts
+interface GameSnapshot {
+  isPaused: boolean
+  activeProfileId?: string
+}
+
+interface Game<TState extends object = object> {
+  readonly isPaused: boolean
+  readonly activeProfileId?: string
+  getSnapshot(): GameSnapshot
+  subscribe(listener: (snapshot: GameSnapshot) => void): () => void
+  setActiveProfile(profileId?: string): void
+  pause(): void
+  resume(): void
+  save(slot?: string): Promise<boolean>
+  load(slot?: string): Promise<boolean>
+  deleteSave(slot: string): Promise<boolean>
+  listSaves(): Promise<string[]>
+  getSaveInfo(slot: string): Promise<{ timestamp: number; version: number } | null>
+}
+```
+
+When the game is paused, the active mode's `pause` binding remains live and other mapped actions are temporarily cleared. `activeProfileId` lets adapters and shell actions keep profile-aware flows anchored to the currently selected save profile.
+
+### Preset Helper Behavior
+
+- `createRPGGame`, `createActionGame`, `createPuzzleGame`, `createSandboxGame`, `createRacingGame`, and `createPlatformerGame` now ship built-in mode `inputMap` defaults.
+- Those helpers also now ship `ui.shell` metadata for a built-in HUD, pause menu, and loading overlay.
+- Those helpers also now ship announcement-style scene shell metadata for their default starting scenes.
+- Those helpers can now also synthesize opt-in title/menu/save/settings/session shell flows via `titleScene: true | { ... }`, `menuScene: true | { ... }`, `saveScene: true | { ... }`, `settingsScene: true | { ... }`, and `sessionShell: true | { ... }`.
+- `saveScene` can synthesize either a flat archive scene or a generated save-profile selector plus per-profile archive scenes via `profiles` and `profileSelector`, and `createSceneShellFlow()` exposes matching `saveProfileSceneIds` metadata when that path is used.
+- Generated profile selectors now use a dedicated `profiles` shell variant with `saveProfiles` metadata, so built-in R3F scene cards can render live per-profile occupancy summaries and latest-save metadata before entering an archive.
+- `saveProfiles` metadata can now also declare `emptyActionLabel` and `occupiedActionLabel`, which the built-in R3F selector uses to present empty profiles as start points and occupied profiles as continue points.
+- Generated profile selectors now also wire those states into runtime behavior via `load-latest-profile`, so occupied profiles restore the latest available save, empty profiles can jump directly into gameplay, and separate manage actions can still open the profile archive scene.
+- Generated title/menu flows now also synthesize active-profile-aware continue actions via `load-active-profile`, so the current profile resumes from its latest save while fallback scenes preserve the normal boot path when no active profile is selected yet.
+- Generated save actions across title/menu/settings/session shells now also use `open-active-profile-archive`, so shells reopen the currently active profile archive directly and only fall back to the selector when no profile has been chosen yet.
+- Generated profile selectors can now also include profile-level `clear-profile` actions, so occupied profiles can be reset directly from the selector without first loading the archive scene.
+- Generated per-profile archive flows namespace persisted slot ids by default, so visible slot ids can stay local to each profile while persistence uses profile-scoped `storageSlot` ids like `campaign:slot-1`; override with `slotNamespace` or an explicit `storageSlot`.
+- Archive slot metadata now also supports `allowSave`, `allowLoad`, `allowDelete`, `savedLabel`, and `emptyLabel` for slot-level control in built-in archive shells.
+- `createSceneShellFlow()` exposes the same title/menu/save/settings/session shell synthesis at the core layer for arbitrary `SceneDefinition` records, and the genre helpers now build on top of that shared flow builder.
+- `createGame()` also now exposes first-class persistence helpers on the runtime via `game.save()`, `game.load()`, `game.deleteSave()`, `game.listSaves()`, and `game.getSaveInfo()`.
+- Scene-shell action builders now also cover persistence flows with `createSaveGameSceneShellAction()`, `createLoadGameSceneShellAction()`, `createLoadLatestProfileSceneShellAction()`, `createOpenActiveProfileArchiveSceneShellAction()`, `createDeleteSaveSceneShellAction()`, and `createClearProfileSceneShellAction()`.
+- Matching scene/mode overrides are merged with preset defaults instead of replacing the entire preset record.
+- Non-matching custom scene/mode records still act as replacement sets, so fully custom templates remain possible.
+
+### Declarative Game Shell
+
+```ts
+interface GameHUDDefinition {
+  title?: string
+  hintLimit?: number
+  showMode?: boolean
+  showPressedActions?: boolean
+  showControls?: boolean
+}
+
+interface PauseMenuDefinition {
+  title?: string
+  description?: string
+  resumeLabel?: string
+  hintLimit?: number
+  showMode?: boolean
+  showControls?: boolean
+}
+
+interface GameLoadingOverlayDefinition {
+  title?: string
+  description?: string
+  bootLabel?: string
+  sceneLabel?: string
+  bootDescription?: string
+  sceneDescription?: string
+  showScene?: boolean
+  showProgress?: boolean
+}
+
+type SceneShellVariant = 'announcement' | 'title' | 'menu' | 'session' | 'archive' | 'profiles'
+
+interface SceneShellSaveSlotDefinition {
+  slot: string
+  storageSlot?: string
+  label?: string
+  description?: string
+  allowSave?: boolean
+  allowLoad?: boolean
+  allowDelete?: boolean
+  savedLabel?: string
+  emptyLabel?: string
+}
+
+interface SceneShellSaveProfileDefinition {
+  id: string
+  label?: string
+  description?: string
+  sceneId: string
+  emptyActionLabel?: string
+  occupiedActionLabel?: string
+  slots?: SceneShellSaveSlotDefinition[]
+}
+
+type SceneShellActionDefinition =
+  | {
+      type: 'dismiss-shell'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+    }
+  | {
+      type: 'load-scene' | 'push-scene'
+      label: string
+      sceneId: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'pop-scene'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'push-mode' | 'replace-mode'
+      label: string
+      modeId: string
+      props?: Record<string, unknown>
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'pop-mode' | 'pause' | 'resume' | 'toggle-pause'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+    }
+  | {
+      type: 'save-game' | 'load-game'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      slot?: string
+    }
+  | {
+      type: 'delete-save'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      slot: string
+    }
+  | {
+      type: 'load-latest-profile'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      profileId: string
+      slots: string[]
+      emptySceneId?: string
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'open-active-profile-archive'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      profileSceneIds: Record<string, string>
+      fallbackSceneId?: string
+      transition?: GameTransitionOptions
+    }
+  | {
+      type: 'clear-profile'
+      label: string
+      description?: string
+      variant?: 'primary' | 'secondary' | 'ghost'
+      closeOnSuccess?: boolean
+      profileId: string
+      slots: string[]
+    }
+
+interface SceneShellDefinition {
+  variant?: SceneShellVariant
+  title?: string
+  subtitle?: string
+  description?: string
+  actions?: SceneShellActionDefinition[]
+  saveProfiles?: SceneShellSaveProfileDefinition[]
+  saveSlots?: SceneShellSaveSlotDefinition[]
+  showSceneId?: boolean
+  durationMs?: number
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
+  showOnEnter?: boolean
+}
+
+interface GameUIShellDefinition {
+  hud?: GameHUDDefinition | false
+  loadingOverlay?: GameLoadingOverlayDefinition | false
+  pauseMenu?: PauseMenuDefinition | false
+}
+
+interface GameDefinition {
+  ui?: {
+    shell?: GameUIShellDefinition
+  }
+}
+
+interface SceneDefinition {
+  shell?: SceneShellDefinition
+}
+```
+
+`StrataGame` uses `ui.shell` as a fallback only. Custom `ui.hud` and `ui.menus.pause` React components still take precedence when they are provided, and the explicit `loading` prop still takes precedence during boot.
+Scene-level `shell` metadata is separate from `ui.shell` and describes the active scene's built-in announcement/title/menu/session/archive/profile card.
+In the R3F adapter, `scene.shell.actions` routes through the live `game.loadScene()`, `pushScene()`, `popScene()`, `pushMode()`, `replaceMode()`, `popMode()`, `pause()`, `resume()`, `save()`, `load()`, `deleteSave()`, `load-latest-profile`, `load-active-profile`, `open-active-profile-archive`, and profile-level `clear-profile` helpers.
+When `scene.shell.saveSlots` is present, the built-in archive card also reflects live slot availability, save timestamp/version metadata, and disables invalid `load-game` / `delete-save` actions automatically.
+
+### Scene Shell Preset Helpers
+
+```ts
+createAnnouncementSceneShell(options?: Omit<Partial<SceneShellDefinition>, 'variant'>): SceneShellDefinition
+createTitleSceneShell(options?: Omit<Partial<SceneShellDefinition>, 'variant'>): SceneShellDefinition
+createMenuSceneShell(options?: Omit<Partial<SceneShellDefinition>, 'variant'>): SceneShellDefinition
+createSessionSceneShell(options?: Omit<Partial<SceneShellDefinition>, 'variant'>): SceneShellDefinition
+createSaveSceneShell(options?: Omit<Partial<SceneShellDefinition>, 'variant'>): SceneShellDefinition
+createAnnouncementScene(id: string, options?): SceneDefinition
+createTitleScene(id: string, options?): SceneDefinition
+createMenuScene(id: string, options?): SceneDefinition
+createSessionScene(id: string, options?): SceneDefinition
+createSaveScene(id: string, options?): SceneDefinition
+
+createDismissSceneShellAction(options?): SceneShellActionDefinition
+createLoadSceneShellAction(sceneId: string, options?): SceneShellActionDefinition
+createPushSceneShellAction(sceneId: string, options?): SceneShellActionDefinition
+createPopSceneShellAction(options?): SceneShellActionDefinition
+createPushModeSceneShellAction(modeId: string, options?): SceneShellActionDefinition
+createReplaceModeSceneShellAction(modeId: string, options?): SceneShellActionDefinition
+createPopModeSceneShellAction(options?): SceneShellActionDefinition
+createPauseSceneShellAction(options?): SceneShellActionDefinition
+createResumeSceneShellAction(options?): SceneShellActionDefinition
+createTogglePauseSceneShellAction(options?): SceneShellActionDefinition
+createSaveGameSceneShellAction(slot?: string, options?): SceneShellActionDefinition
+createLoadGameSceneShellAction(slot?: string, options?): SceneShellActionDefinition
+createOpenActiveProfileArchiveSceneShellAction(profileSceneIds: Record<string, string>, options?): SceneShellActionDefinition
+createDeleteSaveSceneShellAction(slot: string, options?): SceneShellActionDefinition
+createClearProfileSceneShellAction(profileId: string, slots: string[], options?): SceneShellActionDefinition
+```
+
+Built-in genre helpers use the same shell primitives for their default starting-scene announcements, and can optionally synthesize title/menu scenes in front of the resolved preset gameplay scene while also converting that gameplay scene into a generated session shell with genre-aware action labels.
+
+### Scene Loading Snapshot
+
+```ts
+interface SceneManagerSnapshot {
+  current: SceneDefinition | null
+  stack: SceneDefinition[]
+  isLoading: boolean
+  loadProgress: number
+  pendingSceneId?: string
+}
+```
+
+`pendingSceneId` reflects the scene currently being loaded or pushed, which makes definition-driven loading UI deterministic instead of guess-based.
 
 ## Core API (Pure TypeScript)
 
@@ -110,7 +448,7 @@ createInstancedMesh(
 ): InstancedMesh
 ```
 
-### Water
+### Water Components
 
 ```ts
 createWaterMaterial(options?: WaterMaterialOptions): ShaderMaterial
@@ -138,6 +476,77 @@ createSkyGeometry(size?: [number, number]): PlaneGeometry
 createVolumetricFogMeshMaterial(options?: VolumetricFogMeshMaterialOptions): ShaderMaterial
 createUnderwaterOverlayMaterial(options?: UnderwaterOverlayMaterialOptions): ShaderMaterial
 ```
+
+### Input
+
+```ts
+createInputManager(config?: InputManagerConfig): InputManager
+
+interface InputManager {
+  attach(element: HTMLElement): void
+  detach(): void
+  setActionMap(actionMap: InputActionMap): void
+  clearActionMap(): void
+  getActionMap(): InputActionMap
+  getSnapshot(): InputManagerSnapshot
+  subscribe(listener: (snapshot: InputManagerSnapshot) => void): () => void
+  isActionPressed(action: string): boolean
+  getPressedActions(): string[]
+  on(event: 'press' | 'release' | 'axisChange' | 'actionStart' | 'actionEnd' | '*', callback: (event: InputEvent) => void): void
+  off(event: 'press' | 'release' | 'axisChange' | 'actionStart' | 'actionEnd' | '*', callback: (event: InputEvent) => void): void
+}
+
+type InputActionMap = Record<string, {
+  keyboard?: string[]
+  gamepad?: string | number
+  tilt?: boolean
+}>
+```
+
+```ts
+useInput(): InputManagerSnapshot
+useActionPressed(action: string): boolean
+useCurrentInputMap(): InputActionMap
+useGameStatus(): GameSnapshot
+usePauseToggle(options?: {
+  action?: string
+  enabled?: boolean
+}): GameSnapshot & {
+  pause(): void
+  resume(): void
+  toggle(): void
+}
+useControlHints(): Array<{
+  action: string
+  keyboard?: string[]
+  gamepad?: string | number
+  tilt?: boolean
+}>
+```
+
+`usePauseToggle()` only binds to `actionStart` events when `enabled` is set to `true`; `StrataGame` already handles the default pause binding path.
+
+### Built-In HUD / Menu Scaffolding
+
+```ts
+interface StrataGameProps {
+  autoPause?: boolean
+  pauseAction?: string
+}
+
+createGameHUD(options?: GameHUDProps): React.ComponentType
+createPauseMenu(options?: PauseMenuProps): React.ComponentType
+createSceneCard(options?: SceneCardProps): React.ComponentType
+
+GameHUD(props?: GameHUDProps): ReactElement
+PauseMenu(props?: PauseMenuProps): ReactElement | null
+SceneCard(props?: SceneCardProps): ReactElement | null
+```
+
+`StrataGame` renders `game.definition.ui?.hud` during the normal UI overlay pass and `game.definition.ui?.menus?.pause` automatically while `isPaused === true`.
+If those custom React components are absent, it falls back to `game.definition.ui?.shell` and renders the built-in HUD/pause-menu scaffold from that metadata.
+The same fallback path now also covers boot and scene-loading overlays via `game.definition.ui?.shell?.loadingOverlay`.
+When the active scene includes `scene.shell`, `StrataGame` also renders a built-in scene card automatically and wires any declarative shell actions into the live game runtime.
 
 ## Presets API
 
@@ -305,7 +714,7 @@ class ReflectionProbeManager {
 
 ```tsx
 <Water size={number} time?: number />
-<AdvancedWater 
+<AdvancedWater
   size={number}
   waterColor?: ColorRepresentation
   deepWaterColor?: ColorRepresentation
@@ -314,7 +723,7 @@ class ReflectionProbeManager {
 />
 ```
 
-### Instancing
+### Instancing Components
 
 ```tsx
 <GPUInstancedMesh
@@ -332,7 +741,7 @@ class ReflectionProbeManager {
 <RockInstances count={number} areaSize={number} biomes={BiomeData[]} />
 ```
 
-### Sky
+### Sky Components
 
 ```tsx
 <ProceduralSky
@@ -342,7 +751,7 @@ class ReflectionProbeManager {
 />
 ```
 
-### Volumetrics
+### Volumetric Components
 
 ```tsx
 <VolumetricEffects
@@ -363,7 +772,7 @@ class ReflectionProbeManager {
 />
 ```
 
-### Ray Marching
+### Ray Marching Components
 
 ```tsx
 <Raymarching
@@ -551,6 +960,7 @@ All public functions include input validation and throw descriptive errors:
 ## Breaking Changes Policy
 
 Breaking changes will only occur in major versions and will be:
+
 1. Documented in CHANGELOG.md
 2. Deprecated for at least one minor version before removal
 3. Clearly marked in TypeScript types
@@ -558,6 +968,7 @@ Breaking changes will only occur in major versions and will be:
 ## Internal APIs
 
 APIs not listed in this document are **internal** and may change without notice:
+
 - Internal helper functions
 - Private class methods
 - Implementation details

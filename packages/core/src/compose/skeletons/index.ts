@@ -44,3 +44,40 @@ export const SKELETONS: Record<string, SkeletonDefinition> = {
   avian: createAvianSkeleton('avian', { wingspan: 1.2, bodyLength: 0.3 }),
   serpentine: createSerpentineSkeleton('serpentine', { length: 2.0, segments: 20 }),
 };
+
+export function cloneSkeletonDefinition(skeleton: SkeletonDefinition): SkeletonDefinition {
+  return {
+    ...skeleton,
+    bones: skeleton.bones.map((bone) => ({
+      ...bone,
+      size: [...bone.size] as [number, number, number],
+      position: Array.isArray(bone.position) ? [...bone.position] : bone.position.clone(),
+      rotation: Array.isArray(bone.rotation) ? [...bone.rotation] : bone.rotation?.clone(),
+      physics: bone.physics ? { ...bone.physics } : undefined,
+    })),
+    ikChains: skeleton.ikChains?.map((chain) => ({
+      ...chain,
+      bones: [...chain.bones],
+    })),
+    animationTargets: skeleton.animationTargets
+      ? Object.fromEntries(
+          Object.entries(skeleton.animationTargets).map(([name, bones]) => [name, [...bones]])
+        )
+      : undefined,
+  };
+}
+
+export function resolveSkeletonDefinition(
+  skeleton: string | SkeletonDefinition
+): SkeletonDefinition {
+  if (typeof skeleton !== 'string') {
+    return cloneSkeletonDefinition(skeleton);
+  }
+
+  const resolved = SKELETONS[skeleton];
+  if (!resolved) {
+    throw new Error(`Unknown skeleton: ${skeleton}`);
+  }
+
+  return cloneSkeletonDefinition(resolved);
+}

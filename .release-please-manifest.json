@@ -2,6 +2,7 @@
   "packages/core": "1.6.0",
   "packages/shaders": "1.1.0",
   "packages/presets": "1.2.2",
+  "packages/strata-game-library": "0.1.0",
   "adapters/r3f": "0.3.0",
   "adapters/reactylon": "0.3.0",
   "plugins/audio-synth": "1.1.0",

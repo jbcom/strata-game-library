@@ -1,8 +1,16 @@
 import { act, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { KillStreakNotification, ScreenFlash, VirtualJoystick } from '../index';
+import { GameHUD, KillStreakNotification, PauseMenu, SceneCard, ScreenFlash, VirtualJoystick } from '../index';
 
 describe('UI Components', () => {
+  describe('exports', () => {
+    it('should export the game HUD scaffolding components', () => {
+      expect(GameHUD).toBeDefined();
+      expect(PauseMenu).toBeDefined();
+      expect(SceneCard).toBeDefined();
+    });
+  });
+
   describe('ScreenFlash', () => {
     it('should render when active', () => {
       const { container } = render(<ScreenFlash active={true} />);

@@ -407,6 +407,7 @@ export default function VegetationDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: 'linear-gradient(to bottom, #87ceeb, #c8dbb0)' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -414,7 +415,6 @@ export default function VegetationDemo() {
         camera={{ position: [10, 6, 10], fov: 45 }}
         dpr={[1, 1.5]}
         shadows
-        style={{ background: 'linear-gradient(to bottom, #87ceeb, #c8dbb0)' }}
         gl={{ antialias: true }}
       >
         <Scene isHovered={isHovered} />

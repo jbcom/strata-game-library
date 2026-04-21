@@ -1,9 +1,10 @@
 {
     "$schema": "https://typedoc.org/schema.json",
+    "tsconfig": "tsconfig.typedoc.json",
     "entryPoints": [
         "packages/core/src/index.ts",
         "packages/core/src/core/index.ts",
-        "packages/core/src/components/index.ts",
+        "packages/core/src/api/index.ts",
         "packages/shaders/src/index.ts",
         "packages/core/src/utils/index.ts",
         "packages/presets/src/index.ts",

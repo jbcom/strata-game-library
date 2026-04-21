@@ -323,6 +323,7 @@ export default function SkyDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: '#0b0d1a' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -330,7 +331,6 @@ export default function SkyDemo() {
         camera={{ position: [0, 8, 35], fov: 55 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: false }}
-        style={{ background: '#0b0d1a' }}
       >
         <Atmosphere />
         <AnimatedSky />

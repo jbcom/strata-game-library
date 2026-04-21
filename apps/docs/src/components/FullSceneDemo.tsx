@@ -566,6 +566,7 @@ export default function FullSceneDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: '#e8d5b7' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -574,7 +575,6 @@ export default function FullSceneDemo() {
         dpr={[1, 1.5]}
         shadows
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        style={{ background: '#e8d5b7' }}
       >
         <Scene autoRotateSpeed={autoRotateSpeed} />
       </Canvas>

@@ -36,11 +36,6 @@ import type { MinimapProps } from './types';
  *   borderRadius={8}
  * />
  * ```
- *
- * ## Interactive Demos
- * <iframe src="../../demos/minimap.html" width="100%" height="400px" style="border-radius: 8px; border: 1px solid #1e293b;"></iframe>
- *
- * - 🎮 [Live Minimap Demo](../../demos/minimap.html)
  */
 export const Minimap: React.FC<MinimapProps> = ({
   size = 150,

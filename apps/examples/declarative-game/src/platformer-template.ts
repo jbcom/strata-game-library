@@ -1,26 +1,15 @@
-import { createGame } from '@jbcom/strata/api';
+import { createPlatformerGame } from 'strata-game-library';
 
-export const platformerTemplate = createGame({
+export const platformerTemplate = createPlatformerGame({
   name: 'Platformer Template',
   version: '1.0.0',
-  content: {
-    materials: [],
-    creatures: [],
-    props: [],
-    items: [],
-  },
   world: { regions: {}, connections: [] },
   scenes: {
     level1: {
-      id: 'level1',
       render: () => null, // Add level 1 here
     },
   },
-  initialScene: 'level1',
   modes: {
-    platforming: { id: 'platforming', systems: [], inputMap: {} },
+    platforming: { systems: [] },
   },
-  defaultMode: 'platforming',
-  statePreset: 'action',
-  controls: {},
 });

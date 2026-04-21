@@ -169,10 +169,13 @@ declare module 'yuka' {
     previousState: State<T> | null;
     globalState: State<T> | null;
     constructor(owner: T);
+    add(id: string, state: State<T>): this;
+    remove(id: string): this;
+    get(id: string): State<T> | undefined;
     update(): this;
-    changeTo(state: State<T>): this;
+    changeTo(id: string): this;
     revert(): this;
-    in(state: State<T>): boolean;
+    in(id: string): boolean;
     handleMessage(telegram: unknown): boolean;
   }
 

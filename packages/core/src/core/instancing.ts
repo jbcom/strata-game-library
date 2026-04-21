@@ -115,7 +115,7 @@ class SeededRandom {
  * @param allowedBiomes - Optional list of allowed biome types
  * @param seed - Optional seed for deterministic generation (default: random)
  * @param getBiomeAt - Optional biome lookup function
- * @param noise3D - Optional 3D noise function
+ * @param _noise3D - Optional 3D noise function
  * @param fbm - Optional FBM function
  * @returns Array of InstanceData
  */

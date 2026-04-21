@@ -1,6 +1,6 @@
-import { useState, useRef, useMemo } from 'react';
+import { Float, OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, Sky, Float } from '@react-three/drei';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 /**
@@ -10,7 +10,7 @@ import * as THREE from 'three';
 function ProceduralTerrain() {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  const { geometry, colors } = useMemo(() => {
+  const geometry = useMemo(() => {
     const size = 40;
     const segments = 80;
     const geo = new THREE.PlaneGeometry(size, size, segments, segments);
@@ -59,7 +59,7 @@ function ProceduralTerrain() {
 
     geo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
     geo.computeVertexNormals();
-    return { geometry: geo, colors: colorArray };
+    return geo;
   }, []);
 
   useFrame((state) => {
@@ -155,12 +155,7 @@ function Particles({ count = 200 }: { count?: number }) {
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={points}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" count={count} array={points} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial size={0.05} color="#38bdf8" transparent opacity={0.6} sizeAttenuation />
     </points>
@@ -173,17 +168,31 @@ function Particles({ count = 200 }: { count?: number }) {
  */
 export default function StrataDemo() {
   const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    container.addEventListener('mouseenter', handleMouseEnter);
+    container.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      container.removeEventListener('mouseenter', handleMouseEnter);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
 
   return (
-    <div
-      className="strata-demo-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div ref={containerRef} className="strata-demo-container">
       <Canvas
         camera={{ position: [12, 8, 12], fov: 50 }}
         dpr={[1, 1.5]}
-        style={{ background: 'transparent' }}
         gl={{ antialias: true, alpha: true }}
       >
         <ambientLight intensity={0.4} />
@@ -206,9 +215,7 @@ export default function StrataDemo() {
           minPolarAngle={Math.PI / 4}
         />
       </Canvas>
-      <div className="strata-demo-badge">
-        Interactive — drag to rotate
-      </div>
+      <div className="strata-demo-badge">Interactive — drag to rotate</div>
     </div>
   );
 }

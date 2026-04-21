@@ -376,7 +376,6 @@ export default function TerrainDemo() {
       <Canvas
         camera={{ position: [18, 12, 18], fov: 45 }}
         dpr={[1, 1.5]}
-        style={{ background: 'transparent' }}
         gl={{ antialias: true, alpha: true }}
         shadows
       >

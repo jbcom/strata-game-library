@@ -9,9 +9,36 @@ import { describe, expect, it } from 'vitest';
 
 describe('API barrel exports', () => {
   describe('api/index', () => {
-    it('should re-export createGame', async () => {
+    it('should re-export game creation helpers', async () => {
       const api = await import('../../../src/api/index');
+
       expect(api.createGame).toBeTypeOf('function');
+      expect(api.createRPGGame).toBeTypeOf('function');
+      expect(api.createSandboxGame).toBeTypeOf('function');
+      expect(api.createPlatformerGame).toBeTypeOf('function');
+      expect(api.createRPGState).toBeTypeOf('function');
+      expect(api.createActionState).toBeTypeOf('function');
+      expect(api.createPuzzleState).toBeTypeOf('function');
+      expect(api.createSandboxState).toBeTypeOf('function');
+      expect(api.createRacingState).toBeTypeOf('function');
+      expect(api.createTitleSceneShell).toBeTypeOf('function');
+      expect(api.createTitleScene).toBeTypeOf('function');
+      expect(api.createMenuSceneShell).toBeTypeOf('function');
+      expect(api.createMenuScene).toBeTypeOf('function');
+      expect(api.createSaveProfilesSceneShell).toBeTypeOf('function');
+      expect(api.createSaveProfilesScene).toBeTypeOf('function');
+      expect(api.createSaveSceneShell).toBeTypeOf('function');
+      expect(api.createSaveScene).toBeTypeOf('function');
+      expect(api.createSceneShellFlow).toBeTypeOf('function');
+      expect(api.createLoadSceneShellAction).toBeTypeOf('function');
+      expect(api.createLoadActiveProfileSceneShellAction).toBeTypeOf('function');
+      expect(api.createLoadLatestProfileSceneShellAction).toBeTypeOf('function');
+      expect(api.createOpenActiveProfileArchiveSceneShellAction).toBeTypeOf('function');
+      expect(api.createSaveGameSceneShellAction).toBeTypeOf('function');
+      expect(api.createLoadGameSceneShellAction).toBeTypeOf('function');
+      expect(api.createDeleteSaveSceneShellAction).toBeTypeOf('function');
+      expect(api.createClearProfileSceneShellAction).toBeTypeOf('function');
+      expect(api.createDismissSceneShellAction).toBeTypeOf('function');
     });
   });
 
@@ -71,6 +98,21 @@ describe('API barrel exports', () => {
       expect(effects.applySpriteSheetFrame).toBeTypeOf('function');
       expect(effects.getSpriteSheetUVs).toBeTypeOf('function');
       expect(effects.updateSpriteSheetAnimation).toBeTypeOf('function');
+    });
+  });
+
+  describe('api/compose', () => {
+    it('should export compose factories and registries', async () => {
+      const compose = await import('../../../src/api/compose');
+
+      expect(compose.createCreature).toBeTypeOf('function');
+      expect(compose.resolveCreatureComposition).toBeTypeOf('function');
+      expect(compose.createProp).toBeTypeOf('function');
+      expect(compose.resolvePropComposition).toBeTypeOf('function');
+      expect(compose.CREATURES).toBeDefined();
+      expect(compose.PROPS).toBeDefined();
+      expect(compose.SKELETONS).toBeDefined();
+      expect(compose.MATERIALS).toBeDefined();
     });
   });
 

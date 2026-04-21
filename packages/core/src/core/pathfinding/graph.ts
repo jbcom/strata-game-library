@@ -223,10 +223,10 @@ export function calculateDistance(a: Position3D, b: Position3D): number {
  * @param options - Conversion configuration
  * @returns A Strata graph representing the NavMesh
  *
- * @warning For large meshes with more than 100 regions, neighbor detection has O(n²) complexity
- * which may cause performance issues. Consider setting `connectNeighbors: false` and manually
- * connecting critical paths, or implementing spatial indexing for production use cases with
- * large navigation meshes.
+ * Warning: for large meshes with more than 100 regions, neighbor detection has O(n²)
+ * complexity, which may cause performance issues. Consider setting
+ * `connectNeighbors: false` and manually connecting critical paths, or implementing
+ * spatial indexing for production use cases with large navigation meshes.
  *
  * @example
  * ```typescript

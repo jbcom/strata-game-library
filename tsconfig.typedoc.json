@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "packages/core/src/**/*.ts",
+    "packages/shaders/src/**/*.ts",
+    "packages/presets/src/**/*.ts",
+    "adapters/r3f/src/**/*.ts",
+    "adapters/r3f/src/**/*.tsx",
+    "adapters/reactylon/src/**/*.ts",
+    "adapters/reactylon/src/**/*.tsx",
+    "plugins/audio-synth/src/**/*.ts",
+    "plugins/audio-synth/src/**/*.tsx",
+    "plugins/model-synth/src/**/*.ts",
+    "plugins/model-synth/src/**/*.tsx",
+    "plugins/astro/src/**/*.ts",
+    "plugins/astro/src/**/*.tsx",
+    "plugins/react-native/src/**/*.ts",
+    "plugins/react-native/src/**/*.tsx",
+    "plugins/capacitor/src/**/*.ts",
+    "plugins/capacitor/src/**/*.tsx"
+  ]
+}

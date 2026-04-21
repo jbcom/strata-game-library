@@ -1,27 +1,16 @@
-import { createGame } from '@jbcom/strata/api';
+import { createSandboxGame } from 'strata-game-library';
 
-export const sandboxTemplate = createGame({
+export const sandboxTemplate = createSandboxGame({
   name: 'Sandbox Template',
   version: '1.0.0',
-  content: {
-    materials: [],
-    creatures: [],
-    props: [],
-    items: [],
-  },
   world: { regions: {}, connections: [] },
   scenes: {
     world: {
-      id: 'world',
       render: () => null, // Add sandbox world here
     },
   },
-  initialScene: 'world',
   modes: {
-    creative: { id: 'creative', systems: [], inputMap: {} },
-    survival: { id: 'survival', systems: [], inputMap: {} },
+    creative: { systems: [] },
+    survival: { systems: [] },
   },
-  defaultMode: 'creative',
-  statePreset: 'sandbox',
-  controls: {},
 });

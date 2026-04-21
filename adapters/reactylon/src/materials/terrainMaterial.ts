@@ -193,8 +193,6 @@ export function createBabylonTerrainShaderMaterial(
     uRoughness: roughness,
   };
 
-  let disposed = false;
-
   return {
     vertexShader: babylonTerrainVertexShader,
     fragmentShader: babylonTerrainFragmentShader,
@@ -203,8 +201,6 @@ export function createBabylonTerrainShaderMaterial(
       return { ...uniforms };
     },
 
-    dispose() {
-      disposed = true;
-    },
+    dispose() {},
   };
 }

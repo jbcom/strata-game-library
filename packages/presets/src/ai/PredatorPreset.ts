@@ -94,7 +94,9 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
   const stateMachine = new YUKA.StateMachine(vehicle);
   const patrolState = new PatrolState();
   const pursueState = new PursueState();
-  stateMachine.currentState = patrolState;
+  stateMachine.add('patrol', patrolState);
+  stateMachine.add('pursue', pursueState);
+  stateMachine.changeTo('patrol');
 
   const update = (_delta: number, context?: { preyPosition?: YUKA.Vector3 }) => {
     if (context?.preyPosition) {
@@ -102,12 +104,12 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
 
       if (distance < detectionRadius) {
         if (stateMachine.currentState !== pursueState) {
-          stateMachine.changeTo(pursueState);
+          stateMachine.changeTo('pursue');
         }
         seekBehavior.target = context.preyPosition;
       } else {
         if (stateMachine.currentState !== patrolState) {
-          stateMachine.changeTo(patrolState);
+          stateMachine.changeTo('patrol');
         }
       }
     }

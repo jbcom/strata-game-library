@@ -25,8 +25,8 @@
 
 import { forwardRef, useMemo } from 'react';
 import {
-  createBabylonTerrainShaderMaterial,
   type BabylonTerrainMaterialHandle,
+  createBabylonTerrainShaderMaterial,
 } from '../materials/terrainMaterial.js';
 
 /** Props for the StrataTerrain component. */
@@ -53,43 +53,42 @@ export interface StrataTerrainProps {
  * Uses Strata's simple terrain shader with noise-based height displacement,
  * slope-dependent rock coloring, and configurable roughness.
  */
-export const StrataTerrain = forwardRef<unknown, StrataTerrainProps>(
-  function StrataTerrain(
-    {
-      position = [0, 0, 0],
-      size = 200,
-      segments = 128,
-      groundColor = '#4a6630',
-      rockColor = '#666666',
-      roughness = 0.8,
-      visible = true,
-    },
-    _ref,
-  ) {
-    const materialHandle: BabylonTerrainMaterialHandle = useMemo(() => {
-      return createBabylonTerrainShaderMaterial({
-        groundColor,
-        rockColor,
-        roughness,
-      });
-    }, [groundColor, rockColor, roughness]);
-
-    if (!visible) return null;
-
-    // Store the material handle for consumers to apply to Babylon.js meshes.
-    // The handle provides vertex/fragment shaders and uniform configuration.
-    return (
-      <div
-        data-strata-terrain="true"
-        data-position={position.join(',')}
-        data-size={String(size)}
-        data-segments={String(segments)}
-        data-material-id={`terrain-${groundColor}-${rockColor}`}
-        style={{ display: 'none' }}
-      />
-    );
+export const StrataTerrain = forwardRef<unknown, StrataTerrainProps>(function StrataTerrain(
+  {
+    position = [0, 0, 0],
+    size = 200,
+    segments = 128,
+    groundColor = '#4a6630',
+    rockColor = '#666666',
+    roughness = 0.8,
+    visible = true,
   },
-);
+  _ref
+) {
+  const materialHandle: BabylonTerrainMaterialHandle = useMemo(() => {
+    return createBabylonTerrainShaderMaterial({
+      groundColor,
+      rockColor,
+      roughness,
+    });
+  }, [groundColor, rockColor, roughness]);
+  void materialHandle;
+
+  if (!visible) return null;
+
+  // Store the material handle for consumers to apply to Babylon.js meshes.
+  // The handle provides vertex/fragment shaders and uniform configuration.
+  return (
+    <div
+      data-strata-terrain="true"
+      data-position={position.join(',')}
+      data-size={String(size)}
+      data-segments={String(segments)}
+      data-material-id={`terrain-${groundColor}-${rockColor}`}
+      style={{ display: 'none' }}
+    />
+  );
+});
 
 StrataTerrain.displayName = 'StrataTerrain';
 
@@ -107,8 +106,10 @@ export function useStrataTerrainMaterial(options: {
   rockColor?: string;
   roughness?: number;
 }): BabylonTerrainMaterialHandle {
+  const { groundColor, rockColor, roughness } = options;
+
   return useMemo(
-    () => createBabylonTerrainShaderMaterial(options),
-    [options.groundColor, options.rockColor, options.roughness],
+    () => createBabylonTerrainShaderMaterial({ groundColor, rockColor, roughness }),
+    [groundColor, rockColor, roughness]
   );
 }

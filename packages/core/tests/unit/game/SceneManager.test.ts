@@ -94,4 +94,53 @@ describe('SceneManager', () => {
   it('should throw error when loading unregistered scene', async () => {
     await expect(manager.load('unknown')).rejects.toThrow('Scene "unknown" not registered.');
   });
+
+  it('should notify subscribers when scene state changes', async () => {
+    const listener = vi.fn();
+    const unsubscribe = manager.subscribe(listener);
+    const scene = {
+      id: 'test',
+      setup: async () => {},
+      teardown: async () => {},
+      render: () => null,
+    };
+
+    manager.register(scene);
+    await manager.load('test');
+
+    expect(listener).toHaveBeenCalled();
+    expect(manager.getSnapshot().current?.id).toBe('test');
+
+    unsubscribe();
+  });
+
+  it('tracks the pending scene id while a load is in flight', async () => {
+    let resolveSetup: (() => void) | undefined;
+    const setup = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveSetup = resolve;
+        })
+    );
+    const scene = {
+      id: 'travel',
+      setup,
+      teardown: async () => {},
+      render: () => null,
+    };
+
+    manager.register(scene);
+
+    const loadPromise = manager.load('travel');
+
+    expect(manager.getSnapshot().isLoading).toBe(true);
+    expect(manager.getSnapshot().pendingSceneId).toBe('travel');
+
+    resolveSetup?.();
+    await loadPromise;
+
+    expect(manager.getSnapshot().isLoading).toBe(false);
+    expect(manager.getSnapshot().pendingSceneId).toBeUndefined();
+    expect(manager.current?.id).toBe('travel');
+  });
 });

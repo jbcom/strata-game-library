@@ -57,7 +57,14 @@ export interface InputAxis {
  */
 export interface InputEvent {
   /** Event type indicating the interaction phase. */
-  type: 'activate' | 'deactivate' | 'axisChange' | 'press' | 'release';
+  type:
+    | 'activate'
+    | 'deactivate'
+    | 'axisChange'
+    | 'press'
+    | 'release'
+    | 'actionStart'
+    | 'actionEnd';
   /** Current axis values at the time of the event. */
   axis: InputAxis;
   /** Normalized force/pressure (0-1). Used for pressure plates and analog buttons. */
@@ -66,7 +73,41 @@ export interface InputEvent {
   worldPosition: THREE.Vector3;
   /** Millisecond timestamp of the event. */
   timestamp: number;
+  /** Optional logical action name for mapped keyboard/gamepad input. */
+  action?: string;
+  /** Optional source device for action events. */
+  source?: InputActionSource;
+  /** Optional raw input token or button index that triggered the action event. */
+  input?: string | number;
 }
+
+/**
+ * Device source for mapped action events.
+ *
+ * @category UI & Interaction
+ */
+export type InputActionSource = 'keyboard' | 'gamepad';
+
+/**
+ * Declarative input bindings for a logical action.
+ *
+ * @category UI & Interaction
+ */
+export interface InputActionBinding {
+  /** Keyboard keys or codes that trigger the action. */
+  keyboard?: string[];
+  /** Gamepad button alias or numeric button index for the action. */
+  gamepad?: string | number;
+  /** Whether motion/tilt input participates in the action. */
+  tilt?: boolean;
+}
+
+/**
+ * Declarative mapping of action names to input bindings.
+ *
+ * @category UI & Interaction
+ */
+export type InputActionMap = Record<string, InputActionBinding>;
 
 /**
  * Custom haptic vibration pattern configuration.
@@ -94,6 +135,28 @@ export interface GamepadState {
   buttons: boolean[];
   /** Last update timestamp from the gamepad API. */
   timestamp: number;
+}
+
+/**
+ * Serializable snapshot of the input manager's reactive state.
+ *
+ * @category UI & Interaction
+ */
+export interface InputManagerSnapshot {
+  /** Current declarative action map. */
+  actionMap: InputActionMap;
+  /** Logical actions currently considered pressed. */
+  activeActions: string[];
+  /** Current normalized axis state. */
+  axis: InputAxis;
+  /** Current pointer drag state. */
+  dragState: DragState;
+  /** Current force/pressure value. */
+  force: number;
+  /** Current connected gamepad state. */
+  gamepad: GamepadState;
+  /** Whether the pointer interaction is currently active. */
+  isPressed: boolean;
 }
 
 /**
@@ -133,6 +196,99 @@ export interface InputManagerConfig {
   hapticEnabled?: boolean;
   /** Index of the gamepad to use (0-3). Default: 0. */
   gamepadIndex?: number;
+}
+
+const GAMEPAD_BUTTON_ALIASES: Record<string, number> = {
+  a: 0,
+  b: 1,
+  back: 8,
+  circle: 1,
+  cross: 0,
+  down: 13,
+  dpaddown: 13,
+  dpadleft: 14,
+  dpadright: 15,
+  dpadup: 12,
+  east: 1,
+  l1: 4,
+  l2: 6,
+  l3: 10,
+  lb: 4,
+  left: 14,
+  ls: 10,
+  north: 3,
+  options: 9,
+  r1: 5,
+  r2: 7,
+  r3: 11,
+  rb: 5,
+  right: 15,
+  rs: 11,
+  select: 8,
+  south: 0,
+  square: 2,
+  start: 9,
+  triangle: 3,
+  up: 12,
+  west: 2,
+  x: 2,
+  y: 3,
+};
+
+function cloneActionMap(actionMap: InputActionMap): InputActionMap {
+  return Object.fromEntries(
+    Object.entries(actionMap).map(([action, binding]) => [
+      action,
+      {
+        ...binding,
+        keyboard: binding.keyboard ? [...binding.keyboard] : undefined,
+      },
+    ])
+  );
+}
+
+function normalizeKeyboardToken(token: string): string {
+  return token.toLowerCase();
+}
+
+function normalizeGamepadToken(token: string): string {
+  return token.toLowerCase().replace(/[\s_-]+/g, '');
+}
+
+function resolveGamepadButtonIndex(binding: string | number | undefined): number | undefined {
+  if (typeof binding === 'number') {
+    return binding >= 0 ? binding : undefined;
+  }
+
+  if (!binding) {
+    return undefined;
+  }
+
+  const normalized = normalizeGamepadToken(binding);
+
+  if (/^\d+$/.test(normalized)) {
+    return Number(normalized);
+  }
+
+  if (normalized.startsWith('button') && /^\d+$/.test(normalized.slice('button'.length))) {
+    return Number(normalized.slice('button'.length));
+  }
+
+  return GAMEPAD_BUTTON_ALIASES[normalized];
+}
+
+function areActionSetsEqual(left: Set<string>, right: Set<string>): boolean {
+  if (left.size !== right.size) {
+    return false;
+  }
+
+  for (const action of left) {
+    if (!right.has(action)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export class InputStateMachine {
@@ -273,6 +429,13 @@ export class InputManager {
   private listeners: Map<string, Set<(event: InputEvent) => void>>;
   private animationFrameId: number | null = null;
   private element: HTMLElement | null = null;
+  private actionMap: InputActionMap;
+  private activeActions: Set<string>;
+  private pressedKeys: Set<string>;
+  private pressedCodes: Set<string>;
+  private stateListeners: Set<(snapshot: InputManagerSnapshot) => void>;
+  private snapshot: InputManagerSnapshot;
+  private snapshotDirty: boolean;
 
   constructor(config: InputManagerConfig = {}) {
     this.config = {
@@ -285,6 +448,12 @@ export class InputManager {
     this.stateMachine = new InputStateMachine();
     this.haptics = new HapticFeedback(this.config.hapticEnabled);
     this.listeners = new Map();
+    this.actionMap = {};
+    this.activeActions = new Set();
+    this.pressedKeys = new Set();
+    this.pressedCodes = new Set();
+    this.stateListeners = new Set();
+    this.snapshotDirty = true;
 
     this.pointerState = {
       isDown: false,
@@ -300,9 +469,17 @@ export class InputManager {
       buttons: [],
       timestamp: 0,
     };
+
+    this.snapshot = this.createSnapshot();
+    this.snapshotDirty = false;
   }
 
   attach(element: HTMLElement): void {
+    if (this.element === element) {
+      return;
+    }
+
+    this.detach();
     this.element = element;
 
     element.addEventListener('pointerdown', this.handlePointerDown);
@@ -314,6 +491,8 @@ export class InputManager {
     element.addEventListener('touchend', this.handleTouchEnd);
 
     if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', this.handleKeyDown);
+      window.addEventListener('keyup', this.handleKeyUp);
       window.addEventListener('gamepadconnected', this.handleGamepadConnected);
       window.addEventListener('gamepaddisconnected', this.handleGamepadDisconnected);
     }
@@ -334,11 +513,25 @@ export class InputManager {
     }
 
     if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.handleKeyDown);
+      window.removeEventListener('keyup', this.handleKeyUp);
       window.removeEventListener('gamepadconnected', this.handleGamepadConnected);
       window.removeEventListener('gamepaddisconnected', this.handleGamepadDisconnected);
     }
 
+    this.pressedKeys.clear();
+    this.pressedCodes.clear();
+    this.pointerState.isDown = false;
+    this.pointerState.delta.set(0, 0);
+    this.pointerState.force = 0;
+    this.gamepadState.connected = false;
+    this.gamepadState.axes = [0, 0, 0, 0];
+    this.gamepadState.buttons = [];
+    this.stateMachine.reset();
+    this.refreshActionStates();
     this.stopGamepadPolling();
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   }
 
   on(event: string, callback: (event: InputEvent) => void): void {
@@ -352,11 +545,55 @@ export class InputManager {
     this.listeners.get(event)?.delete(callback);
   }
 
+  private createSnapshot(): InputManagerSnapshot {
+    return {
+      actionMap: this.getActionMap(),
+      activeActions: this.getPressedActions(),
+      axis: this.getAxis(),
+      dragState: this.getDragState(),
+      force: this.getForce(),
+      gamepad: this.getGamepadState(),
+      isPressed: this.isPressed(),
+    };
+  }
+
+  getSnapshot(): InputManagerSnapshot {
+    if (this.snapshotDirty) {
+      this.snapshot = this.createSnapshot();
+      this.snapshotDirty = false;
+    }
+
+    return this.snapshot;
+  }
+
+  subscribe(listener: (snapshot: InputManagerSnapshot) => void): () => void {
+    this.stateListeners.add(listener);
+    return () => {
+      this.stateListeners.delete(listener);
+    };
+  }
+
+  private notifySnapshot(): void {
+    if (this.stateListeners.size === 0) {
+      return;
+    }
+
+    const snapshot = this.getSnapshot();
+    for (const listener of this.stateListeners) {
+      listener(snapshot);
+    }
+  }
+
+  private invalidateSnapshot(): void {
+    this.snapshotDirty = true;
+  }
+
   private emit(
     type: InputEvent['type'],
     axis: InputAxis,
     force: number,
-    worldPosition: THREE.Vector3
+    worldPosition: THREE.Vector3,
+    details: Partial<Pick<InputEvent, 'action' | 'source' | 'input'>> = {}
   ): void {
     const event: InputEvent = {
       type,
@@ -364,6 +601,7 @@ export class InputManager {
       force,
       worldPosition,
       timestamp: Date.now(),
+      ...details,
     };
 
     const typeListeners = this.listeners.get(type);
@@ -391,6 +629,8 @@ export class InputManager {
     this.haptics.lightImpact();
 
     this.emit('press', { x: 0, y: 0 }, this.pointerState.force, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   };
 
   private handlePointerMove = (e: PointerEvent): void => {
@@ -407,6 +647,8 @@ export class InputManager {
 
     const axis = this.normalizeAxis(this.pointerState.delta);
     this.emit('axisChange', axis, this.pointerState.force, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   };
 
   private handlePointerUp = (_e: PointerEvent): void => {
@@ -415,6 +657,8 @@ export class InputManager {
     this.haptics.selection();
 
     this.emit('release', { x: 0, y: 0 }, 0, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   };
 
   private handleTouchStart = (e: TouchEvent): void => {
@@ -432,6 +676,8 @@ export class InputManager {
     this.haptics.lightImpact();
 
     this.emit('press', { x: 0, y: 0 }, this.pointerState.force, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   };
 
   private handleTouchMove = (e: TouchEvent): void => {
@@ -452,6 +698,8 @@ export class InputManager {
 
     const axis = this.normalizeAxis(this.pointerState.delta);
     this.emit('axisChange', axis, this.pointerState.force, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
   };
 
   private handleTouchEnd = (_e: TouchEvent): void => {
@@ -460,18 +708,52 @@ export class InputManager {
     this.haptics.selection();
 
     this.emit('release', { x: 0, y: 0 }, 0, new THREE.Vector3());
+    this.invalidateSnapshot();
+    this.notifySnapshot();
+  };
+
+  private handleKeyDown = (e: KeyboardEvent): void => {
+    const key = normalizeKeyboardToken(e.key);
+    const code = normalizeKeyboardToken(e.code);
+    const alreadyPressed = this.pressedKeys.has(key) || this.pressedCodes.has(code);
+
+    if (alreadyPressed) {
+      return;
+    }
+
+    this.pressedKeys.add(key);
+    this.pressedCodes.add(code);
+    this.refreshActionStates('keyboard', e.code || e.key);
+    this.notifySnapshot();
+  };
+
+  private handleKeyUp = (e: KeyboardEvent): void => {
+    const key = normalizeKeyboardToken(e.key);
+    const code = normalizeKeyboardToken(e.code);
+
+    this.pressedKeys.delete(key);
+    this.pressedCodes.delete(code);
+    this.refreshActionStates('keyboard', e.code || e.key);
+    this.notifySnapshot();
   };
 
   private handleGamepadConnected = (e: GamepadEvent): void => {
     if (e.gamepad.index === this.config.gamepadIndex) {
       this.gamepadState.connected = true;
       this.haptics.success();
+      this.refreshActionStates('gamepad');
+      this.invalidateSnapshot();
+      this.notifySnapshot();
     }
   };
 
   private handleGamepadDisconnected = (e: GamepadEvent): void => {
     if (e.gamepad.index === this.config.gamepadIndex) {
       this.gamepadState.connected = false;
+      this.gamepadState.buttons = [];
+      this.refreshActionStates('gamepad');
+      this.invalidateSnapshot();
+      this.notifySnapshot();
     }
   };
 
@@ -497,7 +779,14 @@ export class InputManager {
     const gamepad = gamepads[this.config.gamepadIndex];
 
     if (!gamepad) {
+      const wasConnected = this.gamepadState.connected;
       this.gamepadState.connected = false;
+      this.gamepadState.buttons = [];
+      if (wasConnected) {
+        this.refreshActionStates('gamepad');
+        this.invalidateSnapshot();
+        this.notifySnapshot();
+      }
       return;
     }
 
@@ -505,10 +794,14 @@ export class InputManager {
     this.gamepadState.timestamp = gamepad.timestamp;
 
     const prevAxes = [...this.gamepadState.axes];
+    const prevButtons = [...this.gamepadState.buttons];
     this.gamepadState.axes = gamepad.axes.map((a) => this.applyDeadzone(a));
     this.gamepadState.buttons = gamepad.buttons.map((b) => b.pressed);
 
     const axisChanged = this.gamepadState.axes.some((a, i) => Math.abs(a - prevAxes[i]) > 0.01);
+    const buttonsChanged =
+      this.gamepadState.buttons.length !== prevButtons.length ||
+      this.gamepadState.buttons.some((pressed, i) => pressed !== prevButtons[i]);
 
     if (axisChanged) {
       const axis: InputAxis = {
@@ -516,6 +809,15 @@ export class InputManager {
         y: this.gamepadState.axes[1] ?? 0,
       };
       this.emit('axisChange', axis, 1, new THREE.Vector3());
+    }
+
+    if (buttonsChanged) {
+      this.refreshActionStates('gamepad');
+    }
+
+    if (axisChanged || buttonsChanged) {
+      this.invalidateSnapshot();
+      this.notifySnapshot();
     }
   }
 
@@ -577,6 +879,91 @@ export class InputManager {
 
   getGamepadState(): GamepadState {
     return { ...this.gamepadState };
+  }
+
+  setActionMap(actionMap: InputActionMap): void {
+    this.actionMap = cloneActionMap(actionMap);
+    this.refreshActionStates();
+    this.invalidateSnapshot();
+    this.notifySnapshot();
+  }
+
+  clearActionMap(): void {
+    this.setActionMap({});
+  }
+
+  getActionMap(): InputActionMap {
+    return cloneActionMap(this.actionMap);
+  }
+
+  isActionPressed(action: string): boolean {
+    return this.activeActions.has(action);
+  }
+
+  getPressedActions(): string[] {
+    return [...this.activeActions];
+  }
+
+  private isKeyboardBindingActive(binding: InputActionBinding): boolean {
+    return (
+      binding.keyboard?.some((token) => {
+        const normalized = normalizeKeyboardToken(token);
+        return this.pressedKeys.has(normalized) || this.pressedCodes.has(normalized);
+      }) ?? false
+    );
+  }
+
+  private isGamepadBindingActive(binding: InputActionBinding): boolean {
+    const buttonIndex = resolveGamepadButtonIndex(binding.gamepad);
+
+    if (buttonIndex === undefined) {
+      return false;
+    }
+
+    return this.gamepadState.buttons[buttonIndex] ?? false;
+  }
+
+  private computeActiveActions(): Set<string> {
+    const next = new Set<string>();
+
+    for (const [action, binding] of Object.entries(this.actionMap)) {
+      if (this.isKeyboardBindingActive(binding) || this.isGamepadBindingActive(binding)) {
+        next.add(action);
+      }
+    }
+
+    return next;
+  }
+
+  private refreshActionStates(source?: InputActionSource, input?: string | number): void {
+    const nextActions = this.computeActiveActions();
+    const actionsChanged = !areActionSetsEqual(this.activeActions, nextActions);
+
+    for (const action of this.activeActions) {
+      if (!nextActions.has(action)) {
+        this.emit('actionEnd', this.getAxis(), this.getForce(), new THREE.Vector3(), {
+          action,
+          input,
+          source,
+        });
+      }
+    }
+
+    for (const action of nextActions) {
+      if (!this.activeActions.has(action)) {
+        this.emit('actionStart', this.getAxis(), this.getForce(), new THREE.Vector3(), {
+          action,
+          input,
+          source,
+        });
+      }
+    }
+
+    this.activeActions = nextActions;
+
+    if (actionsChanged) {
+      this.invalidateSnapshot();
+    }
   }
 }
 

@@ -45,7 +45,7 @@ Components are organized by domain in `adapters/r3f/src/components/`:
 
 ```tsx
 import { useFrame } from '@react-three/fiber';
-import { forwardRef, useMemo, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { coreFunction } from '@strata-game-library/core';
 
@@ -58,8 +58,9 @@ export interface MyComponentProps {
 
 export const MyComponent = forwardRef<THREE.Mesh, MyComponentProps>(
   ({ position = [0, 0, 0], size = 1 }, ref) => {
-    const internalRef = useRef<THREE.Mesh>(null);
-    const meshRef = ref || internalRef;
+    const meshRef = useRef<THREE.Mesh>(null!);
+
+    useImperativeHandle(ref, () => meshRef.current);
 
     // Memoize geometry/material creation
     const geometry = useMemo(() => new THREE.BoxGeometry(size, size, size), [size]);
@@ -79,7 +80,7 @@ export const MyComponent = forwardRef<THREE.Mesh, MyComponentProps>(
     });
 
     return (
-      <mesh ref={meshRef as any} position={position}>
+      <mesh ref={meshRef} position={position}>
         <primitive object={geometry} />
         <primitive object={material} attach="material" />
       </mesh>

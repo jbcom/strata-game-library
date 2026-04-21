@@ -473,7 +473,6 @@ export class CCDSolver {
 
     while (error > this.tolerance && iterations < this.maxIterations) {
       for (let i = chain.bones.length - 2; i >= 0; i--) {
-        const _bone = chain.bones[i];
         const bonePos = positions[i];
         const endEffector = positions[positions.length - 1];
 
@@ -598,20 +597,10 @@ export class TwoBoneIKSolver {
     );
     const angleA = Math.acos(cosAngleA);
 
-    const cosAngleB = Math.max(
-      -1,
-      Math.min(1, (safeA * safeA + safeB * safeB - safeC * safeC) / (2 * safeA * safeB))
-    );
-    const _angleB = Math.acos(cosAngleB);
-
     const rootToTarget = actualTarget.clone().sub(rootPos).normalize();
     const rootToPole = poleTarget.clone().sub(rootPos);
 
     const perpendicular = new THREE.Vector3().crossVectors(rootToTarget, rootToPole).normalize();
-
-    const _poleDirection = new THREE.Vector3()
-      .crossVectors(perpendicular, rootToTarget)
-      .normalize();
 
     const upperRotation = new THREE.Quaternion();
     const rotationAxis = perpendicular;

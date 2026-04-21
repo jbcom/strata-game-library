@@ -621,6 +621,7 @@ export default function WaterDemo() {
   return (
     <div
       className="showcase-demo"
+      style={{ background: '#0a0e1a' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -629,7 +630,6 @@ export default function WaterDemo() {
         dpr={[1, 1.5]}
         shadows
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        style={{ background: '#0a0e1a' }}
       >
         <Scene isHovered={isHovered} />
       </Canvas>

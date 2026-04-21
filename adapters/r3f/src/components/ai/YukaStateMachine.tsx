@@ -95,7 +95,8 @@ export const YukaStateMachine = forwardRef<YukaStateMachineRef, YukaStateMachine
         },
         changeTo: (stateName: string) => {
           const sm = stateMachineRef.current;
-          if (sm && statesMapRef.current.has(stateName)) {
+          const state = statesMapRef.current.get(stateName);
+          if (sm && state) {
             sm.changeTo(stateName);
           }
         },

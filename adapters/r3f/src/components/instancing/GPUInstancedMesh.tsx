@@ -1,6 +1,4 @@
 import { Instance, Instances } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
-import { useRef } from 'react';
 import type * as THREE from 'three';
 import type { InstanceData } from '@strata-game-library/core';
 
@@ -62,9 +60,6 @@ export function GPUInstancedMesh({
   castShadow = true,
   receiveShadow = true,
 }: GPUInstancedMeshProps) {
-  const _meshRef = useRef<THREE.InstancedMesh>(null);
-  const _camera = useThree().camera;
-
   // Input validation
   if (!geometry) {
     throw new Error('GPUInstancedMesh: geometry is required');
