@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig generation and full asset-pipeline integration remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
@@ -34,7 +34,8 @@ This document reflects the actual state of the repository after the umbrella-pac
 
 - `packages/core/src/compose/creatures/index.ts`
   - `createCreature()` and `resolveCreatureComposition()` now exist, and resolved compositions now include adapter-neutral runtime bones with serializable transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
-  - Remaining gap: they still do not generate renderer-ready creature rigs or asset-backed meshes.
+  - Resolved creature compositions now also preserve optional model, rig, animation-clip, and bone-map asset bindings for adapter-owned creature rendering.
+  - Remaining gap: they still do not generate renderer-ready creature rigs, retarget skeletal clips, or provide high-level animation control.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist, and resolved compositions now include runtime nodes, material slots, interaction/audio metadata, bounds, and physics profiles.
   - Runtime prop output now also includes interaction action descriptors with stable ids, adapter labels, enabled state, affected node ids, audio cues, and payload metadata.
@@ -79,15 +80,17 @@ This document reflects the actual state of the repository after the umbrella-pac
 - `adapters/r3f/src/components/compose/`
   - `RuntimeProp` and `RuntimeCreature` now consume core composition runtime plans and render primitive R3F geometry with orientation-aware capsule geometry, material overrides, custom node/bone render hooks, and material conversion helpers.
   - `RuntimeAssetMesh` now lets mesh-shaped prop nodes with a `mesh` URL render static GLB assets through Drei's GLTF cache while preserving runtime material metadata and a source-material mode.
+  - `RuntimeCreatureAsset` now lets asset-bound runtime creatures render GLB models through Drei's GLTF cache and map logical animation names to source clip names, and `RuntimeCreature` can select that path through `assetMode` / `animation`.
   - `RuntimeProp` can now execute core prop interaction actions from node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
   - Runtime material creation now carries core procedural material traits into Three.js material `userData`.
   - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and runtime material variants through the consolidated package surface.
-  - Remaining gap: richer creature rig/animation asset loading, physics/shell integration, and deeper visual runtime assertions are still incomplete.
+  - Remaining gap: richer creature rig retargeting/skeletal animation control, physics/shell integration, and deeper visual runtime assertions are still incomplete.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()` now consume the same core runtime plans and expose serializable Babylon/Reactylon descriptors with material slots, transforms, bounds, physics, prop interaction actions, animation metadata, IK, and spawn metadata.
+  - Reactylon creature descriptors now preserve core creature asset bindings so Babylon loaders can consume the same model, rig, clip, and bone-map metadata.
   - Reactylon runtime material descriptors now preserve core procedural material traits.
   - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams for asset-backed nodes, and executable prop interaction helpers.
-  - Remaining gap: async GLB loading, richer rig generation, higher-level interaction UX integration, and visual example coverage are still incomplete.
+  - Remaining gap: async GLB loading, richer rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still incomplete.
 
 ### Package Consolidation / Publishing
 
@@ -176,6 +179,18 @@ Verified during this session:
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon material trait metadata coverage
 - `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after material trait metadata wiring
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after procedural material trait metadata
+- `pnpm --dir packages/core typecheck`: passed after creature asset binding metadata
+- `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1001 tests including creature asset binding coverage
+- `pnpm --dir packages/core check`: passed after creature asset binding metadata
+- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after creature asset binding metadata
+- `pnpm --dir adapters/r3f typecheck`: passed after `RuntimeCreatureAsset` GLB-backed creature rendering support
+- `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 328 tests including R3F creature asset binding export/runtime coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after `RuntimeCreatureAsset` support
+- `pnpm --dir adapters/reactylon typecheck`: passed after preserving creature asset bindings in Reactylon descriptors
+- `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon creature asset descriptor coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon creature asset descriptor coverage
+- `pnpm --dir packages/strata-game-library exec tsup`: passed after creature asset binding and adapter export updates
+- `git diff --check`: passed after creature asset binding updates
 
 Known remaining verification gaps:
 

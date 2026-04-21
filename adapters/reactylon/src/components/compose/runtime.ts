@@ -166,6 +166,13 @@ export function resolveReactylonRuntimeCreature(
       ...animation,
       targetBones: [...animation.targetBones],
     })),
+    asset: runtime.asset
+      ? {
+          ...runtime.asset,
+          animationClips: { ...runtime.asset.animationClips },
+          boneMap: { ...runtime.asset.boneMap },
+        }
+      : undefined,
     ikChains: runtime.ikChains?.map((chain) => ({
       ...chain,
       bones: [...chain.bones],

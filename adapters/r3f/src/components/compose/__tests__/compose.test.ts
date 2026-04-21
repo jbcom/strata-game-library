@@ -17,6 +17,7 @@ describe('R3F runtime composition components', () => {
 
     expect(compose.RuntimeProp).toBeDefined();
     expect(compose.RuntimeCreature).toBeDefined();
+    expect(compose.RuntimeCreatureAsset).toBeDefined();
     expect(compose.RuntimeAssetMesh).toBeDefined();
     expect(compose.RuntimeGeometry).toBeDefined();
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
@@ -87,5 +88,17 @@ describe('R3F runtime composition components', () => {
     expect(getDefaultRuntimePropInteractionAction(prop.runtime, node)?.id).toBe(
       'crate_wooden:interaction:container'
     );
+  });
+
+  it('preserves creature asset bindings for R3F asset-backed rendering', () => {
+    const creature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        animationClips: { idle: 'Idle' },
+      },
+    });
+
+    expect(creature.runtime.asset?.model).toBe('/models/otter.glb');
+    expect(creature.runtime.asset?.animationClips.idle).toBe('Idle');
   });
 });

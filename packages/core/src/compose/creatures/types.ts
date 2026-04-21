@@ -24,6 +24,13 @@ export interface DropTable {
   chance?: DropItem[];
 }
 
+export interface CreatureAssetDefinition {
+  model?: string;
+  rig?: string;
+  animationClips?: Record<string, string>;
+  boneMap?: Record<string, string>;
+}
+
 export interface CreatureDefinition {
   id: string;
   name: string;
@@ -61,6 +68,9 @@ export interface CreatureDefinition {
     death?: string | THREE.AnimationClip;
     [key: string]: string | THREE.AnimationClip | undefined;
   };
+
+  // Asset-backed rendering/animation
+  assets?: CreatureAssetDefinition;
 
   // Spawning
   biomes: BiomeType[] | string[];
@@ -131,6 +141,13 @@ export interface CreatureRuntimeSpawnProfile {
   timeOfDay?: CreatureDefinition['timeOfDay'];
 }
 
+export interface CreatureRuntimeAssetBinding {
+  model?: string;
+  rig?: string;
+  animationClips: Record<string, string>;
+  boneMap: Record<string, string>;
+}
+
 export interface CreatureRuntimeAssembly {
   kind: 'creature';
   id: string;
@@ -141,6 +158,7 @@ export interface CreatureRuntimeAssembly {
   bounds: RuntimeBounds;
   physics: RuntimePhysicsProfile;
   animations: CreatureRuntimeAnimationBinding[];
+  asset?: CreatureRuntimeAssetBinding;
   ikChains: SkeletonDefinition['ikChains'];
   spawn: CreatureRuntimeSpawnProfile;
   ai: CreatureDefinition['ai'];

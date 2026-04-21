@@ -3,6 +3,7 @@ import {
   createMaterialVariant,
   inferMaterialTraits,
   MATERIALS,
+  resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
 import { describe, expect, it } from 'vitest';
@@ -61,13 +62,23 @@ describe('Reactylon runtime composition descriptors', () => {
   });
 
   it('resolves creature runtime descriptors with bones and animation metadata', () => {
-    const descriptor = resolveReactylonRuntimeCreature('otter_river', {
-      transparentVolumetrics: true,
-    });
+    const descriptor = resolveReactylonRuntimeCreature(
+      resolveCreatureComposition('otter_river', {
+        assets: {
+          model: '/models/otter.glb',
+          animationClips: { idle: 'Idle' },
+        },
+      }),
+      {
+        transparentVolumetrics: true,
+      }
+    );
 
     expect(descriptor.kind).toBe('creature');
     expect(descriptor.bones.length).toBeGreaterThan(0);
     expect(descriptor.animations.length).toBeGreaterThan(0);
+    expect(descriptor.asset?.model).toBe('/models/otter.glb');
+    expect(descriptor.asset?.animationClips.idle).toBe('Idle');
     expect(descriptor.resolvedScale).toBeGreaterThan(0);
     expect(descriptor.scale).toEqual([1, 1, 1]);
     expect(descriptor.spawn.biomes).toContain('marsh');

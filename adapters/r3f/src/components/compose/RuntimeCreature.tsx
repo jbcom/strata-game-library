@@ -9,6 +9,7 @@ import {
 import { useMemo } from 'react';
 import type * as THREE from 'three';
 import { resolveRuntimeMaterial } from './materials';
+import { RuntimeCreatureAsset } from './RuntimeCreatureAsset';
 import { RuntimeGeometry } from './RuntimeGeometry';
 import type { RuntimeCreatureInput, RuntimeCreatureProps, RuntimeMaterialOptions } from './types';
 
@@ -71,6 +72,8 @@ export function RuntimeCreature({
   scale = 1,
   castShadow = true,
   receiveShadow = true,
+  assetMode = 'auto',
+  animation,
   transparentVolumetrics,
   materialOverrides,
   renderBone,
@@ -90,6 +93,27 @@ export function RuntimeCreature({
     number,
     number,
   ];
+  const shouldRenderAsset =
+    assetMode === 'asset' || (assetMode === 'auto' && runtime.asset?.model !== undefined);
+
+  if (shouldRenderAsset) {
+    if (!runtime.asset?.model) {
+      throw new Error(
+        `RuntimeCreature assetMode="asset" requires creature "${runtime.id}" to include asset.model`
+      );
+    }
+
+    return (
+      <group name={runtime.id} position={position} rotation={rotation} scale={groupScale}>
+        <RuntimeCreatureAsset
+          creature={runtime}
+          animation={animation}
+          castShadow={castShadow}
+          receiveShadow={receiveShadow}
+        />
+      </group>
+    );
+  }
 
   return (
     <group name={runtime.id} position={position} rotation={rotation} scale={groupScale}>

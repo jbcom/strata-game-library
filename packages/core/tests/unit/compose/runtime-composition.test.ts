@@ -192,6 +192,38 @@ describe('runtime composition assembly', () => {
     expect(idle?.targetBones).toHaveLength(composition.skeleton.bones.length);
   });
 
+  it('carries creature asset bindings into runtime assemblies', () => {
+    const composition = resolveCreatureComposition(
+      'otter_river',
+      {
+        assets: {
+          model: '/models/otter.glb',
+          rig: '/models/otter-rig.glb',
+          animationClips: {
+            idle: 'Idle',
+            swim: 'Swim',
+          },
+          boneMap: {
+            body: 'Spine',
+          },
+        },
+      },
+      () => 0.5
+    );
+
+    expect(composition.runtime.asset).toEqual({
+      model: '/models/otter.glb',
+      rig: '/models/otter-rig.glb',
+      animationClips: {
+        idle: 'Idle',
+        swim: 'Swim',
+      },
+      boneMap: {
+        body: 'Spine',
+      },
+    });
+  });
+
   it('estimates capsule runtime volumes by longest axis across props and creatures', () => {
     const longYProp = resolvePropComposition({
       id: 'capsule_y_prop',

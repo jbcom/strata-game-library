@@ -26,6 +26,8 @@ export type RuntimeCreatureInput =
   | CreatureComposition
   | CreatureRuntimeAssembly;
 
+export type RuntimeCreatureAssetMode = 'auto' | 'asset' | 'runtime';
+
 export interface RuntimeMaterialOptions {
   transparentVolumetrics?: boolean;
   materialOverrides?: Record<string, THREE.Material | MaterialDefinition>;
@@ -74,6 +76,8 @@ export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   scale?: number | [number, number, number];
   castShadow?: boolean;
   receiveShadow?: boolean;
+  assetMode?: RuntimeCreatureAssetMode;
+  animation?: string;
   renderBone?: (bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => React.ReactNode;
   onBoneClick?: (bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void;
 }

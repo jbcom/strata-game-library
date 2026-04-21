@@ -90,13 +90,15 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
+`CreatureDefinition.assets` and `CreatureComposition.runtime.asset` provide optional model, rig, animation-clip, and bone-map bindings for asset-backed creature rendering. The R3F adapter exposes `RuntimeCreatureAsset`, and `RuntimeCreature` can use those bindings through `assetMode` and `animation`.
+
 `PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
 
 `executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
 
 `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` provide serializable procedural material metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels. Variants can replace or append traits, and adapter material descriptors preserve trait metadata for future shader/texture pipelines.
 
-The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
+The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
 The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems.
 

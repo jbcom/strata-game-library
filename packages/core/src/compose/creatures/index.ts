@@ -120,6 +120,15 @@ function cloneCreatureDefinition(definition: CreatureDefinition): CreatureDefini
     },
     stats: { ...definition.stats },
     animations: { ...definition.animations },
+    assets: definition.assets
+      ? {
+          ...definition.assets,
+          animationClips: definition.assets.animationClips
+            ? { ...definition.assets.animationClips }
+            : undefined,
+          boneMap: definition.assets.boneMap ? { ...definition.assets.boneMap } : undefined,
+        }
+      : undefined,
     biomes: [...definition.biomes],
     packSize: definition.packSize ? ([...definition.packSize] as [number, number]) : undefined,
     timeOfDay: definition.timeOfDay ? [...definition.timeOfDay] : undefined,
@@ -220,6 +229,23 @@ function mergeCreatureDefinition(
       ...(base?.animations ?? {}),
       ...(input.animations ?? {}),
     },
+    assets: input.assets
+      ? {
+          ...input.assets,
+          animationClips: input.assets.animationClips
+            ? { ...input.assets.animationClips }
+            : undefined,
+          boneMap: input.assets.boneMap ? { ...input.assets.boneMap } : undefined,
+        }
+      : base?.assets
+        ? {
+            ...base.assets,
+            animationClips: base.assets.animationClips
+              ? { ...base.assets.animationClips }
+              : undefined,
+            boneMap: base.assets.boneMap ? { ...base.assets.boneMap } : undefined,
+          }
+        : undefined,
     biomes: input.biomes ? [...input.biomes] : base?.biomes ? [...base.biomes] : [],
     spawnWeight: input.spawnWeight ?? base?.spawnWeight ?? 1,
     packSize: input.packSize
@@ -519,6 +545,16 @@ function buildCreatureRuntime(
         clip: clip as string | THREE.AnimationClip,
         targetBones: animationTargets[name] ? [...animationTargets[name]] : [...allBoneIds],
       })),
+    asset: definition.assets
+      ? {
+          model: definition.assets.model,
+          rig: definition.assets.rig,
+          animationClips: definition.assets.animationClips
+            ? { ...definition.assets.animationClips }
+            : {},
+          boneMap: definition.assets.boneMap ? { ...definition.assets.boneMap } : {},
+        }
+      : undefined,
     ikChains: skeleton.ikChains?.map((chain) => ({
       ...chain,
       bones: [...chain.bones],
