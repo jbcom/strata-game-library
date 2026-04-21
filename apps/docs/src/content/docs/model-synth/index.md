@@ -41,6 +41,8 @@ console.log(character.riggedModelUrls?.rigged);
 console.log(character.animationUrls?.idle);
 ```
 
+When `rigged` or `animations` are requested, `character()` runs the Text-to-3D preview and refine stages before submitting the resulting textured humanoid task to Meshy rigging. The default refine options request GLB output and auto sizing, and can be overridden through `refineOptions`.
+
 ## Features
 
 - **Text-to-3D** — Generate 3D models from natural language descriptions
@@ -70,6 +72,25 @@ const runAnimation = result.animationUrls?.run;
 
 Named animations are resolved through Strata's bundled Meshy action-id map (`idle`, `walk`, `run`, `jump`, `collect`, `hit`, `death`, `victory`, and dodge/slide variants). Numeric Meshy action ids and named object requests are also accepted.
 
+## Live Smoke Testing
+
+`@strata-game-library/model-synth` includes a gated real-API smoke command:
+
+```bash
+MESHY_API_KEY=... pnpm --dir plugins/model-synth test:smoke
+```
+
+By default the command only verifies authentication by listing tasks. The full character pipeline is intentionally behind explicit cost confirmation:
+
+```bash
+MESHY_API_KEY=... \
+MESHY_SMOKE_CREATE_CHARACTER=1 \
+MESHY_SMOKE_CONFIRM_COSTS=1 \
+pnpm --dir plugins/model-synth test:smoke
+```
+
+The full path creates preview, refine, rigging, and animation tasks, then verifies that the completed result includes a rigged GLB and idle animation GLB.
+
 ## Lower-Level Clients
 
 ```tsx
@@ -85,7 +106,7 @@ const animation = await synth.animations.createAnimationTask({
 
 ## Status
 
-Model Synth is currently in active development. Text-to-3D, rigging, animation, retexture, and high-level character orchestration are implemented as task-based Meshy API workflows; production use should still validate the exact Meshy plan, rate limits, and generated asset licensing for your project.
+Model Synth is currently in active development. Text-to-3D, rigging, animation, retexture, and high-level preview/refine/rigging/animation orchestration are implemented as task-based Meshy API workflows; production use should still validate the exact Meshy plan, rate limits, and generated asset licensing for your project.
 
 ## Related
 

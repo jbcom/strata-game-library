@@ -40,6 +40,8 @@ console.log(otter.riggedModelUrls?.rigged);
 console.log(otter.animationUrls?.idle);
 ```
 
+When `rigged` or `animations` are requested, `character()` runs Text-to-3D preview, Text-to-3D refine, rigging, and animation tasks in sequence. This gives Meshy rigging a textured humanoid input instead of submitting an unrefined preview mesh.
+
 ## Features
 
 - **Text-to-3D generation** -- Create 3D models from natural language descriptions via Meshy API
@@ -73,6 +75,25 @@ const animation = await synth.animations.createAnimationTask({
   action_id: 30,
 });
 ```
+
+## Live Smoke Testing
+
+The package includes a gated smoke command for real Meshy credentials:
+
+```bash
+MESHY_API_KEY=... pnpm test:smoke
+```
+
+By default this only verifies authentication and task listing. To run the billable character workflow, explicitly opt in:
+
+```bash
+MESHY_API_KEY=... \
+MESHY_SMOKE_CREATE_CHARACTER=1 \
+MESHY_SMOKE_CONFIRM_COSTS=1 \
+pnpm test:smoke
+```
+
+The billable path creates preview, refine, rigging, and animation tasks, then fails if no rigged GLB or idle animation GLB is returned.
 
 ## Documentation
 

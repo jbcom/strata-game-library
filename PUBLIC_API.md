@@ -384,6 +384,8 @@ const character = await synth.character({
 
 `ModelSynth.character()` generates the model, optionally creates/polls a Meshy rigging task, and optionally creates/polls Meshy animation tasks. The returned task is augmented with `riggingTask`, `riggedModelUrls`, `animationTasks`, and `animationUrls` when those stages run.
 
+When rigging is requested, the character workflow refines the Text-to-3D preview by default before submitting the task to Meshy rigging. Pass `refine: false` only for advanced workflows where the input is known to be riggable.
+
 Named character animations resolve through Strata's bundled Meshy action-id map. Numeric Meshy action ids and named object requests are also accepted. Unknown named animation requests are rejected before text-to-3D model generation starts.
 
 ### Scene Shell Preset Helpers

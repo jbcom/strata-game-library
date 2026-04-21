@@ -31,7 +31,7 @@ Strata currently has four kinds of unfinished work:
 2. Runtime depth gaps.
    Composition and declarative game helpers are structurally useful but still thinner than the framework vision.
 3. Platform and plugin parity gaps.
-   Mobile/controller support and model-synth orchestration are now materially implemented, but native/example verification and live API smoke coverage remain partial.
+   Mobile/controller support and model-synth orchestration are now materially implemented, but native/example verification and live billable API smoke execution remain partial.
 4. Verification and documentation gaps.
    Browser integration coverage, migration guidance, and post-consolidation docs still need hardening.
 
@@ -241,8 +241,9 @@ Close the highest-value plugin and platform TODOs that still block the "actual g
 - The active React Native iOS module now reports `hasGamepad` / `inputMode` from `GameController` and exposes `getInputSnapshot()` for MFi/GameController buttons, sticks, triggers, and connected controllers.
 - Core shared platform helpers now expose `isReactNative()` and `selectAdapter()` accepts an explicit `reactNative` adapter slot instead of describing React Native as unimplemented.
 - The TypeScript React Native hook tests now cover controller-aware `useDevice()` profiles and native `useInput()` snapshot polling.
-- `model-synth.character()` now creates and polls Meshy rigging tasks when `rigged` or `animations` are requested, maps named/default/numeric animation actions to Meshy animation tasks, returns rigging/animation task metadata and GLB URL maps, and validates unknown named animations before starting model generation.
-- Remaining platform work in this stream is now focused on live Meshy smoke verification, deeper core/native capability bridging, and native-example/build verification.
+- `model-synth.character()` now creates and polls Meshy preview/refine tasks before rigging when `rigged` or `animations` are requested, maps named/default/numeric animation actions to Meshy animation tasks, returns preview/rigging/animation task metadata and GLB URL maps, and validates unknown named animations before starting model generation.
+- `plugins/model-synth` now includes a gated `test:smoke` command that verifies auth/listing by default and only runs the billable character workflow when explicit cost-confirmation environment variables are set.
+- Remaining platform work in this stream is now focused on running the live billable Meshy smoke path with real credentials, deeper core/native capability bridging, and native-example/build verification.
 
 ## Workstream 7: Verification and CI Hardening
 

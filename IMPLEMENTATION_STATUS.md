@@ -82,7 +82,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 ### Platform / Plugin Gaps
 
 - `plugins/model-synth/src/index.ts`
-  - High-level character generation now performs optional Meshy rigging and animation orchestration, returns rigging/animation task metadata and URL maps, and validates named animation requests before generating a model. Remaining work is live Meshy smoke verification and production guidance for plan/rate-limit/licensing constraints.
+  - High-level character generation now performs Meshy preview/refine, rigging, and animation orchestration, returns preview/rigging/animation task metadata and URL maps, and validates named animation requests before generating a model. A gated `pnpm --dir plugins/model-synth test:smoke` command now exists; remaining work is running it with real credentials and adding production guidance for plan/rate-limit/licensing constraints.
 - `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
   - Android controller detection and native `getInputSnapshot()` now exist through `InputDevice` enumeration plus button/axis state holders for host-forwarded events.
 - `plugins/react-native/ios/StrataModule.swift`
@@ -111,13 +111,14 @@ Verified during this session:
 - `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after React Native adapter-map changes
 - `pnpm --dir packages/core test:unit -- tests/unit/core/platform.test.ts tests/unit/core/platform-ssr.test.ts`: passed, 39 files / 994 tests
 - `pnpm --dir plugins/model-synth typecheck`: passed after character rigging/animation orchestration updates
-- `pnpm --dir plugins/model-synth test`: passed, 37 tests covering Meshy clients and high-level character rigging/animation orchestration
+- `pnpm --dir plugins/model-synth test`: passed, 38 tests covering Meshy clients and high-level character preview/refine/rigging/animation orchestration
+- `pnpm --dir plugins/model-synth test:smoke`: passed in no-key skip mode; live billable verification requires `MESHY_API_KEY`, `MESHY_SMOKE_CREATE_CHARACTER=1`, and `MESHY_SMOKE_CONFIRM_COSTS=1`
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:
 
 - Adapter and example browser coverage is not yet as complete as the restored core browser integration suite.
-- Live Meshy API smoke verification was not run in this repo because it requires real account credentials and billable API calls.
+- Live billable Meshy generation was not run in this repo because it requires real account credentials and explicit cost confirmation.
 
 ## Done Means
 

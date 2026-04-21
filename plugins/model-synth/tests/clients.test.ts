@@ -9,6 +9,7 @@ import { TextTo3DAPI } from '../src/clients/text-to-3d.js';
 import {
   type AnimationTask,
   type CharacterAnimationRequest,
+  type CreateRefineTaskParams,
   MeshyAuthError,
   MeshyError,
   MeshyPaymentError,
@@ -27,6 +28,15 @@ const completedModelTask = {
   created_at: '1000',
   finished_at: 2000,
 } satisfies MeshyTask;
+
+type GenerateModelOptions = {
+  prompt: string;
+  style: string;
+  polycount: number;
+  tPose?: boolean;
+  refine?: boolean;
+  refineOptions?: CreateRefineTaskParams;
+};
 
 const pendingRiggingTask = {
   id: 'rig-task-123',
@@ -54,12 +64,7 @@ function stubGenerateModel(synth: ModelSynth) {
   return vi
     .spyOn(
       synth as unknown as {
-        generateModel(options: {
-          prompt: string;
-          style: string;
-          polycount: number;
-          tPose?: boolean;
-        }): Promise<MeshyTask>;
+        generateModel(options: GenerateModelOptions): Promise<MeshyTask>;
       },
       'generateModel'
     )
@@ -176,6 +181,8 @@ describe('TextTo3DAPI', () => {
     const task = await api.createRefineTask('preview-123', mockMakeRequest, {
       enable_pbr: true,
       texture_prompt: 'high quality materials',
+      target_formats: ['glb', 'fbx'],
+      auto_size: true,
     });
 
     expect(mockMakeRequest).toHaveBeenCalledTimes(1);
@@ -184,6 +191,9 @@ describe('TextTo3DAPI', () => {
     expect(body.mode).toBe('refine');
     expect(body.preview_task_id).toBe('preview-123');
     expect(body.enable_pbr).toBe(true);
+    expect(body.texture_prompt).toBe('high quality materials');
+    expect(body.target_formats).toEqual(['glb', 'fbx']);
+    expect(body.auto_size).toBe(true);
 
     expect(task.id).toBe('refine-456');
     expect(task.status).toBe('PENDING');
@@ -257,6 +267,62 @@ describe('ModelSynth', () => {
     expect(synth).toBeDefined();
   });
 
+  it('refines generated models when requested', async () => {
+    const synth = new ModelSynth({ apiKey: 'test-key' }); // pragma: allowlist secret
+    const completedPreviewTask = {
+      ...completedModelTask,
+      id: 'preview-task-123',
+      model_urls: { glb: 'https://example.com/preview.glb' },
+    } satisfies MeshyTask;
+    const completedRefineTask = {
+      ...completedModelTask,
+      id: 'refine-task-456',
+      model_urls: { glb: 'https://example.com/refined.glb' },
+    } satisfies MeshyTask;
+    const createPreviewTask = vi
+      .spyOn(synth.text3d, 'createPreviewTask')
+      .mockResolvedValue({ ...completedPreviewTask, status: 'PENDING', progress: 0 });
+    const createRefineTask = vi
+      .spyOn(synth.text3d, 'createRefineTask')
+      .mockResolvedValue({ ...completedRefineTask, status: 'PENDING', progress: 0 });
+    const pollTask = vi
+      .spyOn(synth.text3d, 'pollTask')
+      .mockResolvedValueOnce(completedPreviewTask)
+      .mockResolvedValueOnce(completedRefineTask);
+    const generateModel = (
+      synth as unknown as {
+        generateModel(
+          options: GenerateModelOptions
+        ): Promise<MeshyTask & { previewTask?: MeshyTask }>;
+      }
+    ).generateModel.bind(synth);
+
+    const task = await generateModel({
+      prompt: 'stylized otter adventurer',
+      style: 'cartoon',
+      polycount: 8000,
+      tPose: true,
+      refine: true,
+      refineOptions: { target_formats: ['glb'], auto_size: true },
+    });
+
+    expect(createPreviewTask).toHaveBeenCalledWith(
+      expect.objectContaining({
+        text_prompt: 'stylized otter adventurer',
+        is_a_t_pose: true,
+      }),
+      expect.any(Function)
+    );
+    expect(pollTask).toHaveBeenNthCalledWith(1, 'preview-task-123');
+    expect(createRefineTask).toHaveBeenCalledWith('preview-task-123', expect.any(Function), {
+      target_formats: ['glb'],
+      auto_size: true,
+    });
+    expect(pollTask).toHaveBeenNthCalledWith(2, 'refine-task-456');
+    expect(task.id).toBe('refine-task-456');
+    expect(task.previewTask?.id).toBe('preview-task-123');
+  });
+
   it('rigs generated characters when requested', async () => {
     const synth = new ModelSynth({ apiKey: 'test-key' }); // pragma: allowlist secret
     const generateModel = stubGenerateModel(synth);
@@ -281,6 +347,11 @@ describe('ModelSynth', () => {
       style: 'cartoon',
       polycount: 8000,
       tPose: true,
+      refine: true,
+      refineOptions: {
+        target_formats: ['glb'],
+        auto_size: true,
+      },
     });
     expect(createRiggingTask).toHaveBeenCalledWith({
       input_task_id: 'model-task-123',
@@ -346,6 +417,11 @@ describe('ModelSynth', () => {
       style: 'cartoon',
       polycount: 8000,
       tPose: true,
+      refine: true,
+      refineOptions: {
+        target_formats: ['glb'],
+        auto_size: true,
+      },
     });
     expect(createAnimationTask).toHaveBeenNthCalledWith(1, {
       rig_task_id: 'rig-task-123',

@@ -27,6 +27,20 @@ export interface CreateTaskParams {
   moderation?: boolean | 'strict';
 }
 
+export type TextTo3DTargetFormat = 'glb' | 'obj' | 'fbx' | 'stl' | 'usdz' | '3mf';
+
+export interface CreateRefineTaskParams {
+  enable_pbr?: boolean;
+  texture_prompt?: string;
+  texture_image_url?: string;
+  ai_model?: 'meshy-5' | 'meshy-6' | 'latest' | string;
+  moderation?: boolean | 'strict';
+  remove_lighting?: boolean;
+  target_formats?: TextTo3DTargetFormat[];
+  auto_size?: boolean;
+  origin_at?: 'bottom' | 'center';
+}
+
 export interface MeshyTask {
   id: string;
   status: 'PENDING' | 'IN_PROGRESS' | 'SUCCEEDED' | 'FAILED' | 'EXPIRED';
@@ -105,11 +119,7 @@ export class TextTo3DAPI extends MeshyBaseClient {
       url: string,
       options: RequestInit
     ) => Promise<{ result?: string; id?: string }>,
-    params?: {
-      enable_pbr?: boolean;
-      texture_prompt?: string;
-      ai_model?: string;
-    }
+    params?: CreateRefineTaskParams
   ): Promise<MeshyTask> {
     const data = await makeRequestWithRetry(`${this.baseUrl}/text-to-3d`, {
       method: 'POST',
@@ -123,6 +133,12 @@ export class TextTo3DAPI extends MeshyBaseClient {
         enable_pbr: params?.enable_pbr || false,
         ai_model: params?.ai_model || 'meshy-5',
         texture_prompt: params?.texture_prompt,
+        texture_image_url: params?.texture_image_url,
+        moderation: params?.moderation,
+        remove_lighting: params?.remove_lighting,
+        target_formats: params?.target_formats,
+        auto_size: params?.auto_size,
+        origin_at: params?.origin_at,
       }),
     });
 

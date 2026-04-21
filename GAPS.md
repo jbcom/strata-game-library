@@ -75,7 +75,7 @@ Remaining work:
 ### Platform / Integration
 
 - `plugins/model-synth/src/index.ts`
-  - High-level `character()` orchestration now creates and polls Meshy rigging and animation tasks, exposes rigged/animated URL maps, validates named animation requests before model generation, and is covered by unit tests. Remaining work is live Meshy smoke verification, rate-limit/licensing guidance, and asset-pipeline integration examples.
+  - High-level `character()` orchestration now creates and polls Meshy preview/refine, rigging, and animation tasks, exposes rigged/animated URL maps, validates named animation requests before model generation, and is covered by unit tests. A gated live smoke command now exists; remaining work is running it with real Meshy credentials, rate-limit/licensing guidance, and asset-pipeline integration examples.
 - `plugins/react-native/android/src/main/java/com/strata/reactnative/StrataModule.kt`
   - Android controller detection and native `getInputSnapshot()` now exist; remaining work is native-example/build verification and host activity forwarding documentation for button/axis state.
 - `plugins/react-native/ios/StrataModule.swift`

@@ -20,7 +20,7 @@ import {
 } from './clients/animations.js';
 import { RetextureAPI } from './clients/retexture.js';
 import { RiggingAPI, type RiggingTask, type RiggingTaskParams } from './clients/rigging.js';
-import { type MeshyTask, TextTo3DAPI } from './clients/text-to-3d.js';
+import { type CreateRefineTaskParams, type MeshyTask, TextTo3DAPI } from './clients/text-to-3d.js';
 
 export {
   AnimationsAPI,
@@ -42,9 +42,11 @@ export {
 export { RetextureAPI, type RetextureTaskParams } from './clients/retexture.js';
 export { RiggingAPI, type RiggingTask } from './clients/rigging.js';
 export {
+  type CreateRefineTaskParams,
   type CreateTaskParams,
   type MeshyTask,
   TextTo3DAPI,
+  type TextTo3DTargetFormat,
 } from './clients/text-to-3d.js';
 
 /** Art style options for model generation */
@@ -85,11 +87,16 @@ export interface CharacterPollOptions {
  * Text-to-3D task augmented with optional rigging and animation pipeline results.
  */
 export interface CharacterGenerationTask extends MeshyTask {
+  previewTask?: MeshyTask;
   riggingTask?: RiggingTask;
   riggedModelUrls?: Record<string, string | undefined>;
   animationTasks?: Record<string, AnimationTask>;
   animationUrls?: Record<string, string | null>;
 }
+
+type GeneratedModelTask = MeshyTask & {
+  previewTask?: MeshyTask;
+};
 
 interface ResolvedCharacterAnimation {
   name: string;
@@ -181,17 +188,28 @@ export class ModelSynth {
     animationStyle?: RiggingTaskParams['animation_style'];
     customAnimations?: RiggingTaskParams['custom_animations'];
     fps?: RiggingTaskParams['fps'];
+    refine?: boolean;
+    refineOptions?: CreateRefineTaskParams;
     poll?: CharacterPollOptions;
   }): Promise<CharacterGenerationTask> {
     const animationRequests = options.animations ?? [];
     const resolvedAnimations = animationRequests.map(resolveCharacterAnimation);
     const shouldRig = options.rigged || animationRequests.length > 0;
+    const shouldRefine = options.refine ?? shouldRig;
 
     const task = await this.generateModel({
       prompt: options.prompt,
       style: options.style || 'cartoon',
       polycount: options.polycount || 8000,
       tPose: shouldRig,
+      refine: shouldRefine,
+      refineOptions: shouldRefine
+        ? {
+            target_formats: ['glb'],
+            auto_size: true,
+            ...options.refineOptions,
+          }
+        : undefined,
     });
 
     const result: CharacterGenerationTask = { ...task };
@@ -290,7 +308,9 @@ export class ModelSynth {
     style: ArtStyle;
     polycount: number;
     tPose?: boolean;
-  }): Promise<MeshyTask> {
+    refine?: boolean;
+    refineOptions?: CreateRefineTaskParams;
+  }): Promise<GeneratedModelTask> {
     const makeRequest = async (url: string, init: RequestInit) => {
       const response = await fetch(url, init);
       if (!response.ok) {
@@ -309,7 +329,27 @@ export class ModelSynth {
       makeRequest
     );
 
-    // Poll until complete
-    return this.text3d.pollTask(previewTask.id);
+    const completedPreviewTask = await this.text3d.pollTask(previewTask.id);
+
+    if (!options.refine) {
+      return completedPreviewTask;
+    }
+
+    const refineTask = await this.text3d.createRefineTask(
+      completedPreviewTask.id,
+      makeRequest,
+      options.refineOptions
+    );
+
+    if (!refineTask.id) {
+      throw new Error('No task ID returned from createRefineTask');
+    }
+
+    const completedRefineTask = await this.text3d.pollTask(refineTask.id);
+
+    return {
+      ...completedRefineTask,
+      previewTask: completedPreviewTask,
+    };
   }
 }
