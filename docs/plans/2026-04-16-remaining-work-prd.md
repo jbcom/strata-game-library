@@ -162,10 +162,11 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
-- R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
+- R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
-- Remaining work is asset-backed mesh/rig instantiation, native Babylon mesh/material instantiation, richer interaction helpers, and deeper procedural material traits.
+- Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
+- Remaining work is async asset-backed mesh loading, richer creature rig generation, richer interaction helpers, and deeper procedural material traits.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
@@ -226,9 +227,10 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 ### Progress Update: 2026-04-21
 
 - The R3F component layer now includes `RuntimeProp` and `RuntimeCreature` for rendering core composition runtime plans.
-- Runtime composition renderers support material overrides and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
+- Runtime composition renderers support orientation-aware primitive geometry, material overrides, and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
 - The API showcase now includes composition runtime examples, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
+- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, and creatures.
 
 ## Workstream 6: Platform and Plugin Parity
 

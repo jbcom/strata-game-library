@@ -8,12 +8,15 @@
  * - StrataWater: Animated water surface with caustics and foam
  * - StrataSky: Procedural sky with day/night cycles and weather
  * - StrataTerrain: Noise-based terrain with slope-dependent coloring
- * - StrataRuntimeProp / StrataRuntimeCreature: Composition runtime descriptors
+ * - StrataRuntimeProp / StrataRuntimeCreature: Composition runtime descriptors and Babylon instantiation helpers
  *
  * Hooks:
  * - useStrataScene: Configure fog, ambient light, and physics
  *
  * Materials (for direct Babylon.js integration):
+ * - createBabylonRuntimeMaterial
+ * - instantiateBabylonRuntimeProp
+ * - instantiateBabylonRuntimeCreature
  * - createBabylonWaterShaderMaterial
  * - createBabylonSkyShaderMaterial
  * - createBabylonTerrainShaderMaterial
@@ -22,7 +25,20 @@
  */
 
 export {
+  type BabylonRuntimeCreatureInstance,
+  type BabylonRuntimeCreatureInstantiationOptions,
+  type BabylonRuntimeCreatureMeshFactory,
+  type BabylonRuntimeInstantiationOptions,
+  type BabylonRuntimeMaterialFactory,
+  type BabylonRuntimeMaterialOptions,
+  type BabylonRuntimeMeshFactoryContext,
+  type BabylonRuntimePropInstance,
+  type BabylonRuntimePropInstantiationOptions,
+  type BabylonRuntimePropMeshFactory,
+  createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
+  instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeProp,
   type ReactylonCreatureInput,
   type ReactylonPropInput,
   type ReactylonRuntimeCreatureBoneDescriptor,

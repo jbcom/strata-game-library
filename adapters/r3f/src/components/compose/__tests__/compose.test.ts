@@ -6,6 +6,7 @@ import {
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
+import { createRuntimeGeometry } from '../RuntimeGeometry';
 
 describe('R3F runtime composition components', () => {
   it('exports runtime composition renderers', async () => {
@@ -31,5 +32,18 @@ describe('R3F runtime composition components', () => {
 
     expect(prop.runtime.nodes.length).toBeGreaterThan(0);
     expect(creature.runtime.bones.length).toBeGreaterThan(0);
+  });
+
+  it('orients capsule geometry along the longest runtime axis', () => {
+    const geometry = createRuntimeGeometry('capsule', [4, 1, 1]);
+
+    geometry.computeBoundingBox();
+    const bounds = geometry.boundingBox;
+    const size = new THREE.Vector3();
+    bounds?.getSize(size);
+
+    expect(size.x).toBeGreaterThan(size.y);
+    expect(size.x).toBeGreaterThan(size.z);
+    geometry.dispose();
   });
 });

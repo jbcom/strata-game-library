@@ -1,3 +1,4 @@
+import { MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
 import {
   createMaterialVariant,
   MATERIALS,
@@ -5,7 +6,10 @@ import {
 } from '@strata-game-library/core/compose';
 import { describe, expect, it } from 'vitest';
 import {
+  createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
+  instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeProp,
   resolveReactylonRuntimeCreature,
   resolveReactylonRuntimeProp,
 } from '../src/components/compose';
@@ -57,5 +61,92 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(descriptor.scale).toEqual([1, 1, 1]);
     expect(descriptor.spawn.biomes).toContain('marsh');
     expect(Object.keys(descriptor.materialSlots).length).toBeGreaterThan(0);
+  });
+
+  it('creates native Babylon materials from runtime material descriptors', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const prop = resolvePropComposition('crate_wooden');
+    const slot = Object.values(prop.runtime.materialSlots)[0];
+    const descriptor = createReactylonRuntimeMaterialDescriptor(slot);
+    const material = createBabylonRuntimeMaterial(descriptor, scene);
+
+    expect(material).toBeInstanceOf(PBRMaterial);
+    expect(material.albedoColor.toHexString().toLowerCase()).toBe(
+      String(MATERIALS.wood_oak.baseColor).toLowerCase()
+    );
+    expect(material.metadata.strataRuntimeMaterial.id).toBe(descriptor.id);
+
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('instantiates prop runtime descriptors as native Babylon meshes', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeProp('crate_wooden', {
+      position: [1, 2, 3],
+      scale: [2, 2, 2],
+    });
+    const instance = instantiateBabylonRuntimeProp(scene, descriptor);
+
+    expect(instance.kind).toBe('prop');
+    expect(instance.root.position.asArray()).toEqual([1, 2, 3]);
+    expect(instance.root.scaling.asArray()).toEqual([2, 2, 2]);
+    expect(instance.meshes).toHaveLength(descriptor.nodes.length);
+    expect(Object.keys(instance.materials)).toEqual(Object.keys(descriptor.materialSlots));
+    expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('prop-node');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('supports custom Babylon mesh factories for asset-backed prop nodes', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeProp({
+      id: 'mesh_prop',
+      components: [
+        {
+          shape: 'mesh',
+          mesh: 'assets/crate.glb',
+          size: [2, 1, 1],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+    });
+    const instance = instantiateBabylonRuntimeProp(scene, descriptor, {
+      createNodeMesh: (node, context) => {
+        const mesh = MeshBuilder.CreateBox(`asset:${node.id}`, { size: 1 }, context.scene);
+        mesh.metadata = { source: node.mesh };
+        return mesh;
+      },
+    });
+
+    expect(instance.meshes[0]?.name).toBe(`asset:${descriptor.nodes[0]?.id}`);
+    expect(instance.meshes[0]?.metadata.source).toBe('assets/crate.glb');
+    expect(instance.meshes[0]?.metadata.strataRuntimeMeshSource).toBe('assets/crate.glb');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('instantiates creature runtime descriptors as native Babylon meshes', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeCreature('otter_river');
+    const instance = instantiateBabylonRuntimeCreature(scene, descriptor);
+
+    expect(instance.kind).toBe('creature');
+    expect(instance.root.metadata.strataRuntimeKind).toBe('creature');
+    expect(instance.meshes).toHaveLength(descriptor.bones.length);
+    expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('creature-bone');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
   });
 });

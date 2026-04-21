@@ -49,7 +49,7 @@ For tree-shaking and runtime-specific imports:
 - `strata-game-library/capacitor` - Capacitor/mobile bridge
 - `strata-game-library/react-native` - React Native bridge
 - `strata-game-library/reactylon` - Babylon.js/Reactylon adapter
-  Includes `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp`, and `resolveReactylonRuntimeCreature`
+  Includes `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp`, `resolveReactylonRuntimeCreature`, `createBabylonRuntimeMaterial`, `instantiateBabylonRuntimeProp`, and `instantiateBabylonRuntimeCreature`
 - `strata-game-library/astro` - Astro integration
 
 `StrataGame` is the adapter-owned mount surface and creates its own R3F `Canvas`.
@@ -86,7 +86,7 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
-The R3F adapter consumes those plans through `RuntimeProp` and `RuntimeCreature`, with override hooks for custom node/bone renderers and custom Three.js materials. The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon runtime descriptors.
+The R3F adapter consumes those plans through `RuntimeProp` and `RuntimeCreature`, with override hooks for custom node/bone renderers and custom Three.js materials. The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers.
 
 ### Game State Presets
 
