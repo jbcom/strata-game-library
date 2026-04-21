@@ -49,7 +49,7 @@ For tree-shaking and runtime-specific imports:
 - `strata-game-library/capacitor` - Capacitor/mobile bridge
 - `strata-game-library/react-native` - React Native bridge
 - `strata-game-library/reactylon` - Babylon.js/Reactylon adapter
-  Includes `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp`, `resolveReactylonRuntimeCreature`, `createBabylonRuntimeMaterial`, `instantiateBabylonRuntimeProp`, and `instantiateBabylonRuntimeCreature`
+  Includes `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp`, `resolveReactylonRuntimeCreature`, `createBabylonRuntimeMaterial`, `instantiateBabylonRuntimeProp`, `instantiateBabylonRuntimePropAsync`, `instantiateBabylonRuntimeCreature`, and `instantiateBabylonRuntimeCreatureAsset`
 - `strata-game-library/astro` - Astro integration
 
 `StrataGame` is the adapter-owned mount surface and creates its own R3F `Canvas`.
@@ -100,7 +100,7 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
-The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems.
+The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems. `instantiateBabylonRuntimePropAsync()` and `instantiateBabylonRuntimeCreatureAsset()` add async asset-loading paths for mesh-shaped prop nodes and asset-bound creatures through Babylon `SceneLoader` or an injected asset loader.
 
 ### Game State Presets
 

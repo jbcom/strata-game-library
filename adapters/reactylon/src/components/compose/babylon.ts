@@ -1,11 +1,13 @@
 import {
   type AbstractMesh,
+  type AnimationGroup,
   type Material as BabylonMaterial,
   Color3,
   MeshBuilder,
   PBRMaterial,
   Quaternion,
   type Scene,
+  SceneLoader,
   TransformNode,
   Vector3,
 } from '@babylonjs/core';
@@ -34,6 +36,32 @@ interface CapsuleDimensions {
 interface PrimitiveMeshResult {
   mesh: AbstractMesh;
   baseRotation: Quaternion;
+}
+
+export interface BabylonRuntimeAssetLoadResult {
+  meshes: AbstractMesh[];
+  animationGroups?: AnimationGroup[];
+}
+
+export interface BabylonRuntimeAssetLoaderContext {
+  scene: Scene;
+  root: TransformNode;
+  source: string;
+  kind: 'prop-node' | 'creature-asset';
+  material?: BabylonMaterial;
+  materialSlot?: ReactylonRuntimeMaterialDescriptor;
+  propNode?: ReactylonRuntimePropNodeDescriptor;
+  creature?: ReactylonRuntimeCreatureDescriptor;
+}
+
+export type BabylonRuntimeAssetLoader = (
+  source: string,
+  context: BabylonRuntimeAssetLoaderContext
+) => Promise<AbstractMesh[] | BabylonRuntimeAssetLoadResult>;
+
+export interface BabylonRuntimeAssetLoadingOptions {
+  assetLoader?: BabylonRuntimeAssetLoader;
+  useSourceMaterials?: boolean;
 }
 
 export interface BabylonRuntimeMaterialOptions {
@@ -75,6 +103,16 @@ export interface BabylonRuntimePropInstantiationOptions extends BabylonRuntimeIn
 export interface BabylonRuntimeCreatureInstantiationOptions
   extends BabylonRuntimeInstantiationOptions {
   createBoneMesh?: BabylonRuntimeCreatureMeshFactory;
+}
+
+export interface BabylonRuntimePropAssetInstantiationOptions
+  extends BabylonRuntimePropInstantiationOptions,
+    BabylonRuntimeAssetLoadingOptions {}
+
+export interface BabylonRuntimeCreatureAssetInstantiationOptions
+  extends BabylonRuntimeCreatureInstantiationOptions,
+    BabylonRuntimeAssetLoadingOptions {
+  animation?: string;
 }
 
 export interface BabylonRuntimePropInstance {
@@ -126,6 +164,42 @@ function materialName(
   options: BabylonRuntimeMaterialOptions
 ): string {
   return `${options.namePrefix ?? 'strata'}:${slot.id}`;
+}
+
+function splitAssetSource(source: string): { rootUrl: string; sceneFilename: string } {
+  const slashIndex = source.lastIndexOf('/');
+
+  if (slashIndex < 0) {
+    return { rootUrl: '', sceneFilename: source };
+  }
+
+  return {
+    rootUrl: source.slice(0, slashIndex + 1),
+    sceneFilename: source.slice(slashIndex + 1),
+  };
+}
+
+async function loadBabylonAssetMeshes(
+  source: string,
+  context: BabylonRuntimeAssetLoaderContext
+): Promise<BabylonRuntimeAssetLoadResult> {
+  const { rootUrl, sceneFilename } = splitAssetSource(source);
+  const result = await SceneLoader.ImportMeshAsync(null, rootUrl, sceneFilename, context.scene);
+
+  return {
+    meshes: result.meshes,
+    animationGroups: result.animationGroups,
+  };
+}
+
+async function loadRuntimeAsset(
+  source: string,
+  context: BabylonRuntimeAssetLoaderContext,
+  assetLoader: BabylonRuntimeAssetLoader | undefined
+): Promise<BabylonRuntimeAssetLoadResult> {
+  const result = await (assetLoader ?? loadBabylonAssetMeshes)(source, context);
+
+  return Array.isArray(result) ? { meshes: result } : result;
 }
 
 /**
@@ -295,6 +369,48 @@ function applyMeshTransform(
   mesh.metadata = mergeMetadata(mesh.metadata, metadata);
 }
 
+function createAssetContainer(
+  scene: Scene,
+  root: TransformNode,
+  name: string,
+  position: [number, number, number],
+  rotation: [number, number, number, number] | undefined,
+  scale: [number, number, number],
+  metadata: Record<string, unknown>
+): TransformNode {
+  const container = new TransformNode(name, scene);
+
+  container.parent = root;
+  container.position = toVector3(position);
+  container.rotationQuaternion = toQuaternion(rotation);
+  container.scaling = toVector3(scale);
+  container.metadata = mergeMetadata(container.metadata, metadata);
+
+  return container;
+}
+
+function attachLoadedMeshes(
+  meshes: AbstractMesh[],
+  container: TransformNode,
+  material: BabylonMaterial | undefined,
+  useSourceMaterials: boolean,
+  metadata: Record<string, unknown>
+): void {
+  const loaded = new Set<AbstractMesh>(meshes);
+
+  for (const mesh of meshes) {
+    if (!mesh.parent || !loaded.has(mesh.parent as AbstractMesh)) {
+      mesh.parent = container;
+    }
+
+    if (!useSourceMaterials && material) {
+      mesh.material = material;
+    }
+
+    mesh.metadata = mergeMetadata(mesh.metadata, metadata);
+  }
+}
+
 function applyRootTransform(
   root: TransformNode,
   position: [number, number, number],
@@ -386,6 +502,113 @@ export function instantiateBabylonRuntimeProp(
 }
 
 /**
+ * Instantiates a Reactylon runtime prop descriptor and asynchronously loads mesh-backed nodes.
+ */
+export async function instantiateBabylonRuntimePropAsync(
+  scene: Scene,
+  descriptor: ReactylonRuntimePropDescriptor,
+  options: BabylonRuntimePropAssetInstantiationOptions = {}
+): Promise<BabylonRuntimePropInstance> {
+  const root = new TransformNode(options.rootName ?? descriptor.id, scene);
+  const materials = buildMaterials(scene, descriptor.materialSlots, options);
+  const meshes: AbstractMesh[] = [];
+
+  applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);
+  root.metadata = mergeMetadata(root.metadata, {
+    strataRuntimeKind: 'prop',
+    strataRuntime: descriptor,
+    strataRuntimeInteractionActions: descriptor.interactionActions.map(clonePropInteractionAction),
+  });
+
+  for (const node of descriptor.nodes) {
+    const materialSlot = descriptor.materialSlots[node.materialSlot];
+    const material = materials[node.materialSlot];
+
+    if (!materialSlot || !material) {
+      throw new Error(
+        `Missing Babylon material slot "${node.materialSlot}" for prop "${descriptor.id}"`
+      );
+    }
+
+    const metadata = {
+      strataRuntimeKind: 'prop-node',
+      strataRuntimeNode: node,
+      strataRuntimeMaterialSlot: materialSlot,
+      strataRuntimeMeshSource: node.mesh,
+      strataRuntimeInteractionActions: propInteractionActionsForNode(descriptor, node.id),
+    };
+    const customMeshes = normalizeMeshes(
+      options.createNodeMesh?.(node, { scene, root, material, materialSlot })
+    );
+
+    if (customMeshes.length > 0) {
+      for (const mesh of customMeshes) {
+        applyMeshTransform(
+          mesh,
+          root,
+          node.position,
+          node.rotation,
+          Quaternion.Identity(),
+          material,
+          metadata
+        );
+        meshes.push(mesh);
+      }
+      continue;
+    }
+
+    if (node.shape === 'mesh' && node.mesh) {
+      const container = createAssetContainer(
+        scene,
+        root,
+        `${node.id}:asset`,
+        node.position,
+        node.rotation,
+        node.size,
+        metadata
+      );
+      const loaded = await loadRuntimeAsset(
+        node.mesh,
+        {
+          scene,
+          root,
+          source: node.mesh,
+          kind: 'prop-node',
+          material,
+          materialSlot,
+          propNode: node,
+        },
+        options.assetLoader
+      );
+
+      attachLoadedMeshes(
+        loaded.meshes,
+        container,
+        material,
+        options.useSourceMaterials ?? false,
+        metadata
+      );
+      meshes.push(...loaded.meshes);
+      continue;
+    }
+
+    const { mesh, baseRotation } = createPrimitiveMesh(scene, node.id, node.shape, node.size);
+    applyMeshTransform(mesh, root, node.position, node.rotation, baseRotation, material, metadata);
+    meshes.push(mesh);
+  }
+
+  return {
+    kind: 'prop',
+    descriptor,
+    root,
+    meshes,
+    materials,
+    executeInteraction: (action, state) => executePropInteractionAction(descriptor, action, state),
+    dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
+  };
+}
+
+/**
  * Instantiates a Reactylon runtime creature descriptor as native Babylon meshes/materials.
  */
 export function instantiateBabylonRuntimeCreature(
@@ -430,6 +653,75 @@ export function instantiateBabylonRuntimeCreature(
       meshes.push(mesh);
     }
   }
+
+  return {
+    kind: 'creature',
+    descriptor,
+    root,
+    meshes,
+    materials,
+    dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
+  };
+}
+
+/**
+ * Instantiates an asset-backed runtime creature through Babylon's async mesh loading pipeline.
+ *
+ * Falls back to primitive bone instantiation when the descriptor has no asset model.
+ */
+export async function instantiateBabylonRuntimeCreatureAsset(
+  scene: Scene,
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  options: BabylonRuntimeCreatureAssetInstantiationOptions = {}
+): Promise<BabylonRuntimeCreatureInstance> {
+  const model = descriptor.asset?.model;
+
+  if (!model) {
+    return instantiateBabylonRuntimeCreature(scene, descriptor, options);
+  }
+
+  const root = new TransformNode(options.rootName ?? `${descriptor.id}:asset`, scene);
+  const materials = buildMaterials(scene, descriptor.materialSlots, options);
+  const meshes: AbstractMesh[] = [];
+  const animation =
+    options.animation && descriptor.asset
+      ? (descriptor.asset.animationClips[options.animation] ?? options.animation)
+      : options.animation;
+  const metadata = {
+    strataRuntimeKind: 'creature-asset',
+    strataRuntime: descriptor,
+    strataRuntimeCreature: descriptor,
+    strataRuntimeAssetModel: model,
+    strataRuntimeAnimation: animation,
+  };
+
+  applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);
+  root.metadata = mergeMetadata(root.metadata, metadata);
+
+  const loaded = await loadRuntimeAsset(
+    model,
+    {
+      scene,
+      root,
+      source: model,
+      kind: 'creature-asset',
+      creature: descriptor,
+    },
+    options.assetLoader
+  );
+  const material = Object.values(materials)[0];
+
+  attachLoadedMeshes(loaded.meshes, root, material, options.useSourceMaterials ?? true, metadata);
+
+  if (animation) {
+    for (const animationGroup of loaded.animationGroups ?? []) {
+      if (animationGroup.name === animation) {
+        animationGroup.start(true);
+      }
+    }
+  }
+
+  meshes.push(...loaded.meshes);
 
   return {
     kind: 'creature',

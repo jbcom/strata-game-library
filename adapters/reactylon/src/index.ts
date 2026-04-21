@@ -16,7 +16,9 @@
  * Materials (for direct Babylon.js integration):
  * - createBabylonRuntimeMaterial
  * - instantiateBabylonRuntimeProp
+ * - instantiateBabylonRuntimePropAsync
  * - instantiateBabylonRuntimeCreature
+ * - instantiateBabylonRuntimeCreatureAsset
  * - createBabylonWaterShaderMaterial
  * - createBabylonSkyShaderMaterial
  * - createBabylonTerrainShaderMaterial
@@ -25,6 +27,11 @@
  */
 
 export {
+  type BabylonRuntimeAssetLoader,
+  type BabylonRuntimeAssetLoaderContext,
+  type BabylonRuntimeAssetLoadingOptions,
+  type BabylonRuntimeAssetLoadResult,
+  type BabylonRuntimeCreatureAssetInstantiationOptions,
   type BabylonRuntimeCreatureInstance,
   type BabylonRuntimeCreatureInstantiationOptions,
   type BabylonRuntimeCreatureMeshFactory,
@@ -32,13 +39,16 @@ export {
   type BabylonRuntimeMaterialFactory,
   type BabylonRuntimeMaterialOptions,
   type BabylonRuntimeMeshFactoryContext,
+  type BabylonRuntimePropAssetInstantiationOptions,
   type BabylonRuntimePropInstance,
   type BabylonRuntimePropInstantiationOptions,
   type BabylonRuntimePropMeshFactory,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
   instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,
+  instantiateBabylonRuntimePropAsync,
   type ReactylonCreatureInput,
   type ReactylonPropInput,
   type ReactylonRuntimeCreatureBoneDescriptor,

@@ -1,4 +1,9 @@
 export type {
+  BabylonRuntimeAssetLoader,
+  BabylonRuntimeAssetLoaderContext,
+  BabylonRuntimeAssetLoadingOptions,
+  BabylonRuntimeAssetLoadResult,
+  BabylonRuntimeCreatureAssetInstantiationOptions,
   BabylonRuntimeCreatureInstance,
   BabylonRuntimeCreatureInstantiationOptions,
   BabylonRuntimeCreatureMeshFactory,
@@ -6,6 +11,7 @@ export type {
   BabylonRuntimeMaterialFactory,
   BabylonRuntimeMaterialOptions,
   BabylonRuntimeMeshFactoryContext,
+  BabylonRuntimePropAssetInstantiationOptions,
   BabylonRuntimePropInstance,
   BabylonRuntimePropInstantiationOptions,
   BabylonRuntimePropMeshFactory,
@@ -13,7 +19,9 @@ export type {
 export {
   createBabylonRuntimeMaterial,
   instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,
+  instantiateBabylonRuntimePropAsync,
 } from './babylon.js';
 export { createReactylonRuntimeMaterialDescriptor } from './materials.js';
 export { StrataRuntimeCreature } from './RuntimeCreature.js';

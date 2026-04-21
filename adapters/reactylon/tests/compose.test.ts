@@ -10,7 +10,9 @@ import {
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
   instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,
+  instantiateBabylonRuntimePropAsync,
   resolveReactylonRuntimeCreature,
   resolveReactylonRuntimeProp,
 } from '../src/components/compose';
@@ -160,6 +162,42 @@ describe('Reactylon runtime composition descriptors', () => {
     engine.dispose();
   });
 
+  it('loads asset-backed prop nodes through the async Babylon asset pipeline', async () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeProp({
+      id: 'async_mesh_prop',
+      components: [
+        {
+          shape: 'mesh',
+          mesh: 'assets/crate.glb',
+          size: [2, 1, 1],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+    });
+    const instance = await instantiateBabylonRuntimePropAsync(scene, descriptor, {
+      assetLoader: async (source, context) => {
+        expect(source).toBe('assets/crate.glb');
+        expect(context.kind).toBe('prop-node');
+        return [
+          MeshBuilder.CreateBox(`loaded:${context.propNode?.id}`, { size: 1 }, context.scene),
+        ];
+      },
+    });
+    const loaded = instance.meshes[0];
+
+    expect(loaded?.name).toBe(`loaded:${descriptor.nodes[0]?.id}`);
+    expect(loaded?.parent?.name).toBe(`${descriptor.nodes[0]?.id}:asset`);
+    expect(loaded?.metadata.strataRuntimeMeshSource).toBe('assets/crate.glb');
+    expect(loaded?.material).toBe(instance.materials[descriptor.nodes[0]?.materialSlot ?? '']);
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
   it('instantiates creature runtime descriptors as native Babylon meshes', () => {
     const engine = new NullEngine();
     const scene = new Scene(engine);
@@ -170,6 +208,38 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.root.metadata.strataRuntimeKind).toBe('creature');
     expect(instance.meshes).toHaveLength(descriptor.bones.length);
     expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('creature-bone');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('loads asset-backed creatures through the async Babylon asset pipeline', async () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeCreature(
+      resolveCreatureComposition('otter_river', {
+        assets: {
+          model: '/models/otter.glb',
+          animationClips: { idle: 'Idle' },
+        },
+      })
+    );
+    const instance = await instantiateBabylonRuntimeCreatureAsset(scene, descriptor, {
+      animation: 'idle',
+      assetLoader: async (source, context) => {
+        expect(source).toBe('/models/otter.glb');
+        expect(context.kind).toBe('creature-asset');
+        return [MeshBuilder.CreateBox('loaded:otter', { size: 1 }, context.scene)];
+      },
+    });
+    const loaded = instance.meshes[0];
+
+    expect(loaded?.name).toBe('loaded:otter');
+    expect(loaded?.parent).toBe(instance.root);
+    expect(loaded?.metadata.strataRuntimeAssetModel).toBe('/models/otter.glb');
+    expect(loaded?.metadata.strataRuntimeAnimation).toBe('Idle');
+    expect(loaded?.metadata.strataRuntimeKind).toBe('creature-asset');
 
     instance.dispose();
     scene.dispose();

@@ -176,7 +176,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon creature descriptors now preserve core creature asset bindings so Babylon-owned loaders can consume the same model, rig, clip, and bone-map metadata.
-- Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
+- Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams, async mesh-shaped prop loading, and asset-bound creature loading via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()`.
 - Babylon prop instances now carry interaction metadata and expose `executeInteraction()` backed by the core prop interaction executor.
 - Remaining work is richer creature rig retargeting/skeletal animation control, higher-level interaction UX/physics integration, non-R3F procedural shader application, and texture baking/authoring workflows from the new material plans.
 
@@ -244,7 +244,7 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - Asset-bound creatures can now use `RuntimeCreatureAsset` for built-in GLB loading and logical animation clip selection through the R3F adapter.
 - The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
-- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, and creatures.
+- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, and asset-bound creature models.
 
 ## Workstream 6: Platform and Plugin Parity
 
