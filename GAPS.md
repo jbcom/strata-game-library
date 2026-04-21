@@ -59,7 +59,7 @@ Remaining work:
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Material definitions now support serializable procedural trait metadata, and `createMaterialTrait()` / `inferMaterialTraits()` cover grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
   - `createMaterialProceduralPlan()` now turns traits into deterministic shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait procedural algorithms.
-  - Remaining gap: renderer-specific shader application, texture baking, and authoring UX remain thin.
+  - Remaining gap: non-R3F renderer shader application, texture baking, and authoring UX remain thin.
 
 ### Declarative Game Layer
 
@@ -91,7 +91,7 @@ Remaining work:
 - `adapters/r3f/src/components/compose/`
   - `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives, static GLB prop-node loading, and asset-bound creature GLB loading with orientation-aware capsule geometry.
   - `RuntimeProp` can now route node clicks through the core prop interaction executor via `onInteraction`, `interactionState`, and `selectInteractionAction`.
-  - Runtime material creation now infers or preserves procedural material traits and shader/texture layer plans on Three.js material `userData`.
+  - Runtime material creation now infers or preserves procedural material traits and shader/texture layer plans on Three.js material `userData`, and injects those plans into `MeshStandardMaterial` shader compilation for procedural color, scalar, opacity, emissive, and normal effects.
   - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint, includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`, and its browser smoke test exercises the composition tab.
   - Remaining gap: richer creature rig retargeting/skeletal animation control, shell/physics integration, and broader visual runtime assertions beyond the current smoke/composition coverage.
 - `adapters/reactylon/src/components/compose/`
@@ -135,6 +135,6 @@ Remaining work:
 3. Finish the composition layer:
    - wire runtime composition outputs into deeper examples, creature rig retargeting/control, and visual Babylon coverage
    - expand renderer-ready creature/prop assembly beyond primitive R3F example plans
-   - add renderer-specific procedural material shader application, texture baking, and swapping UX
+   - add non-R3F procedural material shader application, texture baking, and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

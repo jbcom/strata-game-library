@@ -37,6 +37,55 @@ describe('R3F runtime composition components', () => {
     );
   });
 
+  it('injects procedural material plans into Three shader compilation', () => {
+    const material = createRuntimeMaterial(MATERIALS.wood_oak) as THREE.MeshStandardMaterial;
+    const plan = material.userData.strataMaterialProceduralPlan;
+    const functionName = plan.layers[0]?.functionName;
+
+    if (!functionName) {
+      throw new Error('Expected wood_oak to produce a procedural shader layer');
+    }
+
+    const shader = {
+      uniforms: {},
+      vertexShader: `
+#include <common>
+void main() {
+#include <begin_vertex>
+#include <defaultnormal_vertex>
+#include <worldpos_vertex>
+}
+`,
+      fragmentShader: `
+#include <common>
+void main() {
+  vec4 diffuseColor = vec4(1.0);
+  float roughnessFactor = 0.5;
+  float metalnessFactor = 0.0;
+  vec3 totalEmissiveRadiance = vec3(0.0);
+  vec3 normal = vec3(0.0, 0.0, 1.0);
+#include <color_fragment>
+#include <roughnessmap_fragment>
+#include <metalnessmap_fragment>
+#include <alphamap_fragment>
+#include <emissivemap_fragment>
+#include <normal_fragment_maps>
+}
+`,
+    } as Parameters<THREE.Material['onBeforeCompile']>[0];
+
+    material.onBeforeCompile(shader, {} as Parameters<THREE.Material['onBeforeCompile']>[1]);
+
+    expect(shader.uniforms[`${functionName}_scale`]?.value).toBe(plan.layers[0]?.scale);
+    expect(shader.uniforms[`${functionName}_color`]?.value).toBeInstanceOf(THREE.Color);
+    expect(shader.vertexShader).toContain('vStrataProceduralPosition');
+    expect(shader.fragmentShader).toContain(`float ${functionName}`);
+    expect(shader.fragmentShader).toContain('diffuseColor.rgb = mix');
+    expect(shader.fragmentShader).toContain('roughnessFactor = clamp');
+    expect(shader.fragmentShader).toContain('normal = normalize');
+    expect(material.customProgramCacheKey()).toContain('strata-procedural');
+  });
+
   it('accepts resolved core runtime composition outputs', () => {
     const prop = resolvePropComposition('crate_wooden');
     const creature = resolveCreatureComposition('otter_river', {}, () => 0.5);

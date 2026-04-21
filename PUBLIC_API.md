@@ -96,7 +96,7 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
 
-`MaterialDefinition.traits`, `createMaterialTrait()`, `inferMaterialTraits()`, and `createMaterialProceduralPlan()` provide serializable procedural material metadata plus deterministic shader/texture layer plans for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels. Variants can replace or append traits, and adapter material descriptors infer or preserve trait and procedural plan metadata for renderer-specific shader/texture pipelines.
+`MaterialDefinition.traits`, `createMaterialTrait()`, `inferMaterialTraits()`, and `createMaterialProceduralPlan()` provide serializable procedural material metadata plus deterministic shader/texture layer plans for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels. Variants can replace or append traits, adapter material descriptors infer or preserve trait and procedural plan metadata, and the R3F adapter applies those plans to `MeshStandardMaterial` shader compilation for renderer-specific procedural effects.
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
