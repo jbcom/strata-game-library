@@ -59,7 +59,8 @@ Remaining work:
   - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
   - Material definitions now support serializable procedural trait metadata, and `createMaterialTrait()` / `inferMaterialTraits()` cover grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
   - `createMaterialProceduralPlan()` now turns traits into deterministic shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait procedural algorithms.
-  - Remaining gap: non-R3F renderer shader application, texture baking, and authoring UX remain thin.
+  - Reactylon/Babylon material creation now applies procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
+  - Remaining gap: generated texture baking, authoring UX, and shader application beyond the current R3F/Babylon paths remain thin.
 
 ### Declarative Game Layer
 
@@ -98,7 +99,8 @@ Remaining work:
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
   - Reactylon creature descriptors now preserve core creature asset bindings for Babylon-owned loaders.
   - Reactylon runtime material descriptors now infer or preserve procedural material traits and shader/texture layer plans.
-  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, loaded animation groups, logical animation playback, and runtime metadata.
+  - `createBabylonRuntimeMaterial()` now applies procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive channels.
+  - `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, loaded animation groups, logical animation playback, and runtime metadata.
   - Babylon prop instances now expose interaction metadata on roots/nodes and an `executeInteraction()` helper backed by the core prop interaction executor.
   - Remaining gap: deeper rig retargeting/control, higher-level interaction UX integration, and visual example coverage are still thin.
 
@@ -135,6 +137,6 @@ Remaining work:
 3. Finish the composition layer:
    - wire runtime composition outputs into deeper examples, creature rig retargeting/control, and visual Babylon coverage
    - expand renderer-ready creature/prop assembly beyond primitive R3F example plans
-   - add non-R3F procedural material shader application, texture baking, and swapping UX
+   - add generated texture baking, non-Babylon adapter procedural material shader application, and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

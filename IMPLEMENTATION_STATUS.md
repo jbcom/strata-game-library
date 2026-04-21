@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, procedural shader/texture layer plans, R3F procedural material shader injection, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, async Babylon asset loading helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, procedural shader/texture layer plans, R3F procedural material shader injection, Reactylon/Babylon PBR procedural material shader injection, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, async Babylon asset loading helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, built-output browser smoke, API-showcase composition-tab runtime exercise, and WebGL-backed canvas creation when Chromium exposes WebGL, but broader adapter/example visual runtime coverage is still thin |
@@ -45,7 +45,7 @@ This document reflects the actual state of the repository after the umbrella-pac
   - Presets and factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` support deterministic runtime variation and swapping metadata.
   - `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
   - `createMaterialProceduralPlan()` now turns traits into deterministic adapter-neutral shader/texture layer plans with channels, uniforms, GLSL helper chunks, and per-trait algorithms.
-  - Remaining gap: non-R3F renderer shader application, generated texture baking, and authoring UX are still thin.
+  - Remaining gap: generated texture baking, authoring UX, and shader application beyond the current R3F/Babylon paths are still thin.
 
 ### Declarative Game Layer
 
@@ -90,7 +90,8 @@ This document reflects the actual state of the repository after the umbrella-pac
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()` now consume the same core runtime plans and expose serializable Babylon/Reactylon descriptors with material slots, transforms, bounds, physics, prop interaction actions, animation metadata, IK, and spawn metadata.
   - Reactylon creature descriptors now preserve core creature asset bindings so Babylon loaders can consume the same model, rig, clip, and bone-map metadata.
   - Reactylon runtime material descriptors now infer or preserve core procedural material traits and shader/texture layer plans.
-  - `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, runtime metadata, custom mesh-factory seams, logical animation playback helpers, and executable prop interaction helpers.
+  - `createBabylonRuntimeMaterial()` now applies those plans through a Babylon PBR material plugin for procedural albedo, scalar, opacity, and emissive channels.
+  - `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now instantiate those descriptors as native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, runtime metadata, custom mesh-factory seams, logical animation playback helpers, and executable prop interaction helpers.
   - Remaining gap: richer rig retargeting/control beyond loaded clip playback, higher-level interaction UX integration, and visual example coverage are still incomplete.
 
 ### Package Consolidation / Publishing
@@ -212,6 +213,12 @@ Verified during this session:
 - `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after async Babylon asset loading helpers
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after async Babylon asset loading exports
 - `git diff --check`: passed after async Babylon asset loading updates
+- `pnpm --dir adapters/reactylon lint`: passed after Babylon PBR procedural material plugin support
+- `pnpm --dir adapters/reactylon typecheck`: passed after Babylon PBR procedural material plugin support
+- `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including Babylon procedural material plugin, async asset loading, and animation playback coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Babylon PBR procedural material plugin support
+- `pnpm --dir packages/strata-game-library exec tsup`: passed after Babylon PBR procedural material plugin exports
+- `git diff --check`: passed after Babylon PBR procedural material plugin updates
 
 Known remaining verification gaps:
 

@@ -17,7 +17,11 @@ export type {
   BabylonRuntimePropMeshFactory,
 } from './babylon.js';
 export {
+  BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
+  BabylonRuntimeProceduralMaterialPlugin,
   createBabylonRuntimeMaterial,
+  enableBabylonRuntimeProceduralMaterial,
+  getBabylonRuntimeProceduralMaterialPlugin,
   instantiateBabylonRuntimeCreature,
   instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,

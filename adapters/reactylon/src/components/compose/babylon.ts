@@ -3,16 +3,22 @@ import {
   type AnimationGroup,
   type Material as BabylonMaterial,
   Color3,
+  MaterialPluginBase,
   MeshBuilder,
   PBRMaterial,
   Quaternion,
   type Scene,
   SceneLoader,
+  ShaderLanguage,
   TransformNode,
+  type UniformBuffer,
   Vector3,
 } from '@babylonjs/core';
 import {
   executePropInteractionAction,
+  type MaterialProceduralLayer,
+  type MaterialProceduralPlan,
+  type MaterialProceduralUniform,
   type PropRuntimeInteractionAction,
   type PropRuntimeInteractionResult,
   type PropRuntimeInteractionState,
@@ -37,6 +43,8 @@ interface PrimitiveMeshResult {
   mesh: AbstractMesh;
   baseRotation: Quaternion;
 }
+
+export const BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME = 'StrataRuntimeProceduralMaterial';
 
 export interface BabylonRuntimeAssetLoadResult {
   meshes: AbstractMesh[];
@@ -161,6 +169,20 @@ function colorFromDescriptor(color: ReactylonRuntimeMaterialDescriptor['baseColo
   return Color3.FromHexString(color.startsWith('#') ? color : `#${color}`);
 }
 
+function colorFromProceduralUniform(uniform: MaterialProceduralUniform): Color3 {
+  const value = uniform.value;
+
+  if (uniform.type !== 'color' || typeof value === 'number') {
+    return new Color3(Number(value), Number(value), Number(value));
+  }
+
+  if (Array.isArray(value)) {
+    return new Color3(value[0], value[1], value[2]);
+  }
+
+  return Color3.FromHexString(value.startsWith('#') ? value : `#${value}`);
+}
+
 function materialName(
   slot: ReactylonRuntimeMaterialDescriptor,
   options: BabylonRuntimeMaterialOptions
@@ -204,6 +226,254 @@ async function loadRuntimeAsset(
   return Array.isArray(result) ? { meshes: result } : result;
 }
 
+function stripUniformDeclarations(shaderChunk: string): string {
+  return shaderChunk
+    .split('\n')
+    .filter((line) => !line.trim().startsWith('uniform '))
+    .join('\n')
+    .trim();
+}
+
+function proceduralUniformDeclaration(uniform: MaterialProceduralUniform): string {
+  switch (uniform.type) {
+    case 'color':
+      return `uniform vec3 ${uniform.name};`;
+    case 'int':
+      return `uniform int ${uniform.name};`;
+    case 'float':
+      return `uniform float ${uniform.name};`;
+  }
+}
+
+function proceduralUniformBufferDeclaration(uniform: MaterialProceduralUniform): {
+  name: string;
+  size: number;
+  type: string;
+} {
+  switch (uniform.type) {
+    case 'color':
+      return { name: uniform.name, size: 3, type: 'vec3' };
+    case 'int':
+      return { name: uniform.name, size: 1, type: 'int' };
+    case 'float':
+      return { name: uniform.name, size: 1, type: 'float' };
+  }
+}
+
+function layerMaskName(layer: MaterialProceduralLayer): string {
+  return `${layer.functionName}_mask`;
+}
+
+function createBabylonProceduralMaskDeclarations(layers: MaterialProceduralLayer[]): string {
+  return layers
+    .map(
+      (layer) =>
+        `  float ${layerMaskName(layer)} = ${layer.functionName}(vPositionW, normalize(vNormalW), strataRuntimeProceduralUv());`
+    )
+    .join('\n');
+}
+
+function babylonProceduralTargetColor(layer: MaterialProceduralLayer, maskName: string): string {
+  if (layer.color !== undefined) {
+    return `${layer.functionName}_color`;
+  }
+
+  if (layer.secondaryColor !== undefined) {
+    return `${layer.functionName}_secondaryColor`;
+  }
+
+  return `surfaceAlbedo * (1.0 + ${maskName} * 0.2)`;
+}
+
+function createBabylonProceduralAlbedoInjection(plan: MaterialProceduralPlan): string {
+  const layers = plan.layers.filter(
+    (layer) => layer.channels.includes('baseColor') || layer.channels.includes('opacity')
+  );
+
+  if (layers.length === 0) {
+    return '';
+  }
+
+  const masks = createBabylonProceduralMaskDeclarations(layers);
+  const colorApplication = layers
+    .filter((layer) => layer.channels.includes('baseColor'))
+    .map((layer) => {
+      const maskName = layerMaskName(layer);
+      return `  surfaceAlbedo = mix(surfaceAlbedo, ${babylonProceduralTargetColor(layer, maskName)}, ${maskName});`;
+    })
+    .join('\n');
+  const opacityApplication = layers
+    .filter((layer) => layer.channels.includes('opacity'))
+    .map((layer) => {
+      const maskName = layerMaskName(layer);
+      return `  alpha = clamp(alpha * (1.0 - ${maskName} * 0.35), 0.0, 1.0);`;
+    })
+    .join('\n');
+
+  return [masks, colorApplication, opacityApplication].filter(Boolean).join('\n');
+}
+
+function createBabylonProceduralReflectivityInjection(plan: MaterialProceduralPlan): string {
+  const layers = plan.layers.filter(
+    (layer) => layer.channels.includes('roughness') || layer.channels.includes('metalness')
+  );
+
+  if (layers.length === 0) {
+    return '';
+  }
+
+  const masks = createBabylonProceduralMaskDeclarations(layers);
+  const roughnessApplication = layers
+    .filter((layer) => layer.channels.includes('roughness'))
+    .map((layer) => {
+      const maskName = layerMaskName(layer);
+      return `  metallicRoughness.g = clamp(metallicRoughness.g + ${maskName} * 0.35, 0.0, 1.0);`;
+    })
+    .join('\n');
+  const metalnessApplication = layers
+    .filter((layer) => layer.channels.includes('metalness'))
+    .map((layer) => {
+      const maskName = layerMaskName(layer);
+      return `  metallicRoughness.r = clamp(metallicRoughness.r - ${maskName} * 0.25, 0.0, 1.0);`;
+    })
+    .join('\n');
+
+  return [masks, roughnessApplication, metalnessApplication].filter(Boolean).join('\n');
+}
+
+function createBabylonProceduralEmissiveInjection(plan: MaterialProceduralPlan): string {
+  const layers = plan.layers.filter((layer) => layer.channels.includes('emissive'));
+
+  if (layers.length === 0) {
+    return '';
+  }
+
+  const masks = createBabylonProceduralMaskDeclarations(layers);
+  const emissiveApplication = layers
+    .map((layer) => {
+      const maskName = layerMaskName(layer);
+      return `  finalEmissive = mix(finalEmissive, finalEmissive + vec3(${maskName} * 0.2), ${maskName});`;
+    })
+    .join('\n');
+
+  return [masks, emissiveApplication].filter(Boolean).join('\n');
+}
+
+function createBabylonProceduralDefinitions(plan: MaterialProceduralPlan): string {
+  const shaderChunk = stripUniformDeclarations(plan.shaderChunk);
+  const uvHelper = /* glsl */ `
+vec2 strataRuntimeProceduralUv() {
+#if defined(MAINUV1)
+  return vMainUV1;
+#elif defined(MAINUV2)
+  return vMainUV2;
+#else
+  return vec2(0.0);
+#endif
+}
+`.trim();
+
+  return [shaderChunk, uvHelper].filter(Boolean).join('\n\n');
+}
+
+type BabylonMaterialWithPlugins = PBRMaterial & {
+  pluginManager?: {
+    getPlugin<T>(name: string): T | null;
+  };
+};
+
+export class BabylonRuntimeProceduralMaterialPlugin extends MaterialPluginBase {
+  readonly plan: MaterialProceduralPlan;
+
+  constructor(material: PBRMaterial, plan: MaterialProceduralPlan) {
+    super(material, BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME, 210, undefined, false, false);
+    this.plan = plan;
+    this._pluginManager._addPlugin(this);
+    this._enable(true);
+  }
+
+  override getClassName(): string {
+    return 'BabylonRuntimeProceduralMaterialPlugin';
+  }
+
+  override isCompatible(shaderLanguage: ShaderLanguage): boolean {
+    return shaderLanguage === ShaderLanguage.GLSL;
+  }
+
+  override getUniforms(): {
+    ubo: { name: string; size: number; type: string }[];
+    fragment: string;
+  } {
+    return {
+      ubo: this.plan.uniforms.map(proceduralUniformBufferDeclaration),
+      fragment: this.plan.uniforms.map(proceduralUniformDeclaration).join('\n'),
+    };
+  }
+
+  override bindForSubMesh(uniformBuffer: UniformBuffer): void {
+    for (const uniform of this.plan.uniforms) {
+      if (uniform.type === 'color') {
+        uniformBuffer.updateColor3(uniform.name, colorFromProceduralUniform(uniform));
+        continue;
+      }
+
+      if (uniform.type === 'int') {
+        uniformBuffer.updateInt(uniform.name, Number(uniform.value));
+        continue;
+      }
+
+      uniformBuffer.updateFloat(uniform.name, Number(uniform.value));
+    }
+  }
+
+  override getCustomCode(
+    shaderType: string,
+    shaderLanguage: ShaderLanguage = ShaderLanguage.GLSL
+  ): Record<string, string> | null {
+    if (shaderType !== 'fragment' || shaderLanguage !== ShaderLanguage.GLSL) {
+      return null;
+    }
+
+    return {
+      CUSTOM_FRAGMENT_DEFINITIONS: createBabylonProceduralDefinitions(this.plan),
+      CUSTOM_FRAGMENT_UPDATE_ALBEDO: createBabylonProceduralAlbedoInjection(this.plan),
+      CUSTOM_FRAGMENT_UPDATE_METALLICROUGHNESS: createBabylonProceduralReflectivityInjection(
+        this.plan
+      ),
+      CUSTOM_FRAGMENT_BEFORE_FINALCOLORCOMPOSITION: createBabylonProceduralEmissiveInjection(
+        this.plan
+      ),
+    };
+  }
+}
+
+export function getBabylonRuntimeProceduralMaterialPlugin(
+  material: PBRMaterial
+): BabylonRuntimeProceduralMaterialPlugin | null {
+  return (
+    (material as BabylonMaterialWithPlugins).pluginManager?.getPlugin(
+      BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME
+    ) ?? null
+  );
+}
+
+export function enableBabylonRuntimeProceduralMaterial(
+  material: PBRMaterial,
+  plan: MaterialProceduralPlan
+): BabylonRuntimeProceduralMaterialPlugin | null {
+  if (plan.layers.length === 0 || !plan.shaderChunk) {
+    return null;
+  }
+
+  const existing = getBabylonRuntimeProceduralMaterialPlugin(material);
+
+  if (existing) {
+    return existing;
+  }
+
+  return new BabylonRuntimeProceduralMaterialPlugin(material, plan);
+}
+
 /**
  * Creates a native Babylon PBR material from a runtime composition material descriptor.
  */
@@ -221,9 +491,13 @@ export function createBabylonRuntimeMaterial(
   material.transparencyMode = slot.transparent
     ? PBRMaterial.PBRMATERIAL_ALPHABLEND
     : PBRMaterial.PBRMATERIAL_OPAQUE;
+  const proceduralPlugin = slot.procedural
+    ? enableBabylonRuntimeProceduralMaterial(material, slot.procedural)
+    : null;
   material.metadata = {
     strataRuntimeMaterial: slot,
     strataMaterialProceduralPlan: slot.procedural,
+    strataBabylonProceduralPlugin: proceduralPlugin ? BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME : null,
   };
 
   return material;

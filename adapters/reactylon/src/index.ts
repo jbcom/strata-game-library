@@ -27,6 +27,7 @@
  */
 
 export {
+  BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   type BabylonRuntimeAssetLoader,
   type BabylonRuntimeAssetLoaderContext,
   type BabylonRuntimeAssetLoadingOptions,
@@ -39,12 +40,15 @@ export {
   type BabylonRuntimeMaterialFactory,
   type BabylonRuntimeMaterialOptions,
   type BabylonRuntimeMeshFactoryContext,
+  BabylonRuntimeProceduralMaterialPlugin,
   type BabylonRuntimePropAssetInstantiationOptions,
   type BabylonRuntimePropInstance,
   type BabylonRuntimePropInstantiationOptions,
   type BabylonRuntimePropMeshFactory,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
+  enableBabylonRuntimeProceduralMaterial,
+  getBabylonRuntimeProceduralMaterialPlugin,
   instantiateBabylonRuntimeCreature,
   instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,

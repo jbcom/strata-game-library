@@ -7,8 +7,10 @@ import {
 } from '@strata-game-library/core/compose';
 import { describe, expect, it, vi } from 'vitest';
 import {
+  BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
+  getBabylonRuntimeProceduralMaterialPlugin,
   instantiateBabylonRuntimeCreature,
   instantiateBabylonRuntimeCreatureAsset,
   instantiateBabylonRuntimeProp,
@@ -95,6 +97,18 @@ describe('Reactylon runtime composition descriptors', () => {
     );
     expect(material.metadata.strataRuntimeMaterial.id).toBe(descriptor.id);
     expect(material.metadata.strataMaterialProceduralPlan).toBe(descriptor.procedural);
+    expect(material.metadata.strataBabylonProceduralPlugin).toBe(
+      BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME
+    );
+
+    const plugin = getBabylonRuntimeProceduralMaterialPlugin(material);
+    const customCode = plugin?.getCustomCode('fragment');
+
+    expect(plugin?.plan).toBe(descriptor.procedural);
+    expect(plugin?.getUniforms().fragment).toContain('_scale');
+    expect(customCode?.CUSTOM_FRAGMENT_DEFINITIONS).toContain('strataProceduralNoise');
+    expect(customCode?.CUSTOM_FRAGMENT_UPDATE_ALBEDO).toContain('surfaceAlbedo');
+    expect(customCode?.CUSTOM_FRAGMENT_UPDATE_METALLICROUGHNESS).toContain('metallicRoughness.g');
 
     scene.dispose();
     engine.dispose();
