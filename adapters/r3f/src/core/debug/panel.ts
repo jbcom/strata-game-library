@@ -44,7 +44,7 @@ export interface DebugPanelInstance {
  * @param config - Panel configuration options.
  * @returns Debug panel instance with store, config, and levaProps.
  */
-export function createDebugPanel(config: DebugPanelConfig = {}): DebugPanelInstance {
+export function useDebugPanel(config: DebugPanelConfig = {}): DebugPanelInstance {
   const store = useCreateStore();
 
   const levaProps = {
@@ -55,6 +55,12 @@ export function createDebugPanel(config: DebugPanelConfig = {}): DebugPanelInsta
 
   return { store, config, levaProps };
 }
+
+/**
+ * @deprecated Use {@link useDebugPanel}. This API creates a Leva store via a
+ * React hook and must be called from a component or custom hook.
+ */
+export const createDebugPanel = useDebugPanel;
 
 /**
  * Hook for adding debug controls to a panel.

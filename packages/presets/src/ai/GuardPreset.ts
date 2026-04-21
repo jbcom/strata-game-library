@@ -19,10 +19,10 @@ import type { AIPresetResult, GuardPresetConfig } from './types';
 export function createGuardPreset(config: GuardPresetConfig): AIPresetResult {
   const {
     patrolWaypoints,
-    detectionRadius = 15,
-    chaseSpeed = 8,
-    patrolSpeed = 3,
     maxSpeed = 8,
+    detectionRadius = 15,
+    chaseSpeed = maxSpeed,
+    patrolSpeed = maxSpeed,
     maxForce = 10,
     mass = 1,
   } = config;

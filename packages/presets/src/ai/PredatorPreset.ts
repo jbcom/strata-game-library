@@ -19,9 +19,9 @@ import type { AIPresetResult, PredatorPresetConfig } from './types';
 export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPresetResult {
   const {
     patrolWaypoints = [],
-    pursuitSpeed = 12,
-    detectionRadius = 20,
     maxSpeed = 12,
+    pursuitSpeed = maxSpeed,
+    detectionRadius = 20,
     maxForce = 15,
     mass = 2,
   } = config;
@@ -65,7 +65,7 @@ export function createPredatorPreset(config: PredatorPresetConfig = {}): AIPrese
 
   class PatrolState extends YUKA.State<YUKA.Vehicle> {
     override enter(entity: YUKA.Vehicle): void {
-      entity.maxSpeed = maxSpeed * 0.5;
+      entity.maxSpeed = maxSpeed;
       seekBehavior.active = false;
       if (followPathBehavior) {
         followPathBehavior.active = true;
