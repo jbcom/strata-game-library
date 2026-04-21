@@ -7,6 +7,7 @@
  * @module examples
  */
 
+export * as CompositionExamples from './composition/CompositionExamples';
 export { SkyExamples } from './sky/SkyExamples';
 export { VegetationExamples } from './vegetation/VegetationExamples';
 export { WaterExamples } from './water/WaterExamples';
@@ -43,17 +44,27 @@ export const API_COVERAGE = {
       'WeatherState',
     ],
   },
+  composition: {
+    examples: 2,
+    apis: [
+      'RuntimeProp',
+      'RuntimeCreature',
+      'resolvePropComposition',
+      'resolveCreatureComposition',
+      'createMaterialVariant',
+    ],
+  },
 };
 
 /**
  * Total example statistics
  */
 export const EXAMPLE_STATS = {
-  totalExamples: 26,
-  totalAPIs: 18,
+  totalExamples: 28,
+  totalAPIs: 23,
   categories: {
-    basic: 12,
+    basic: 13,
     advanced: 10,
-    complete: 4,
+    complete: 5,
   },
 };

@@ -86,6 +86,28 @@ Full atmospheric system coverage:
 @see createUnderwaterOverlayMaterial
 ```
 
+### Composition Runtime
+
+**File**: `src/examples/composition/CompositionExamples.tsx`
+
+Runtime composition coverage:
+
+- `resolvePropComposition` - Adapter-neutral prop runtime plans
+- `resolveCreatureComposition` - Adapter-neutral creature runtime plans
+- `RuntimeProp` - R3F rendering for resolved prop nodes
+- `RuntimeCreature` - R3F rendering for resolved creature bones
+- `createMaterialVariant` - Runtime material swapping and visual variation
+
+**API Methods Demonstrated**:
+
+```typescript
+@see resolvePropComposition
+@see resolveCreatureComposition
+@see RuntimeProp
+@see RuntimeCreature
+@see createMaterialVariant
+```
+
 ## 🏗️ Structure
 
 Each example file follows a consistent structure:

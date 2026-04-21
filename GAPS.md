@@ -78,7 +78,8 @@ Remaining work:
   - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
 - `adapters/r3f/src/components/compose/`
   - `RuntimeProp`, `RuntimeCreature`, `RuntimeGeometry`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives.
-  - Remaining gap: asset-backed mesh loading, richer shell/physics integration, and example coverage.
+  - `apps/examples/api-showcase` now includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`.
+  - Remaining gap: asset-backed mesh loading, richer shell/physics integration, and deeper WebGL runtime assertions beyond bundle/smoke coverage.
 
 ### Platform / Integration
 
@@ -112,7 +113,7 @@ Remaining work:
 2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
    - wire runtime composition outputs into examples and non-R3F adapters
-   - expand renderer-ready creature/prop assembly beyond primitive R3F plans
+   - expand renderer-ready creature/prop assembly beyond primitive R3F example plans
    - add richer procedural material traits and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

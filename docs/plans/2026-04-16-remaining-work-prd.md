@@ -163,6 +163,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
+- `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Remaining work is asset-backed mesh/rig instantiation, non-R3F adapter consumption, richer interaction helpers, and deeper procedural material traits.
 
 ## Workstream 4: Declarative Game Runtime Completion
@@ -225,6 +226,7 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 
 - The R3F component layer now includes `RuntimeProp` and `RuntimeCreature` for rendering core composition runtime plans.
 - Runtime composition renderers support material overrides and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
+- The API showcase now includes composition runtime examples, and TypeDoc generation verifies the new example coverage.
 
 ## Workstream 6: Platform and Plugin Parity
 

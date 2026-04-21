@@ -3,9 +3,15 @@ import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
 import type React from 'react';
 import { useState } from 'react';
-import { AdvancedWater, ProceduralSky, Water } from 'strata-game-library/r3f';
+import {
+  AdvancedWater,
+  ProceduralSky,
+  RuntimeCreature,
+  RuntimeProp,
+  Water,
+} from 'strata-game-library/r3f';
 import type * as THREE from 'three';
-import { SkyExamples, VegetationExamples, WaterExamples } from './examples';
+import { CompositionExamples, SkyExamples, VegetationExamples, WaterExamples } from './examples';
 
 interface ExampleResult {
   mesh?: THREE.Mesh;
@@ -42,7 +48,13 @@ const ExampleRenderer: React.FC<{ example: () => ExampleResult }> = ({ example }
     );
   }
 
-  const Components: Record<string, any> = { Water, AdvancedWater, ProceduralSky };
+  const Components: Record<string, any> = {
+    Water,
+    AdvancedWater,
+    ProceduralSky,
+    RuntimeProp,
+    RuntimeCreature,
+  };
 
   if (result.component && Components[result.component]) {
     const Comp = Components[result.component];
@@ -67,7 +79,9 @@ const ExampleRenderer: React.FC<{ example: () => ExampleResult }> = ({ example }
 };
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'vegetation' | 'water' | 'sky'>('vegetation');
+  const [activeTab, setActiveTab] = useState<'composition' | 'vegetation' | 'water' | 'sky'>(
+    'vegetation'
+  );
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -97,6 +111,19 @@ const App: React.FC = () => {
           }}
         >
           Vegetation
+        </button>
+        <button
+          onClick={() => setActiveTab('composition')}
+          style={{
+            background: activeTab === 'composition' ? '#06b6d4' : 'transparent',
+            color: '#fff',
+            border: '1px solid #06b6d4',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
+          Composition
         </button>
         <button
           onClick={() => setActiveTab('water')}
@@ -142,6 +169,9 @@ const App: React.FC = () => {
 
         {activeTab === 'vegetation' && (
           <ExampleRenderer example={VegetationExamples.Example_CompleteVegetationScene} />
+        )}
+        {activeTab === 'composition' && (
+          <ExampleRenderer example={CompositionExamples.Example_RuntimeCompositionScene} />
         )}
         {activeTab === 'water' && <ExampleRenderer example={WaterExamples.Example_BasicWater} />}
         {activeTab === 'sky' && <ExampleRenderer example={SkyExamples.Example_BasicSky} />}

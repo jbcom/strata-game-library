@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, and first-pass R3F runtime renderers now exist; renderer-ready rig/mesh generation and broader adapter/example coverage remain incomplete |
+| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, first-pass R3F runtime renderers, and API-showcase examples now exist; renderer-ready rig/mesh generation and broader non-R3F adapter coverage remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
@@ -75,7 +75,8 @@ This document reflects the actual state of the repository after the umbrella-pac
   - Remaining gap: richer declarative orchestration beyond the current helpers and base component is still missing.
 - `adapters/r3f/src/components/compose/`
   - `RuntimeProp` and `RuntimeCreature` now consume core composition runtime plans and render primitive R3F geometry with material overrides, custom node/bone render hooks, and material conversion helpers.
-  - Remaining gap: asset-backed GLB/mesh renderers, richer physics/shell integration, and example coverage are still incomplete.
+  - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and runtime material variants through the consolidated package surface.
+  - Remaining gap: asset-backed GLB/mesh renderers, richer physics/shell integration, and non-R3F adapter consumption are still incomplete.
 
 ### Package Consolidation / Publishing
 
@@ -132,6 +133,10 @@ Verified during this session:
 - `pnpm --dir adapters/r3f exec biome check src/components/compose src/components/index.ts`: passed for the new R3F compose component surface
 - `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after R3F runtime composition renderer updates
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after the R3F build, confirming umbrella bundles pick up the new runtime composition exports
+- `pnpm --dir apps/examples/api-showcase exec tsc --noEmit`: passed after adding explicit R3F JSX type augmentation to the API-showcase app
+- `pnpm --dir apps/examples exec vite build api-showcase --config api-showcase/vite.config.ts --logLevel warn`: passed for the composition-enabled API showcase bundle
+- `pnpm --dir apps/examples/api-showcase exec typedoc --out docs src/examples/index.ts`: passed with existing showcase JSDoc tag warnings
+- `pnpm --dir apps/examples verify`: passed, including all six example bundles after adding composition runtime coverage
 
 Known remaining verification gaps:
 
