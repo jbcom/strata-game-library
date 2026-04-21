@@ -171,7 +171,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F now renders asset-bound runtime creatures through `RuntimeCreatureAsset`, using Drei's GLTF cache and logical-to-source animation clip mappings from `runtime.asset.animationClips`.
 - `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 - R3F and Reactylon material conversion now preserve procedural material trait metadata for future shader/texture pipelines.
-- `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
+- `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon creature descriptors now preserve core creature asset bindings so Babylon-owned loaders can consume the same model, rig, clip, and bone-map metadata.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, and custom mesh-factory seams via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, and `instantiateBabylonRuntimeCreature()`.
@@ -240,7 +240,7 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - Runtime composition renderers support orientation-aware primitive geometry, material overrides, and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
 - Mesh-shaped prop nodes can now use `RuntimeAssetMesh` for built-in static GLB loading through the R3F adapter.
 - Asset-bound creatures can now use `RuntimeCreatureAsset` for built-in GLB loading and logical animation clip selection through the R3F adapter.
-- The API showcase now includes composition runtime examples, and TypeDoc generation verifies the new example coverage.
+- The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
 - The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, and creatures.
 
@@ -308,7 +308,8 @@ Make the current green local state durable and repeatable in normal verification
 - The examples verifier fails on legacy package references outside generated docs and on example packages that omit a `strata-game-library` dependency.
 - The examples verifier now bundles the six nested Vite examples from the parent examples package, which caught and drove a real `strata-game-library/presets` vegetation export fix.
 - The examples `test` target now runs a Chromium Playwright smoke suite against the built `dist` output for the six nested Vite examples. This caught and drove fixes for non-portable absolute asset paths in `api-showcase` / `vegetation-showcase` and an invalid empty-biome runtime scene in `api-showcase`.
-- Remaining verification work is deeper WebGL-capable visual/runtime assertions and broader adapter coverage, not basic package/import/bundle drift detection.
+- The examples smoke suite now also exercises the built API-showcase composition tab and asserts WebGL-backed canvas creation when Chromium exposes WebGL, while still tolerating no-WebGL headless runners.
+- Remaining verification work is broader visual/runtime assertions and adapter coverage, not basic package/import/bundle drift detection.
 
 ## Workstream 8: Documentation and Adoption Readiness
 

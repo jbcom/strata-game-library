@@ -18,7 +18,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors and execution helpers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
-| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
+| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, built-output browser smoke, API-showcase composition-tab runtime exercise, and WebGL-backed canvas creation when Chromium exposes WebGL, but broader adapter/example visual runtime coverage is still thin |
 
 ## Mature Areas
 
@@ -83,8 +83,8 @@ This document reflects the actual state of the repository after the umbrella-pac
   - `RuntimeCreatureAsset` now lets asset-bound runtime creatures render GLB models through Drei's GLTF cache and map logical animation names to source clip names, and `RuntimeCreature` can select that path through `assetMode` / `animation`.
   - `RuntimeProp` can now execute core prop interaction actions from node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
   - Runtime material creation now carries core procedural material traits into Three.js material `userData`.
-  - `apps/examples/api-showcase` now demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and runtime material variants through the consolidated package surface.
-  - Remaining gap: richer creature rig retargeting/skeletal animation control, physics/shell integration, and deeper visual runtime assertions are still incomplete.
+  - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint, demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and runtime material variants through the consolidated package surface, and its browser smoke test exercises the composition tab.
+  - Remaining gap: richer creature rig retargeting/skeletal animation control, physics/shell integration, and broader visual runtime assertions are still incomplete.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()` now consume the same core runtime plans and expose serializable Babylon/Reactylon descriptors with material slots, transforms, bounds, physics, prop interaction actions, animation metadata, IK, and spawn metadata.
   - Reactylon creature descriptors now preserve core creature asset bindings so Babylon loaders can consume the same model, rig, clip, and bone-map metadata.
@@ -191,10 +191,13 @@ Verified during this session:
 - `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon creature asset descriptor coverage
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after creature asset binding and adapter export updates
 - `git diff --check`: passed after creature asset binding updates
+- `pnpm --dir apps/examples exec biome check --write api-showcase/src/main.tsx tests/e2e/examples.spec.ts`: passed after wiring the API showcase entrypoint to the real app and adding browser runtime assertions
+- `pnpm --dir apps/examples/api-showcase exec tsc --noEmit`: passed after wiring the built API showcase entrypoint to the real tabbed app
+- `pnpm --dir apps/examples test`: passed, including six nested Vite builds, six Chromium built-output smoke tests, API-showcase composition-tab exercise, and WebGL-backed canvas assertions when Chromium exposes WebGL
 
 Known remaining verification gaps:
 
-- Adapter and example browser runtime coverage is not yet as complete as the restored core browser integration suite; the examples smoke target validates built-output loading but intentionally does not require WebGL context creation in headless environments that cannot provide it.
+- Adapter and example browser runtime coverage is not yet as complete as the restored core browser integration suite; the examples smoke target now asserts WebGL-backed canvas creation when the runner exposes WebGL, but still intentionally skips that assertion in headless environments that cannot provide it.
 - Live billable Meshy generation was not run in this repo because it requires real account credentials and explicit cost confirmation.
 
 ## Done Means

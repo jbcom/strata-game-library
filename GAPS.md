@@ -91,8 +91,8 @@ Remaining work:
   - `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives, static GLB prop-node loading, and asset-bound creature GLB loading with orientation-aware capsule geometry.
   - `RuntimeProp` can now route node clicks through the core prop interaction executor via `onInteraction`, `interactionState`, and `selectInteractionAction`.
   - Runtime material creation now preserves procedural material traits on Three.js material `userData`.
-  - `apps/examples/api-showcase` now includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`.
-  - Remaining gap: richer creature rig retargeting/skeletal animation control, shell/physics integration, and deeper WebGL runtime assertions beyond bundle/smoke coverage.
+  - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint, includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`, and its browser smoke test exercises the composition tab.
+  - Remaining gap: richer creature rig retargeting/skeletal animation control, shell/physics integration, and broader visual runtime assertions beyond the current smoke/composition coverage.
 - `adapters/reactylon/src/components/compose/`
   - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
   - Reactylon creature descriptors now preserve core creature asset bindings for Babylon-owned loaders.
@@ -116,8 +116,8 @@ Remaining work:
 
 - Full workspace `pnpm run typecheck` is now green, including `apps/docs`.
 - Core browser integration coverage is restored in the regular CI path.
-- `apps/examples` now verifies umbrella-package dependencies, blocks legacy `@jbcom/strata` references outside generated docs, bundles six nested Vite examples, and runs a Chromium smoke test against the built example output.
-- Adapter/example browser runtime coverage still needs deeper WebGL-capable visual/runtime assertions and broader adapter coverage to become as complete as the core package coverage.
+- `apps/examples` now verifies umbrella-package dependencies, blocks legacy `@jbcom/strata` references outside generated docs, bundles six nested Vite examples, runs a Chromium smoke test against the built example output, exercises the API-showcase composition tab, and asserts WebGL-backed canvas creation when Chromium exposes WebGL.
+- Adapter/example browser runtime coverage still needs broader visual/runtime assertions and adapter coverage to become as complete as the core package coverage.
 - `adapters/reactylon` and `plugins/astro` still carry lint warnings.
 
 ## 4. Documentation Gaps
