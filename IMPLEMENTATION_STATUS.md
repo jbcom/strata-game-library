@@ -18,7 +18,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
-| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; browser integration coverage still has known gaps |
+| Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, but adapter/example browser coverage is still thin |
 
 ## Mature Areas
 
@@ -102,11 +102,13 @@ Verified during this session:
 - `pnpm run docs:internal`: passed
 - `pnpm nx run @strata-game-library/docs:typecheck --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
+- `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after bundling maath submodules into the core ESM output
+- `pnpm nx run @strata-game-library/core:test:e2e -- --project=chromium --reporter=list`: passed, 32 browser integration tests
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 
 Known remaining verification gaps:
 
-- `packages/core/tests/integration-playwright/README.md` documents browser integration tests as temporarily disabled in CI.
+- Adapter and example browser coverage is not yet as complete as the restored core browser integration suite.
 
 ## Done Means
 
@@ -117,4 +119,4 @@ The library should not be treated as a fully actualized game framework until all
 3. The composition layer graduates from normalized definitions to fuller runtime/render integration where needed.
 4. Declarative game helpers expand beyond the current core factory plus manager subscriptions into fuller lifecycle/preset ergonomics.
 5. Documentation and status files agree with the actual package and feature state.
-6. Browser integration coverage is back in regular verification.
+6. Browser integration coverage spans core, adapters, and examples in regular verification.

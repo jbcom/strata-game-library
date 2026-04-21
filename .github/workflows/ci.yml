@@ -173,12 +173,12 @@ jobs:
         run: pnpm nx run @strata-game-library/docs:${{ matrix.task }}
 
   # ────────────────────────────────────────────────────────────────────
-  # E2E (only on labeled PRs, after matrix passes)
+  # Browser integration (after matrix passes)
   # ────────────────────────────────────────────────────────────────────
   e2e:
-    name: E2E Tests
-    needs: check
-    if: contains(github.event.pull_request.labels.*.name, 'run-e2e')
+    name: Core Browser Integration
+    needs: [affected, check]
+    if: needs.affected.outputs.has_affected == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -198,20 +198,23 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: pnpm --dir packages/core exec playwright install --with-deps chromium
 
-      - name: Build all
-        run: pnpm nx run-many -t build
+      - name: Build core browser test dependencies
+        run: pnpm nx run @strata-game-library/core:build
 
-      - name: Run E2E tests (affected)
-        run: pnpm nx affected -t test:e2e --base=origin/${{ github.base_ref }}
+      - name: Run core browser integration tests
+        run: pnpm nx run @strata-game-library/core:test:e2e
 
-      - name: Upload E2E results
+      - name: Upload browser integration results
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: e2e-results
-          path: test-results/
+          name: core-browser-integration-results
+          path: |
+            packages/core/test-results/
+            packages/core/playwright-results/
+          if-no-files-found: ignore
           retention-days: 7
 
   # ────────────────────────────────────────────────────────────────────

@@ -24,10 +24,7 @@ pnpm run test:coverage
 pnpm run test:integration
 
 # Integration tests (Playwright)
-pnpm run test:integration:playwright
-
-# All tests
-pnpm run test:all
+pnpm run test:e2e
 ```
 
 ## Test Types
@@ -101,7 +98,7 @@ test('Water component renders', () => {
 **Scope**:
 
 - Core API functions (SDF, instancing, materials)
-- React component rendering with React Three Fiber
+- Framework-agnostic Three.js material, geometry, and instancing helpers
 - Preset systems (particles, billboards, decals, etc.)
 - Cross-browser compatibility
 - Performance metrics
@@ -111,19 +108,22 @@ test('Water component renders', () => {
 
 ```ts
 // tests/integration-playwright/components.spec.ts
-test('should render Water component', async ({ page }) => {
+test('should create water material', async ({ page }) => {
   await page.goto('/');
-  // Load library and create scene
-  await page.evaluate(() => {
-    // Create React Three Fiber scene with Water component
+  await page.evaluate(async () => {
+    const Strata = await import('/dist/index.js');
+    const material = Strata.createWaterMaterial({ time: 1 });
+    return {
+      type: material.type,
+      time: material.uniforms.time.value,
+    };
   });
-  await page.screenshot({ path: 'test-results/water-component.png' });
 });
 ```
 
 **Tools**: Playwright + JUnit XML reporter + Testomat.io integration
 
-**Note**: These are **library integration tests**, not end-to-end application tests. They test that Strata's public API works correctly in browsers, not full applications using Strata.
+**Note**: These are **library integration tests**, not end-to-end application tests. They test that Strata core's framework-agnostic public API works correctly in browsers, not full applications or React components using Strata.
 
 ## Test Data
 
@@ -140,11 +140,11 @@ test('should render Water component', async ({ page }) => {
 
 ## Continuous Integration
 
-All tests run in CI:
+CI coverage:
 
 - Unit tests: Fast, run on every commit
 - Integration tests (Vitest): Medium speed, run on every commit
-- Integration tests (Playwright): Slower, run on every commit with browser automation
+- Integration tests (Playwright): Browser automation for the built core ESM package
 
 ## Writing Tests
 
@@ -170,7 +170,7 @@ All tests run in CI:
 2. Create minimal test scenarios programmatically
 3. Take screenshots for visual verification
 4. Test core functions work in browser environment
-5. Test React components can be instantiated
+5. Keep React/R3F component coverage in adapter packages
 6. Test across multiple browsers (Chromium, Firefox, WebKit)
 7. Use Testomat.io tags for organization (@S1, @S2, @S3)
 

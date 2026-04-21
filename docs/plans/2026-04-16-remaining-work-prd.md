@@ -53,7 +53,7 @@ If these gaps are not closed, the repo will remain locally impressive but extern
 - richer runtime composition outputs for creatures/props/materials
 - deeper declarative game systems, persistence semantics, and game-shell packs
 - remaining plugin/platform TODOs
-- browser integration coverage in the regular CI path
+- adapter/example browser coverage beyond the restored core browser integration path
 - complete public migration and adoption documentation
 
 ## Goals
@@ -243,8 +243,8 @@ Make the current green local state durable and repeatable in normal verification
 ### Requirements
 
 1. Keep root `lint`, `typecheck`, `build`, and `test` green without race-prone caveats.
-2. Restore browser integration coverage to the regular CI path.
-3. Add stable verification for examples where missing.
+2. Keep restored core browser integration coverage in the regular CI path.
+3. Add stable browser/example verification where missing.
 4. Reduce misleading warning noise where practical:
    - tree-shaking chatter
    - oversized docs chunks where actionable
@@ -253,7 +253,8 @@ Make the current green local state durable and repeatable in normal verification
 
 ### Acceptance Criteria
 
-- Browser integration tests are no longer documented as "disabled in CI."
+- Core browser integration tests are no longer documented as "disabled in CI."
+- Adapter/example browser coverage gaps are tracked separately from core coverage.
 - Example apps have meaningful verification targets where needed.
 - Root verification does not depend on undocumented command ordering.
 
@@ -293,7 +294,7 @@ Make the public story match the shipped product and migration path.
 
 ### Phase 3: Platform and Verification Hardening
 
-- browser integration in CI
+- adapter/example browser verification
 - example verification
 - mobile/model-synth parity work
 
@@ -347,5 +348,5 @@ This remaining-work program is complete when:
 - composition and declarative game layers cover real runtime use cases rather than only structure
 - save/profile/shell flows are coherent and documented
 - platform TODOs that materially affect consumers are closed or explicitly unsupported
-- CI includes browser integration coverage again
+- CI includes core browser integration coverage and expands toward adapter/example coverage
 - documentation matches reality across public API, install guidance, and status tracking

@@ -1,12 +1,9 @@
 # Strata Playwright Integration Tests
 
-> **⚠️ Status: Temporarily Disabled**
+> **Status: CI Enabled**
 >
-> These tests are temporarily disabled in CI pending proper ES module bundling setup.
-> The library has external dependencies (react, three, howler, etc.) that require a
-> bundler like Vite or esbuild to resolve in browser environments.
->
-> See: <https://github.com/jbcom/strata/issues/131>
+> These tests run locally and in CI. They intentionally exercise the built ESM
+> output in a real browser.
 
 This directory contains Playwright-based integration tests for the Strata library's public API.
 
@@ -15,8 +12,8 @@ This directory contains Playwright-based integration tests for the Strata librar
 These tests verify that Strata's public API works correctly in real browser environments:
 
 - **Core API Functions**: SDF functions, noise, instancing algorithms
-- **React Components**: Water, sky, instanced rendering, volumetrics
-- **Presets**: Particles, billboards, decals, shadows, post-processing, reflections
+- **Rendering Primitives**: Three.js materials, geometry factories, instancing helpers
+- **Preset Utilities**: Particles, billboards, decals, shadows, post-processing, reflections
 - **Performance**: Ensure efficient handling of many instances
 
 ## Test Structure
@@ -25,10 +22,11 @@ These tests verify that Strata's public API works correctly in real browser envi
 tests/integration-playwright/
 ├── README.md              # This file
 ├── fixtures/
+│   ├── static-server.mjs  # Static server used by Playwright webServer
 │   └── test-server.html   # Base HTML page for tests
 ├── core-api.spec.ts       # Core algorithm tests (@S1)
-├── components.spec.ts     # React component tests (@S2)
-└── presets.spec.ts        # Preset API tests (@S3)
+├── components.spec.ts     # Core rendering primitive tests (@S2)
+└── presets.spec.ts        # Core preset utility tests (@S3)
 ```
 
 The Playwright configuration is at the project root: `playwright.config.ts`
@@ -40,7 +38,7 @@ The Playwright configuration is at the project root: `playwright.config.ts`
 pnpm run build
 
 # Run all Playwright integration tests
-pnpm run test:integration:playwright
+pnpm run test:e2e
 
 # Run with UI mode (for development)
 pnpm exec playwright test --ui
@@ -63,11 +61,10 @@ Tests are organized using Testomat.io tags:
   - `@S1.1` - SDF Functions
   - `@S1.2` - Instancing
   - `@S1.3` - Materials
-- `@S2` - React Components
-  - `@S2.1` - Water
-  - `@S2.2` - Instanced Rendering
-  - `@S2.3` - Sky
-  - `@S2.4` - Performance
+- `@S2` - Rendering Primitives
+  - `@S2.1` - Export boundary
+  - `@S2.2` - Materials and geometry
+  - `@S2.3` - Effects and instancing
 - `@S3` - Presets
   - `@S3.1` - Particle System
   - `@S3.2` - Billboard System
@@ -83,9 +80,10 @@ Tests are organized using Testomat.io tags:
 These are **library integration tests**, not end-to-end application tests:
 
 - ✅ Test the Strata library's public API
-- ✅ Test React components render correctly
+- ✅ Test framework-agnostic Three.js primitives work in browsers
 - ✅ Test core functions work in browsers
 - ✅ Capture screenshots for visual verification
+- ❌ NOT testing React/R3F components, which belong in adapters/r3f
 - ❌ NOT testing full applications that use Strata
 - ❌ NOT testing user flows or interactions
 - ❌ NOT expecting specific UI with data-testid attributes
@@ -93,7 +91,7 @@ These are **library integration tests**, not end-to-end application tests:
 ### What We Test
 
 1. **Core Functions**: Verify SDF calculations, noise generation, instancing work in browser JavaScript environment
-2. **React Components**: Verify components can be instantiated and render with React Three Fiber
+2. **Rendering Primitives**: Verify materials, geometries, and instancing helpers work without React
 3. **Materials**: Verify shader materials can be created with correct uniforms
 4. **Performance**: Verify library can handle many instances efficiently
 5. **Visual Output**: Capture screenshots to verify rendering output
@@ -133,12 +131,12 @@ In CI pipelines:
 
 ### Test Server
 
-Playwright's built-in `webServer` configuration automatically spins up a static file server using the `serve` package. This provides:
+Playwright's built-in `webServer` configuration automatically spins up the local `fixtures/static-server.mjs` static file server. This provides:
 
 - Static file serving from project root
 - Access to built library files (`/dist/*`)
 - Test HTML pages (`/tests/integration-playwright/fixtures/*`)
-- No custom server code to maintain
+- No dependency on third-party static-server packages that can conflict with workspace overrides
 
 ### Screenshot Guidelines
 

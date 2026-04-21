@@ -76,9 +76,6 @@ export default defineConfig({
 		'yuka',
 		'xstate',
 		'howler',
-		'maath',
-		'maath/misc',
-		'maath/random',
 		'miniplex',
 		'ngraph.graph',
 		'ngraph.path',
@@ -86,6 +83,8 @@ export default defineConfig({
 		'zundo',
 		'immer',
 	],
+
+	noExternal: ['maath', 'maath/*'],
 
 	// Ensure proper ESM output
 	treeshake: true,

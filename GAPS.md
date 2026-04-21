@@ -86,8 +86,8 @@ Remaining work:
 ## 3. Verification Gaps
 
 - Full workspace `pnpm run typecheck` is now green, including `apps/docs`.
-- Browser integration coverage is not part of normal CI at the moment:
-  - `packages/core/tests/integration-playwright/README.md` marks those tests as temporarily disabled in CI.
+- Core browser integration coverage is restored in the regular CI path.
+- Adapter/example browser coverage still needs to become as complete as the core package coverage.
 - `adapters/reactylon` and `plugins/astro` still carry lint warnings.
 
 ## 4. Documentation Gaps
@@ -105,4 +105,4 @@ Remaining work:
    - expand runtime composition behavior beyond definition normalization
    - add richer material variation / swapping / physics metadata flow
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
-5. Restore browser integration coverage to the regular verification path and keep docs typecheck/build health as a release gate.
+5. Expand adapter/example browser coverage while keeping core browser integration and docs typecheck/build as release gates.

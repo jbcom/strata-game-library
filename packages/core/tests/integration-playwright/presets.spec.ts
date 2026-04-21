@@ -26,14 +26,14 @@ test.describe('Presets - Particle System @S3.1', () => {
       const Strata = window.Strata;
       return {
         hasCreateParticleEmitter: typeof Strata.createParticleEmitter === 'function',
-        hasCoreParticleEmitter: typeof Strata.CoreParticleEmitter !== 'undefined',
         hasParticleEmitter: typeof Strata.ParticleEmitter !== 'undefined',
-        hasParticleBurst: typeof Strata.ParticleBurst !== 'undefined',
+        hasParticleBurstComponent: typeof Strata.ParticleBurst !== 'undefined',
       };
     });
 
     expect(result.hasCreateParticleEmitter).toBe(true);
-    expect(result.hasParticleBurst).toBe(true);
+    expect(result.hasParticleEmitter).toBe(true);
+    expect(result.hasParticleBurstComponent).toBe(false);
   });
 
   test('should create particle emitter with config @T21', async ({ page }) => {
@@ -98,17 +98,16 @@ test.describe('Presets - Decal System @S3.2', () => {
         hasCreateBloodSplatterTexture: typeof Strata.createBloodSplatterTexture === 'function',
         hasCreateScorchMarkTexture: typeof Strata.createScorchMarkTexture === 'function',
         hasCreateFootprintTexture: typeof Strata.createFootprintTexture === 'function',
-        // Components
-        hasDecal: typeof Strata.Decal !== 'undefined',
-        hasDecalPool: typeof Strata.DecalPool !== 'undefined',
+        hasDecalComponent: typeof Strata.Decal !== 'undefined',
+        hasDecalPoolComponent: typeof Strata.DecalPool !== 'undefined',
       };
     });
 
     expect(result.hasDecalProjector).toBe(true);
     expect(result.hasCreateDecalTexture).toBe(true);
     expect(result.hasCreateBulletHoleTexture).toBe(true);
-    expect(result.hasDecal).toBe(true);
-    expect(result.hasDecalPool).toBe(true);
+    expect(result.hasDecalComponent).toBe(false);
+    expect(result.hasDecalPoolComponent).toBe(false);
   });
 
   test('should create decal textures @T23', async ({ page }) => {
@@ -167,16 +166,16 @@ test.describe('Presets - Billboard System @S3.3', () => {
         hasCreateBillboardMatrix: typeof Strata.createBillboardMatrix === 'function',
         hasUpdateBillboardRotation: typeof Strata.updateBillboardRotation === 'function',
         hasSortBillboardsByDepth: typeof Strata.sortBillboardsByDepth === 'function',
-        hasBillboard: typeof Strata.Billboard !== 'undefined',
-        hasAnimatedBillboard: typeof Strata.AnimatedBillboard !== 'undefined',
+        hasBillboardComponent: typeof Strata.Billboard !== 'undefined',
+        hasAnimatedBillboardComponent: typeof Strata.AnimatedBillboard !== 'undefined',
       };
     });
 
     expect(result.hasCreateBillboardMatrix).toBe(true);
     expect(result.hasUpdateBillboardRotation).toBe(true);
     expect(result.hasSortBillboardsByDepth).toBe(true);
-    expect(result.hasBillboard).toBe(true);
-    expect(result.hasAnimatedBillboard).toBe(true);
+    expect(result.hasBillboardComponent).toBe(false);
+    expect(result.hasAnimatedBillboardComponent).toBe(false);
   });
 
   test('should create billboard matrix @T25', async ({ page }) => {
@@ -191,8 +190,9 @@ test.describe('Presets - Billboard System @S3.3', () => {
       try {
         const cameraPosition = new THREE.Vector3(0, 0, 10);
         const billboardPosition = new THREE.Vector3(0, 0, 0);
+        const cameraQuaternion = new THREE.Quaternion();
 
-        const matrix = createBillboardMatrix(billboardPosition, cameraPosition);
+        const matrix = createBillboardMatrix(billboardPosition, cameraPosition, cameraQuaternion);
 
         return {
           created: matrix !== null && matrix !== undefined,
@@ -422,25 +422,24 @@ test.describe('Presets - LOD System @S3.7', () => {
   });
 
   test('should calculate LOD level based on distance @T33', async ({ page }) => {
-    const result = await page.evaluate(() => {
+    const result = await page.evaluate(async () => {
       const { calculateLODLevel } = window.Strata;
+      const THREE = await import('three');
 
       if (!calculateLODLevel) {
         return { error: 'calculateLODLevel not found' };
       }
 
       try {
-        // Test LOD level at various distances
         const levels = [
-          { distance: 10, thresholds: [50, 100, 200] },
-          { distance: 75, thresholds: [50, 100, 200] },
-          { distance: 150, thresholds: [50, 100, 200] },
-          { distance: 300, thresholds: [50, 100, 200] },
+          { distance: 50, visible: true },
+          { distance: 100, visible: true },
+          { distance: 200, visible: true },
         ];
-
-        const results = levels.map(({ distance, thresholds }) => ({
+        const objectPosition = new THREE.Vector3(0, 0, 0);
+        const results = [10, 75, 150, 300].map((distance) => ({
           distance,
-          level: calculateLODLevel(distance, thresholds),
+          level: calculateLODLevel(objectPosition, new THREE.Vector3(0, 0, distance), levels),
         }));
 
         return {
