@@ -109,6 +109,8 @@ describe('API barrel exports', () => {
       expect(compose.resolveCreatureComposition).toBeTypeOf('function');
       expect(compose.createProp).toBeTypeOf('function');
       expect(compose.resolvePropComposition).toBeTypeOf('function');
+      expect(compose.createMaterialVariant).toBeTypeOf('function');
+      expect(compose.createMaterialVariants).toBeTypeOf('function');
       expect(compose.CREATURES).toBeDefined();
       expect(compose.PROPS).toBeDefined();
       expect(compose.SKELETONS).toBeDefined();

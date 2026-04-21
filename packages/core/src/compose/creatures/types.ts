@@ -2,6 +2,13 @@ import type * as THREE from 'three';
 import type { BiomeType } from '../../utils/texture-loader';
 import type { CoveringDefinition } from '../coverings';
 import type { MaterialDefinition } from '../materials';
+import type {
+  RuntimeBounds,
+  RuntimeMaterialSlot,
+  RuntimePhysicsProfile,
+  RuntimeQuaternionTuple,
+  RuntimeVector3Tuple,
+} from '../runtime-types';
 import type { SkeletonDefinition } from '../skeletons/types';
 
 export type AIPresetName = 'guard' | 'prey' | 'predator' | 'flockMember' | 'follower';
@@ -95,9 +102,57 @@ export interface ResolvedCreatureMaterial {
   material: MaterialDefinition;
 }
 
+export interface CreatureRuntimeBone {
+  id: string;
+  boneId: string;
+  parent?: string;
+  shape: SkeletonDefinition['bones'][number]['shape'];
+  size: RuntimeVector3Tuple;
+  position: RuntimeVector3Tuple;
+  rotation?: RuntimeQuaternionTuple;
+  materialSlot: string;
+  materialId: string;
+  material: MaterialDefinition;
+  volume: number;
+  physics: RuntimePhysicsProfile;
+  animationTargets: string[];
+}
+
+export interface CreatureRuntimeAnimationBinding {
+  name: string;
+  clip: string | THREE.AnimationClip;
+  targetBones: string[];
+}
+
+export interface CreatureRuntimeSpawnProfile {
+  biomes: CreatureDefinition['biomes'];
+  spawnWeight: number;
+  packSize?: [number, number];
+  timeOfDay?: CreatureDefinition['timeOfDay'];
+}
+
+export interface CreatureRuntimeAssembly {
+  kind: 'creature';
+  id: string;
+  name: string;
+  scale: number;
+  bones: CreatureRuntimeBone[];
+  materialSlots: Record<string, RuntimeMaterialSlot>;
+  bounds: RuntimeBounds;
+  physics: RuntimePhysicsProfile;
+  animations: CreatureRuntimeAnimationBinding[];
+  ikChains: SkeletonDefinition['ikChains'];
+  spawn: CreatureRuntimeSpawnProfile;
+  ai: CreatureDefinition['ai'];
+  stats: CreatureDefinition['stats'];
+  drops?: DropTable;
+  sounds?: CreatureDefinition['sounds'];
+}
+
 export interface CreatureComposition {
   definition: CreatureDefinition;
   skeleton: SkeletonDefinition;
   scale: number;
   materialsByBone: Record<string, ResolvedCreatureMaterial>;
+  runtime: CreatureRuntimeAssembly;
 }

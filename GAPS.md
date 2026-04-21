@@ -37,12 +37,15 @@ Remaining work:
 
 - `packages/core/src/compose/creatures/index.ts`
   - `createCreature()` and `resolveCreatureComposition()` now exist.
-  - Remaining gap: richer runtime assembly beyond normalized definitions and resolved material bindings.
+  - Resolved creature compositions now include adapter-neutral runtime bones, world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
+  - Remaining gap: adapter consumption and richer renderer-ready creature rig/mesh generation are still not implemented.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist.
-  - Remaining gap: deeper composition features such as runtime prop assembly, richer interaction helpers, and material variation.
+  - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
+  - Remaining gap: richer interaction helper semantics and adapter-level runtime instantiation are still incomplete.
 - `packages/core/src/compose/materials/`
-  - Factories and presets exist, but material physics, procedural variation, and swapping are still limited.
+  - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
+  - Remaining gap: richer procedural texture/material traits and adapter material instantiation remain thin.
 
 ### Declarative Game Layer
 
@@ -103,7 +106,8 @@ Remaining work:
 1. Publish and verify the umbrella package.
 2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
-   - expand runtime composition behavior beyond definition normalization
-   - add richer material variation / swapping / physics metadata flow
+   - wire runtime composition outputs into adapters/examples
+   - expand renderer-ready creature/prop assembly beyond adapter-neutral plans
+   - add richer procedural material traits and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

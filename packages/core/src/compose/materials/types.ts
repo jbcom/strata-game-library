@@ -83,3 +83,27 @@ export interface MaterialDefinition {
   pattern?: string; // for shell_turtle etc.
   segments?: number;
 }
+
+export interface MaterialVariantOptions {
+  id?: string;
+  suffix?: string;
+  baseColor?: string | THREE.Color;
+  roughnessDelta?: number;
+  metalnessDelta?: number;
+  normalScaleDelta?: number;
+  shell?: Partial<ShellProperties>;
+  volumetric?: Partial<VolumetricProperties>;
+  organic?: Partial<OrganicProperties>;
+  physics?: Partial<MaterialPhysics>;
+}
+
+export interface MaterialVariantSetOptions {
+  count: number;
+  idPrefix?: string;
+  colors?: (string | THREE.Color)[];
+  roughnessJitter?: number;
+  metalnessJitter?: number;
+  normalScaleJitter?: number;
+  physics?: Partial<MaterialPhysics>;
+  rng?: () => number;
+}

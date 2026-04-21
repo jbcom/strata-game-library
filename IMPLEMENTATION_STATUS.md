@@ -15,7 +15,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
 | Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
-| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, and public `createCreature()` / `createProp()` factories now exist, but richer composition/runtime assembly work remains |
+| Layer 3 compositional objects | Partial | Material presets, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, and physics metadata now exist; adapter consumption and renderer-ready rig/mesh generation remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
 | Full verification | Partial | Root lint/typecheck/build/test plus docs/docs:internal are green, including CI on PR #88; core browser integration is restored, model-synth package tests cover character rigging/animation orchestration, examples now verify umbrella-package imports/dependencies, nested Vite bundles, and built-output browser smoke, but deeper adapter/example visual runtime coverage is still thin |
@@ -33,11 +33,14 @@ This document reflects the actual state of the repository after the umbrella-pac
 ### Composition Layer
 
 - `packages/core/src/compose/creatures/index.ts`
-  - `createCreature()` and `resolveCreatureComposition()` now exist, but they currently normalize definitions and resolve registry-backed coverings/materials rather than generating renderer-ready creature rigs or meshes.
+  - `createCreature()` and `resolveCreatureComposition()` now exist, and resolved compositions now include adapter-neutral runtime bones with serializable transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
+  - Remaining gap: they still do not generate renderer-ready creature rigs or meshes, and adapters do not yet consume the new runtime assembly plan directly.
 - `packages/core/src/compose/props/index.ts`
-  - `createProp()` and `resolvePropComposition()` now exist, but they currently resolve definition-time materials rather than building render/runtime instances.
+  - `createProp()` and `resolvePropComposition()` now exist, and resolved compositions now include runtime nodes, material slots, interaction/audio metadata, bounds, and physics profiles.
+  - Remaining gap: they still do not build adapter-native render/runtime instances or rich interaction behavior.
 - `packages/core/src/compose/materials/`
-  - Presets and factories exist, but material physics, procedural variation, and runtime swapping are still thin.
+  - Presets and factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` support deterministic runtime variation and swapping metadata.
+  - Remaining gap: procedural texture/material traits and adapter-level material instantiation are still thin.
 
 ### Declarative Game Layer
 
@@ -117,6 +120,10 @@ Verified during this session:
 - `pnpm --dir apps/examples test`: passed, including examples verification plus Chromium smoke coverage for built `api-showcase`, `basic-terrain`, `sky-volumetrics`, `vegetation-showcase`, `water-scene`, and `world-topology` output
 - `NX_DAEMON=false pnpm nx run @strata-game-library/examples:test --skip-nx-cache`: passed after `pnpm nx reset`, including examples verification and dependency builds
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
+- `pnpm --dir packages/core typecheck`: passed after composition runtime assembly updates
+- `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts tests/unit/api/exports.test.ts`: passed, including runtime composition assembly coverage
+- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after composition runtime assembly updates
+- `pnpm --dir packages/strata-game-library exec tsup`: passed, confirming umbrella package declarations and subpath bundles still emit
 
 Known remaining verification gaps:
 

@@ -79,7 +79,11 @@ createCreature(input: CreateCreatureInput | string): CreatureDefinition
 resolveCreatureComposition(input: CreateCreatureInput | string): CreatureComposition
 createProp(input: CreatePropInput | string): PropDefinition
 resolvePropComposition(input: CreatePropInput | string): PropComposition
+createMaterialVariant(material, options?): MaterialDefinition
+createMaterialVariants(material, options): MaterialDefinition[]
 ```
+
+`CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
 ### Game State Presets
 

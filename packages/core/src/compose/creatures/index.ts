@@ -11,12 +11,20 @@
 
 import type * as THREE from 'three';
 import { COVERINGS } from '../coverings';
-import { cloneMaterialDefinition, resolveMaterialDefinition } from '../materials';
+import { createMaterialVariant, MATERIALS, resolveMaterialDefinition } from '../materials';
+import type {
+  RuntimeBounds,
+  RuntimePhysicsProfile,
+  RuntimeQuaternionTuple,
+  RuntimeVector3Tuple,
+} from '../runtime-types';
 import { resolveSkeletonDefinition } from '../skeletons';
+import type { BoneDefinition, SkeletonDefinition } from '../skeletons/types';
 import type {
   CreateCreatureInput,
   CreatureComposition,
   CreatureDefinition,
+  CreatureRuntimeBone,
   ResolvedCreatureMaterial,
 } from './types';
 
@@ -69,6 +77,16 @@ export const CREATURES: Record<string, CreatureDefinition> = {
     },
   },
 };
+
+interface PreparedCreatureBone {
+  bone: BoneDefinition;
+  index: number;
+  position: RuntimeVector3Tuple;
+  rotation?: RuntimeQuaternionTuple;
+  size: RuntimeVector3Tuple;
+  volume: number;
+  material: ResolvedCreatureMaterial;
+}
 
 function titleCaseFromId(id: string): string {
   return id
@@ -256,6 +274,273 @@ function selectRegionPattern(
   })[0];
 }
 
+function toVector3Tuple(position: [number, number, number] | THREE.Vector3): RuntimeVector3Tuple {
+  return Array.isArray(position) ? [...position] : [position.x, position.y, position.z];
+}
+
+function toQuaternionTuple(
+  rotation: [number, number, number, number] | THREE.Quaternion | undefined
+): RuntimeQuaternionTuple | undefined {
+  return rotation
+    ? Array.isArray(rotation)
+      ? [...rotation]
+      : [rotation.x, rotation.y, rotation.z, rotation.w]
+    : undefined;
+}
+
+function addVector(a: RuntimeVector3Tuple, b: RuntimeVector3Tuple): RuntimeVector3Tuple {
+  return [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+}
+
+function scaleVector(vector: RuntimeVector3Tuple, scale: number): RuntimeVector3Tuple {
+  return [vector[0] * scale, vector[1] * scale, vector[2] * scale];
+}
+
+function resolveBoneWorldPositions(skeleton: SkeletonDefinition): Map<string, RuntimeVector3Tuple> {
+  const bonesById = new Map(skeleton.bones.map((bone) => [bone.id, bone]));
+  const positions = new Map<string, RuntimeVector3Tuple>();
+
+  const resolveBone = (bone: BoneDefinition): RuntimeVector3Tuple => {
+    const cached = positions.get(bone.id);
+    if (cached) {
+      return cached;
+    }
+
+    const local = toVector3Tuple(bone.position);
+    const parent = bone.parent ? bonesById.get(bone.parent) : undefined;
+    const world = parent ? addVector(resolveBone(parent), local) : local;
+    positions.set(bone.id, world);
+    return world;
+  };
+
+  for (const bone of skeleton.bones) {
+    resolveBone(bone);
+  }
+
+  return positions;
+}
+
+function emptyBounds(): RuntimeBounds {
+  return {
+    min: [0, 0, 0],
+    max: [0, 0, 0],
+    size: [0, 0, 0],
+    center: [0, 0, 0],
+  };
+}
+
+function boundsForBones(bones: PreparedCreatureBone[]): RuntimeBounds {
+  if (bones.length === 0) {
+    return emptyBounds();
+  }
+
+  const min: RuntimeVector3Tuple = [
+    Number.POSITIVE_INFINITY,
+    Number.POSITIVE_INFINITY,
+    Number.POSITIVE_INFINITY,
+  ];
+  const max: RuntimeVector3Tuple = [
+    Number.NEGATIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+  ];
+
+  for (const { position, size } of bones) {
+    for (let axis = 0; axis < 3; axis += 1) {
+      const half = size[axis] / 2;
+      min[axis] = Math.min(min[axis], position[axis] - half);
+      max[axis] = Math.max(max[axis], position[axis] + half);
+    }
+  }
+
+  return {
+    min,
+    max,
+    size: [max[0] - min[0], max[1] - min[1], max[2] - min[2]],
+    center: [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2],
+  };
+}
+
+function estimateBoneVolume(shape: BoneDefinition['shape'], size: RuntimeVector3Tuple): number {
+  const [x, y, z] = size.map((value) => Math.max(0, value)) as RuntimeVector3Tuple;
+
+  switch (shape) {
+    case 'sphere':
+      return (4 / 3) * Math.PI * (x / 2) * (y / 2) * (z / 2);
+    case 'cylinder':
+      return Math.PI * (x / 2) * (z / 2) * y;
+    case 'capsule': {
+      const radius = (y + z) / 4;
+      const cylinderLength = Math.max(0, x - 2 * radius);
+      return Math.PI * radius * radius * cylinderLength + (4 / 3) * Math.PI * radius ** 3;
+    }
+    case 'box':
+    case 'custom':
+      return x * y * z;
+  }
+}
+
+function weightedAverage(
+  values: Array<{ value: number | undefined; weight: number }>
+): number | undefined {
+  const weighted = values.filter((entry) => entry.value !== undefined && entry.weight > 0);
+  const totalWeight = weighted.reduce((sum, entry) => sum + entry.weight, 0);
+
+  if (totalWeight === 0) {
+    return undefined;
+  }
+
+  return weighted.reduce((sum, entry) => sum + (entry.value ?? 0) * entry.weight, 0) / totalWeight;
+}
+
+function runtimePhysicsSource(
+  hasDefinition: boolean,
+  hasMaterial: boolean
+): RuntimePhysicsProfile['source'] {
+  if (hasDefinition && hasMaterial) {
+    return 'mixed';
+  }
+
+  if (hasDefinition) {
+    return 'definition';
+  }
+
+  return hasMaterial ? 'material' : 'implicit';
+}
+
+function buildCreatureRuntime(
+  definition: CreatureDefinition,
+  skeleton: SkeletonDefinition,
+  scale: number,
+  materialsByBone: Record<string, ResolvedCreatureMaterial>
+): CreatureComposition['runtime'] {
+  const worldPositions = resolveBoneWorldPositions(skeleton);
+  const allBoneIds = skeleton.bones.map((bone) => bone.id);
+  const animationTargets = skeleton.animationTargets ?? {};
+  const prepared = skeleton.bones.map<PreparedCreatureBone>((bone, index) => {
+    const size = scaleVector([...bone.size] as RuntimeVector3Tuple, scale);
+    return {
+      bone,
+      index,
+      position: scaleVector(worldPositions.get(bone.id) ?? toVector3Tuple(bone.position), scale),
+      rotation: toQuaternionTuple(bone.rotation),
+      size,
+      volume: estimateBoneVolume(bone.shape, size),
+      material: materialsByBone[bone.id],
+    };
+  });
+  const materialSlots: CreatureComposition['runtime']['materialSlots'] = {};
+  const materialWeighted = prepared.map((entry) => ({
+    physics: entry.material.material.physics,
+    weight: entry.volume,
+  }));
+  const hasBonePhysics = skeleton.bones.some((bone) => bone.physics);
+  const hasMaterialPhysics = prepared.some((entry) => entry.material.material.physics);
+  const bones: CreatureRuntimeBone[] = prepared.map((entry) => {
+    const materialPhysics = entry.material.material.physics;
+    const materialSlot = `${definition.id}:bone:${entry.bone.id}:${entry.material.materialId}`;
+
+    materialSlots[materialSlot] = {
+      id: materialSlot,
+      materialId: entry.material.materialId,
+      material: entry.material.material,
+      physics: materialPhysics,
+      swappableWith: Object.values(MATERIALS)
+        .filter(
+          (material) =>
+            material.id !== entry.material.materialId &&
+            material.type === entry.material.material.type
+        )
+        .map((material) => material.id),
+    };
+
+    return {
+      id: `${definition.id}:bone:${entry.bone.id}`,
+      boneId: entry.bone.id,
+      parent: entry.bone.parent,
+      shape: entry.bone.shape,
+      size: entry.size,
+      position: entry.position,
+      rotation: entry.rotation,
+      materialSlot,
+      materialId: entry.material.materialId,
+      material: entry.material.material,
+      volume: entry.volume,
+      physics: {
+        mode: 'dynamic',
+        mass:
+          entry.bone.physics?.mass ??
+          (materialPhysics ? materialPhysics.density * entry.volume : undefined),
+        density: materialPhysics?.density,
+        friction: materialPhysics?.friction,
+        restitution: materialPhysics?.restitution,
+        source: runtimePhysicsSource(Boolean(entry.bone.physics), Boolean(materialPhysics)),
+      },
+      animationTargets: Object.entries(animationTargets)
+        .filter(([, targetBones]) => targetBones.includes(entry.bone.id))
+        .map(([name]) => name),
+    };
+  });
+
+  return {
+    kind: 'creature',
+    id: definition.id,
+    name: definition.name,
+    scale,
+    bones,
+    materialSlots,
+    bounds: boundsForBones(prepared),
+    physics: {
+      mode: 'dynamic',
+      mass: bones.reduce((sum, bone) => sum + (bone.physics.mass ?? 0), 0) || undefined,
+      density: weightedAverage(
+        materialWeighted.map((entry) => ({ value: entry.physics?.density, weight: entry.weight }))
+      ),
+      friction: weightedAverage(
+        materialWeighted.map((entry) => ({ value: entry.physics?.friction, weight: entry.weight }))
+      ),
+      restitution: weightedAverage(
+        materialWeighted.map((entry) => ({
+          value: entry.physics?.restitution,
+          weight: entry.weight,
+        }))
+      ),
+      source: runtimePhysicsSource(hasBonePhysics, hasMaterialPhysics),
+    },
+    animations: Object.entries(definition.animations)
+      .filter(([, clip]) => clip !== undefined)
+      .map(([name, clip]) => ({
+        name,
+        clip: clip as string | THREE.AnimationClip,
+        targetBones: animationTargets[name] ? [...animationTargets[name]] : [...allBoneIds],
+      })),
+    ikChains: skeleton.ikChains?.map((chain) => ({
+      ...chain,
+      bones: [...chain.bones],
+    })),
+    spawn: {
+      biomes: [...definition.biomes],
+      spawnWeight: definition.spawnWeight,
+      packSize: definition.packSize ? ([...definition.packSize] as [number, number]) : undefined,
+      timeOfDay: definition.timeOfDay ? [...definition.timeOfDay] : undefined,
+    },
+    ai: definition.ai,
+    stats: { ...definition.stats },
+    drops: definition.drops
+      ? {
+          guaranteed: definition.drops.guaranteed?.map((item) => ({ ...item })),
+          chance: definition.drops.chance?.map((item) => ({ ...item })),
+        }
+      : undefined,
+    sounds: definition.sounds
+      ? {
+          ...definition.sounds,
+          idle: definition.sounds.idle ? [...definition.sounds.idle] : undefined,
+        }
+      : undefined,
+  };
+}
+
 export function createCreature(
   input: string | CreateCreatureInput,
   overrides: Partial<CreateCreatureInput> = {}
@@ -316,23 +601,31 @@ export function resolveCreatureComposition(
 
     const [pattern, region] = matched;
     const material = resolveMaterialDefinition(region.material);
+    const variation = region.variation ? (rng() * 2 - 1) * region.variation : 0;
     materialsByBone[bone.id] = {
       ...region,
       boneId: bone.id,
       pattern,
       materialId: region.material,
-      material: cloneMaterialDefinition(material, region.color ? { baseColor: region.color } : {}),
+      material: createMaterialVariant(material, {
+        id: `${definition.id}_${bone.id}_${region.material}`,
+        baseColor: region.color,
+        roughnessDelta: variation * 0.1,
+        normalScaleDelta: variation * 0.25,
+      }),
     };
   }
 
   const baseScale = definition.scale ?? 1;
   const scaleVariation = definition.scaleVariation ?? 0;
   const variation = scaleVariation > 0 ? (rng() * 2 - 1) * scaleVariation : 0;
+  const resolvedScale = Math.max(0.01, baseScale * (1 + variation));
 
   return {
     definition,
     skeleton,
-    scale: Math.max(0.01, baseScale * (1 + variation)),
+    scale: resolvedScale,
     materialsByBone,
+    runtime: buildCreatureRuntime(definition, skeleton, resolvedScale, materialsByBone),
   };
 }

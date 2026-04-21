@@ -10,7 +10,13 @@
  */
 
 import type { Quaternion, Vector3 } from 'three';
-import { resolveMaterialDefinition } from '../materials';
+import { MATERIALS, resolveMaterialDefinition } from '../materials';
+import type {
+  RuntimeBounds,
+  RuntimePhysicsProfile,
+  RuntimeQuaternionTuple,
+  RuntimeVector3Tuple,
+} from '../runtime-types';
 import { PROPS } from './presets';
 
 export * from './presets';
@@ -20,8 +26,18 @@ import type {
   CreatePropInput,
   PropComposition,
   PropDefinition,
+  PropRuntimeNode,
   ResolvedPropComponent,
 } from './types';
+
+interface PreparedPropComponent {
+  component: ResolvedPropComponent;
+  index: number;
+  position: RuntimeVector3Tuple;
+  rotation?: RuntimeQuaternionTuple;
+  size: RuntimeVector3Tuple;
+  volume: number;
+}
 
 function titleCaseFromId(id: string): string {
   return id
@@ -45,6 +61,221 @@ function cloneRotation(
   }
 
   return Array.isArray(rotation) ? [...rotation] : rotation.clone();
+}
+
+function toVector3Tuple(position: [number, number, number] | Vector3): RuntimeVector3Tuple {
+  return Array.isArray(position) ? [...position] : [position.x, position.y, position.z];
+}
+
+function toQuaternionTuple(
+  rotation: [number, number, number, number] | Quaternion | undefined
+): RuntimeQuaternionTuple | undefined {
+  return rotation
+    ? Array.isArray(rotation)
+      ? [...rotation]
+      : [rotation.x, rotation.y, rotation.z, rotation.w]
+    : undefined;
+}
+
+function emptyBounds(): RuntimeBounds {
+  return {
+    min: [0, 0, 0],
+    max: [0, 0, 0],
+    size: [0, 0, 0],
+    center: [0, 0, 0],
+  };
+}
+
+function boundsForComponents(components: PreparedPropComponent[]): RuntimeBounds {
+  if (components.length === 0) {
+    return emptyBounds();
+  }
+
+  const min: RuntimeVector3Tuple = [
+    Number.POSITIVE_INFINITY,
+    Number.POSITIVE_INFINITY,
+    Number.POSITIVE_INFINITY,
+  ];
+  const max: RuntimeVector3Tuple = [
+    Number.NEGATIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+  ];
+
+  for (const { position, size } of components) {
+    for (let axis = 0; axis < 3; axis += 1) {
+      const half = size[axis] / 2;
+      min[axis] = Math.min(min[axis], position[axis] - half);
+      max[axis] = Math.max(max[axis], position[axis] + half);
+    }
+  }
+
+  return {
+    min,
+    max,
+    size: [max[0] - min[0], max[1] - min[1], max[2] - min[2]],
+    center: [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2],
+  };
+}
+
+function estimateShapeVolume(
+  shape: ResolvedPropComponent['shape'],
+  size: RuntimeVector3Tuple
+): number {
+  const [x, y, z] = size.map((value) => Math.max(0, value)) as RuntimeVector3Tuple;
+
+  switch (shape) {
+    case 'sphere':
+      return (4 / 3) * Math.PI * (x / 2) * (y / 2) * (z / 2);
+    case 'cylinder':
+      return Math.PI * (x / 2) * (z / 2) * y;
+    case 'capsule': {
+      const radius = (x + z) / 4;
+      const cylinderHeight = Math.max(0, y - 2 * radius);
+      return Math.PI * radius * radius * cylinderHeight + (4 / 3) * Math.PI * radius ** 3;
+    }
+    case 'box':
+    case 'mesh':
+      return x * y * z;
+  }
+}
+
+function weightedAverage(
+  values: Array<{ value: number | undefined; weight: number }>
+): number | undefined {
+  const weighted = values.filter((entry) => entry.value !== undefined && entry.weight > 0);
+  const totalWeight = weighted.reduce((sum, entry) => sum + entry.weight, 0);
+
+  if (totalWeight === 0) {
+    return undefined;
+  }
+
+  return weighted.reduce((sum, entry) => sum + (entry.value ?? 0) * entry.weight, 0) / totalWeight;
+}
+
+function runtimePhysicsSource(
+  hasDefinition: boolean,
+  hasMaterial: boolean
+): RuntimePhysicsProfile['source'] {
+  if (hasDefinition && hasMaterial) {
+    return 'mixed';
+  }
+
+  if (hasDefinition) {
+    return 'definition';
+  }
+
+  return hasMaterial ? 'material' : 'implicit';
+}
+
+function buildPropRuntime(
+  definition: PropDefinition,
+  components: ResolvedPropComponent[]
+): PropComposition['runtime'] {
+  const prepared = components.map<PreparedPropComponent>((component, index) => {
+    const size = [...component.size] as RuntimeVector3Tuple;
+    return {
+      component,
+      index,
+      position: toVector3Tuple(component.position),
+      rotation: toQuaternionTuple(component.rotation),
+      size,
+      volume: estimateShapeVolume(component.shape, size),
+    };
+  });
+  const totalVolume = prepared.reduce((sum, entry) => sum + entry.volume, 0);
+  const materialMass = prepared.reduce(
+    (sum, entry) => sum + (entry.component.material.physics?.density ?? 0) * entry.volume,
+    0
+  );
+  const hasMaterialPhysics = prepared.some((entry) => entry.component.material.physics);
+  const materialWeighted = prepared.map((entry) => ({
+    physics: entry.component.material.physics,
+    weight: entry.volume,
+  }));
+  const materialSlots: PropComposition['runtime']['materialSlots'] = {};
+  const nodes: PropRuntimeNode[] = prepared.map((entry) => {
+    const { component } = entry;
+    const materialPhysics = component.material.physics;
+    const materialSlot = `${definition.id}:component:${entry.index}:${component.materialId}`;
+    const massFromDefinition =
+      definition.physics?.mass && totalVolume > 0
+        ? definition.physics.mass * (entry.volume / totalVolume)
+        : undefined;
+
+    materialSlots[materialSlot] = {
+      id: materialSlot,
+      materialId: component.materialId,
+      material: component.material,
+      physics: materialPhysics,
+      swappableWith: Object.values(MATERIALS)
+        .filter(
+          (material) =>
+            material.id !== component.materialId && material.type === component.material.type
+        )
+        .map((material) => material.id),
+    };
+
+    return {
+      id: `${definition.id}:component:${entry.index}`,
+      componentIndex: entry.index,
+      shape: component.shape,
+      size: entry.size,
+      position: entry.position,
+      rotation: entry.rotation,
+      mesh: component.mesh,
+      materialSlot,
+      materialId: component.materialId,
+      material: component.material,
+      volume: entry.volume,
+      physics: {
+        mode: definition.physics?.type,
+        mass:
+          massFromDefinition ??
+          (materialPhysics ? materialPhysics.density * entry.volume : undefined),
+        density: materialPhysics?.density,
+        friction: definition.physics?.friction ?? materialPhysics?.friction,
+        restitution: definition.physics?.restitution ?? materialPhysics?.restitution,
+        source: runtimePhysicsSource(Boolean(definition.physics), Boolean(materialPhysics)),
+      },
+      interaction: definition.interaction,
+    };
+  });
+
+  return {
+    kind: 'prop',
+    id: definition.id,
+    name: definition.name,
+    nodes,
+    materialSlots,
+    bounds: boundsForComponents(prepared),
+    physics: {
+      mode: definition.physics?.type ?? 'static',
+      mass: definition.physics?.mass ?? (materialMass > 0 ? materialMass : undefined),
+      density: weightedAverage(
+        materialWeighted.map((entry) => ({ value: entry.physics?.density, weight: entry.weight }))
+      ),
+      friction:
+        definition.physics?.friction ??
+        weightedAverage(
+          materialWeighted.map((entry) => ({
+            value: entry.physics?.friction,
+            weight: entry.weight,
+          }))
+        ),
+      restitution:
+        definition.physics?.restitution ??
+        weightedAverage(
+          materialWeighted.map((entry) => ({
+            value: entry.physics?.restitution,
+            weight: entry.weight,
+          }))
+        ),
+      source: runtimePhysicsSource(Boolean(definition.physics), hasMaterialPhysics),
+    },
+    interaction: definition.interaction,
+    audio: definition.audio,
+  };
 }
 
 function clonePropDefinition(definition: PropDefinition): PropDefinition {
@@ -148,5 +379,6 @@ export function resolvePropComposition(
   return {
     definition,
     components,
+    runtime: buildPropRuntime(definition, components),
   };
 }

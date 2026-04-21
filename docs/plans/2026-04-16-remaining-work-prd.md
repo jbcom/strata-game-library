@@ -156,6 +156,14 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Material composition supports more than static preset lookup.
 - The composition layer has explicit tests covering runtime-oriented outputs, not only type normalization.
 
+### Progress Update: 2026-04-21
+
+- `resolveCreatureComposition()` now returns a `runtime` assembly plan with serializable runtime bones, resolved world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
+- `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
+- Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
+- Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
+- Remaining work is adapter consumption, renderer-ready creature/prop instantiation, richer interaction helpers, and deeper procedural material traits.
+
 ## Workstream 4: Declarative Game Runtime Completion
 
 ### Objective

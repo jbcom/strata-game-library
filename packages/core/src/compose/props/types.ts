@@ -1,5 +1,12 @@
 import type * as THREE from 'three';
 import type { MaterialDefinition } from '../materials';
+import type {
+  RuntimeBounds,
+  RuntimeMaterialSlot,
+  RuntimePhysicsProfile,
+  RuntimeQuaternionTuple,
+  RuntimeVector3Tuple,
+} from '../runtime-types';
 
 export interface PropComponent {
   shape: 'box' | 'cylinder' | 'sphere' | 'capsule' | 'mesh';
@@ -51,7 +58,36 @@ export interface ResolvedPropComponent extends Omit<PropComponent, 'material'> {
   material: MaterialDefinition;
 }
 
+export interface PropRuntimeNode {
+  id: string;
+  componentIndex: number;
+  shape: PropComponent['shape'];
+  size: RuntimeVector3Tuple;
+  position: RuntimeVector3Tuple;
+  rotation?: RuntimeQuaternionTuple;
+  mesh?: string;
+  materialSlot: string;
+  materialId: string;
+  material: MaterialDefinition;
+  volume: number;
+  physics: RuntimePhysicsProfile;
+  interaction?: PropDefinition['interaction'];
+}
+
+export interface PropRuntimeAssembly {
+  kind: 'prop';
+  id: string;
+  name: string;
+  nodes: PropRuntimeNode[];
+  materialSlots: Record<string, RuntimeMaterialSlot>;
+  bounds: RuntimeBounds;
+  physics: RuntimePhysicsProfile;
+  interaction?: PropDefinition['interaction'];
+  audio?: PropDefinition['audio'];
+}
+
 export interface PropComposition {
   definition: PropDefinition;
   components: ResolvedPropComponent[];
+  runtime: PropRuntimeAssembly;
 }
