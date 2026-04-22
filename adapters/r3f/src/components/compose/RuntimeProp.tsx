@@ -9,6 +9,7 @@ import {
   type PropRuntimeInteractionResult,
   type PropRuntimeInteractionState,
   type PropRuntimeNode,
+  type RuntimePhysicsProfile,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
 import type { CSSProperties } from 'react';
@@ -35,6 +36,8 @@ import type {
   RuntimePropPhysicsHandleAttachOptions,
   RuntimePropPhysicsObjectState,
   RuntimePropProps,
+  RuntimePropRapierBodyType,
+  RuntimePropRapierPhysicsHandleOptions,
 } from './types';
 
 function isPropComposition(input: RuntimePropInput): input is PropComposition {
@@ -103,6 +106,15 @@ interface RuntimePropObjectUserData {
   strataRuntimePhysicsHandle?: RuntimePropPhysicsHandle;
   strataRuntimePhysicsState?: RuntimePropPhysicsObjectState;
 }
+
+/**
+ * Default Strata mode to Rapier `RigidBodyType` numeric mappings.
+ */
+export const RUNTIME_PROP_RAPIER_BODY_TYPES = {
+  dynamic: 0,
+  static: 1,
+  kinematic: 2,
+} as const;
 
 function getObjectRuntimeNode(object: THREE.Object3D): PropRuntimeNode | undefined {
   const userData = object.userData as RuntimePropObjectUserData;
@@ -184,6 +196,64 @@ export function createRuntimePropObjectPhysicsAdapter(
       getRuntimePropPhysicsHandle(context, options)?.wakeBody?.(context);
     },
   };
+}
+
+function resolveRuntimePropRapierBodyType(
+  mode: RuntimePhysicsProfile['mode'],
+  options: RuntimePropRapierPhysicsHandleOptions
+): RuntimePropRapierBodyType | undefined {
+  if (!mode) {
+    return undefined;
+  }
+
+  return {
+    ...RUNTIME_PROP_RAPIER_BODY_TYPES,
+    ...options.bodyTypes,
+  }[mode];
+}
+
+/**
+ * Creates a Rapier-backed runtime prop physics handle.
+ */
+export function createRuntimePropRapierPhysicsHandle(
+  options: RuntimePropRapierPhysicsHandleOptions
+): RuntimePropPhysicsHandle {
+  return {
+    setMode: (mode) => {
+      const bodyType = resolveRuntimePropRapierBodyType(mode, options);
+
+      if (bodyType !== undefined) {
+        options.body?.setBodyType?.(bodyType, options.wakeUp ?? true);
+      }
+    },
+    setColliderEnabled: (enabled) => {
+      for (const collider of options.colliders ?? []) {
+        collider?.setEnabled?.(enabled);
+      }
+
+      if (options.disableBodyWhenColliderDisabled) {
+        options.body?.setEnabled?.(enabled);
+      }
+    },
+    wakeBody: () => {
+      options.body?.wakeUp?.();
+    },
+  };
+}
+
+/**
+ * Attaches a Rapier-backed physics handle to a runtime prop object.
+ */
+export function attachRuntimePropRapierPhysicsHandle<TObject extends THREE.Object3D>(
+  object: TObject,
+  options: RuntimePropRapierPhysicsHandleOptions,
+  attachOptions: RuntimePropPhysicsHandleAttachOptions = {}
+): TObject {
+  return attachRuntimePropPhysicsHandle(
+    object,
+    createRuntimePropRapierPhysicsHandle(options),
+    attachOptions
+  );
 }
 
 function nextRuntimePropPhysicsState(

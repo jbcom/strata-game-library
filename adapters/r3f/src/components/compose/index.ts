@@ -19,8 +19,11 @@ export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
 export {
   applyRuntimePropInteractionPhysicsEffects,
   attachRuntimePropPhysicsHandle,
+  attachRuntimePropRapierPhysicsHandle,
   createRuntimePropObjectPhysicsAdapter,
+  createRuntimePropRapierPhysicsHandle,
   getDefaultRuntimePropInteractionAction,
+  RUNTIME_PROP_RAPIER_BODY_TYPES,
   RuntimeProp,
   RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
@@ -65,5 +68,9 @@ export type {
   RuntimePropPhysicsHandleAttachOptions,
   RuntimePropPhysicsObjectState,
   RuntimePropProps,
+  RuntimePropRapierBodyType,
+  RuntimePropRapierColliderHandle,
+  RuntimePropRapierPhysicsHandleOptions,
+  RuntimePropRapierRigidBodyHandle,
   RuntimeShapeRenderContext,
 } from './types';

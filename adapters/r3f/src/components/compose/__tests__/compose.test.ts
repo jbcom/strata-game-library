@@ -25,8 +25,11 @@ import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
   applyRuntimePropInteractionPhysicsEffects,
   attachRuntimePropPhysicsHandle,
+  attachRuntimePropRapierPhysicsHandle,
   createRuntimePropObjectPhysicsAdapter,
+  createRuntimePropRapierPhysicsHandle,
   getDefaultRuntimePropInteractionAction,
+  RUNTIME_PROP_RAPIER_BODY_TYPES,
   RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
 } from '../RuntimeProp';
@@ -55,6 +58,9 @@ describe('R3F runtime composition components', () => {
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
     expect(compose.attachRuntimePropPhysicsHandle).toBeTypeOf('function');
     expect(compose.createRuntimePropObjectPhysicsAdapter).toBeTypeOf('function');
+    expect(compose.RUNTIME_PROP_RAPIER_BODY_TYPES).toBeDefined();
+    expect(compose.createRuntimePropRapierPhysicsHandle).toBeTypeOf('function');
+    expect(compose.attachRuntimePropRapierPhysicsHandle).toBeTypeOf('function');
     expect(compose.RuntimePropInteractionPanel).toBeTypeOf('function');
     expect(compose.useRuntimePropInteractionController).toBeTypeOf('function');
   });
@@ -274,6 +280,89 @@ void main() {
       })
     );
     expect(wakeBody).not.toHaveBeenCalled();
+  });
+
+  it('adapts R3F prop physics effects to Rapier body and collider handles', () => {
+    const door = resolvePropComposition({
+      id: 'door_oak',
+      name: 'Oak Door',
+      components: [
+        {
+          shape: 'box',
+          size: [1, 2, 0.2],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+      interaction: { type: 'door' },
+    });
+    const doorNode = door.runtime.nodes[0];
+
+    if (!doorNode) {
+      throw new Error('Expected door_oak to resolve at least one runtime node');
+    }
+
+    const doorRoot = new THREE.Group();
+    const doorMesh = new THREE.Mesh();
+    const setBodyType = vi.fn();
+    const wakeUp = vi.fn();
+
+    doorMesh.userData.runtimeNode = doorNode;
+    attachRuntimePropRapierPhysicsHandle(doorMesh, { body: { setBodyType, wakeUp } });
+    doorRoot.add(doorMesh);
+
+    applyRuntimePropInteractionPhysicsEffects(
+      doorRoot,
+      door.runtime,
+      executePropInteractionAction(door.runtime, 'door_oak:interaction:door'),
+      { adapter: createRuntimePropObjectPhysicsAdapter() }
+    );
+
+    expect(setBodyType).toHaveBeenCalledWith(RUNTIME_PROP_RAPIER_BODY_TYPES.kinematic, true);
+    expect(wakeUp).not.toHaveBeenCalled();
+
+    const key = resolvePropComposition({
+      id: 'rapier_key',
+      name: 'Rapier Key',
+      components: [
+        {
+          shape: 'box',
+          size: [0.1, 0.02, 0.24],
+          position: [0, 0, 0],
+          material: 'metal_iron',
+        },
+      ],
+      interaction: { type: 'collectible', contents: ['rapier-key'] },
+    });
+    const keyNode = key.runtime.nodes[0];
+
+    if (!keyNode) {
+      throw new Error('Expected rapier_key to resolve at least one runtime node');
+    }
+
+    const keyRoot = new THREE.Group();
+    const keyMesh = new THREE.Mesh();
+    const setBodyEnabled = vi.fn();
+    const setColliderEnabled = vi.fn();
+    const handle = createRuntimePropRapierPhysicsHandle({
+      body: { setEnabled: setBodyEnabled },
+      colliders: [{ setEnabled: setColliderEnabled }],
+      disableBodyWhenColliderDisabled: true,
+    });
+
+    keyMesh.userData.runtimeNode = keyNode;
+    attachRuntimePropPhysicsHandle(keyMesh, handle);
+    keyRoot.add(keyMesh);
+
+    applyRuntimePropInteractionPhysicsEffects(
+      keyRoot,
+      key.runtime,
+      executePropInteractionAction(key.runtime, 'rapier_key:interaction:collectible'),
+      { adapter: createRuntimePropObjectPhysicsAdapter() }
+    );
+
+    expect(setColliderEnabled).toHaveBeenCalledWith(false);
+    expect(setBodyEnabled).toHaveBeenCalledWith(false);
   });
 
   it('manages R3F runtime prop interaction state with a hook', () => {

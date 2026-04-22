@@ -270,6 +270,49 @@ export interface RuntimePropObjectPhysicsAdapterOptions {
   ) => RuntimePropPhysicsHandle | null | undefined;
 }
 
+/**
+ * Numeric Rapier rigid-body type value.
+ */
+export type RuntimePropRapierBodyType = number;
+
+/**
+ * Minimal Rapier rigid-body surface used by Strata runtime prop physics effects.
+ */
+export interface RuntimePropRapierRigidBodyHandle {
+  /** Changes the Rapier rigid-body type. */
+  setBodyType?: (type: RuntimePropRapierBodyType, wakeUp: boolean) => void;
+  /** Enables or disables the whole Rapier body. */
+  setEnabled?: (enabled: boolean) => void;
+  /** Wakes the Rapier body. */
+  wakeUp?: () => void;
+}
+
+/**
+ * Minimal Rapier collider surface used by Strata runtime prop physics effects.
+ */
+export interface RuntimePropRapierColliderHandle {
+  /** Enables or disables the Rapier collider. */
+  setEnabled?: (enabled: boolean) => void;
+}
+
+/**
+ * Options for creating a Rapier-backed runtime prop physics handle.
+ */
+export interface RuntimePropRapierPhysicsHandleOptions {
+  /** Rapier rigid body to update when prop physics effects change body mode. */
+  body?: RuntimePropRapierRigidBodyHandle | null;
+  /** Rapier colliders to enable or disable for collider effects. */
+  colliders?: readonly (RuntimePropRapierColliderHandle | null | undefined)[];
+  /** Overrides Strata mode to Rapier body-type numeric mappings. */
+  bodyTypes?: Partial<
+    Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropRapierBodyType>
+  >;
+  /** Whether Rapier body-type changes should wake the body. Default: true. */
+  wakeUp?: boolean;
+  /** Also toggles the whole body when collider effects enable/disable colliders. */
+  disableBodyWhenColliderDisabled?: boolean;
+}
+
 export interface RuntimePropPhysicsApplicationOptions {
   adapter?: RuntimePropPhysicsAdapter;
 }
