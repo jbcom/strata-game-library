@@ -1,6 +1,6 @@
 {
 	"name": "@strata-game-library/reactylon",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"description": "Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics",
 	"type": "module",
 	"main": "./dist/index.js",
