@@ -2,6 +2,7 @@ import {
   type AbstractMesh,
   type AnimationGroup,
   type Material as BabylonMaterial,
+  Bone,
   Color3,
   MaterialPluginBase,
   MeshBuilder,
@@ -12,12 +13,17 @@ import {
   SceneLoader,
   ShaderLanguage,
   type Skeleton,
+  Space,
   TransformNode,
   type UniformBuffer,
   Vector3,
 } from '@babylonjs/core';
 import {
+  type CreatureRuntimeIKPosePlan,
+  type CreatureRuntimeIKPosePlanOptions,
+  type CreatureRuntimeIKTargetMap,
   type CreatureRuntimeRigBindingPlan,
+  createCreatureIKPosePlan,
   createCreatureRigBindingPlan,
   createPropInteractionController,
   type MaterialProceduralLayer,
@@ -177,7 +183,25 @@ export interface BabylonRuntimeCreatureInstance {
   animationGroups: AnimationGroup[];
   rigBinding: CreatureRuntimeRigBindingPlan;
   playAnimation(animation: string, loop?: boolean): boolean;
+  applyIKPose(
+    targets: CreatureRuntimeIKTargetMap,
+    options?: CreatureRuntimeIKPosePlanOptions
+  ): BabylonRuntimeCreatureIKPoseApplication;
   dispose(): void;
+}
+
+export type BabylonRuntimeCreatureIKPoseTarget = AbstractMesh | TransformNode | Bone;
+
+export interface BabylonRuntimeCreatureIKPoseApplicationEntry {
+  key: string;
+  target: BabylonRuntimeCreatureIKPoseTarget;
+  binding?: CreatureRuntimeRigBindingPlan['bindings'][number];
+  position: [number, number, number];
+}
+
+export interface BabylonRuntimeCreatureIKPoseApplication {
+  pose: CreatureRuntimeIKPosePlan;
+  applications: BabylonRuntimeCreatureIKPoseApplicationEntry[];
 }
 
 function toVector3([x, y, z]: [number, number, number]): Vector3 {
@@ -1000,6 +1024,125 @@ function rigBindingForBone(
   return plan.bindings.find((binding) => binding.boneId === boneId);
 }
 
+function rigBindingForPoseKey(
+  plan: CreatureRuntimeRigBindingPlan,
+  key: string
+): CreatureRuntimeRigBindingPlan['bindings'][number] | undefined {
+  return plan.bindings.find(
+    (binding) =>
+      binding.runtimeBoneId === key || binding.boneId === key || binding.sourceBone === key
+  );
+}
+
+interface BabylonRuntimeCreatureMeshMetadata {
+  strataRuntimeBone?: ReactylonRuntimeCreatureBoneDescriptor;
+  strataRuntimeRigBoneBinding?: CreatureRuntimeRigBindingPlan['bindings'][number];
+}
+
+function addBabylonCreatureIKTargetAlias(
+  targets: Map<string, BabylonRuntimeCreatureIKPoseTarget>,
+  key: string | undefined,
+  target: BabylonRuntimeCreatureIKPoseTarget
+): void {
+  if (key && !targets.has(key)) {
+    targets.set(key, target);
+  }
+}
+
+function addBabylonCreatureIKBindingAliases(
+  targets: Map<string, BabylonRuntimeCreatureIKPoseTarget>,
+  binding: CreatureRuntimeRigBindingPlan['bindings'][number] | undefined,
+  target: BabylonRuntimeCreatureIKPoseTarget
+): void {
+  addBabylonCreatureIKTargetAlias(targets, binding?.runtimeBoneId, target);
+  addBabylonCreatureIKTargetAlias(targets, binding?.boneId, target);
+  addBabylonCreatureIKTargetAlias(targets, binding?.sourceBone, target);
+}
+
+function babylonRuntimeCreatureIKTargets(
+  meshes: AbstractMesh[],
+  skeletons: Skeleton[],
+  rigBinding: CreatureRuntimeRigBindingPlan
+): Map<string, BabylonRuntimeCreatureIKPoseTarget> {
+  const targets = new Map<string, BabylonRuntimeCreatureIKPoseTarget>();
+
+  for (const mesh of meshes) {
+    const metadata = mesh.metadata as BabylonRuntimeCreatureMeshMetadata | undefined;
+
+    addBabylonCreatureIKTargetAlias(targets, mesh.name, mesh);
+    addBabylonCreatureIKTargetAlias(targets, metadata?.strataRuntimeBone?.id, mesh);
+    addBabylonCreatureIKTargetAlias(targets, metadata?.strataRuntimeBone?.boneId, mesh);
+    addBabylonCreatureIKBindingAliases(targets, metadata?.strataRuntimeRigBoneBinding, mesh);
+  }
+
+  for (const skeleton of skeletons) {
+    for (const bone of skeleton.bones) {
+      const binding = rigBindingForPoseKey(rigBinding, bone.name);
+
+      addBabylonCreatureIKTargetAlias(targets, bone.name, bone);
+      addBabylonCreatureIKBindingAliases(targets, binding, bone);
+    }
+  }
+
+  return targets;
+}
+
+function applyBabylonCreatureIKTargetPosition(
+  target: BabylonRuntimeCreatureIKPoseTarget,
+  position: [number, number, number]
+): void {
+  if (target instanceof Bone) {
+    target.setPosition(toVector3(position), Space.LOCAL);
+    return;
+  }
+
+  target.position = toVector3(position);
+}
+
+/**
+ * Applies core creature IK pose plans to matching Babylon primitive meshes or loaded skeleton bones.
+ */
+export function applyBabylonRuntimeCreatureIKPose(
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  root: TransformNode,
+  meshes: AbstractMesh[],
+  skeletons: Skeleton[],
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  targets: CreatureRuntimeIKTargetMap = {},
+  options: CreatureRuntimeIKPosePlanOptions = {}
+): BabylonRuntimeCreatureIKPoseApplication {
+  const pose = createCreatureIKPosePlan(descriptor.ikRig, targets, options);
+  const targetMap = babylonRuntimeCreatureIKTargets(meshes, skeletons, rigBinding);
+  const applications: BabylonRuntimeCreatureIKPoseApplicationEntry[] = [];
+
+  for (const [key, transform] of Object.entries(pose.pose)) {
+    const target = targetMap.get(key);
+
+    if (!target) {
+      continue;
+    }
+
+    applyBabylonCreatureIKTargetPosition(target, transform.position);
+    applications.push({
+      key,
+      target,
+      binding: rigBindingForPoseKey(rigBinding, key),
+      position: transform.position,
+    });
+  }
+
+  root.metadata = mergeMetadata(root.metadata, {
+    strataRuntimeIKPose: pose,
+    strataRuntimeIKPoseApplications: applications.map(({ key, binding, position }) => ({
+      key,
+      binding,
+      position,
+    })),
+  });
+
+  return { pose, applications };
+}
+
 function applyRootTransform(
   root: TransformNode,
   position: [number, number, number],
@@ -1276,6 +1419,16 @@ export function instantiateBabylonRuntimeCreature(
     animationGroups: [],
     rigBinding,
     playAnimation: () => false,
+    applyIKPose: (targets, poseOptions) =>
+      applyBabylonRuntimeCreatureIKPose(
+        descriptor,
+        root,
+        meshes,
+        [],
+        rigBinding,
+        targets,
+        poseOptions
+      ),
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }
@@ -1355,6 +1508,16 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     rigBinding,
     playAnimation: (nextAnimation, loop = true) =>
       playCreatureAnimation(descriptor, animationGroups, nextAnimation, loop),
+    applyIKPose: (targets, poseOptions) =>
+      applyBabylonRuntimeCreatureIKPose(
+        descriptor,
+        root,
+        meshes,
+        skeletons,
+        rigBinding,
+        targets,
+        poseOptions
+      ),
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }

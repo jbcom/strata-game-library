@@ -161,7 +161,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `resolveCreatureComposition()` now returns a `runtime` assembly plan with serializable runtime bones, resolved world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
 - Core now exposes `createCreatureAnimationGraph()` and attaches `runtime.animationGraph` to creature assemblies, giving adapters declarative animation states, guarded transitions, and normalized locomotion blend groups without owning playback.
 - Core now exposes `createCreatureIKRigPlan()` and attaches `runtime.ikRig` to creature assemblies, turning skeleton IK chains into adapter-neutral chain plans with solver recommendations, target coverage, and total chain lengths.
-- Core now exposes `createCreatureIKPosePlan()` so adapter-neutral IK rig plans can be solved into serializable single-bone or FABRIK-style multi-bone target poses before R3F/Babylon apply them to renderer-owned bone objects.
+- Core now exposes `createCreatureIKPosePlan()` so adapter-neutral IK rig plans can be solved into serializable single-bone or FABRIK-style multi-bone target poses before R3F/Reactylon apply them to renderer-owned bone objects.
 - Creature composition now preserves optional model, rig, animation-clip, and bone-map asset bindings on `runtime.asset` for adapter-owned creature rendering.
 - `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
 - Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
@@ -206,7 +206,8 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now apply renderer-neutral prop physics effects to mesh collision/pickability flags, runtime physics metadata, and available Babylon v2/v1 physics-body seams.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, core animation graphs, IK rig plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is richer IK constraints beyond core IK planning, core IK pose solving, the new R3F target-pose application path, and authored showcase; deeper asset-bound animation examples beyond R3F clip-track retargeting, R3F graph-event/logical-action/guarded-state/weighted-blend control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine examples and backend wrappers beyond the new object-handle, Rapier, and Cannon seams; richer procedural-bake authoring workflows beyond the new encoder-request, encoder-execution, and first-party WebP/KTX2 adapter seams; and shader application beyond the current R3F/Babylon material paths.
+- Reactylon/Babylon creature instances now expose `applyIKPose()`, backed by `applyBabylonRuntimeCreatureIKPose()`, so core IK target plans can be applied to primitive creature meshes or loaded Babylon skeleton bones by runtime bone id, logical bone id, or source rig bone name.
+- Remaining work is richer IK constraints and authored visual/runtime examples beyond core IK planning, core IK pose solving, R3F target-pose application, Babylon primitive/skeleton pose application, and the authored R3F showcase; deeper asset-bound animation examples beyond R3F clip-track retargeting, R3F graph-event/logical-action/guarded-state/weighted-blend control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine examples and backend wrappers beyond the new object-handle, Rapier, and Cannon seams; richer procedural-bake authoring workflows beyond the new encoder-request, encoder-execution, and first-party WebP/KTX2 adapter seams; and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
@@ -283,8 +284,8 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - R3F prop physics authoring now also has a Cannon/cannon-es body handle via `createRuntimePropCannonPhysicsHandle()` and `attachRuntimePropCannonPhysicsHandle()`.
 - The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
-- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, asset-bound creature models, core animation graph/IK rig descriptors, and loaded animation-group playback.
-- Asset-backed Reactylon/Babylon creatures now expose loaded skeletons plus core rig binding coverage for validating logical-to-source bone maps before implementing full retargeting.
+- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, asset-bound creature models, core animation graph/IK rig descriptors, core IK pose application, and loaded animation-group playback.
+- Asset-backed Reactylon/Babylon creatures now expose loaded skeletons, core rig binding coverage, and core IK target-pose application for validating logical-to-source bone maps before implementing full retargeting.
 
 ## Workstream 6: Platform and Plugin Parity
 

@@ -8,6 +8,7 @@ import {
   PhysicsMotionType,
   Scene,
   Skeleton,
+  Space,
 } from '@babylonjs/core';
 import {
   createMaterialVariant,
@@ -18,6 +19,7 @@ import {
 import { describe, expect, it, vi } from 'vitest';
 import {
   applyBabylonPropInteractionPhysicsEffects,
+  applyBabylonRuntimeCreatureIKPose,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
@@ -374,6 +376,52 @@ describe('Reactylon runtime composition descriptors', () => {
     engine.dispose();
   });
 
+  it('applies core IK target poses to native Babylon creature meshes', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeCreature('otter_river');
+    const instance = instantiateBabylonRuntimeCreature(scene, descriptor);
+    const chain = descriptor.ikRig.ready[0];
+
+    if (!chain) {
+      throw new Error('Expected otter_river to provide at least one ready IK chain');
+    }
+
+    const base = chain.bones[0]?.position;
+
+    if (!base) {
+      throw new Error('Expected ready IK chain to include at least one bone');
+    }
+
+    const result = instance.applyIKPose({
+      [chain.id]: [base[0] + 0.01, base[1], base[2]],
+    });
+    const application = result.applications[0];
+
+    if (!application) {
+      throw new Error('Expected IK pose to apply to at least one Babylon target');
+    }
+
+    expect(result.pose.chains[0]?.chain.id).toBe(chain.id);
+    expect(application.binding?.runtimeBoneId).toBe(application.key);
+
+    if (application.target instanceof Bone) {
+      throw new Error('Expected primitive creature IK pose to target a Babylon mesh');
+    }
+
+    expect(application.target.position.asArray()).toEqual(application.position);
+    expect(instance.root.metadata.strataRuntimeIKPose).toBe(result.pose);
+    expect(instance.root.metadata.strataRuntimeIKPoseApplications[0]).toMatchObject({
+      key: application.key,
+      position: application.position,
+    });
+    expect(applyBabylonRuntimeCreatureIKPose).toBeTypeOf('function');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
   it('loads asset-backed creatures through the async Babylon asset pipeline', async () => {
     const engine = new NullEngine();
     const scene = new Scene(engine);
@@ -381,6 +429,7 @@ describe('Reactylon runtime composition descriptors', () => {
     const skeleton = new Skeleton('OtterRig', 'otter-rig', scene);
     new Bone('Spine', skeleton, null, Matrix.Identity());
     new Bone('Head', skeleton, null, Matrix.Identity());
+    const frontLeg = new Bone('LegFrontL', skeleton, null, Matrix.Identity());
     const start = vi.spyOn(animationGroup, 'start');
     const descriptor = resolveReactylonRuntimeCreature(
       resolveCreatureComposition('otter_river', {
@@ -390,6 +439,7 @@ describe('Reactylon runtime composition descriptors', () => {
           boneMap: {
             spine_mid: 'Spine',
             head: 'Head',
+            leg_front_l: 'LegFrontL',
           },
         },
       })
@@ -436,6 +486,32 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(start).toHaveBeenCalledWith(true);
     expect(instance.playAnimation('idle', false)).toBe(true);
     expect(start).toHaveBeenCalledWith(false);
+
+    const ikChain = descriptor.ikRig.ready.find((chain) => chain.targetBoneId === 'leg_front_l');
+
+    if (!ikChain) {
+      throw new Error('Expected otter_river to expose a front-left leg IK chain');
+    }
+
+    const base = ikChain.bones[0]?.position;
+
+    if (!base) {
+      throw new Error('Expected front-left leg IK chain to include a bone');
+    }
+
+    const ikPose = instance.applyIKPose({
+      [ikChain.id]: [base[0] + 0.01, base[1], base[2]],
+    });
+    const frontLegApplication = ikPose.applications.find(
+      (application) => application.binding?.boneId === 'leg_front_l'
+    );
+
+    expect(frontLegApplication?.target).toBe(frontLeg);
+
+    const frontLegPosition = frontLeg.getPosition(Space.LOCAL).asArray();
+    expect(frontLegPosition[0]).toBeCloseTo(frontLegApplication?.position[0] ?? 0);
+    expect(frontLegPosition[1]).toBeCloseTo(frontLegApplication?.position[1] ?? 0);
+    expect(frontLegPosition[2]).toBeCloseTo(frontLegApplication?.position[2] ?? 0);
 
     instance.dispose();
     scene.dispose();

@@ -4,6 +4,9 @@ export type {
   BabylonRuntimeAssetLoadingOptions,
   BabylonRuntimeAssetLoadResult,
   BabylonRuntimeCreatureAssetInstantiationOptions,
+  BabylonRuntimeCreatureIKPoseApplication,
+  BabylonRuntimeCreatureIKPoseApplicationEntry,
+  BabylonRuntimeCreatureIKPoseTarget,
   BabylonRuntimeCreatureInstance,
   BabylonRuntimeCreatureInstantiationOptions,
   BabylonRuntimeCreatureMeshFactory,
@@ -21,6 +24,7 @@ export type {
 } from './babylon.js';
 export {
   applyBabylonPropInteractionPhysicsEffects,
+  applyBabylonRuntimeCreatureIKPose,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   BabylonRuntimeProceduralMaterialPlugin,
   createBabylonRuntimeMaterial,

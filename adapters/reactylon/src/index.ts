@@ -19,6 +19,7 @@
  * - instantiateBabylonRuntimePropAsync
  * - instantiateBabylonRuntimeCreature
  * - instantiateBabylonRuntimeCreatureAsset
+ * - applyBabylonRuntimeCreatureIKPose
  * - createBabylonWaterShaderMaterial
  * - createBabylonSkyShaderMaterial
  * - createBabylonTerrainShaderMaterial
@@ -27,12 +28,16 @@
  */
 
 export {
+  applyBabylonRuntimeCreatureIKPose,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   type BabylonRuntimeAssetLoader,
   type BabylonRuntimeAssetLoaderContext,
   type BabylonRuntimeAssetLoadingOptions,
   type BabylonRuntimeAssetLoadResult,
   type BabylonRuntimeCreatureAssetInstantiationOptions,
+  type BabylonRuntimeCreatureIKPoseApplication,
+  type BabylonRuntimeCreatureIKPoseApplicationEntry,
+  type BabylonRuntimeCreatureIKPoseTarget,
   type BabylonRuntimeCreatureInstance,
   type BabylonRuntimeCreatureInstantiationOptions,
   type BabylonRuntimeCreatureMeshFactory,
