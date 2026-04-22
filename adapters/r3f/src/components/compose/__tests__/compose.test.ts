@@ -13,6 +13,7 @@ import {
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
+  createRuntimeCreatureAnimationStateController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
   createRuntimeCreaturePoseTargetMap,
@@ -54,6 +55,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.crossFadeRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.stopRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationController).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureAnimationStateController).toBeTypeOf('function');
     expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
     expect(compose.applyRuntimeCreaturePose).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
@@ -572,6 +574,27 @@ void main() {
 
     expect(controller.current).toBeUndefined();
     expect(stopRuntimeCreatureAnimationAction(idleAction)).toBe(idleAction);
+
+    const stateController = createRuntimeCreatureAnimationStateController(controller, {
+      calm: {
+        animation: 'idle',
+        playback: { loop: true },
+      },
+      leap: {
+        animation: 'leap',
+        transition: { duration: 0.4, warp: true },
+      },
+    });
+    const jumpCrossFadeFrom = vi.spyOn(jumpAction, 'crossFadeFrom');
+
+    expect(stateController.getState('calm')?.animation).toBe('idle');
+    expect(stateController.enter('calm')).toBe(idleAction);
+    expect(stateController.currentState).toBe('calm');
+    expect(stateController.enter('leap')).toBe(jumpAction);
+    expect(jumpCrossFadeFrom).toHaveBeenCalledWith(idleAction, 0.4, true);
+    expect(stateController.currentState).toBe('leap');
+    expect(stateController.enter('missing')).toBeUndefined();
+    expect(stateController.currentState).toBe('leap');
   });
 
   it('applies R3F creature poses through rig binding aliases', () => {

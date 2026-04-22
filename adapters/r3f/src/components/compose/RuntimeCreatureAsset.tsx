@@ -16,6 +16,8 @@ import type {
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
   RuntimeCreatureAnimationRetargetOptions,
+  RuntimeCreatureAnimationStateController,
+  RuntimeCreatureAnimationStateDefinition,
   RuntimeCreatureAnimationStopOptions,
   RuntimeCreaturePose,
   RuntimeCreaturePoseApplication,
@@ -364,6 +366,58 @@ export function createRuntimeCreatureAnimationController(
   };
 
   return controller;
+}
+
+/**
+ * Creates a small state controller around runtime creature animation actions.
+ */
+export function createRuntimeCreatureAnimationStateController(
+  controller: RuntimeCreatureAnimationController,
+  states: Record<string, RuntimeCreatureAnimationStateDefinition>
+): RuntimeCreatureAnimationStateController {
+  const stateController: RuntimeCreatureAnimationStateController = {
+    controller,
+    states,
+    getState: (state) => states[state],
+    enter: (state, options = {}) => {
+      const definition = states[state];
+
+      if (!definition) {
+        return undefined;
+      }
+
+      const { mode = 'auto', stopPrevious = false, previousStop, ...overrides } = options;
+      const previousAction = controller.current;
+      const transition = {
+        ...definition.playback,
+        ...definition.transition,
+        ...overrides,
+      };
+      const shouldCrossFade =
+        mode === 'crossFade' ||
+        (mode === 'auto' && Boolean(previousAction) && stateController.currentState !== state);
+      const action = shouldCrossFade
+        ? controller.crossFade(definition.animation, {
+            ...transition,
+            from: transition.from ?? previousAction,
+          })
+        : controller.play(definition.animation, transition);
+
+      if (!action) {
+        return undefined;
+      }
+
+      if (stopPrevious && previousAction && previousAction !== action) {
+        stopRuntimeCreatureAnimationAction(previousAction, previousStop);
+      }
+
+      stateController.currentState = state;
+
+      return action;
+    },
+  };
+
+  return stateController;
 }
 
 function findRuntimeCreaturePoseBinding(

@@ -138,6 +138,55 @@ export interface RuntimeCreatureAnimationController {
 }
 
 /**
+ * Transition strategy for runtime creature animation states.
+ */
+export type RuntimeCreatureAnimationStateTransitionMode = 'auto' | 'play' | 'crossFade';
+
+/**
+ * A named runtime creature animation state.
+ */
+export interface RuntimeCreatureAnimationStateDefinition {
+  /** Runtime logical animation id or source clip name entered for this state. */
+  animation: string;
+  /** Playback defaults used whenever this state is entered. */
+  playback?: RuntimeCreatureAnimationPlaybackOptions;
+  /** Cross-fade defaults used when this state transitions from another action. */
+  transition?: RuntimeCreatureAnimationCrossFadeOptions;
+}
+
+/**
+ * Per-transition overrides for runtime creature animation states.
+ */
+export interface RuntimeCreatureAnimationStateEnterOptions
+  extends RuntimeCreatureAnimationCrossFadeOptions {
+  /** Forces play or cross-fade behavior. Default: auto. */
+  mode?: RuntimeCreatureAnimationStateTransitionMode;
+  /** Stops the previous action after the new action starts. Default: false. */
+  stopPrevious?: boolean;
+  /** Stop options used when `stopPrevious` is enabled. */
+  previousStop?: RuntimeCreatureAnimationStopOptions;
+}
+
+/**
+ * Imperative state controller for logical runtime creature animation states.
+ */
+export interface RuntimeCreatureAnimationStateController {
+  /** Underlying runtime creature animation action controller. */
+  controller: RuntimeCreatureAnimationController;
+  /** Available named states. */
+  states: Record<string, RuntimeCreatureAnimationStateDefinition>;
+  /** Last state successfully entered through this controller. */
+  currentState?: string;
+  /** Returns a named state definition. */
+  getState: (state: string) => RuntimeCreatureAnimationStateDefinition | undefined;
+  /** Enters a named animation state and starts the mapped action. */
+  enter: (
+    state: string,
+    options?: RuntimeCreatureAnimationStateEnterOptions
+  ) => THREE.AnimationAction | undefined;
+}
+
+/**
  * Vector-like pose value accepted by runtime creature pose helpers.
  */
 export type RuntimeCreaturePoseVector = [number, number, number] | THREE.Vector3;
