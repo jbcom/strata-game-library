@@ -193,6 +193,12 @@ export interface MaterialProceduralBakeEncodedImage {
   data: Uint8Array;
 }
 
+export interface MaterialProceduralBakeArtifacts {
+  plan: MaterialProceduralBakePlan;
+  raster: MaterialProceduralBakeRaster;
+  png: MaterialProceduralBakeEncodedImage[];
+}
+
 export interface MaterialProceduralPlanOptions {
   traits?: MaterialTrait[];
   inferTraits?: boolean;

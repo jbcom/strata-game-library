@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createCreatureRigBindingPlan,
+  createMaterialProceduralBakeArtifacts,
   createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
   createMaterialVariant,
@@ -150,6 +151,15 @@ describe('runtime composition assembly', () => {
     expect(Array.from(encodeMaterialProceduralBakeRasterPng(raster)[0]?.data ?? [])).toEqual(
       Array.from(encoded[0]?.data ?? [])
     );
+
+    const artifacts = createMaterialProceduralBakeArtifacts(scratched, {
+      textureSize: [4, 4],
+      channels: ['roughness'],
+    });
+
+    expect(artifacts.plan.targets).toHaveLength(1);
+    expect(artifacts.raster.images[0]?.data).toHaveLength(4 * 4 * 4);
+    expect(artifacts.png[0]?.mimeType).toBe('image/png');
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

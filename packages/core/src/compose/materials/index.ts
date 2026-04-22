@@ -21,6 +21,7 @@ import type {
   MaterialDefinition,
   MaterialPhysics,
   MaterialProceduralAlgorithm,
+  MaterialProceduralBakeArtifacts,
   MaterialProceduralBakeColorSpace,
   MaterialProceduralBakeEncodedImage,
   MaterialProceduralBakeMap,
@@ -1063,6 +1064,23 @@ export function encodeMaterialProceduralBakeRasterPng(
     mimeType: 'image/png',
     data: encodeMaterialProceduralBakeImagePng(image),
   }));
+}
+
+/**
+ * Creates a complete procedural bake artifact bundle for offline or worker pipelines.
+ */
+export function createMaterialProceduralBakeArtifacts(
+  material: string | MaterialDefinition,
+  options: MaterialProceduralBakePlanOptions = {}
+): MaterialProceduralBakeArtifacts {
+  const plan = createMaterialProceduralBakePlan(material, options);
+  const raster = rasterizeMaterialProceduralBakePlan(plan);
+
+  return {
+    plan,
+    raster,
+    png: encodeMaterialProceduralBakeRasterPng(raster),
+  };
 }
 
 export function resolveMaterialDefinition(

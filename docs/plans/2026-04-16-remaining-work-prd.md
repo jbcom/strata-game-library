@@ -171,6 +171,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `createMaterialProceduralBakePlan()` now converts those procedural layers into deterministic bake targets and manifest metadata for diffuse, roughness, metalness, normal, opacity, and emissive texture maps.
 - `rasterizeMaterialProceduralBakePlan()` now turns procedural bake targets into deterministic pure RGBA byte buffers for adapter or worker-side texture encoding.
 - `encodeMaterialProceduralBakeImagePng()` and `encodeMaterialProceduralBakeRasterPng()` now provide dependency-free PNG byte export for those procedural bake rasters.
+- `createMaterialProceduralBakeArtifacts()` now wraps the material bake plan, RGBA rasters, and PNG outputs into one artifact bundle for offline or worker pipelines.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
