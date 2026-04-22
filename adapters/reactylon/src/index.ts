@@ -19,6 +19,7 @@
  * - instantiateBabylonRuntimePropAsync
  * - instantiateBabylonRuntimeCreature
  * - instantiateBabylonRuntimeCreatureAsset
+ * - createBabylonRuntimeCreatureAnimationGraphController
  * - applyBabylonRuntimeCreatureIKPose
  * - createBabylonWaterShaderMaterial
  * - createBabylonSkyShaderMaterial
@@ -34,6 +35,13 @@ export {
   type BabylonRuntimeAssetLoaderContext,
   type BabylonRuntimeAssetLoadingOptions,
   type BabylonRuntimeAssetLoadResult,
+  type BabylonRuntimeCreatureAnimationGraphController,
+  type BabylonRuntimeCreatureAnimationGraphControllerOptions,
+  type BabylonRuntimeCreatureAnimationGraphStateContext,
+  type BabylonRuntimeCreatureAnimationGraphStateGuard,
+  type BabylonRuntimeCreatureAnimationGraphTransitionContext,
+  type BabylonRuntimeCreatureAnimationGraphTransitionGuard,
+  type BabylonRuntimeCreatureAnimationPlaybackOptions,
   type BabylonRuntimeCreatureAssetInstantiationOptions,
   type BabylonRuntimeCreatureIKPoseApplication,
   type BabylonRuntimeCreatureIKPoseApplicationEntry,
@@ -50,6 +58,7 @@ export {
   type BabylonRuntimePropInstance,
   type BabylonRuntimePropInstantiationOptions,
   type BabylonRuntimePropMeshFactory,
+  createBabylonRuntimeCreatureAnimationGraphController,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
   enableBabylonRuntimeProceduralMaterial,

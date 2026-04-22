@@ -21,6 +21,7 @@ import {
   applyBabylonPropInteractionPhysicsEffects,
   applyBabylonRuntimeCreatureIKPose,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
+  createBabylonRuntimeCreatureAnimationGraphController,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
   getBabylonRuntimeProceduralMaterialPlugin,
@@ -426,16 +427,18 @@ describe('Reactylon runtime composition descriptors', () => {
     const engine = new NullEngine();
     const scene = new Scene(engine);
     const animationGroup = new AnimationGroup('Idle', scene);
+    const walkGroup = new AnimationGroup('Walk', scene);
     const skeleton = new Skeleton('OtterRig', 'otter-rig', scene);
     new Bone('Spine', skeleton, null, Matrix.Identity());
     new Bone('Head', skeleton, null, Matrix.Identity());
     const frontLeg = new Bone('LegFrontL', skeleton, null, Matrix.Identity());
     const start = vi.spyOn(animationGroup, 'start');
+    const walkStart = vi.spyOn(walkGroup, 'start');
     const descriptor = resolveReactylonRuntimeCreature(
       resolveCreatureComposition('otter_river', {
         assets: {
           model: '/models/otter.glb',
-          animationClips: { idle: 'Idle' },
+          animationClips: { idle: 'Idle', walk: 'Walk' },
           boneMap: {
             spine_mid: 'Spine',
             head: 'Head',
@@ -451,7 +454,7 @@ describe('Reactylon runtime composition descriptors', () => {
         expect(context.kind).toBe('creature-asset');
         return {
           meshes: [MeshBuilder.CreateBox('loaded:otter', { size: 1 }, context.scene)],
-          animationGroups: [animationGroup],
+          animationGroups: [animationGroup, walkGroup],
           skeletons: [skeleton],
         };
       },
@@ -468,7 +471,7 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(loaded?.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);
     expect(instance.root.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);
     expect(instance.skeletons).toEqual([skeleton]);
-    expect(instance.animationGroups).toEqual([animationGroup]);
+    expect(instance.animationGroups).toEqual([animationGroup, walkGroup]);
     expect(
       instance.rigBinding.bindings.find((binding) => binding.boneId === 'spine_mid')
     ).toMatchObject({
@@ -486,6 +489,19 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(start).toHaveBeenCalledWith(true);
     expect(instance.playAnimation('idle', false)).toBe(true);
     expect(start).toHaveBeenCalledWith(false);
+
+    const graphController = instance.createAnimationGraphController({
+      guards: {
+        canMove: () => true,
+      },
+    });
+
+    expect(createBabylonRuntimeCreatureAnimationGraphController).toBeTypeOf('function');
+    expect(graphController.enter('idle')).toBe(animationGroup);
+    expect(graphController.currentState).toBe('idle');
+    expect(graphController.trigger('move')).toBe(walkGroup);
+    expect(graphController.currentState).toBe('walk');
+    expect(walkStart).toHaveBeenCalledWith(true, 1, undefined, undefined);
 
     const ikChain = descriptor.ikRig.ready.find((chain) => chain.targetBoneId === 'leg_front_l');
 

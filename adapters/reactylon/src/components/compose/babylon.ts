@@ -19,6 +19,9 @@ import {
   Vector3,
 } from '@babylonjs/core';
 import {
+  type CreatureRuntimeAnimationGraph,
+  type CreatureRuntimeAnimationGraphState,
+  type CreatureRuntimeAnimationGraphTransition,
   type CreatureRuntimeIKPosePlan,
   type CreatureRuntimeIKPosePlanOptions,
   type CreatureRuntimeIKTargetMap,
@@ -183,6 +186,9 @@ export interface BabylonRuntimeCreatureInstance {
   animationGroups: AnimationGroup[];
   rigBinding: CreatureRuntimeRigBindingPlan;
   playAnimation(animation: string, loop?: boolean): boolean;
+  createAnimationGraphController(
+    options?: BabylonRuntimeCreatureAnimationGraphControllerOptions
+  ): BabylonRuntimeCreatureAnimationGraphController;
   applyIKPose(
     targets: CreatureRuntimeIKTargetMap,
     options?: CreatureRuntimeIKPosePlanOptions
@@ -202,6 +208,63 @@ export interface BabylonRuntimeCreatureIKPoseApplicationEntry {
 export interface BabylonRuntimeCreatureIKPoseApplication {
   pose: CreatureRuntimeIKPosePlan;
   applications: BabylonRuntimeCreatureIKPoseApplicationEntry[];
+}
+
+export interface BabylonRuntimeCreatureAnimationPlaybackOptions {
+  loop?: boolean;
+  speedRatio?: number;
+  from?: number;
+  to?: number;
+  reset?: boolean;
+  stopPrevious?: boolean;
+}
+
+export interface BabylonRuntimeCreatureAnimationGraphStateContext {
+  descriptor: ReactylonRuntimeCreatureDescriptor;
+  graph: CreatureRuntimeAnimationGraph;
+  state: CreatureRuntimeAnimationGraphState;
+  currentState?: string;
+  controller: BabylonRuntimeCreatureAnimationGraphController;
+}
+
+export type BabylonRuntimeCreatureAnimationGraphStateGuard = (
+  context: BabylonRuntimeCreatureAnimationGraphStateContext
+) => boolean;
+
+export interface BabylonRuntimeCreatureAnimationGraphTransitionContext
+  extends BabylonRuntimeCreatureAnimationGraphStateContext {
+  transition: CreatureRuntimeAnimationGraphTransition;
+}
+
+export type BabylonRuntimeCreatureAnimationGraphTransitionGuard = (
+  context: BabylonRuntimeCreatureAnimationGraphTransitionContext
+) => boolean;
+
+export interface BabylonRuntimeCreatureAnimationGraphControllerOptions {
+  guards?: Record<string, BabylonRuntimeCreatureAnimationGraphTransitionGuard>;
+  stateGuards?: Record<string, BabylonRuntimeCreatureAnimationGraphStateGuard>;
+}
+
+export interface BabylonRuntimeCreatureAnimationGraphController {
+  descriptor: ReactylonRuntimeCreatureDescriptor;
+  graph: CreatureRuntimeAnimationGraph;
+  animationGroups: AnimationGroup[];
+  initialState: string;
+  currentState?: string;
+  currentGroup?: AnimationGroup;
+  resolveClipName(animation: string): string;
+  getGroup(animation: string): AnimationGroup | undefined;
+  getAvailableTransitions(event?: string): CreatureRuntimeAnimationGraphTransition[];
+  canTrigger(event: string): boolean;
+  trigger(
+    event: string,
+    options?: BabylonRuntimeCreatureAnimationPlaybackOptions
+  ): AnimationGroup | undefined;
+  enter(
+    state: string,
+    options?: BabylonRuntimeCreatureAnimationPlaybackOptions
+  ): AnimationGroup | undefined;
+  stopCurrent(): void;
 }
 
 function toVector3([x, y, z]: [number, number, number]): Vector3 {
@@ -994,6 +1057,171 @@ function playCreatureAnimation(
   return true;
 }
 
+function sortBabylonRuntimeCreatureGraphTransitions(
+  transitions: CreatureRuntimeAnimationGraphTransition[]
+): CreatureRuntimeAnimationGraphTransition[] {
+  return [...transitions].sort(
+    (left, right) => right.priority - left.priority || left.id.localeCompare(right.id)
+  );
+}
+
+function babylonRuntimeCreatureAnimationGraphState(
+  graph: CreatureRuntimeAnimationGraph,
+  state: string
+): CreatureRuntimeAnimationGraphState | undefined {
+  return graph.states.find((candidate) => candidate.id === state);
+}
+
+function playBabylonRuntimeCreatureAnimationGroup(
+  group: AnimationGroup,
+  state: CreatureRuntimeAnimationGraphState,
+  options: BabylonRuntimeCreatureAnimationPlaybackOptions = {}
+): AnimationGroup {
+  const speedRatio = options.speedRatio ?? state.speedScale;
+
+  if (options.reset !== false) {
+    group.reset();
+  }
+
+  group.start(options.loop ?? state.loop, speedRatio, options.from, options.to);
+  return group;
+}
+
+/**
+ * Creates a Babylon animation graph controller from a core creature animation graph.
+ */
+export function createBabylonRuntimeCreatureAnimationGraphController(
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  animationGroups: AnimationGroup[],
+  graph: CreatureRuntimeAnimationGraph = descriptor.animationGraph,
+  options: BabylonRuntimeCreatureAnimationGraphControllerOptions = {}
+): BabylonRuntimeCreatureAnimationGraphController {
+  const controller: BabylonRuntimeCreatureAnimationGraphController = {
+    descriptor,
+    graph,
+    animationGroups,
+    initialState: graph.initialState,
+    resolveClipName: (animation) => resolveCreatureAnimationName(descriptor, animation),
+    getGroup: (animation) => {
+      const clipName = controller.resolveClipName(animation);
+
+      return animationGroups.find(
+        (candidate) => candidate.name === clipName || candidate.name === animation
+      );
+    },
+    getAvailableTransitions: (event) => {
+      const currentState = controller.currentState ?? graph.initialState;
+
+      return sortBabylonRuntimeCreatureGraphTransitions(
+        graph.transitions.filter(
+          (transition) =>
+            transition.from === currentState && (event === undefined || transition.event === event)
+        )
+      );
+    },
+    canTrigger: (event) =>
+      controller.getAvailableTransitions(event).some((transition) => {
+        const state = babylonRuntimeCreatureAnimationGraphState(graph, transition.to);
+
+        return state
+          ? canRunBabylonRuntimeCreatureGraphTransition(controller, state, transition)
+          : false;
+      }),
+    trigger: (event, playbackOptions = {}) => {
+      for (const transition of controller.getAvailableTransitions(event)) {
+        const state = babylonRuntimeCreatureAnimationGraphState(graph, transition.to);
+
+        if (!state || !canRunBabylonRuntimeCreatureGraphTransition(controller, state, transition)) {
+          continue;
+        }
+
+        const group = controller.enter(transition.to, playbackOptions);
+
+        if (group) {
+          return group;
+        }
+      }
+
+      return undefined;
+    },
+    enter: (stateId, playbackOptions = {}) => {
+      const state = babylonRuntimeCreatureAnimationGraphState(graph, stateId);
+
+      if (!state || !canEnterBabylonRuntimeCreatureGraphState(controller, state)) {
+        return undefined;
+      }
+
+      const group = controller.getGroup(state.animation);
+
+      if (!group) {
+        return undefined;
+      }
+
+      if (playbackOptions.stopPrevious !== false && controller.currentGroup !== group) {
+        controller.currentGroup?.stop();
+      }
+
+      controller.currentState = state.id;
+      controller.currentGroup = playBabylonRuntimeCreatureAnimationGroup(
+        group,
+        state,
+        playbackOptions
+      );
+
+      return controller.currentGroup;
+    },
+    stopCurrent: () => {
+      controller.currentGroup?.stop();
+      controller.currentGroup = undefined;
+    },
+  };
+
+  function canEnterBabylonRuntimeCreatureGraphState(
+    graphController: BabylonRuntimeCreatureAnimationGraphController,
+    state: CreatureRuntimeAnimationGraphState
+  ): boolean {
+    const guard = options.stateGuards?.[state.id];
+
+    return (
+      guard?.({
+        descriptor,
+        graph,
+        state,
+        currentState: graphController.currentState,
+        controller: graphController,
+      }) ?? true
+    );
+  }
+
+  function canRunBabylonRuntimeCreatureGraphTransition(
+    graphController: BabylonRuntimeCreatureAnimationGraphController,
+    state: CreatureRuntimeAnimationGraphState,
+    transition: CreatureRuntimeAnimationGraphTransition
+  ): boolean {
+    const guard = transition.guard ? options.guards?.[transition.guard] : undefined;
+
+    if (
+      !graphController.getGroup(state.animation) ||
+      !canEnterBabylonRuntimeCreatureGraphState(graphController, state)
+    ) {
+      return false;
+    }
+
+    return (
+      guard?.({
+        descriptor,
+        graph,
+        state,
+        transition,
+        currentState: graphController.currentState ?? graph.initialState,
+        controller: graphController,
+      }) ?? true
+    );
+  }
+
+  return controller;
+}
+
 function sourceBoneNamesFromSkeletons(skeletons: Skeleton[]): string[] {
   const names = new Set<string>();
 
@@ -1419,6 +1647,13 @@ export function instantiateBabylonRuntimeCreature(
     animationGroups: [],
     rigBinding,
     playAnimation: () => false,
+    createAnimationGraphController: (controllerOptions) =>
+      createBabylonRuntimeCreatureAnimationGraphController(
+        descriptor,
+        [],
+        undefined,
+        controllerOptions
+      ),
     applyIKPose: (targets, poseOptions) =>
       applyBabylonRuntimeCreatureIKPose(
         descriptor,
@@ -1508,6 +1743,13 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     rigBinding,
     playAnimation: (nextAnimation, loop = true) =>
       playCreatureAnimation(descriptor, animationGroups, nextAnimation, loop),
+    createAnimationGraphController: (controllerOptions) =>
+      createBabylonRuntimeCreatureAnimationGraphController(
+        descriptor,
+        animationGroups,
+        undefined,
+        controllerOptions
+      ),
     applyIKPose: (targets, poseOptions) =>
       applyBabylonRuntimeCreatureIKPose(
         descriptor,
