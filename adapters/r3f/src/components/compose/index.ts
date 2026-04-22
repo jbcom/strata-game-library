@@ -12,6 +12,8 @@ export {
 export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
 export {
   applyRuntimePropInteractionPhysicsEffects,
+  attachRuntimePropPhysicsHandle,
+  createRuntimePropObjectPhysicsAdapter,
   getDefaultRuntimePropInteractionAction,
   RuntimeProp,
   RuntimePropInteractionPanel,
@@ -34,11 +36,14 @@ export type {
   RuntimePropInteractionPanelProps,
   RuntimePropInteractionPanelResultContext,
   RuntimePropInteractionSelector,
+  RuntimePropObjectPhysicsAdapterOptions,
   RuntimePropPhysicsAdapter,
   RuntimePropPhysicsAdapterContext,
   RuntimePropPhysicsApplication,
   RuntimePropPhysicsApplicationOptions,
   RuntimePropPhysicsEffect,
+  RuntimePropPhysicsHandle,
+  RuntimePropPhysicsHandleAttachOptions,
   RuntimePropPhysicsObjectState,
   RuntimePropProps,
   RuntimeShapeRenderContext,

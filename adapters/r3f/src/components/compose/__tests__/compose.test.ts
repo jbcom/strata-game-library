@@ -18,6 +18,8 @@ import {
 import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
   applyRuntimePropInteractionPhysicsEffects,
+  attachRuntimePropPhysicsHandle,
+  createRuntimePropObjectPhysicsAdapter,
   getDefaultRuntimePropInteractionAction,
   RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
@@ -39,6 +41,8 @@ describe('R3F runtime composition components', () => {
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
+    expect(compose.attachRuntimePropPhysicsHandle).toBeTypeOf('function');
+    expect(compose.createRuntimePropObjectPhysicsAdapter).toBeTypeOf('function');
     expect(compose.RuntimePropInteractionPanel).toBeTypeOf('function');
     expect(compose.useRuntimePropInteractionController).toBeTypeOf('function');
   });
@@ -208,6 +212,56 @@ void main() {
         effect: expect.objectContaining({ operation: 'set-mode', mode: 'kinematic' }),
       })
     );
+  });
+
+  it('applies R3F prop physics effects through object physics handles', () => {
+    const prop = resolvePropComposition({
+      id: 'key_garden',
+      name: 'Garden Key',
+      components: [
+        {
+          shape: 'box',
+          size: [0.1, 0.02, 0.24],
+          position: [0, 0, 0],
+          material: 'metal_iron',
+        },
+      ],
+      interaction: { type: 'collectible', contents: ['garden-key'] },
+    });
+    const node = prop.runtime.nodes[0];
+
+    if (!node) {
+      throw new Error('Expected key_garden to resolve at least one runtime node');
+    }
+
+    const root = new THREE.Group();
+    const mesh = new THREE.Mesh();
+    const setColliderEnabled = vi.fn();
+    const wakeBody = vi.fn();
+
+    mesh.userData.runtimeNode = node;
+    attachRuntimePropPhysicsHandle(mesh, { setColliderEnabled, wakeBody });
+    root.add(mesh);
+
+    const result = executePropInteractionAction(prop.runtime, 'key_garden:interaction:collectible');
+    const applications = applyRuntimePropInteractionPhysicsEffects(root, prop.runtime, result, {
+      adapter: createRuntimePropObjectPhysicsAdapter(),
+    });
+
+    expect(applications).toHaveLength(1);
+    expect(mesh.userData.strataRuntimePhysicsState).toMatchObject({
+      colliderEnabled: false,
+      lastOperation: 'disable-collider',
+    });
+    expect(setColliderEnabled).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({
+        object: mesh,
+        node,
+        effect: expect.objectContaining({ operation: 'disable-collider' }),
+      })
+    );
+    expect(wakeBody).not.toHaveBeenCalled();
   });
 
   it('manages R3F runtime prop interaction state with a hook', () => {

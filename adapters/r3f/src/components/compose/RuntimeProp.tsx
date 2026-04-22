@@ -25,9 +25,14 @@ import type {
   RuntimePropInteractionPanelContext,
   RuntimePropInteractionPanelProps,
   RuntimePropInteractionPanelResultContext,
+  RuntimePropObjectPhysicsAdapterOptions,
+  RuntimePropPhysicsAdapter,
+  RuntimePropPhysicsAdapterContext,
   RuntimePropPhysicsApplication,
   RuntimePropPhysicsApplicationOptions,
   RuntimePropPhysicsEffect,
+  RuntimePropPhysicsHandle,
+  RuntimePropPhysicsHandleAttachOptions,
   RuntimePropPhysicsObjectState,
   RuntimePropProps,
 } from './types';
@@ -95,6 +100,7 @@ export function getDefaultRuntimePropInteractionAction(
 interface RuntimePropObjectUserData {
   runtimeNode?: PropRuntimeNode;
   strataRuntimeNode?: PropRuntimeNode;
+  strataRuntimePhysicsHandle?: RuntimePropPhysicsHandle;
   strataRuntimePhysicsState?: RuntimePropPhysicsObjectState;
 }
 
@@ -126,6 +132,58 @@ function isRuntimePropPhysicsEffect(
   effect: PropRuntimeInteractionResult['effects'][number]
 ): effect is RuntimePropPhysicsEffect {
   return effect.type === 'physics';
+}
+
+function getRuntimePropPhysicsHandle(
+  context: RuntimePropPhysicsAdapterContext,
+  options: RuntimePropObjectPhysicsAdapterOptions
+): RuntimePropPhysicsHandle | undefined {
+  if (options.resolveHandle) {
+    return options.resolveHandle(context) ?? undefined;
+  }
+
+  const handleKey = options.handleKey ?? 'strataRuntimePhysicsHandle';
+  const userData = context.object.userData as RuntimePropObjectUserData &
+    Record<string, RuntimePropPhysicsHandle | undefined>;
+
+  return userData[handleKey];
+}
+
+/**
+ * Attaches an engine-owned physics handle to a runtime prop object.
+ */
+export function attachRuntimePropPhysicsHandle<TObject extends THREE.Object3D>(
+  object: TObject,
+  handle: RuntimePropPhysicsHandle,
+  options: RuntimePropPhysicsHandleAttachOptions = {}
+): TObject {
+  const handleKey = options.handleKey ?? 'strataRuntimePhysicsHandle';
+
+  object.userData = {
+    ...object.userData,
+    [handleKey]: handle,
+  };
+
+  return object;
+}
+
+/**
+ * Creates a prop physics adapter that delegates to handles stored on object `userData`.
+ */
+export function createRuntimePropObjectPhysicsAdapter(
+  options: RuntimePropObjectPhysicsAdapterOptions = {}
+): RuntimePropPhysicsAdapter {
+  return {
+    setMode: (context) => {
+      getRuntimePropPhysicsHandle(context, options)?.setMode?.(context.effect.mode, context);
+    },
+    setColliderEnabled: (enabled, context) => {
+      getRuntimePropPhysicsHandle(context, options)?.setColliderEnabled?.(enabled, context);
+    },
+    wakeBody: (context) => {
+      getRuntimePropPhysicsHandle(context, options)?.wakeBody?.(context);
+    },
+  };
 }
 
 function nextRuntimePropPhysicsState(

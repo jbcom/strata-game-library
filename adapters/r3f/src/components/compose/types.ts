@@ -104,6 +104,41 @@ export interface RuntimePropPhysicsAdapter {
   wakeBody?: (context: RuntimePropPhysicsAdapterContext) => void;
 }
 
+/**
+ * Engine-owned physics handle that can be attached to runtime prop objects.
+ */
+export interface RuntimePropPhysicsHandle {
+  /** Applies a static, dynamic, or kinematic body mode. */
+  setMode?: (
+    mode: RuntimePhysicsProfile['mode'],
+    context: RuntimePropPhysicsAdapterContext
+  ) => void;
+  /** Enables or disables the object's collider shape. */
+  setColliderEnabled?: (enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void;
+  /** Wakes the engine body if the backend supports sleeping. */
+  wakeBody?: (context: RuntimePropPhysicsAdapterContext) => void;
+}
+
+/**
+ * Options for attaching a physics handle to a Three object.
+ */
+export interface RuntimePropPhysicsHandleAttachOptions {
+  /** Object userData key. Default: `strataRuntimePhysicsHandle`. */
+  handleKey?: string;
+}
+
+/**
+ * Options for creating an object-userData-backed prop physics adapter.
+ */
+export interface RuntimePropObjectPhysicsAdapterOptions {
+  /** Object userData key used to find handles. Default: `strataRuntimePhysicsHandle`. */
+  handleKey?: string;
+  /** Optional custom resolver for engine-owned physics handles. */
+  resolveHandle?: (
+    context: RuntimePropPhysicsAdapterContext
+  ) => RuntimePropPhysicsHandle | null | undefined;
+}
+
 export interface RuntimePropPhysicsApplicationOptions {
   adapter?: RuntimePropPhysicsAdapter;
 }
