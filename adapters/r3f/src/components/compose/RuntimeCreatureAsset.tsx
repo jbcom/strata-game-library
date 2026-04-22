@@ -379,10 +379,31 @@ export function createRuntimeCreatureAnimationStateController(
     controller,
     states,
     getState: (state) => states[state],
+    canEnter: (state) => {
+      const definition = states[state];
+
+      if (!definition) {
+        return false;
+      }
+
+      return (
+        definition.guard?.({
+          currentState: stateController.currentState,
+          nextState: state,
+          definition,
+          controller,
+          stateController,
+        }) ?? true
+      );
+    },
     enter: (state, options = {}) => {
       const definition = states[state];
 
       if (!definition) {
+        return undefined;
+      }
+
+      if (!stateController.canEnter(state)) {
         return undefined;
       }
 

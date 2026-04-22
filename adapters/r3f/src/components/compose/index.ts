@@ -42,6 +42,8 @@ export type {
   RuntimeCreatureAnimationStateController,
   RuntimeCreatureAnimationStateDefinition,
   RuntimeCreatureAnimationStateEnterOptions,
+  RuntimeCreatureAnimationStateGuard,
+  RuntimeCreatureAnimationStateGuardContext,
   RuntimeCreatureAnimationStateTransitionMode,
   RuntimeCreatureAnimationStopOptions,
   RuntimeCreatureAssetMode,

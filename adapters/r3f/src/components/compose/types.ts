@@ -143,11 +143,36 @@ export interface RuntimeCreatureAnimationController {
 export type RuntimeCreatureAnimationStateTransitionMode = 'auto' | 'play' | 'crossFade';
 
 /**
+ * Context passed to runtime creature animation state guards.
+ */
+export interface RuntimeCreatureAnimationStateGuardContext {
+  /** State currently active on the state controller. */
+  currentState?: string;
+  /** State being entered. */
+  nextState: string;
+  /** Definition for the state being entered. */
+  definition: RuntimeCreatureAnimationStateDefinition;
+  /** Underlying runtime creature animation action controller. */
+  controller: RuntimeCreatureAnimationController;
+  /** State controller evaluating the guard. */
+  stateController: RuntimeCreatureAnimationStateController;
+}
+
+/**
+ * Guard used to allow or block a named animation state transition.
+ */
+export type RuntimeCreatureAnimationStateGuard = (
+  context: RuntimeCreatureAnimationStateGuardContext
+) => boolean;
+
+/**
  * A named runtime creature animation state.
  */
 export interface RuntimeCreatureAnimationStateDefinition {
   /** Runtime logical animation id or source clip name entered for this state. */
   animation: string;
+  /** Optional guard that must pass before this state can be entered. */
+  guard?: RuntimeCreatureAnimationStateGuard;
   /** Playback defaults used whenever this state is entered. */
   playback?: RuntimeCreatureAnimationPlaybackOptions;
   /** Cross-fade defaults used when this state transitions from another action. */
@@ -179,6 +204,8 @@ export interface RuntimeCreatureAnimationStateController {
   currentState?: string;
   /** Returns a named state definition. */
   getState: (state: string) => RuntimeCreatureAnimationStateDefinition | undefined;
+  /** Returns whether a named state exists and passes its guard. */
+  canEnter: (state: string) => boolean;
   /** Enters a named animation state and starts the mapped action. */
   enter: (
     state: string,

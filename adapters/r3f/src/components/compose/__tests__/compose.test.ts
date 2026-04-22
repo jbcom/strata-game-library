@@ -595,6 +595,23 @@ void main() {
     expect(stateController.currentState).toBe('leap');
     expect(stateController.enter('missing')).toBeUndefined();
     expect(stateController.currentState).toBe('leap');
+
+    const guardedController = createRuntimeCreatureAnimationController(creature.runtime, actions);
+    const guardedStates = createRuntimeCreatureAnimationStateController(guardedController, {
+      calm: { animation: 'idle' },
+      lockedLeap: {
+        animation: 'leap',
+        guard: ({ currentState, nextState, definition }) =>
+          currentState === 'calm' && nextState === 'lockedLeap' && definition.animation === 'leap',
+      },
+    });
+
+    expect(guardedStates.canEnter('missing')).toBe(false);
+    expect(guardedStates.canEnter('lockedLeap')).toBe(false);
+    expect(guardedStates.enter('lockedLeap')).toBeUndefined();
+    expect(guardedStates.enter('calm')).toBe(idleAction);
+    expect(guardedStates.canEnter('lockedLeap')).toBe(true);
+    expect(guardedStates.enter('lockedLeap', { mode: 'play' })).toBe(jumpAction);
   });
 
   it('applies R3F creature poses through rig binding aliases', () => {
