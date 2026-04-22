@@ -266,6 +266,65 @@ export interface MaterialProceduralBakeExportExecutionOptions {
   >;
 }
 
+export interface MaterialProceduralBakeImageDataLike {
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+}
+
+export interface MaterialProceduralBakeCanvas2DContextLike {
+  createImageData?: (width: number, height: number) => MaterialProceduralBakeImageDataLike;
+  putImageData: (imageData: MaterialProceduralBakeImageDataLike, dx: number, dy: number) => void;
+}
+
+export interface MaterialProceduralBakeCanvasLike {
+  width: number;
+  height: number;
+  getContext: (contextId: '2d') => MaterialProceduralBakeCanvas2DContextLike | null;
+  toDataURL: (type?: string, quality?: number) => string;
+}
+
+export interface MaterialProceduralBakeBrowserImageEncoderOptions {
+  canvasFactory?: (width: number, height: number) => MaterialProceduralBakeCanvasLike;
+  mimeType?: Extract<MaterialProceduralBakeExportMimeType, 'image/png' | 'image/webp'>;
+  quality?: number;
+}
+
+export interface MaterialProceduralBakeBasisUniversalEncoder {
+  setCreateKTX2File?: (enabled: boolean) => void;
+  setKTX2SRGBTransferFunc?: (enabled: boolean) => void;
+  setKTX2UASTCSupercompression?: (enabled: boolean) => void;
+  setKTX2UASTCQualityLevel?: (qualityLevel: number) => void;
+  setUASTC?: (enabled: boolean) => void;
+  setQualityLevel?: (qualityLevel: number) => void;
+  setCompressionLevel?: (compressionLevel: number) => void;
+  setMipGen?: (enabled: boolean) => void;
+  setPerceptual?: (enabled: boolean) => void;
+  setSliceSourceImage: (
+    sliceIndex: number,
+    image: Uint8Array,
+    width: number,
+    height: number,
+    imageIsYFlipped?: boolean
+  ) => boolean | void;
+  encode: (output: Uint8Array) => number;
+  delete?: () => void;
+}
+
+export interface MaterialProceduralBakeBasisUniversalKtx2EncoderOptions {
+  createEncoder: () => MaterialProceduralBakeBasisUniversalEncoder;
+  outputByteLength?: number | ((request: MaterialProceduralBakeExportRequest) => number);
+  uastc?: boolean;
+  supercompression?: boolean;
+  srgb?: boolean;
+  perceptual?: boolean;
+  qualityLevel?: number;
+  uastcQualityLevel?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
+  imageIsYFlipped?: boolean;
+}
+
 export interface MaterialProceduralBakeArtifacts {
   plan: MaterialProceduralBakePlan;
   raster: MaterialProceduralBakeRaster;

@@ -4,6 +4,8 @@ import {
   createCreatureIKRigPlan,
   createCreatureRigBindingPlan,
   createMaterialProceduralBakeArtifacts,
+  createMaterialProceduralBakeBasisUniversalKtx2Encoder,
+  createMaterialProceduralBakeBrowserImageEncoder,
   createMaterialProceduralBakeExportPlan,
   createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
@@ -209,6 +211,46 @@ describe('runtime composition assembly', () => {
     });
     expect(Array.from(encodedWebpExports[0]?.data ?? [])).toEqual([8, 4, 82]);
 
+    let browserCanvasMimeType = '';
+    let browserCanvasQuality = 0;
+    let browserCanvasFirstPixel: number[] = [];
+    const browserImageEncoder = createMaterialProceduralBakeBrowserImageEncoder({
+      canvasFactory: (width, height) => ({
+        width,
+        height,
+        getContext: () => ({
+          createImageData: (imageWidth, imageHeight) => ({
+            width: imageWidth,
+            height: imageHeight,
+            data: new Uint8ClampedArray(imageWidth * imageHeight * 4),
+          }),
+          putImageData: (imageData) => {
+            if (browserCanvasFirstPixel.length === 0) {
+              browserCanvasFirstPixel = Array.from(imageData.data.slice(0, 4));
+            }
+          },
+        }),
+        toDataURL: (mimeType, quality) => {
+          browserCanvasMimeType = mimeType ?? '';
+          browserCanvasQuality = quality ?? 0;
+
+          return `data:${mimeType};base64,AQIDBA==`;
+        },
+      }),
+    });
+    const browserEncodedWebp = encodeMaterialProceduralBakeExportPlan(smallWebpExports, {
+      encoders: {
+        'browser-image-encoder': browserImageEncoder,
+      },
+    });
+
+    expect(browserCanvasMimeType).toBe('image/webp');
+    expect(browserCanvasQuality).toBeCloseTo(0.82);
+    expect(browserCanvasFirstPixel).toEqual(
+      Array.from(smallWebpExports.requests[0]?.data.slice(0, 4) ?? [])
+    );
+    expect(Array.from(browserEncodedWebp[0]?.data ?? [])).toEqual([1, 2, 3, 4]);
+
     const ktx2Exports = createMaterialProceduralBakeExportPlan(raster, {
       format: 'ktx2',
       filePrefix: 'gpu/scratched_iron',
@@ -244,6 +286,42 @@ describe('runtime composition assembly', () => {
       encoder: 'basis-universal-ktx2',
     });
     expect(Array.from(encodedKtx2Exports[0]?.data ?? [])).toEqual([4, 1]);
+
+    const basisCalls: string[] = [];
+    const basisKtx2Encoder = createMaterialProceduralBakeBasisUniversalKtx2Encoder({
+      createEncoder: () => ({
+        setCreateKTX2File: (enabled) => basisCalls.push(`ktx2:${enabled}`),
+        setKTX2SRGBTransferFunc: (enabled) => basisCalls.push(`srgb:${enabled}`),
+        setCompressionLevel: (level) => basisCalls.push(`compression:${level}`),
+        setMipGen: (enabled) => basisCalls.push(`mip:${enabled}`),
+        setPerceptual: (enabled) => basisCalls.push(`perceptual:${enabled}`),
+        setSliceSourceImage: (sliceIndex, image, width, height, imageIsYFlipped) => {
+          basisCalls.push(
+            `source:${sliceIndex}:${image.length}:${width}x${height}:${imageIsYFlipped}`
+          );
+
+          return true;
+        },
+        encode: (output) => {
+          output.set([0xab, 0x4b, 0x54, 0x58, 0x32]);
+
+          return 5;
+        },
+        delete: () => basisCalls.push('delete'),
+      }),
+    });
+    const basisEncodedKtx2 = encodeMaterialProceduralBakeExportPlan(ktx2Exports, {
+      encoders: {
+        'basis-universal-ktx2': basisKtx2Encoder,
+      },
+    });
+
+    expect(Array.from(basisEncodedKtx2[0]?.data ?? [])).toEqual([0xab, 0x4b, 0x54, 0x58, 0x32]);
+    expect(basisCalls).toContain('ktx2:true');
+    expect(basisCalls).toContain('compression:4');
+    expect(basisCalls).toContain('mip:true');
+    expect(basisCalls).toContain('source:0:128:8x4:false');
+    expect(basisCalls.at(-1)).toBe('delete');
     expect(() => encodeMaterialProceduralBakeExportPlan(ktx2Exports)).toThrow(
       'No procedural bake export encoder registered for "basis-universal-ktx2"'
     );

@@ -111,6 +111,15 @@ describe('API barrel exports', () => {
       expect(compose.resolveCreatureComposition).toBeTypeOf('function');
       expect(compose.createProp).toBeTypeOf('function');
       expect(compose.resolvePropComposition).toBeTypeOf('function');
+      expect(compose.createMaterialTrait).toBeTypeOf('function');
+      expect(compose.inferMaterialTraits).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralPlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakePlan).toBeTypeOf('function');
+      expect(compose.rasterizeMaterialProceduralBakePlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeExportPlan).toBeTypeOf('function');
+      expect(compose.encodeMaterialProceduralBakeExportPlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeBrowserImageEncoder).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeBasisUniversalKtx2Encoder).toBeTypeOf('function');
       expect(compose.createMaterialVariant).toBeTypeOf('function');
       expect(compose.createMaterialVariants).toBeTypeOf('function');
       expect(compose.CREATURES).toBeDefined();

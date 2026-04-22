@@ -51,6 +51,7 @@ import type {
   MaterialVariantSetOptions,
 } from './types';
 
+export * from './encoders';
 export * from './factory';
 export * from './types';
 
