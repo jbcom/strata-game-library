@@ -148,6 +148,44 @@ export interface CreatureRuntimeAssetBinding {
   boneMap: Record<string, string>;
 }
 
+export type CreatureRuntimeRigBindingStatus = 'matched' | 'missing' | 'unverified';
+
+export interface CreatureRuntimeRigBindingSource {
+  id: string;
+  asset?: CreatureRuntimeAssetBinding;
+  bones: Array<Pick<CreatureRuntimeBone, 'id' | 'boneId' | 'animationTargets'>>;
+}
+
+export interface CreatureRuntimeRigBoneBinding {
+  runtimeBoneId: string;
+  boneId: string;
+  sourceBone: string;
+  explicit: boolean;
+  status: CreatureRuntimeRigBindingStatus;
+  animationTargets: string[];
+}
+
+export interface CreatureRuntimeRigBindingCoverage {
+  total: number;
+  matched: number;
+  missing: number;
+  unverified: number;
+  matchedRatio: number;
+}
+
+export interface CreatureRuntimeRigBindingPlan {
+  creatureId: string;
+  model?: string;
+  rig?: string;
+  sourceBones: string[];
+  bindings: CreatureRuntimeRigBoneBinding[];
+  matched: CreatureRuntimeRigBoneBinding[];
+  missing: CreatureRuntimeRigBoneBinding[];
+  unverified: CreatureRuntimeRigBoneBinding[];
+  unmappedSourceBones: string[];
+  coverage: CreatureRuntimeRigBindingCoverage;
+}
+
 export interface CreatureRuntimeAssembly {
   kind: 'creature';
   id: string;

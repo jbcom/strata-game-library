@@ -4,6 +4,7 @@ import type {
   CreatureComposition,
   CreatureRuntimeAssembly,
   CreatureRuntimeBone,
+  CreatureRuntimeRigBindingPlan,
   MaterialDefinition,
   MaterialProceduralPlan,
   PropComposition,
@@ -107,6 +108,7 @@ export interface ReactylonRuntimeCreatureDescriptor {
   physics: RuntimePhysicsProfile;
   animations: CreatureRuntimeAssembly['animations'];
   asset: CreatureRuntimeAssembly['asset'];
+  rigBinding: CreatureRuntimeRigBindingPlan;
   ikChains: CreatureRuntimeAssembly['ikChains'];
   spawn: CreatureRuntimeAssembly['spawn'];
   ai: CreatureRuntimeAssembly['ai'];

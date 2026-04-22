@@ -1,4 +1,13 @@
-import { AnimationGroup, MeshBuilder, NullEngine, PBRMaterial, Scene } from '@babylonjs/core';
+import {
+  AnimationGroup,
+  Bone,
+  Matrix,
+  MeshBuilder,
+  NullEngine,
+  PBRMaterial,
+  Scene,
+  Skeleton,
+} from '@babylonjs/core';
 import {
   createMaterialVariant,
   MATERIALS,
@@ -65,6 +74,10 @@ describe('Reactylon runtime composition descriptors', () => {
         assets: {
           model: '/models/otter.glb',
           animationClips: { idle: 'Idle' },
+          boneMap: {
+            spine_mid: 'Spine',
+            head: 'Head',
+          },
         },
       }),
       {
@@ -77,6 +90,13 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(descriptor.animations.length).toBeGreaterThan(0);
     expect(descriptor.asset?.model).toBe('/models/otter.glb');
     expect(descriptor.asset?.animationClips.idle).toBe('Idle');
+    expect(
+      descriptor.rigBinding.bindings.find((binding) => binding.boneId === 'spine_mid')
+    ).toMatchObject({
+      sourceBone: 'Spine',
+      explicit: true,
+      status: 'unverified',
+    });
     expect(descriptor.resolvedScale).toBeGreaterThan(0);
     expect(descriptor.scale).toEqual([1, 1, 1]);
     expect(descriptor.spawn.biomes).toContain('marsh');
@@ -225,9 +245,15 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.kind).toBe('creature');
     expect(instance.root.metadata.strataRuntimeKind).toBe('creature');
     expect(instance.meshes).toHaveLength(descriptor.bones.length);
+    expect(instance.skeletons).toEqual([]);
     expect(instance.animationGroups).toEqual([]);
+    expect(instance.rigBinding.unverified).toHaveLength(descriptor.bones.length);
     expect(instance.playAnimation('idle')).toBe(false);
     expect(instance.meshes[0]?.metadata.strataRuntimeKind).toBe('creature-bone');
+    expect(instance.meshes[0]?.metadata.strataRuntimeRigBoneBinding).toMatchObject({
+      boneId: descriptor.bones[0]?.boneId,
+      status: 'unverified',
+    });
 
     instance.dispose();
     scene.dispose();
@@ -238,12 +264,19 @@ describe('Reactylon runtime composition descriptors', () => {
     const engine = new NullEngine();
     const scene = new Scene(engine);
     const animationGroup = new AnimationGroup('Idle', scene);
+    const skeleton = new Skeleton('OtterRig', 'otter-rig', scene);
+    new Bone('Spine', skeleton, null, Matrix.Identity());
+    new Bone('Head', skeleton, null, Matrix.Identity());
     const start = vi.spyOn(animationGroup, 'start');
     const descriptor = resolveReactylonRuntimeCreature(
       resolveCreatureComposition('otter_river', {
         assets: {
           model: '/models/otter.glb',
           animationClips: { idle: 'Idle' },
+          boneMap: {
+            spine_mid: 'Spine',
+            head: 'Head',
+          },
         },
       })
     );
@@ -255,6 +288,7 @@ describe('Reactylon runtime composition descriptors', () => {
         return {
           meshes: [MeshBuilder.CreateBox('loaded:otter', { size: 1 }, context.scene)],
           animationGroups: [animationGroup],
+          skeletons: [skeleton],
         };
       },
     });
@@ -265,7 +299,24 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(loaded?.metadata.strataRuntimeAssetModel).toBe('/models/otter.glb');
     expect(loaded?.metadata.strataRuntimeAnimation).toBe('Idle');
     expect(loaded?.metadata.strataRuntimeKind).toBe('creature-asset');
+    expect(loaded?.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);
+    expect(instance.root.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);
+    expect(instance.skeletons).toEqual([skeleton]);
     expect(instance.animationGroups).toEqual([animationGroup]);
+    expect(
+      instance.rigBinding.bindings.find((binding) => binding.boneId === 'spine_mid')
+    ).toMatchObject({
+      sourceBone: 'Spine',
+      explicit: true,
+      status: 'matched',
+    });
+    expect(instance.rigBinding.bindings.find((binding) => binding.boneId === 'head')).toMatchObject(
+      {
+        sourceBone: 'Head',
+        explicit: true,
+        status: 'matched',
+      }
+    );
     expect(start).toHaveBeenCalledWith(true);
     expect(instance.playAnimation('idle', false)).toBe(true);
     expect(start).toHaveBeenCalledWith(false);

@@ -3,6 +3,7 @@ import {
   type CreatePropInput,
   type CreatureComposition,
   type CreatureRuntimeAssembly,
+  createCreatureRigBindingPlan,
   type PropComposition,
   type PropRuntimeAssembly,
   resolveCreatureComposition,
@@ -173,6 +174,7 @@ export function resolveReactylonRuntimeCreature(
           boneMap: { ...runtime.asset.boneMap },
         }
       : undefined,
+    rigBinding: createCreatureRigBindingPlan(runtime),
     ikChains: runtime.ikChains?.map((chain) => ({
       ...chain,
       bones: [...chain.bones],

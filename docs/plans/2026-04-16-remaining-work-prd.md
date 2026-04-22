@@ -180,7 +180,9 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Reactylon creature descriptors now preserve core creature asset bindings so Babylon-owned loaders can consume the same model, rig, clip, and bone-map metadata.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams, async mesh-shaped prop loading, asset-bound creature loading, and logical animation playback via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()`.
 - Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
-- Remaining work is richer creature rig retargeting/skeletal animation control, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
+- Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
+- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded Babylon clip playback, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
@@ -247,6 +249,7 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
 - The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, asset-bound creature models, and loaded animation-group playback.
+- Asset-backed Reactylon/Babylon creatures now expose loaded skeletons plus core rig binding coverage for validating logical-to-source bone maps before implementing full retargeting.
 
 ## Workstream 6: Platform and Plugin Parity
 

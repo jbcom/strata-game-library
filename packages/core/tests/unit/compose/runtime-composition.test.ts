@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  createCreatureRigBindingPlan,
   createMaterialProceduralPlan,
   createMaterialVariant,
   createMaterialVariants,
@@ -246,6 +247,89 @@ describe('runtime composition assembly', () => {
         body: 'Spine',
       },
     });
+  });
+
+  it('creates verifiable creature rig binding plans from asset bone maps', () => {
+    const composition = resolveCreatureComposition(
+      {
+        id: 'rigged_creature',
+        skeleton: {
+          id: 'rigged_skeleton',
+          type: 'custom',
+          bones: [
+            {
+              id: 'body',
+              shape: 'box',
+              size: [1, 1, 1],
+              position: [0, 0, 0],
+            },
+            {
+              id: 'head',
+              parent: 'body',
+              shape: 'sphere',
+              size: [0.5, 0.5, 0.5],
+              position: [0.5, 0, 0],
+            },
+          ],
+          animationTargets: {
+            idle: ['body'],
+            look: ['head'],
+          },
+        },
+        covering: {
+          skeleton: 'rigged_skeleton',
+          regions: {
+            '*': { material: 'fur_otter' },
+          },
+        },
+        stats: { health: 10, speed: 3 },
+        ai: 'prey',
+        animations: {
+          idle: 'idle',
+          walk: 'walk',
+          run: 'run',
+          look: 'look',
+        },
+        assets: {
+          model: '/models/rigged.glb',
+          rig: '/models/rigged-rig.glb',
+          boneMap: {
+            body: 'Spine',
+          },
+        },
+        biomes: [],
+        spawnWeight: 1,
+      },
+      {},
+      () => 0.5
+    );
+    const verified = createCreatureRigBindingPlan(composition.runtime, ['Spine', 'UnusedJaw']);
+    const body = verified.bindings.find((binding) => binding.boneId === 'body');
+    const head = verified.bindings.find((binding) => binding.boneId === 'head');
+    const unverified = createCreatureRigBindingPlan(composition.runtime);
+
+    expect(body).toMatchObject({
+      sourceBone: 'Spine',
+      explicit: true,
+      status: 'matched',
+      animationTargets: ['idle'],
+    });
+    expect(head).toMatchObject({
+      sourceBone: 'head',
+      explicit: false,
+      status: 'missing',
+      animationTargets: ['look'],
+    });
+    expect(verified.unmappedSourceBones).toEqual(['UnusedJaw']);
+    expect(verified.coverage).toMatchObject({
+      total: 2,
+      matched: 1,
+      missing: 1,
+      unverified: 0,
+      matchedRatio: 0.5,
+    });
+    expect(unverified.unverified).toHaveLength(2);
+    expect(unverified.coverage.unverified).toBe(2);
   });
 
   it('estimates capsule runtime volumes by longest axis across props and creatures', () => {

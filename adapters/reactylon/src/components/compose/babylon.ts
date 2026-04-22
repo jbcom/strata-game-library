@@ -10,11 +10,14 @@ import {
   type Scene,
   SceneLoader,
   ShaderLanguage,
+  type Skeleton,
   TransformNode,
   type UniformBuffer,
   Vector3,
 } from '@babylonjs/core';
 import {
+  type CreatureRuntimeRigBindingPlan,
+  createCreatureRigBindingPlan,
   createPropInteractionController,
   type MaterialProceduralLayer,
   type MaterialProceduralPlan,
@@ -50,6 +53,7 @@ export const BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME = 'StrataRuntimeProceduralMa
 export interface BabylonRuntimeAssetLoadResult {
   meshes: AbstractMesh[];
   animationGroups?: AnimationGroup[];
+  skeletons?: Skeleton[];
 }
 
 export interface BabylonRuntimeAssetLoaderContext {
@@ -147,7 +151,9 @@ export interface BabylonRuntimeCreatureInstance {
   root: TransformNode;
   meshes: AbstractMesh[];
   materials: Record<string, BabylonMaterial>;
+  skeletons: Skeleton[];
   animationGroups: AnimationGroup[];
+  rigBinding: CreatureRuntimeRigBindingPlan;
   playAnimation(animation: string, loop?: boolean): boolean;
   dispose(): void;
 }
@@ -218,6 +224,7 @@ async function loadBabylonAssetMeshes(
   return {
     meshes: result.meshes,
     animationGroups: result.animationGroups,
+    skeletons: result.skeletons,
   };
 }
 
@@ -770,6 +777,36 @@ function playCreatureAnimation(
   return true;
 }
 
+function sourceBoneNamesFromSkeletons(skeletons: Skeleton[]): string[] {
+  const names = new Set<string>();
+
+  for (const skeleton of skeletons) {
+    for (const bone of skeleton.bones) {
+      names.add(bone.name);
+    }
+  }
+
+  return [...names];
+}
+
+function createBabylonCreatureRigBindingPlan(
+  descriptor: ReactylonRuntimeCreatureDescriptor,
+  skeletons: Skeleton[] = []
+): CreatureRuntimeRigBindingPlan {
+  const sourceBoneNames = sourceBoneNamesFromSkeletons(skeletons);
+
+  return sourceBoneNames.length > 0
+    ? createCreatureRigBindingPlan(descriptor, sourceBoneNames)
+    : descriptor.rigBinding;
+}
+
+function rigBindingForBone(
+  plan: CreatureRuntimeRigBindingPlan,
+  boneId: string
+): CreatureRuntimeRigBindingPlan['bindings'][number] | undefined {
+  return plan.bindings.find((binding) => binding.boneId === boneId);
+}
+
 function applyRootTransform(
   root: TransformNode,
   position: [number, number, number],
@@ -996,11 +1033,13 @@ export function instantiateBabylonRuntimeCreature(
   const root = new TransformNode(options.rootName ?? descriptor.id, scene);
   const materials = buildMaterials(scene, descriptor.materialSlots, options);
   const meshes: AbstractMesh[] = [];
+  const rigBinding = createBabylonCreatureRigBindingPlan(descriptor);
 
   applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);
   root.metadata = mergeMetadata(root.metadata, {
     strataRuntimeKind: 'creature',
     strataRuntime: descriptor,
+    strataRuntimeRigBinding: rigBinding,
   });
 
   for (const bone of descriptor.bones) {
@@ -1025,6 +1064,7 @@ export function instantiateBabylonRuntimeCreature(
       applyMeshTransform(mesh, root, bone.position, bone.rotation, baseRotation, material, {
         strataRuntimeKind: 'creature-bone',
         strataRuntimeBone: bone,
+        strataRuntimeRigBoneBinding: rigBindingForBone(rigBinding, bone.boneId),
         strataRuntimeMaterialSlot: materialSlot,
       });
       meshes.push(mesh);
@@ -1037,7 +1077,9 @@ export function instantiateBabylonRuntimeCreature(
     root,
     meshes,
     materials,
+    skeletons: [],
     animationGroups: [],
+    rigBinding,
     playAnimation: () => false,
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
@@ -1065,7 +1107,7 @@ export async function instantiateBabylonRuntimeCreatureAsset(
   const animation = options.animation
     ? resolveCreatureAnimationName(descriptor, options.animation)
     : undefined;
-  const metadata = {
+  const baseMetadata = {
     strataRuntimeKind: 'creature-asset',
     strataRuntime: descriptor,
     strataRuntimeCreature: descriptor,
@@ -1074,7 +1116,7 @@ export async function instantiateBabylonRuntimeCreatureAsset(
   };
 
   applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);
-  root.metadata = mergeMetadata(root.metadata, metadata);
+  root.metadata = mergeMetadata(root.metadata, baseMetadata);
 
   const loaded = await loadRuntimeAsset(
     model,
@@ -1089,7 +1131,14 @@ export async function instantiateBabylonRuntimeCreatureAsset(
   );
   const material = Object.values(materials)[0];
   const animationGroups = loaded.animationGroups ?? [];
+  const skeletons = loaded.skeletons ?? [];
+  const rigBinding = createBabylonCreatureRigBindingPlan(descriptor, skeletons);
+  const metadata = {
+    ...baseMetadata,
+    strataRuntimeRigBinding: rigBinding,
+  };
 
+  root.metadata = mergeMetadata(root.metadata, metadata);
   attachLoadedMeshes(loaded.meshes, root, material, options.useSourceMaterials ?? true, metadata);
 
   if (animation) {
@@ -1104,7 +1153,9 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     root,
     meshes,
     materials,
+    skeletons,
     animationGroups,
+    rigBinding,
     playAnimation: (nextAnimation, loop = true) =>
       playCreatureAnimation(descriptor, animationGroups, nextAnimation, loop),
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
