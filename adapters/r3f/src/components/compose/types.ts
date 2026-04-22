@@ -75,6 +75,19 @@ export interface RuntimeCreatureAnimationPlaybackOptions {
 }
 
 /**
+ * Cross-fade options for runtime creature animation actions.
+ */
+export interface RuntimeCreatureAnimationCrossFadeOptions
+  extends RuntimeCreatureAnimationPlaybackOptions {
+  /** Source action or runtime logical animation id. Defaults to the controller's current action. */
+  from?: string | THREE.AnimationAction;
+  /** Cross-fade duration in seconds. Default: 0.2. */
+  duration?: number;
+  /** Enables Three.js time warping during the transition. Default: false. */
+  warp?: boolean;
+}
+
+/**
  * Stop options for runtime creature animation actions.
  */
 export interface RuntimeCreatureAnimationStopOptions {
@@ -112,6 +125,11 @@ export interface RuntimeCreatureAnimationController {
   play: (
     animation: string,
     options?: RuntimeCreatureAnimationPlaybackOptions
+  ) => THREE.AnimationAction | undefined;
+  /** Cross-fades from the current/source action into a target action. */
+  crossFade: (
+    animation: string,
+    options?: RuntimeCreatureAnimationCrossFadeOptions
   ) => THREE.AnimationAction | undefined;
   /** Stops an action by runtime logical animation id or source clip name. */
   stop: (animation: string, options?: RuntimeCreatureAnimationStopOptions) => boolean;

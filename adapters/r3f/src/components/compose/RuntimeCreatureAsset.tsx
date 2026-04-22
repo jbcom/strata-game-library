@@ -11,6 +11,7 @@ import type {
   RuntimeCreatureAnimationActionContext,
   RuntimeCreatureAnimationActionMap,
   RuntimeCreatureAnimationController,
+  RuntimeCreatureAnimationCrossFadeOptions,
   RuntimeCreatureAnimationPlaybackOptions,
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
@@ -201,6 +202,16 @@ export function resolveRuntimeCreatureAnimationClipName(
   return creature.asset?.animationClips[animation] ?? animation;
 }
 
+function getRuntimeCreatureAnimationAction(
+  actions: RuntimeCreatureAnimationActionMap,
+  creature: CreatureRuntimeAssembly,
+  animation: string
+): THREE.AnimationAction | undefined {
+  const clipName = resolveRuntimeCreatureAnimationClipName(creature, animation);
+
+  return actions[clipName] ?? actions[animation] ?? undefined;
+}
+
 /**
  * Starts a Three.js animation action through runtime creature clip aliases.
  */
@@ -210,8 +221,7 @@ export function playRuntimeCreatureAnimationAction(
   animation: string,
   options: RuntimeCreatureAnimationPlaybackOptions = {}
 ): THREE.AnimationAction | undefined {
-  const clipName = resolveRuntimeCreatureAnimationClipName(creature, animation);
-  const action = actions[clipName] ?? actions[animation] ?? undefined;
+  const action = getRuntimeCreatureAnimationAction(actions, creature, animation);
 
   if (!action) {
     return undefined;
@@ -249,6 +259,28 @@ export function playRuntimeCreatureAnimationAction(
 }
 
 /**
+ * Cross-fades a runtime creature animation action through logical clip aliases.
+ */
+export function crossFadeRuntimeCreatureAnimationAction(
+  actions: RuntimeCreatureAnimationActionMap,
+  creature: CreatureRuntimeAssembly,
+  animation: string,
+  options: RuntimeCreatureAnimationCrossFadeOptions = {}
+): THREE.AnimationAction | undefined {
+  const action = playRuntimeCreatureAnimationAction(actions, creature, animation, options);
+  const from =
+    typeof options.from === 'string'
+      ? getRuntimeCreatureAnimationAction(actions, creature, options.from)
+      : options.from;
+
+  if (action && from && from !== action) {
+    action.crossFadeFrom(from, options.duration ?? 0.2, options.warp ?? false);
+  }
+
+  return action;
+}
+
+/**
  * Stops a Three.js animation action with an optional fade-out.
  */
 export function stopRuntimeCreatureAnimationAction(
@@ -275,13 +307,21 @@ export function createRuntimeCreatureAnimationController(
     creature,
     actions,
     resolveClipName: (animation) => resolveRuntimeCreatureAnimationClipName(creature, animation),
-    getAction: (animation) => {
-      const clipName = resolveRuntimeCreatureAnimationClipName(creature, animation);
-
-      return actions[clipName] ?? actions[animation] ?? undefined;
-    },
+    getAction: (animation) => getRuntimeCreatureAnimationAction(actions, creature, animation),
     play: (animation, options) => {
       const action = playRuntimeCreatureAnimationAction(actions, creature, animation, options);
+
+      if (action) {
+        controller.current = action;
+      }
+
+      return action;
+    },
+    crossFade: (animation, options) => {
+      const action = crossFadeRuntimeCreatureAnimationAction(actions, creature, animation, {
+        ...options,
+        from: options?.from ?? controller.current,
+      });
 
       if (action) {
         controller.current = action;

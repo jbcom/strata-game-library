@@ -16,6 +16,7 @@ import {
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
   createRuntimeCreaturePoseTargetMap,
+  crossFadeRuntimeCreatureAnimationAction,
   playRuntimeCreatureAnimationAction,
   resolveRuntimeCreatureAnimationClipName,
   retargetRuntimeCreatureAnimationClip,
@@ -50,6 +51,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
     expect(compose.resolveRuntimeCreatureAnimationClipName).toBeTypeOf('function');
     expect(compose.playRuntimeCreatureAnimationAction).toBeTypeOf('function');
+    expect(compose.crossFadeRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.stopRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationController).toBeTypeOf('function');
     expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
@@ -543,6 +545,7 @@ void main() {
       timeScale: 1.5,
     });
     const controller = createRuntimeCreatureAnimationController(creature.runtime, actions);
+    const crossFadeFrom = vi.spyOn(idleAction, 'crossFadeFrom');
 
     expect(resolveRuntimeCreatureAnimationClipName(creature.runtime, 'idle')).toBe('Idle');
     expect(played).toBe(idleAction);
@@ -552,9 +555,16 @@ void main() {
     expect(controller.getAction('leap')).toBe(jumpAction);
     expect(controller.play('leap', { reset: false })).toBe(jumpAction);
     expect(controller.current).toBe(jumpAction);
+    expect(controller.crossFade('idle', { duration: 0.35, warp: true })).toBe(idleAction);
+    expect(crossFadeFrom).toHaveBeenCalledWith(jumpAction, 0.35, true);
     expect(controller.stop('leap')).toBe(true);
-    expect(controller.current).toBeUndefined();
+    expect(controller.current).toBe(idleAction);
     expect(controller.stop('missing')).toBe(false);
+    expect(
+      crossFadeRuntimeCreatureAnimationAction(actions, creature.runtime, 'leap', {
+        from: 'idle',
+      })
+    ).toBe(jumpAction);
 
     controller.play('idle');
     controller.play('leap');
