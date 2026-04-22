@@ -20,6 +20,8 @@ import { RuntimeAssetMesh } from './RuntimeAssetMesh';
 import { RuntimeGeometry } from './RuntimeGeometry';
 import type {
   RuntimeMaterialOptions,
+  RuntimePropCannonBodyType,
+  RuntimePropCannonPhysicsHandleOptions,
   RuntimePropInput,
   RuntimePropInteractionControllerOptions,
   RuntimePropInteractionControllerState,
@@ -116,6 +118,15 @@ export const RUNTIME_PROP_RAPIER_BODY_TYPES = {
   kinematic: 2,
 } as const;
 
+/**
+ * Default Strata mode to Cannon/cannon-es `Body` numeric mappings.
+ */
+export const RUNTIME_PROP_CANNON_BODY_TYPES = {
+  dynamic: 1,
+  static: 2,
+  kinematic: 4,
+} as const;
+
 function getObjectRuntimeNode(object: THREE.Object3D): PropRuntimeNode | undefined {
   const userData = object.userData as RuntimePropObjectUserData;
 
@@ -196,6 +207,70 @@ export function createRuntimePropObjectPhysicsAdapter(
       getRuntimePropPhysicsHandle(context, options)?.wakeBody?.(context);
     },
   };
+}
+
+function resolveRuntimePropCannonBodyType(
+  mode: RuntimePhysicsProfile['mode'],
+  options: RuntimePropCannonPhysicsHandleOptions
+): RuntimePropCannonBodyType | undefined {
+  if (!mode) {
+    return undefined;
+  }
+
+  return {
+    ...RUNTIME_PROP_CANNON_BODY_TYPES,
+    ...options.bodyTypes,
+  }[mode];
+}
+
+/**
+ * Creates a Cannon-backed runtime prop physics handle.
+ */
+export function createRuntimePropCannonPhysicsHandle(
+  options: RuntimePropCannonPhysicsHandleOptions
+): RuntimePropPhysicsHandle {
+  const initialCollisionFilterMask = options.body?.collisionFilterMask;
+
+  return {
+    setMode: (mode) => {
+      const bodyType = resolveRuntimePropCannonBodyType(mode, options);
+
+      if (bodyType !== undefined && options.body) {
+        options.body.type = bodyType;
+
+        if (options.wakeUp !== false) {
+          options.body.wakeUp?.();
+        }
+      }
+    },
+    setColliderEnabled: (enabled) => {
+      if (!options.body) {
+        return;
+      }
+
+      options.body.collisionFilterMask = enabled
+        ? (options.enabledCollisionFilterMask ?? initialCollisionFilterMask ?? -1)
+        : (options.disabledCollisionFilterMask ?? 0);
+    },
+    wakeBody: () => {
+      options.body?.wakeUp?.();
+    },
+  };
+}
+
+/**
+ * Attaches a Cannon-backed physics handle to a runtime prop object.
+ */
+export function attachRuntimePropCannonPhysicsHandle<TObject extends THREE.Object3D>(
+  object: TObject,
+  options: RuntimePropCannonPhysicsHandleOptions,
+  attachOptions: RuntimePropPhysicsHandleAttachOptions = {}
+): TObject {
+  return attachRuntimePropPhysicsHandle(
+    object,
+    createRuntimePropCannonPhysicsHandle(options),
+    attachOptions
+  );
 }
 
 function resolveRuntimePropRapierBodyType(

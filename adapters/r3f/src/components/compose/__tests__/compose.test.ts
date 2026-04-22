@@ -26,11 +26,14 @@ import {
 import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
   applyRuntimePropInteractionPhysicsEffects,
+  attachRuntimePropCannonPhysicsHandle,
   attachRuntimePropPhysicsHandle,
   attachRuntimePropRapierPhysicsHandle,
+  createRuntimePropCannonPhysicsHandle,
   createRuntimePropObjectPhysicsAdapter,
   createRuntimePropRapierPhysicsHandle,
   getDefaultRuntimePropInteractionAction,
+  RUNTIME_PROP_CANNON_BODY_TYPES,
   RUNTIME_PROP_RAPIER_BODY_TYPES,
   RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
@@ -62,6 +65,9 @@ describe('R3F runtime composition components', () => {
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
     expect(compose.attachRuntimePropPhysicsHandle).toBeTypeOf('function');
     expect(compose.createRuntimePropObjectPhysicsAdapter).toBeTypeOf('function');
+    expect(compose.RUNTIME_PROP_CANNON_BODY_TYPES).toBeDefined();
+    expect(compose.createRuntimePropCannonPhysicsHandle).toBeTypeOf('function');
+    expect(compose.attachRuntimePropCannonPhysicsHandle).toBeTypeOf('function');
     expect(compose.RUNTIME_PROP_RAPIER_BODY_TYPES).toBeDefined();
     expect(compose.createRuntimePropRapierPhysicsHandle).toBeTypeOf('function');
     expect(compose.attachRuntimePropRapierPhysicsHandle).toBeTypeOf('function');
@@ -367,6 +373,83 @@ void main() {
 
     expect(setColliderEnabled).toHaveBeenCalledWith(false);
     expect(setBodyEnabled).toHaveBeenCalledWith(false);
+  });
+
+  it('adapts R3F prop physics effects to Cannon body handles', () => {
+    const door = resolvePropComposition({
+      id: 'cannon_door',
+      name: 'Cannon Door',
+      components: [
+        {
+          shape: 'box',
+          size: [1, 2, 0.2],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+      interaction: { type: 'door' },
+    });
+    const doorNode = door.runtime.nodes[0];
+
+    if (!doorNode) {
+      throw new Error('Expected cannon_door to resolve at least one runtime node');
+    }
+
+    const doorRoot = new THREE.Group();
+    const doorMesh = new THREE.Mesh();
+    const wakeUp = vi.fn();
+    const body = { type: RUNTIME_PROP_CANNON_BODY_TYPES.dynamic, wakeUp };
+
+    doorMesh.userData.runtimeNode = doorNode;
+    attachRuntimePropCannonPhysicsHandle(doorMesh, { body });
+    doorRoot.add(doorMesh);
+
+    applyRuntimePropInteractionPhysicsEffects(
+      doorRoot,
+      door.runtime,
+      executePropInteractionAction(door.runtime, 'cannon_door:interaction:door'),
+      { adapter: createRuntimePropObjectPhysicsAdapter() }
+    );
+
+    expect(body.type).toBe(RUNTIME_PROP_CANNON_BODY_TYPES.kinematic);
+    expect(wakeUp).toHaveBeenCalledTimes(1);
+
+    const key = resolvePropComposition({
+      id: 'cannon_key',
+      name: 'Cannon Key',
+      components: [
+        {
+          shape: 'box',
+          size: [0.1, 0.02, 0.24],
+          position: [0, 0, 0],
+          material: 'metal_iron',
+        },
+      ],
+      interaction: { type: 'collectible', contents: ['cannon-key'] },
+    });
+    const keyNode = key.runtime.nodes[0];
+
+    if (!keyNode) {
+      throw new Error('Expected cannon_key to resolve at least one runtime node');
+    }
+
+    const keyRoot = new THREE.Group();
+    const keyMesh = new THREE.Mesh();
+    const keyBody = { collisionFilterMask: 0xffff };
+    const handle = createRuntimePropCannonPhysicsHandle({ body: keyBody });
+
+    keyMesh.userData.runtimeNode = keyNode;
+    attachRuntimePropPhysicsHandle(keyMesh, handle);
+    keyRoot.add(keyMesh);
+
+    applyRuntimePropInteractionPhysicsEffects(
+      keyRoot,
+      key.runtime,
+      executePropInteractionAction(key.runtime, 'cannon_key:interaction:collectible'),
+      { adapter: createRuntimePropObjectPhysicsAdapter() }
+    );
+
+    expect(keyBody.collisionFilterMask).toBe(0);
   });
 
   it('manages R3F runtime prop interaction state with a hook', () => {

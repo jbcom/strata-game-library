@@ -365,6 +365,41 @@ export interface RuntimePropObjectPhysicsAdapterOptions {
 }
 
 /**
+ * Numeric Cannon body type value.
+ */
+export type RuntimePropCannonBodyType = number;
+
+/**
+ * Minimal Cannon/cannon-es body surface used by Strata runtime prop physics effects.
+ */
+export interface RuntimePropCannonBodyHandle {
+  /** Cannon body type value. */
+  type?: RuntimePropCannonBodyType;
+  /** Cannon collision filter mask used to enable or disable collisions. */
+  collisionFilterMask?: number;
+  /** Wakes the Cannon body. */
+  wakeUp?: () => void;
+}
+
+/**
+ * Options for creating a Cannon-backed runtime prop physics handle.
+ */
+export interface RuntimePropCannonPhysicsHandleOptions {
+  /** Cannon body to update when prop physics effects change body mode or collider state. */
+  body?: RuntimePropCannonBodyHandle | null;
+  /** Overrides Strata mode to Cannon body-type numeric mappings. */
+  bodyTypes?: Partial<
+    Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropCannonBodyType>
+  >;
+  /** Collision mask used when enabling collisions. Default: initial body mask or -1. */
+  enabledCollisionFilterMask?: number;
+  /** Collision mask used when disabling collisions. Default: 0. */
+  disabledCollisionFilterMask?: number;
+  /** Whether Cannon body-type changes should wake the body. Default: true. */
+  wakeUp?: boolean;
+}
+
+/**
  * Numeric Rapier rigid-body type value.
  */
 export type RuntimePropRapierBodyType = number;
