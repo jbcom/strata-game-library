@@ -26,9 +26,11 @@ import type {
   MaterialProceduralBakeEncodedImage,
   MaterialProceduralBakeExportEncoder,
   MaterialProceduralBakeExportEncoderOptions,
+  MaterialProceduralBakeExportExecutionOptions,
   MaterialProceduralBakeExportMimeType,
   MaterialProceduralBakeExportOptions,
   MaterialProceduralBakeExportPlan,
+  MaterialProceduralBakeExportResult,
   MaterialProceduralBakeFormat,
   MaterialProceduralBakeMap,
   MaterialProceduralBakePlan,
@@ -1184,6 +1186,51 @@ export function createMaterialProceduralBakeExportPlan(
       })),
     },
   };
+}
+
+function proceduralBakeExportRequestToRasterImage(
+  request: MaterialProceduralBakeExportPlan['requests'][number]
+): MaterialProceduralBakeRasterImage {
+  return {
+    targetId: request.targetId,
+    channel: request.channel,
+    map: request.map,
+    fileName: request.fileName,
+    colorSpace: request.colorSpace,
+    width: request.width,
+    height: request.height,
+    data: request.data,
+  };
+}
+
+/**
+ * Executes a procedural bake export plan with built-in PNG and injected WebP/KTX2 encoders.
+ */
+export function encodeMaterialProceduralBakeExportPlan(
+  plan: MaterialProceduralBakeExportPlan,
+  options: MaterialProceduralBakeExportExecutionOptions = {}
+): MaterialProceduralBakeExportResult[] {
+  return plan.requests.map((request) => {
+    const data =
+      request.encoder === 'builtin-png'
+        ? encodeMaterialProceduralBakeImagePng(proceduralBakeExportRequestToRasterImage(request))
+        : options.encoders?.[request.encoder]?.(request);
+
+    if (!data) {
+      throw new Error(`No procedural bake export encoder registered for "${request.encoder}"`);
+    }
+
+    return {
+      targetId: request.targetId,
+      channel: request.channel,
+      map: request.map,
+      format: request.format,
+      fileName: request.fileName,
+      mimeType: request.mimeType,
+      encoder: request.encoder,
+      data,
+    };
+  });
 }
 
 /**

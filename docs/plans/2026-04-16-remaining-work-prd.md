@@ -190,6 +190,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
 - R3F and Reactylon/Babylon descriptors now also preserve procedural bake-plan manifests so later offline/worker pipelines can rasterize the same plans into textures.
 - Core now exposes `createMaterialProceduralBakeExportPlan()` so rasterized procedural bake outputs can be handed to PNG, WebP, or KTX2 encoders as deterministic RGBA8 requests with file names, MIME types, encoder identifiers, and encoder options.
+- Core now exposes `encodeMaterialProceduralBakeExportPlan()` so export plans can be executed with dependency-free built-in PNG encoding or injected WebP/KTX2 encoder callbacks without adding heavyweight encoder dependencies to the portable core package.
 - R3F runtime material conversion now injects procedural plans into `MeshStandardMaterial` shader compilation for base-color, scalar, opacity, emissive, and normal-channel effects.
 - Reactylon/Babylon runtime material conversion now injects procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
 - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
@@ -200,7 +201,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now apply renderer-neutral prop physics effects to mesh collision/pickability flags, runtime physics metadata, and available Babylon v2/v1 physics-body seams.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is richer animation graphs and IK beyond R3F clip-track retargeting, R3F logical action/guarded-state/weighted-blend control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine examples and backend wrappers beyond the new object-handle, Rapier, and Cannon seams; actual WebP/KTX2 encoder integrations and authoring workflows beyond the new encoder-request export plans; and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is richer animation graphs and IK beyond R3F clip-track retargeting, R3F logical action/guarded-state/weighted-blend control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine examples and backend wrappers beyond the new object-handle, Rapier, and Cannon seams; packaged first-party WebP/KTX2 encoder adapters and authoring workflows beyond the new encoder-request and encoder-execution seams; and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

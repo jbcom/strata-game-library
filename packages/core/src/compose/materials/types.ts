@@ -245,6 +245,27 @@ export interface MaterialProceduralBakeExportPlan {
   manifest: MaterialProceduralBakeExportManifest;
 }
 
+export interface MaterialProceduralBakeExportResult {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  data: Uint8Array;
+}
+
+export type MaterialProceduralBakeExportEncoderFn = (
+  request: MaterialProceduralBakeExportRequest
+) => Uint8Array;
+
+export interface MaterialProceduralBakeExportExecutionOptions {
+  encoders?: Partial<
+    Record<MaterialProceduralBakeExportEncoder, MaterialProceduralBakeExportEncoderFn>
+  >;
+}
+
 export interface MaterialProceduralBakeArtifacts {
   plan: MaterialProceduralBakePlan;
   raster: MaterialProceduralBakeRaster;

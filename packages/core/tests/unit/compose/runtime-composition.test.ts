@@ -8,6 +8,7 @@ import {
   createMaterialVariant,
   createMaterialVariants,
   createPropInteractionController,
+  encodeMaterialProceduralBakeExportPlan,
   encodeMaterialProceduralBakeRasterPng,
   executePropInteractionAction,
   inferMaterialTraits,
@@ -153,6 +154,19 @@ describe('runtime composition assembly', () => {
       Array.from(encoded[0]?.data ?? [])
     );
 
+    const pngExports = createMaterialProceduralBakeExportPlan(raster, { format: 'png' });
+    const encodedPngExports = encodeMaterialProceduralBakeExportPlan(pngExports);
+
+    expect(encodedPngExports[0]).toMatchObject({
+      format: 'png',
+      fileName: 'scratched_iron.roughness.png',
+      mimeType: 'image/png',
+      encoder: 'builtin-png',
+    });
+    expect(Array.from(encodedPngExports[0]?.data.slice(0, 8) ?? [])).toEqual([
+      137, 80, 78, 71, 13, 10, 26, 10,
+    ]);
+
     const webpExports = createMaterialProceduralBakeExportPlan(
       rasterizeMaterialProceduralBakePlan(bake),
       { quality: 0.82 }
@@ -171,6 +185,28 @@ describe('runtime composition assembly', () => {
       encoder: 'browser-image-encoder',
     });
 
+    const smallWebpExports = createMaterialProceduralBakeExportPlan(raster, {
+      format: 'webp',
+      quality: 0.82,
+    });
+    const encodedWebpExports = encodeMaterialProceduralBakeExportPlan(smallWebpExports, {
+      encoders: {
+        'browser-image-encoder': (request) =>
+          new Uint8Array([
+            request.width,
+            request.height,
+            Math.round((request.options.quality ?? 0) * 100),
+          ]),
+      },
+    });
+
+    expect(encodedWebpExports[0]).toMatchObject({
+      format: 'webp',
+      mimeType: 'image/webp',
+      encoder: 'browser-image-encoder',
+    });
+    expect(Array.from(encodedWebpExports[0]?.data ?? [])).toEqual([8, 4, 82]);
+
     const ktx2Exports = createMaterialProceduralBakeExportPlan(raster, {
       format: 'ktx2',
       filePrefix: 'gpu/scratched_iron',
@@ -187,6 +223,27 @@ describe('runtime composition assembly', () => {
     });
     expect(Array.from(ktx2Exports.requests[0]?.data ?? [])).toEqual(
       Array.from(raster.images[0]?.data ?? [])
+    );
+
+    const encodedKtx2Exports = encodeMaterialProceduralBakeExportPlan(ktx2Exports, {
+      encoders: {
+        'basis-universal-ktx2': (request) =>
+          new Uint8Array([
+            request.options.compressionLevel ?? 0,
+            request.options.generateMipmaps ? 1 : 0,
+          ]),
+      },
+    });
+
+    expect(encodedKtx2Exports[0]).toMatchObject({
+      format: 'ktx2',
+      fileName: 'gpu/scratched_iron.roughness.ktx2',
+      mimeType: 'image/ktx2',
+      encoder: 'basis-universal-ktx2',
+    });
+    expect(Array.from(encodedKtx2Exports[0]?.data ?? [])).toEqual([4, 1]);
+    expect(() => encodeMaterialProceduralBakeExportPlan(ktx2Exports)).toThrow(
+      'No procedural bake export encoder registered for "basis-universal-ktx2"'
     );
 
     const artifacts = createMaterialProceduralBakeArtifacts(scratched, {
