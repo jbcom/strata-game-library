@@ -125,6 +125,30 @@ export interface RuntimePropProps extends RuntimeMaterialOptions {
   physicsAdapter?: RuntimePropPhysicsAdapter;
 }
 
+/**
+ * Options for creating an R3F prop interaction controller bridge.
+ */
+export interface RuntimePropInteractionControllerOptions {
+  /** Initial prop interaction state copied into the controller. */
+  initialState?: PropRuntimeInteractionState;
+}
+
+/**
+ * React-facing state and commands for executing prop interaction actions.
+ */
+export interface RuntimePropInteractionControllerState {
+  /** Resolved prop runtime assembly backing the controller. */
+  runtime: PropRuntimeAssembly;
+  /** Latest controller state mirrored into React state. */
+  state: PropRuntimeInteractionState;
+  /** Replaces the current controller state and returns the cloned result. */
+  setState: (state: PropRuntimeInteractionState) => PropRuntimeInteractionState;
+  /** Resets the controller to its initial state or an explicit replacement state. */
+  reset: (state?: PropRuntimeInteractionState) => PropRuntimeInteractionState;
+  /** Executes a prop interaction action and updates React state to the result state. */
+  execute: (action: string | PropRuntimeInteractionAction) => PropRuntimeInteractionResult;
+}
+
 export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   creature: RuntimeCreatureInput;
   position?: [number, number, number];

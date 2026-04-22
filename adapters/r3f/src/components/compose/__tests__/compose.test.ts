@@ -4,6 +4,7 @@ import {
   resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
+import { act, renderHook } from '@testing-library/react';
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
@@ -17,6 +18,7 @@ import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
   applyRuntimePropInteractionPhysicsEffects,
   getDefaultRuntimePropInteractionAction,
+  useRuntimePropInteractionController,
 } from '../RuntimeProp';
 
 describe('R3F runtime composition components', () => {
@@ -35,6 +37,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
+    expect(compose.useRuntimePropInteractionController).toBeTypeOf('function');
   });
 
   it('creates Three materials from core material definitions', () => {
@@ -202,6 +205,30 @@ void main() {
         effect: expect.objectContaining({ operation: 'set-mode', mode: 'kinematic' }),
       })
     );
+  });
+
+  it('manages R3F runtime prop interaction state with a hook', () => {
+    const prop = resolvePropComposition('crate_wooden');
+    const { result } = renderHook(() => useRuntimePropInteractionController(prop.runtime));
+
+    expect(result.current.runtime.id).toBe('crate_wooden');
+    expect(result.current.state.open).toBeUndefined();
+
+    act(() => {
+      const interaction = result.current.execute('crate_wooden:interaction:container');
+
+      expect(interaction.nextState.open).toBe(true);
+    });
+
+    expect(result.current.state.open).toBe(true);
+
+    act(() => {
+      const resetState = result.current.reset();
+
+      expect(resetState.open).toBeUndefined();
+    });
+
+    expect(result.current.state.open).toBeUndefined();
   });
 
   it('preserves creature asset bindings for R3F asset-backed rendering', () => {

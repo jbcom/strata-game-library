@@ -14,6 +14,7 @@ export {
   applyRuntimePropInteractionPhysicsEffects,
   getDefaultRuntimePropInteractionAction,
   RuntimeProp,
+  useRuntimePropInteractionController,
 } from './RuntimeProp';
 export type {
   RuntimeCreatureAnimationRetargetDirection,
@@ -25,6 +26,8 @@ export type {
   RuntimeMaterialOptions,
   RuntimePropInput,
   RuntimePropInteractionContext,
+  RuntimePropInteractionControllerOptions,
+  RuntimePropInteractionControllerState,
   RuntimePropInteractionHandler,
   RuntimePropInteractionSelector,
   RuntimePropPhysicsAdapter,

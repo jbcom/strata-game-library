@@ -1,15 +1,17 @@
 import type { ThreeEvent } from '@react-three/fiber';
 import {
   type CreatePropInput,
+  createPropInteractionController,
   executePropInteractionAction,
   type PropComposition,
   type PropRuntimeAssembly,
   type PropRuntimeInteractionAction,
   type PropRuntimeInteractionResult,
+  type PropRuntimeInteractionState,
   type PropRuntimeNode,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type * as THREE from 'three';
 import { resolveRuntimeMaterial } from './materials';
 import { RuntimeAssetMesh } from './RuntimeAssetMesh';
@@ -17,6 +19,8 @@ import { RuntimeGeometry } from './RuntimeGeometry';
 import type {
   RuntimeMaterialOptions,
   RuntimePropInput,
+  RuntimePropInteractionControllerOptions,
+  RuntimePropInteractionControllerState,
   RuntimePropPhysicsApplication,
   RuntimePropPhysicsApplicationOptions,
   RuntimePropPhysicsEffect,
@@ -202,6 +206,53 @@ export function applyRuntimePropInteractionPhysicsEffects(
   }
 
   return applications;
+}
+
+/**
+ * Creates a React state bridge around the core prop interaction controller.
+ */
+export function useRuntimePropInteractionController(
+  prop: RuntimePropInput,
+  options: RuntimePropInteractionControllerOptions = {}
+): RuntimePropInteractionControllerState {
+  const runtime = useMemo(() => resolveRuntimeProp(prop), [prop]);
+  const initialStateRef = useRef(options.initialState);
+
+  initialStateRef.current = options.initialState;
+
+  const controller = useMemo(
+    () => createPropInteractionController(runtime, initialStateRef.current),
+    [runtime]
+  );
+  const [state, setReactState] = useState(() => controller.getState());
+
+  useEffect(() => {
+    setReactState(controller.getState());
+  }, [controller]);
+
+  const setState = (nextState: PropRuntimeInteractionState) => {
+    const resolvedState = controller.setState(nextState);
+
+    setReactState(resolvedState);
+
+    return resolvedState;
+  };
+  const reset = (nextState?: PropRuntimeInteractionState) => {
+    const resolvedState = controller.reset(nextState);
+
+    setReactState(resolvedState);
+
+    return resolvedState;
+  };
+  const execute = (action: string | PropRuntimeInteractionAction) => {
+    const result = controller.execute(action);
+
+    setReactState(result.nextState);
+
+    return result;
+  };
+
+  return { runtime, state, setState, reset, execute };
 }
 
 /**
