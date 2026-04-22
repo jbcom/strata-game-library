@@ -1,5 +1,8 @@
 import { useAnimations, useGLTF } from '@react-three/drei';
 import {
+  type CreatureRuntimeAnimationGraph,
+  type CreatureRuntimeAnimationGraphState,
+  type CreatureRuntimeAnimationGraphTransition,
   type CreatureRuntimeAssembly,
   type CreatureRuntimeRigBindingPlan,
   createCreatureRigBindingPlan,
@@ -15,12 +18,16 @@ import type {
   RuntimeCreatureAnimationBlendOptions,
   RuntimeCreatureAnimationController,
   RuntimeCreatureAnimationCrossFadeOptions,
+  RuntimeCreatureAnimationGraphController,
+  RuntimeCreatureAnimationGraphControllerOptions,
+  RuntimeCreatureAnimationGraphTransitionContext,
   RuntimeCreatureAnimationPlaybackOptions,
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
   RuntimeCreatureAnimationRetargetOptions,
   RuntimeCreatureAnimationStateController,
   RuntimeCreatureAnimationStateDefinition,
+  RuntimeCreatureAnimationStateTransitionMode,
   RuntimeCreatureAnimationStopOptions,
   RuntimeCreaturePose,
   RuntimeCreaturePoseApplication,
@@ -39,6 +46,9 @@ export interface RuntimeCreatureAssetProps {
   receiveShadow?: boolean;
   onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
   onAnimationController?: (controller: RuntimeCreatureAnimationController) => void;
+  onAnimationGraphController?: (controller: RuntimeCreatureAnimationGraphController) => void;
+  animationGraph?: CreatureRuntimeAnimationGraph;
+  animationGraphGuards?: RuntimeCreatureAnimationGraphControllerOptions['guards'];
   onAnimationAction?: (
     action: THREE.AnimationAction,
     context: RuntimeCreatureAnimationActionContext
@@ -444,6 +454,138 @@ export function createRuntimeCreatureAnimationStateController(
   return stateController;
 }
 
+function createRuntimeCreatureAnimationGraphStateDefinition(
+  state: CreatureRuntimeAnimationGraphState,
+  options: RuntimeCreatureAnimationGraphControllerOptions
+): RuntimeCreatureAnimationStateDefinition {
+  return {
+    animation: state.animation,
+    guard: options.stateGuards?.[state.id],
+    playback: {
+      loop: state.loop,
+      timeScale: state.speedScale,
+      clampWhenFinished: state.clampWhenFinished,
+    },
+  };
+}
+
+function createRuntimeCreatureAnimationGraphStateDefinitions(
+  graph: CreatureRuntimeAnimationGraph,
+  options: RuntimeCreatureAnimationGraphControllerOptions = {}
+): Record<string, RuntimeCreatureAnimationStateDefinition> {
+  return Object.fromEntries(
+    graph.states.map((state) => [
+      state.id,
+      createRuntimeCreatureAnimationGraphStateDefinition(state, options),
+    ])
+  );
+}
+
+function sortRuntimeCreatureAnimationGraphTransitions(
+  transitions: CreatureRuntimeAnimationGraphTransition[]
+): CreatureRuntimeAnimationGraphTransition[] {
+  return [...transitions].sort(
+    (left, right) => right.priority - left.priority || left.id.localeCompare(right.id)
+  );
+}
+
+function runtimeCreatureAnimationGraphTransitionMode(
+  mode: CreatureRuntimeAnimationGraphTransition['mode']
+): RuntimeCreatureAnimationStateTransitionMode {
+  return mode === 'cross-fade' ? 'crossFade' : 'play';
+}
+
+function canRunRuntimeCreatureAnimationGraphTransition(
+  context: RuntimeCreatureAnimationGraphTransitionContext,
+  options: RuntimeCreatureAnimationGraphControllerOptions
+): boolean {
+  const guard = context.transition.guard ? options.guards?.[context.transition.guard] : undefined;
+
+  return guard?.(context) ?? true;
+}
+
+/**
+ * Creates an R3F animation graph controller from a core creature animation graph.
+ */
+export function createRuntimeCreatureAnimationGraphController(
+  controller: RuntimeCreatureAnimationController,
+  graph: CreatureRuntimeAnimationGraph = controller.creature.animationGraph,
+  options: RuntimeCreatureAnimationGraphControllerOptions = {}
+): RuntimeCreatureAnimationGraphController {
+  const stateController = createRuntimeCreatureAnimationStateController(
+    controller,
+    createRuntimeCreatureAnimationGraphStateDefinitions(graph, options)
+  );
+  const graphController: RuntimeCreatureAnimationGraphController = {
+    graph,
+    controller,
+    stateController,
+    initialState: graph.initialState,
+    get currentState() {
+      return stateController.currentState;
+    },
+    getAvailableTransitions: (event) => {
+      const currentState = stateController.currentState ?? graph.initialState;
+
+      return sortRuntimeCreatureAnimationGraphTransitions(
+        graph.transitions.filter(
+          (transition) =>
+            transition.from === currentState && (event === undefined || transition.event === event)
+        )
+      );
+    },
+    canTrigger: (event) =>
+      graphController.getAvailableTransitions(event).some(
+        (transition) =>
+          stateController.canEnter(transition.to) &&
+          canRunRuntimeCreatureAnimationGraphTransition(
+            {
+              graph,
+              transition,
+              currentState: stateController.currentState ?? graph.initialState,
+              controller,
+              stateController,
+            },
+            options
+          )
+      ),
+    trigger: (event, enterOptions = {}) => {
+      for (const transition of graphController.getAvailableTransitions(event)) {
+        const context = {
+          graph,
+          transition,
+          currentState: stateController.currentState ?? graph.initialState,
+          controller,
+          stateController,
+        };
+
+        if (
+          !stateController.canEnter(transition.to) ||
+          !canRunRuntimeCreatureAnimationGraphTransition(context, options)
+        ) {
+          continue;
+        }
+
+        const action = stateController.enter(transition.to, {
+          mode: runtimeCreatureAnimationGraphTransitionMode(transition.mode),
+          duration: transition.duration,
+          warp: transition.warp,
+          ...enterOptions,
+        });
+
+        if (action) {
+          return action;
+        }
+      }
+
+      return undefined;
+    },
+    enter: (state, enterOptions) => stateController.enter(state, enterOptions),
+  };
+
+  return graphController;
+}
+
 /**
  * Applies weighted action blends through runtime creature logical animation ids.
  */
@@ -651,6 +793,9 @@ function RuntimeCreatureAssetModel({
   receiveShadow = true,
   onRigBinding,
   onAnimationController,
+  onAnimationGraphController,
+  animationGraph,
+  animationGraphGuards,
   onAnimationAction,
 }: RuntimeCreatureAssetModelProps) {
   const group = useRef<THREE.Group>(null);
@@ -680,6 +825,15 @@ function RuntimeCreatureAssetModel({
   const animationController = useMemo(
     () => createRuntimeCreatureAnimationController(creature, actions),
     [actions, creature]
+  );
+  const animationGraphController = useMemo(
+    () =>
+      createRuntimeCreatureAnimationGraphController(
+        animationController,
+        animationGraph ?? creature.animationGraph,
+        { guards: animationGraphGuards }
+      ),
+    [animationController, animationGraph, animationGraphGuards, creature.animationGraph]
   );
   const clipName = animation ? animationController.resolveClipName(animation) : undefined;
 
@@ -720,6 +874,10 @@ function RuntimeCreatureAssetModel({
     onAnimationController?.(animationController);
   }, [animationController, onAnimationController]);
 
+  useEffect(() => {
+    onAnimationGraphController?.(animationGraphController);
+  }, [animationGraphController, onAnimationGraphController]);
+
   object.userData = {
     ...object.userData,
     strataRuntimeKind: 'creature-asset',
@@ -727,6 +885,7 @@ function RuntimeCreatureAssetModel({
     strataRuntimeAssetModel: model,
     strataRuntimeAnimation: clipName,
     strataRuntimeRigBinding: rigBinding,
+    strataRuntimeAnimationGraph: animationGraphController.graph,
   };
 
   return (
@@ -739,6 +898,7 @@ function RuntimeCreatureAssetModel({
         strataRuntimeAssetModel: model,
         strataRuntimeAnimation: clipName,
         strataRuntimeRigBinding: rigBinding,
+        strataRuntimeAnimationGraph: animationGraphController.graph,
       }}
     >
       <primitive object={object} />

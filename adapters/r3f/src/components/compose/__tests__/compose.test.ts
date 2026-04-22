@@ -14,6 +14,7 @@ import {
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
+  createRuntimeCreatureAnimationGraphController,
   createRuntimeCreatureAnimationStateController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
@@ -60,6 +61,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.crossFadeRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.stopRuntimeCreatureAnimationAction).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationController).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureAnimationGraphController).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationStateController).toBeTypeOf('function');
     expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
     expect(compose.applyRuntimeCreaturePose).toBeTypeOf('function');
@@ -697,6 +699,47 @@ void main() {
     expect(guardedStates.enter('calm')).toBe(idleAction);
     expect(guardedStates.canEnter('lockedLeap')).toBe(true);
     expect(guardedStates.enter('lockedLeap', { mode: 'play' })).toBe(jumpAction);
+
+    const graphCreature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        animationClips: {
+          idle: 'Idle',
+          walk: 'Walk',
+          run: 'Run',
+        },
+      },
+    });
+    const walkAction = mixer.clipAction(new THREE.AnimationClip('Walk', 1, []));
+    const runAction = mixer.clipAction(new THREE.AnimationClip('Run', 1, []));
+    const graphController = createRuntimeCreatureAnimationGraphController(
+      createRuntimeCreatureAnimationController(graphCreature.runtime, {
+        Idle: idleAction,
+        Walk: walkAction,
+        Run: runAction,
+      }),
+      graphCreature.runtime.animationGraph,
+      {
+        guards: {
+          canMove: () => true,
+          canSprint: ({ currentState, transition }) =>
+            currentState === 'walk' && transition.to === 'run',
+        },
+      }
+    );
+    const walkCrossFadeFrom = vi.spyOn(walkAction, 'crossFadeFrom');
+    const runCrossFadeFrom = vi.spyOn(runAction, 'crossFadeFrom');
+
+    expect(graphController.initialState).toBe('idle');
+    expect(graphController.enter('idle')).toBe(idleAction);
+    expect(graphController.canTrigger('move')).toBe(true);
+    expect(graphController.trigger('move')).toBe(walkAction);
+    expect(walkCrossFadeFrom).toHaveBeenCalledWith(idleAction, 0.2, false);
+    expect(graphController.currentState).toBe('walk');
+    expect(graphController.trigger('sprint')).toBe(runAction);
+    expect(runCrossFadeFrom).toHaveBeenCalledWith(walkAction, 0.2, false);
+    expect(graphController.currentState).toBe('run');
+    expect(graphController.trigger('missing-event')).toBeUndefined();
 
     const idleWeight = vi.spyOn(idleAction, 'setEffectiveWeight');
     const jumpWeight = vi.spyOn(jumpAction, 'setEffectiveWeight');

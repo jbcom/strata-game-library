@@ -3,6 +3,8 @@ import type {
   CreateCreatureInput,
   CreatePropInput,
   CreatureComposition,
+  CreatureRuntimeAnimationGraph,
+  CreatureRuntimeAnimationGraphTransition,
   CreatureRuntimeAssembly,
   CreatureRuntimeBone,
   CreatureRuntimeRigBindingPlan,
@@ -207,6 +209,71 @@ export interface RuntimeCreatureAnimationStateController {
   /** Returns whether a named state exists and passes its guard. */
   canEnter: (state: string) => boolean;
   /** Enters a named animation state and starts the mapped action. */
+  enter: (
+    state: string,
+    options?: RuntimeCreatureAnimationStateEnterOptions
+  ) => THREE.AnimationAction | undefined;
+}
+
+/**
+ * Context passed to core animation-graph transition guards.
+ */
+export interface RuntimeCreatureAnimationGraphTransitionContext {
+  /** Runtime animation graph being evaluated. */
+  graph: CreatureRuntimeAnimationGraph;
+  /** Transition candidate being evaluated. */
+  transition: CreatureRuntimeAnimationGraphTransition;
+  /** State currently active on the graph controller. */
+  currentState?: string;
+  /** Underlying runtime creature animation action controller. */
+  controller: RuntimeCreatureAnimationController;
+  /** State controller used to enter graph states. */
+  stateController: RuntimeCreatureAnimationStateController;
+}
+
+/**
+ * Guard used to allow or block a core animation-graph transition.
+ */
+export type RuntimeCreatureAnimationGraphTransitionGuard = (
+  context: RuntimeCreatureAnimationGraphTransitionContext
+) => boolean;
+
+export type RuntimeCreatureAnimationGraphTransitionGuardMap = Record<
+  string,
+  RuntimeCreatureAnimationGraphTransitionGuard
+>;
+
+export interface RuntimeCreatureAnimationGraphControllerOptions {
+  /** Named transition guards referenced by `CreatureRuntimeAnimationGraphTransition.guard`. */
+  guards?: RuntimeCreatureAnimationGraphTransitionGuardMap;
+  /** Optional state guards layered on top of graph transitions. */
+  stateGuards?: Record<string, RuntimeCreatureAnimationStateGuard>;
+}
+
+/**
+ * Imperative controller that turns core animation graph events into Three action playback.
+ */
+export interface RuntimeCreatureAnimationGraphController {
+  /** Core declarative graph being driven. */
+  graph: CreatureRuntimeAnimationGraph;
+  /** Underlying runtime creature animation action controller. */
+  controller: RuntimeCreatureAnimationController;
+  /** State controller generated from graph states. */
+  stateController: RuntimeCreatureAnimationStateController;
+  /** Initial graph state from core. */
+  initialState: string;
+  /** Last graph state successfully entered. */
+  currentState?: string;
+  /** Returns transition candidates from the current state, optionally filtered by event. */
+  getAvailableTransitions: (event?: string) => CreatureRuntimeAnimationGraphTransition[];
+  /** Returns whether at least one transition can run for an event. */
+  canTrigger: (event: string) => boolean;
+  /** Triggers the highest-priority matching transition for an event. */
+  trigger: (
+    event: string,
+    options?: RuntimeCreatureAnimationStateEnterOptions
+  ) => THREE.AnimationAction | undefined;
+  /** Enters a graph state directly. */
   enter: (
     state: string,
     options?: RuntimeCreatureAnimationStateEnterOptions
