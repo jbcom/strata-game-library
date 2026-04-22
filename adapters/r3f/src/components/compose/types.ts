@@ -7,6 +7,8 @@ import type {
   CreatureRuntimeAnimationGraphTransition,
   CreatureRuntimeAssembly,
   CreatureRuntimeBone,
+  CreatureRuntimeIKChainPlan,
+  CreatureRuntimeIKRigPlan,
   CreatureRuntimeRigBindingPlan,
   MaterialDefinition,
   PropComposition,
@@ -374,6 +376,47 @@ export interface RuntimeCreaturePoseApplication {
   transform: RuntimeCreaturePoseTransform;
   /** Channels applied from the transform. */
   applied: RuntimeCreaturePoseChannel[];
+}
+
+export interface RuntimeCreatureIKTarget {
+  /** Desired runtime-space target for a chain end effector. */
+  position: RuntimeCreaturePoseVector;
+}
+
+export type RuntimeCreatureIKTargetMap = Record<
+  string,
+  RuntimeCreaturePoseVector | RuntimeCreatureIKTarget
+>;
+
+export interface RuntimeCreatureIKPoseOptions extends RuntimeCreaturePoseOptions {
+  /** Includes missing chains in the result as skipped entries. Default: false. */
+  includeMissing?: boolean;
+  /** Clamps targets beyond total chain reach back onto the reachable line. Default: true. */
+  clampToReach?: boolean;
+}
+
+export interface RuntimeCreatureIKChainPose {
+  /** IK chain that produced the pose. */
+  chain: CreatureRuntimeIKChainPlan;
+  /** Target used by the solver after optional reach clamping. */
+  target: [number, number, number];
+  /** Whether the requested target was within total chain reach. */
+  reached: boolean;
+  /** Remaining distance from the clamped target to the requested target. */
+  distanceToTarget: number;
+  /** Pose transforms keyed by runtime bone id. */
+  pose: RuntimeCreaturePose;
+}
+
+export interface RuntimeCreatureIKPoseApplication {
+  /** Core IK rig plan used for this application. */
+  ikRig: CreatureRuntimeIKRigPlan;
+  /** Merged pose generated from all processed IK chains. */
+  pose: RuntimeCreaturePose;
+  /** Per-chain solve results. */
+  chains: RuntimeCreatureIKChainPose[];
+  /** Three object applications from the merged pose. */
+  applications: RuntimeCreaturePoseApplication[];
 }
 
 export interface RuntimeMaterialOptions {

@@ -3,6 +3,7 @@ export { type RuntimeAssetMaterialMode, RuntimeAssetMesh } from './RuntimeAssetM
 export { RuntimeCreature } from './RuntimeCreature';
 export {
   applyRuntimeCreatureAnimationBlend,
+  applyRuntimeCreatureIKPose,
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
@@ -10,6 +11,7 @@ export {
   createRuntimeCreatureAnimationStateController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
+  createRuntimeCreatureIKPose,
   createRuntimeCreaturePoseTargetMap,
   crossFadeRuntimeCreatureAnimationAction,
   playRuntimeCreatureAnimationAction,
@@ -60,6 +62,11 @@ export type {
   RuntimeCreatureAnimationStateTransitionMode,
   RuntimeCreatureAnimationStopOptions,
   RuntimeCreatureAssetMode,
+  RuntimeCreatureIKChainPose,
+  RuntimeCreatureIKPoseApplication,
+  RuntimeCreatureIKPoseOptions,
+  RuntimeCreatureIKTarget,
+  RuntimeCreatureIKTargetMap,
   RuntimeCreatureInput,
   RuntimeCreaturePose,
   RuntimeCreaturePoseApplication,

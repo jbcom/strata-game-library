@@ -11,6 +11,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import {
   applyRuntimeCreatureAnimationBlend,
+  applyRuntimeCreatureIKPose,
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
@@ -18,6 +19,7 @@ import {
   createRuntimeCreatureAnimationStateController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
+  createRuntimeCreatureIKPose,
   createRuntimeCreaturePoseTargetMap,
   crossFadeRuntimeCreatureAnimationAction,
   playRuntimeCreatureAnimationAction,
@@ -65,6 +67,8 @@ describe('R3F runtime composition components', () => {
     expect(compose.createRuntimeCreatureAnimationStateController).toBeTypeOf('function');
     expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
     expect(compose.applyRuntimeCreaturePose).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureIKPose).toBeTypeOf('function');
+    expect(compose.applyRuntimeCreatureIKPose).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
     expect(compose.attachRuntimePropPhysicsHandle).toBeTypeOf('function');
@@ -803,5 +807,72 @@ void main() {
       ['position'],
       ['rotation', 'scale'],
     ]);
+  });
+
+  it('applies R3F creature IK target poses through rig binding aliases', () => {
+    const creature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        boneMap: {
+          spine_mid: 'Spine',
+          head: 'Head',
+        },
+      },
+    });
+    const rig = new THREE.Group();
+    const spine = new THREE.Bone();
+    const head = new THREE.Bone();
+
+    spine.name = 'Spine';
+    head.name = 'Head';
+    rig.add(spine, head);
+
+    const binding = createRuntimeCreatureAssetRigBinding(creature.runtime, rig);
+    const chain = {
+      id: 'look_at_target',
+      bones: [
+        {
+          runtimeBoneId: 'otter_river:bone:spine_mid',
+          boneId: 'spine_mid',
+          position: [0, 0, 0] as [number, number, number],
+          length: 1,
+        },
+        {
+          runtimeBoneId: 'otter_river:bone:head',
+          boneId: 'head',
+          parent: 'spine_mid',
+          position: [0, 1, 0] as [number, number, number],
+          length: 1,
+        },
+      ],
+      targetBoneId: 'head',
+      targetRuntimeBoneId: 'otter_river:bone:head',
+      targetPosition: [0, 1, 0] as [number, number, number],
+      solver: 'two-bone' as const,
+      totalLength: 2,
+      status: 'ready' as const,
+      missingBones: [],
+    };
+    const ikRig = {
+      creatureId: creature.runtime.id,
+      chains: [chain],
+      ready: [chain],
+      missing: [],
+      coverage: { total: 1, ready: 1, missing: 0, readyRatio: 1 },
+    };
+
+    const chainPoses = createRuntimeCreatureIKPose(ikRig, {
+      look_at_target: [3, 0, 0],
+    });
+    const result = applyRuntimeCreatureIKPose(rig, binding, ikRig, {
+      look_at_target: [3, 0, 0],
+    });
+
+    expect(chainPoses[0]?.reached).toBe(false);
+    expect(chainPoses[0]?.target).toEqual([2, 0, 0]);
+    expect(chainPoses[0]?.distanceToTarget).toBe(1);
+    expect(result.applications).toHaveLength(2);
+    expect(spine.position.toArray()).toEqual([0, 0, 0]);
+    expect(head.position.toArray()).toEqual([2, 0, 0]);
   });
 });

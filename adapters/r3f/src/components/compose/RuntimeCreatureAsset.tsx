@@ -4,6 +4,7 @@ import {
   type CreatureRuntimeAnimationGraphState,
   type CreatureRuntimeAnimationGraphTransition,
   type CreatureRuntimeAssembly,
+  type CreatureRuntimeIKRigPlan,
   type CreatureRuntimeRigBindingPlan,
   createCreatureRigBindingPlan,
 } from '@strata-game-library/core/compose';
@@ -29,6 +30,10 @@ import type {
   RuntimeCreatureAnimationStateDefinition,
   RuntimeCreatureAnimationStateTransitionMode,
   RuntimeCreatureAnimationStopOptions,
+  RuntimeCreatureIKChainPose,
+  RuntimeCreatureIKPoseApplication,
+  RuntimeCreatureIKPoseOptions,
+  RuntimeCreatureIKTargetMap,
   RuntimeCreaturePose,
   RuntimeCreaturePoseApplication,
   RuntimeCreaturePoseOptions,
@@ -674,6 +679,138 @@ function scaleTuple(value: RuntimeCreaturePoseScale): [number, number, number] {
   return vectorTuple(value);
 }
 
+function addVector(
+  left: [number, number, number],
+  right: [number, number, number]
+): [number, number, number] {
+  return [left[0] + right[0], left[1] + right[1], left[2] + right[2]];
+}
+
+function subtractVector(
+  left: [number, number, number],
+  right: [number, number, number]
+): [number, number, number] {
+  return [left[0] - right[0], left[1] - right[1], left[2] - right[2]];
+}
+
+function scaleVector(value: [number, number, number], scalar: number): [number, number, number] {
+  return [value[0] * scalar, value[1] * scalar, value[2] * scalar];
+}
+
+function vectorLength(value: [number, number, number]): number {
+  return Math.hypot(value[0], value[1], value[2]);
+}
+
+function normalizeVector(value: [number, number, number]): [number, number, number] {
+  const length = vectorLength(value);
+
+  return length <= 0 ? [0, 0, 0] : scaleVector(value, 1 / length);
+}
+
+function resolveRuntimeCreatureIKTarget(
+  chain: RuntimeCreatureIKChainPose['chain'],
+  targets: RuntimeCreatureIKTargetMap
+): [number, number, number] | undefined {
+  const target =
+    targets[chain.id] ??
+    targets[chain.targetRuntimeBoneId ?? ''] ??
+    targets[chain.targetBoneId] ??
+    chain.targetPosition;
+
+  if (!target) {
+    return undefined;
+  }
+
+  if (Array.isArray(target) || 'x' in target) {
+    return vectorTuple(target);
+  }
+
+  return vectorTuple(target.position);
+}
+
+function chainBoneDistanceAtIndex(
+  chain: RuntimeCreatureIKChainPose['chain'],
+  index: number
+): number {
+  if (index <= 0) {
+    return 0;
+  }
+
+  if (index >= chain.bones.length - 1) {
+    return chain.totalLength;
+  }
+
+  return chain.bones.slice(0, index).reduce((sum, bone) => sum + bone.length, 0);
+}
+
+/**
+ * Builds deterministic runtime poses from core IK chain plans and target positions.
+ */
+export function createRuntimeCreatureIKPose(
+  ikRig: CreatureRuntimeIKRigPlan,
+  targets: RuntimeCreatureIKTargetMap = {},
+  options: RuntimeCreatureIKPoseOptions = {}
+): RuntimeCreatureIKChainPose[] {
+  const chains = options.includeMissing ? ikRig.chains : ikRig.ready;
+
+  return chains.flatMap((chain) => {
+    const requestedTarget = resolveRuntimeCreatureIKTarget(chain, targets);
+
+    if (!requestedTarget || chain.status !== 'ready' || chain.bones.length === 0) {
+      return [];
+    }
+
+    const base = chain.bones[0]?.position ?? [0, 0, 0];
+    const toRequestedTarget = subtractVector(requestedTarget, base);
+    const requestedDistance = vectorLength(toRequestedTarget);
+    const reach = Math.max(0, chain.totalLength);
+    const direction = normalizeVector(toRequestedTarget);
+    const clampedDistance =
+      options.clampToReach === false ? requestedDistance : Math.min(requestedDistance, reach);
+    const target = addVector(base, scaleVector(direction, clampedDistance));
+    const pose: RuntimeCreaturePose = {};
+
+    for (let index = 0; index < chain.bones.length; index += 1) {
+      const bone = chain.bones[index];
+
+      if (!bone) {
+        continue;
+      }
+
+      const distance =
+        chain.bones.length === 1
+          ? clampedDistance
+          : Math.min(chainBoneDistanceAtIndex(chain, index), clampedDistance);
+      const position =
+        index === chain.bones.length - 1
+          ? target
+          : addVector(base, scaleVector(direction, distance));
+
+      pose[bone.runtimeBoneId] = { position };
+    }
+
+    return [
+      {
+        chain,
+        target,
+        reached: requestedDistance <= reach,
+        distanceToTarget: Math.max(0, requestedDistance - clampedDistance),
+        pose,
+      },
+    ];
+  });
+}
+
+function mergeRuntimeCreatureIKPoses(chains: RuntimeCreatureIKChainPose[]): RuntimeCreaturePose {
+  const pose: RuntimeCreaturePose = {};
+
+  for (const chain of chains) {
+    Object.assign(pose, chain.pose);
+  }
+
+  return pose;
+}
+
 /**
  * Creates aliases from runtime/logical/source bone names to Three objects.
  */
@@ -762,6 +899,27 @@ export function applyRuntimeCreaturePose(
   }
 
   return applications;
+}
+
+/**
+ * Applies core IK target plans to matching Three rig objects through runtime pose aliases.
+ */
+export function applyRuntimeCreatureIKPose(
+  root: THREE.Object3D,
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  ikRig: CreatureRuntimeIKRigPlan,
+  targets: RuntimeCreatureIKTargetMap = {},
+  options: RuntimeCreatureIKPoseOptions = {}
+): RuntimeCreatureIKPoseApplication {
+  const chains = createRuntimeCreatureIKPose(ikRig, targets, options);
+  const pose = mergeRuntimeCreatureIKPoses(chains);
+
+  return {
+    ikRig,
+    pose,
+    chains,
+    applications: applyRuntimeCreaturePose(root, rigBinding, pose, options),
+  };
 }
 
 function cloneRuntimeCreatureAsset(
