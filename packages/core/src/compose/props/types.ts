@@ -95,6 +95,12 @@ export type PropRuntimeInteractionEffect =
   | {
       type: 'command';
       command: string;
+    }
+  | {
+      type: 'physics';
+      operation: 'set-mode' | 'disable-collider' | 'enable-collider' | 'wake-body';
+      nodeIds: string[];
+      mode?: RuntimePhysicsProfile['mode'];
     };
 
 export type PropRuntimeInteractionStatus =

@@ -442,6 +442,12 @@ export function executePropInteractionAction(
       const open = !state.open;
       nextState.open = open;
       effects.push({ type: 'state', key: 'open', value: open });
+      effects.push({
+        type: 'physics',
+        operation: 'set-mode',
+        nodeIds: [...interactionAction.nodeIds],
+        mode: 'kinematic',
+      });
       break;
     }
     case 'switch': {
@@ -459,6 +465,11 @@ export function executePropInteractionAction(
       }
       nextState.collected = true;
       effects.push({ type: 'state', key: 'collected', value: true });
+      effects.push({
+        type: 'physics',
+        operation: 'disable-collider',
+        nodeIds: [...interactionAction.nodeIds],
+      });
       if (payloadItems.length > 0) {
         effects.push({ type: 'inventory', operation: 'collect', items: [...payloadItems] });
       }

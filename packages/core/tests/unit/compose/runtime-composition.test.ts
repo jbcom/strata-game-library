@@ -182,6 +182,28 @@ describe('runtime composition assembly', () => {
     expect(switchResult.effects).toContainEqual({ type: 'state', key: 'active', value: true });
     expect(switchResult.effects).toContainEqual({ type: 'command', command: 'raise_gate' });
 
+    const door = resolvePropComposition({
+      id: 'door_oak',
+      name: 'Oak Door',
+      components: [
+        {
+          shape: 'box',
+          size: [1, 2, 0.2],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+      interaction: { type: 'door' },
+    }).runtime;
+    const doorResult = executePropInteractionAction(door, 'door_oak:interaction:door');
+
+    expect(doorResult.effects).toContainEqual({
+      type: 'physics',
+      operation: 'set-mode',
+      nodeIds: door.nodes.map((node) => node.id),
+      mode: 'kinematic',
+    });
+
     const collectible = resolvePropComposition({
       id: 'coin_gold',
       name: 'Gold Coin',
@@ -207,6 +229,11 @@ describe('runtime composition assembly', () => {
       type: 'inventory',
       operation: 'collect',
       items: ['coin_gold'],
+    });
+    expect(collected.effects).toContainEqual({
+      type: 'physics',
+      operation: 'disable-collider',
+      nodeIds: collectible.nodes.map((node) => node.id),
     });
 
     expect(

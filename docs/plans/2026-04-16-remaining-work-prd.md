@@ -164,6 +164,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
 - `executePropInteractionAction()` now executes those prop action descriptors into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
 - `createPropInteractionController()` now wraps those executor results in a stateful controller for adapter-owned interaction UI/gameplay flows.
+- Prop interaction effects now include renderer-neutral physics requests for kinematic door motion and collectible collider disablement, so adapters do not need prop-type-specific physics branching.
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
 - `createMaterialProceduralPlan()` now converts procedural traits into deterministic adapter-neutral shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait algorithms.
@@ -185,7 +186,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, deeper interaction UX/physics integration, procedural texture rasterization/export beyond the new bake manifests, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, adapter-level interaction UX/physics execution beyond the new core effect records, procedural texture rasterization/export beyond the new bake manifests, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
