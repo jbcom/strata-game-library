@@ -184,6 +184,15 @@ export interface MaterialProceduralBakeRaster {
   manifest: MaterialProceduralBakeManifest;
 }
 
+export interface MaterialProceduralBakeEncodedImage {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  mimeType: 'image/png';
+  data: Uint8Array;
+}
+
 export interface MaterialProceduralPlanOptions {
   traits?: MaterialTrait[];
   inferTraits?: boolean;

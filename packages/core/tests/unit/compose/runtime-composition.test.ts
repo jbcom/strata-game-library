@@ -6,6 +6,7 @@ import {
   createMaterialVariant,
   createMaterialVariants,
   createPropInteractionController,
+  encodeMaterialProceduralBakeRasterPng,
   executePropInteractionAction,
   inferMaterialTraits,
   rasterizeMaterialProceduralBakePlan,
@@ -136,6 +137,19 @@ describe('runtime composition assembly', () => {
     expect(
       Array.from(rasterizeMaterialProceduralBakePlan(smallBake).images[0]?.data ?? [])
     ).toEqual(Array.from(roughness?.data ?? []));
+
+    const encoded = encodeMaterialProceduralBakeRasterPng(raster);
+
+    expect(encoded[0]).toMatchObject({
+      fileName: 'scratched_iron.roughness.png',
+      mimeType: 'image/png',
+    });
+    expect(Array.from(encoded[0]?.data.slice(0, 8) ?? [])).toEqual([
+      137, 80, 78, 71, 13, 10, 26, 10,
+    ]);
+    expect(Array.from(encodeMaterialProceduralBakeRasterPng(raster)[0]?.data ?? [])).toEqual(
+      Array.from(encoded[0]?.data ?? [])
+    );
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {
