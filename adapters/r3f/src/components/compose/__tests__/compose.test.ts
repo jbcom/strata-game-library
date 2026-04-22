@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import {
+  applyRuntimeCreatureAnimationBlend,
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
@@ -50,6 +51,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.RuntimeGeometry).toBeDefined();
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
+    expect(compose.applyRuntimeCreatureAnimationBlend).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationTrackNameMap).toBeTypeOf('function');
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
@@ -695,6 +697,31 @@ void main() {
     expect(guardedStates.enter('calm')).toBe(idleAction);
     expect(guardedStates.canEnter('lockedLeap')).toBe(true);
     expect(guardedStates.enter('lockedLeap', { mode: 'play' })).toBe(jumpAction);
+
+    const idleWeight = vi.spyOn(idleAction, 'setEffectiveWeight');
+    const jumpWeight = vi.spyOn(jumpAction, 'setEffectiveWeight');
+    const blendApplications = applyRuntimeCreatureAnimationBlend(
+      createRuntimeCreatureAnimationController(creature.runtime, actions),
+      [
+        { animation: 'idle', weight: 1 },
+        { animation: 'leap', weight: 3 },
+        { animation: 'missing', weight: 2 },
+      ],
+      { normalize: true }
+    );
+
+    expect(blendApplications).toHaveLength(2);
+    expect(blendApplications.map((application) => application.weight)).toEqual([0.25, 0.75]);
+    expect(idleWeight).toHaveBeenCalledWith(0.25);
+    expect(jumpWeight).toHaveBeenCalledWith(0.75);
+
+    expect(
+      applyRuntimeCreatureAnimationBlend(
+        createRuntimeCreatureAnimationController(creature.runtime, actions),
+        [{ animation: 'idle', weight: 0 }],
+        { stopZeroWeight: true }
+      )
+    ).toEqual([]);
   });
 
   it('applies R3F creature poses through rig binding aliases', () => {

@@ -2,6 +2,7 @@ export { createRuntimeMaterial, resolveRuntimeMaterial } from './materials';
 export { type RuntimeAssetMaterialMode, RuntimeAssetMesh } from './RuntimeAssetMesh';
 export { RuntimeCreature } from './RuntimeCreature';
 export {
+  applyRuntimeCreatureAnimationBlend,
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationController,
@@ -36,6 +37,9 @@ export {
 export type {
   RuntimeCreatureAnimationActionContext,
   RuntimeCreatureAnimationActionMap,
+  RuntimeCreatureAnimationBlendApplication,
+  RuntimeCreatureAnimationBlendEntry,
+  RuntimeCreatureAnimationBlendOptions,
   RuntimeCreatureAnimationController,
   RuntimeCreatureAnimationCrossFadeOptions,
   RuntimeCreatureAnimationPlaybackOptions,

@@ -214,6 +214,44 @@ export interface RuntimeCreatureAnimationStateController {
 }
 
 /**
+ * Weighted runtime creature animation entry.
+ */
+export interface RuntimeCreatureAnimationBlendEntry {
+  /** Runtime logical animation id or source clip name. */
+  animation: string;
+  /** Desired action weight. Negative values are clamped to zero. */
+  weight: number;
+  /** Playback options used when starting the action. */
+  playback?: RuntimeCreatureAnimationPlaybackOptions;
+}
+
+/**
+ * Options for applying weighted runtime creature animation blends.
+ */
+export interface RuntimeCreatureAnimationBlendOptions {
+  /** Normalizes positive weights so they sum to 1. Default: false. */
+  normalize?: boolean;
+  /** Stops zero-weight actions instead of leaving them untouched. Default: false. */
+  stopZeroWeight?: boolean;
+  /** Stop options used when `stopZeroWeight` is enabled. */
+  zeroWeightStop?: RuntimeCreatureAnimationStopOptions;
+  /** Resets actions before playback. Default: false for blend updates. */
+  reset?: boolean;
+}
+
+/**
+ * Result entry for an applied weighted runtime creature animation blend.
+ */
+export interface RuntimeCreatureAnimationBlendApplication {
+  /** Runtime logical animation id or source clip name. */
+  animation: string;
+  /** Three action that received the weight. */
+  action: THREE.AnimationAction;
+  /** Effective weight applied to the action. */
+  weight: number;
+}
+
+/**
  * Vector-like pose value accepted by runtime creature pose helpers.
  */
 export type RuntimeCreaturePoseVector = [number, number, number] | THREE.Vector3;

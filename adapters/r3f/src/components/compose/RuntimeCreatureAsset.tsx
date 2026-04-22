@@ -10,6 +10,9 @@ import { AnimationClip, LoopOnce, LoopRepeat } from 'three';
 import type {
   RuntimeCreatureAnimationActionContext,
   RuntimeCreatureAnimationActionMap,
+  RuntimeCreatureAnimationBlendApplication,
+  RuntimeCreatureAnimationBlendEntry,
+  RuntimeCreatureAnimationBlendOptions,
   RuntimeCreatureAnimationController,
   RuntimeCreatureAnimationCrossFadeOptions,
   RuntimeCreatureAnimationPlaybackOptions,
@@ -439,6 +442,58 @@ export function createRuntimeCreatureAnimationStateController(
   };
 
   return stateController;
+}
+
+/**
+ * Applies weighted action blends through runtime creature logical animation ids.
+ */
+export function applyRuntimeCreatureAnimationBlend(
+  controller: RuntimeCreatureAnimationController,
+  entries: readonly RuntimeCreatureAnimationBlendEntry[],
+  options: RuntimeCreatureAnimationBlendOptions = {}
+): RuntimeCreatureAnimationBlendApplication[] {
+  const candidates = entries.map((entry) => ({
+    action: controller.getAction(entry.animation),
+    entry,
+    rawWeight: Math.max(0, entry.weight),
+  }));
+  const positiveWeightTotal = candidates.reduce(
+    (total, candidate) => total + (candidate.action ? candidate.rawWeight : 0),
+    0
+  );
+  const applications: RuntimeCreatureAnimationBlendApplication[] = [];
+
+  for (const { action: availableAction, entry, rawWeight } of candidates) {
+    const weight =
+      options.normalize && positiveWeightTotal > 0 ? rawWeight / positiveWeightTotal : rawWeight;
+
+    if (weight <= 0) {
+      if (options.stopZeroWeight) {
+        controller.stop(entry.animation, options.zeroWeightStop);
+      }
+
+      continue;
+    }
+
+    if (!availableAction) {
+      continue;
+    }
+
+    const action = controller.play(entry.animation, {
+      reset: options.reset ?? false,
+      ...entry.playback,
+    });
+
+    if (!action) {
+      continue;
+    }
+
+    action.enabled = true;
+    action.setEffectiveWeight(weight);
+    applications.push({ animation: entry.animation, action, weight });
+  }
+
+  return applications;
 }
 
 function findRuntimeCreaturePoseBinding(
