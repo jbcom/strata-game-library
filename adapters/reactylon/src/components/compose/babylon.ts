@@ -15,11 +15,12 @@ import {
   Vector3,
 } from '@babylonjs/core';
 import {
-  executePropInteractionAction,
+  createPropInteractionController,
   type MaterialProceduralLayer,
   type MaterialProceduralPlan,
   type MaterialProceduralUniform,
   type PropRuntimeInteractionAction,
+  type PropRuntimeInteractionController,
   type PropRuntimeInteractionResult,
   type PropRuntimeInteractionState,
 } from '@strata-game-library/core/compose';
@@ -129,6 +130,10 @@ export interface BabylonRuntimePropInstance {
   root: TransformNode;
   meshes: AbstractMesh[];
   materials: Record<string, BabylonMaterial>;
+  interactionState: PropRuntimeInteractionState;
+  interactionController: PropRuntimeInteractionController;
+  setInteractionState(state: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  resetInteractionState(state?: PropRuntimeInteractionState): PropRuntimeInteractionState;
   executeInteraction(
     action: string | PropRuntimeInteractionAction,
     state?: PropRuntimeInteractionState
@@ -629,6 +634,60 @@ function propInteractionActionsForNode(
     .map(clonePropInteractionAction);
 }
 
+function applyPropInteractionStateMetadata(
+  root: TransformNode,
+  meshes: AbstractMesh[],
+  state: PropRuntimeInteractionState
+): void {
+  root.metadata = mergeMetadata(root.metadata, {
+    strataRuntimeInteractionState: state,
+  });
+
+  for (const mesh of meshes) {
+    mesh.metadata = mergeMetadata(mesh.metadata, {
+      strataRuntimeInteractionState: state,
+    });
+  }
+}
+
+function createBabylonPropInteractionController(
+  descriptor: ReactylonRuntimePropDescriptor,
+  root: TransformNode,
+  meshes: AbstractMesh[]
+): {
+  controller: PropRuntimeInteractionController;
+  getState(): PropRuntimeInteractionState;
+  setState(state: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  resetState(state?: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  execute(
+    action: string | PropRuntimeInteractionAction,
+    state?: PropRuntimeInteractionState
+  ): PropRuntimeInteractionResult;
+} {
+  const controller = createPropInteractionController(descriptor);
+
+  const sync = (state: PropRuntimeInteractionState): PropRuntimeInteractionState => {
+    applyPropInteractionStateMetadata(root, meshes, state);
+    return state;
+  };
+
+  return {
+    controller,
+    getState: () => controller.getState(),
+    setState: (state) => sync(controller.setState(state)),
+    resetState: (state) => sync(controller.reset(state)),
+    execute: (action, state) => {
+      if (state) {
+        controller.setState(state);
+      }
+
+      const result = controller.execute(action);
+      sync(result.nextState);
+      return result;
+    },
+  };
+}
+
 function applyMeshTransform(
   mesh: AbstractMesh,
   root: TransformNode,
@@ -790,13 +849,22 @@ export function instantiateBabylonRuntimeProp(
     }
   }
 
+  const interactions = createBabylonPropInteractionController(descriptor, root, meshes);
+  interactions.resetState();
+
   return {
     kind: 'prop',
     descriptor,
     root,
     meshes,
     materials,
-    executeInteraction: (action, state) => executePropInteractionAction(descriptor, action, state),
+    get interactionState() {
+      return interactions.getState();
+    },
+    interactionController: interactions.controller,
+    setInteractionState: interactions.setState,
+    resetInteractionState: interactions.resetState,
+    executeInteraction: interactions.execute,
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }
@@ -897,13 +965,22 @@ export async function instantiateBabylonRuntimePropAsync(
     meshes.push(mesh);
   }
 
+  const interactions = createBabylonPropInteractionController(descriptor, root, meshes);
+  interactions.resetState();
+
   return {
     kind: 'prop',
     descriptor,
     root,
     meshes,
     materials,
-    executeInteraction: (action, state) => executePropInteractionAction(descriptor, action, state),
+    get interactionState() {
+      return interactions.getState();
+    },
+    interactionController: interactions.controller,
+    setInteractionState: interactions.setState,
+    resetInteractionState: interactions.resetState,
+    executeInteraction: interactions.execute,
     dispose: () => disposeInstance(root, meshes, materials, options.disposeMaterials ?? true),
   };
 }

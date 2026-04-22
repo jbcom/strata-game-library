@@ -163,6 +163,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
 - Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
 - `executePropInteractionAction()` now executes those prop action descriptors into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
+- `createPropInteractionController()` now wraps those executor results in a stateful controller for adapter-owned interaction UI/gameplay flows.
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
 - `createMaterialProceduralPlan()` now converts procedural traits into deterministic adapter-neutral shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait algorithms.
@@ -178,8 +179,8 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
 - Reactylon creature descriptors now preserve core creature asset bindings so Babylon-owned loaders can consume the same model, rig, clip, and bone-map metadata.
 - Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams, async mesh-shaped prop loading, asset-bound creature loading, and logical animation playback via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()`.
-- Babylon prop instances now carry interaction metadata and expose `executeInteraction()` backed by the core prop interaction executor.
-- Remaining work is richer creature rig retargeting/skeletal animation control, higher-level interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
+- Remaining work is richer creature rig retargeting/skeletal animation control, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

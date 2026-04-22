@@ -135,9 +135,13 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.meshes[0]?.metadata.strataRuntimeInteractionActions[0]?.action).toBe(
       'open-container'
     );
-    expect(instance.executeInteraction('crate_wooden:interaction:container').nextState.open).toBe(
-      true
-    );
+    const interaction = instance.executeInteraction('crate_wooden:interaction:container');
+
+    expect(interaction.nextState.open).toBe(true);
+    expect(instance.interactionState.open).toBe(true);
+    expect(instance.root.metadata.strataRuntimeInteractionState.open).toBe(true);
+    expect(instance.meshes[0]?.metadata.strataRuntimeInteractionState.open).toBe(true);
+    expect(instance.resetInteractionState().open).toBeUndefined();
 
     instance.dispose();
     scene.dispose();

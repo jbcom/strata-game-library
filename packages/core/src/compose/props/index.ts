@@ -27,6 +27,7 @@ import type {
   PropComposition,
   PropDefinition,
   PropRuntimeInteractionAction,
+  PropRuntimeInteractionController,
   PropRuntimeInteractionResult,
   PropRuntimeInteractionSource,
   PropRuntimeInteractionState,
@@ -474,6 +475,30 @@ export function executePropInteractionAction(
     action: interactionAction,
     effects,
     nextState,
+  };
+}
+
+export function createPropInteractionController(
+  runtime: PropRuntimeInteractionSource,
+  initialState: PropRuntimeInteractionState = {}
+): PropRuntimeInteractionController {
+  let currentState = cloneInteractionState(initialState);
+
+  return {
+    getState: () => cloneInteractionState(currentState),
+    setState: (state) => {
+      currentState = cloneInteractionState(state);
+      return cloneInteractionState(currentState);
+    },
+    reset: (state = initialState) => {
+      currentState = cloneInteractionState(state);
+      return cloneInteractionState(currentState);
+    },
+    execute: (action) => {
+      const result = executePropInteractionAction(runtime, action, currentState);
+      currentState = cloneInteractionState(result.nextState);
+      return result;
+    },
   };
 }
 

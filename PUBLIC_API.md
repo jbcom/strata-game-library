@@ -82,6 +82,7 @@ createProp(input: CreatePropInput | string): PropDefinition
 resolvePropComposition(input: CreatePropInput | string): PropComposition
 findPropInteractionAction(runtime, action): PropRuntimeInteractionAction | undefined
 executePropInteractionAction(runtime, action, state?): PropRuntimeInteractionResult
+createPropInteractionController(runtime, initialState?): PropRuntimeInteractionController
 createMaterialTrait(type, options?): MaterialTrait
 inferMaterialTraits(material, options?): MaterialTrait[]
 createMaterialVariant(material, options?): MaterialDefinition
@@ -94,13 +95,13 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
 
-`executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
+`executePropInteractionAction()` turns those descriptors plus optional prop interaction state into deterministic next-state/effect records for containers, seats, doors, switches, and collectibles. `createPropInteractionController()` wraps that executor with a small stateful controller for adapter-owned UI and gameplay systems. Adapters can execute UI, audio, inventory, command, and state effects without hard-coding prop type behavior.
 
 `MaterialDefinition.traits`, `createMaterialTrait()`, `inferMaterialTraits()`, and `createMaterialProceduralPlan()` provide serializable procedural material metadata plus deterministic shader/texture layer plans for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels. Variants can replace or append traits, adapter material descriptors infer or preserve trait and procedural plan metadata, the R3F adapter applies those plans to `MeshStandardMaterial` shader compilation, and the Reactylon adapter attaches a Babylon PBR material plugin for procedural albedo, scalar, opacity, and emissive effects.
 
 The R3F adapter consumes those plans through `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, and `createRuntimeGeometry()`, with override hooks for custom node/bone renderers and custom Three.js materials. `RuntimeProp` can also execute prop interaction actions on node clicks via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 
-The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. `createBabylonRuntimeMaterial()` attaches the Babylon procedural material plugin when a runtime material descriptor carries a procedural plan, and `getBabylonRuntimeProceduralMaterialPlugin()` exposes that plugin for direct Babylon integration. Native Babylon prop instances carry runtime interaction metadata and expose `executeInteraction()` for adapter-owned UI or gameplay systems. `instantiateBabylonRuntimePropAsync()` and `instantiateBabylonRuntimeCreatureAsset()` add async asset-loading paths for mesh-shaped prop nodes and asset-bound creatures through Babylon `SceneLoader` or an injected asset loader; asset-backed creature instances expose loaded animation groups plus `playAnimation()` for logical-to-source clip selection.
+The Reactylon adapter consumes the same plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, serializable Babylon/Reactylon runtime descriptors, and direct Babylon mesh/material instantiation helpers. `createBabylonRuntimeMaterial()` attaches the Babylon procedural material plugin when a runtime material descriptor carries a procedural plan, and `getBabylonRuntimeProceduralMaterialPlugin()` exposes that plugin for direct Babylon integration. Native Babylon prop instances carry runtime interaction metadata and expose a stateful `executeInteraction()` plus `interactionState` / `resetInteractionState()` for adapter-owned UI or gameplay systems. `instantiateBabylonRuntimePropAsync()` and `instantiateBabylonRuntimeCreatureAsset()` add async asset-loading paths for mesh-shaped prop nodes and asset-bound creatures through Babylon `SceneLoader` or an injected asset loader; asset-backed creature instances expose loaded animation groups plus `playAnimation()` for logical-to-source clip selection.
 
 ### Game State Presets
 

@@ -3,6 +3,7 @@ import {
   createMaterialProceduralPlan,
   createMaterialVariant,
   createMaterialVariants,
+  createPropInteractionController,
   executePropInteractionAction,
   inferMaterialTraits,
   resolveCreatureComposition,
@@ -177,6 +178,14 @@ describe('runtime composition assembly', () => {
         collected: true,
       }).status
     ).toBe('already-collected');
+
+    const controller = createPropInteractionController(collectible);
+    const controlledCollect = controller.execute('coin_gold:interaction:collectible');
+
+    expect(controlledCollect.status).toBe('executed');
+    expect(controller.getState().collected).toBe(true);
+    expect(controller.execute('coin_gold:interaction:collectible').status).toBe('disabled');
+    expect(controller.reset().collected).toBeUndefined();
   });
 
   it('resolves creatures into runtime bones, materials, animation bindings, and spawn metadata', () => {

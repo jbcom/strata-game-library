@@ -115,6 +115,13 @@ export interface PropRuntimeInteractionSource {
   interactionActions: PropRuntimeInteractionAction[];
 }
 
+export interface PropRuntimeInteractionController {
+  getState(): PropRuntimeInteractionState;
+  setState(state: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  reset(state?: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  execute(action: string | PropRuntimeInteractionAction): PropRuntimeInteractionResult;
+}
+
 export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
   components: PropComponent[];
 }
