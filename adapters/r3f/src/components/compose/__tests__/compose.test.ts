@@ -10,9 +10,11 @@ import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import {
+  applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
+  createRuntimeCreaturePoseTargetMap,
   retargetRuntimeCreatureAnimationClip,
 } from '../RuntimeCreatureAsset';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
@@ -39,6 +41,8 @@ describe('R3F runtime composition components', () => {
     expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationTrackNameMap).toBeTypeOf('function');
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
+    expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
+    expect(compose.applyRuntimeCreaturePose).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
     expect(compose.attachRuntimePropPhysicsHandle).toBeTypeOf('function');
@@ -414,6 +418,44 @@ void main() {
     expect(runtimeClip.tracks.map((track) => track.name)).toEqual([
       'Armature/otter_river:bone:spine_mid.position',
       '.bones[otter_river:bone:head].quaternion',
+    ]);
+  });
+
+  it('applies R3F creature poses through rig binding aliases', () => {
+    const creature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        boneMap: {
+          spine_mid: 'Spine',
+          head: 'Head',
+        },
+      },
+    });
+    const rig = new THREE.Group();
+    const spine = new THREE.Bone();
+    const head = new THREE.Bone();
+
+    spine.name = 'Spine';
+    head.name = 'Head';
+    rig.add(spine, head);
+
+    const binding = createRuntimeCreatureAssetRigBinding(creature.runtime, rig);
+    const targets = createRuntimeCreaturePoseTargetMap(rig, binding);
+    const applications = applyRuntimeCreaturePose(rig, binding, {
+      spine_mid: { position: [1, 2, 3] },
+      head: { rotation: [0, 0, 0, 1], scale: 1.5 },
+    });
+
+    expect(targets.get('otter_river:bone:spine_mid')).toBe(spine);
+    expect(targets.get('spine_mid')).toBe(spine);
+    expect(targets.get('Spine')).toBe(spine);
+    expect(applications).toHaveLength(2);
+    expect(spine.position.toArray()).toEqual([1, 2, 3]);
+    expect(head.quaternion.toArray()).toEqual([0, 0, 0, 1]);
+    expect(head.scale.toArray()).toEqual([1.5, 1.5, 1.5]);
+    expect(applications.map((application) => application.applied)).toEqual([
+      ['position'],
+      ['rotation', 'scale'],
     ]);
   });
 });

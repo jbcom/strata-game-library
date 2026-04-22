@@ -2,9 +2,11 @@ export { createRuntimeMaterial, resolveRuntimeMaterial } from './materials';
 export { type RuntimeAssetMaterialMode, RuntimeAssetMesh } from './RuntimeAssetMesh';
 export { RuntimeCreature } from './RuntimeCreature';
 export {
+  applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
+  createRuntimeCreaturePoseTargetMap,
   RuntimeCreatureAsset,
   type RuntimeCreatureAssetProps,
   retargetRuntimeCreatureAnimationClip,
@@ -25,6 +27,14 @@ export type {
   RuntimeCreatureAnimationRetargetOptions,
   RuntimeCreatureAssetMode,
   RuntimeCreatureInput,
+  RuntimeCreaturePose,
+  RuntimeCreaturePoseApplication,
+  RuntimeCreaturePoseChannel,
+  RuntimeCreaturePoseOptions,
+  RuntimeCreaturePoseQuaternion,
+  RuntimeCreaturePoseScale,
+  RuntimeCreaturePoseTransform,
+  RuntimeCreaturePoseVector,
   RuntimeCreatureProps,
   RuntimeMaterialOptions,
   RuntimePropInput,

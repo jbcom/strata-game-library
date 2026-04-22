@@ -46,6 +46,64 @@ export interface RuntimeCreatureAnimationRetargetMetadata {
   trackNameMap: Record<string, string>;
 }
 
+/**
+ * Vector-like pose value accepted by runtime creature pose helpers.
+ */
+export type RuntimeCreaturePoseVector = [number, number, number] | THREE.Vector3;
+
+/**
+ * Quaternion-like pose value accepted by runtime creature pose helpers.
+ */
+export type RuntimeCreaturePoseQuaternion = [number, number, number, number] | THREE.Quaternion;
+
+/**
+ * Scale value accepted by runtime creature pose helpers.
+ */
+export type RuntimeCreaturePoseScale = number | RuntimeCreaturePoseVector;
+
+/**
+ * Transform channel applied by runtime creature pose helpers.
+ */
+export type RuntimeCreaturePoseChannel = 'position' | 'rotation' | 'scale';
+
+/**
+ * Per-bone transform used by runtime creature pose helpers.
+ */
+export interface RuntimeCreaturePoseTransform {
+  position?: RuntimeCreaturePoseVector;
+  rotation?: RuntimeCreaturePoseQuaternion;
+  scale?: RuntimeCreaturePoseScale;
+}
+
+/**
+ * Pose map keyed by runtime bone id, logical bone id, or source rig bone name.
+ */
+export type RuntimeCreaturePose = Record<string, RuntimeCreaturePoseTransform>;
+
+/**
+ * Options for resolving and applying runtime creature poses.
+ */
+export interface RuntimeCreaturePoseOptions {
+  /** Includes unverified rig bindings when applying aliases. Default: true. */
+  includeUnverified?: boolean;
+}
+
+/**
+ * Result entry for a transform applied to a Three object.
+ */
+export interface RuntimeCreaturePoseApplication {
+  /** Pose key that matched the target object. */
+  key: string;
+  /** Three object that received the transform. */
+  object: THREE.Object3D;
+  /** Rig binding matched by the pose key, if available. */
+  binding?: CreatureRuntimeRigBindingPlan['bindings'][number];
+  /** Original transform applied to the object. */
+  transform: RuntimeCreaturePoseTransform;
+  /** Channels applied from the transform. */
+  applied: RuntimeCreaturePoseChannel[];
+}
+
 export interface RuntimeMaterialOptions {
   transparentVolumetrics?: boolean;
   materialOverrides?: Record<string, THREE.Material | MaterialDefinition>;

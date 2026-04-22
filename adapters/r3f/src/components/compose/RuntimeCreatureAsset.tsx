@@ -11,6 +11,12 @@ import type {
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
   RuntimeCreatureAnimationRetargetOptions,
+  RuntimeCreaturePose,
+  RuntimeCreaturePoseApplication,
+  RuntimeCreaturePoseOptions,
+  RuntimeCreaturePoseQuaternion,
+  RuntimeCreaturePoseScale,
+  RuntimeCreaturePoseVector,
 } from './types';
 
 export interface RuntimeCreatureAssetProps {
@@ -170,6 +176,132 @@ export function retargetRuntimeCreatureAnimationClip(
   };
 
   return retargeted;
+}
+
+function findRuntimeCreaturePoseBinding(
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  key: string
+): CreatureRuntimeRigBindingPlan['bindings'][number] | undefined {
+  return rigBinding.bindings.find(
+    (binding) =>
+      binding.runtimeBoneId === key || binding.boneId === key || binding.sourceBone === key
+  );
+}
+
+function shouldUsePoseBinding(
+  binding: CreatureRuntimeRigBindingPlan['bindings'][number],
+  options: RuntimeCreaturePoseOptions
+) {
+  return (
+    shouldUseRigBinding(binding) &&
+    (binding.status !== 'unverified' || options.includeUnverified !== false)
+  );
+}
+
+function vectorTuple(value: RuntimeCreaturePoseVector): [number, number, number] {
+  return Array.isArray(value) ? value : [value.x, value.y, value.z];
+}
+
+function quaternionTuple(value: RuntimeCreaturePoseQuaternion): [number, number, number, number] {
+  return Array.isArray(value) ? value : [value.x, value.y, value.z, value.w];
+}
+
+function scaleTuple(value: RuntimeCreaturePoseScale): [number, number, number] {
+  if (typeof value === 'number') {
+    return [value, value, value];
+  }
+
+  return vectorTuple(value);
+}
+
+/**
+ * Creates aliases from runtime/logical/source bone names to Three objects.
+ */
+export function createRuntimeCreaturePoseTargetMap(
+  root: THREE.Object3D,
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  options: RuntimeCreaturePoseOptions = {}
+): Map<string, THREE.Object3D> {
+  const objectsByName = new Map<string, THREE.Object3D>();
+  const targets = new Map<string, THREE.Object3D>();
+
+  root.traverse((object) => {
+    if (!object.name || objectsByName.has(object.name)) {
+      return;
+    }
+
+    objectsByName.set(object.name, object);
+    targets.set(object.name, object);
+  });
+
+  for (const binding of rigBinding.bindings) {
+    if (!shouldUsePoseBinding(binding, options)) {
+      continue;
+    }
+
+    const object =
+      objectsByName.get(binding.sourceBone) ??
+      objectsByName.get(binding.runtimeBoneId) ??
+      objectsByName.get(binding.boneId);
+
+    if (!object) {
+      continue;
+    }
+
+    targets.set(binding.runtimeBoneId, object);
+    targets.set(binding.boneId, object);
+    targets.set(binding.sourceBone, object);
+  }
+
+  return targets;
+}
+
+/**
+ * Applies a runtime creature pose to matching Three rig objects.
+ */
+export function applyRuntimeCreaturePose(
+  root: THREE.Object3D,
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  pose: RuntimeCreaturePose,
+  options: RuntimeCreaturePoseOptions = {}
+): RuntimeCreaturePoseApplication[] {
+  const targets = createRuntimeCreaturePoseTargetMap(root, rigBinding, options);
+  const applications: RuntimeCreaturePoseApplication[] = [];
+
+  for (const [key, transform] of Object.entries(pose)) {
+    const object = targets.get(key);
+
+    if (!object) {
+      continue;
+    }
+
+    const applied: RuntimeCreaturePoseApplication['applied'] = [];
+
+    if (transform.position) {
+      object.position.set(...vectorTuple(transform.position));
+      applied.push('position');
+    }
+
+    if (transform.rotation) {
+      object.quaternion.set(...quaternionTuple(transform.rotation));
+      applied.push('rotation');
+    }
+
+    if (transform.scale !== undefined) {
+      object.scale.set(...scaleTuple(transform.scale));
+      applied.push('scale');
+    }
+
+    applications.push({
+      key,
+      object,
+      binding: findRuntimeCreaturePoseBinding(rigBinding, key),
+      transform,
+      applied,
+    });
+  }
+
+  return applications;
 }
 
 function cloneRuntimeCreatureAsset(
