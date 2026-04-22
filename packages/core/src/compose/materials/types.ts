@@ -193,10 +193,63 @@ export interface MaterialProceduralBakeEncodedImage {
   data: Uint8Array;
 }
 
+export type MaterialProceduralBakeExportMimeType = 'image/png' | 'image/webp' | 'image/ktx2';
+export type MaterialProceduralBakeExportEncoder =
+  | 'builtin-png'
+  | 'browser-image-encoder'
+  | 'basis-universal-ktx2';
+
+export interface MaterialProceduralBakeExportEncoderOptions {
+  quality?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
+}
+
+export interface MaterialProceduralBakeExportRequest {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  width: number;
+  height: number;
+  source: 'rgba8';
+  data: Uint8ClampedArray;
+  options: MaterialProceduralBakeExportEncoderOptions;
+}
+
+export interface MaterialProceduralBakeExportManifestTarget {
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  colorSpace: MaterialProceduralBakeColorSpace;
+}
+
+export interface MaterialProceduralBakeExportManifest {
+  version: 1;
+  materialId: string;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeExportManifestTarget[];
+}
+
+export interface MaterialProceduralBakeExportPlan {
+  materialId: string;
+  textureSize: [number, number];
+  requests: MaterialProceduralBakeExportRequest[];
+  manifest: MaterialProceduralBakeExportManifest;
+}
+
 export interface MaterialProceduralBakeArtifacts {
   plan: MaterialProceduralBakePlan;
   raster: MaterialProceduralBakeRaster;
   png: MaterialProceduralBakeEncodedImage[];
+  exports: MaterialProceduralBakeExportPlan;
 }
 
 export interface MaterialProceduralPlanOptions {
@@ -212,6 +265,14 @@ export interface MaterialProceduralBakePlanOptions extends MaterialProceduralPla
   format?: MaterialProceduralBakeFormat;
   includeEmptyTargets?: boolean;
   filePrefix?: string;
+}
+
+export interface MaterialProceduralBakeExportOptions {
+  format?: MaterialProceduralBakeFormat;
+  filePrefix?: string;
+  quality?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
 }
 
 export interface MaterialDefinition {

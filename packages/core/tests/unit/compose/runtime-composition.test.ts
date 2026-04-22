@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createCreatureRigBindingPlan,
   createMaterialProceduralBakeArtifacts,
+  createMaterialProceduralBakeExportPlan,
   createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
   createMaterialVariant,
@@ -152,6 +153,42 @@ describe('runtime composition assembly', () => {
       Array.from(encoded[0]?.data ?? [])
     );
 
+    const webpExports = createMaterialProceduralBakeExportPlan(
+      rasterizeMaterialProceduralBakePlan(bake),
+      { quality: 0.82 }
+    );
+
+    expect(webpExports.requests[0]).toMatchObject({
+      format: 'webp',
+      fileName: 'bakes/scratched_iron.roughness.webp',
+      mimeType: 'image/webp',
+      encoder: 'browser-image-encoder',
+      options: { quality: 0.82 },
+    });
+    expect(webpExports.manifest.targets[0]).toMatchObject({
+      format: 'webp',
+      mimeType: 'image/webp',
+      encoder: 'browser-image-encoder',
+    });
+
+    const ktx2Exports = createMaterialProceduralBakeExportPlan(raster, {
+      format: 'ktx2',
+      filePrefix: 'gpu/scratched_iron',
+      compressionLevel: 4,
+      generateMipmaps: true,
+    });
+
+    expect(ktx2Exports.requests[0]).toMatchObject({
+      format: 'ktx2',
+      fileName: 'gpu/scratched_iron.roughness.ktx2',
+      mimeType: 'image/ktx2',
+      encoder: 'basis-universal-ktx2',
+      options: { compressionLevel: 4, generateMipmaps: true },
+    });
+    expect(Array.from(ktx2Exports.requests[0]?.data ?? [])).toEqual(
+      Array.from(raster.images[0]?.data ?? [])
+    );
+
     const artifacts = createMaterialProceduralBakeArtifacts(scratched, {
       textureSize: [4, 4],
       channels: ['roughness'],
@@ -160,6 +197,7 @@ describe('runtime composition assembly', () => {
     expect(artifacts.plan.targets).toHaveLength(1);
     expect(artifacts.raster.images[0]?.data).toHaveLength(4 * 4 * 4);
     expect(artifacts.png[0]?.mimeType).toBe('image/png');
+    expect(artifacts.exports.requests[0]?.encoder).toBe('builtin-png');
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

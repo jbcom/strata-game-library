@@ -24,6 +24,12 @@ import type {
   MaterialProceduralBakeArtifacts,
   MaterialProceduralBakeColorSpace,
   MaterialProceduralBakeEncodedImage,
+  MaterialProceduralBakeExportEncoder,
+  MaterialProceduralBakeExportEncoderOptions,
+  MaterialProceduralBakeExportMimeType,
+  MaterialProceduralBakeExportOptions,
+  MaterialProceduralBakeExportPlan,
+  MaterialProceduralBakeFormat,
   MaterialProceduralBakeMap,
   MaterialProceduralBakePlan,
   MaterialProceduralBakePlanOptions,
@@ -1011,6 +1017,71 @@ function pngFileName(fileName: string): string {
   return fileName.replace(/\.[^/.]+$/, '.png');
 }
 
+function replaceBakeFileExtension(fileName: string, format: MaterialProceduralBakeFormat): string {
+  return fileName.replace(/\.[^/.]+$/, `.${format}`);
+}
+
+function proceduralBakeFormatFromFileName(fileName: string): MaterialProceduralBakeFormat {
+  const extension = fileName.split('.').pop()?.toLowerCase();
+
+  return extension === 'webp' || extension === 'ktx2' || extension === 'png' ? extension : 'png';
+}
+
+function proceduralBakeMimeTypeForFormat(
+  format: MaterialProceduralBakeFormat
+): MaterialProceduralBakeExportMimeType {
+  switch (format) {
+    case 'webp':
+      return 'image/webp';
+    case 'ktx2':
+      return 'image/ktx2';
+    case 'png':
+      return 'image/png';
+  }
+}
+
+function proceduralBakeEncoderForFormat(
+  format: MaterialProceduralBakeFormat
+): MaterialProceduralBakeExportEncoder {
+  switch (format) {
+    case 'webp':
+      return 'browser-image-encoder';
+    case 'ktx2':
+      return 'basis-universal-ktx2';
+    case 'png':
+      return 'builtin-png';
+  }
+}
+
+function proceduralBakeExportFileName(
+  image: MaterialProceduralBakeRasterImage,
+  format: MaterialProceduralBakeFormat,
+  filePrefix: string | undefined
+): string {
+  if (filePrefix) {
+    return `${filePrefix}.${image.channel}.${format}`;
+  }
+
+  return replaceBakeFileExtension(image.fileName, format);
+}
+
+function proceduralBakeExportEncoderOptions(
+  format: MaterialProceduralBakeFormat,
+  options: MaterialProceduralBakeExportOptions
+): MaterialProceduralBakeExportEncoderOptions {
+  return {
+    ...(format === 'webp' && options.quality !== undefined
+      ? { quality: clamp01(options.quality) }
+      : {}),
+    ...(format === 'ktx2' && options.compressionLevel !== undefined
+      ? { compressionLevel: Math.max(0, Math.floor(options.compressionLevel)) }
+      : {}),
+    ...(format === 'ktx2' && options.generateMipmaps !== undefined
+      ? { generateMipmaps: options.generateMipmaps }
+      : {}),
+  };
+}
+
 function pngScanlines(image: MaterialProceduralBakeRasterImage): Uint8Array {
   const stride = image.width * 4;
   const scanlines = new Uint8Array((stride + 1) * image.height);
@@ -1067,6 +1138,55 @@ export function encodeMaterialProceduralBakeRasterPng(
 }
 
 /**
+ * Creates external encoder requests for PNG, WebP, or KTX2 bake exports.
+ */
+export function createMaterialProceduralBakeExportPlan(
+  raster: MaterialProceduralBakeRaster,
+  options: MaterialProceduralBakeExportOptions = {}
+): MaterialProceduralBakeExportPlan {
+  const requests = raster.images.map((image) => {
+    const format = options.format ?? proceduralBakeFormatFromFileName(image.fileName);
+    const encoder = proceduralBakeEncoderForFormat(format);
+
+    return {
+      targetId: image.targetId,
+      channel: image.channel,
+      map: image.map,
+      format,
+      fileName: proceduralBakeExportFileName(image, format, options.filePrefix),
+      mimeType: proceduralBakeMimeTypeForFormat(format),
+      encoder,
+      colorSpace: image.colorSpace,
+      width: image.width,
+      height: image.height,
+      source: 'rgba8' as const,
+      data: new Uint8ClampedArray(image.data),
+      options: proceduralBakeExportEncoderOptions(format, options),
+    };
+  });
+
+  return {
+    materialId: raster.materialId,
+    textureSize: [...raster.textureSize],
+    requests,
+    manifest: {
+      version: 1,
+      materialId: raster.materialId,
+      textureSize: [...raster.textureSize],
+      targets: requests.map((request) => ({
+        channel: request.channel,
+        map: request.map,
+        format: request.format,
+        fileName: request.fileName,
+        mimeType: request.mimeType,
+        encoder: request.encoder,
+        colorSpace: request.colorSpace,
+      })),
+    },
+  };
+}
+
+/**
  * Creates a complete procedural bake artifact bundle for offline or worker pipelines.
  */
 export function createMaterialProceduralBakeArtifacts(
@@ -1080,6 +1200,7 @@ export function createMaterialProceduralBakeArtifacts(
     plan,
     raster,
     png: encodeMaterialProceduralBakeRasterPng(raster),
+    exports: createMaterialProceduralBakeExportPlan(raster),
   };
 }
 

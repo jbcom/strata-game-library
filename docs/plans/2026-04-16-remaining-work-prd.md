@@ -171,7 +171,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - `createMaterialProceduralBakePlan()` now converts those procedural layers into deterministic bake targets and manifest metadata for diffuse, roughness, metalness, normal, opacity, and emissive texture maps.
 - `rasterizeMaterialProceduralBakePlan()` now turns procedural bake targets into deterministic pure RGBA byte buffers for adapter or worker-side texture encoding.
 - `encodeMaterialProceduralBakeImagePng()` and `encodeMaterialProceduralBakeRasterPng()` now provide dependency-free PNG byte export for those procedural bake rasters.
-- `createMaterialProceduralBakeArtifacts()` now wraps the material bake plan, RGBA rasters, and PNG outputs into one artifact bundle for offline or worker pipelines.
+- `createMaterialProceduralBakeArtifacts()` now wraps the material bake plan, RGBA rasters, PNG outputs, and encoder export requests into one artifact bundle for offline or worker pipelines.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
@@ -188,6 +188,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F now includes `createRuntimePropRapierPhysicsHandle()` and `attachRuntimePropRapierPhysicsHandle()` so prop physics effects can directly drive Rapier body type, collider enablement, body enablement, and wake operations without hard-coding Rapier imports into runtime composition logic.
 - R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
 - R3F and Reactylon/Babylon descriptors now also preserve procedural bake-plan manifests so later offline/worker pipelines can rasterize the same plans into textures.
+- Core now exposes `createMaterialProceduralBakeExportPlan()` so rasterized procedural bake outputs can be handed to PNG, WebP, or KTX2 encoders as deterministic RGBA8 requests with file names, MIME types, encoder identifiers, and encoder options.
 - R3F runtime material conversion now injects procedural plans into `MeshStandardMaterial` shader compilation for base-color, scalar, opacity, emissive, and normal-channel effects.
 - Reactylon/Babylon runtime material conversion now injects procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
 - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
@@ -198,7 +199,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now apply renderer-neutral prop physics effects to mesh collision/pickability flags, runtime physics metadata, and available Babylon v2/v1 physics-body seams.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is richer skeletal animation blending, state machines, and IK beyond R3F clip-track retargeting, R3F logical action control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine wrappers/examples beyond the new object-handle and Rapier-handle seams; WebP/KTX2 texture export plus authoring workflows beyond the new PNG bake export; and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is richer skeletal animation blending, state machines, and IK beyond R3F clip-track retargeting, R3F logical action control, R3F pose application, and loaded R3F/Babylon clip playback; additional physics-engine wrappers/examples beyond the new object-handle and Rapier-handle seams; actual WebP/KTX2 encoder integrations and authoring workflows beyond the new encoder-request export plans; and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
