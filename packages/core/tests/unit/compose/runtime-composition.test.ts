@@ -8,6 +8,7 @@ import {
   createPropInteractionController,
   executePropInteractionAction,
   inferMaterialTraits,
+  rasterizeMaterialProceduralBakePlan,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '../../../src/compose';
@@ -108,6 +109,33 @@ describe('runtime composition assembly', () => {
         colorSpace: 'normal',
       },
     ]);
+
+    const smallBake = createMaterialProceduralBakePlan(scratched, {
+      textureSize: [8, 4],
+      channels: ['roughness', 'normal'],
+    });
+    const raster = rasterizeMaterialProceduralBakePlan(smallBake);
+    const roughness = raster.images.find((image) => image.channel === 'roughness');
+    const normal = raster.images.find((image) => image.channel === 'normal');
+
+    expect(roughness).toMatchObject({
+      width: 8,
+      height: 4,
+      colorSpace: 'linear',
+    });
+    expect(roughness?.data).toHaveLength(8 * 4 * 4);
+    expect(
+      new Set(Array.from(roughness?.data.filter((_, index) => index % 4 === 0) ?? [])).size
+    ).toBeGreaterThan(1);
+    expect(normal).toMatchObject({
+      width: 8,
+      height: 4,
+      colorSpace: 'normal',
+    });
+    expect(normal?.data[2]).toBe(255);
+    expect(
+      Array.from(rasterizeMaterialProceduralBakePlan(smallBake).images[0]?.data ?? [])
+    ).toEqual(Array.from(roughness?.data ?? []));
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

@@ -166,6 +166,24 @@ export interface MaterialProceduralBakePlan {
   manifest: MaterialProceduralBakeManifest;
 }
 
+export interface MaterialProceduralBakeRasterImage {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+}
+
+export interface MaterialProceduralBakeRaster {
+  materialId: string;
+  textureSize: [number, number];
+  images: MaterialProceduralBakeRasterImage[];
+  manifest: MaterialProceduralBakeManifest;
+}
+
 export interface MaterialProceduralPlanOptions {
   traits?: MaterialTrait[];
   inferTraits?: boolean;
