@@ -1,5 +1,12 @@
 import type * as THREE from 'three';
 import type { MaterialDefinition } from '../materials';
+import type {
+  RuntimeBounds,
+  RuntimeMaterialSlot,
+  RuntimePhysicsProfile,
+  RuntimeQuaternionTuple,
+  RuntimeVector3Tuple,
+} from '../runtime-types';
 
 export interface PropComponent {
   shape: 'box' | 'cylinder' | 'sphere' | 'capsule' | 'mesh';
@@ -42,6 +49,85 @@ export interface PropDefinition {
   };
 }
 
+export type PropInteractionType = NonNullable<PropDefinition['interaction']>['type'];
+
+export interface PropRuntimeInteractionAction {
+  id: string;
+  type: PropInteractionType;
+  action: string;
+  label: string;
+  enabled: boolean;
+  nodeIds: string[];
+  audio?: string;
+  payload?: {
+    capacity?: number;
+    contents?: string[];
+    command?: string;
+  };
+}
+
+export interface PropRuntimeInteractionState {
+  open?: boolean;
+  active?: boolean;
+  occupied?: boolean;
+  collected?: boolean;
+  contents?: string[];
+  disabledActionIds?: string[];
+}
+
+export type PropRuntimeInteractionStateKey = 'open' | 'active' | 'occupied' | 'collected';
+
+export type PropRuntimeInteractionEffect =
+  | {
+      type: 'state';
+      key: PropRuntimeInteractionStateKey;
+      value: boolean;
+    }
+  | {
+      type: 'audio';
+      cue: string;
+    }
+  | {
+      type: 'inventory';
+      operation: 'inspect' | 'collect';
+      items: string[];
+    }
+  | {
+      type: 'command';
+      command: string;
+    }
+  | {
+      type: 'physics';
+      operation: 'set-mode' | 'disable-collider' | 'enable-collider' | 'wake-body';
+      nodeIds: string[];
+      mode?: RuntimePhysicsProfile['mode'];
+    };
+
+export type PropRuntimeInteractionStatus =
+  | 'executed'
+  | 'disabled'
+  | 'not-found'
+  | 'already-collected'
+  | 'already-occupied';
+
+export interface PropRuntimeInteractionResult {
+  status: PropRuntimeInteractionStatus;
+  action?: PropRuntimeInteractionAction;
+  effects: PropRuntimeInteractionEffect[];
+  nextState: PropRuntimeInteractionState;
+}
+
+export interface PropRuntimeInteractionSource {
+  interactionActions: PropRuntimeInteractionAction[];
+}
+
+export interface PropRuntimeInteractionController {
+  getState(): PropRuntimeInteractionState;
+  setState(state: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  reset(state?: PropRuntimeInteractionState): PropRuntimeInteractionState;
+  execute(action: string | PropRuntimeInteractionAction): PropRuntimeInteractionResult;
+}
+
 export interface CreatePropInput extends Partial<Omit<PropDefinition, 'components'>> {
   components: PropComponent[];
 }
@@ -51,7 +137,37 @@ export interface ResolvedPropComponent extends Omit<PropComponent, 'material'> {
   material: MaterialDefinition;
 }
 
+export interface PropRuntimeNode {
+  id: string;
+  componentIndex: number;
+  shape: PropComponent['shape'];
+  size: RuntimeVector3Tuple;
+  position: RuntimeVector3Tuple;
+  rotation?: RuntimeQuaternionTuple;
+  mesh?: string;
+  materialSlot: string;
+  materialId: string;
+  material: MaterialDefinition;
+  volume: number;
+  physics: RuntimePhysicsProfile;
+  interaction?: PropDefinition['interaction'];
+}
+
+export interface PropRuntimeAssembly {
+  kind: 'prop';
+  id: string;
+  name: string;
+  nodes: PropRuntimeNode[];
+  materialSlots: Record<string, RuntimeMaterialSlot>;
+  bounds: RuntimeBounds;
+  physics: RuntimePhysicsProfile;
+  interaction?: PropDefinition['interaction'];
+  interactionActions: PropRuntimeInteractionAction[];
+  audio?: PropDefinition['audio'];
+}
+
 export interface PropComposition {
   definition: PropDefinition;
   components: ResolvedPropComponent[];
+  runtime: PropRuntimeAssembly;
 }

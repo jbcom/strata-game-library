@@ -156,6 +156,62 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Material composition supports more than static preset lookup.
 - The composition layer has explicit tests covering runtime-oriented outputs, not only type normalization.
 
+### Progress Update: 2026-04-21
+
+- `resolveCreatureComposition()` now returns a `runtime` assembly plan with serializable runtime bones, resolved world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
+- Core now exposes `createCreatureAnimationGraph()` and attaches `runtime.animationGraph` to creature assemblies, giving adapters declarative animation states, guarded transitions, and normalized locomotion blend groups without owning playback.
+- Core now exposes `createCreatureIKRigPlan()` and attaches `runtime.ikRig` to creature assemblies, turning skeleton IK chains into adapter-neutral chain plans with solver recommendations, target coverage, and total chain lengths.
+- Core now exposes `createCreatureIKPosePlan()` so adapter-neutral IK rig plans can be solved into serializable single-bone or FABRIK-style multi-bone target poses before R3F/Reactylon apply them to renderer-owned bone objects.
+- Creature composition now preserves optional model, rig, animation-clip, and bone-map asset bindings on `runtime.asset` for adapter-owned creature rendering.
+- `resolvePropComposition()` now returns a `runtime` assembly plan with runtime nodes, bounds, material slots, interaction/audio metadata, and physics profiles.
+- Prop runtime output now includes interaction action descriptors with stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata for adapter/UI consumption.
+- `executePropInteractionAction()` now executes those prop action descriptors into deterministic next-state/effect records for container, seat, door, switch, and collectible behavior.
+- `createPropInteractionController()` now wraps those executor results in a stateful controller for adapter-owned interaction UI/gameplay flows.
+- Prop interaction effects now include renderer-neutral physics requests for kinematic door motion and collectible collider disablement, so adapters do not need prop-type-specific physics branching.
+- Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
+- `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
+- `createMaterialProceduralPlan()` now converts procedural traits into deterministic adapter-neutral shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait algorithms.
+- `createMaterialProceduralBakePlan()` now converts those procedural layers into deterministic bake targets and manifest metadata for diffuse, roughness, metalness, normal, opacity, and emissive texture maps.
+- `rasterizeMaterialProceduralBakePlan()` now turns procedural bake targets into deterministic pure RGBA byte buffers for adapter or worker-side texture encoding.
+- `encodeMaterialProceduralBakeImagePng()` and `encodeMaterialProceduralBakeRasterPng()` now provide dependency-free PNG byte export for those procedural bake rasters.
+- `createMaterialProceduralBakeArtifacts()` now wraps the material bake plan, RGBA rasters, PNG outputs, and encoder export requests into one artifact bundle for offline or worker pipelines.
+- Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
+- R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
+- R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
+- R3F now renders asset-bound runtime creatures through `RuntimeCreatureAsset`, using Drei's GLTF cache and logical-to-source animation clip mappings from `runtime.asset.animationClips`.
+- R3F asset-bound runtime creatures now also collect loaded Three.js bone names and expose rig binding coverage via `createRuntimeCreatureAssetRigBinding()` and `RuntimeCreature` / `RuntimeCreatureAsset` `onRigBinding`.
+- R3F now exposes `createRuntimeCreatureAnimationTrackNameMap()` and `retargetRuntimeCreatureAnimationClip()` for opt-in Three.js clip-track retargeting between runtime logical bones and loaded source rig bones.
+- R3F now exposes `resolveRuntimeCreatureAnimationClipName()`, `playRuntimeCreatureAnimationAction()`, `crossFadeRuntimeCreatureAnimationAction()`, `applyRuntimeCreatureAnimationBlend()`, `stopRuntimeCreatureAnimationAction()`, `createRuntimeCreatureAnimationController()`, `createRuntimeCreatureAnimationStateController()`, and `createRuntimeCreatureAnimationGraphController()` so loaded Three actions can be controlled through runtime logical animation ids, weighted blends, named guarded states, and core animation-graph events with fade, cross-fade duration/warp, loop, clamp, reset, and time-scale options.
+- R3F now exposes `createRuntimeCreaturePoseTargetMap()`, `applyRuntimeCreaturePose()`, `createRuntimeCreatureIKPose()`, and `applyRuntimeCreatureIKPose()` so runtime poses and core IK target plans can be applied to Three rig objects by runtime bone id, logical bone id, or source rig bone name.
+- `apps/examples/api-showcase` now includes an authored runtime creature animation-graph and IK target example that inspects core graph transitions, evaluates transition guards, previews core IK targets through `createRuntimeCreatureIKPose()`, and renders the result through the consolidated R3F runtime creature path.
+- `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
+- R3F now exposes `useRuntimePropInteractionController()` so adapter-owned gameplay UI can execute prop actions and keep React state synchronized with the core prop interaction controller.
+- R3F now includes `RuntimePropInteractionPanel`, a prefabbed action/status/reset overlay for runtime prop interactions.
+- R3F now applies prop physics interaction effects through `applyRuntimePropInteractionPhysicsEffects()`, preserving per-object runtime physics state and exposing optional callbacks for concrete physics adapters.
+- R3F now includes `attachRuntimePropPhysicsHandle()` and `createRuntimePropObjectPhysicsAdapter()` so physics effects can be routed through a standard Three `userData` handle convention for Rapier, Cannon, or custom engine objects.
+- R3F now includes `createRuntimePropRapierPhysicsHandle()` and `attachRuntimePropRapierPhysicsHandle()` so prop physics effects can directly drive Rapier body type, collider enablement, body enablement, and wake operations without hard-coding Rapier imports into runtime composition logic.
+- R3F now includes `createRuntimePropCannonPhysicsHandle()` and `attachRuntimePropCannonPhysicsHandle()` so prop physics effects can directly drive Cannon/cannon-es body type, collision masks, and wake operations without hard-coding Cannon imports into runtime composition logic.
+- R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
+- R3F and Reactylon/Babylon descriptors now also preserve procedural bake-plan manifests so later offline/worker pipelines can rasterize the same plans into textures.
+- Core now exposes `createMaterialProceduralBakeExportPlan()` so rasterized procedural bake outputs can be handed to PNG, WebP, or KTX2 encoders as deterministic RGBA8 requests with file names, MIME types, encoder identifiers, and encoder options.
+- Core now exposes `encodeMaterialProceduralBakeExportPlan()` so export plans can be executed with dependency-free built-in PNG encoding or injected WebP/KTX2 encoder callbacks without adding heavyweight encoder dependencies to the portable core package.
+- Core now exposes `createMaterialProceduralBakeBrowserImageEncoder()` and `createMaterialProceduralBakeBasisUniversalKtx2Encoder()` so worker/browser pipelines can package first-party WebP/canvas and Basis Universal KTX2 encoder adapters without forcing heavyweight encoder dependencies into core.
+- R3F runtime material conversion now injects procedural plans into `MeshStandardMaterial` shader compilation for base-color, scalar, opacity, emissive, and normal-channel effects.
+- Reactylon/Babylon runtime material conversion now injects procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
+- `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
+- Reactylon now consumes composition runtime plans through `StrataRuntimeProp`, `StrataRuntimeCreature`, and serializable Babylon/Reactylon descriptors.
+- Reactylon creature descriptors now preserve core creature asset bindings so Babylon-owned loaders can consume the same model, rig, clip, and bone-map metadata.
+- Reactylon now also instantiates those descriptors into native Babylon PBR materials, transform roots, primitive meshes, runtime metadata, custom mesh-factory seams, async mesh-shaped prop loading, asset-bound creature loading, and logical animation playback via `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()`.
+- Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
+- Babylon prop instances now apply renderer-neutral prop physics effects to mesh collision/pickability flags, runtime physics metadata, and available Babylon v2/v1 physics-body seams.
+- Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
+- Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, core animation graphs, IK rig plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
+- Reactylon/Babylon creature instances now expose `createAnimationGraphController()`, backed by `createBabylonRuntimeCreatureAnimationGraphController()`, so core animation graph events can drive loaded Babylon `AnimationGroup`s through logical clip ids and named transition/state guards.
+- Reactylon/Babylon creature instances now expose `applyIKPose()`, backed by `applyBabylonRuntimeCreatureIKPose()`, so core IK target plans can be applied to primitive creature meshes or loaded Babylon skeleton bones by runtime bone id, logical bone id, or source rig bone name.
+- The Reactylon package now has a first-party README example showing direct Babylon asset-backed creature loading, core animation graph events, and IK pose application through the consolidated package entrypoint.
+- The umbrella package export tests now verify the Reactylon subpath exposes Babylon asset-backed creature instantiation, animation graph control, and IK pose helpers through `strata-game-library/reactylon`.
+- Remaining work is richer IK constraints and authored visual/runtime examples beyond core IK planning, core IK pose solving, R3F target-pose application, Babylon primitive/skeleton pose application, and the authored R3F showcase; deeper asset-bound animation examples beyond R3F clip-track retargeting, R3F graph-event/logical-action/guarded-state/weighted-blend control, R3F pose application, Babylon graph-event playback, and loaded R3F/Babylon clip playback; additional physics-engine examples and backend wrappers beyond the new object-handle, Rapier, and Cannon seams; richer procedural-bake authoring workflows beyond the new encoder-request, encoder-execution, and first-party WebP/KTX2 adapter seams; and shader application beyond the current R3F/Babylon material paths.
+
 ## Workstream 4: Declarative Game Runtime Completion
 
 ### Objective
@@ -211,6 +267,28 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - The adapter surface is documented as a product, not just an implementation detail.
 - Example apps show the preferred high-level path.
 - Consumers do not need to bypass the adapter to assemble common shell/runtime behavior.
+
+### Progress Update: 2026-04-21
+
+- The R3F component layer now includes `RuntimeProp`, `RuntimeCreature`, and `RuntimeCreatureAsset` for rendering core composition runtime plans.
+- Runtime composition renderers support orientation-aware primitive geometry, material overrides, and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
+- Mesh-shaped prop nodes can now use `RuntimeAssetMesh` for built-in static GLB loading through the R3F adapter.
+- Core creature runtime assemblies now include `animationGraph` metadata from `createCreatureAnimationGraph()`, covering declarative states, guarded transitions, and normalized locomotion blend groups for adapter-owned playback.
+- Core creature runtime assemblies now include `ikRig` metadata from `createCreatureIKRigPlan()`, covering validated IK chain bones, solver recommendations, target coverage, and total chain lengths for adapter-owned IK solving.
+- Core now also exposes `createCreatureIKPosePlan()` for serializable IK target solving before adapters apply the pose to renderer-owned bones.
+- Asset-bound creatures can now use `RuntimeCreatureAsset` for built-in GLB loading, logical animation clip selection, and rig binding coverage through the R3F adapter.
+- Runtime creature animations can now be controlled, cross-faded, weighted, and grouped into named guarded states through logical clip aliases via `createRuntimeCreatureAnimationController()`, `createRuntimeCreatureAnimationStateController()`, `playRuntimeCreatureAnimationAction()`, `crossFadeRuntimeCreatureAnimationAction()`, `applyRuntimeCreatureAnimationBlend()`, and `stopRuntimeCreatureAnimationAction()`.
+- Runtime creature poses can now be applied to loaded Three rig objects through rig-binding aliases via `createRuntimeCreaturePoseTargetMap()` and `applyRuntimeCreaturePose()`.
+- The API showcase now includes a live composition-tab example for core animation-graph transition metadata and IK target pose previews through the consolidated package exports.
+- R3F prop interaction UI can now use `useRuntimePropInteractionController()` for stateful execute/reset flows without bypassing core action semantics.
+- R3F prop interaction UI now also has `RuntimePropInteractionPanel` for a built-in action list, state summary, status summary, reset control, and gameplay callbacks.
+- R3F prop physics authoring now has an object-handle convention via `attachRuntimePropPhysicsHandle()` and `createRuntimePropObjectPhysicsAdapter()`.
+- R3F prop physics authoring now also has a Rapier-specific body/collider handle via `createRuntimePropRapierPhysicsHandle()` and `attachRuntimePropRapierPhysicsHandle()`.
+- R3F prop physics authoring now also has a Cannon/cannon-es body handle via `createRuntimePropCannonPhysicsHandle()` and `attachRuntimePropCannonPhysicsHandle()`.
+- The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
+- The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
+- The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, asset-bound creature models, core animation graph/IK rig descriptors, guarded graph-event playback, core IK pose application, and loaded animation-group playback.
+- Asset-backed Reactylon/Babylon creatures now expose loaded skeletons, core rig binding coverage, and core IK target-pose application for validating logical-to-source bone maps before implementing full retargeting.
 
 ## Workstream 6: Platform and Plugin Parity
 
@@ -276,7 +354,8 @@ Make the current green local state durable and repeatable in normal verification
 - The examples verifier fails on legacy package references outside generated docs and on example packages that omit a `strata-game-library` dependency.
 - The examples verifier now bundles the six nested Vite examples from the parent examples package, which caught and drove a real `strata-game-library/presets` vegetation export fix.
 - The examples `test` target now runs a Chromium Playwright smoke suite against the built `dist` output for the six nested Vite examples. This caught and drove fixes for non-portable absolute asset paths in `api-showcase` / `vegetation-showcase` and an invalid empty-biome runtime scene in `api-showcase`.
-- Remaining verification work is deeper WebGL-capable visual/runtime assertions and broader adapter coverage, not basic package/import/bundle drift detection.
+- The examples smoke suite now also exercises the built API-showcase composition tab and asserts WebGL-backed canvas creation when Chromium exposes WebGL, while still tolerating no-WebGL headless runners.
+- Remaining verification work is broader visual/runtime assertions and adapter coverage, not basic package/import/bundle drift detection.
 
 ## Workstream 8: Documentation and Adoption Readiness
 

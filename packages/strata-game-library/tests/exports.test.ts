@@ -44,11 +44,12 @@ describe('strata-game-library umbrella package', () => {
   });
 
   it('keeps lightweight subpath wrappers available', async () => {
-    const [api, core, presets, shaders] = await Promise.all([
+    const [api, core, presets, shaders, reactylon] = await Promise.all([
       import('../src/api.ts'),
       import('../src/core.ts'),
       import('../src/presets.ts'),
       import('../src/shaders.ts'),
+      import('../src/reactylon.ts'),
     ]);
 
     expect(api.createGame).toBeTypeOf('function');
@@ -66,6 +67,9 @@ describe('strata-game-library umbrella package', () => {
     expect(core.createWorld).toBeTypeOf('function');
     expect(presets.createQuadruped).toBeTypeOf('function');
     expect(shaders.waterVertexShader).toBeTypeOf('string');
+    expect(reactylon.createBabylonRuntimeCreatureAnimationGraphController).toBeTypeOf('function');
+    expect(reactylon.applyBabylonRuntimeCreatureIKPose).toBeTypeOf('function');
+    expect(reactylon.instantiateBabylonRuntimeCreatureAsset).toBeTypeOf('function');
   });
 
   it('declares explicit subpaths for optional adapters and plugins', () => {

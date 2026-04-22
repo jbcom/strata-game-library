@@ -75,7 +75,7 @@ repos:
       - id: detect-secrets
         args: [--baseline, .secrets.baseline]
         # TypeDoc search/navigation indexes contain compressed high-entropy payloads.
-        exclude: (pnpm-lock\.yaml|\.triage-recordings/|apps/docs/src/content/docs/api/assets/(hierarchy|navigation|search)\.js|docs/internal/assets/(hierarchy|navigation|search)\.js)
+        exclude: (pnpm-lock\.yaml|\.triage-recordings/|apps/docs/src/content/docs/api/assets/(hierarchy|navigation|search)\.js|apps/examples/api-showcase/docs/assets/(hierarchy|navigation|search)\.js|docs/internal/assets/(hierarchy|navigation|search)\.js)
 
   # ===========================================
   # TypeScript/JavaScript/JSON (Biome)

@@ -114,6 +114,8 @@ function Game() {
 
 Pause behavior is now part of the default declarative mount path: `StrataGame` listens for the active mode's `pause` action by default, narrows the live action map to that pause binding while paused, and renders `game.definition.ui?.menus?.pause` automatically. The R3F component layer also now includes `GameHUD`, `PauseMenu`, `SceneCard`, `createGameHUD()`, and `createPauseMenu()` for built-in HUD/menu scaffolding.
 
+Composition outputs now have adapter paths too: `RuntimeProp` and `RuntimeCreature` render resolved core composition runtime plans in R3F, `RuntimeAssetMesh` loads static GLB-backed prop nodes through Drei's GLTF cache, and `StrataRuntimeProp` / `StrataRuntimeCreature` expose serializable Reactylon/Babylon descriptors for the same plans. Reactylon also exports `createBabylonRuntimeMaterial()`, `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, `instantiateBabylonRuntimeCreatureAsset()`, `createBabylonRuntimeCreatureAnimationGraphController()`, and `applyBabylonRuntimeCreatureIKPose()` for direct Babylon mesh/material, asset-loading, animation-graph, and IK-pose integration from those descriptors.
+
 `createGame()` is now transition-aware at the definition level too: `GameDefinition.transitions` can declare default scene/mode transitions, individual scenes or modes can override those defaults, and the built-in genre helpers ship opinionated transition presets out of the box.
 
 The built-in genre helpers also now ship usable mode-level control schemes, and matching scene/mode overrides inherit those defaults instead of forcing you to redefine every input binding from scratch.

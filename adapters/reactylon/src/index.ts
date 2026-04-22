@@ -8,11 +8,19 @@
  * - StrataWater: Animated water surface with caustics and foam
  * - StrataSky: Procedural sky with day/night cycles and weather
  * - StrataTerrain: Noise-based terrain with slope-dependent coloring
+ * - StrataRuntimeProp / StrataRuntimeCreature: Composition runtime descriptors and Babylon instantiation helpers
  *
  * Hooks:
  * - useStrataScene: Configure fog, ambient light, and physics
  *
  * Materials (for direct Babylon.js integration):
+ * - createBabylonRuntimeMaterial
+ * - instantiateBabylonRuntimeProp
+ * - instantiateBabylonRuntimePropAsync
+ * - instantiateBabylonRuntimeCreature
+ * - instantiateBabylonRuntimeCreatureAsset
+ * - createBabylonRuntimeCreatureAnimationGraphController
+ * - applyBabylonRuntimeCreatureIKPose
  * - createBabylonWaterShaderMaterial
  * - createBabylonSkyShaderMaterial
  * - createBabylonTerrainShaderMaterial
@@ -20,45 +28,100 @@
  * @packageDocumentation
  */
 
-// Components
-export { StrataWater, type StrataWaterProps } from './components/Water.js';
 export {
-  StrataSky,
+  applyBabylonRuntimeCreatureIKPose,
+  BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
+  type BabylonRuntimeAssetLoader,
+  type BabylonRuntimeAssetLoaderContext,
+  type BabylonRuntimeAssetLoadingOptions,
+  type BabylonRuntimeAssetLoadResult,
+  type BabylonRuntimeCreatureAnimationGraphController,
+  type BabylonRuntimeCreatureAnimationGraphControllerOptions,
+  type BabylonRuntimeCreatureAnimationGraphStateContext,
+  type BabylonRuntimeCreatureAnimationGraphStateGuard,
+  type BabylonRuntimeCreatureAnimationGraphTransitionContext,
+  type BabylonRuntimeCreatureAnimationGraphTransitionGuard,
+  type BabylonRuntimeCreatureAnimationPlaybackOptions,
+  type BabylonRuntimeCreatureAssetInstantiationOptions,
+  type BabylonRuntimeCreatureIKPoseApplication,
+  type BabylonRuntimeCreatureIKPoseApplicationEntry,
+  type BabylonRuntimeCreatureIKPoseTarget,
+  type BabylonRuntimeCreatureInstance,
+  type BabylonRuntimeCreatureInstantiationOptions,
+  type BabylonRuntimeCreatureMeshFactory,
+  type BabylonRuntimeInstantiationOptions,
+  type BabylonRuntimeMaterialFactory,
+  type BabylonRuntimeMaterialOptions,
+  type BabylonRuntimeMeshFactoryContext,
+  BabylonRuntimeProceduralMaterialPlugin,
+  type BabylonRuntimePropAssetInstantiationOptions,
+  type BabylonRuntimePropInstance,
+  type BabylonRuntimePropInstantiationOptions,
+  type BabylonRuntimePropMeshFactory,
+  createBabylonRuntimeCreatureAnimationGraphController,
+  createBabylonRuntimeMaterial,
+  createReactylonRuntimeMaterialDescriptor,
+  enableBabylonRuntimeProceduralMaterial,
+  getBabylonRuntimeProceduralMaterialPlugin,
+  instantiateBabylonRuntimeCreature,
+  instantiateBabylonRuntimeCreatureAsset,
+  instantiateBabylonRuntimeProp,
+  instantiateBabylonRuntimePropAsync,
+  type ReactylonCreatureInput,
+  type ReactylonPropInput,
+  type ReactylonRuntimeCreatureBoneDescriptor,
+  type ReactylonRuntimeCreatureDescriptor,
+  type ReactylonRuntimeMaterialDescriptor,
+  type ReactylonRuntimeMaterialOptions,
+  type ReactylonRuntimePropDescriptor,
+  type ReactylonRuntimePropNodeDescriptor,
+  type ReactylonRuntimeTransformOptions,
+  resolveReactylonRuntimeCreature,
+  resolveReactylonRuntimeProp,
+  StrataRuntimeCreature,
+  type StrataRuntimeCreatureProps,
+  StrataRuntimeProp,
+  type StrataRuntimePropProps,
+} from './components/compose/index.js';
+export {
   createTimeOfDay,
+  StrataSky,
   type StrataSkyProps,
   type TimeOfDayState,
   type WeatherState,
 } from './components/Sky.js';
 export {
   StrataTerrain,
-  useStrataTerrainMaterial,
   type StrataTerrainProps,
+  useStrataTerrainMaterial,
 } from './components/Terrain.js';
+// Components
+export { StrataWater, type StrataWaterProps } from './components/Water.js';
 
 // Hooks
 export {
-  useStrataScene,
+  type AmbientLightConfig,
+  type FogConfig,
+  type PhysicsConfig,
   type StrataSceneConfig,
   type StrataSceneResult,
-  type FogConfig,
-  type AmbientLightConfig,
-  type PhysicsConfig,
+  useStrataScene,
 } from './hooks/useStrataScene.js';
 
 // Material factories (for direct Babylon.js integration without Reactylon JSX)
 export {
-  createBabylonWaterShaderMaterial,
-  type BabylonWaterMaterialOptions,
-  type BabylonWaterMaterialHandle,
-  type WaterUniformValues,
-  createBabylonSkyShaderMaterial,
-  type BabylonSkyMaterialOptions,
   type BabylonSkyMaterialHandle,
-  type SkyUniformValues,
-  createBabylonTerrainShaderMaterial,
-  type BabylonTerrainMaterialOptions,
+  type BabylonSkyMaterialOptions,
   type BabylonTerrainMaterialHandle,
+  type BabylonTerrainMaterialOptions,
+  type BabylonWaterMaterialHandle,
+  type BabylonWaterMaterialOptions,
+  createBabylonSkyShaderMaterial,
+  createBabylonTerrainShaderMaterial,
+  createBabylonWaterShaderMaterial,
+  type SkyUniformValues,
   type TerrainUniformValues,
+  type WaterUniformValues,
 } from './materials/index.js';
 
 // Version

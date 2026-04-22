@@ -51,6 +51,310 @@ export interface MaterialPhysics {
   restitution: number; // 0-1 (bounciness)
 }
 
+export type MaterialTraitType =
+  | 'grain'
+  | 'fiber'
+  | 'scratches'
+  | 'wear'
+  | 'patina'
+  | 'veins'
+  | 'mottle'
+  | 'absorption';
+
+export type MaterialTraitChannel =
+  | 'baseColor'
+  | 'roughness'
+  | 'metalness'
+  | 'normal'
+  | 'opacity'
+  | 'emissive';
+
+export interface MaterialTrait {
+  id: string;
+  type: MaterialTraitType;
+  intensity: number; // 0-1
+  scale: number;
+  seed: number;
+  channels: MaterialTraitChannel[];
+  color?: string | THREE.Color;
+  secondaryColor?: string | THREE.Color;
+  tags?: string[];
+}
+
+export type MaterialProceduralAlgorithm =
+  | 'directional-noise'
+  | 'strand-noise'
+  | 'scratch-lines'
+  | 'edge-wear'
+  | 'oxidation-noise'
+  | 'branching-veins'
+  | 'cellular-mottle'
+  | 'depth-absorption';
+
+export type MaterialProceduralUniformType = 'float' | 'int' | 'color';
+export type MaterialProceduralColor = string | [number, number, number];
+
+export interface MaterialProceduralUniform {
+  name: string;
+  type: MaterialProceduralUniformType;
+  value: number | MaterialProceduralColor;
+}
+
+export interface MaterialProceduralLayer {
+  id: string;
+  traitId: string;
+  type: MaterialTraitType;
+  algorithm: MaterialProceduralAlgorithm;
+  functionName: string;
+  channels: MaterialTraitChannel[];
+  intensity: number;
+  scale: number;
+  seed: number;
+  color?: MaterialProceduralColor;
+  secondaryColor?: MaterialProceduralColor;
+  uniforms: MaterialProceduralUniform[];
+}
+
+export interface MaterialProceduralPlan {
+  materialId: string;
+  layers: MaterialProceduralLayer[];
+  channelLayers: Record<MaterialTraitChannel, string[]>;
+  uniforms: MaterialProceduralUniform[];
+  shaderChunk: string;
+}
+
+export type MaterialProceduralBakeFormat = 'png' | 'webp' | 'ktx2';
+export type MaterialProceduralBakeColorSpace = 'srgb' | 'linear' | 'normal';
+export type MaterialProceduralBakeMap =
+  | 'diffuse'
+  | 'roughness'
+  | 'metalness'
+  | 'normal'
+  | 'opacity'
+  | 'emissive';
+
+export interface MaterialProceduralBakeTarget {
+  id: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  layerIds: string[];
+  textureSize: [number, number];
+  format: MaterialProceduralBakeFormat;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  fileName: string;
+}
+
+export interface MaterialProceduralBakeManifestTarget {
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  colorSpace: MaterialProceduralBakeColorSpace;
+}
+
+export interface MaterialProceduralBakeManifest {
+  version: 1;
+  materialId: string;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeManifestTarget[];
+}
+
+export interface MaterialProceduralBakePlan {
+  materialId: string;
+  procedural: MaterialProceduralPlan;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeTarget[];
+  manifest: MaterialProceduralBakeManifest;
+}
+
+export interface MaterialProceduralBakeRasterImage {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+}
+
+export interface MaterialProceduralBakeRaster {
+  materialId: string;
+  textureSize: [number, number];
+  images: MaterialProceduralBakeRasterImage[];
+  manifest: MaterialProceduralBakeManifest;
+}
+
+export interface MaterialProceduralBakeEncodedImage {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  mimeType: 'image/png';
+  data: Uint8Array;
+}
+
+export type MaterialProceduralBakeExportMimeType = 'image/png' | 'image/webp' | 'image/ktx2';
+export type MaterialProceduralBakeExportEncoder =
+  | 'builtin-png'
+  | 'browser-image-encoder'
+  | 'basis-universal-ktx2';
+
+export interface MaterialProceduralBakeExportEncoderOptions {
+  quality?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
+}
+
+export interface MaterialProceduralBakeExportRequest {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  width: number;
+  height: number;
+  source: 'rgba8';
+  data: Uint8ClampedArray;
+  options: MaterialProceduralBakeExportEncoderOptions;
+}
+
+export interface MaterialProceduralBakeExportManifestTarget {
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  colorSpace: MaterialProceduralBakeColorSpace;
+}
+
+export interface MaterialProceduralBakeExportManifest {
+  version: 1;
+  materialId: string;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeExportManifestTarget[];
+}
+
+export interface MaterialProceduralBakeExportPlan {
+  materialId: string;
+  textureSize: [number, number];
+  requests: MaterialProceduralBakeExportRequest[];
+  manifest: MaterialProceduralBakeExportManifest;
+}
+
+export interface MaterialProceduralBakeExportResult {
+  targetId: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  format: MaterialProceduralBakeFormat;
+  fileName: string;
+  mimeType: MaterialProceduralBakeExportMimeType;
+  encoder: MaterialProceduralBakeExportEncoder;
+  data: Uint8Array;
+}
+
+export type MaterialProceduralBakeExportEncoderFn = (
+  request: MaterialProceduralBakeExportRequest
+) => Uint8Array;
+
+export interface MaterialProceduralBakeExportExecutionOptions {
+  encoders?: Partial<
+    Record<MaterialProceduralBakeExportEncoder, MaterialProceduralBakeExportEncoderFn>
+  >;
+}
+
+export interface MaterialProceduralBakeImageDataLike {
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+}
+
+export interface MaterialProceduralBakeCanvas2DContextLike {
+  createImageData?: (width: number, height: number) => MaterialProceduralBakeImageDataLike;
+  putImageData: (imageData: MaterialProceduralBakeImageDataLike, dx: number, dy: number) => void;
+}
+
+export interface MaterialProceduralBakeCanvasLike {
+  width: number;
+  height: number;
+  getContext: (contextId: '2d') => MaterialProceduralBakeCanvas2DContextLike | null;
+  toDataURL: (type?: string, quality?: number) => string;
+}
+
+export interface MaterialProceduralBakeBrowserImageEncoderOptions {
+  canvasFactory?: (width: number, height: number) => MaterialProceduralBakeCanvasLike;
+  mimeType?: Extract<MaterialProceduralBakeExportMimeType, 'image/png' | 'image/webp'>;
+  quality?: number;
+}
+
+export interface MaterialProceduralBakeBasisUniversalEncoder {
+  setCreateKTX2File?: (enabled: boolean) => void;
+  setKTX2SRGBTransferFunc?: (enabled: boolean) => void;
+  setKTX2UASTCSupercompression?: (enabled: boolean) => void;
+  setKTX2UASTCQualityLevel?: (qualityLevel: number) => void;
+  setUASTC?: (enabled: boolean) => void;
+  setQualityLevel?: (qualityLevel: number) => void;
+  setCompressionLevel?: (compressionLevel: number) => void;
+  setMipGen?: (enabled: boolean) => void;
+  setPerceptual?: (enabled: boolean) => void;
+  setSliceSourceImage: (
+    sliceIndex: number,
+    image: Uint8Array,
+    width: number,
+    height: number,
+    imageIsYFlipped?: boolean
+  ) => boolean | void;
+  encode: (output: Uint8Array) => number;
+  delete?: () => void;
+}
+
+export interface MaterialProceduralBakeBasisUniversalKtx2EncoderOptions {
+  createEncoder: () => MaterialProceduralBakeBasisUniversalEncoder;
+  outputByteLength?: number | ((request: MaterialProceduralBakeExportRequest) => number);
+  uastc?: boolean;
+  supercompression?: boolean;
+  srgb?: boolean;
+  perceptual?: boolean;
+  qualityLevel?: number;
+  uastcQualityLevel?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
+  imageIsYFlipped?: boolean;
+}
+
+export interface MaterialProceduralBakeArtifacts {
+  plan: MaterialProceduralBakePlan;
+  raster: MaterialProceduralBakeRaster;
+  png: MaterialProceduralBakeEncodedImage[];
+  exports: MaterialProceduralBakeExportPlan;
+}
+
+export interface MaterialProceduralPlanOptions {
+  traits?: MaterialTrait[];
+  inferTraits?: boolean;
+  includeShaderChunk?: boolean;
+  idPrefix?: string;
+}
+
+export interface MaterialProceduralBakePlanOptions extends MaterialProceduralPlanOptions {
+  textureSize?: number | [number, number];
+  channels?: MaterialTraitChannel[];
+  format?: MaterialProceduralBakeFormat;
+  includeEmptyTargets?: boolean;
+  filePrefix?: string;
+}
+
+export interface MaterialProceduralBakeExportOptions {
+  format?: MaterialProceduralBakeFormat;
+  filePrefix?: string;
+  quality?: number;
+  compressionLevel?: number;
+  generateMipmaps?: boolean;
+}
+
 export interface MaterialDefinition {
   id: string;
   type: MaterialType;
@@ -78,8 +382,57 @@ export interface MaterialDefinition {
   // Physics properties
   physics?: MaterialPhysics;
 
+  // Procedural material/texture metadata
+  traits?: MaterialTrait[];
+
   // Additional metadata
   grain?: 'oak' | 'pine' | 'birch' | 'mahogany'; // for wood
   pattern?: string; // for shell_turtle etc.
   segments?: number;
+}
+
+export interface MaterialVariantOptions {
+  id?: string;
+  suffix?: string;
+  baseColor?: string | THREE.Color;
+  roughnessDelta?: number;
+  metalnessDelta?: number;
+  normalScaleDelta?: number;
+  shell?: Partial<ShellProperties>;
+  volumetric?: Partial<VolumetricProperties>;
+  organic?: Partial<OrganicProperties>;
+  physics?: Partial<MaterialPhysics>;
+  traits?: MaterialTrait[];
+  appendTraits?: MaterialTrait[];
+}
+
+export interface MaterialVariantSetOptions {
+  count: number;
+  idPrefix?: string;
+  colors?: (string | THREE.Color)[];
+  roughnessJitter?: number;
+  metalnessJitter?: number;
+  normalScaleJitter?: number;
+  physics?: Partial<MaterialPhysics>;
+  traits?: MaterialTrait[];
+  rng?: () => number;
+}
+
+export interface MaterialTraitOptions {
+  id?: string;
+  intensity?: number;
+  scale?: number;
+  seed?: number;
+  channels?: MaterialTraitChannel[];
+  color?: string | THREE.Color;
+  secondaryColor?: string | THREE.Color;
+  tags?: string[];
+}
+
+export interface MaterialTraitInferenceOptions {
+  seed?: number;
+  intensity?: number;
+  scale?: number;
+  idPrefix?: string;
+  includeExisting?: boolean;
 }

@@ -37,12 +37,31 @@ Remaining work:
 
 - `packages/core/src/compose/creatures/index.ts`
   - `createCreature()` and `resolveCreatureComposition()` now exist.
-  - Remaining gap: richer runtime assembly beyond normalized definitions and resolved material bindings.
+  - Resolved creature compositions now include adapter-neutral runtime bones, world transforms, bounds, material slots, animation bindings, IK metadata, spawn metadata, and physics profiles.
+  - Resolved creature compositions now also preserve optional model, rig, animation-clip, and bone-map asset bindings.
+  - R3F can now consume the runtime plan through `RuntimeCreature`.
+  - R3F can now render asset-bound runtime creatures with GLB models and logical-to-source animation clip mapping through `RuntimeCreatureAsset`.
+  - Reactylon can now consume the runtime plan through `StrataRuntimeCreature` descriptors.
+  - Reactylon descriptors now preserve creature asset bindings for Babylon-owned loaders.
+  - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials and async asset-backed creature meshes through `instantiateBabylonRuntimeCreatureAsset()`, with logical `playAnimation()` mapping for loaded Babylon animation groups.
+  - Remaining gap: richer renderer-ready creature rig retargeting beyond loaded clip playback and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/props/index.ts`
   - `createProp()` and `resolvePropComposition()` now exist.
-  - Remaining gap: deeper composition features such as runtime prop assembly, richer interaction helpers, and material variation.
+  - Resolved prop compositions now include adapter-neutral runtime nodes, bounds, interaction/audio metadata, material slots, and physics profiles.
+  - Runtime prop output now includes interaction action descriptors for adapter/UI consumption.
+  - Core now includes pure interaction execution helpers that convert prop action descriptors into deterministic state, inventory, audio, and command effects.
+  - Core now also exposes `createPropInteractionController()` for adapter-owned stateful interaction flows.
+  - R3F can now consume the runtime plan through `RuntimeProp`.
+  - R3F can now render mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`.
+  - Reactylon can now consume the runtime plan through `StrataRuntimeProp` descriptors.
+  - Reactylon can now instantiate descriptors into native Babylon primitive meshes/materials, with custom mesh factories and async asset loading for asset-backed nodes.
+  - Remaining gap: richer interaction UX/physics integration, creature rig retargeting/control, and visual Babylon examples are still incomplete.
 - `packages/core/src/compose/materials/`
-  - Factories and presets exist, but material physics, procedural variation, and swapping are still limited.
+  - Factories and presets now carry default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic variation helpers for swapping and runtime assembly.
+  - Material definitions now support serializable procedural trait metadata, and `createMaterialTrait()` / `inferMaterialTraits()` cover grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
+  - `createMaterialProceduralPlan()` now turns traits into deterministic shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait procedural algorithms.
+  - Reactylon/Babylon material creation now applies procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
+  - Remaining gap: generated texture baking, authoring UX, and shader application beyond the current R3F/Babylon paths remain thin.
 
 ### Declarative Game Layer
 
@@ -71,6 +90,20 @@ Remaining work:
   - A built-in transition overlay now reflects `TransitionManager` state.
   - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` now exist, and `StrataGame` can also synthesize the same HUD/pause/loading scaffold from `ui.shell` metadata while rendering runtime-backed announcement/title/menu/session scene cards from `scene.shell`.
   - Remaining gap: higher-level declarative ergonomics beyond the base component and these first-pass game-shell helpers.
+- `adapters/r3f/src/components/compose/`
+  - `RuntimeProp`, `RuntimeCreature`, `RuntimeCreatureAsset`, `RuntimeAssetMesh`, `RuntimeGeometry`, `createRuntimeGeometry()`, `createRuntimeMaterial()`, and `resolveRuntimeMaterial()` now render core composition runtime plans through R3F primitives, static GLB prop-node loading, and asset-bound creature GLB loading with orientation-aware capsule geometry.
+  - `RuntimeProp` can now route node clicks through the core prop interaction executor via `onInteraction`, `interactionState`, and `selectInteractionAction`.
+  - Runtime material creation now infers or preserves procedural material traits and shader/texture layer plans on Three.js material `userData`, and injects those plans into `MeshStandardMaterial` shader compilation for procedural color, scalar, opacity, emissive, and normal effects.
+  - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint, includes composition runtime examples that consume those renderers through `strata-game-library/compose` and `strata-game-library/r3f`, and its browser smoke test exercises the composition tab.
+  - Remaining gap: richer creature rig retargeting/skeletal animation control, shell/physics integration, and broader visual runtime assertions beyond the current smoke/composition coverage.
+- `adapters/reactylon/src/components/compose/`
+  - `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, `resolveReactylonRuntimeCreature()`, and `createReactylonRuntimeMaterialDescriptor()` now expose serializable Babylon/Reactylon descriptors for core composition runtime plans.
+  - Reactylon creature descriptors now preserve core creature asset bindings for Babylon-owned loaders.
+  - Reactylon runtime material descriptors now infer or preserve procedural material traits and shader/texture layer plans.
+  - `createBabylonRuntimeMaterial()` now applies procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive channels.
+  - `instantiateBabylonRuntimeProp()`, `instantiateBabylonRuntimePropAsync()`, `instantiateBabylonRuntimeCreature()`, and `instantiateBabylonRuntimeCreatureAsset()` now turn those descriptors into native Babylon PBR materials, transform roots, primitive meshes, async asset-backed meshes, loaded animation groups, logical animation playback, and runtime metadata.
+  - Babylon prop instances now expose interaction metadata on roots/nodes plus stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
+  - Remaining gap: deeper rig retargeting/control, deeper interaction UX/physics integration, and visual example coverage are still thin.
 
 ### Platform / Integration
 
@@ -87,8 +120,8 @@ Remaining work:
 
 - Full workspace `pnpm run typecheck` is now green, including `apps/docs`.
 - Core browser integration coverage is restored in the regular CI path.
-- `apps/examples` now verifies umbrella-package dependencies, blocks legacy `@jbcom/strata` references outside generated docs, bundles six nested Vite examples, and runs a Chromium smoke test against the built example output.
-- Adapter/example browser runtime coverage still needs deeper WebGL-capable visual/runtime assertions and broader adapter coverage to become as complete as the core package coverage.
+- `apps/examples` now verifies umbrella-package dependencies, blocks legacy `@jbcom/strata` references outside generated docs, bundles six nested Vite examples, runs a Chromium smoke test against the built example output, exercises the API-showcase composition tab, and asserts WebGL-backed canvas creation when Chromium exposes WebGL.
+- Adapter/example browser runtime coverage still needs broader visual/runtime assertions and adapter coverage to become as complete as the core package coverage.
 - `adapters/reactylon` and `plugins/astro` still carry lint warnings.
 
 ## 4. Documentation Gaps
@@ -103,7 +136,8 @@ Remaining work:
 1. Publish and verify the umbrella package.
 2. Execute the documented package migration/deprecation strategy.
 3. Finish the composition layer:
-   - expand runtime composition behavior beyond definition normalization
-   - add richer material variation / swapping / physics metadata flow
+   - wire runtime composition outputs into deeper examples, creature rig retargeting/control, and visual Babylon coverage
+   - expand renderer-ready creature/prop assembly beyond primitive R3F example plans
+   - add generated texture baking, non-Babylon adapter procedural material shader application, and swapping UX
 4. Add higher-level declarative game hooks/presets on top of the current manager subscription model.
 5. Expand adapter/example browser runtime coverage while keeping core browser integration, examples package/import/bundle/browser-smoke verification, and docs typecheck/build as release gates.

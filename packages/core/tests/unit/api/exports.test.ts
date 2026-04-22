@@ -105,10 +105,24 @@ describe('API barrel exports', () => {
     it('should export compose factories and registries', async () => {
       const compose = await import('../../../src/api/compose');
 
+      expect(compose.createCreatureAnimationGraph).toBeTypeOf('function');
+      expect(compose.createCreatureIKRigPlan).toBeTypeOf('function');
+      expect(compose.createCreatureIKPosePlan).toBeTypeOf('function');
       expect(compose.createCreature).toBeTypeOf('function');
       expect(compose.resolveCreatureComposition).toBeTypeOf('function');
       expect(compose.createProp).toBeTypeOf('function');
       expect(compose.resolvePropComposition).toBeTypeOf('function');
+      expect(compose.createMaterialTrait).toBeTypeOf('function');
+      expect(compose.inferMaterialTraits).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralPlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakePlan).toBeTypeOf('function');
+      expect(compose.rasterizeMaterialProceduralBakePlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeExportPlan).toBeTypeOf('function');
+      expect(compose.encodeMaterialProceduralBakeExportPlan).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeBrowserImageEncoder).toBeTypeOf('function');
+      expect(compose.createMaterialProceduralBakeBasisUniversalKtx2Encoder).toBeTypeOf('function');
+      expect(compose.createMaterialVariant).toBeTypeOf('function');
+      expect(compose.createMaterialVariants).toBeTypeOf('function');
       expect(compose.CREATURES).toBeDefined();
       expect(compose.PROPS).toBeDefined();
       expect(compose.SKELETONS).toBeDefined();
