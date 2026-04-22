@@ -1233,6 +1233,7 @@ export function instantiateBabylonRuntimeCreature(
     strataRuntimeKind: 'creature',
     strataRuntime: descriptor,
     strataRuntimeAnimationGraph: descriptor.animationGraph,
+    strataRuntimeIKRig: descriptor.ikRig,
     strataRuntimeRigBinding: rigBinding,
   });
 
@@ -1308,6 +1309,7 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     strataRuntimeAssetModel: model,
     strataRuntimeAnimation: animation,
     strataRuntimeAnimationGraph: descriptor.animationGraph,
+    strataRuntimeIKRig: descriptor.ikRig,
   };
 
   applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);

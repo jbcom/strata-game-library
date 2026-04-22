@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createCreatureAnimationGraph,
+  createCreatureIKRigPlan,
   createCreatureRigBindingPlan,
   createMaterialProceduralBakeArtifacts,
   createMaterialProceduralBakeExportPlan,
@@ -454,6 +455,37 @@ describe('runtime composition assembly', () => {
       id: 'locomotion',
       states: ['walk', 'run', 'swim'],
       normalized: true,
+    });
+    expect(runtime.ikRig.coverage).toMatchObject({
+      total: 4,
+      ready: 4,
+      missing: 0,
+      readyRatio: 1,
+    });
+    expect(runtime.ikRig.chains[0]).toMatchObject({
+      id: 'leg_front_l_ik',
+      solver: 'single-bone',
+      status: 'ready',
+      targetBoneId: 'leg_front_l',
+    });
+
+    const customIKRig = createCreatureIKRigPlan({
+      id: runtime.id,
+      bones: runtime.bones,
+      ikChains: [
+        { id: 'missing_chain', bones: ['missing_bone'], target: 'leg_front_l' },
+        { id: 'missing_target', bones: ['leg_front_l'], target: 'missing_target' },
+      ],
+    });
+
+    expect(customIKRig.coverage).toMatchObject({ total: 2, ready: 0, missing: 2 });
+    expect(customIKRig.chains[0]).toMatchObject({
+      status: 'missing-bones',
+      missingBones: ['missing_bone'],
+    });
+    expect(customIKRig.chains[1]).toMatchObject({
+      status: 'missing-target',
+      targetBoneId: 'missing_target',
     });
 
     const customGraph = createCreatureAnimationGraph(runtime, {

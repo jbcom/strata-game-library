@@ -100,6 +100,11 @@ describe('Reactylon runtime composition descriptors', () => {
       id: 'locomotion',
       states: ['walk', 'run', 'swim'],
     });
+    expect(descriptor.ikRig.coverage.ready).toBe(descriptor.ikRig.coverage.total);
+    expect(descriptor.ikRig.chains[0]).toMatchObject({
+      solver: 'single-bone',
+      status: 'ready',
+    });
     expect(descriptor.asset?.model).toBe('/models/otter.glb');
     expect(descriptor.asset?.animationClips.idle).toBe('Idle');
     expect(
@@ -352,6 +357,7 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.kind).toBe('creature');
     expect(instance.root.metadata.strataRuntimeKind).toBe('creature');
     expect(instance.root.metadata.strataRuntimeAnimationGraph).toBe(descriptor.animationGraph);
+    expect(instance.root.metadata.strataRuntimeIKRig).toBe(descriptor.ikRig);
     expect(instance.meshes).toHaveLength(descriptor.bones.length);
     expect(instance.skeletons).toEqual([]);
     expect(instance.animationGroups).toEqual([]);
@@ -407,6 +413,7 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(loaded?.metadata.strataRuntimeAssetModel).toBe('/models/otter.glb');
     expect(loaded?.metadata.strataRuntimeAnimation).toBe('Idle');
     expect(loaded?.metadata.strataRuntimeAnimationGraph).toBe(descriptor.animationGraph);
+    expect(loaded?.metadata.strataRuntimeIKRig).toBe(descriptor.ikRig);
     expect(loaded?.metadata.strataRuntimeKind).toBe('creature-asset');
     expect(loaded?.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);
     expect(instance.root.metadata.strataRuntimeRigBinding).toBe(instance.rigBinding);

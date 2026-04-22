@@ -6,6 +6,7 @@ import {
   createCreatureRigBindingPlan,
   type PropComposition,
   type PropRuntimeAssembly,
+  type RuntimeVector3Tuple,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
@@ -67,6 +68,33 @@ function resolveRuntimeCreature(input: ReactylonCreatureInput): CreatureRuntimeA
   }
 
   return resolveCreatureComposition(input as string | CreateCreatureInput).runtime;
+}
+
+function cloneVector3Tuple(value: RuntimeVector3Tuple): RuntimeVector3Tuple {
+  return [value[0], value[1], value[2]];
+}
+
+function cloneCreatureIKRigPlan(
+  ikRig: CreatureRuntimeAssembly['ikRig']
+): CreatureRuntimeAssembly['ikRig'] {
+  const chains: CreatureRuntimeAssembly['ikRig']['chains'] = ikRig.chains.map((chain) => ({
+    ...chain,
+    bones: chain.bones.map((bone) => ({
+      ...bone,
+      position: cloneVector3Tuple(bone.position),
+    })),
+    targetPosition: chain.targetPosition ? cloneVector3Tuple(chain.targetPosition) : undefined,
+    missingBones: [...chain.missingBones],
+  }));
+  const chainsById = new Map(chains.map((chain) => [chain.id, chain]));
+
+  return {
+    ...ikRig,
+    chains,
+    ready: ikRig.ready.map((chain) => chainsById.get(chain.id) ?? { ...chain }),
+    missing: ikRig.missing.map((chain) => chainsById.get(chain.id) ?? { ...chain }),
+    coverage: { ...ikRig.coverage },
+  };
 }
 
 /**
@@ -193,6 +221,7 @@ export function resolveReactylonRuntimeCreature(
       ...chain,
       bones: [...chain.bones],
     })),
+    ikRig: cloneCreatureIKRigPlan(runtime.ikRig),
     spawn: {
       ...runtime.spawn,
       biomes: [...runtime.spawn.biomes],

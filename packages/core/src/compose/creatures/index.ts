@@ -30,6 +30,10 @@ import type {
   CreatureRuntimeAnimationGraphState,
   CreatureRuntimeAnimationGraphTransition,
   CreatureRuntimeBone,
+  CreatureRuntimeIKChainBonePlan,
+  CreatureRuntimeIKChainPlan,
+  CreatureRuntimeIKRigPlan,
+  CreatureRuntimeIKSolverKind,
   CreatureRuntimeRigBindingPlan,
   CreatureRuntimeRigBindingSource,
   CreatureRuntimeRigBindingStatus,
@@ -792,6 +796,110 @@ export function createCreatureRigBindingPlan(
   };
 }
 
+function distance3(a: RuntimeVector3Tuple, b: RuntimeVector3Tuple): number {
+  const dx = a[0] - b[0];
+  const dy = a[1] - b[1];
+  const dz = a[2] - b[2];
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function dominantBoneLength(bone: CreatureRuntimeBone): number {
+  return Math.max(...bone.size);
+}
+
+function ikSolverForBoneCount(count: number): CreatureRuntimeIKSolverKind {
+  if (count <= 1) {
+    return 'single-bone';
+  }
+
+  return count === 2 ? 'two-bone' : 'fabrik';
+}
+
+function ikChainTotalLength(
+  bones: CreatureRuntimeIKChainBonePlan[],
+  targetPosition?: RuntimeVector3Tuple
+): number {
+  if (bones.length === 0) {
+    return 0;
+  }
+
+  let total = bones.reduce((sum, bone) => sum + bone.length, 0);
+
+  for (let index = 1; index < bones.length; index += 1) {
+    total += distance3(
+      bones[index - 1]?.position ?? [0, 0, 0],
+      bones[index]?.position ?? [0, 0, 0]
+    );
+  }
+
+  const last = bones.at(-1);
+  if (last && targetPosition) {
+    total += distance3(last.position, targetPosition);
+  }
+
+  return total;
+}
+
+/**
+ * Creates an adapter-neutral IK rig plan from runtime creature bones and skeleton IK chains.
+ *
+ * This does not solve IK directly; it gives adapters enough validated chain metadata
+ * to choose Three, Babylon, or custom solver implementations consistently.
+ */
+export function createCreatureIKRigPlan(
+  runtime: Pick<CreatureComposition['runtime'], 'id' | 'bones' | 'ikChains'>
+): CreatureRuntimeIKRigPlan {
+  const bonesById = new Map(runtime.bones.map((bone) => [bone.boneId, bone]));
+  const chains = (runtime.ikChains ?? []).map<CreatureRuntimeIKChainPlan>((chain) => {
+    const missingBones = chain.bones.filter((boneId) => !bonesById.has(boneId));
+    const plannedBones = chain.bones.flatMap<CreatureRuntimeIKChainBonePlan>((boneId) => {
+      const bone = bonesById.get(boneId);
+
+      return bone
+        ? [
+            {
+              runtimeBoneId: bone.id,
+              boneId: bone.boneId,
+              parent: bone.parent,
+              position: [...bone.position],
+              length: dominantBoneLength(bone),
+            },
+          ]
+        : [];
+    });
+    const target = bonesById.get(chain.target);
+    const status = missingBones.length > 0 ? 'missing-bones' : target ? 'ready' : 'missing-target';
+
+    return {
+      id: chain.id,
+      bones: plannedBones,
+      targetBoneId: chain.target,
+      targetRuntimeBoneId: target?.id,
+      targetPosition: target ? [...target.position] : undefined,
+      solver: ikSolverForBoneCount(plannedBones.length),
+      totalLength: ikChainTotalLength(plannedBones, target?.position),
+      status,
+      missingBones,
+    };
+  });
+  const ready = chains.filter((chain) => chain.status === 'ready');
+  const missing = chains.filter((chain) => chain.status !== 'ready');
+
+  return {
+    creatureId: runtime.id,
+    chains,
+    ready,
+    missing,
+    coverage: {
+      total: chains.length,
+      ready: ready.length,
+      missing: missing.length,
+      readyRatio: chains.length > 0 ? ready.length / chains.length : 1,
+    },
+  };
+}
+
 function buildCreatureRuntime(
   definition: CreatureDefinition,
   skeleton: SkeletonDefinition,
@@ -869,6 +977,10 @@ function buildCreatureRuntime(
       clip: clip as string | THREE.AnimationClip,
       targetBones: animationTargets[name] ? [...animationTargets[name]] : [...allBoneIds],
     }));
+  const ikChains = skeleton.ikChains?.map((chain) => ({
+    ...chain,
+    bones: [...chain.bones],
+  }));
 
   return {
     kind: 'creature',
@@ -911,10 +1023,12 @@ function buildCreatureRuntime(
           boneMap: definition.assets.boneMap ? { ...definition.assets.boneMap } : {},
         }
       : undefined,
-    ikChains: skeleton.ikChains?.map((chain) => ({
-      ...chain,
-      bones: [...chain.bones],
-    })),
+    ikChains,
+    ikRig: createCreatureIKRigPlan({
+      id: definition.id,
+      bones,
+      ikChains,
+    }),
     spawn: {
       biomes: [...definition.biomes],
       spawnWeight: definition.spawnWeight,

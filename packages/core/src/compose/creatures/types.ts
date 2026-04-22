@@ -236,6 +236,44 @@ export interface CreatureRuntimeRigBindingPlan {
   coverage: CreatureRuntimeRigBindingCoverage;
 }
 
+export type CreatureRuntimeIKSolverKind = 'single-bone' | 'two-bone' | 'fabrik';
+export type CreatureRuntimeIKChainStatus = 'ready' | 'missing-bones' | 'missing-target';
+
+export interface CreatureRuntimeIKChainBonePlan {
+  runtimeBoneId: string;
+  boneId: string;
+  parent?: string;
+  position: RuntimeVector3Tuple;
+  length: number;
+}
+
+export interface CreatureRuntimeIKChainPlan {
+  id: string;
+  bones: CreatureRuntimeIKChainBonePlan[];
+  targetBoneId: string;
+  targetRuntimeBoneId?: string;
+  targetPosition?: RuntimeVector3Tuple;
+  solver: CreatureRuntimeIKSolverKind;
+  totalLength: number;
+  status: CreatureRuntimeIKChainStatus;
+  missingBones: string[];
+}
+
+export interface CreatureRuntimeIKRigCoverage {
+  total: number;
+  ready: number;
+  missing: number;
+  readyRatio: number;
+}
+
+export interface CreatureRuntimeIKRigPlan {
+  creatureId: string;
+  chains: CreatureRuntimeIKChainPlan[];
+  ready: CreatureRuntimeIKChainPlan[];
+  missing: CreatureRuntimeIKChainPlan[];
+  coverage: CreatureRuntimeIKRigCoverage;
+}
+
 export interface CreatureRuntimeAssembly {
   kind: 'creature';
   id: string;
@@ -249,6 +287,7 @@ export interface CreatureRuntimeAssembly {
   animationGraph: CreatureRuntimeAnimationGraph;
   asset?: CreatureRuntimeAssetBinding;
   ikChains: SkeletonDefinition['ikChains'];
+  ikRig: CreatureRuntimeIKRigPlan;
   spawn: CreatureRuntimeSpawnProfile;
   ai: CreatureDefinition['ai'];
   stats: CreatureDefinition['stats'];

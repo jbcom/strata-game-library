@@ -113,6 +113,7 @@ export interface ReactylonRuntimeCreatureDescriptor {
   asset: CreatureRuntimeAssembly['asset'];
   rigBinding: CreatureRuntimeRigBindingPlan;
   ikChains: CreatureRuntimeAssembly['ikChains'];
+  ikRig: CreatureRuntimeAssembly['ikRig'];
   spawn: CreatureRuntimeAssembly['spawn'];
   ai: CreatureRuntimeAssembly['ai'];
   stats: CreatureRuntimeAssembly['stats'];

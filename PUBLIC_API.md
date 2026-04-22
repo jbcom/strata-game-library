@@ -79,6 +79,7 @@ selectAdapter<T>(adapters: AdapterMap<T>, platform?: Platform): T
 createCreature(input: CreateCreatureInput | string): CreatureDefinition
 resolveCreatureComposition(input: CreateCreatureInput | string): CreatureComposition
 createCreatureAnimationGraph(runtime, options?): CreatureRuntimeAnimationGraph
+createCreatureIKRigPlan(runtime): CreatureRuntimeIKRigPlan
 createProp(input: CreatePropInput | string): PropDefinition
 resolvePropComposition(input: CreatePropInput | string): PropComposition
 findPropInteractionAction(runtime, action): PropRuntimeInteractionAction | undefined
@@ -94,7 +95,7 @@ createMaterialVariants(material, options): MaterialDefinition[]
 
 `CreatureComposition` and `PropComposition` include an adapter-neutral `runtime` assembly plan with serializable transforms, bounds, material slots, swappable material metadata, interaction metadata, and physics profiles derived from explicit definitions plus resolved material physics.
 
-`CreatureDefinition.assets` and `CreatureComposition.runtime.asset` provide optional model, rig, animation-clip, and bone-map bindings for asset-backed creature rendering. `createCreatureRigBindingPlan()` converts logical creature bones plus optional loaded source rig bone names into deterministic matched/missing/unverified binding metadata. `createCreatureAnimationGraph()` converts runtime animation bindings into declarative states, guarded transitions, and normalized locomotion blend groups. The R3F adapter exposes `RuntimeCreatureAsset`, and `RuntimeCreature` can use asset bindings through `assetMode` and `animation`.
+`CreatureDefinition.assets` and `CreatureComposition.runtime.asset` provide optional model, rig, animation-clip, and bone-map bindings for asset-backed creature rendering. `createCreatureRigBindingPlan()` converts logical creature bones plus optional loaded source rig bone names into deterministic matched/missing/unverified binding metadata. `createCreatureAnimationGraph()` converts runtime animation bindings into declarative states, guarded transitions, and normalized locomotion blend groups, while `createCreatureIKRigPlan()` turns skeleton IK chains into adapter-neutral solver plans with target coverage. The R3F adapter exposes `RuntimeCreatureAsset`, and `RuntimeCreature` can use asset bindings through `assetMode` and `animation`.
 
 `PropComposition.runtime.interactionActions` provides adapter-ready action descriptors for interactive props, including stable ids, labels, enabled state, affected node ids, audio cues, and payload metadata.
 
