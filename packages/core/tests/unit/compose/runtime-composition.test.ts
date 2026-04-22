@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  createCreatureAnimationGraph,
   createCreatureRigBindingPlan,
   createMaterialProceduralBakeArtifacts,
   createMaterialProceduralBakeExportPlan,
@@ -424,6 +425,67 @@ describe('runtime composition assembly', () => {
     const idle = runtime.animations.find((animation) => animation.name === 'idle');
     expect(idle?.clip).toBe('otter_idle');
     expect(idle?.targetBones).toHaveLength(composition.skeleton.bones.length);
+
+    expect(runtime.animationGraph.initialState).toBe('idle');
+    expect(runtime.animationGraph.states.find((state) => state.id === 'run')).toMatchObject({
+      animation: 'run',
+      loop: true,
+      speedScale: 1.4,
+      tags: ['locomotion', 'run'],
+    });
+    expect(runtime.animationGraph.transitions).toContainEqual(
+      expect.objectContaining({
+        from: 'walk',
+        to: 'run',
+        event: 'sprint',
+        mode: 'cross-fade',
+        guard: 'canSprint',
+      })
+    );
+    expect(runtime.animationGraph.transitions).toContainEqual(
+      expect.objectContaining({
+        from: 'idle',
+        to: 'swim',
+        event: 'enter-water',
+        guard: 'canSwim',
+      })
+    );
+    expect(runtime.animationGraph.blendGroups[0]).toMatchObject({
+      id: 'locomotion',
+      states: ['walk', 'run', 'swim'],
+      normalized: true,
+    });
+
+    const customGraph = createCreatureAnimationGraph(runtime, {
+      initialState: 'swim',
+      transitionDuration: 0.4,
+      includeLocomotionBlend: false,
+      stateOverrides: {
+        swim: { speedScale: 2 },
+      },
+      transitions: [
+        {
+          id: 'swim:dive:idle',
+          from: 'swim',
+          to: 'idle',
+          event: 'dive',
+          mode: 'cross-fade',
+          duration: 0.25,
+          priority: 60,
+          guard: 'canDive',
+        },
+      ],
+    });
+
+    expect(customGraph.initialState).toBe('swim');
+    expect(customGraph.states.find((state) => state.id === 'swim')?.speedScale).toBe(2);
+    expect(
+      customGraph.transitions.find((transition) => transition.id === 'idle:move:walk')?.duration
+    ).toBe(0.4);
+    expect(customGraph.transitions).toContainEqual(
+      expect.objectContaining({ id: 'swim:dive:idle', guard: 'canDive' })
+    );
+    expect(customGraph.blendGroups).toEqual([]);
   });
 
   it('carries creature asset bindings into runtime assemblies', () => {

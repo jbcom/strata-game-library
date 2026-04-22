@@ -109,6 +109,7 @@ export interface ReactylonRuntimeCreatureDescriptor {
   bounds: RuntimeBounds;
   physics: RuntimePhysicsProfile;
   animations: CreatureRuntimeAssembly['animations'];
+  animationGraph: CreatureRuntimeAssembly['animationGraph'];
   asset: CreatureRuntimeAssembly['asset'];
   rigBinding: CreatureRuntimeRigBindingPlan;
   ikChains: CreatureRuntimeAssembly['ikChains'];

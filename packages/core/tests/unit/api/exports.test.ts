@@ -105,6 +105,7 @@ describe('API barrel exports', () => {
     it('should export compose factories and registries', async () => {
       const compose = await import('../../../src/api/compose');
 
+      expect(compose.createCreatureAnimationGraph).toBeTypeOf('function');
       expect(compose.createCreature).toBeTypeOf('function');
       expect(compose.resolveCreatureComposition).toBeTypeOf('function');
       expect(compose.createProp).toBeTypeOf('function');

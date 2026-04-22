@@ -1232,6 +1232,7 @@ export function instantiateBabylonRuntimeCreature(
   root.metadata = mergeMetadata(root.metadata, {
     strataRuntimeKind: 'creature',
     strataRuntime: descriptor,
+    strataRuntimeAnimationGraph: descriptor.animationGraph,
     strataRuntimeRigBinding: rigBinding,
   });
 
@@ -1306,6 +1307,7 @@ export async function instantiateBabylonRuntimeCreatureAsset(
     strataRuntimeCreature: descriptor,
     strataRuntimeAssetModel: model,
     strataRuntimeAnimation: animation,
+    strataRuntimeAnimationGraph: descriptor.animationGraph,
   };
 
   applyRootTransform(root, descriptor.position, descriptor.rotation, descriptor.scale);

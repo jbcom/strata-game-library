@@ -134,6 +134,56 @@ export interface CreatureRuntimeAnimationBinding {
   targetBones: string[];
 }
 
+export type CreatureRuntimeAnimationTransitionMode = 'play' | 'cross-fade';
+
+export interface CreatureRuntimeAnimationGraphState {
+  id: string;
+  animation: string;
+  targetBones: string[];
+  loop: boolean;
+  speedScale: number;
+  clampWhenFinished: boolean;
+  tags: string[];
+}
+
+export interface CreatureRuntimeAnimationGraphTransition {
+  id: string;
+  from: string;
+  to: string;
+  event: string;
+  mode: CreatureRuntimeAnimationTransitionMode;
+  duration: number;
+  priority: number;
+  guard?: string;
+  warp?: boolean;
+}
+
+export interface CreatureRuntimeAnimationBlendGroup {
+  id: string;
+  states: string[];
+  normalized: boolean;
+  tags: string[];
+}
+
+export interface CreatureRuntimeAnimationGraph {
+  creatureId: string;
+  initialState: string;
+  states: CreatureRuntimeAnimationGraphState[];
+  transitions: CreatureRuntimeAnimationGraphTransition[];
+  blendGroups: CreatureRuntimeAnimationBlendGroup[];
+}
+
+export interface CreatureRuntimeAnimationGraphOptions {
+  initialState?: string;
+  transitionDuration?: number;
+  includeLocomotionBlend?: boolean;
+  stateOverrides?: Record<
+    string,
+    Partial<Omit<CreatureRuntimeAnimationGraphState, 'id' | 'animation'>>
+  >;
+  transitions?: Array<Omit<CreatureRuntimeAnimationGraphTransition, 'id'> & { id?: string }>;
+}
+
 export interface CreatureRuntimeSpawnProfile {
   biomes: CreatureDefinition['biomes'];
   spawnWeight: number;
@@ -196,6 +246,7 @@ export interface CreatureRuntimeAssembly {
   bounds: RuntimeBounds;
   physics: RuntimePhysicsProfile;
   animations: CreatureRuntimeAnimationBinding[];
+  animationGraph: CreatureRuntimeAnimationGraph;
   asset?: CreatureRuntimeAssetBinding;
   ikChains: SkeletonDefinition['ikChains'];
   spawn: CreatureRuntimeSpawnProfile;

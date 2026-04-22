@@ -167,6 +167,20 @@ export function resolveReactylonRuntimeCreature(
       ...animation,
       targetBones: [...animation.targetBones],
     })),
+    animationGraph: {
+      ...runtime.animationGraph,
+      states: runtime.animationGraph.states.map((state) => ({
+        ...state,
+        targetBones: [...state.targetBones],
+        tags: [...state.tags],
+      })),
+      transitions: runtime.animationGraph.transitions.map((transition) => ({ ...transition })),
+      blendGroups: runtime.animationGraph.blendGroups.map((group) => ({
+        ...group,
+        states: [...group.states],
+        tags: [...group.tags],
+      })),
+    },
     asset: runtime.asset
       ? {
           ...runtime.asset,
