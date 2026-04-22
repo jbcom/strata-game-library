@@ -404,6 +404,10 @@ export interface RuntimeCreatureIKChainPose {
   reached: boolean;
   /** Remaining distance from the clamped target to the requested target. */
   distanceToTarget: number;
+  /** Number of solver iterations used for this chain. */
+  iterations: number;
+  /** Solver strategy selected by the core IK rig plan. */
+  solver: CreatureRuntimeIKChainPlan['solver'];
   /** Pose transforms keyed by runtime bone id. */
   pose: RuntimeCreaturePose;
 }

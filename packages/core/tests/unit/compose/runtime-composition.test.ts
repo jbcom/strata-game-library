@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  type CreatureRuntimeBone,
   createCreatureAnimationGraph,
+  createCreatureIKPosePlan,
   createCreatureIKRigPlan,
   createCreatureRigBindingPlan,
   createMaterialProceduralBakeArtifacts,
@@ -16,6 +18,7 @@ import {
   encodeMaterialProceduralBakeRasterPng,
   executePropInteractionAction,
   inferMaterialTraits,
+  MATERIALS,
   rasterizeMaterialProceduralBakePlan,
   resolveCreatureComposition,
   resolvePropComposition,
@@ -596,6 +599,84 @@ describe('runtime composition assembly', () => {
       expect.objectContaining({ id: 'swim:dive:idle', guard: 'canDive' })
     );
     expect(customGraph.blendGroups).toEqual([]);
+  });
+
+  it('solves core IK rig plans into serializable pose targets', () => {
+    const material = MATERIALS.wood_oak;
+    const bones = [
+      {
+        id: 'limb:upper',
+        boneId: 'upper',
+        shape: 'capsule' as const,
+        size: [1, 0.1, 0.1] as [number, number, number],
+        position: [0, 0, 0] as [number, number, number],
+        materialSlot: 'limb:upper:material',
+        materialId: material.id,
+        material,
+        volume: 1,
+        physics: { mode: 'dynamic' as const },
+        animationTargets: [],
+      },
+      {
+        id: 'limb:lower',
+        boneId: 'lower',
+        parent: 'upper',
+        shape: 'capsule' as const,
+        size: [1, 0.1, 0.1] as [number, number, number],
+        position: [0, -1, 0] as [number, number, number],
+        materialSlot: 'limb:lower:material',
+        materialId: material.id,
+        material,
+        volume: 1,
+        physics: { mode: 'dynamic' as const },
+        animationTargets: [],
+      },
+      {
+        id: 'limb:hand',
+        boneId: 'hand',
+        parent: 'lower',
+        shape: 'sphere' as const,
+        size: [0.2, 0.2, 0.2] as [number, number, number],
+        position: [0, -2, 0] as [number, number, number],
+        materialSlot: 'limb:hand:material',
+        materialId: material.id,
+        material,
+        volume: 1,
+        physics: { mode: 'dynamic' as const },
+        animationTargets: [],
+      },
+    ] satisfies CreatureRuntimeBone[];
+    const ikRig = createCreatureIKRigPlan({
+      id: 'limb',
+      bones,
+      ikChains: [{ id: 'arm_ik', bones: ['upper', 'lower'], target: 'hand' }],
+    });
+    const solved = createCreatureIKPosePlan(ikRig, { arm_ik: [1, -1, 0] }, { iterations: 20 });
+    const chain = solved.chains[0];
+
+    expect(chain).toMatchObject({
+      solver: 'two-bone',
+      reached: true,
+      iterations: expect.any(Number),
+    });
+    expect(chain?.pose['limb:upper']?.position).toEqual([0, 0, 0]);
+    expect(chain?.pose['limb:hand']?.position[0]).toBeCloseTo(1, 3);
+    expect(chain?.pose['limb:hand']?.position[1]).toBeCloseTo(-1, 3);
+    expect(solved.pose['limb:hand']?.position).toEqual(chain?.pose['limb:hand']?.position);
+
+    const otter = resolveCreatureComposition('otter_river', {}, () => 0.5);
+    const frontLeg = otter.runtime.ikRig.ready[0];
+    const base = frontLeg?.bones[0]?.position ?? [0, 0, 0];
+    const unreachable = createCreatureIKPosePlan(otter.runtime.ikRig, {
+      [frontLeg?.id ?? '']: [base[0] + 100, base[1], base[2]],
+    });
+    const singleBone = unreachable.chains[0];
+
+    expect(singleBone?.reached).toBe(false);
+    expect(singleBone?.distanceToTarget).toBeGreaterThan(0);
+    expect(singleBone?.pose[frontLeg?.bones[0]?.runtimeBoneId ?? '']?.position[0]).toBeLessThan(
+      base[0] + 100
+    );
   });
 
   it('carries creature asset bindings into runtime assemblies', () => {

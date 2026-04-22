@@ -274,6 +274,46 @@ export interface CreatureRuntimeIKRigPlan {
   coverage: CreatureRuntimeIKRigCoverage;
 }
 
+export type CreatureRuntimeIKPoseVector = RuntimeVector3Tuple | { x: number; y: number; z: number };
+
+export interface CreatureRuntimeIKTarget {
+  position: CreatureRuntimeIKPoseVector;
+}
+
+export type CreatureRuntimeIKTargetMap = Record<
+  string,
+  CreatureRuntimeIKPoseVector | CreatureRuntimeIKTarget
+>;
+
+export interface CreatureRuntimeIKPoseTransform {
+  position: RuntimeVector3Tuple;
+}
+
+export type CreatureRuntimeIKPose = Record<string, CreatureRuntimeIKPoseTransform>;
+
+export interface CreatureRuntimeIKPosePlanOptions {
+  includeMissing?: boolean;
+  clampToReach?: boolean;
+  iterations?: number;
+  tolerance?: number;
+}
+
+export interface CreatureRuntimeIKChainPosePlan {
+  chain: CreatureRuntimeIKChainPlan;
+  target: RuntimeVector3Tuple;
+  reached: boolean;
+  distanceToTarget: number;
+  iterations: number;
+  solver: CreatureRuntimeIKSolverKind;
+  pose: CreatureRuntimeIKPose;
+}
+
+export interface CreatureRuntimeIKPosePlan {
+  ikRig: CreatureRuntimeIKRigPlan;
+  pose: CreatureRuntimeIKPose;
+  chains: CreatureRuntimeIKChainPosePlan[];
+}
+
 export interface CreatureRuntimeAssembly {
   kind: 'creature';
   id: string;

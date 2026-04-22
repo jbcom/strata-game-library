@@ -107,6 +107,7 @@ describe('API barrel exports', () => {
 
       expect(compose.createCreatureAnimationGraph).toBeTypeOf('function');
       expect(compose.createCreatureIKRigPlan).toBeTypeOf('function');
+      expect(compose.createCreatureIKPosePlan).toBeTypeOf('function');
       expect(compose.createCreature).toBeTypeOf('function');
       expect(compose.resolveCreatureComposition).toBeTypeOf('function');
       expect(compose.createProp).toBeTypeOf('function');
