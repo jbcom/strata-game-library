@@ -8,7 +8,11 @@ export {
   type RuntimeCreatureAssetProps,
 } from './RuntimeCreatureAsset';
 export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
-export { getDefaultRuntimePropInteractionAction, RuntimeProp } from './RuntimeProp';
+export {
+  applyRuntimePropInteractionPhysicsEffects,
+  getDefaultRuntimePropInteractionAction,
+  RuntimeProp,
+} from './RuntimeProp';
 export type {
   RuntimeCreatureAssetMode,
   RuntimeCreatureInput,
@@ -18,6 +22,12 @@ export type {
   RuntimePropInteractionContext,
   RuntimePropInteractionHandler,
   RuntimePropInteractionSelector,
+  RuntimePropPhysicsAdapter,
+  RuntimePropPhysicsAdapterContext,
+  RuntimePropPhysicsApplication,
+  RuntimePropPhysicsApplicationOptions,
+  RuntimePropPhysicsEffect,
+  RuntimePropPhysicsObjectState,
   RuntimePropProps,
   RuntimeShapeRenderContext,
 } from './types';

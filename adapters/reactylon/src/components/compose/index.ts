@@ -15,8 +15,12 @@ export type {
   BabylonRuntimePropInstance,
   BabylonRuntimePropInstantiationOptions,
   BabylonRuntimePropMeshFactory,
+  BabylonRuntimePropPhysicsApplication,
+  BabylonRuntimePropPhysicsEffect,
+  BabylonRuntimePropPhysicsObjectState,
 } from './babylon.js';
 export {
+  applyBabylonPropInteractionPhysicsEffects,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   BabylonRuntimeProceduralMaterialPlugin,
   createBabylonRuntimeMaterial,

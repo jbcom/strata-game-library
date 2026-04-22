@@ -1,17 +1,21 @@
 import {
+  executePropInteractionAction,
   MATERIALS,
   resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
 import * as THREE from 'three';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import {
   collectRuntimeCreatureSourceBoneNames,
   createRuntimeCreatureAssetRigBinding,
 } from '../RuntimeCreatureAsset';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
-import { getDefaultRuntimePropInteractionAction } from '../RuntimeProp';
+import {
+  applyRuntimePropInteractionPhysicsEffects,
+  getDefaultRuntimePropInteractionAction,
+} from '../RuntimeProp';
 
 describe('R3F runtime composition components', () => {
   it('exports runtime composition renderers', async () => {
@@ -26,6 +30,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
+    expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
   });
 
   it('creates Three materials from core material definitions', () => {
@@ -146,6 +151,52 @@ void main() {
 
     expect(getDefaultRuntimePropInteractionAction(prop.runtime, node)?.id).toBe(
       'crate_wooden:interaction:container'
+    );
+  });
+
+  it('applies R3F prop physics interaction effects to runtime objects', () => {
+    const prop = resolvePropComposition({
+      id: 'door_oak',
+      name: 'Oak Door',
+      components: [
+        {
+          shape: 'box',
+          size: [1, 2, 0.2],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+      interaction: { type: 'door' },
+    });
+    const node = prop.runtime.nodes[0];
+
+    if (!node) {
+      throw new Error('Expected door_oak to resolve at least one runtime node');
+    }
+
+    const root = new THREE.Group();
+    const mesh = new THREE.Mesh();
+    const setMode = vi.fn();
+
+    mesh.userData.runtimeNode = node;
+    root.add(mesh);
+
+    const result = executePropInteractionAction(prop.runtime, 'door_oak:interaction:door');
+    const applications = applyRuntimePropInteractionPhysicsEffects(root, prop.runtime, result, {
+      adapter: { setMode },
+    });
+
+    expect(applications).toHaveLength(1);
+    expect(mesh.userData.strataRuntimePhysicsState).toMatchObject({
+      mode: 'kinematic',
+      lastOperation: 'set-mode',
+    });
+    expect(setMode).toHaveBeenCalledWith(
+      expect.objectContaining({
+        object: mesh,
+        node,
+        effect: expect.objectContaining({ operation: 'set-mode', mode: 'kinematic' }),
+      })
     );
   });
 

@@ -10,10 +10,12 @@ import type {
   PropComposition,
   PropRuntimeAssembly,
   PropRuntimeInteractionAction,
+  PropRuntimeInteractionEffect,
   PropRuntimeInteractionResult,
   PropRuntimeInteractionState,
   PropRuntimeNode,
   RuntimeMaterialSlot,
+  RuntimePhysicsProfile,
 } from '@strata-game-library/core/compose';
 import type React from 'react';
 import type * as THREE from 'three';
@@ -48,12 +50,48 @@ export interface RuntimePropInteractionContext {
   runtime: PropRuntimeAssembly;
   node: PropRuntimeNode;
   event: ThreeEvent<MouseEvent>;
+  physicsApplications: RuntimePropPhysicsApplication[];
 }
 
 export type RuntimePropInteractionHandler = (
   result: PropRuntimeInteractionResult,
   context: RuntimePropInteractionContext
 ) => void;
+
+export type RuntimePropPhysicsEffect = Extract<PropRuntimeInteractionEffect, { type: 'physics' }>;
+
+export interface RuntimePropPhysicsObjectState {
+  mode?: RuntimePhysicsProfile['mode'];
+  colliderEnabled?: boolean;
+  awake?: boolean;
+  lastOperation: RuntimePropPhysicsEffect['operation'];
+}
+
+export interface RuntimePropPhysicsApplication {
+  effect: RuntimePropPhysicsEffect;
+  node: PropRuntimeNode;
+  object: THREE.Object3D;
+  state: RuntimePropPhysicsObjectState;
+}
+
+export interface RuntimePropPhysicsAdapterContext {
+  runtime: PropRuntimeAssembly;
+  result: PropRuntimeInteractionResult;
+  effect: RuntimePropPhysicsEffect;
+  node: PropRuntimeNode;
+  object: THREE.Object3D;
+  state: RuntimePropPhysicsObjectState;
+}
+
+export interface RuntimePropPhysicsAdapter {
+  setMode?: (context: RuntimePropPhysicsAdapterContext) => void;
+  setColliderEnabled?: (enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void;
+  wakeBody?: (context: RuntimePropPhysicsAdapterContext) => void;
+}
+
+export interface RuntimePropPhysicsApplicationOptions {
+  adapter?: RuntimePropPhysicsAdapter;
+}
 
 export interface RuntimePropProps extends RuntimeMaterialOptions {
   prop: RuntimePropInput;
@@ -68,6 +106,8 @@ export interface RuntimePropProps extends RuntimeMaterialOptions {
   interactionState?: PropRuntimeInteractionState;
   selectInteractionAction?: RuntimePropInteractionSelector;
   onInteraction?: RuntimePropInteractionHandler;
+  applyPhysicsEffects?: boolean;
+  physicsAdapter?: RuntimePropPhysicsAdapter;
 }
 
 export interface RuntimeCreatureProps extends RuntimeMaterialOptions {

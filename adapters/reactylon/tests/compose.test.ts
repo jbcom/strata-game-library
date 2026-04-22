@@ -5,6 +5,7 @@ import {
   MeshBuilder,
   NullEngine,
   PBRMaterial,
+  PhysicsMotionType,
   Scene,
   Skeleton,
 } from '@babylonjs/core';
@@ -16,6 +17,7 @@ import {
 } from '@strata-game-library/core/compose';
 import { describe, expect, it, vi } from 'vitest';
 import {
+  applyBabylonPropInteractionPhysicsEffects,
   BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME,
   createBabylonRuntimeMaterial,
   createReactylonRuntimeMaterialDescriptor,
@@ -168,6 +170,100 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(instance.root.metadata.strataRuntimeInteractionState.open).toBe(true);
     expect(instance.meshes[0]?.metadata.strataRuntimeInteractionState.open).toBe(true);
     expect(instance.resetInteractionState().open).toBeUndefined();
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('applies native Babylon prop physics interaction effects', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeProp({
+      id: 'door_oak',
+      name: 'Oak Door',
+      components: [
+        {
+          shape: 'box',
+          size: [1, 2, 0.2],
+          position: [0, 0, 0],
+          material: 'wood_oak',
+        },
+      ],
+      interaction: { type: 'door' },
+    });
+    const instance = instantiateBabylonRuntimeProp(scene, descriptor);
+    const setMotionType = vi.fn();
+    const mesh = instance.meshes[0];
+
+    if (!mesh) {
+      throw new Error('Expected door_oak to instantiate at least one mesh');
+    }
+
+    Object.defineProperty(mesh, 'physicsBody', {
+      configurable: true,
+      value: { setMotionType },
+    });
+
+    const result = instance.executeInteraction('door_oak:interaction:door');
+
+    expect(setMotionType).toHaveBeenCalledWith(PhysicsMotionType.ANIMATED);
+    expect(result.effects).toContainEqual({
+      type: 'physics',
+      operation: 'set-mode',
+      nodeIds: descriptor.nodes.map((node) => node.id),
+      mode: 'kinematic',
+    });
+    expect(mesh.metadata.strataRuntimePhysicsState).toMatchObject({
+      mode: 'kinematic',
+      lastOperation: 'set-mode',
+    });
+    expect(
+      instance.root.metadata.strataRuntimePhysicsStateByNode[descriptor.nodes[0]?.id ?? '']
+    ).toMatchObject({
+      mode: 'kinematic',
+    });
+    expect(applyBabylonPropInteractionPhysicsEffects).toBeTypeOf('function');
+
+    instance.dispose();
+    scene.dispose();
+    engine.dispose();
+  });
+
+  it('toggles Babylon mesh collisions for collectible prop effects', () => {
+    const engine = new NullEngine();
+    const scene = new Scene(engine);
+    const descriptor = resolveReactylonRuntimeProp({
+      id: 'coin_gold',
+      name: 'Gold Coin',
+      components: [
+        {
+          shape: 'sphere',
+          size: [0.25, 0.25, 0.25],
+          position: [0, 0, 0],
+          material: 'metal_gold',
+        },
+      ],
+      interaction: { type: 'collectible' },
+    });
+    const instance = instantiateBabylonRuntimeProp(scene, descriptor);
+    const mesh = instance.meshes[0];
+
+    if (!mesh) {
+      throw new Error('Expected coin_gold to instantiate at least one mesh');
+    }
+
+    mesh.checkCollisions = true;
+    mesh.isPickable = true;
+
+    instance.executeInteraction('coin_gold:interaction:collectible');
+
+    expect(mesh.checkCollisions).toBe(false);
+    expect(mesh.isPickable).toBe(false);
+    expect(mesh.metadata.strataRuntimePhysicsState).toMatchObject({
+      colliderEnabled: false,
+      lastOperation: 'disable-collider',
+    });
 
     instance.dispose();
     scene.dispose();

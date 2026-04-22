@@ -6,6 +6,7 @@ import {
   MaterialPluginBase,
   MeshBuilder,
   PBRMaterial,
+  PhysicsMotionType,
   Quaternion,
   type Scene,
   SceneLoader,
@@ -24,8 +25,10 @@ import {
   type MaterialProceduralUniform,
   type PropRuntimeInteractionAction,
   type PropRuntimeInteractionController,
+  type PropRuntimeInteractionEffect,
   type PropRuntimeInteractionResult,
   type PropRuntimeInteractionState,
+  type RuntimePhysicsProfile,
 } from '@strata-game-library/core/compose';
 import type {
   ReactylonRuntimeCreatureBoneDescriptor,
@@ -143,6 +146,25 @@ export interface BabylonRuntimePropInstance {
     state?: PropRuntimeInteractionState
   ): PropRuntimeInteractionResult;
   dispose(): void;
+}
+
+export type BabylonRuntimePropPhysicsEffect = Extract<
+  PropRuntimeInteractionEffect,
+  { type: 'physics' }
+>;
+
+export interface BabylonRuntimePropPhysicsObjectState {
+  mode?: RuntimePhysicsProfile['mode'];
+  colliderEnabled?: boolean;
+  awake?: boolean;
+  lastOperation: BabylonRuntimePropPhysicsEffect['operation'];
+}
+
+export interface BabylonRuntimePropPhysicsApplication {
+  effect: BabylonRuntimePropPhysicsEffect;
+  node: ReactylonRuntimePropNodeDescriptor;
+  mesh: AbstractMesh;
+  state: BabylonRuntimePropPhysicsObjectState;
 }
 
 export interface BabylonRuntimeCreatureInstance {
@@ -658,6 +680,175 @@ function applyPropInteractionStateMetadata(
   }
 }
 
+interface BabylonPhysicsBodyLike {
+  setMotionType?: (motionType: PhysicsMotionType) => void;
+  startAsleep?: boolean;
+}
+
+interface BabylonPhysicsImpostorLike {
+  wakeUp?: () => unknown;
+}
+
+interface BabylonRuntimePropMeshMetadata {
+  strataRuntimeNode?: ReactylonRuntimePropNodeDescriptor;
+  strataRuntimePhysicsState?: BabylonRuntimePropPhysicsObjectState;
+}
+
+function isBabylonRuntimePropPhysicsEffect(
+  effect: PropRuntimeInteractionResult['effects'][number]
+): effect is BabylonRuntimePropPhysicsEffect {
+  return effect.type === 'physics';
+}
+
+function babylonMotionTypeForRuntimeMode(
+  mode: RuntimePhysicsProfile['mode'] | undefined
+): PhysicsMotionType | undefined {
+  switch (mode) {
+    case 'static':
+      return PhysicsMotionType.STATIC;
+    case 'dynamic':
+      return PhysicsMotionType.DYNAMIC;
+    case 'kinematic':
+      return PhysicsMotionType.ANIMATED;
+    case undefined:
+      return undefined;
+  }
+}
+
+function runtimeNodeIdFromBabylonMesh(mesh: AbstractMesh): string | undefined {
+  const metadata = mesh.metadata as BabylonRuntimePropMeshMetadata | undefined;
+
+  return metadata?.strataRuntimeNode?.id;
+}
+
+function meshesForRuntimeNode(meshes: AbstractMesh[], nodeId: string): AbstractMesh[] {
+  return meshes.filter((mesh) => runtimeNodeIdFromBabylonMesh(mesh) === nodeId);
+}
+
+function nextBabylonPropPhysicsState(
+  mesh: AbstractMesh,
+  effect: BabylonRuntimePropPhysicsEffect
+): BabylonRuntimePropPhysicsObjectState {
+  const metadata = mesh.metadata as BabylonRuntimePropMeshMetadata | undefined;
+  const previous = metadata?.strataRuntimePhysicsState;
+  const state: BabylonRuntimePropPhysicsObjectState = {
+    ...previous,
+    lastOperation: effect.operation,
+  };
+
+  switch (effect.operation) {
+    case 'set-mode':
+      if (effect.mode) {
+        state.mode = effect.mode;
+      }
+      break;
+    case 'disable-collider':
+      state.colliderEnabled = false;
+      break;
+    case 'enable-collider':
+      state.colliderEnabled = true;
+      break;
+    case 'wake-body':
+      state.awake = true;
+      break;
+  }
+
+  mesh.metadata = mergeMetadata(mesh.metadata, {
+    strataRuntimePhysicsState: state,
+  });
+
+  return state;
+}
+
+function applyBabylonPhysicsEffectToMesh(
+  mesh: AbstractMesh,
+  effect: BabylonRuntimePropPhysicsEffect
+): void {
+  const body = (mesh as unknown as { physicsBody?: BabylonPhysicsBodyLike }).physicsBody;
+  const impostor = (mesh as unknown as { physicsImpostor?: BabylonPhysicsImpostorLike })
+    .physicsImpostor;
+
+  switch (effect.operation) {
+    case 'set-mode': {
+      const motionType = babylonMotionTypeForRuntimeMode(effect.mode);
+
+      if (motionType !== undefined) {
+        body?.setMotionType?.(motionType);
+      }
+      break;
+    }
+    case 'disable-collider':
+      mesh.checkCollisions = false;
+      mesh.isPickable = false;
+      break;
+    case 'enable-collider':
+      mesh.checkCollisions = true;
+      mesh.isPickable = true;
+      break;
+    case 'wake-body':
+      if (body) {
+        body.startAsleep = false;
+      }
+      impostor?.wakeUp?.();
+      break;
+  }
+}
+
+function applyBabylonPropPhysicsRootMetadata(
+  root: TransformNode,
+  applications: BabylonRuntimePropPhysicsApplication[]
+): void {
+  const metadata = root.metadata as
+    | { strataRuntimePhysicsStateByNode?: Record<string, BabylonRuntimePropPhysicsObjectState> }
+    | undefined;
+  const byNode = { ...(metadata?.strataRuntimePhysicsStateByNode ?? {}) };
+
+  for (const application of applications) {
+    byNode[application.node.id] = application.state;
+  }
+
+  root.metadata = mergeMetadata(root.metadata, {
+    strataRuntimePhysicsStateByNode: byNode,
+  });
+}
+
+export function applyBabylonPropInteractionPhysicsEffects(
+  descriptor: ReactylonRuntimePropDescriptor,
+  root: TransformNode,
+  meshes: AbstractMesh[],
+  result: PropRuntimeInteractionResult
+): BabylonRuntimePropPhysicsApplication[] {
+  const nodes = new Map(descriptor.nodes.map((node) => [node.id, node]));
+  const applications: BabylonRuntimePropPhysicsApplication[] = [];
+
+  for (const effect of result.effects) {
+    if (!isBabylonRuntimePropPhysicsEffect(effect)) {
+      continue;
+    }
+
+    for (const nodeId of effect.nodeIds) {
+      const node = nodes.get(nodeId);
+
+      if (!node) {
+        continue;
+      }
+
+      for (const mesh of meshesForRuntimeNode(meshes, nodeId)) {
+        applyBabylonPhysicsEffectToMesh(mesh, effect);
+        applications.push({
+          effect,
+          node,
+          mesh,
+          state: nextBabylonPropPhysicsState(mesh, effect),
+        });
+      }
+    }
+  }
+
+  applyBabylonPropPhysicsRootMetadata(root, applications);
+  return applications;
+}
+
 function createBabylonPropInteractionController(
   descriptor: ReactylonRuntimePropDescriptor,
   root: TransformNode,
@@ -691,6 +882,7 @@ function createBabylonPropInteractionController(
 
       const result = controller.execute(action);
       sync(result.nextState);
+      applyBabylonPropInteractionPhysicsEffects(descriptor, root, meshes, result);
       return result;
     },
   };

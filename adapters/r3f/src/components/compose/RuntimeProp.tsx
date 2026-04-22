@@ -5,15 +5,24 @@ import {
   type PropComposition,
   type PropRuntimeAssembly,
   type PropRuntimeInteractionAction,
+  type PropRuntimeInteractionResult,
   type PropRuntimeNode,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 import { resolveRuntimeMaterial } from './materials';
 import { RuntimeAssetMesh } from './RuntimeAssetMesh';
 import { RuntimeGeometry } from './RuntimeGeometry';
-import type { RuntimeMaterialOptions, RuntimePropInput, RuntimePropProps } from './types';
+import type {
+  RuntimeMaterialOptions,
+  RuntimePropInput,
+  RuntimePropPhysicsApplication,
+  RuntimePropPhysicsApplicationOptions,
+  RuntimePropPhysicsEffect,
+  RuntimePropPhysicsObjectState,
+  RuntimePropProps,
+} from './types';
 
 function isPropComposition(input: RuntimePropInput): input is PropComposition {
   return typeof input === 'object' && 'runtime' in input;
@@ -75,6 +84,126 @@ export function getDefaultRuntimePropInteractionAction(
   );
 }
 
+interface RuntimePropObjectUserData {
+  runtimeNode?: PropRuntimeNode;
+  strataRuntimeNode?: PropRuntimeNode;
+  strataRuntimePhysicsState?: RuntimePropPhysicsObjectState;
+}
+
+function getObjectRuntimeNode(object: THREE.Object3D): PropRuntimeNode | undefined {
+  const userData = object.userData as RuntimePropObjectUserData;
+
+  return userData.runtimeNode ?? userData.strataRuntimeNode;
+}
+
+function collectRuntimePropObjectsByNode(root: THREE.Object3D): Map<string, THREE.Object3D[]> {
+  const objects = new Map<string, THREE.Object3D[]>();
+
+  root.traverse((object) => {
+    const node = getObjectRuntimeNode(object);
+
+    if (!node) {
+      return;
+    }
+
+    const entries = objects.get(node.id) ?? [];
+    entries.push(object);
+    objects.set(node.id, entries);
+  });
+
+  return objects;
+}
+
+function isRuntimePropPhysicsEffect(
+  effect: PropRuntimeInteractionResult['effects'][number]
+): effect is RuntimePropPhysicsEffect {
+  return effect.type === 'physics';
+}
+
+function nextRuntimePropPhysicsState(
+  object: THREE.Object3D,
+  effect: RuntimePropPhysicsEffect
+): RuntimePropPhysicsObjectState {
+  const userData = object.userData as RuntimePropObjectUserData;
+  const previous = userData.strataRuntimePhysicsState;
+  const state: RuntimePropPhysicsObjectState = {
+    ...previous,
+    lastOperation: effect.operation,
+  };
+
+  switch (effect.operation) {
+    case 'set-mode':
+      state.mode = effect.mode;
+      break;
+    case 'disable-collider':
+      state.colliderEnabled = false;
+      break;
+    case 'enable-collider':
+      state.colliderEnabled = true;
+      break;
+    case 'wake-body':
+      state.awake = true;
+      break;
+  }
+
+  object.userData = {
+    ...object.userData,
+    strataRuntimePhysicsState: state,
+  };
+
+  return state;
+}
+
+export function applyRuntimePropInteractionPhysicsEffects(
+  root: THREE.Object3D,
+  runtime: PropRuntimeAssembly,
+  result: PropRuntimeInteractionResult,
+  options: RuntimePropPhysicsApplicationOptions = {}
+): RuntimePropPhysicsApplication[] {
+  const nodes = new Map(runtime.nodes.map((node) => [node.id, node]));
+  const objectsByNode = collectRuntimePropObjectsByNode(root);
+  const applications: RuntimePropPhysicsApplication[] = [];
+
+  for (const effect of result.effects) {
+    if (!isRuntimePropPhysicsEffect(effect)) {
+      continue;
+    }
+
+    for (const nodeId of effect.nodeIds) {
+      const node = nodes.get(nodeId);
+
+      if (!node) {
+        continue;
+      }
+
+      for (const object of objectsByNode.get(nodeId) ?? []) {
+        const state = nextRuntimePropPhysicsState(object, effect);
+        const application = { effect, node, object, state };
+        const context = { runtime, result, ...application };
+
+        applications.push(application);
+
+        switch (effect.operation) {
+          case 'set-mode':
+            options.adapter?.setMode?.(context);
+            break;
+          case 'disable-collider':
+            options.adapter?.setColliderEnabled?.(false, context);
+            break;
+          case 'enable-collider':
+            options.adapter?.setColliderEnabled?.(true, context);
+            break;
+          case 'wake-body':
+            options.adapter?.wakeBody?.(context);
+            break;
+        }
+      }
+    }
+  }
+
+  return applications;
+}
+
 /**
  * Renders a core `PropRuntimeAssembly` or prop definition through React Three Fiber.
  */
@@ -93,7 +222,10 @@ export function RuntimeProp({
   interactionState,
   selectInteractionAction,
   onInteraction,
+  applyPhysicsEffects = true,
+  physicsAdapter,
 }: RuntimePropProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const runtime = useMemo(() => resolveRuntimeProp(prop), [prop]);
   const materialOptions = useMemo(
     () => ({ materialOverrides, transparentVolumetrics }),
@@ -125,16 +257,32 @@ export function RuntimeProp({
             return;
           }
 
-          onInteraction(executePropInteractionAction(runtime, selectedAction, interactionState), {
+          const result = executePropInteractionAction(runtime, selectedAction, interactionState);
+          const physicsApplications =
+            applyPhysicsEffects && groupRef.current
+              ? applyRuntimePropInteractionPhysicsEffects(groupRef.current, runtime, result, {
+                  adapter: physicsAdapter,
+                })
+              : [];
+
+          onInteraction(result, {
             runtime,
             node,
             event,
+            physicsApplications,
           });
         }
       : undefined;
 
   return (
-    <group name={runtime.id} position={position} rotation={rotation} scale={groupScale}>
+    <group
+      ref={groupRef}
+      name={runtime.id}
+      position={position}
+      rotation={rotation}
+      scale={groupScale}
+      userData={{ runtimeProp: runtime }}
+    >
       {runtime.nodes.map((node) => {
         const { material, slot } = getNodeMaterial(node, runtime, materials);
         const custom = renderNode?.(node, { material, materialSlot: slot });
