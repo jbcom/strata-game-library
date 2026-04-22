@@ -1,7 +1,12 @@
 export { createRuntimeMaterial, resolveRuntimeMaterial } from './materials';
 export { type RuntimeAssetMaterialMode, RuntimeAssetMesh } from './RuntimeAssetMesh';
 export { RuntimeCreature } from './RuntimeCreature';
-export { RuntimeCreatureAsset } from './RuntimeCreatureAsset';
+export {
+  collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAssetRigBinding,
+  RuntimeCreatureAsset,
+  type RuntimeCreatureAssetProps,
+} from './RuntimeCreatureAsset';
 export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
 export { getDefaultRuntimePropInteractionAction, RuntimeProp } from './RuntimeProp';
 export type {

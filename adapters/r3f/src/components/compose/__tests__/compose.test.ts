@@ -6,6 +6,10 @@ import {
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
+import {
+  collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAssetRigBinding,
+} from '../RuntimeCreatureAsset';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
 import { getDefaultRuntimePropInteractionAction } from '../RuntimeProp';
 
@@ -20,6 +24,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.RuntimeGeometry).toBeDefined();
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
   });
 
@@ -144,10 +149,34 @@ void main() {
       assets: {
         model: '/models/otter.glb',
         animationClips: { idle: 'Idle' },
+        boneMap: {
+          spine_mid: 'Spine',
+          head: 'Head',
+        },
       },
     });
+    const rig = new THREE.Group();
+    const spine = new THREE.Bone();
+    const head = new THREE.Bone();
+
+    spine.name = 'Spine';
+    head.name = 'Head';
+    rig.add(spine, head);
+
+    const binding = createRuntimeCreatureAssetRigBinding(creature.runtime, rig);
 
     expect(creature.runtime.asset?.model).toBe('/models/otter.glb');
     expect(creature.runtime.asset?.animationClips.idle).toBe('Idle');
+    expect(collectRuntimeCreatureSourceBoneNames(rig)).toEqual(['Spine', 'Head']);
+    expect(binding.bindings.find((entry) => entry.boneId === 'spine_mid')).toMatchObject({
+      sourceBone: 'Spine',
+      explicit: true,
+      status: 'matched',
+    });
+    expect(binding.bindings.find((entry) => entry.boneId === 'head')).toMatchObject({
+      sourceBone: 'Head',
+      explicit: true,
+      status: 'matched',
+    });
   });
 });

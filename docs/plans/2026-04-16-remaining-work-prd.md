@@ -171,6 +171,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
 - R3F now renders asset-bound runtime creatures through `RuntimeCreatureAsset`, using Drei's GLTF cache and logical-to-source animation clip mappings from `runtime.asset.animationClips`.
+- R3F asset-bound runtime creatures now also collect loaded Three.js bone names and expose rig binding coverage via `createRuntimeCreatureAssetRigBinding()` and `RuntimeCreature` / `RuntimeCreatureAsset` `onRigBinding`.
 - `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 - R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
 - R3F runtime material conversion now injects procedural plans into `MeshStandardMaterial` shader compilation for base-color, scalar, opacity, emissive, and normal-channel effects.
@@ -182,7 +183,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded Babylon clip playback, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
@@ -245,7 +246,7 @@ Turn the current R3F runtime helpers into a stable high-level adapter surface.
 - The R3F component layer now includes `RuntimeProp`, `RuntimeCreature`, and `RuntimeCreatureAsset` for rendering core composition runtime plans.
 - Runtime composition renderers support orientation-aware primitive geometry, material overrides, and custom node/bone render hooks so consumers can replace primitive geometry with asset-backed meshes without bypassing the composition plan.
 - Mesh-shaped prop nodes can now use `RuntimeAssetMesh` for built-in static GLB loading through the R3F adapter.
-- Asset-bound creatures can now use `RuntimeCreatureAsset` for built-in GLB loading and logical animation clip selection through the R3F adapter.
+- Asset-bound creatures can now use `RuntimeCreatureAsset` for built-in GLB loading, logical animation clip selection, and rig binding coverage through the R3F adapter.
 - The API showcase now includes composition runtime examples, renders them through the real built entrypoint, and TypeDoc generation verifies the new example coverage.
 - The Reactylon adapter now exposes serializable composition descriptors via `StrataRuntimeProp`, `StrataRuntimeCreature`, `resolveReactylonRuntimeProp()`, and `resolveReactylonRuntimeCreature()`.
 - The Reactylon adapter now includes direct native Babylon instantiation helpers for runtime materials, props, creatures, async mesh-shaped prop nodes, asset-bound creature models, and loaded animation-group playback.

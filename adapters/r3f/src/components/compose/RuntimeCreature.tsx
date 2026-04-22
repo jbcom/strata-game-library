@@ -74,6 +74,7 @@ export function RuntimeCreature({
   receiveShadow = true,
   assetMode = 'auto',
   animation,
+  onRigBinding,
   transparentVolumetrics,
   materialOverrides,
   renderBone,
@@ -110,6 +111,7 @@ export function RuntimeCreature({
           animation={animation}
           castShadow={castShadow}
           receiveShadow={receiveShadow}
+          onRigBinding={onRigBinding}
         />
       </group>
     );

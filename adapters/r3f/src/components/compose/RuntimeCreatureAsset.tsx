@@ -1,5 +1,9 @@
 import { useAnimations, useGLTF } from '@react-three/drei';
-import type { CreatureRuntimeAssembly } from '@strata-game-library/core/compose';
+import {
+  type CreatureRuntimeAssembly,
+  type CreatureRuntimeRigBindingPlan,
+  createCreatureRigBindingPlan,
+} from '@strata-game-library/core/compose';
 import { useEffect, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
 
@@ -8,6 +12,7 @@ export interface RuntimeCreatureAssetProps {
   animation?: string;
   castShadow?: boolean;
   receiveShadow?: boolean;
+  onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
 }
 
 interface RuntimeCreatureAssetModelProps extends RuntimeCreatureAssetProps {
@@ -21,6 +26,37 @@ interface RuntimeCreatureGltf {
 
 function isMesh(object: THREE.Object3D): object is THREE.Mesh {
   return 'isMesh' in object && object.isMesh === true;
+}
+
+function isBone(object: THREE.Object3D): object is THREE.Bone {
+  return 'isBone' in object && object.isBone === true;
+}
+
+function isSourceBoneList(source: THREE.Object3D | readonly string[]): source is readonly string[] {
+  return Array.isArray(source);
+}
+
+export function collectRuntimeCreatureSourceBoneNames(scene: THREE.Object3D): string[] {
+  const names = new Set<string>();
+
+  scene.traverse((object) => {
+    if (isBone(object)) {
+      names.add(object.name);
+    }
+  });
+
+  return [...names];
+}
+
+export function createRuntimeCreatureAssetRigBinding(
+  creature: CreatureRuntimeAssembly,
+  source: THREE.Object3D | readonly string[]
+): CreatureRuntimeRigBindingPlan {
+  const sourceBoneNames = isSourceBoneList(source)
+    ? source
+    : collectRuntimeCreatureSourceBoneNames(source);
+
+  return createCreatureRigBindingPlan(creature, sourceBoneNames);
 }
 
 function cloneRuntimeCreatureAsset(
@@ -48,6 +84,7 @@ function RuntimeCreatureAssetModel({
   animation,
   castShadow = true,
   receiveShadow = true,
+  onRigBinding,
 }: RuntimeCreatureAssetModelProps) {
   const group = useRef<THREE.Group>(null);
   const gltf = useGLTF(model) as RuntimeCreatureGltf;
@@ -57,6 +94,10 @@ function RuntimeCreatureAssetModel({
   );
   const { actions } = useAnimations(gltf.animations ?? [], group);
   const clipName = animation ? (creature.asset?.animationClips[animation] ?? animation) : undefined;
+  const rigBinding = useMemo(
+    () => createRuntimeCreatureAssetRigBinding(creature, object),
+    [creature, object]
+  );
 
   useEffect(() => {
     if (!clipName) {
@@ -76,12 +117,17 @@ function RuntimeCreatureAssetModel({
     };
   }, [actions, clipName]);
 
+  useEffect(() => {
+    onRigBinding?.(rigBinding);
+  }, [onRigBinding, rigBinding]);
+
   object.userData = {
     ...object.userData,
     strataRuntimeKind: 'creature-asset',
     strataRuntimeCreature: creature,
     strataRuntimeAssetModel: model,
     strataRuntimeAnimation: clipName,
+    strataRuntimeRigBinding: rigBinding,
   };
 
   return (
@@ -93,6 +139,7 @@ function RuntimeCreatureAssetModel({
         strataRuntimeCreature: creature,
         strataRuntimeAssetModel: model,
         strataRuntimeAnimation: clipName,
+        strataRuntimeRigBinding: rigBinding,
       }}
     >
       <primitive object={object} />

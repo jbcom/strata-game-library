@@ -5,6 +5,7 @@ import type {
   CreatureComposition,
   CreatureRuntimeAssembly,
   CreatureRuntimeBone,
+  CreatureRuntimeRigBindingPlan,
   MaterialDefinition,
   PropComposition,
   PropRuntimeAssembly,
@@ -78,6 +79,7 @@ export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   receiveShadow?: boolean;
   assetMode?: RuntimeCreatureAssetMode;
   animation?: string;
+  onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
   renderBone?: (bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => React.ReactNode;
   onBoneClick?: (bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void;
 }
