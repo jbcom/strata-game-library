@@ -149,6 +149,78 @@ export interface RuntimePropInteractionControllerState {
   execute: (action: string | PropRuntimeInteractionAction) => PropRuntimeInteractionResult;
 }
 
+/**
+ * Shared context passed to prop interaction panel callbacks.
+ */
+export interface RuntimePropInteractionPanelContext {
+  /** Resolved prop runtime assembly shown by the panel. */
+  runtime: PropRuntimeAssembly;
+  /** Current interaction state at the time the callback runs. */
+  state: PropRuntimeInteractionState;
+}
+
+/**
+ * Context passed after the interaction panel executes an action.
+ */
+export interface RuntimePropInteractionPanelResultContext
+  extends RuntimePropInteractionPanelContext {
+  /** Result returned by the core prop interaction controller. */
+  result: PropRuntimeInteractionResult;
+}
+
+/**
+ * Props for the prefabbed R3F prop interaction panel.
+ */
+export interface RuntimePropInteractionPanelProps {
+  /** Prop input resolved into runtime interaction actions. */
+  prop: RuntimePropInput;
+  /** Initial interaction state copied into the internal controller. */
+  initialState?: PropRuntimeInteractionState;
+  /** Optional explicit action list; defaults to `runtime.interactionActions`. */
+  actions?: PropRuntimeInteractionAction[];
+  /** Panel title. Defaults to the prop runtime name. */
+  title?: React.ReactNode;
+  /** Label shown when no actions are available after filtering. */
+  emptyLabel?: React.ReactNode;
+  /** Toggles the state summary row. Default: true. */
+  showState?: boolean;
+  /** Toggles the last execution status row. Default: true. */
+  showStatus?: boolean;
+  /** Toggles the reset button. Default: true. */
+  showReset?: boolean;
+  /** Custom root class name. */
+  className?: string;
+  /** Custom root style merged after the default panel style. */
+  style?: React.CSSProperties;
+  /** Custom button style merged after the default action button style. */
+  buttonStyle?: React.CSSProperties;
+  /** Filters visible actions. */
+  actionFilter?: (
+    action: PropRuntimeInteractionAction,
+    context: RuntimePropInteractionPanelContext
+  ) => boolean;
+  /** Overrides an action label. */
+  actionLabel?: (
+    action: PropRuntimeInteractionAction,
+    context: RuntimePropInteractionPanelContext
+  ) => React.ReactNode;
+  /** Adds adapter-owned disable rules on top of core enabled/disabled state. */
+  actionDisabled?: (
+    action: PropRuntimeInteractionAction,
+    context: RuntimePropInteractionPanelContext
+  ) => boolean;
+  /** Called after an action executes through the core controller. */
+  onInteraction?: (
+    result: PropRuntimeInteractionResult,
+    context: RuntimePropInteractionPanelResultContext
+  ) => void;
+  /** Called whenever panel-owned interaction state changes. */
+  onStateChange?: (
+    state: PropRuntimeInteractionState,
+    context: RuntimePropInteractionPanelContext
+  ) => void;
+}
+
 export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   creature: RuntimeCreatureInput;
   position?: [number, number, number];

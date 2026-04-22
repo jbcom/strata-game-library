@@ -14,6 +14,7 @@ export {
   applyRuntimePropInteractionPhysicsEffects,
   getDefaultRuntimePropInteractionAction,
   RuntimeProp,
+  RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
 } from './RuntimeProp';
 export type {
@@ -29,6 +30,9 @@ export type {
   RuntimePropInteractionControllerOptions,
   RuntimePropInteractionControllerState,
   RuntimePropInteractionHandler,
+  RuntimePropInteractionPanelContext,
+  RuntimePropInteractionPanelProps,
+  RuntimePropInteractionPanelResultContext,
   RuntimePropInteractionSelector,
   RuntimePropPhysicsAdapter,
   RuntimePropPhysicsAdapterContext,

@@ -4,7 +4,8 @@ import {
   resolveCreatureComposition,
   resolvePropComposition,
 } from '@strata-game-library/core/compose';
-import { act, renderHook } from '@testing-library/react';
+import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { createElement } from 'react';
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
@@ -18,6 +19,7 @@ import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
   applyRuntimePropInteractionPhysicsEffects,
   getDefaultRuntimePropInteractionAction,
+  RuntimePropInteractionPanel,
   useRuntimePropInteractionController,
 } from '../RuntimeProp';
 
@@ -37,6 +39,7 @@ describe('R3F runtime composition components', () => {
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
+    expect(compose.RuntimePropInteractionPanel).toBeTypeOf('function');
     expect(compose.useRuntimePropInteractionController).toBeTypeOf('function');
   });
 
@@ -229,6 +232,43 @@ void main() {
     });
 
     expect(result.current.state.open).toBeUndefined();
+  });
+
+  it('renders a prefabbed R3F prop interaction panel', () => {
+    const prop = resolvePropComposition('crate_wooden');
+    const onInteraction = vi.fn();
+    const onStateChange = vi.fn();
+
+    render(
+      createElement(RuntimePropInteractionPanel, {
+        prop: prop.runtime,
+        onInteraction,
+        onStateChange,
+      })
+    );
+
+    expect(screen.getByText('Wooden Crate')).toBeDefined();
+    expect(screen.getByText('Idle')).toBeDefined();
+
+    fireEvent.click(screen.getByRole('button', { name: /Open Wooden Crate/i }));
+
+    expect(onInteraction).toHaveBeenCalledWith(
+      expect.objectContaining({ status: 'executed' }),
+      expect.objectContaining({
+        runtime: prop.runtime,
+        state: expect.objectContaining({ open: true }),
+      })
+    );
+    expect(screen.getByText('Open: yes')).toBeDefined();
+    expect(screen.getByText('Executed Open Wooden Crate')).toBeDefined();
+
+    fireEvent.click(screen.getByRole('button', { name: /Reset interactions/i }));
+
+    expect(onStateChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({}),
+      expect.objectContaining({ runtime: prop.runtime, state: expect.objectContaining({}) })
+    );
+    expect(screen.getByText('Idle')).toBeDefined();
   });
 
   it('preserves creature asset bindings for R3F asset-backed rendering', () => {
