@@ -45,13 +45,15 @@ export const API_COVERAGE = {
     ],
   },
   composition: {
-    examples: 2,
+    examples: 3,
     apis: [
       'RuntimeProp',
       'RuntimeCreature',
       'resolvePropComposition',
       'resolveCreatureComposition',
       'createMaterialVariant',
+      'createRuntimeCreatureAnimationGraphController',
+      'createRuntimeCreatureIKPose',
     ],
   },
 };
@@ -60,11 +62,11 @@ export const API_COVERAGE = {
  * Total example statistics
  */
 export const EXAMPLE_STATS = {
-  totalExamples: 28,
-  totalAPIs: 23,
+  totalExamples: 29,
+  totalAPIs: 25,
   categories: {
     basic: 13,
-    advanced: 10,
+    advanced: 11,
     complete: 5,
   },
 };

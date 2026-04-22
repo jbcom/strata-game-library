@@ -15,7 +15,12 @@ import {
   resolveCreatureComposition,
   resolvePropComposition,
 } from 'strata-game-library/compose';
-import type { RuntimeShapeRenderContext } from 'strata-game-library/r3f';
+import {
+  createRuntimeCreatureAnimationGraphController,
+  createRuntimeCreatureIKPose,
+  type RuntimeCreatureAnimationController,
+  type RuntimeShapeRenderContext,
+} from 'strata-game-library/r3f';
 
 function materialOverrideForNode(
   composition: PropComposition,
@@ -243,6 +248,134 @@ export function Example_RuntimeCompositionScene() {
       'Deterministic creature scale and material variation',
       'Custom bone renderer hook',
       'Composed scene objects from one npm package',
+    ],
+  };
+}
+
+/**
+ * Example 3: Runtime Creature Animation Graph and IK Targets
+ *
+ * Uses core creature runtime metadata to inspect graph transitions and build a
+ * deterministic IK target preview before rendering the creature. Imported
+ * assets can use the same graph through `RuntimeCreatureAsset`, while the IK
+ * pose can be applied to loaded Three.js bones with `applyRuntimeCreatureIKPose`.
+ *
+ * @example
+ * ```tsx
+ * const creature = resolveCreatureComposition('otter_river');
+ * const chainTargets = {
+ *   leg_front_l_ik: [0.45, -0.15, 0.25],
+ *   leg_front_r_ik: [0.45, -0.15, -0.25],
+ * };
+ * const ikPreview = createRuntimeCreatureIKPose(creature.runtime.ikRig, chainTargets);
+ *
+ * const graphController = createRuntimeCreatureAnimationGraphController(controller, creature.runtime.animationGraph, {
+ *   guards: { canSprint: () => true, canSwim: () => true },
+ * });
+ * graphController.trigger('sprint');
+ * ```
+ *
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/adapters/r3f/src/components/compose/RuntimeCreatureAsset.tsx createRuntimeCreatureAnimationGraphController}
+ * @see {@link https://github.com/jbcom/strata-game-library/blob/main/adapters/r3f/src/components/compose/RuntimeCreatureAsset.tsx createRuntimeCreatureIKPose}
+ *
+ * @category Advanced
+ * @apiExample RuntimeCreature, createRuntimeCreatureAnimationGraphController, createRuntimeCreatureIKPose
+ */
+export function Example_RuntimeCreatureAnimationGraphAndIK() {
+  const creature = resolveCreatureComposition(
+    'otter_river',
+    {
+      id: 'api_showcase_otter_graph_ik',
+      name: 'Graph + IK Showcase Otter',
+      scale: 1.35,
+    },
+    () => 0.2
+  );
+  const graphController = createRuntimeCreatureAnimationGraphController(
+    {
+      creature: creature.runtime,
+      actions: {},
+      resolveClipName: (animation: string) => animation,
+      getAction: () => undefined,
+      play: () => undefined,
+      crossFade: () => undefined,
+      stop: () => false,
+      stopAll: () => undefined,
+    } satisfies RuntimeCreatureAnimationController,
+    creature.runtime.animationGraph,
+    {
+      guards: {
+        canSprint: ({ controller }) => controller.creature.stats.stamina !== undefined,
+        canSwim: ({ controller }) => controller.creature.stats.swimSpeed !== undefined,
+      },
+    }
+  );
+  const ikTargets = Object.fromEntries(
+    creature.runtime.ikRig.ready.map((chain, index) => {
+      const base = chain.bones[0]?.position ?? [0, 0, 0];
+
+      return [
+        chain.id,
+        [base[0] + 0.1, base[1] - 0.18, base[2] + (index % 2 === 0 ? 0.22 : -0.22)] as [
+          number,
+          number,
+          number,
+        ],
+      ];
+    })
+  );
+  const ikPreview = createRuntimeCreatureIKPose(creature.runtime.ikRig, ikTargets);
+  const posedBones = new Map(
+    ikPreview.flatMap((chain) =>
+      Object.entries(chain.pose).map(([runtimeBoneId, transform]) => [runtimeBoneId, transform])
+    )
+  );
+  const reachableChains = ikPreview.filter((chain) => chain.reached).length;
+  const highlightedFur = createMaterialVariant('fur_otter', {
+    id: 'api_showcase_otter_ik_highlight',
+    baseColor: '#9b6a38',
+    roughnessDelta: -0.05,
+  });
+
+  return {
+    component: 'RuntimeCreature',
+    props: {
+      creature,
+      position: [1.75, 0.85, 0] as [number, number, number],
+      materialOverrides: Object.fromEntries(
+        Object.values(creature.runtime.materialSlots).map((slot) => [slot.id, highlightedFur])
+      ),
+      renderBone: (bone: CreatureRuntimeBone, { material }: RuntimeShapeRenderContext) => {
+        const transform = posedBones.get(bone.id);
+
+        if (!transform?.position) {
+          return undefined;
+        }
+
+        return (
+          <mesh position={transform.position} quaternion={bone.rotation ?? [0, 0, 0, 1]}>
+            <sphereGeometry args={[Math.max(...bone.size) / 2, 20, 12]} />
+            <primitive object={material} attach="material" />
+          </mesh>
+        );
+      },
+    },
+    description:
+      'Core animation graph transitions and IK chain targets previewed through R3F runtime helpers',
+    apiCalls: [
+      'resolveCreatureComposition',
+      'createRuntimeCreatureAnimationGraphController',
+      'createRuntimeCreatureIKPose',
+      'RuntimeCreature',
+    ],
+    features: [
+      `Animation graph initial state: ${graphController.initialState}`,
+      `Available idle events: ${graphController
+        .getAvailableTransitions()
+        .map((transition) => transition.event)
+        .join(', ')}`,
+      `Swim transition guard result: ${String(graphController.canTrigger('enter-water'))}`,
+      `IK chains previewed: ${ikPreview.length} (${reachableChains} within reach)`,
     ],
   };
 }

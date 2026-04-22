@@ -171,7 +171,9 @@ const App: React.FC = () => {
           <ExampleRenderer example={VegetationExamples.Example_CompleteVegetationScene} />
         )}
         {activeTab === 'composition' && (
-          <ExampleRenderer example={CompositionExamples.Example_RuntimeCompositionScene} />
+          <ExampleRenderer
+            example={CompositionExamples.Example_RuntimeCreatureAnimationGraphAndIK}
+          />
         )}
         {activeTab === 'water' && <ExampleRenderer example={WaterExamples.Example_BasicWater} />}
         {activeTab === 'sky' && <ExampleRenderer example={SkyExamples.Example_BasicSky} />}

@@ -80,7 +80,7 @@ pnpm --dir apps/examples/api-showcase dev
 ```
 
 - All features combined
-- Runtime composition examples with `RuntimeProp` and `RuntimeCreature`
+- Runtime composition examples with `RuntimeProp`, `RuntimeCreature`, animation-graph guards, and IK target pose previews
 - Performance-optimized
 - Interactive controls
 - [View Source](https://github.com/jbcom/strata-game-library/tree/main/apps/examples/api-showcase)

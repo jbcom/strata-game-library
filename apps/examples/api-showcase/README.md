@@ -97,6 +97,8 @@ Runtime composition coverage:
 - `RuntimeProp` - R3F rendering for resolved prop nodes
 - `RuntimeCreature` - R3F rendering for resolved creature bones
 - `createMaterialVariant` - Runtime material swapping and visual variation
+- `createRuntimeCreatureAnimationGraphController` - Core animation graph event routing
+- `createRuntimeCreatureIKPose` - IK target preview poses from core chain plans
 
 **API Methods Demonstrated**:
 
@@ -106,6 +108,8 @@ Runtime composition coverage:
 @see RuntimeProp
 @see RuntimeCreature
 @see createMaterialVariant
+@see createRuntimeCreatureAnimationGraphController
+@see createRuntimeCreatureIKPose
 ```
 
 ## 🏗️ Structure
