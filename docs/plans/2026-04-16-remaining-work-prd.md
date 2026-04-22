@@ -174,6 +174,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
 - R3F now renders asset-bound runtime creatures through `RuntimeCreatureAsset`, using Drei's GLTF cache and logical-to-source animation clip mappings from `runtime.asset.animationClips`.
 - R3F asset-bound runtime creatures now also collect loaded Three.js bone names and expose rig binding coverage via `createRuntimeCreatureAssetRigBinding()` and `RuntimeCreature` / `RuntimeCreatureAsset` `onRigBinding`.
+- R3F now exposes `createRuntimeCreatureAnimationTrackNameMap()` and `retargetRuntimeCreatureAnimationClip()` for opt-in Three.js clip-track retargeting between runtime logical bones and loaded source rig bones.
 - `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 - R3F now applies prop physics interaction effects through `applyRuntimePropInteractionPhysicsEffects()`, preserving per-object runtime physics state and exposing optional callbacks for concrete physics adapters.
 - R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
@@ -188,7 +189,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now apply renderer-neutral prop physics effects to mesh collision/pickability flags, runtime physics metadata, and available Babylon v2/v1 physics-body seams.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, higher-level interaction UX and physics-engine authoring around the new effect application seams, procedural texture rasterization/export beyond the new bake manifests, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is pose retargeting and richer skeletal animation control beyond the new R3F clip-track retargeting plus loaded R3F/Babylon clip playback, higher-level interaction UX and physics-engine authoring around the new effect application seams, procedural texture rasterization/export beyond the new bake manifests, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 

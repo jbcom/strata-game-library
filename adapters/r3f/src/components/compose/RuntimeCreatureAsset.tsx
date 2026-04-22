@@ -6,10 +6,17 @@ import {
 } from '@strata-game-library/core/compose';
 import { useEffect, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
+import { AnimationClip } from 'three';
+import type {
+  RuntimeCreatureAnimationRetargetDirection,
+  RuntimeCreatureAnimationRetargetMetadata,
+  RuntimeCreatureAnimationRetargetOptions,
+} from './types';
 
 export interface RuntimeCreatureAssetProps {
   creature: CreatureRuntimeAssembly;
   animation?: string;
+  retargetAnimation?: boolean | RuntimeCreatureAnimationRetargetOptions;
   castShadow?: boolean;
   receiveShadow?: boolean;
   onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
@@ -36,6 +43,36 @@ function isSourceBoneList(source: THREE.Object3D | readonly string[]): source is
   return Array.isArray(source);
 }
 
+function normalizeRetargetOptions(
+  options: boolean | RuntimeCreatureAnimationRetargetOptions | undefined
+): RuntimeCreatureAnimationRetargetOptions {
+  return typeof options === 'object' ? options : {};
+}
+
+function shouldUseRigBinding(binding: CreatureRuntimeRigBindingPlan['bindings'][number]) {
+  return binding.status !== 'missing';
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceTrackNameTarget(trackName: string, targetMap: Map<string, string>): string {
+  let retargeted = trackName;
+  const sortedTargets = [...targetMap.entries()]
+    .filter(([from, to]) => from !== to)
+    .sort(([left], [right]) => right.length - left.length);
+
+  for (const [from, to] of sortedTargets) {
+    retargeted = retargeted.replace(
+      new RegExp(`(^|[./\\[:])${escapeRegExp(from)}(?=([.\\]/]|$))`, 'g'),
+      `$1${to}`
+    );
+  }
+
+  return retargeted;
+}
+
 export function collectRuntimeCreatureSourceBoneNames(scene: THREE.Object3D): string[] {
   const names = new Set<string>();
 
@@ -57,6 +94,82 @@ export function createRuntimeCreatureAssetRigBinding(
     : collectRuntimeCreatureSourceBoneNames(source);
 
   return createCreatureRigBindingPlan(creature, sourceBoneNames);
+}
+
+export function createRuntimeCreatureAnimationTrackNameMap(
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  options: RuntimeCreatureAnimationRetargetOptions = {}
+): Map<string, string> {
+  const direction: RuntimeCreatureAnimationRetargetDirection =
+    options.direction ?? 'runtime-to-source';
+  const includeUnverified = options.includeUnverified ?? true;
+  const targetMap = new Map<string, string>();
+
+  for (const binding of rigBinding.bindings) {
+    if (!shouldUseRigBinding(binding)) {
+      continue;
+    }
+
+    if (binding.status === 'unverified' && !includeUnverified) {
+      continue;
+    }
+
+    if (direction === 'runtime-to-source') {
+      targetMap.set(binding.runtimeBoneId, binding.sourceBone);
+      targetMap.set(binding.boneId, binding.sourceBone);
+    } else {
+      targetMap.set(binding.sourceBone, binding.runtimeBoneId);
+    }
+  }
+
+  return targetMap;
+}
+
+export function retargetRuntimeCreatureAnimationClip(
+  clip: THREE.AnimationClip,
+  rigBinding: CreatureRuntimeRigBindingPlan,
+  options: RuntimeCreatureAnimationRetargetOptions = {}
+): THREE.AnimationClip {
+  const direction: RuntimeCreatureAnimationRetargetDirection =
+    options.direction ?? 'runtime-to-source';
+  const targetMap = createRuntimeCreatureAnimationTrackNameMap(rigBinding, {
+    ...options,
+    direction,
+  });
+  let renamedTracks = 0;
+  let preservedTracks = 0;
+  const tracks = clip.tracks.map((track) => {
+    const nextName = replaceTrackNameTarget(track.name, targetMap);
+    const clone = track.clone();
+
+    if (nextName === track.name) {
+      preservedTracks += 1;
+    } else {
+      renamedTracks += 1;
+      clone.name = nextName;
+    }
+
+    return clone;
+  });
+  const retargeted = new AnimationClip(
+    options.name ?? clip.name,
+    clip.duration,
+    tracks,
+    clip.blendMode
+  );
+  const metadata: RuntimeCreatureAnimationRetargetMetadata = {
+    direction,
+    renamedTracks,
+    preservedTracks,
+    trackNameMap: Object.fromEntries(targetMap),
+  };
+
+  retargeted.userData = {
+    ...clip.userData,
+    strataRuntimeRetarget: metadata,
+  };
+
+  return retargeted;
 }
 
 function cloneRuntimeCreatureAsset(
@@ -82,6 +195,7 @@ function RuntimeCreatureAssetModel({
   creature,
   model,
   animation,
+  retargetAnimation,
   castShadow = true,
   receiveShadow = true,
   onRigBinding,
@@ -92,12 +206,25 @@ function RuntimeCreatureAssetModel({
     () => cloneRuntimeCreatureAsset(gltf.scene, castShadow, receiveShadow),
     [castShadow, gltf.scene, receiveShadow]
   );
-  const { actions } = useAnimations(gltf.animations ?? [], group);
   const clipName = animation ? (creature.asset?.animationClips[animation] ?? animation) : undefined;
   const rigBinding = useMemo(
     () => createRuntimeCreatureAssetRigBinding(creature, object),
     [creature, object]
   );
+  const animationClips = useMemo(() => {
+    const clips = gltf.animations ?? [];
+
+    if (!retargetAnimation) {
+      return clips;
+    }
+
+    const retargetOptions = normalizeRetargetOptions(retargetAnimation);
+
+    return clips.map((clip) =>
+      retargetRuntimeCreatureAnimationClip(clip, rigBinding, retargetOptions)
+    );
+  }, [gltf.animations, retargetAnimation, rigBinding]);
+  const { actions } = useAnimations(animationClips, group);
 
   useEffect(() => {
     if (!clipName) {

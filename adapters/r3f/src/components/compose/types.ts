@@ -31,6 +31,21 @@ export type RuntimeCreatureInput =
 
 export type RuntimeCreatureAssetMode = 'auto' | 'asset' | 'runtime';
 
+export type RuntimeCreatureAnimationRetargetDirection = 'runtime-to-source' | 'source-to-runtime';
+
+export interface RuntimeCreatureAnimationRetargetOptions {
+  direction?: RuntimeCreatureAnimationRetargetDirection;
+  name?: string;
+  includeUnverified?: boolean;
+}
+
+export interface RuntimeCreatureAnimationRetargetMetadata {
+  direction: RuntimeCreatureAnimationRetargetDirection;
+  renamedTracks: number;
+  preservedTracks: number;
+  trackNameMap: Record<string, string>;
+}
+
 export interface RuntimeMaterialOptions {
   transparentVolumetrics?: boolean;
   materialOverrides?: Record<string, THREE.Material | MaterialDefinition>;
@@ -119,6 +134,7 @@ export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   receiveShadow?: boolean;
   assetMode?: RuntimeCreatureAssetMode;
   animation?: string;
+  retargetAnimation?: boolean | RuntimeCreatureAnimationRetargetOptions;
   onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
   renderBone?: (bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => React.ReactNode;
   onBoneClick?: (bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void;

@@ -3,9 +3,11 @@ export { type RuntimeAssetMaterialMode, RuntimeAssetMesh } from './RuntimeAssetM
 export { RuntimeCreature } from './RuntimeCreature';
 export {
   collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
   RuntimeCreatureAsset,
   type RuntimeCreatureAssetProps,
+  retargetRuntimeCreatureAnimationClip,
 } from './RuntimeCreatureAsset';
 export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
 export {
@@ -14,6 +16,9 @@ export {
   RuntimeProp,
 } from './RuntimeProp';
 export type {
+  RuntimeCreatureAnimationRetargetDirection,
+  RuntimeCreatureAnimationRetargetMetadata,
+  RuntimeCreatureAnimationRetargetOptions,
   RuntimeCreatureAssetMode,
   RuntimeCreatureInput,
   RuntimeCreatureProps,

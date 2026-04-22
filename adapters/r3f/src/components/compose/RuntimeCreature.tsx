@@ -74,6 +74,7 @@ export function RuntimeCreature({
   receiveShadow = true,
   assetMode = 'auto',
   animation,
+  retargetAnimation,
   onRigBinding,
   transparentVolumetrics,
   materialOverrides,
@@ -109,6 +110,7 @@ export function RuntimeCreature({
         <RuntimeCreatureAsset
           creature={runtime}
           animation={animation}
+          retargetAnimation={retargetAnimation}
           castShadow={castShadow}
           receiveShadow={receiveShadow}
           onRigBinding={onRigBinding}

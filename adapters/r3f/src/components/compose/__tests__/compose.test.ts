@@ -9,7 +9,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { createRuntimeMaterial } from '../materials';
 import {
   collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
+  retargetRuntimeCreatureAnimationClip,
 } from '../RuntimeCreatureAsset';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
@@ -29,6 +31,8 @@ describe('R3F runtime composition components', () => {
     expect(compose.createRuntimeMaterial).toBeTypeOf('function');
     expect(compose.resolveRuntimeMaterial).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureAnimationTrackNameMap).toBeTypeOf('function');
+    expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
     expect(compose.applyRuntimePropInteractionPhysicsEffects).toBeTypeOf('function');
   });
@@ -234,5 +238,61 @@ void main() {
       explicit: true,
       status: 'matched',
     });
+  });
+
+  it('retargets R3F creature animation tracks through rig bindings', () => {
+    const creature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        boneMap: {
+          spine_mid: 'Spine',
+          head: 'Head',
+        },
+      },
+    });
+    const binding = createRuntimeCreatureAssetRigBinding(creature.runtime, ['Spine', 'Head']);
+    const clip = new THREE.AnimationClip('Idle', 1, [
+      new THREE.VectorKeyframeTrack(
+        'otter_river:bone:spine_mid.position',
+        [0, 1],
+        [0, 0, 0, 1, 1, 1]
+      ),
+      new THREE.QuaternionKeyframeTrack('head.quaternion', [0, 1], [0, 0, 0, 1, 0, 0, 0, 1]),
+      new THREE.NumberKeyframeTrack('Tail.scale[x]', [0, 1], [1, 1]),
+    ]);
+
+    const targetMap = createRuntimeCreatureAnimationTrackNameMap(binding);
+    const retargeted = retargetRuntimeCreatureAnimationClip(clip, binding);
+
+    expect(targetMap.get('otter_river:bone:spine_mid')).toBe('Spine');
+    expect(targetMap.get('head')).toBe('Head');
+    expect(retargeted.name).toBe('Idle');
+    expect(retargeted.tracks.map((track) => track.name)).toEqual([
+      'Spine.position',
+      'Head.quaternion',
+      'Tail.scale[x]',
+    ]);
+    expect(retargeted.userData.strataRuntimeRetarget).toMatchObject({
+      direction: 'runtime-to-source',
+      renamedTracks: 2,
+      preservedTracks: 1,
+    });
+
+    const sourceClip = new THREE.AnimationClip('AssetIdle', 1, [
+      new THREE.VectorKeyframeTrack('Armature/Spine.position', [0, 1], [0, 0, 0, 1, 1, 1]),
+      new THREE.QuaternionKeyframeTrack(
+        '.bones[Head].quaternion',
+        [0, 1],
+        [0, 0, 0, 1, 0, 0, 0, 1]
+      ),
+    ]);
+    const runtimeClip = retargetRuntimeCreatureAnimationClip(sourceClip, binding, {
+      direction: 'source-to-runtime',
+    });
+
+    expect(runtimeClip.tracks.map((track) => track.name)).toEqual([
+      'Armature/otter_river:bone:spine_mid.position',
+      '.bones[otter_river:bone:head].quaternion',
+    ]);
   });
 });
