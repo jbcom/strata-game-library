@@ -4,12 +4,16 @@ export { RuntimeCreature } from './RuntimeCreature';
 export {
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAnimationController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
   createRuntimeCreaturePoseTargetMap,
+  playRuntimeCreatureAnimationAction,
   RuntimeCreatureAsset,
   type RuntimeCreatureAssetProps,
+  resolveRuntimeCreatureAnimationClipName,
   retargetRuntimeCreatureAnimationClip,
+  stopRuntimeCreatureAnimationAction,
 } from './RuntimeCreatureAsset';
 export { createRuntimeGeometry, RuntimeGeometry } from './RuntimeGeometry';
 export {
@@ -22,9 +26,14 @@ export {
   useRuntimePropInteractionController,
 } from './RuntimeProp';
 export type {
+  RuntimeCreatureAnimationActionContext,
+  RuntimeCreatureAnimationActionMap,
+  RuntimeCreatureAnimationController,
+  RuntimeCreatureAnimationPlaybackOptions,
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
   RuntimeCreatureAnimationRetargetOptions,
+  RuntimeCreatureAnimationStopOptions,
   RuntimeCreatureAssetMode,
   RuntimeCreatureInput,
   RuntimeCreaturePose,

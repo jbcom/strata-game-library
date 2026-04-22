@@ -12,10 +12,14 @@ import { createRuntimeMaterial } from '../materials';
 import {
   applyRuntimeCreaturePose,
   collectRuntimeCreatureSourceBoneNames,
+  createRuntimeCreatureAnimationController,
   createRuntimeCreatureAnimationTrackNameMap,
   createRuntimeCreatureAssetRigBinding,
   createRuntimeCreaturePoseTargetMap,
+  playRuntimeCreatureAnimationAction,
+  resolveRuntimeCreatureAnimationClipName,
   retargetRuntimeCreatureAnimationClip,
+  stopRuntimeCreatureAnimationAction,
 } from '../RuntimeCreatureAsset';
 import { createRuntimeGeometry } from '../RuntimeGeometry';
 import {
@@ -41,6 +45,10 @@ describe('R3F runtime composition components', () => {
     expect(compose.createRuntimeCreatureAssetRigBinding).toBeTypeOf('function');
     expect(compose.createRuntimeCreatureAnimationTrackNameMap).toBeTypeOf('function');
     expect(compose.retargetRuntimeCreatureAnimationClip).toBeTypeOf('function');
+    expect(compose.resolveRuntimeCreatureAnimationClipName).toBeTypeOf('function');
+    expect(compose.playRuntimeCreatureAnimationAction).toBeTypeOf('function');
+    expect(compose.stopRuntimeCreatureAnimationAction).toBeTypeOf('function');
+    expect(compose.createRuntimeCreatureAnimationController).toBeTypeOf('function');
     expect(compose.createRuntimeCreaturePoseTargetMap).toBeTypeOf('function');
     expect(compose.applyRuntimeCreaturePose).toBeTypeOf('function');
     expect(compose.getDefaultRuntimePropInteractionAction).toBeTypeOf('function');
@@ -419,6 +427,52 @@ void main() {
       'Armature/otter_river:bone:spine_mid.position',
       '.bones[otter_river:bone:head].quaternion',
     ]);
+  });
+
+  it('controls R3F creature animation actions through logical clip aliases', () => {
+    const creature = resolveCreatureComposition('otter_river', {
+      assets: {
+        model: '/models/otter.glb',
+        animationClips: {
+          idle: 'Idle',
+          leap: 'Jump',
+        },
+      },
+    });
+    const mixer = new THREE.AnimationMixer(new THREE.Group());
+    const idleAction = mixer.clipAction(new THREE.AnimationClip('Idle', 1, []));
+    const jumpAction = mixer.clipAction(new THREE.AnimationClip('Jump', 1, []));
+    const actions = {
+      Idle: idleAction,
+      Jump: jumpAction,
+    };
+
+    const played = playRuntimeCreatureAnimationAction(actions, creature.runtime, 'idle', {
+      clampWhenFinished: true,
+      fadeInDuration: 0,
+      loop: false,
+      timeScale: 1.5,
+    });
+    const controller = createRuntimeCreatureAnimationController(creature.runtime, actions);
+
+    expect(resolveRuntimeCreatureAnimationClipName(creature.runtime, 'idle')).toBe('Idle');
+    expect(played).toBe(idleAction);
+    expect(idleAction.clampWhenFinished).toBe(true);
+    expect(idleAction.enabled).toBe(true);
+    expect(idleAction.timeScale).toBe(1.5);
+    expect(controller.getAction('leap')).toBe(jumpAction);
+    expect(controller.play('leap', { reset: false })).toBe(jumpAction);
+    expect(controller.current).toBe(jumpAction);
+    expect(controller.stop('leap')).toBe(true);
+    expect(controller.current).toBeUndefined();
+    expect(controller.stop('missing')).toBe(false);
+
+    controller.play('idle');
+    controller.play('leap');
+    controller.stopAll();
+
+    expect(controller.current).toBeUndefined();
+    expect(stopRuntimeCreatureAnimationAction(idleAction)).toBe(idleAction);
   });
 
   it('applies R3F creature poses through rig binding aliases', () => {

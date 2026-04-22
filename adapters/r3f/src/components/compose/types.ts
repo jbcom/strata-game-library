@@ -47,6 +47,79 @@ export interface RuntimeCreatureAnimationRetargetMetadata {
 }
 
 /**
+ * Animation action map returned by Three/Drei animation helpers.
+ */
+export type RuntimeCreatureAnimationActionMap = Record<
+  string,
+  THREE.AnimationAction | null | undefined
+>;
+
+/**
+ * Playback options for runtime creature animation actions.
+ */
+export interface RuntimeCreatureAnimationPlaybackOptions {
+  /** Fade-in duration in seconds. */
+  fadeInDuration?: number;
+  /** Fade-out duration in seconds, used by component cleanup and stop helpers. */
+  fadeOutDuration?: number;
+  /** Sets `AnimationAction.timeScale` before playback. */
+  timeScale?: number;
+  /** Sets `AnimationAction.clampWhenFinished` before playback. */
+  clampWhenFinished?: boolean;
+  /** Uses repeating playback when true and one-shot playback when false. */
+  loop?: boolean;
+  /** Optional explicit Three.js repetition count. */
+  repetitions?: number;
+  /** Resets the action before playing. Default: true. */
+  reset?: boolean;
+}
+
+/**
+ * Stop options for runtime creature animation actions.
+ */
+export interface RuntimeCreatureAnimationStopOptions {
+  /** Fade-out duration in seconds. Defaults to immediate stop. */
+  fadeOutDuration?: number;
+}
+
+/**
+ * Context emitted when the R3F creature asset starts an animation action.
+ */
+export interface RuntimeCreatureAnimationActionContext {
+  /** Runtime creature assembly that owns the animation. */
+  creature: CreatureRuntimeAssembly;
+  /** Runtime logical animation id requested by the caller. */
+  animation: string;
+  /** Resolved source clip name used to find the Three action. */
+  clipName: string;
+}
+
+/**
+ * Imperative controller for runtime creature animation actions.
+ */
+export interface RuntimeCreatureAnimationController {
+  /** Runtime creature assembly controlled by this instance. */
+  creature: CreatureRuntimeAssembly;
+  /** Available Three actions keyed by source clip name. */
+  actions: RuntimeCreatureAnimationActionMap;
+  /** Last action successfully started through this controller. */
+  current?: THREE.AnimationAction;
+  /** Resolves a runtime logical animation id to the source clip name. */
+  resolveClipName: (animation: string) => string;
+  /** Returns an action by runtime logical animation id or source clip name. */
+  getAction: (animation: string) => THREE.AnimationAction | undefined;
+  /** Starts an action by runtime logical animation id or source clip name. */
+  play: (
+    animation: string,
+    options?: RuntimeCreatureAnimationPlaybackOptions
+  ) => THREE.AnimationAction | undefined;
+  /** Stops an action by runtime logical animation id or source clip name. */
+  stop: (animation: string, options?: RuntimeCreatureAnimationStopOptions) => boolean;
+  /** Stops every available action. */
+  stopAll: (options?: RuntimeCreatureAnimationStopOptions) => void;
+}
+
+/**
  * Vector-like pose value accepted by runtime creature pose helpers.
  */
 export type RuntimeCreaturePoseVector = [number, number, number] | THREE.Vector3;
@@ -323,8 +396,14 @@ export interface RuntimeCreatureProps extends RuntimeMaterialOptions {
   receiveShadow?: boolean;
   assetMode?: RuntimeCreatureAssetMode;
   animation?: string;
+  animationPlayback?: RuntimeCreatureAnimationPlaybackOptions;
   retargetAnimation?: boolean | RuntimeCreatureAnimationRetargetOptions;
   onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
+  onAnimationController?: (controller: RuntimeCreatureAnimationController) => void;
+  onAnimationAction?: (
+    action: THREE.AnimationAction,
+    context: RuntimeCreatureAnimationActionContext
+  ) => void;
   renderBone?: (bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => React.ReactNode;
   onBoneClick?: (bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void;
 }

@@ -6,11 +6,16 @@ import {
 } from '@strata-game-library/core/compose';
 import { useEffect, useMemo, useRef } from 'react';
 import type * as THREE from 'three';
-import { AnimationClip } from 'three';
+import { AnimationClip, LoopOnce, LoopRepeat } from 'three';
 import type {
+  RuntimeCreatureAnimationActionContext,
+  RuntimeCreatureAnimationActionMap,
+  RuntimeCreatureAnimationController,
+  RuntimeCreatureAnimationPlaybackOptions,
   RuntimeCreatureAnimationRetargetDirection,
   RuntimeCreatureAnimationRetargetMetadata,
   RuntimeCreatureAnimationRetargetOptions,
+  RuntimeCreatureAnimationStopOptions,
   RuntimeCreaturePose,
   RuntimeCreaturePoseApplication,
   RuntimeCreaturePoseOptions,
@@ -22,10 +27,16 @@ import type {
 export interface RuntimeCreatureAssetProps {
   creature: CreatureRuntimeAssembly;
   animation?: string;
+  animationPlayback?: RuntimeCreatureAnimationPlaybackOptions;
   retargetAnimation?: boolean | RuntimeCreatureAnimationRetargetOptions;
   castShadow?: boolean;
   receiveShadow?: boolean;
   onRigBinding?: (plan: CreatureRuntimeRigBindingPlan) => void;
+  onAnimationController?: (controller: RuntimeCreatureAnimationController) => void;
+  onAnimationAction?: (
+    action: THREE.AnimationAction,
+    context: RuntimeCreatureAnimationActionContext
+  ) => void;
 }
 
 interface RuntimeCreatureAssetModelProps extends RuntimeCreatureAssetProps {
@@ -36,6 +47,8 @@ interface RuntimeCreatureGltf {
   scene: THREE.Object3D;
   animations?: THREE.AnimationClip[];
 }
+
+const DEFAULT_RUNTIME_CREATURE_ANIMATION_FADE_DURATION = 0.15;
 
 function isMesh(object: THREE.Object3D): object is THREE.Mesh {
   return 'isMesh' in object && object.isMesh === true;
@@ -176,6 +189,141 @@ export function retargetRuntimeCreatureAnimationClip(
   };
 
   return retargeted;
+}
+
+/**
+ * Resolves a runtime logical animation id to the source Three.js clip name.
+ */
+export function resolveRuntimeCreatureAnimationClipName(
+  creature: CreatureRuntimeAssembly,
+  animation: string
+): string {
+  return creature.asset?.animationClips[animation] ?? animation;
+}
+
+/**
+ * Starts a Three.js animation action through runtime creature clip aliases.
+ */
+export function playRuntimeCreatureAnimationAction(
+  actions: RuntimeCreatureAnimationActionMap,
+  creature: CreatureRuntimeAssembly,
+  animation: string,
+  options: RuntimeCreatureAnimationPlaybackOptions = {}
+): THREE.AnimationAction | undefined {
+  const clipName = resolveRuntimeCreatureAnimationClipName(creature, animation);
+  const action = actions[clipName] ?? actions[animation] ?? undefined;
+
+  if (!action) {
+    return undefined;
+  }
+
+  if (options.reset !== false) {
+    action.reset();
+  }
+
+  if (options.timeScale !== undefined) {
+    action.timeScale = options.timeScale;
+  }
+
+  if (options.clampWhenFinished !== undefined) {
+    action.clampWhenFinished = options.clampWhenFinished;
+  }
+
+  if (options.loop !== undefined || options.repetitions !== undefined) {
+    const shouldLoop = options.loop !== false;
+    action.setLoop(
+      shouldLoop ? LoopRepeat : LoopOnce,
+      options.repetitions ?? (shouldLoop ? Infinity : 1)
+    );
+  }
+
+  action.enabled = true;
+
+  if ((options.fadeInDuration ?? 0) > 0) {
+    action.fadeIn(options.fadeInDuration ?? 0);
+  }
+
+  action.play();
+
+  return action;
+}
+
+/**
+ * Stops a Three.js animation action with an optional fade-out.
+ */
+export function stopRuntimeCreatureAnimationAction(
+  action: THREE.AnimationAction,
+  options: RuntimeCreatureAnimationStopOptions = {}
+): THREE.AnimationAction {
+  if ((options.fadeOutDuration ?? 0) > 0) {
+    action.fadeOut(options.fadeOutDuration ?? 0);
+  } else {
+    action.stop();
+  }
+
+  return action;
+}
+
+/**
+ * Creates an imperative controller around runtime creature animation actions.
+ */
+export function createRuntimeCreatureAnimationController(
+  creature: CreatureRuntimeAssembly,
+  actions: RuntimeCreatureAnimationActionMap
+): RuntimeCreatureAnimationController {
+  const controller: RuntimeCreatureAnimationController = {
+    creature,
+    actions,
+    resolveClipName: (animation) => resolveRuntimeCreatureAnimationClipName(creature, animation),
+    getAction: (animation) => {
+      const clipName = resolveRuntimeCreatureAnimationClipName(creature, animation);
+
+      return actions[clipName] ?? actions[animation] ?? undefined;
+    },
+    play: (animation, options) => {
+      const action = playRuntimeCreatureAnimationAction(actions, creature, animation, options);
+
+      if (action) {
+        controller.current = action;
+      }
+
+      return action;
+    },
+    stop: (animation, options) => {
+      const action = controller.getAction(animation);
+
+      if (!action) {
+        return false;
+      }
+
+      stopRuntimeCreatureAnimationAction(action, options);
+
+      if (controller.current === action) {
+        controller.current = undefined;
+      }
+
+      return true;
+    },
+    stopAll: (options) => {
+      const uniqueActions = new Set<THREE.AnimationAction>();
+
+      for (const action of Object.values(actions)) {
+        if (action) {
+          uniqueActions.add(action);
+        }
+      }
+
+      for (const action of uniqueActions) {
+        stopRuntimeCreatureAnimationAction(action, options);
+      }
+
+      if (controller.current && uniqueActions.has(controller.current)) {
+        controller.current = undefined;
+      }
+    },
+  };
+
+  return controller;
 }
 
 function findRuntimeCreaturePoseBinding(
@@ -327,10 +475,13 @@ function RuntimeCreatureAssetModel({
   creature,
   model,
   animation,
+  animationPlayback,
   retargetAnimation,
   castShadow = true,
   receiveShadow = true,
   onRigBinding,
+  onAnimationController,
+  onAnimationAction,
 }: RuntimeCreatureAssetModelProps) {
   const group = useRef<THREE.Group>(null);
   const gltf = useGLTF(model) as RuntimeCreatureGltf;
@@ -338,7 +489,6 @@ function RuntimeCreatureAssetModel({
     () => cloneRuntimeCreatureAsset(gltf.scene, castShadow, receiveShadow),
     [castShadow, gltf.scene, receiveShadow]
   );
-  const clipName = animation ? (creature.asset?.animationClips[animation] ?? animation) : undefined;
   const rigBinding = useMemo(
     () => createRuntimeCreatureAssetRigBinding(creature, object),
     [creature, object]
@@ -357,28 +507,48 @@ function RuntimeCreatureAssetModel({
     );
   }, [gltf.animations, retargetAnimation, rigBinding]);
   const { actions } = useAnimations(animationClips, group);
+  const animationController = useMemo(
+    () => createRuntimeCreatureAnimationController(creature, actions),
+    [actions, creature]
+  );
+  const clipName = animation ? animationController.resolveClipName(animation) : undefined;
 
   useEffect(() => {
-    if (!clipName) {
+    if (!animation) {
       return undefined;
     }
 
-    const action = actions[clipName];
+    const action = animationController.play(animation, {
+      fadeInDuration: DEFAULT_RUNTIME_CREATURE_ANIMATION_FADE_DURATION,
+      fadeOutDuration: DEFAULT_RUNTIME_CREATURE_ANIMATION_FADE_DURATION,
+      ...animationPlayback,
+    });
 
     if (!action) {
       return undefined;
     }
 
-    action.reset().fadeIn(0.15).play();
+    onAnimationAction?.(action, {
+      creature,
+      animation,
+      clipName: animationController.resolveClipName(animation),
+    });
 
     return () => {
-      action.fadeOut(0.15);
+      stopRuntimeCreatureAnimationAction(action, {
+        fadeOutDuration:
+          animationPlayback?.fadeOutDuration ?? DEFAULT_RUNTIME_CREATURE_ANIMATION_FADE_DURATION,
+      });
     };
-  }, [actions, clipName]);
+  }, [animation, animationController, animationPlayback, creature, onAnimationAction]);
 
   useEffect(() => {
     onRigBinding?.(rigBinding);
   }, [onRigBinding, rigBinding]);
+
+  useEffect(() => {
+    onAnimationController?.(animationController);
+  }, [animationController, onAnimationController]);
 
   object.userData = {
     ...object.userData,

@@ -74,8 +74,11 @@ export function RuntimeCreature({
   receiveShadow = true,
   assetMode = 'auto',
   animation,
+  animationPlayback,
   retargetAnimation,
   onRigBinding,
+  onAnimationController,
+  onAnimationAction,
   transparentVolumetrics,
   materialOverrides,
   renderBone,
@@ -110,10 +113,13 @@ export function RuntimeCreature({
         <RuntimeCreatureAsset
           creature={runtime}
           animation={animation}
+          animationPlayback={animationPlayback}
           retargetAnimation={retargetAnimation}
           castShadow={castShadow}
           receiveShadow={receiveShadow}
           onRigBinding={onRigBinding}
+          onAnimationController={onAnimationController}
+          onAnimationAction={onAnimationAction}
         />
       </group>
     );
