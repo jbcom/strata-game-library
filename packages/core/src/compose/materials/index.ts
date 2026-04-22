@@ -21,6 +21,10 @@ import type {
   MaterialDefinition,
   MaterialPhysics,
   MaterialProceduralAlgorithm,
+  MaterialProceduralBakeColorSpace,
+  MaterialProceduralBakeMap,
+  MaterialProceduralBakePlan,
+  MaterialProceduralBakePlanOptions,
   MaterialProceduralColor,
   MaterialProceduralLayer,
   MaterialProceduralPlan,
@@ -435,6 +439,59 @@ function serializeProceduralColor(
   return [color.r, color.g, color.b];
 }
 
+const DEFAULT_PROCEDURAL_BAKE_CHANNELS: MaterialTraitChannel[] = [
+  'baseColor',
+  'roughness',
+  'metalness',
+  'normal',
+  'opacity',
+  'emissive',
+];
+
+function normalizeTextureSize(
+  size: MaterialProceduralBakePlanOptions['textureSize']
+): [number, number] {
+  if (Array.isArray(size)) {
+    return [Math.max(1, Math.floor(size[0])), Math.max(1, Math.floor(size[1]))];
+  }
+
+  const dimension = Math.max(1, Math.floor(size ?? 1024));
+  return [dimension, dimension];
+}
+
+function proceduralBakeMapForChannel(channel: MaterialTraitChannel): MaterialProceduralBakeMap {
+  switch (channel) {
+    case 'baseColor':
+      return 'diffuse';
+    case 'roughness':
+      return 'roughness';
+    case 'metalness':
+      return 'metalness';
+    case 'normal':
+      return 'normal';
+    case 'opacity':
+      return 'opacity';
+    case 'emissive':
+      return 'emissive';
+  }
+}
+
+function proceduralBakeColorSpaceForChannel(
+  channel: MaterialTraitChannel
+): MaterialProceduralBakeColorSpace {
+  switch (channel) {
+    case 'baseColor':
+    case 'emissive':
+      return 'srgb';
+    case 'normal':
+      return 'normal';
+    case 'roughness':
+    case 'metalness':
+    case 'opacity':
+      return 'linear';
+  }
+}
+
 /**
  * Converts procedural material traits into a deterministic shader/texture layer plan.
  */
@@ -512,6 +569,63 @@ export function createMaterialProceduralPlan(
     channelLayers,
     uniforms,
     shaderChunk,
+  };
+}
+
+/**
+ * Creates a deterministic manifest for baking procedural material layers into texture maps.
+ */
+export function createMaterialProceduralBakePlan(
+  material: string | MaterialDefinition,
+  options: MaterialProceduralBakePlanOptions = {}
+): MaterialProceduralBakePlan {
+  const procedural = createMaterialProceduralPlan(material, {
+    traits: options.traits,
+    inferTraits: options.inferTraits,
+    includeShaderChunk: options.includeShaderChunk,
+    idPrefix: options.idPrefix,
+  });
+  const textureSize = normalizeTextureSize(options.textureSize);
+  const format = options.format ?? 'png';
+  const channels = options.channels ?? DEFAULT_PROCEDURAL_BAKE_CHANNELS;
+  const filePrefix = options.filePrefix ?? procedural.materialId;
+  const targets = channels
+    .map((channel) => {
+      const layerIds = procedural.channelLayers[channel] ?? [];
+
+      if (layerIds.length === 0 && !options.includeEmptyTargets) {
+        return undefined;
+      }
+
+      return {
+        id: `${procedural.materialId}:bake:${channel}`,
+        channel,
+        map: proceduralBakeMapForChannel(channel),
+        layerIds: [...layerIds],
+        textureSize,
+        format,
+        colorSpace: proceduralBakeColorSpaceForChannel(channel),
+        fileName: `${filePrefix}.${channel}.${format}`,
+      };
+    })
+    .filter((target): target is NonNullable<typeof target> => target !== undefined);
+
+  return {
+    materialId: procedural.materialId,
+    procedural,
+    textureSize,
+    targets,
+    manifest: {
+      version: 1,
+      materialId: procedural.materialId,
+      textureSize,
+      targets: targets.map((target) => ({
+        channel: target.channel,
+        map: target.map,
+        fileName: target.fileName,
+        colorSpace: target.colorSpace,
+      })),
+    },
   };
 }
 

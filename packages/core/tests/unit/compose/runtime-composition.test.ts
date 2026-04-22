@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createCreatureRigBindingPlan,
+  createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
   createMaterialVariant,
   createMaterialVariants,
@@ -73,6 +74,40 @@ describe('runtime composition assembly', () => {
       `${plan.layers[0]?.functionName}_intensity`
     );
     expect(plan.shaderChunk).toContain(`float ${plan.layers[0]?.functionName}`);
+
+    const bake = createMaterialProceduralBakePlan(scratched, {
+      textureSize: [512, 256],
+      channels: ['baseColor', 'roughness', 'normal'],
+      format: 'webp',
+      filePrefix: 'bakes/scratched_iron',
+    });
+
+    expect(bake.targets.map((target) => target.channel)).toEqual(['roughness', 'normal']);
+    expect(bake.targets[0]).toMatchObject({
+      map: 'roughness',
+      textureSize: [512, 256],
+      format: 'webp',
+      colorSpace: 'linear',
+      fileName: 'bakes/scratched_iron.roughness.webp',
+    });
+    expect(bake.targets[1]).toMatchObject({
+      map: 'normal',
+      colorSpace: 'normal',
+    });
+    expect(bake.manifest.targets).toEqual([
+      {
+        channel: 'roughness',
+        map: 'roughness',
+        fileName: 'bakes/scratched_iron.roughness.webp',
+        colorSpace: 'linear',
+      },
+      {
+        channel: 'normal',
+        map: 'normal',
+        fileName: 'bakes/scratched_iron.normal.webp',
+        colorSpace: 'normal',
+      },
+    ]);
   });
 
   it('resolves props into adapter-neutral runtime nodes', () => {

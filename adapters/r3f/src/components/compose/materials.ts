@@ -1,4 +1,5 @@
 import {
+  createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
   inferMaterialTraits,
   type MaterialDefinition,
@@ -251,12 +252,20 @@ export function createRuntimeMaterial(
     traits.length > 0
       ? createMaterialProceduralPlan(definition, { traits, includeShaderChunk: true })
       : undefined;
+  const proceduralBake =
+    traits.length > 0
+      ? createMaterialProceduralBakePlan(definition, {
+          traits,
+          includeShaderChunk: false,
+        })
+      : undefined;
 
-  if (traits.length > 0 || procedural) {
+  if (traits.length > 0 || procedural || proceduralBake) {
     material.userData = {
       ...material.userData,
       strataMaterialTraits: traits,
       strataMaterialProceduralPlan: procedural,
+      strataMaterialProceduralBakePlan: proceduralBake,
     };
   }
 

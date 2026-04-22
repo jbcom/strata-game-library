@@ -40,6 +40,11 @@ describe('R3F runtime composition components', () => {
     expect(material.userData.strataMaterialProceduralPlan.shaderChunk).toContain(
       'strataProceduralNoise'
     );
+    expect(material.userData.strataMaterialProceduralBakePlan.targets[0]).toMatchObject({
+      channel: 'baseColor',
+      map: 'diffuse',
+      colorSpace: 'srgb',
+    });
   });
 
   it('injects procedural material plans into Three shader compilation', () => {

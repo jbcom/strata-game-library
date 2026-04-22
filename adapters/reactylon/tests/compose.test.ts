@@ -41,6 +41,11 @@ describe('Reactylon runtime composition descriptors', () => {
     expect(descriptor.traits?.[0]?.type).toBe('grain');
     expect(descriptor.procedural?.layers[0]?.algorithm).toBe('directional-noise');
     expect(descriptor.procedural?.shaderChunk).toContain('strataProceduralNoise');
+    expect(descriptor.proceduralBake?.targets[0]).toMatchObject({
+      channel: 'baseColor',
+      map: 'diffuse',
+      colorSpace: 'srgb',
+    });
     expect(descriptor.transparent).toBe(false);
   });
 
@@ -117,6 +122,7 @@ describe('Reactylon runtime composition descriptors', () => {
     );
     expect(material.metadata.strataRuntimeMaterial.id).toBe(descriptor.id);
     expect(material.metadata.strataMaterialProceduralPlan).toBe(descriptor.procedural);
+    expect(material.metadata.strataMaterialProceduralBakePlan).toBe(descriptor.proceduralBake);
     expect(material.metadata.strataBabylonProceduralPlugin).toBe(
       BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME
     );

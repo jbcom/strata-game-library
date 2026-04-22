@@ -6,6 +6,7 @@ import type {
   CreatureRuntimeBone,
   CreatureRuntimeRigBindingPlan,
   MaterialDefinition,
+  MaterialProceduralBakePlan,
   MaterialProceduralPlan,
   PropComposition,
   PropRuntimeAssembly,
@@ -46,6 +47,7 @@ export interface ReactylonRuntimeMaterialDescriptor {
   swappableWith: string[];
   traits?: MaterialDefinition['traits'];
   procedural?: MaterialProceduralPlan;
+  proceduralBake?: MaterialProceduralBakePlan;
 }
 
 export interface ReactylonRuntimePropNodeDescriptor {

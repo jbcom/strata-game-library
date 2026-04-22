@@ -509,6 +509,7 @@ export function createBabylonRuntimeMaterial(
   material.metadata = {
     strataRuntimeMaterial: slot,
     strataMaterialProceduralPlan: slot.procedural,
+    strataMaterialProceduralBakePlan: slot.proceduralBake,
     strataBabylonProceduralPlugin: proceduralPlugin ? BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME : null,
   };
 

@@ -1,4 +1,5 @@
 import {
+  createMaterialProceduralBakePlan,
   createMaterialProceduralPlan,
   inferMaterialTraits,
   type MaterialDefinition,
@@ -76,6 +77,13 @@ export function createReactylonRuntimeMaterialDescriptor(
     procedural:
       traits.length > 0
         ? createMaterialProceduralPlan(material, { traits, includeShaderChunk: true })
+        : undefined,
+    proceduralBake:
+      traits.length > 0
+        ? createMaterialProceduralBakePlan(material, {
+            traits,
+            includeShaderChunk: false,
+          })
         : undefined,
   };
 }

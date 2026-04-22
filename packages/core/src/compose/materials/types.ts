@@ -123,11 +123,62 @@ export interface MaterialProceduralPlan {
   shaderChunk: string;
 }
 
+export type MaterialProceduralBakeFormat = 'png' | 'webp' | 'ktx2';
+export type MaterialProceduralBakeColorSpace = 'srgb' | 'linear' | 'normal';
+export type MaterialProceduralBakeMap =
+  | 'diffuse'
+  | 'roughness'
+  | 'metalness'
+  | 'normal'
+  | 'opacity'
+  | 'emissive';
+
+export interface MaterialProceduralBakeTarget {
+  id: string;
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  layerIds: string[];
+  textureSize: [number, number];
+  format: MaterialProceduralBakeFormat;
+  colorSpace: MaterialProceduralBakeColorSpace;
+  fileName: string;
+}
+
+export interface MaterialProceduralBakeManifestTarget {
+  channel: MaterialTraitChannel;
+  map: MaterialProceduralBakeMap;
+  fileName: string;
+  colorSpace: MaterialProceduralBakeColorSpace;
+}
+
+export interface MaterialProceduralBakeManifest {
+  version: 1;
+  materialId: string;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeManifestTarget[];
+}
+
+export interface MaterialProceduralBakePlan {
+  materialId: string;
+  procedural: MaterialProceduralPlan;
+  textureSize: [number, number];
+  targets: MaterialProceduralBakeTarget[];
+  manifest: MaterialProceduralBakeManifest;
+}
+
 export interface MaterialProceduralPlanOptions {
   traits?: MaterialTrait[];
   inferTraits?: boolean;
   includeShaderChunk?: boolean;
   idPrefix?: string;
+}
+
+export interface MaterialProceduralBakePlanOptions extends MaterialProceduralPlanOptions {
+  textureSize?: number | [number, number];
+  channels?: MaterialTraitChannel[];
+  format?: MaterialProceduralBakeFormat;
+  includeEmptyTargets?: boolean;
+  filePrefix?: string;
 }
 
 export interface MaterialDefinition {

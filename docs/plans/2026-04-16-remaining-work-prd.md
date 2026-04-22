@@ -167,6 +167,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Material factories now include default physics metadata, and `createMaterialVariant()` / `createMaterialVariants()` provide deterministic material variation helpers for swapping and runtime assembly.
 - `MaterialDefinition.traits`, `createMaterialTrait()`, and `inferMaterialTraits()` now provide serializable procedural trait metadata for grain, fibers, scratches, wear, patina, veins, mottle, and absorption channels.
 - `createMaterialProceduralPlan()` now converts procedural traits into deterministic adapter-neutral shader/texture layer plans with channel routing, uniforms, GLSL helper chunks, and per-trait algorithms.
+- `createMaterialProceduralBakePlan()` now converts those procedural layers into deterministic bake targets and manifest metadata for diffuse, roughness, metalness, normal, opacity, and emissive texture maps.
 - Focused unit coverage now verifies runtime composition outputs for material variants, props, and creatures.
 - R3F now consumes composition runtime plans through `RuntimeProp` and `RuntimeCreature`, backed by orientation-aware primitive geometry rendering, material conversion helpers, material overrides, and custom node/bone renderer hooks.
 - R3F now also renders mesh-shaped prop nodes with static GLB sources through `RuntimeAssetMesh`, using Drei's GLTF cache while preserving runtime material metadata and source-material opt-out.
@@ -174,6 +175,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - R3F asset-bound runtime creatures now also collect loaded Three.js bone names and expose rig binding coverage via `createRuntimeCreatureAssetRigBinding()` and `RuntimeCreature` / `RuntimeCreatureAsset` `onRigBinding`.
 - `RuntimeProp` now routes node clicks through core prop interaction execution via `onInteraction`, `interactionState`, and `selectInteractionAction`.
 - R3F and Reactylon material conversion now infer or preserve procedural material trait metadata and shader/texture layer plans for renderer-specific pipelines.
+- R3F and Reactylon/Babylon descriptors now also preserve procedural bake-plan manifests so later offline/worker pipelines can rasterize the same plans into textures.
 - R3F runtime material conversion now injects procedural plans into `MeshStandardMaterial` shader compilation for base-color, scalar, opacity, emissive, and normal-channel effects.
 - Reactylon/Babylon runtime material conversion now injects procedural plans through a Babylon PBR material plugin for albedo, scalar, opacity, and emissive effects.
 - `apps/examples/api-showcase` now renders the real tabbed showcase entrypoint and demonstrates `RuntimeProp`, `RuntimeCreature`, `resolvePropComposition()`, `resolveCreatureComposition()`, and material variants through the consolidated package surface.
@@ -183,7 +185,7 @@ Move Layer 3 from normalized definitions and resolver plumbing to richer runtime
 - Babylon prop instances now carry interaction metadata and expose stateful `interactionState`, `resetInteractionState()`, and `executeInteraction()` helpers backed by the core prop interaction controller.
 - Core now exposes `createCreatureRigBindingPlan()` so logical creature bones, asset `boneMap` entries, and loaded source rig bone names produce deterministic matched/missing/unverified binding coverage.
 - Reactylon/Babylon creature descriptors and asset-backed instances now carry rig binding plans, loaded skeleton references, and metadata that lets adapter-owned animation systems inspect coverage before retargeting.
-- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, deeper interaction UX/physics integration, generated texture baking, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
+- Remaining work is actual pose/clip retargeting, richer skeletal animation control beyond loaded R3F/Babylon clip playback, deeper interaction UX/physics integration, procedural texture rasterization/export beyond the new bake manifests, authoring workflows, and shader application beyond the current R3F/Babylon material paths.
 
 ## Workstream 4: Declarative Game Runtime Completion
 
