@@ -59,7 +59,7 @@ jobs:
 
       - name: Triage with Claude
         if: steps.check-key.outputs.available == 'true'
-        uses: anthropics/claude-code-action@11a9dadd198803a0cea6bd53da3e0e8a762fc6ea # v1
+        uses: anthropics/claude-code-action@2cc1ac1331eac7a6a96d716dd204dd2888d0fcd2 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.CI_GITHUB_TOKEN }}
@@ -151,7 +151,7 @@ jobs:
 
       - name: Dedup with Claude
         if: steps.check-key.outputs.available == 'true'
-        uses: anthropics/claude-code-action@11a9dadd198803a0cea6bd53da3e0e8a762fc6ea # v1
+        uses: anthropics/claude-code-action@2cc1ac1331eac7a6a96d716dd204dd2888d0fcd2 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.CI_GITHUB_TOKEN }}
