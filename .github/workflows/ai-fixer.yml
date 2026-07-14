@@ -150,7 +150,7 @@ jobs:
       - name: Detect flaky test failures
         id: detect
         if: steps.check-key.outputs.available == 'true'
-        uses: anthropics/claude-code-action@f87768c6d25f92ae6efa7175e223ef77d4cbf97f # v1
+        uses: anthropics/claude-code-action@f1bd27ca5b54584506e40e17884d90bdaaa1a9b3 # v1
         env:
           WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
           WORKFLOW_ID: ${{ github.event.workflow_run.id }}
@@ -272,7 +272,7 @@ jobs:
 
       - name: Fix with Claude
         if: steps.check-key.outputs.available == 'true'
-        uses: anthropics/claude-code-action@f87768c6d25f92ae6efa7175e223ef77d4cbf97f # v1
+        uses: anthropics/claude-code-action@f1bd27ca5b54584506e40e17884d90bdaaa1a9b3 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.CI_GITHUB_TOKEN }}
