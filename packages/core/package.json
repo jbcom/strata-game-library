@@ -230,10 +230,10 @@
     "@types/node": "^25.5.0",
     "@types/three": "^0.183.1",
     "@types/yuka": "^0.7.4",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.10",
     "glob": "^13.0.6",
     "howler": "^2.2.4",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.1.1",
     "miniplex": "^2.0.0",
     "ngraph.graph": "^20.1.2",
     "ngraph.path": "^1.6.1",
@@ -242,7 +242,7 @@
     "three": "^0.183.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18",
+    "vitest": "^4.1.10",
     "xstate": "^5.28.0",
     "yuka": "^0.7.8"
   }
