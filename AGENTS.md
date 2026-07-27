@@ -41,12 +41,24 @@ Both pins are load-bearing, not cosmetic:
   (reading 'clear')` — 25 failures in `packages/core` alone, with no hint that
   the Node version is the cause.
 
-Verify the overrides actually took effect (config parsing is not proof):
+`engine-strict=true` in the root `.npmrc` makes both pins hard failures rather
+than warnings, so a wrong Node or pnpm fails at `pnpm install` instead of
+surfacing later as unexplained test failures or silently-dropped overrides.
+
+Verify the overrides actually took effect (config parsing is not proof — check
+the lockfile, since a stale `node_modules/.pnpm` can retain orphaned copies):
 
 ```bash
-ls -d node_modules/.pnpm/react@*      # expect exactly one copy
-ls -d node_modules/.pnpm/minimatch@*  # expect >= 10.2.2 only
+grep -A6 '^overrides:' pnpm-lock.yaml         # what pnpm actually applied
+grep -E '^  (minimatch|brace-expansion)@' pnpm-lock.yaml
+pnpm audit                                    # no minimatch/brace-expansion advisories
 ```
+
+The security floors are pinned to **exact** patched versions, not `>=` ranges: a
+range lets pnpm keep an older copy alongside the new one when some other
+constraint is satisfied by it. Note that both the scoped
+(`@isaacs/brace-expansion`) and unscoped (`brace-expansion`) names are listed —
+the tree resolves the unscoped one, so a scoped-only override silently misses it.
 
 ### Commands
 
