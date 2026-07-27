@@ -8,8 +8,61 @@
 
 ## Quick Start
 
+### Toolchain (pinned — do not substitute)
+
+| Tool | Version | Pinned by |
+|------|---------|-----------|
+| Node | 22 | `.nvmrc`, `engines.node` (`>=22 <24`) |
+| pnpm | 9.15.9 | `packageManager`, `engines.pnpm` |
+
+Use `corepack` so the pinned pnpm is the one that actually runs:
+
 ```bash
-pnpm install        # Install dependencies
+corepack enable
+nvm use          # or: fnm use — reads .nvmrc
+pnpm install     # resolves to pnpm@9.15.9 via packageManager
+```
+
+Both pins are load-bearing, not cosmetic:
+
+- **pnpm must stay on 9.x.** `package.json` carries a `pnpm.overrides` block that
+  unifies `react`/`react-dom` on a single copy and floors `minimatch` /
+  `@isaacs/brace-expansion` to patched versions. **pnpm 11 no longer reads the
+  `pnpm` field of `package.json` and does so silently** — no warning, no error —
+  so an unpinned pnpm 11 would drop all four overrides while the repo still
+  looked patched. pnpm 11 also rewrites ~2400 lockfile lines and injects
+  placeholder `allowBuilds` stubs into `pnpm-workspace.yaml`. If this repo ever
+  moves to pnpm ≥11, the overrides **must** migrate to `pnpm-workspace.yaml` in
+  the same change, and the resolved tree must be re-verified (see below).
+- **Node must stay below 24.** Node ≥24 defines a native `Storage` constructor but
+  leaves `localStorage` undefined unless `--localstorage-file` is passed. jsdom
+  sees `Storage` present, declines to provision its own, and every
+  `localStorage`-backed test fails with `Cannot read properties of undefined
+  (reading 'clear')` — 25 failures in `packages/core` alone, with no hint that
+  the Node version is the cause.
+
+`engine-strict=true` in the root `.npmrc` makes both pins hard failures rather
+than warnings, so a wrong Node or pnpm fails at `pnpm install` instead of
+surfacing later as unexplained test failures or silently-dropped overrides.
+
+Verify the overrides actually took effect (config parsing is not proof — check
+the lockfile, since a stale `node_modules/.pnpm` can retain orphaned copies):
+
+```bash
+grep -A6 '^overrides:' pnpm-lock.yaml         # what pnpm actually applied
+grep -E '^  (minimatch|brace-expansion)@' pnpm-lock.yaml
+pnpm audit                                    # no minimatch/brace-expansion advisories
+```
+
+The security floors are pinned to **exact** patched versions, not `>=` ranges: a
+range lets pnpm keep an older copy alongside the new one when some other
+constraint is satisfied by it. Note that both the scoped
+(`@isaacs/brace-expansion`) and unscoped (`brace-expansion`) names are listed —
+the tree resolves the unscoped one, so a scoped-only override silently misses it.
+
+### Commands
+
+```bash
 pnpm run build      # Build the library
 pnpm run test       # Run all tests
 pnpm run lint       # Lint with Biome
