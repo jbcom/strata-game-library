@@ -34,10 +34,10 @@ describe('ModelAssetSchema - edge cases', () => {
     },
   };
 
-  it('rejects empty id', () => {
-    // Empty string is technically valid for z.string() without min()
+  it('accepts an empty id because z.string() has no min() constraint', () => {
+    // Documents current schema behaviour: if empty ids should be rejected,
+    // the schema needs z.string().min(1) — this test will then fail loudly.
     const result = ModelAssetSchema.safeParse({ ...baseModel, id: '' });
-    // z.string() allows empty strings
     expect(result.success).toBe(true);
   });
 
@@ -131,13 +131,14 @@ describe('ModelAssetSchema - edge cases', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects negative polycount', () => {
-    // z.number() without min() allows negative numbers
+  it('accepts a negative polycount because z.number() has no min() constraint', () => {
+    // Documents current schema behaviour: if negative polycounts should be
+    // rejected, the schema needs z.number().nonnegative() — this test will
+    // then fail loudly rather than silently encoding the gap.
     const result = ModelAssetSchema.safeParse({
       ...baseModel,
       metadata: { ...baseModel.metadata, polycount: -100 },
     });
-    // Zod allows negative numbers for z.number()
     expect(result.success).toBe(true);
   });
 

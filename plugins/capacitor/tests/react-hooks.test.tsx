@@ -542,12 +542,17 @@ describe('React hooks', () => {
     });
 
     it('InputProvider should update snapshot when listener fires', async () => {
-      let listenerCallback: ((snapshot: any) => void) | undefined;
+      let listenerCallback: ((snapshot: InputSnapshot) => void) | undefined;
 
-      mockedStrata.addListener.mockImplementation(async (_event: any, callback: any) => {
-        listenerCallback = callback;
-        return { remove: async () => {} };
-      });
+      // addListener is declared with one overload per event name, so the mock
+      // implementation sees the union of their callback types. This case only
+      // drives the 'inputChange' overload, hence the narrowing cast.
+      mockedStrata.addListener.mockImplementation(
+        async (_event: Parameters<typeof Strata.addListener>[0], callback) => {
+          listenerCallback = callback as unknown as (snapshot: InputSnapshot) => void;
+          return { remove: async () => {} };
+        }
+      );
 
       function TestComponent() {
         const input = useInput();
@@ -644,7 +649,7 @@ describe('React hooks', () => {
 
       render(<TestComponent />);
 
-      let loadResult: any;
+      let loadResult: unknown;
       await act(async () => {
         loadResult = await result!.loadGame('progress');
       });
@@ -775,7 +780,7 @@ describe('React hooks', () => {
 
       render(<TestComponent />);
 
-      let loadResult: any;
+      let loadResult: unknown;
       await act(async () => {
         loadResult = await result!.loadGame('test');
       });

@@ -8,7 +8,9 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
       reportsDirectory: './coverage',
-      include: ['src/**/*.ts'],
+      // src/react/useDevice.tsx and useInput.tsx are .tsx sources exercised by
+      // react-hooks.test.tsx; a .ts-only glob would silently omit them.
+      include: ['src/**/*.{ts,tsx}'],
       exclude: ['tests/**/*.test.{ts,tsx}'],
       thresholds: {
         lines: 60,

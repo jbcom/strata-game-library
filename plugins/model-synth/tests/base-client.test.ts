@@ -415,7 +415,12 @@ describe('MeshyBaseClient', () => {
       expect(result).toEqual({ ok: true });
     });
 
-    it('does not retry on 400 Bad Request', async () => {
+    // NOTE: the client has no non-retryable-status special case — the retry loop
+    // catches every thrown error, so 4xx is retried exactly like 5xx. These two
+    // cases pin that ACTUAL behaviour (1 initial attempt + maxRetries) rather
+    // than a "does not retry" claim the implementation does not honour. If
+    // 4xx short-circuiting is added later, these will fail and must be updated.
+    it('retries 400 Bad Request for the full attempt budget, then throws', async () => {
       const errorResponse = {
         ok: false,
         status: 400,
@@ -431,12 +436,10 @@ describe('MeshyBaseClient', () => {
       });
 
       await expect(client.doRequest('/test')).rejects.toThrow('Bad Request');
-      // 400 is not retryable, but the retry loop catches the error and retries anyway
-      // because the error is thrown and caught in the generic catch block
-      expect(globalThis.fetch).toHaveBeenCalled();
+      expect(globalThis.fetch).toHaveBeenCalledTimes(4);
     });
 
-    it('does not retry on 401 Unauthorized', async () => {
+    it('retries 401 Unauthorized for the full attempt budget, then throws', async () => {
       const errorResponse = {
         ok: false,
         status: 401,
@@ -451,9 +454,8 @@ describe('MeshyBaseClient', () => {
         maxDelay: 50,
       });
 
-      // The code always retries because errors are caught in generic catch block
-      // Eventually the last attempt throws
       await expect(client.doRequest('/test')).rejects.toThrow(MeshyAuthError);
+      expect(globalThis.fetch).toHaveBeenCalledTimes(4);
     });
 
     it('handles fetch throwing a network error with retries', async () => {

@@ -47,7 +47,7 @@ describe('contract', () => {
         }),
         addListener: async (
           _eventName: string,
-          _callback: (data: any) => void
+          _callback: (data: never) => void
         ): Promise<{ remove: () => Promise<void> }> => ({
           remove: async () => {},
         }),
