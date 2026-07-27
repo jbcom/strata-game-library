@@ -6,36 +6,34 @@
  * since we only check data shapes.
  */
 import { describe, expect, it } from 'vitest';
+import type { EnvelopeConfig, MusicPattern, SFXPreset } from '../src/core/types.js';
 
 import {
-  GUNSHOT,
-  EXPLOSION,
-  IMPACT,
-  RICOCHET,
-  PICKUP,
-  SELECT,
-  CONFIRM,
-  ERROR,
-  SPLASH,
-  FOOTSTEP,
-  LASER,
-  POWERUP,
-  SFX_PRESETS,
-} from '../src/presets/sfx.js';
-
-import {
-  MENU_THEME,
-  COMBAT_THEME,
   AMBIENT_THEME,
-  VICTORY_THEME,
+  COMBAT_THEME,
   DEFEAT_THEME,
   EXPLORATION_THEME,
-  TENSION_THEME,
-  SHOP_THEME,
+  MENU_THEME,
   MUSIC_PATTERNS,
+  SHOP_THEME,
+  TENSION_THEME,
+  VICTORY_THEME,
 } from '../src/presets/music.js';
-
-import type { SFXPreset, MusicPattern, EnvelopeConfig } from '../src/core/types.js';
+import {
+  CONFIRM,
+  ERROR,
+  EXPLOSION,
+  FOOTSTEP,
+  GUNSHOT,
+  IMPACT,
+  LASER,
+  PICKUP,
+  POWERUP,
+  RICOCHET,
+  SELECT,
+  SFX_PRESETS,
+  SPLASH,
+} from '../src/presets/sfx.js';
 
 function expectValidEnvelope(env: EnvelopeConfig) {
   expect(env.attack).toBeTypeOf('number');
@@ -100,12 +98,12 @@ describe('SFX presets', () => {
 
   it('EXPLOSION has noise layer', () => {
     expect(EXPLOSION.noise).toBeDefined();
-    expect(EXPLOSION.noise!.type).toBe('white');
+    expect(EXPLOSION.noise?.type).toBe('white');
   });
 
   it('FOOTSTEP has noise layer', () => {
     expect(FOOTSTEP.noise).toBeDefined();
-    expect(FOOTSTEP.noise!.type).toBe('brown');
+    expect(FOOTSTEP.noise?.type).toBe('brown');
   });
 
   it('SFX_PRESETS contains all presets and aliases', () => {
@@ -138,13 +136,13 @@ describe('Music presets', () => {
 
   it('COMBAT_THEME has filter config', () => {
     expect(COMBAT_THEME.filter).toBeDefined();
-    expect(COMBAT_THEME.filter!.type).toBe('lowpass');
-    expect(COMBAT_THEME.filter!.frequency).toBeGreaterThan(0);
+    expect(COMBAT_THEME.filter?.type).toBe('lowpass');
+    expect(COMBAT_THEME.filter?.frequency).toBeGreaterThan(0);
   });
 
   it('TENSION_THEME has filter config', () => {
     expect(TENSION_THEME.filter).toBeDefined();
-    expect(TENSION_THEME.filter!.type).toBe('lowpass');
+    expect(TENSION_THEME.filter?.type).toBe('lowpass');
   });
 
   it('MUSIC_PATTERNS contains all patterns and aliases', () => {
