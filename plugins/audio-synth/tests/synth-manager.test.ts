@@ -400,8 +400,12 @@ describe('SynthManager', () => {
       });
       manager.playSFX(preset);
 
-      // The synth should have been created and triggered
-      expect(Tone.Synth).toHaveBeenCalled();
+      // The noise layer is the subject here: every SFX creates a Tone.Synth, so
+      // asserting on that alone would stay green even if the NoiseSynth were
+      // never triggered. Assert the noise synth actually fired.
+      const noiseInstance = (Tone.NoiseSynth as unknown as ReturnType<typeof vi.fn>).mock.results[0]
+        ?.value as { triggerAttackRelease: ReturnType<typeof vi.fn> } | undefined;
+      expect(noiseInstance?.triggerAttackRelease).toHaveBeenCalled();
     });
 
     it('cleans up synth after timeout', async () => {
@@ -411,10 +415,18 @@ describe('SynthManager', () => {
       const preset = createBasicSFXPreset();
       manager.playSFX(preset);
 
+      const synthResults = (Tone.Synth as unknown as ReturnType<typeof vi.fn>).mock.results;
+      const synthInstance = synthResults[synthResults.length - 1]?.value as
+        | { dispose: ReturnType<typeof vi.fn> }
+        | undefined;
+      expect(synthInstance?.dispose).not.toHaveBeenCalled();
+
       // Advance past cleanup delay
       vi.advanceTimersByTime(5000);
 
-      // Synth should be cleaned up (dispose called on the created synth instance)
+      // Without this assertion, removing the cleanup timeout or the dispose()
+      // call would leave the test green while SFX synths leak.
+      expect(synthInstance?.dispose).toHaveBeenCalled();
     });
 
     it('plays multiple SFX presets by ID', async () => {
