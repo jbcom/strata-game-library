@@ -20,6 +20,7 @@ vi.mock('../src/index.js', () => ({
   },
 }));
 
+import type { InputSnapshot } from '../src/definitions.js';
 import { Strata } from '../src/index.js';
 import { useStrata } from '../src/react/index.js';
 import { useControlHints } from '../src/react/useControlHints.js';
@@ -494,7 +495,7 @@ describe('React hooks', () => {
         isPressed: (btn: string) => btn === 'jump',
         leftTrigger: 0.5,
         rightTrigger: 0,
-        touches: [] as any[],
+        touches: [] as InputSnapshot['touches'],
       };
 
       function TestComponent() {
