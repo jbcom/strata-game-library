@@ -5,6 +5,9 @@
  * rate limiting, backoff calculation, and file download.
  * All HTTP calls are mocked via globalThis.fetch.
  */
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -563,6 +566,19 @@ describe('MeshyBaseClient', () => {
   });
 
   describe('downloadFile()', () => {
+    // Each case writes into its own mkdtemp() directory rather than a fixed
+    // path under the OS temp dir. A predictable name is symlink-attackable
+    // (CodeQL js/insecure-temporary-file) and races parallel test runs.
+    let tmpDir: string;
+
+    beforeEach(async () => {
+      tmpDir = await mkdtemp(join(tmpdir(), 'strata-model-synth-'));
+    });
+
+    afterEach(async () => {
+      await rm(tmpDir, { recursive: true, force: true });
+    });
+
     it('downloads a file and writes to disk', async () => {
       const mockArrayBuffer = new ArrayBuffer(8);
       const view = new Uint8Array(mockArrayBuffer);
@@ -574,29 +590,13 @@ describe('MeshyBaseClient', () => {
       };
       globalThis.fetch = vi.fn().mockResolvedValue(mockFetchResponse) as typeof fetch;
 
-      const mockFs = {
-        existsSync: vi.fn().mockReturnValue(true),
-        mkdirSync: vi.fn(),
-        writeFileSync: vi.fn(),
-      };
-      const mockPath = {
-        dirname: vi.fn().mockReturnValue('/tmp/models'),
-      };
-
-      // Mock the dynamic imports
-      const originalImport = vi.fn();
-
       const client = new TestableClient('key');
+      const outputPath = join(tmpDir, 'models', 'model.glb');
 
-      // We can't easily mock dynamic imports in this context, so we just verify
-      // the fetch part works correctly by checking it was called
-      try {
-        await client.doDownloadFile('https://example.com/model.glb', '/tmp/models/model.glb');
-      } catch {
-        // May fail on dynamic import of node:fs, but fetch should be called
-      }
+      await client.doDownloadFile('https://example.com/model.glb', outputPath);
 
       expect(globalThis.fetch).toHaveBeenCalledWith('https://example.com/model.glb');
+      expect(await readFile(outputPath)).toEqual(Buffer.from(view));
     });
 
     it('throws when download HTTP request fails', async () => {
@@ -609,7 +609,7 @@ describe('MeshyBaseClient', () => {
       const client = new TestableClient('key');
 
       await expect(
-        client.doDownloadFile('https://example.com/missing.glb', '/tmp/missing.glb')
+        client.doDownloadFile('https://example.com/missing.glb', join(tmpDir, 'missing.glb'))
       ).rejects.toThrow('Failed to download');
     });
   });
