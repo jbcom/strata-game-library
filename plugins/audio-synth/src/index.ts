@@ -8,58 +8,10 @@
  * @module audio-synth
  */
 
-export type { AudioSynthProviderProps } from './components/index.js';
 // Component exports
-export {
-  AudioSynthProvider,
-  useAudioReady,
-  useAudioSynth,
-  usePlayMusic,
-  usePlaySFX,
-} from './components/index.js';
-export type {
-  AudioSynthContextValue,
-  EnvelopeConfig,
-  FilterConfig,
-  FrequencySweep,
-  ISynthManager,
-  MusicNote,
-  MusicPattern,
-  OscillatorType,
-  SFXPreset,
-  SynthManagerConfig,
-} from './core/index.js';
+export * from './components/index.js';
 // Core exports
-export {
-  createSynthManager,
-  SynthManager,
-} from './core/index.js';
-export type {
-  MusicPatternId,
-  SFXPresetId,
-} from './presets/index.js';
+export * from './core/index.js';
+
 // Preset exports
-export {
-  AMBIENT_THEME,
-  COMBAT_THEME,
-  CONFIRM,
-  DEFEAT_THEME,
-  ERROR,
-  EXPLORATION_THEME,
-  EXPLOSION,
-  FOOTSTEP,
-  GUNSHOT,
-  IMPACT,
-  LASER,
-  MENU_THEME,
-  MUSIC_PATTERNS,
-  PICKUP,
-  POWERUP,
-  RICOCHET,
-  SELECT,
-  SFX_PRESETS,
-  SHOP_THEME,
-  SPLASH,
-  TENSION_THEME,
-  VICTORY_THEME,
-} from './presets/index.js';
+export * from './presets/index.js';

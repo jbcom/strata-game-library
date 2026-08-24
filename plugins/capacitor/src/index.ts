@@ -22,26 +22,5 @@ export function hello() {
   return 'Hello from Strata Capacitor Plugin';
 }
 
-export type {
-  ControlHints,
-  DeviceInfo,
-  DeviceProfile,
-  DeviceType,
-  HapticsOptions,
-  InputMapping,
-  InputMode,
-  InputSnapshot,
-  Orientation,
-  OrientationOptions,
-  PerformanceMode,
-  Platform,
-  SafeAreaInsets,
-  StorageKeysResult,
-  StorageOptions,
-  StorageResult,
-  StrataPlugin,
-  TouchOptions,
-  Vector2,
-} from './definitions.js';
-export { DEFAULT_INPUT_MAPPING } from './definitions.js';
+export * from './definitions.js';
 export { Strata };
