@@ -3,5 +3,23 @@ packages:
   - adapters/*
   - plugins/*
   - apps/*
-onlyBuiltDependencies:
-  - esbuild
+# Each of these needs a postinstall to fetch or compile a native artifact:
+# a browser binary, a native image codec, and the nx daemon.
+allowBuilds:
+  '@playwright/browser-chromium': true
+  esbuild: true
+  nx: true
+  sharp: true
+
+minimumReleaseAgeExclude:
+  - '@types/react-dom@19.2.5'
+
+# Security pins. Moved here from package.json's `pnpm` field: pnpm 11 reads
+# overrides from this file and SILENTLY IGNORES the manifest field, which
+# would have dropped these without any warning.
+overrides:
+  minimatch: 10.2.5
+  "@isaacs/brace-expansion": 5.0.8
+  react: 19.2.5
+  react-dom: 19.2.5
+  brace-expansion: 5.0.8
