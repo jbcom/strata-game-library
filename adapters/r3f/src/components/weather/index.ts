@@ -4,8 +4,13 @@
  * @module components/weather
  */
 
-export * from './Lightning';
-export * from './Rain';
-export * from './Snow';
-export * from './types';
-export * from './WeatherSystem';
+export { Lightning } from './Lightning';
+export { Rain } from './Rain';
+export { Snow } from './Snow';
+export type {
+  LightningProps,
+  RainProps,
+  SnowProps,
+  WeatherSystemProps,
+} from './types';
+export { WeatherSystem } from './WeatherSystem';

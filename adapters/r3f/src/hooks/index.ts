@@ -3,6 +3,8 @@
  */
 
 export { useGameStatus, useMode, useScene, useTransition } from '../StrataGame';
+export type { UsePauseToggleOptions } from './useGameStatus';
+export { usePauseToggle } from './useGameStatus';
 export type { ControlHint } from './useInput';
 export {
   useActionPressed,
@@ -11,9 +13,14 @@ export {
   useInput,
   useInputManager,
 } from './useInput';
-export type { UsePauseToggleOptions } from './useGameStatus';
-export { usePauseToggle } from './useGameStatus';
-export * from './useKeyboardControls';
+export type {
+  KeyboardActions,
+  KeyboardMapping,
+} from './useKeyboardControls';
+export {
+  DEFAULT_KEYBOARD_MAPPING,
+  useKeyboardControls,
+} from './useKeyboardControls';
 export type {
   UseAlignmentOptions,
   UseArriveOptions,

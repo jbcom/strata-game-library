@@ -30,12 +30,33 @@
  * ```
  */
 
-export * from './CameraShake';
-export * from './CinematicCamera';
-export * from './FixedPerspectiveCamera';
-export * from './FollowCamera';
-export * from './FPSCamera';
-export * from './GyroscopeCamera';
-export * from './OrbitCamera';
-export * from './types';
-export * from './useCameraTransition';
+export { CameraShake } from './CameraShake';
+export { CinematicCamera } from './CinematicCamera';
+export type {
+  FixedPerspectiveCameraProps,
+  PerspectivePreset,
+} from './FixedPerspectiveCamera';
+export {
+  FixedPerspectiveCamera,
+  getCameraPosition,
+  screenToWorld,
+} from './FixedPerspectiveCamera';
+export { FollowCamera } from './FollowCamera';
+export { FPSCamera } from './FPSCamera';
+export type { GyroscopeCameraProps } from './GyroscopeCamera';
+export { GyroscopeCamera } from './GyroscopeCamera';
+export { OrbitCamera } from './OrbitCamera';
+export type {
+  CameraShakeProps,
+  CameraShakeRef,
+  CameraTransitionConfig,
+  CinematicCameraProps,
+  CinematicCameraRef,
+  FollowCameraProps,
+  FollowCameraRef,
+  FPSCameraProps,
+  FPSCameraRef,
+  OrbitCameraProps,
+  OrbitCameraRef,
+} from './types';
+export { useCameraTransition } from './useCameraTransition';

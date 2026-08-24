@@ -4,13 +4,32 @@
  * @module components/animation
  */
 
-export * from './BlinkController';
-export * from './BreathingAnimation';
-export * from './HeadTracker';
-export * from './IKChain';
-export * from './IKLimb';
-export * from './LookAt';
-export * from './ProceduralWalk';
-export * from './SpringBone';
-export * from './TailPhysics';
-export * from './types';
+export { BlinkController } from './BlinkController';
+export { BreathingAnimation } from './BreathingAnimation';
+export { HeadTracker } from './HeadTracker';
+export { IKChain } from './IKChain';
+export { IKLimb } from './IKLimb';
+export { LookAt } from './LookAt';
+export { ProceduralWalk } from './ProceduralWalk';
+export { SpringBone } from './SpringBone';
+export { TailPhysics } from './TailPhysics';
+export type {
+  BlinkControllerProps,
+  BlinkControllerRef,
+  BreathingAnimationProps,
+  BreathingAnimationRef,
+  HeadTrackerProps,
+  HeadTrackerRef,
+  IKChainProps,
+  IKChainRef,
+  IKLimbProps,
+  IKLimbRef,
+  LookAtProps,
+  LookAtRef,
+  ProceduralWalkProps,
+  ProceduralWalkRef,
+  SpringBoneProps,
+  SpringBoneRef,
+  TailPhysicsProps,
+  TailPhysicsRef,
+} from './types';

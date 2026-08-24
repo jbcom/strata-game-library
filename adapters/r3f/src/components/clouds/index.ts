@@ -4,7 +4,11 @@
  * @module components/clouds
  */
 
-export * from './CloudLayer';
-export * from './CloudSky';
-export * from './types';
-export * from './VolumetricClouds';
+export { CloudLayer } from './CloudLayer';
+export { CloudSky } from './CloudSky';
+export type {
+  CloudLayerProps,
+  CloudSkyProps,
+  VolumetricCloudsProps,
+} from './types';
+export { VolumetricClouds } from './VolumetricClouds';

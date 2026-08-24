@@ -4,9 +4,30 @@
  * @module components/input
  */
 
-export * from './GroundSwitch';
-export * from './Joystick3D';
-export * from './PressurePlate';
-export * from './TriggerComposer';
-export * from './types';
-export * from './WallButton';
+export { GroundSwitch } from './GroundSwitch';
+export { Joystick3D } from './Joystick3D';
+export { PressurePlate } from './PressurePlate';
+export { TriggerComposer } from './TriggerComposer';
+export type {
+  DragState,
+  GroundSwitchProps,
+  GroundSwitchRef,
+  InputAxis,
+  InputControlEvents,
+  InputControlRef,
+  InputEvent,
+  Joystick3DProps,
+  Joystick3DRef,
+  PressurePlateProps,
+  PressurePlateRef,
+  TriggerBehavior,
+  TriggerBehaviorConfig,
+  TriggerComposerProps,
+  TriggerComposerRef,
+  TriggerConfig,
+  TriggerMaterialConfig,
+  TriggerShape,
+  WallButtonProps,
+  WallButtonRef,
+} from './types';
+export { WallButton } from './WallButton';
