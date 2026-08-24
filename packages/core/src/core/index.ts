@@ -14,6 +14,7 @@ export * from './ecs';
 export * from './godRays';
 export * from './input';
 export * from './instancing';
+export * from './joystick-normalize';
 export * from './lod';
 export * from './marching-cubes';
 export * from './math';
