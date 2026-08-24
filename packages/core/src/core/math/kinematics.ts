@@ -11,9 +11,28 @@
  * @category Entities & Simulation
  */
 
-export { CCDSolver, FABRIKSolver, TwoBoneIKSolver, createBoneChain, createBoneChainFromLengths } from "../animation/ik-solver.js";
-export type { BoneChain, BoneConstraint, IKSolverResult } from "../animation/ik-solver.js";
-export { ProceduralGait, SpringChain, SpringDynamics } from "../animation/procedural-animation.js";
-export type { GaitConfig, GaitState, SpringConfig, SpringState } from "../animation/procedural-animation.js";
-export { LookAtController, calculateBoneRotation, clampAngle, dampedSpring, dampedSpringVector3, hermiteInterpolate, sampleCurve } from "../animation/skeletal-animation.js";
-export type { LookAtConfig, LookAtState } from "../animation/skeletal-animation.js";
+export type { BoneChain, BoneConstraint, IKSolverResult } from '../animation/ik-solver.js';
+export {
+  CCDSolver,
+  createBoneChain,
+  createBoneChainFromLengths,
+  FABRIKSolver,
+  TwoBoneIKSolver,
+} from '../animation/ik-solver.js';
+export type {
+  GaitConfig,
+  GaitState,
+  SpringConfig,
+  SpringState,
+} from '../animation/procedural-animation.js';
+export { ProceduralGait, SpringChain, SpringDynamics } from '../animation/procedural-animation.js';
+export type { LookAtConfig, LookAtState } from '../animation/skeletal-animation.js';
+export {
+  calculateBoneRotation,
+  clampAngle,
+  dampedSpring,
+  dampedSpringVector3,
+  hermiteInterpolate,
+  LookAtController,
+  sampleCurve,
+} from '../animation/skeletal-animation.js';

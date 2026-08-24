@@ -58,18 +58,18 @@
     "react-native": ">=0.72.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
-    "@react-native/babel-preset": "^0.84.1",
+    "@biomejs/biome": "^2.5.10",
+    "@react-native/babel-preset": "^0.87.0",
+    "@strata-game-library/vite": "workspace:*",
     "@testing-library/react": "^16.3.2",
-    "@types/react": "^19.2.14",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-native": "^0.84.1",
+    "@types/react": "^19.2.18",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-native": "^0.87.0",
     "rimraf": "^6.1.3",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.0",
-    "vitest": "^4.1.10",
-    "@strata-game-library/vite": "workspace:*"
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   },
   "publishConfig": {
     "access": "public"

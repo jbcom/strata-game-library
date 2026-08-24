@@ -11,5 +11,5 @@
  * @category World Building
  */
 
-export type { MarchingCubesOptions, MarchingCubesResult } from "./marching-cubes.js";
-export { createGeometryFromMarchingCubes, marchingCubes } from "./marching-cubes.js";
+export type { MarchingCubesOptions, MarchingCubesResult } from './marching-cubes.js';
+export { createGeometryFromMarchingCubes, marchingCubes } from './marching-cubes.js';

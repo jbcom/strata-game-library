@@ -34,17 +34,17 @@
     }
   },
   "devDependencies": {
-    "@pixi/react": "^8",
-    "@types/react": "^19.2.14",
+    "@pixi/react": "^8.0.5",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
-    "jsdom": "^29.1.1",
-    "pixi.js": "^8",
-    "react": "^19.2.4",
-    "react-dom": "19.2.5",
+    "jsdom": "^30.0.1",
+    "pixi.js": "^8.20.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10",
-    "@strata-game-library/vite": "workspace:*"
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   },
   "publishConfig": {
     "access": "public"
@@ -52,11 +52,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jbcom/strata-game-library.git",
-    "directory": "adapters/reactylon"
+    "directory": "adapters/pixi"
   },
   "bugs": {
     "url": "https://github.com/jbcom/strata-game-library/issues"
   },
-  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/reactylon#readme",
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/pixi#readme",
   "sideEffects": false
 }

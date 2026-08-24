@@ -124,7 +124,7 @@ The alternatives were each considered and rejected on this repo's specifics:
 
 | Approach | Why not |
 | --- | --- |
-| API Extractor | Redoes a rollup tsup already produces, and models one entry per package — core has 34 subpaths, so 34 configs and 34 report files. Still would not verify a subpath is *declared*. |
+| API Extractor | Redoes a rollup tsup already produces, and models one entry per package — core has 23 subpaths, so 23 configs and 23 report files. Still would not verify a subpath is *declared*. |
 | A test asserting `Object.keys(await import(…))` | Imports source, so it never sees what the `exports` map publishes; cannot see type-only exports at all; cannot detect a subpath declared but not emitted. Would have caught none of the three real defects below. |
 | biome / dependency-cruiser alone | See only this repo's source, never what an installed consumer can reach. Necessary for Rules 1/2/7, useless as the surface gate. |
 | `attw` / `publint` | Check that exports *resolve*, not *which symbols escape*. Complementary, not a substitute. |
@@ -200,6 +200,6 @@ Sequencing, lowest risk first:
 4. **Commit the updated snapshots with the change.** The snapshot diff is the
    review surface — it is how a reviewer sees that a SemVer promise moved.
 5. Removing or narrowing a Tier 1 symbol needs a major version. Record it in
-   [`BREAKING_CHANGES.md`](../BREAKING_CHANGES.md); the snapshot diff between
+   [`BREAKING_CHANGES.md`](../docs/archive/BREAKING_CHANGES.md); the snapshot diff between
    two tags generates the removed-symbol table mechanically, so no
    hand-maintained list can drift.

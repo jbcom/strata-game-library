@@ -1,73 +1,39 @@
-# Dependabot Configuration
-# 
-# DIRECT PUSH MODE: Dependabot pushes directly to main (no PRs)
-# Branch rulesets allow Dependabot to bypass protections
-#
-# Dependabot ignores ecosystems that don't apply to your repo
-
 version: 2
 
 updates:
-  # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
+    target-branch: main
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+      time: 09:00
+      timezone: America/Chicago
+    open-pull-requests-limit: 5
+    groups:
+      production-minor-and-patch:
+        dependency-type: production
+        update-types: [minor, patch]
+      development-minor-and-patch:
+        dependency-type: development
+        update-types: [minor, patch]
     commit-message:
-      prefix: "ci"
+      prefix: chore(deps)
+      prefix-development: chore(deps-dev)
+      include: scope
 
-  # Docker
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: main
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+      time: 09:30
+      timezone: America/Chicago
+    open-pull-requests-limit: 5
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]
     commit-message:
-      prefix: "build"
-
-  # NPM/Node.js
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Python/pip
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Go modules
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Rust/Cargo
-  - package-ecosystem: "cargo"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Terraform
-  - package-ecosystem: "terraform"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Git submodules
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
+      prefix: ci(deps)
+      include: scope

@@ -1,92 +1,27 @@
-# Release - Publish to npm (Nx monorepo)
-#
-# Triggered when a GitHub Release is published. Builds all packages
-# and publishes them to npm with OIDC trusted publishing.
-#
-# Authentication: Pure OIDC — id-token: write provides keyless npm auth
-# and Sigstore provenance attestation. No stored tokens required.
-# Requires npm 11.5.1+ for trusted publishing support.
-#
-# Publishes each package individually so failures (version exists,
-# no trusted publisher configured, etc.) don't block other packages.
-name: Release
+name: Release Please
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
 
 permissions:
   contents: read
-  id-token: write
-
-concurrency:
-  group: release
-  cancel-in-progress: false
 
 jobs:
-  # ────────────────────────────────────────────────────────────────────
-  # Publish all packages to npm
-  # ────────────────────────────────────────────────────────────────────
-  publish:
-    name: Publish to npm
+  release-please:
+    name: Prepare or create release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
-
-      - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@latest
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build all packages
-        run: pnpm nx run-many -t build
-
-      - name: Publish packages with OIDC provenance
-        run: |
-          # Publish each package individually so one failure doesn't block others.
-          # Packages without trusted publishing configured or with version conflicts
-          # will fail gracefully while the rest still publish.
-          failed=()
-          succeeded=()
-
-          for pkg_dir in packages/core packages/shaders packages/presets \
-                         adapters/r3f adapters/reactylon \
-                         plugins/audio-synth plugins/model-synth \
-                         plugins/capacitor plugins/react-native plugins/astro \
-                         packages/strata-game-library; do
-            pkg_name=$(node -p "require('./${pkg_dir}/package.json').name")
-            pkg_version=$(node -p "require('./${pkg_dir}/package.json').version")
-
-            echo "::group::Publishing ${pkg_name}@${pkg_version}"
-            if (cd "${pkg_dir}" && npm publish --access public --provenance 2>&1); then
-              echo "✅ ${pkg_name}@${pkg_version} published successfully"
-              succeeded+=("${pkg_name}")
-            else
-              echo "⚠️ ${pkg_name}@${pkg_version} failed to publish (may already exist or lack trusted publisher)"
-              failed+=("${pkg_name}")
-            fi
-            echo "::endgroup::"
-          done
-
-          echo ""
-          echo "=== Publish Summary ==="
-          echo "Succeeded (${#succeeded[@]}): ${succeeded[*]}"
-          echo "Failed (${#failed[@]}): ${failed[*]}"
-
-          # Fail the job only if ALL packages failed
-          if [ ${#succeeded[@]} -eq 0 ] && [ ${#failed[@]} -gt 0 ]; then
-            echo "::error::All packages failed to publish"
-            exit 1
-          fi
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

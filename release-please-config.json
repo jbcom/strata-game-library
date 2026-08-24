@@ -32,6 +32,9 @@
     "adapters/r3f": {
       "component": "@strata-game-library/r3f"
     },
+    "adapters/pixi": {
+      "component": "@strata-game-library/pixi"
+    },
     "adapters/reactylon": {
       "component": "@strata-game-library/reactylon"
     },
@@ -49,6 +52,9 @@
     },
     "plugins/astro": {
       "component": "@strata-game-library/astro"
+    },
+    "plugins/vite": {
+      "component": "@strata-game-library/vite"
     }
   }
 }

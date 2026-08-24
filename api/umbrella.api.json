@@ -3241,6 +3241,14 @@
       "TextTo3DAPI": "value",
       "TextTo3DTargetFormat": "value"
     },
+    "./pixi": {
+      "applyFilterResolutionFix": "value",
+      "detectReduceMotion": "value",
+      "getDpr": "value",
+      "MountOptions": "value",
+      "mountPixi": "value",
+      "PixiMountHandle": "value"
+    },
     "./presets": {
       "ALL_THEMES": "value",
       "BiomeData": "value",

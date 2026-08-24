@@ -6,4 +6,15 @@
  */
 
 export { createSynthManager, SynthManager } from './SynthManager.js';
-export type { AudioSynthContextValue, EnvelopeConfig, FilterConfig, FrequencySweep, ISynthManager, MusicNote, MusicPattern, OscillatorType, SFXPreset, SynthManagerConfig } from "./types.js";
+export type {
+  AudioSynthContextValue,
+  EnvelopeConfig,
+  FilterConfig,
+  FrequencySweep,
+  ISynthManager,
+  MusicNote,
+  MusicPattern,
+  OscillatorType,
+  SFXPreset,
+  SynthManagerConfig,
+} from './types.js';

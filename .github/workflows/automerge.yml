@@ -1,49 +1,31 @@
-# Automerge - Auto-merge Dependabot and Release Please PRs after CI passes
-#
-# Approves and enables auto-merge (squash) for PRs opened by Dependabot
-# or Release Please. GitHub will merge the PR automatically once all
-# required status checks pass.
-name: Automerge
+name: Trusted automation merge queue
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  # ────────────────────────────────────────────────────────────────────
-  # Approve and auto-merge Dependabot PRs
-  # ────────────────────────────────────────────────────────────────────
-  dependabot:
-    name: Dependabot Auto-merge
-    if: github.actor == 'dependabot[bot]'
+  enable:
+    name: Enable merge-commit auto-merge
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (
+        github.actor == 'dependabot[bot]' ||
+        (
+          github.actor == 'github-actions[bot]' &&
+          startsWith(github.event.pull_request.head.ref, 'release-please--')
+        )
+      )
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     env:
+      GH_TOKEN: ${{ github.token }}
       PR_URL: ${{ github.event.pull_request.html_url }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Approve PR
-        run: gh pr review "$PR_URL" --approve
-
-      - name: Enable auto-merge
-        run: gh pr merge "$PR_URL" --auto --squash
-
-  # ────────────────────────────────────────────────────────────────────
-  # Approve and auto-merge Release Please PRs
-  # ────────────────────────────────────────────────────────────────────
-  release-please:
-    name: Release Please Auto-merge
-    if: startsWith(github.head_ref, 'release-please--')
-    runs-on: ubuntu-latest
-    env:
-      PR_URL: ${{ github.event.pull_request.html_url }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Approve PR
-        run: gh pr review "$PR_URL" --approve
-
-      - name: Enable auto-merge
-        run: gh pr merge "$PR_URL" --auto --squash
+      - name: Enable merge when every policy gate passes
+        run: gh pr merge "$PR_URL" --auto --merge

@@ -108,15 +108,15 @@
     "access": "public"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
-    "@vitest/coverage-v8": "^4.1.10",
-    "@types/three": "^0.183.1",
+    "@biomejs/biome": "^2.5.10",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/three": "^0.185.4",
+    "@vitest/coverage-v8": "^4.1.11",
     "glob": "^13.0.6",
-    "three": "^0.183.2",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10",
-    "@strata-game-library/vite": "workspace:*"
+    "three": "^0.185.1",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "three": ">=0.150.0"

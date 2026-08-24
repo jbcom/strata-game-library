@@ -1,0 +1,14 @@
+[tools]
+# Maintainers and CI intentionally track the newest stable tools. Published
+# packages declare broad runtime compatibility separately in package.json.
+node = "latest"
+pnpm = "latest"
+
+[env]
+_.path = ["{{config_root}}/node_modules/.bin"]
+
+[tasks.install]
+description = "Install the workspace from the authoritative lockfile"
+run = "pnpm install --frozen-lockfile"
+sources = ["package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "mise.toml"]
+outputs = ["node_modules/.pnpm/lock.yaml"]

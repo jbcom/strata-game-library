@@ -44,12 +44,13 @@ describe('strata-game-library umbrella package', () => {
   });
 
   it('keeps lightweight subpath wrappers available', async () => {
-    const [api, core, presets, shaders, reactylon] = await Promise.all([
+    const [api, core, presets, shaders, reactylon, pixi] = await Promise.all([
       import('../src/api.ts'),
       import('../src/core.ts'),
       import('../src/presets.ts'),
       import('../src/shaders.ts'),
       import('../src/reactylon.ts'),
+      import('../src/pixi.ts'),
     ]);
 
     expect(api.createGame).toBeTypeOf('function');
@@ -70,6 +71,7 @@ describe('strata-game-library umbrella package', () => {
     expect(reactylon.createBabylonRuntimeCreatureAnimationGraphController).toBeTypeOf('function');
     expect(reactylon.applyBabylonRuntimeCreatureIKPose).toBeTypeOf('function');
     expect(reactylon.instantiateBabylonRuntimeCreatureAsset).toBeTypeOf('function');
+    expect(pixi.mountPixi).toBeTypeOf('function');
   });
 
   it('declares explicit subpaths for optional adapters and plugins', () => {
@@ -87,6 +89,7 @@ describe('strata-game-library umbrella package', () => {
       './presets': expect.any(Object),
       './r3f': expect.any(Object),
       './reactylon': expect.any(Object),
+      './pixi': expect.any(Object),
       './audio-synth': expect.any(Object),
       './model-synth': expect.any(Object),
       './capacitor': expect.any(Object),

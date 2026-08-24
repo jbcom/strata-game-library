@@ -1,159 +1,95 @@
----
-version: 1.0.1
-last_updated: 2026-01-03T02:21:30Z
-sync_type: always
----
+# Contributing to Strata
 
-# Contributing to Control Center
+Strata welcomes fixes, documentation, new procedural systems, adapters, and focused design proposals. Contributions are accepted through pull requests; no change is pushed directly to `main`.
 
-Thank you for your interest in contributing! We are **stewards and servants of the open source community FIRST**.
+## Set up a local checkout
 
-## Our Standards
-
-We **mandate** these standards because we believe in leading by example:
-
-### Conventional Commits (REQUIRED)
-
-Every commit MUST follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-<type>(<scope>): <description>
-
-[optional body]
-
-[optional footer(s)]
-```
-
-#### Types
-
-| Type | Description | Triggers Release |
-|------|-------------|------------------|
-| `feat` | New feature | Minor bump |
-| `fix` | Bug fix | Patch bump |
-| `docs` | Documentation only | No |
-| `style` | Formatting, no code change | No |
-| `refactor` | Code change without feat/fix | No |
-| `perf` | Performance improvement | Patch bump |
-| `test` | Adding/fixing tests | No |
-| `build` | Build system or dependencies | No |
-| `ci` | CI/CD configuration | No |
-| `chore` | Maintenance tasks | No |
-| `deps` | Dependency updates | Patch bump |
-| `revert` | Revert previous commit | Patch bump |
-
-#### Breaking Changes
-
-Add `!` after type or include `BREAKING CHANGE:` in footer:
-
-```
-feat!: remove deprecated API
-
-BREAKING CHANGE: The old API has been removed. Use the new API instead.
-```
-
-#### Examples
+Maintainers use [Mise](https://mise.jdx.dev/) to select the latest stable Node.js and pnpm releases:
 
 ```bash
-# Good
-feat(reviewer): add support for multi-file review
-fix(curator): handle empty issue body gracefully
-docs: update installation instructions
-refactor(clients): simplify Ollama error handling
-deps: bump cobra to v1.10.2
-
-# Bad
-Fixed bug                    # No type
-feat: Add new feature        # Wrong case (use lowercase)
-fix: fixed the thing.        # No trailing period
-Update code                  # Not conventional
+git clone https://github.com/jbcom/strata-game-library.git
+cd strata-game-library
+mise trust
+mise install
+mise run install
+mise run check
 ```
 
-### Semantic Versioning (AUTOMATIC)
-
-We use [Release Please](https://github.com/googleapis/release-please) for automated versioning:
-
-- `feat:` → Minor version bump (0.1.0 → 0.2.0)
-- `fix:`, `perf:`, `deps:` → Patch version bump (0.1.0 → 0.1.1)
-- `feat!:` or `BREAKING CHANGE:` → Major version bump (0.1.0 → 1.0.0)
-
-### Pre-commit Hooks (REQUIRED)
-
-Install pre-commit hooks before contributing:
+Mise is a local convenience, not a consumer or CI requirement. If you already manage runtimes another way, use Node.js 22 or newer and the latest stable pnpm:
 
 ```bash
-# Install pre-commit
-pip install pre-commit
-
-# Install hooks
-pre-commit install
-pre-commit install --hook-type commit-msg
-
-# Run on all files
-pre-commit run --all-files
+pnpm install --frozen-lockfile
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run build
 ```
 
-### Code Quality
+CI independently tests the declared Node.js floor and the latest stable Node.js using the official Node and pnpm setup actions.
 
-- **Go**: Run `make lint` before committing
-- **Tests**: Run `make test` and ensure all pass
-- **Format**: Run `make fmt` or let pre-commit handle it
+## Respect package boundaries
 
-## Development Workflow
+- `packages/core` is strict, renderer-independent TypeScript. It must not import React, React Three Fiber, Babylon, Reactylon, or Pixi.
+- `adapters/r3f`, `adapters/reactylon`, and `adapters/pixi` own renderer-specific behavior.
+- `packages/shaders` owns standalone GLSL modules.
+- `packages/presets` composes stable lower-level APIs into reusable configuration.
+- `plugins` own optional integrations and must not make their peers mandatory for unrelated entrypoints.
+- New public APIs require JSDoc, tests, export-map coverage, and documentation.
 
-### 1. Fork and Clone
+## Branch and commit workflow
+
+Create a branch in your fork or, for an authorized development agent, in the upstream repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/control-center.git
-cd control-center
+git switch -c feat/short-description
 ```
 
-### 2. Create Feature Branch
+Every commit and pull-request title uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```text
+feat(terrain): add erosion seed control
+fix(r3f): dispose replaced gradient textures
+docs: explain package-manager boundaries
+```
+
+History is preserved. If `main` advances, merge it into your branch:
 
 ```bash
-git checkout -b feat/your-feature
+git fetch upstream
+git merge upstream/main
 ```
 
-### 3. Make Changes
+Do not rebase or force-push an established shared branch. Pull requests merge with merge commits; squash and rebase merging are disabled.
+
+## Validate the change
+
+Run the checks proportionate to the change, and run the complete gate before requesting merge:
 
 ```bash
-# Build
-make build
-
-# Test
-make test
-
-# Lint
-make lint
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run build
+pnpm run api:check
+pnpm run package:validate
+pnpm run docs:build:pages
+pnpm run docs:links
 ```
 
-### 4. Commit with Conventional Format
+`package:validate` packs every publishable workspace package, inspects its exports and metadata, installs the tarballs into a clean consumer, and executes a real import.
 
-```bash
-git add .
-git commit -m "feat(scope): add your feature"
-```
+## Pull-request policy
 
-### 5. Push and Create PR
+The normal trusted-agent path has no human approval requirement. Mergeability is decided by stable automated gates: CI, repository policy, dependency review, and configured independent analysis services. Agents should respond to actionable findings with additional commits and enable auto-merge only when the branch is ready.
 
-```bash
-git push origin feat/your-feature
-```
+External fork code remains untrusted. Fork CI uses read-only tokens, no repository secrets, and GitHub-hosted ephemeral runners. GitHub may require a maintainer to approve an external contributor's workflow execution; this is an execution-boundary safeguard, not a code-review approval.
 
-Then create a Pull Request on GitHub.
+External fork PRs cannot modify the repository control plane, including workflows, local actions, dependency automation, release configuration, CodeRabbit configuration, or Sonar analysis control. A maintainer can reproduce a justified control-plane change on a trusted upstream branch.
 
-## Pull Request Guidelines
+## Releases
 
-1. **Title**: Use conventional commit format
-2. **Description**: Explain what and why, not how
-3. **Tests**: Add tests for new functionality
-4. **Docs**: Update documentation if needed
-5. **Review**: Address all AI and human feedback
+Do not edit versions or `CHANGELOG.md` for ordinary changes. release-please derives versions from Conventional Commits, opens the release PR, updates package metadata and changelogs, and creates the GitHub release. Trusted CD then publishes npm packages with provenance and deploys the documentation site.
 
-## Getting Help
+## Security reports
 
-- **Issues**: [GitHub Issues](https://github.com/jbcom/control-center/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/jbcom/control-center/discussions)
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the MIT License.
+Do not open a public issue for a suspected vulnerability. Follow the private process in [SECURITY.md](SECURITY.md).

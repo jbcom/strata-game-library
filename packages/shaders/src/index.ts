@@ -10,30 +10,129 @@
  * @module strata-shaders
  */
 
-export { MathChunks, NoiseChunks } from "./chunks.js";
-export { cloudLayerFragmentShader, cloudLayerVertexShader, createCloudLayerUniforms, createVolumetricCloudUniforms, volumetricCloudFragmentShader, volumetricCloudVertexShader } from "./clouds.js";
-export type { CloudLayerUniforms, VolumetricCloudUniforms } from "./clouds.js";
-export { createFurUniforms, defaultFurConfig, furFragmentShader, furVertexShader } from "./fur.js";
-export type { FurConfig, FurUniforms } from "./fur.js";
-export { createGodRaysUniforms, createVolumetricPointLightUniforms, createVolumetricSpotlightUniforms, godRaysFragmentShader, godRaysVertexShader, volumetricPointLightFragmentShader, volumetricPointLightVertexShader, volumetricSpotlightFragmentShader, volumetricSpotlightVertexShader } from "./godRays.js";
-export type { GodRaysUniforms, VolumetricPointLightUniforms, VolumetricSpotlightUniforms } from "./godRays.js";
-export { createInstancingWindUniforms, instancingWindVertexShader } from "./instancing-wind.js";
-export type { InstancingWindUniforms } from "./instancing-wind.js";
-export { ShaderChunks, createCrystalMaterial, createDissolveMaterial, createForcefieldMaterial, createGlitchMaterial, createGradientMaterial, createHologramMaterial, createOutlineMaterial, createScanlineMaterial, createToonMaterial, noiseSnippet } from "./materials/index.js";
-export type { CrystalMaterialOptions, DissolveMaterialOptions, ForcefieldMaterialOptions, GlitchMaterialOptions, GradientMaterialOptions, HologramMaterialOptions, OutlineMaterialOptions, ScanlineMaterialOptions, ToonMaterialOptions } from "./materials/index.js";
-export { createRaymarchingUniforms, raymarchingFragmentShader, raymarchingVertexShader } from "./raymarching.js";
-export type { RaymarchingUniforms } from "./raymarching.js";
-export { createSkyUniforms, skyFragmentShader, skyVertexShader } from "./sky.js";
-export type { SkyUniforms } from "./sky.js";
-export { createSimpleTerrainUniforms, createTerrainUniforms, simpleTerrainFragmentShader, simpleTerrainVertexShader, terrainFragmentShader, terrainVertexShader } from "./terrain.js";
-export type { SimpleTerrainUniforms, TerrainUniforms } from "./terrain.js";
-export type { ColorRepresentation, IUniforms, UniformValue, Vector2Representation, Vector3Representation } from "./types.js";
-export { atmosphereFragmentShader, atmosphereShader, atmosphereVertexShader, createAtmosphereUniforms, createDustParticlesUniforms, createUnderwaterUniforms, createVolumetricFogUniforms, dustParticlesFragmentShader, dustParticlesShader, dustParticlesVertexShader, underwaterFragmentShader, underwaterShader, underwaterVertexShader, volumetricFogFragmentShader, volumetricFogShader, volumetricFogVertexShader } from "./volumetrics.js";
-export type { AtmosphereUniforms, DustParticlesUniforms, UnderwaterUniforms, VolumetricFogUniforms } from "./volumetrics.js";
-export { createUnderwaterOverlayUniforms, createVolumetricFogMeshUniforms, underwaterOverlayFragmentShader, underwaterOverlayVertexShader, volumetricFogMeshFragmentShader, volumetricFogMeshVertexShader } from "./volumetrics-components.js";
-export type { UnderwaterOverlayUniforms, VolumetricFogMeshUniforms } from "./volumetrics-components.js";
-export { advancedWaterFragmentShader, advancedWaterVertexShader, createAdvancedWaterUniforms, createWaterUniforms, waterFragmentShader, waterVertexShader } from "./water.js";
-export type { AdvancedWaterUniforms, WaterUniforms } from "./water.js";
+export { MathChunks, NoiseChunks } from './chunks.js';
+export type { CloudLayerUniforms, VolumetricCloudUniforms } from './clouds.js';
+export {
+  cloudLayerFragmentShader,
+  cloudLayerVertexShader,
+  createCloudLayerUniforms,
+  createVolumetricCloudUniforms,
+  volumetricCloudFragmentShader,
+  volumetricCloudVertexShader,
+} from './clouds.js';
+export type { FurConfig, FurUniforms } from './fur.js';
+export { createFurUniforms, defaultFurConfig, furFragmentShader, furVertexShader } from './fur.js';
+export type {
+  GodRaysUniforms,
+  VolumetricPointLightUniforms,
+  VolumetricSpotlightUniforms,
+} from './godRays.js';
+export {
+  createGodRaysUniforms,
+  createVolumetricPointLightUniforms,
+  createVolumetricSpotlightUniforms,
+  godRaysFragmentShader,
+  godRaysVertexShader,
+  volumetricPointLightFragmentShader,
+  volumetricPointLightVertexShader,
+  volumetricSpotlightFragmentShader,
+  volumetricSpotlightVertexShader,
+} from './godRays.js';
+export type { InstancingWindUniforms } from './instancing-wind.js';
+export { createInstancingWindUniforms, instancingWindVertexShader } from './instancing-wind.js';
+export type {
+  CrystalMaterialOptions,
+  DissolveMaterialOptions,
+  ForcefieldMaterialOptions,
+  GlitchMaterialOptions,
+  GradientMaterialOptions,
+  HologramMaterialOptions,
+  OutlineMaterialOptions,
+  ScanlineMaterialOptions,
+  ToonMaterialOptions,
+} from './materials/index.js';
+export {
+  createCrystalMaterial,
+  createDissolveMaterial,
+  createForcefieldMaterial,
+  createGlitchMaterial,
+  createGradientMaterial,
+  createHologramMaterial,
+  createOutlineMaterial,
+  createScanlineMaterial,
+  createToonMaterial,
+  noiseSnippet,
+  ShaderChunks,
+} from './materials/index.js';
+export type { RaymarchingUniforms } from './raymarching.js';
+export {
+  createRaymarchingUniforms,
+  raymarchingFragmentShader,
+  raymarchingVertexShader,
+} from './raymarching.js';
+export type { SkyUniforms } from './sky.js';
+export { createSkyUniforms, skyFragmentShader, skyVertexShader } from './sky.js';
+export type { SimpleTerrainUniforms, TerrainUniforms } from './terrain.js';
+export {
+  createSimpleTerrainUniforms,
+  createTerrainUniforms,
+  simpleTerrainFragmentShader,
+  simpleTerrainVertexShader,
+  terrainFragmentShader,
+  terrainVertexShader,
+} from './terrain.js';
+export type {
+  ColorRepresentation,
+  IUniforms,
+  UniformValue,
+  Vector2Representation,
+  Vector3Representation,
+} from './types.js';
+export type {
+  AtmosphereUniforms,
+  DustParticlesUniforms,
+  UnderwaterUniforms,
+  VolumetricFogUniforms,
+} from './volumetrics.js';
+export {
+  atmosphereFragmentShader,
+  atmosphereShader,
+  atmosphereVertexShader,
+  createAtmosphereUniforms,
+  createDustParticlesUniforms,
+  createUnderwaterUniforms,
+  createVolumetricFogUniforms,
+  dustParticlesFragmentShader,
+  dustParticlesShader,
+  dustParticlesVertexShader,
+  underwaterFragmentShader,
+  underwaterShader,
+  underwaterVertexShader,
+  volumetricFogFragmentShader,
+  volumetricFogShader,
+  volumetricFogVertexShader,
+} from './volumetrics.js';
+export type {
+  UnderwaterOverlayUniforms,
+  VolumetricFogMeshUniforms,
+} from './volumetrics-components.js';
+export {
+  createUnderwaterOverlayUniforms,
+  createVolumetricFogMeshUniforms,
+  underwaterOverlayFragmentShader,
+  underwaterOverlayVertexShader,
+  volumetricFogMeshFragmentShader,
+  volumetricFogMeshVertexShader,
+} from './volumetrics-components.js';
+export type { AdvancedWaterUniforms, WaterUniforms } from './water.js';
+export {
+  advancedWaterFragmentShader,
+  advancedWaterVertexShader,
+  createAdvancedWaterUniforms,
+  createWaterUniforms,
+  waterFragmentShader,
+  waterVertexShader,
+} from './water.js';
 // Cloud shaders
 // Fur/shell shaders
 // God rays and volumetric lighting

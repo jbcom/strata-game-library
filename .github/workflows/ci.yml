@@ -1,264 +1,201 @@
-# CI - Lint, Typecheck, Build, Test, Coverage, Security (Nx monorepo)
-#
-# Matrix strategy runs lint/typecheck/build/test across affected packages.
-# Coverage results feed into SonarCloud. CodeQL and dependency review
-# run as independent security jobs.
 name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
+  push:
+    branches: [main]
   schedule:
-    - cron: '0 6 * * 1' # Weekly Monday 6am UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
-  # ────────────────────────────────────────────────────────────────────
-  # Determine which packages are affected
-  # ────────────────────────────────────────────────────────────────────
-  affected:
-    name: Detect affected packages
+  pr-title:
+    name: Conventional PR title
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      PR_TITLE: ${{ github.event.pull_request.title }}
+    steps:
+      - name: Validate title
+        shell: bash
+        run: |
+          if [[ ! "$PR_TITLE" =~ ^(feat|fix|refactor|perf|docs|test|build|ci|chore|style|revert)(\([a-z0-9._/-]+\))?!?:[[:space:]].+ ]]; then
+            echo "PR titles must use Conventional Commits, for example: feat(core): add world snapshots" >&2
+            exit 1
+          fi
+
+  toolchain:
+    name: Runtime compatibility matrix
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.set-matrix.outputs.packages }}
-      has_affected: ${{ steps.set-matrix.outputs.has_affected }}
-      nx_base: ${{ steps.base.outputs.ref }}
+      node-versions: ${{ steps.matrix.outputs.node-versions }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Derive Nx base ref
-        id: base
+          persist-credentials: false
+      - name: Derive supported runtimes
+        id: matrix
+        shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "ref=HEAD~1" >> "$GITHUB_OUTPUT"
-          fi
+          floor=$(jq -r '.engines.node' package.json | grep -Eo '[0-9]+' | head -1)
+          echo "node-versions=[\"${floor}\",\"latest\"]" >> "$GITHUB_OUTPUT"
 
-      - name: List affected packages
-        id: set-matrix
-        run: |
-          # Get affected project names as JSON array for the matrix
-          AFFECTED=$(pnpm nx show projects --affected --base=${{ steps.base.outputs.ref }} --type lib 2>/dev/null || echo "")
-          if [ -z "$AFFECTED" ]; then
-            echo "packages=[]" >> "$GITHUB_OUTPUT"
-            echo "has_affected=false" >> "$GITHUB_OUTPUT"
-          else
-            # Convert newline-separated list to compact JSON array (must be single-line for GITHUB_OUTPUT)
-            JSON=$(echo "$AFFECTED" | jq -R -s -c 'split("\n") | map(select(length > 0))')
-            echo "packages=$JSON" >> "$GITHUB_OUTPUT"
-            echo "has_affected=true" >> "$GITHUB_OUTPUT"
-          fi
-
-  # ────────────────────────────────────────────────────────────────────
-  # Matrix: lint, typecheck, build, test per affected package
-  # ────────────────────────────────────────────────────────────────────
-  check:
-    name: "${{ matrix.task }} / ${{ matrix.package }}"
-    needs: affected
-    if: needs.affected.outputs.has_affected == 'true'
+  compatibility:
+    name: Node ${{ matrix.node }} compatibility
+    needs: toolchain
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJson(needs.affected.outputs.packages) }}
-        task: [lint, typecheck, build, test]
+        node: ${{ fromJSON(needs.toolchain.outputs.node-versions) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test the renderer-agnostic core
+        run: pnpm nx run @strata-game-library/core:test
+
+  quality:
+    name: ${{ matrix.task }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        task: [lint, typecheck, test, build]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Nx cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .nx/cache
-          key: nx-${{ matrix.package }}-${{ matrix.task }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ matrix.package }}-${{ matrix.task }}-
-            nx-${{ matrix.package }}-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
       - name: Run ${{ matrix.task }}
-        run: pnpm nx run "${{ matrix.package }}:${{ matrix.task }}"
-        continue-on-error: ${{ matrix.task == 'typecheck' }}
+        run: pnpm run ${{ matrix.task }}
 
-      - name: Upload coverage
-        if: matrix.task == 'test' && always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+  public-api:
+    name: Public API contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          name: coverage-${{ strategy.job-index }}
-          path: |
-            packages/*/coverage/lcov.info
-            plugins/*/coverage/lcov.info
-            adapters/*/coverage/lcov.info
-          if-no-files-found: ignore
-          retention-days: 3
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - run: pnpm run build
+      - run: pnpm run api:check
 
-  # ────────────────────────────────────────────────────────────────────
-  # Docs: unit tests, typecheck, build verification
-  # ────────────────────────────────────────────────────────────────────
+  package:
+    name: Published package contents
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - run: pnpm run package:validate
+
   docs:
-    name: "Docs / ${{ matrix.task }}"
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        task: [test, typecheck, build]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Nx cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .nx/cache
-          key: nx-docs-${{ matrix.task }}-${{ github.sha }}
-          restore-keys: |
-            nx-docs-${{ matrix.task }}-
-            nx-docs-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build packages (docs depends on type exports)
-        if: matrix.task == 'typecheck' || matrix.task == 'build'
-        run: pnpm nx run-many -t build --exclude @strata-game-library/docs
-
-      - name: Run ${{ matrix.task }}
-        run: pnpm nx run @strata-game-library/docs:${{ matrix.task }}
-
-  # ────────────────────────────────────────────────────────────────────
-  # Browser integration (after matrix passes)
-  # ────────────────────────────────────────────────────────────────────
-  e2e:
-    name: Core Browser Integration
-    needs: [affected, check]
-    if: needs.affected.outputs.has_affected == 'true'
+    name: Documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - run: pnpm run docs:build
+      - run: pnpm run docs:links
 
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+  browser:
+    name: Browser integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - name: Install Chromium system dependencies
         run: pnpm --dir packages/core exec playwright install --with-deps chromium
-
-      - name: Build core browser test dependencies
-        run: pnpm nx run @strata-game-library/core:build
-
-      - name: Run core browser integration tests
-        run: pnpm nx run @strata-game-library/core:test:e2e
-
-      - name: Upload browser integration results
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - run: pnpm nx run @strata-game-library/core:test:e2e
+      - name: Upload browser results
         if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: core-browser-integration-results
+          name: browser-integration-results
           path: |
             packages/core/test-results/
             packages/core/playwright-results/
           if-no-files-found: ignore
           retention-days: 7
 
-  # ────────────────────────────────────────────────────────────────────
-  # Security: CodeQL handled by GitHub default setup (repo settings)
-  # ────────────────────────────────────────────────────────────────────
-
-  # ────────────────────────────────────────────────────────────────────
-  # Public API surface gate
-  #
-  # Diffs the built .d.ts against the committed api/*.api.json snapshots.
-  # Runs on the full workspace rather than the affected matrix: a change in
-  # one package can alter another package's emitted surface through a
-  # re-export, so a partial build would report a false diff.
-  # ────────────────────────────────────────────────────────────────────
-  api-surface:
-    name: Public API Surface
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      # The gate reads dist/, so every publishable package must be built.
-      - name: Build all packages
-        run: pnpm nx run-many -t build --exclude @strata-game-library/docs
-
-      - name: Check public API surface
-        run: pnpm run api:check
-
-  # ────────────────────────────────────────────────────────────────────
-  # Security: Dependency Review (PRs only)
-  # ────────────────────────────────────────────────────────────────────
   dependency-review:
-    name: Dependency Review
+    name: Dependency review
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
-        continue-on-error: true
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: high
-          comment-summary-in-pr: always
+          comment-summary-in-pr: never
+
+  gate:
+    name: CI / gate
+    if: always()
+    needs:
+      - pr-title
+      - toolchain
+      - compatibility
+      - quality
+      - public-api
+      - package
+      - docs
+      - browser
+      - dependency-review
+    runs-on: ubuntu-latest
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      PR_TITLE_RESULT: ${{ needs.pr-title.result }}
+      TOOLCHAIN_RESULT: ${{ needs.toolchain.result }}
+      COMPATIBILITY_RESULT: ${{ needs.compatibility.result }}
+      QUALITY_RESULT: ${{ needs.quality.result }}
+      PUBLIC_API_RESULT: ${{ needs.public-api.result }}
+      PACKAGE_RESULT: ${{ needs.package.result }}
+      DOCS_RESULT: ${{ needs.docs.result }}
+      BROWSER_RESULT: ${{ needs.browser.result }}
+      DEPENDENCY_REVIEW_RESULT: ${{ needs.dependency-review.result }}
+    steps:
+      - name: Enforce all CI results
+        shell: bash
+        run: |
+          required=(
+            "$TOOLCHAIN_RESULT"
+            "$COMPATIBILITY_RESULT"
+            "$QUALITY_RESULT"
+            "$PUBLIC_API_RESULT"
+            "$PACKAGE_RESULT"
+            "$DOCS_RESULT"
+            "$BROWSER_RESULT"
+          )
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            required+=("$PR_TITLE_RESULT" "$DEPENDENCY_REVIEW_RESULT")
+          fi
+          for result in "${required[@]}"; do
+            if [[ "$result" != "success" ]]; then
+              echo "A required CI job did not succeed: $result" >&2
+              exit 1
+            fi
+          done

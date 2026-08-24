@@ -19,8 +19,25 @@ import type {
 } from '../runtime-types';
 import { PROPS } from './presets';
 
-export { PROPS } from "./presets";
-export type { CreatePropInput, PropComponent, PropComposition, PropDefinition, PropInteractionType, PropRuntimeAssembly, PropRuntimeInteractionAction, PropRuntimeInteractionController, PropRuntimeInteractionEffect, PropRuntimeInteractionResult, PropRuntimeInteractionSource, PropRuntimeInteractionState, PropRuntimeInteractionStateKey, PropRuntimeInteractionStatus, PropRuntimeNode, ResolvedPropComponent } from "./types";
+export { PROPS } from './presets';
+export type {
+  CreatePropInput,
+  PropComponent,
+  PropComposition,
+  PropDefinition,
+  PropInteractionType,
+  PropRuntimeAssembly,
+  PropRuntimeInteractionAction,
+  PropRuntimeInteractionController,
+  PropRuntimeInteractionEffect,
+  PropRuntimeInteractionResult,
+  PropRuntimeInteractionSource,
+  PropRuntimeInteractionState,
+  PropRuntimeInteractionStateKey,
+  PropRuntimeInteractionStatus,
+  PropRuntimeNode,
+  ResolvedPropComponent,
+} from './types';
 
 import type {
   CreatePropInput,
