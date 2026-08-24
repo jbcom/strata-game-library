@@ -105,7 +105,9 @@ Three layers, in dependency order.
 ### Layer 1 — the API surface gate
 
 `api/<pkg>.api.json` holds every exported symbol per subpath, extracted from
-the **built `.d.ts`** and diffed in CI.
+the **built `.d.ts`** and diffed in CI. Its `version` field is provenance for
+the snapshot, not a gated API input: Release Please may advance package
+metadata without changing exports or declaration shapes.
 
 ```bash
 pnpm api:report   # regenerate snapshots
