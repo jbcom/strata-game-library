@@ -4,7 +4,11 @@
   "subpaths": {
     ".": {
       "default": "value",
-      "StrataAstroConfig": "type"
+      "StrataAstroConfig": {
+        "css?": "boolean",
+        "starlight?": "boolean",
+        "viteR3F?": "boolean"
+      }
     }
   }
 }

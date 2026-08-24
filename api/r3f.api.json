@@ -4,13 +4,54 @@
   "subpaths": {
     ".": {
       "AdvancedWater": "value",
-      "AdvancedWaterProps": "value",
+      "AdvancedWaterProps": {
+        "position?": "[number, number, number]",
+        "size?": "number | [number, number]",
+        "segments?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "waterColor?": "THREE.ColorRepresentation",
+        "deepColor?": "THREE.ColorRepresentation",
+        "foamColor?": "THREE.ColorRepresentation",
+        "causticIntensity?": "number",
+        "waveHeight?": "number",
+        "waveSpeed?": "number"
+      },
       "AmbientAudio": "value",
-      "AmbientAudioProps": "value",
-      "AmbientAudioRef": "value",
+      "AmbientAudioProps": {
+        "url": "string",
+        "volume?": "number",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "fadeTime?": "number",
+        "onLoad?": "() => void"
+      },
+      "AmbientAudioRef": {
+        "play": "() => void",
+        "stop": "() => void",
+        "fadeIn": "(duration: number) => void",
+        "fadeOut": "(duration: number) => void",
+        "setVolume": "(volume: number, fadeTime?: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "AnimatedBillboard": "value",
-      "AnimatedBillboardProps": "value",
-      "AnimatedBillboardRef": "value",
+      "AnimatedBillboardProps": {
+        "texture": "THREE.Texture",
+        "columns": "number",
+        "rows": "number",
+        "frameCount?": "number",
+        "frameRate?": "number",
+        "loop?": "boolean",
+        "pingPong?": "boolean",
+        "autoPlay?": "boolean",
+        "onAnimationComplete?": "() => void"
+      },
+      "AnimatedBillboardRef": {
+        "play": "() => void",
+        "pause": "() => void",
+        "reset": "() => void",
+        "setFrame": "(frame: number) => void",
+        "currentFrame": "number"
+      },
       "applyRuntimeCreatureAnimationBlend": "value",
       "applyRuntimeCreatureIKPose": "value",
       "applyRuntimeCreaturePose": "value",
@@ -18,54 +59,219 @@
       "attachRuntimePropCannonPhysicsHandle": "value",
       "attachRuntimePropPhysicsHandle": "value",
       "attachRuntimePropRapierPhysicsHandle": "value",
-      "AudioContextValue": "value",
+      "AudioContextValue": {
+        "soundManager": "SoundManager | null",
+        "spatialAudio": "SpatialAudio | null",
+        "listener": "THREE.AudioListener | null",
+        "isReady": "boolean"
+      },
       "AudioEmitter": "value",
-      "AudioEmitterProps": "value",
-      "AudioEmitterRef": "value",
+      "AudioEmitterProps": {
+        "url": "string",
+        "position?": "[number, number, number]",
+        "follow?": "React.RefObject<THREE.Object3D>",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "volume?": "number",
+        "refDistance?": "number",
+        "maxDistance?": "number",
+        "rolloffFactor?": "number",
+        "distanceModel?": "DistanceModel",
+        "onLoad?": "() => void"
+      },
+      "AudioEmitterRef": {
+        "play": "() => void",
+        "stop": "() => void",
+        "pause": "() => void",
+        "setVolume": "(volume: number) => void",
+        "setPosition": "(x: number, y: number, z: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "AudioEnvironment": "value",
-      "AudioEnvironmentProps": "value",
+      "AudioEnvironmentProps": {
+        "type": "EnvironmentPreset",
+        "reverbDecay?": "number",
+        "reverbWet?": "number",
+        "lowpassFrequency?": "number",
+        "highpassFrequency?": "number"
+      },
       "AudioListener": "value",
-      "AudioListenerProps": "value",
+      "AudioListenerProps": {
+        "camera?": "THREE.Camera"
+      },
       "AudioProvider": "value",
-      "AudioProviderProps": "value",
+      "AudioProviderProps": {
+        "children": "React.ReactNode",
+        "masterVolume?": "number"
+      },
       "AudioZone": "value",
-      "AudioZoneProps": "value",
-      "AudioZoneRef": "value",
+      "AudioZoneProps": {
+        "position?": "[number, number, number]",
+        "geometry": "'box' | 'sphere'",
+        "size?": "[number, number, number]",
+        "radius?": "number",
+        "audioUrl?": "string",
+        "audioVolume?": "number",
+        "audioLoop?": "boolean",
+        "fadeTime?": "number",
+        "onEnter?": "() => void",
+        "onExit?": "() => void",
+        "debug?": "boolean",
+        "children?": "React.ReactNode"
+      },
+      "AudioZoneRef": {
+        "isInside": "() => boolean",
+        "getAudio": "() => AmbientAudioRef | null"
+      },
       "AutoSaveConfig": "value",
       "Billboard": "value",
       "BillboardConfig": "value",
-      "BillboardProps": "value",
-      "BillboardRef": "value",
+      "BillboardProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "texture": "THREE.Texture",
+        "color?": "THREE.ColorRepresentation",
+        "opacity?": "number",
+        "transparent?": "boolean",
+        "alphaTest?": "number",
+        "lockY?": "boolean",
+        "depthWrite?": "boolean",
+        "renderOrder?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "BillboardRef": {
+        "mesh": "THREE.Mesh | null",
+        "sprite": "THREE.Sprite | null"
+      },
       "BlinkController": "value",
-      "BlinkControllerProps": "value",
-      "BlinkControllerRef": "value",
+      "BlinkControllerProps": {
+        "blinkDuration?": "number",
+        "minInterval?": "number",
+        "maxInterval?": "number",
+        "leftEyeRef?": "react__default.RefObject<THREE.Object3D>",
+        "rightEyeRef?": "react__default.RefObject<THREE.Object3D>",
+        "onBlink?": "() => void",
+        "children?": "react__default.ReactNode"
+      },
+      "BlinkControllerRef": {
+        "blink": "() => void",
+        "setBlinking": "(enabled: boolean) => void"
+      },
       "BloomSettings": "value",
       "BreathingAnimation": "value",
-      "BreathingAnimationProps": "value",
-      "BreathingAnimationRef": "value",
+      "BreathingAnimationProps": {
+        "amplitude?": "number",
+        "frequency?": "number",
+        "axis?": "'x' | 'y' | 'z' | 'scale'",
+        "children?": "react__default.ReactNode"
+      },
+      "BreathingAnimationRef": {
+        "pause": "() => void",
+        "resume": "() => void",
+        "setAmplitude": "(amplitude: number) => void"
+      },
       "BrightnessContrastSettings": "value",
       "Buoyancy": "value",
-      "BuoyancyProps": "value",
-      "BuoyancyRef": "value",
+      "BuoyancyProps": {
+        "config?": "Partial<BuoyancyConfig>",
+        "samplePoints?": "[number, number, number][]",
+        "onSubmerged?": "(depth: number) => void",
+        "children?": "React.ReactNode"
+      },
+      "BuoyancyRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getSubmersionDepth": "() => number"
+      },
       "calculateRepeats": "value",
       "CameraShake": "value",
-      "CameraShakeProps": "value",
-      "CameraShakeRef": "value",
-      "CameraTransitionConfig": "value",
+      "CameraShakeProps": {
+        "intensity?": "number",
+        "decay?": "number",
+        "maxYaw?": "number",
+        "maxPitch?": "number",
+        "maxRoll?": "number",
+        "yawFrequency?": "number",
+        "pitchFrequency?": "number",
+        "rollFrequency?": "number"
+      },
+      "CameraShakeRef": {
+        "addTrauma": "(amount: number) => void",
+        "setTrauma": "(amount: number) => void",
+        "getTrauma": "() => number"
+      },
+      "CameraTransitionConfig": {
+        "from": "THREE.Vector3",
+        "to": "THREE.Vector3",
+        "fromLookAt?": "THREE.Vector3",
+        "toLookAt?": "THREE.Vector3",
+        "duration?": "number",
+        "easing?": "(t: number) => number",
+        "onComplete?": "() => void"
+      },
       "CharacterController": "value",
-      "CharacterControllerProps": "value",
-      "CharacterControllerRef": "value",
+      "CharacterControllerProps": {
+        "position?": "[number, number, number]",
+        "config?": "Partial<CharacterControllerConfig>",
+        "enableInput?": "boolean",
+        "inputMap?": "{ forward?: string[]; backward?: string[]; left?: string[]; right?: string[]; jump?: string[]; sprint?: string[]; }",
+        "sprintMultiplier?": "number",
+        "onGroundedChange?": "(grounded: boolean) => void",
+        "onJump?": "() => void",
+        "onLand?": "(velocity: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "CharacterControllerRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getPosition": "() => THREE.Vector3",
+        "getVelocity": "() => THREE.Vector3",
+        "setPosition": "(position: [number, number, number]) => void",
+        "applyImpulse": "(impulse: [number, number, number]) => void",
+        "isGrounded": "() => boolean",
+        "jump": "() => void"
+      },
       "CheckpointData": "value",
       "ChromaticAberrationSettings": "value",
       "CinematicCamera": "value",
-      "CinematicCameraProps": "value",
-      "CinematicCameraRef": "value",
+      "CinematicCameraProps": {
+        "path": "THREE.Vector3[]",
+        "duration?": "number",
+        "tension?": "number",
+        "closed?": "boolean",
+        "lookAt?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "autoPlay?": "boolean",
+        "loop?": "boolean",
+        "fov?": "number",
+        "fovKeyframes?": "{ time: number; fov: number; }[]",
+        "makeDefault?": "boolean",
+        "onComplete?": "() => void"
+      },
+      "CinematicCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "play": "() => void",
+        "pause": "() => void",
+        "reset": "() => void",
+        "setProgress": "(t: number) => void",
+        "getProgress": "() => number"
+      },
       "CinematicEffects": "value",
-      "CinematicEffectsProps": "value",
+      "CinematicEffectsProps": {
+        "bloomIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "chromaticAberration?": "number",
+        "filmGrain?": "boolean"
+      },
       "CloudLayer": "value",
-      "CloudLayerProps": "value",
+      "CloudLayerProps": {
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>",
+        "size?": "[number, number]"
+      },
       "CloudSky": "value",
-      "CloudSkyProps": "value",
+      "CloudSkyProps": {
+        "config?": "Partial<CloudSkyConfig>",
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>"
+      },
       "collectRuntimeCreatureSourceBoneNames": "value",
       "ColorGradingSettings": "value",
       "ControlHint": "value",
@@ -89,360 +295,1409 @@
       "crossFadeRuntimeCreatureAnimationAction": "value",
       "Crosshair": "value",
       "CrosshairConfig": "value",
-      "CrosshairProps": "value",
+      "CrosshairProps": {
+        "spread?": "number",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "CrystalMesh": "value",
-      "CrystalMeshProps": "value",
-      "CrystalMeshRef": "value",
+      "CrystalMeshProps": {
+        "animate?": "boolean"
+      },
+      "CrystalMeshRef": "type",
       "DamageNumber": "value",
       "DamageNumberConfig": "value",
-      "DamageNumberProps": "value",
+      "DamageNumberProps": {
+        "position": "[number, number, number]",
+        "onComplete?": "() => void"
+      },
       "Decal": "value",
       "DecalInstance": "value",
       "DecalPool": "value",
-      "DecalPoolProps": "value",
-      "DecalPoolRef": "value",
+      "DecalPoolProps": {
+        "maxDecals?": "number",
+        "fadeTime?": "number",
+        "defaultSize?": "number | [number, number]",
+        "defaultTexture?": "THREE.Texture",
+        "depthTest?": "boolean",
+        "depthWrite?": "boolean"
+      },
+      "DecalPoolRef": {
+        "addDecal": "(position: THREE.Vector3 | [number, number, number], normal: THREE.Vector3 | [number, number, number], options?: { texture?: THREE.Texture; size?: number | [number, number]; rotation?: number; fadeTime?: number; color?: THREE.ColorRepresentation; }) => string",
+        "removeDecal": "(id: string) => boolean",
+        "clear": "() => void",
+        "count": "number"
+      },
       "DecalProjectorConfig": "value",
-      "DecalProps": "value",
-      "DecalRef": "value",
+      "DecalProps": {
+        "position": "THREE.Vector3 | [number, number, number]",
+        "normal": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "texture": "THREE.Texture",
+        "rotation?": "number",
+        "opacity?": "number",
+        "fadeTime?": "number",
+        "depthTest?": "boolean",
+        "depthWrite?": "boolean",
+        "polygonOffsetFactor?": "number",
+        "color?": "THREE.ColorRepresentation"
+      },
+      "DecalRef": {
+        "mesh": "THREE.Mesh | null",
+        "setOpacity": "(opacity: number) => void"
+      },
       "DEFAULT_BIOMES": "value",
       "DEFAULT_KEYBOARD_MAPPING": "value",
       "Destructible": "value",
-      "DestructibleProps": "value",
-      "DestructibleRef": "value",
+      "DestructibleProps": {
+        "position?": "[number, number, number]",
+        "size?": "[number, number, number]",
+        "config?": "Partial<DestructibleConfig>",
+        "onBreak?": "() => void",
+        "onDamage?": "(remainingHealth: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "DestructibleRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "damage": "(amount: number) => void",
+        "destroy": "() => void",
+        "getHealth": "() => number"
+      },
       "DialogBox": "value",
-      "DialogBoxProps": "value",
-      "DialogBoxRef": "value",
+      "DialogBoxProps": {
+        "onLineComplete?": "(lineIndex: number) => void",
+        "onDialogComplete?": "() => void",
+        "onChoiceSelect?": "(choiceId: string, lineIndex: number) => void",
+        "visible?": "boolean",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "DialogBoxRef": {
+        "advance": "() => void",
+        "skip": "() => void",
+        "reset": "() => void",
+        "setLine": "(index: number) => void"
+      },
       "DialogChoice": "value",
       "DialogConfig": "value",
       "DialogLine": "value",
       "DissolveMesh": "value",
-      "DissolveMeshProps": "value",
-      "DissolveMeshRef": "value",
+      "DissolveMeshProps": {
+        "animate?": "boolean",
+        "animationSpeed?": "number",
+        "loop?": "boolean"
+      },
+      "DissolveMeshRef": {
+        "setProgress": "(progress: number) => void"
+      },
       "DOFSettings": "value",
       "DragState": "value",
       "DreamyEffects": "value",
-      "DreamyEffectsProps": "value",
+      "DreamyEffectsProps": {
+        "bloomIntensity?": "number",
+        "saturation?": "number",
+        "brightness?": "number"
+      },
       "DynamicDOF": "value",
-      "DynamicDOFProps": "value",
-      "DynamicDOFRef": "value",
-      "EffectPresetProps": "value",
+      "DynamicDOFProps": {
+        "target?": "react__default.RefObject<THREE.Object3D>",
+        "focusDistance?": "number",
+        "focalLength?": "number",
+        "bokehScale?": "number",
+        "focusSpeed?": "number"
+      },
+      "DynamicDOFRef": {
+        "focusOnTarget": "(target: THREE.Object3D) => void",
+        "getFocusDistance": "() => number"
+      },
+      "EffectPresetProps": {
+        "enabled?": "boolean",
+        "multisampling?": "number"
+      },
       "EffectStack": "value",
-      "EffectStackProps": "value",
+      "EffectStackProps": {
+        "preset": "PostProcessingPreset",
+        "enabled?": "boolean",
+        "multisampling?": "number",
+        "children?": "react__default.ReactNode"
+      },
       "EmissionShape": "value",
       "EmitterShapeParams": "value",
       "EnhancedFog": "value",
-      "EnhancedFogProps": "value",
+      "EnhancedFogProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "near?": "number",
+        "far?": "number"
+      },
       "FilmGrainSettings": "value",
       "FixedPerspectiveCamera": "value",
-      "FixedPerspectiveCameraProps": "value",
+      "FixedPerspectiveCameraProps": {
+        "preset?": "PerspectivePreset",
+        "yaw?": "number",
+        "pitch?": "number",
+        "roll?": "number",
+        "distance?": "number",
+        "orthographic?": "boolean",
+        "orthoScale?": "number",
+        "fov?": "number",
+        "target?": "[number, number, number]",
+        "followTarget?": "THREE.Object3D | null",
+        "followSpeed?": "number",
+        "followOffset?": "[number, number, number]",
+        "smooth?": "boolean",
+        "makeDefault?": "boolean"
+      },
       "FollowCamera": "value",
-      "FollowCameraProps": "value",
-      "FollowCameraRef": "value",
+      "FollowCameraProps": {
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "offset?": "[number, number, number]",
+        "smoothTime?": "number",
+        "lookAheadDistance?": "number",
+        "lookAheadSmoothing?": "number",
+        "rotationSmoothing?": "number",
+        "fov?": "number",
+        "makeDefault?": "boolean"
+      },
+      "FollowCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "setOffset": "(offset: [number, number, number]) => void"
+      },
       "FootstepAudio": "value",
-      "FootstepAudioProps": "value",
-      "FootstepAudioRef": "value",
+      "FootstepAudioProps": {
+        "surfaces": "Record<string, string>",
+        "defaultSurface?": "string",
+        "volume?": "number",
+        "poolSize?": "number",
+        "throttleMs?": "number"
+      },
+      "FootstepAudioRef": {
+        "playFootstep": "(surface?: string, position?: THREE.Vector3) => void"
+      },
       "Forcefield": "value",
-      "ForcefieldProps": "value",
-      "ForcefieldRef": "value",
+      "ForcefieldProps": {
+        "radius?": "number",
+        "position?": "[number, number, number]",
+        "animate?": "boolean"
+      },
+      "ForcefieldRef": {
+        "mesh": "THREE.Mesh | null",
+        "material": "THREE.ShaderMaterial | null",
+        "triggerHit": "(worldPosition: THREE.Vector3, intensity?: number) => void"
+      },
       "FPSCamera": "value",
-      "FPSCameraProps": "value",
-      "FPSCameraRef": "value",
+      "FPSCameraProps": {
+        "position?": "[number, number, number]",
+        "sensitivity?": "number",
+        "headBobEnabled?": "boolean",
+        "headBobFrequency?": "number",
+        "headBobAmplitude?": "number",
+        "fov?": "number",
+        "makeDefault?": "boolean",
+        "movementSpeed?": "number"
+      },
+      "FPSCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "setPosition": "(position: [number, number, number]) => void",
+        "setMovementSpeed": "(speed: number) => void",
+        "getMoving": "() => boolean"
+      },
       "GameHUD": "value",
-      "GameHUDProps": "value",
+      "GameHUDProps": {
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "GameStateContext": "value",
-      "GameStateContextValue": "value",
+      "GameStateContextValue": {
+        "store": "GameStoreApi<T>",
+        "useStore": "GameStoreApi<T>"
+      },
       "GameStateProvider": "value",
-      "GameStateProviderProps": "value",
+      "GameStateProviderProps": {
+        "store?": "GameStoreApi<T>",
+        "initialState?": "T",
+        "config?": "Partial<StoreConfig<T>>",
+        "onChange?": "(event: StateChangeEvent<T>) => void",
+        "children": "ReactNode"
+      },
       "GameStore": "value",
       "GameStoreApi": "value",
       "generateBackgroundLayers": "value",
       "generateBiomeInstanceData": "value",
-      "GeneratedLayer": "value",
+      "GeneratedLayer": {
+        "config": "ParallaxLayerConfig",
+        "elements": "ParallaxElement[]"
+      },
       "getCameraPosition": "value",
       "getDefaultRuntimePropInteractionAction": "value",
       "GlitchMesh": "value",
-      "GlitchMeshProps": "value",
-      "GlitchMeshRef": "value",
+      "GlitchMeshProps": {
+        "animate?": "boolean"
+      },
+      "GlitchMeshRef": "type",
       "GodRays": "value",
-      "GodRaysProps": "value",
-      "GodRaysRef": "value",
+      "GodRaysProps": {
+        "lightPosition?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "decay?": "number",
+        "density?": "number",
+        "samples?": "number",
+        "exposure?": "number",
+        "scattering?": "number",
+        "noiseFactor?": "number",
+        "enabled?": "boolean",
+        "sunAltitude?": "number",
+        "atmosphereColor?": "THREE.ColorRepresentation"
+      },
+      "GodRaysRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "setIntensity": "(intensity: number) => void",
+        "setLightPosition": "(position: THREE.Vector3) => void"
+      },
       "GPUInstancedMesh": "value",
-      "GPUInstancedMeshProps": "value",
+      "GPUInstancedMeshProps": {
+        "geometry": "THREE.BufferGeometry",
+        "material": "THREE.Material",
+        "count": "number",
+        "instances": "InstanceData[]",
+        "enableWind?": "boolean",
+        "windStrength?": "number",
+        "lodDistance?": "number",
+        "frustumCulled?": "boolean",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean"
+      },
       "GradientMesh": "value",
-      "GradientMeshProps": "value",
-      "GradientMeshRef": "value",
+      "GradientMeshProps": "type",
+      "GradientMeshRef": "type",
       "GrassInstances": "value",
       "GroundSwitch": "value",
-      "GroundSwitchProps": "value",
-      "GroundSwitchRef": "value",
+      "GroundSwitchProps": {
+        "position?": "[number, number, number]",
+        "axis?": "'x' | 'z'",
+        "throwDistance?": "number",
+        "material?": "'steel' | 'brass' | 'chrome'",
+        "size?": "number"
+      },
+      "GroundSwitchRef": {
+        "toggle": "() => void",
+        "setValue": "(value: number) => void"
+      },
       "GyroscopeCamera": "value",
-      "GyroscopeCameraProps": "value",
+      "GyroscopeCameraProps": {
+        "target?": "react__default.RefObject<THREE.Object3D> | THREE.Vector3",
+        "distance?": "number",
+        "minDistance?": "number",
+        "maxDistance?": "number",
+        "sensitivity?": "number",
+        "enableZoom?": "boolean",
+        "onAzimuthChange?": "(azimuth: number) => void",
+        "lerpSpeed?": "number",
+        "defaultElevation?": "number",
+        "minElevation?": "number",
+        "maxElevation?": "number",
+        "tiltSensitivity?": "number"
+      },
       "HeadTracker": "value",
-      "HeadTrackerProps": "value",
-      "HeadTrackerRef": "value",
+      "HeadTrackerProps": {
+        "target?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "followMouse?": "boolean",
+        "maxAngle?": "number",
+        "speed?": "number",
+        "deadzone?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "HeadTrackerRef": {
+        "lookAt": "(target: THREE.Vector3) => void",
+        "reset": "() => void"
+      },
       "HealthBar": "value",
-      "HealthBarProps": "value",
-      "HealthBarRef": "value",
+      "HealthBarProps": {
+        "position?": "[number, number, number]",
+        "offset?": "[number, number]",
+        "occlude?": "boolean",
+        "distanceFade?": "{ start: number; end: number; }",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "HealthBarRef": {
+        "setValue": "(value: number) => void",
+        "setMaxValue": "(maxValue: number) => void",
+        "flash": "() => void"
+      },
       "HologramMesh": "value",
-      "HologramMeshProps": "value",
-      "HologramMeshRef": "value",
+      "HologramMeshProps": {
+        "animate?": "boolean"
+      },
+      "HologramMeshRef": "type",
       "HorrorEffects": "value",
-      "HorrorEffectsProps": "value",
+      "HorrorEffectsProps": {
+        "desaturation?": "number",
+        "noiseIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "chromaticAberration?": "boolean"
+      },
       "IKChain": "value",
-      "IKChainProps": "value",
-      "IKChainRef": "value",
+      "IKChainProps": {
+        "boneLengths": "number[]",
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "pole?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "solver?": "'fabrik' | 'ccd'",
+        "tolerance?": "number",
+        "maxIterations?": "number",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "visualRadius?": "number",
+        "children?": "react__default.ReactNode",
+        "onSolve?": "(result: IKSolverResult) => void"
+      },
+      "IKChainRef": {
+        "getBones": "() => THREE.Object3D[]",
+        "getResult": "() => IKSolverResult | null",
+        "solve": "() => void"
+      },
       "IKLimb": "value",
-      "IKLimbProps": "value",
-      "IKLimbRef": "value",
+      "IKLimbProps": {
+        "upperLength": "number",
+        "lowerLength": "number",
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "poleTarget": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "children?": "react__default.ReactNode",
+        "onSolve?": "(midPos: THREE.Vector3, endPos: THREE.Vector3) => void"
+      },
+      "IKLimbRef": {
+        "getUpperBone": "() => THREE.Object3D | null",
+        "getLowerBone": "() => THREE.Object3D | null",
+        "getEndEffector": "() => THREE.Object3D | null"
+      },
       "Impostor": "value",
       "ImpostorConfig": "value",
-      "ImpostorProps": "value",
-      "ImpostorRef": "value",
+      "ImpostorProps": {
+        "texture": "THREE.Texture",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "views?": "number",
+        "billboardMode?": "'spherical' | 'cylindrical'",
+        "opacity?": "number",
+        "transparent?": "boolean",
+        "alphaTest?": "number",
+        "depthWrite?": "boolean",
+        "color?": "THREE.ColorRepresentation",
+        "renderOrder?": "number",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean"
+      },
+      "ImpostorRef": {
+        "mesh": "THREE.Mesh | null",
+        "currentView": "number",
+        "updateView": "() => void"
+      },
       "InfiniteRepeater": "value",
-      "InfiniteRepeaterProps": "value",
+      "InfiniteRepeaterProps": {
+        "children": "React.ReactNode",
+        "contentWidth": "number",
+        "viewportWidth": "number",
+        "scrollX": "number",
+        "direction?": "'horizontal' | 'vertical' | 'both'"
+      },
       "InputAxis": "value",
-      "InputControlEvents": "value",
-      "InputControlRef": "value",
+      "InputControlEvents": {
+        "onActivate?": "(event: InputEvent) => void",
+        "onDeactivate?": "(event: InputEvent) => void",
+        "onAxisChange?": "(axis: InputAxis, worldPosition: THREE.Vector3) => void",
+        "onPress?": "(event: InputEvent) => void",
+        "onRelease?": "(event: InputEvent) => void"
+      },
+      "InputControlRef": {
+        "getAxis": "() => InputAxis",
+        "getWorldPosition": "() => THREE.Vector3",
+        "isActive": "() => boolean",
+        "reset": "() => void"
+      },
       "InputEvent": "value",
       "Inventory": "value",
       "InventoryConfig": "value",
-      "InventoryProps": "value",
-      "InventoryRef": "value",
+      "InventoryProps": {
+        "onSlotClick?": "(slot: InventorySlot, index: number) => void",
+        "onSlotDrop?": "(fromIndex: number, toIndex: number) => void",
+        "onSlotHover?": "(slot: InventorySlot | null, index: number) => void",
+        "selectedIndex?": "number",
+        "visible?": "boolean",
+        "anchor?": "UIAnchor",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "InventoryRef": {
+        "selectSlot": "(index: number) => void",
+        "setSlots": "(slots: InventorySlot[]) => void"
+      },
       "InventorySlot": "value",
       "Joystick3D": "value",
-      "Joystick3DProps": "value",
-      "Joystick3DRef": "value",
+      "Joystick3DProps": {
+        "position?": "[number, number, number]",
+        "baseColor?": "THREE.ColorRepresentation",
+        "stalkColor?": "THREE.ColorRepresentation",
+        "knobColor?": "THREE.ColorRepresentation",
+        "size?": "number",
+        "deadzone?": "number",
+        "returnSpeed?": "number",
+        "maxTilt?": "number"
+      },
+      "Joystick3DRef": {
+        "addTrauma": "(amount: number) => void"
+      },
       "JoystickVector": "value",
       "KeyboardActions": "value",
       "KeyboardMapping": "value",
       "KillStreakNotification": "value",
-      "KillStreakNotificationProps": "value",
+      "KillStreakNotificationProps": {
+        "streak?": "number",
+        "duration?": "number",
+        "streakNames?": "Record<number, string>",
+        "className?": "string"
+      },
       "Lightning": "value",
-      "LightningProps": "value",
+      "LightningProps": {
+        "active?": "boolean",
+        "frequency?": "number",
+        "boltColor?": "THREE.ColorRepresentation",
+        "flashColor?": "THREE.ColorRepresentation",
+        "flashIntensity?": "number",
+        "onStrike?": "() => void"
+      },
       "LightShafts": "value",
       "LODConfig": "value",
       "LODGroup": "value",
-      "LODGroupProps": "value",
-      "LODGroupRef": "value",
+      "LODGroupProps": {
+        "children": "React.ReactNode",
+        "levels": "Array<{ distance: number; childIndices?: number[]; }>",
+        "hysteresis?": "number",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "rotation?": "THREE.Euler | [number, number, number]",
+        "scale?": "THREE.Vector3 | [number, number, number] | number",
+        "onLevelChange?": "(level: number) => void"
+      },
+      "LODGroupRef": {
+        "group": "THREE.Group | null",
+        "currentLevel": "number",
+        "forceLevel": "(level: number) => void"
+      },
       "LODLevel": "value",
       "LODMesh": "value",
-      "LODMeshProps": "value",
-      "LODMeshRef": "value",
+      "LODMeshProps": {
+        "levels": "Array<{ distance: number; geometry: THREE.BufferGeometry; material?: THREE.Material; }>",
+        "baseMaterial?": "THREE.Material",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "rotation?": "THREE.Euler | [number, number, number]",
+        "scale?": "THREE.Vector3 | [number, number, number] | number",
+        "hysteresis?": "number",
+        "transitionDuration?": "number",
+        "fadeMode?": "'instant' | 'crossfade' | 'dither'",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "frustumCulled?": "boolean",
+        "onLevelChange?": "(level: number) => void"
+      },
+      "LODMeshRef": {
+        "group": "THREE.Group | null",
+        "currentLevel": "number",
+        "getDistance": "() => number"
+      },
       "LODState": "value",
       "LODVegetation": "value",
-      "LODVegetationProps": "value",
-      "LODVegetationRef": "value",
+      "LODVegetationProps": {
+        "count": "number",
+        "instances": "Array<{ position: THREE.Vector3 | [number, number, number]; rotation?: THREE.Euler | [number, number, number]; scale?: THREE.Vector3 | [number, number, number] | number; }>",
+        "highDetailGeometry": "THREE.BufferGeometry",
+        "mediumDetailGeometry?": "THREE.BufferGeometry",
+        "lowDetailGeometry?": "THREE.BufferGeometry",
+        "impostorTexture?": "THREE.Texture",
+        "material?": "THREE.Material",
+        "lodConfig?": "Partial<VegetationLODConfig>",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "frustumCulled?": "boolean"
+      },
+      "LODVegetationRef": {
+        "group": "THREE.Group | null",
+        "visibleCounts": "{ high: number; medium: number; low: number; impostor: number; }",
+        "updateLOD": "() => void"
+      },
       "LookAt": "value",
-      "LookAtProps": "value",
-      "LookAtRef": "value",
+      "LookAtProps": {
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "config?": "Partial<LookAtConfig>",
+        "children?": "react__default.ReactNode"
+      },
+      "LookAtRef": {
+        "getRotation": "() => THREE.Quaternion",
+        "reset": "() => void"
+      },
       "Minimap": "value",
       "MinimapConfig": "value",
-      "MinimapProps": "value",
+      "MinimapProps": {
+        "markers?": "Array<{ position: [number, number]; type?: string; id: string; }>",
+        "playerPosition?": "[number, number]",
+        "playerRotation?": "number",
+        "mapImage?": "string",
+        "anchor?": "UIAnchor",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "MotionBlurEffect": "value",
-      "MotionBlurEffectProps": "value",
+      "MotionBlurEffectProps": {
+        "intensity?": "number",
+        "jitter?": "number",
+        "samples?": "number"
+      },
       "Nameplate": "value",
       "NameplateConfig": "value",
-      "NameplateProps": "value",
-      "NameplateRef": "value",
+      "NameplateProps": {
+        "position?": "[number, number, number]",
+        "offset?": "[number, number]",
+        "occlude?": "boolean",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "NameplateRef": {
+        "setName": "(name: string) => void",
+        "setHealth": "(value: number, maxValue: number) => void"
+      },
       "NeonEffects": "value",
-      "NeonEffectsProps": "value",
+      "NeonEffectsProps": {
+        "bloomIntensity?": "number",
+        "saturation?": "number",
+        "luminanceThreshold?": "number"
+      },
       "Notification": "value",
       "NotificationConfig": "value",
-      "NotificationProps": "value",
+      "NotificationProps": {
+        "onDismiss?": "() => void",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "OrbitCamera": "value",
-      "OrbitCameraProps": "value",
-      "OrbitCameraRef": "value",
+      "OrbitCameraProps": {
+        "target?": "[number, number, number]",
+        "minDistance?": "number",
+        "maxDistance?": "number",
+        "minPolarAngle?": "number",
+        "maxPolarAngle?": "number",
+        "autoRotate?": "boolean",
+        "autoRotateSpeed?": "number",
+        "enableDamping?": "boolean",
+        "dampingFactor?": "number",
+        "enableZoom?": "boolean",
+        "enablePan?": "boolean",
+        "fov?": "number",
+        "makeDefault?": "boolean"
+      },
+      "OrbitCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "getControls": "() => any",
+        "setTarget": "(target: [number, number, number]) => void"
+      },
       "Outline": "value",
-      "OutlineProps": "value",
-      "ParallaxAnimationData": "value",
+      "OutlineProps": {
+        "children": "react__default.ReactNode"
+      },
+      "ParallaxAnimationData": {
+        "type": "'sway' | 'float' | 'pulse' | 'drift' | 'wave'",
+        "amplitude": "number",
+        "frequency": "number",
+        "phase?": "number"
+      },
       "ParallaxBackground": "value",
-      "ParallaxBackgroundProps": "value",
-      "ParallaxElement": "value",
-      "ParallaxGradientData": "value",
+      "ParallaxBackgroundProps": {
+        "layers?": "ParallaxLayerConfig[]",
+        "children?": "ReactNode",
+        "scrollX?": "number",
+        "scrollY?": "number",
+        "baseWidth?": "number",
+        "baseHeight?": "number",
+        "timeOfDay?": "number",
+        "autoScroll?": "boolean",
+        "autoScrollSpeed?": "number",
+        "enableDepthFog?": "boolean",
+        "fogColor?": "THREE.Color | string | number",
+        "fogDensity?": "number"
+      },
+      "ParallaxElement": {
+        "type": "'shape' | 'sprite' | 'gradient' | 'pattern' | 'particles'",
+        "x": "number",
+        "y": "number",
+        "width": "number",
+        "height": "number",
+        "shapeData?": "ParallaxShapeData",
+        "gradientData?": "ParallaxGradientData",
+        "particleData?": "ParallaxParticleData",
+        "animation?": "ParallaxAnimationData"
+      },
+      "ParallaxGradientData": {
+        "type": "'linear' | 'radial'",
+        "stops": "Array<{ offset: number; color: THREE.Color | string | number; }>",
+        "angle?": "number"
+      },
       "ParallaxLayer": "value",
-      "ParallaxLayerConfig": "value",
-      "ParallaxLayerProps": "value",
-      "ParallaxParticleData": "value",
-      "ParallaxShapeData": "value",
-      "ParallaxState": "value",
+      "ParallaxLayerConfig": {
+        "id": "string",
+        "depth": "number",
+        "scrollSpeed": "number",
+        "verticalScrollSpeed?": "number",
+        "repeatX?": "boolean",
+        "repeatY?": "boolean",
+        "contentWidth?": "number",
+        "contentHeight?": "number",
+        "opacity?": "number",
+        "tint?": "THREE.Color | string | number",
+        "affectedByDayNight?": "boolean",
+        "dayNightColors?": "{ day: THREE.Color | string | number; night: THREE.Color | string | number; dawn: THREE.Color | string | number; dusk: THREE.Color | string | number; }",
+        "elements?": "ParallaxElement[]"
+      },
+      "ParallaxLayerProps": {
+        "children?": "ReactNode",
+        "className?": "string"
+      },
+      "ParallaxParticleData": {
+        "particleType": "'firefly' | 'leaf' | 'snow' | 'rain' | 'dust' | 'spark' | 'bubble'",
+        "count": "number",
+        "color": "THREE.Color | string | number",
+        "sizeRange": "[number, number]",
+        "speedRange": "[number, number]",
+        "lifetime": "number",
+        "spawnArea": "'full' | 'top' | 'bottom' | 'left' | 'right'"
+      },
+      "ParallaxShapeData": {
+        "shape": "'rect' | 'ellipse' | 'triangle' | 'polygon' | 'path'",
+        "color": "THREE.Color | string | number",
+        "points?": "[number, number][]",
+        "borderRadius?": "number"
+      },
+      "ParallaxState": {
+        "scrollX": "number",
+        "scrollY": "number",
+        "timeOfDay": "number",
+        "elapsedTime": "number",
+        "weather": "'none' | 'rain' | 'snow' | 'fog' | 'storm'",
+        "weatherIntensity": "number"
+      },
       "ParticleBehavior": "value",
       "ParticleBurst": "value",
-      "ParticleBurstProps": "value",
+      "ParticleBurstProps": {
+        "count?": "number",
+        "trigger?": "boolean | number",
+        "onComplete?": "() => void"
+      },
       "ParticleEmitter": "value",
-      "ParticleEmitterProps": "value",
-      "ParticleEmitterRef": "value",
+      "ParticleEmitterProps": {
+        "position?": "[number, number, number] | THREE.Vector3",
+        "positionVariance?": "[number, number, number] | THREE.Vector3",
+        "velocity?": "[number, number, number] | THREE.Vector3",
+        "velocityVariance?": "[number, number, number] | THREE.Vector3",
+        "maxParticles?": "number",
+        "emissionRate?": "number",
+        "lifetime?": "number",
+        "lifetimeVariance?": "number",
+        "startColor?": "THREE.ColorRepresentation",
+        "endColor?": "THREE.ColorRepresentation",
+        "startSize?": "number",
+        "endSize?": "number",
+        "sizeVariance?": "number",
+        "startOpacity?": "number",
+        "endOpacity?": "number",
+        "shape?": "EmissionShape",
+        "shapeParams?": "EmitterShapeParams",
+        "forces?": "ParticleForces",
+        "behavior?": "ParticleBehavior",
+        "texture?": "THREE.Texture",
+        "blending?": "THREE.Blending",
+        "depthWrite?": "boolean",
+        "sortParticles?": "boolean",
+        "autoStart?": "boolean",
+        "paused?": "boolean"
+      },
+      "ParticleEmitterRef": {
+        "emitter": "ParticleEmitter$1",
+        "emit": "(count: number) => void",
+        "burst": "(count: number) => void",
+        "reset": "() => void",
+        "setPosition": "(position: THREE.Vector3) => void",
+        "setEmissionRate": "(rate: number) => void"
+      },
       "ParticleForces": "value",
       "PauseMenu": "value",
-      "PauseMenuProps": "value",
+      "PauseMenuProps": {
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "PersistGate": "value",
-      "PersistGateProps": "value",
-      "PerspectivePreset": "value",
+      "PersistGateProps": {
+        "loading?": "ReactNode",
+        "storageKey?": "string",
+        "children": "ReactNode"
+      },
+      "PerspectivePreset": "type",
       "playRuntimeCreatureAnimationAction": "value",
       "PositionalAudio": "value",
-      "PositionalAudioProps": "value",
-      "PositionalAudioRef": "value",
+      "PositionalAudioProps": {
+        "url": "string",
+        "position?": "[number, number, number]",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "volume?": "number",
+        "refDistance?": "number",
+        "maxDistance?": "number",
+        "rolloffFactor?": "number",
+        "distanceModel?": "DistanceModel",
+        "playbackRate?": "number",
+        "onLoad?": "() => void",
+        "onEnd?": "() => void"
+      },
+      "PositionalAudioRef": {
+        "play": "() => void",
+        "pause": "() => void",
+        "stop": "() => void",
+        "setVolume": "(volume: number) => void",
+        "setPosition": "(x: number, y: number, z: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "PostProcessingPreset": "value",
       "PressurePlate": "value",
-      "PressurePlateProps": "value",
-      "PressurePlateRef": "value",
+      "PressurePlateProps": {
+        "position?": "[number, number, number]",
+        "size?": "[number, number, number]",
+        "activationDepth?": "number",
+        "springiness?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation"
+      },
+      "PressurePlateRef": {
+        "setPressed": "(pressed: boolean) => void",
+        "getPressure": "() => number"
+      },
       "ProceduralBackgroundComponent": "value",
-      "ProceduralBackgroundComponentProps": "value",
-      "ProceduralBackgroundConfig": "value",
+      "ProceduralBackgroundComponentProps": {
+        "scrollX?": "number",
+        "scrollY?": "number"
+      },
+      "ProceduralBackgroundConfig": {
+        "biome": "'forest' | 'desert' | 'tundra' | 'marsh' | 'mountain' | 'ocean' | 'cave' | 'city'",
+        "layerCount": "number",
+        "seed?": "number",
+        "animated?": "boolean",
+        "weather?": "'none' | 'rain' | 'snow' | 'fog' | 'storm'",
+        "weatherIntensity?": "number",
+        "timeOfDay?": "number"
+      },
       "ProceduralSky": "value",
-      "ProceduralSkyProps": "value",
+      "ProceduralSkyProps": {
+        "timeOfDay?": "Partial<TimeOfDayState>",
+        "weather?": "Partial<WeatherState>",
+        "size?": "[number, number]",
+        "distance?": "number"
+      },
       "ProceduralWalk": "value",
-      "ProceduralWalkProps": "value",
-      "ProceduralWalkRef": "value",
+      "ProceduralWalkProps": {
+        "config?": "Partial<GaitConfig>",
+        "bodyRef": "react__default.RefObject<THREE.Object3D>",
+        "leftFootRef?": "react__default.RefObject<THREE.Object3D>",
+        "rightFootRef?": "react__default.RefObject<THREE.Object3D>",
+        "enabled?": "boolean",
+        "onStep?": "(foot: 'left' | 'right', position: THREE.Vector3) => void"
+      },
+      "ProceduralWalkRef": {
+        "getState": "() => GaitState | null",
+        "getPhase": "() => number",
+        "reset": "() => void"
+      },
       "ProgressBar3D": "value",
-      "ProgressBar3DProps": "value",
+      "ProgressBar3DProps": {
+        "value": "number",
+        "maxValue": "number",
+        "width?": "number",
+        "height?": "number",
+        "depth?": "number",
+        "fillColor?": "string",
+        "backgroundColor?": "string",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "billboard?": "boolean"
+      },
       "ProgressBarConfig": "value",
       "Ragdoll": "value",
-      "RagdollProps": "value",
-      "RagdollRef": "value",
+      "RagdollProps": {
+        "position?": "[number, number, number]",
+        "config?": "Partial<RagdollConfig>",
+        "scale?": "number",
+        "active?": "boolean",
+        "initialVelocity?": "[number, number, number]",
+        "children?": "react__default.ReactNode"
+      },
+      "RagdollRef": {
+        "activate": "() => void",
+        "deactivate": "() => void",
+        "applyForceToAll": "(force: [number, number, number]) => void",
+        "getBodyPart": "(name: string) => RapierRigidBody | null"
+      },
       "Rain": "value",
-      "RainProps": "value",
+      "RainProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "intensity?": "number",
+        "windStrength?": "number",
+        "wind?": "THREE.Vector3",
+        "color?": "THREE.ColorRepresentation",
+        "dropLength?": "number"
+      },
       "Raymarching": "value",
-      "RaymarchingProps": "value",
+      "RaymarchingProps": {
+        "sdfFunction": "string",
+        "maxSteps?": "number",
+        "maxDistance?": "number",
+        "minDistance?": "number",
+        "backgroundColor?": "THREE.ColorRepresentation",
+        "fogStrength?": "number",
+        "fogColor?": "THREE.ColorRepresentation"
+      },
       "RealisticEffects": "value",
-      "RealisticEffectsProps": "value",
+      "RealisticEffectsProps": {
+        "ssao?": "boolean",
+        "ssaoIntensity?": "number",
+        "bloomIntensity?": "number",
+        "toneMappingMode?": "ToneMappingMode"
+      },
       "resolveRuntimeCreatureAnimationClipName": "value",
       "resolveRuntimeMaterial": "value",
       "retargetRuntimeCreatureAnimationClip": "value",
       "RockInstances": "value",
       "RUNTIME_PROP_CANNON_BODY_TYPES": "value",
       "RUNTIME_PROP_RAPIER_BODY_TYPES": "value",
-      "RuntimeAssetMaterialMode": "value",
+      "RuntimeAssetMaterialMode": "type",
       "RuntimeAssetMesh": "value",
       "RuntimeCreature": "value",
-      "RuntimeCreatureAnimationActionContext": "value",
-      "RuntimeCreatureAnimationActionMap": "value",
-      "RuntimeCreatureAnimationBlendApplication": "value",
-      "RuntimeCreatureAnimationBlendEntry": "value",
-      "RuntimeCreatureAnimationBlendOptions": "value",
-      "RuntimeCreatureAnimationController": "value",
-      "RuntimeCreatureAnimationCrossFadeOptions": "value",
-      "RuntimeCreatureAnimationGraphController": "value",
-      "RuntimeCreatureAnimationGraphControllerOptions": "value",
-      "RuntimeCreatureAnimationGraphTransitionContext": "value",
-      "RuntimeCreatureAnimationGraphTransitionGuard": "value",
-      "RuntimeCreatureAnimationGraphTransitionGuardMap": "value",
-      "RuntimeCreatureAnimationPlaybackOptions": "value",
-      "RuntimeCreatureAnimationRetargetDirection": "value",
-      "RuntimeCreatureAnimationRetargetMetadata": "value",
-      "RuntimeCreatureAnimationRetargetOptions": "value",
-      "RuntimeCreatureAnimationStateController": "value",
-      "RuntimeCreatureAnimationStateDefinition": "value",
-      "RuntimeCreatureAnimationStateEnterOptions": "value",
-      "RuntimeCreatureAnimationStateGuard": "value",
-      "RuntimeCreatureAnimationStateGuardContext": "value",
-      "RuntimeCreatureAnimationStateTransitionMode": "value",
-      "RuntimeCreatureAnimationStopOptions": "value",
+      "RuntimeCreatureAnimationActionContext": {
+        "creature": "CreatureRuntimeAssembly",
+        "animation": "string",
+        "clipName": "string"
+      },
+      "RuntimeCreatureAnimationActionMap": "type",
+      "RuntimeCreatureAnimationBlendApplication": {
+        "animation": "string",
+        "action": "THREE.AnimationAction",
+        "weight": "number"
+      },
+      "RuntimeCreatureAnimationBlendEntry": {
+        "animation": "string",
+        "weight": "number",
+        "playback?": "RuntimeCreatureAnimationPlaybackOptions"
+      },
+      "RuntimeCreatureAnimationBlendOptions": {
+        "normalize?": "boolean",
+        "stopZeroWeight?": "boolean",
+        "zeroWeightStop?": "RuntimeCreatureAnimationStopOptions",
+        "reset?": "boolean"
+      },
+      "RuntimeCreatureAnimationController": {
+        "creature": "CreatureRuntimeAssembly",
+        "actions": "RuntimeCreatureAnimationActionMap",
+        "current?": "THREE.AnimationAction",
+        "resolveClipName": "(animation: string) => string",
+        "getAction": "(animation: string) => THREE.AnimationAction | undefined",
+        "play": "(animation: string, options?: RuntimeCreatureAnimationPlaybackOptions) => THREE.AnimationAction | undefined",
+        "crossFade": "(animation: string, options?: RuntimeCreatureAnimationCrossFadeOptions) => THREE.AnimationAction | undefined",
+        "stop": "(animation: string, options?: RuntimeCreatureAnimationStopOptions) => boolean",
+        "stopAll": "(options?: RuntimeCreatureAnimationStopOptions) => void"
+      },
+      "RuntimeCreatureAnimationCrossFadeOptions": {
+        "from?": "string | THREE.AnimationAction",
+        "duration?": "number",
+        "warp?": "boolean"
+      },
+      "RuntimeCreatureAnimationGraphController": {
+        "graph": "CreatureRuntimeAnimationGraph",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController",
+        "initialState": "string",
+        "currentState?": "string",
+        "getAvailableTransitions": "(event?: string) => CreatureRuntimeAnimationGraphTransition[]",
+        "canTrigger": "(event: string) => boolean",
+        "trigger": "(event: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined",
+        "enter": "(state: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined"
+      },
+      "RuntimeCreatureAnimationGraphControllerOptions": {
+        "guards?": "RuntimeCreatureAnimationGraphTransitionGuardMap",
+        "stateGuards?": "Record<string, RuntimeCreatureAnimationStateGuard>"
+      },
+      "RuntimeCreatureAnimationGraphTransitionContext": {
+        "graph": "CreatureRuntimeAnimationGraph",
+        "transition": "CreatureRuntimeAnimationGraphTransition",
+        "currentState?": "string",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController"
+      },
+      "RuntimeCreatureAnimationGraphTransitionGuard": "type",
+      "RuntimeCreatureAnimationGraphTransitionGuardMap": "type",
+      "RuntimeCreatureAnimationPlaybackOptions": {
+        "fadeInDuration?": "number",
+        "fadeOutDuration?": "number",
+        "timeScale?": "number",
+        "clampWhenFinished?": "boolean",
+        "loop?": "boolean",
+        "repetitions?": "number",
+        "reset?": "boolean"
+      },
+      "RuntimeCreatureAnimationRetargetDirection": "type",
+      "RuntimeCreatureAnimationRetargetMetadata": {
+        "direction": "RuntimeCreatureAnimationRetargetDirection",
+        "renamedTracks": "number",
+        "preservedTracks": "number",
+        "trackNameMap": "Record<string, string>"
+      },
+      "RuntimeCreatureAnimationRetargetOptions": {
+        "direction?": "RuntimeCreatureAnimationRetargetDirection",
+        "name?": "string",
+        "includeUnverified?": "boolean"
+      },
+      "RuntimeCreatureAnimationStateController": {
+        "controller": "RuntimeCreatureAnimationController",
+        "states": "Record<string, RuntimeCreatureAnimationStateDefinition>",
+        "currentState?": "string",
+        "getState": "(state: string) => RuntimeCreatureAnimationStateDefinition | undefined",
+        "canEnter": "(state: string) => boolean",
+        "enter": "(state: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined"
+      },
+      "RuntimeCreatureAnimationStateDefinition": {
+        "animation": "string",
+        "guard?": "RuntimeCreatureAnimationStateGuard",
+        "playback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "transition?": "RuntimeCreatureAnimationCrossFadeOptions"
+      },
+      "RuntimeCreatureAnimationStateEnterOptions": {
+        "mode?": "RuntimeCreatureAnimationStateTransitionMode",
+        "stopPrevious?": "boolean",
+        "previousStop?": "RuntimeCreatureAnimationStopOptions"
+      },
+      "RuntimeCreatureAnimationStateGuard": "type",
+      "RuntimeCreatureAnimationStateGuardContext": {
+        "currentState?": "string",
+        "nextState": "string",
+        "definition": "RuntimeCreatureAnimationStateDefinition",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController"
+      },
+      "RuntimeCreatureAnimationStateTransitionMode": "type",
+      "RuntimeCreatureAnimationStopOptions": {
+        "fadeOutDuration?": "number"
+      },
       "RuntimeCreatureAsset": "value",
-      "RuntimeCreatureAssetMode": "value",
-      "RuntimeCreatureAssetProps": "value",
-      "RuntimeCreatureIKChainPose": "value",
-      "RuntimeCreatureIKPoseApplication": "value",
-      "RuntimeCreatureIKPoseOptions": "value",
-      "RuntimeCreatureIKTarget": "value",
-      "RuntimeCreatureIKTargetMap": "value",
-      "RuntimeCreatureInput": "value",
-      "RuntimeCreaturePose": "value",
-      "RuntimeCreaturePoseApplication": "value",
-      "RuntimeCreaturePoseChannel": "value",
-      "RuntimeCreaturePoseOptions": "value",
-      "RuntimeCreaturePoseQuaternion": "value",
-      "RuntimeCreaturePoseScale": "value",
-      "RuntimeCreaturePoseTransform": "value",
-      "RuntimeCreaturePoseVector": "value",
-      "RuntimeCreatureProps": "value",
+      "RuntimeCreatureAssetMode": "type",
+      "RuntimeCreatureAssetProps": {
+        "creature": "CreatureRuntimeAssembly",
+        "animation?": "string",
+        "animationPlayback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "retargetAnimation?": "boolean | RuntimeCreatureAnimationRetargetOptions",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "onRigBinding?": "(plan: CreatureRuntimeRigBindingPlan) => void",
+        "onAnimationController?": "(controller: RuntimeCreatureAnimationController) => void",
+        "onAnimationGraphController?": "(controller: RuntimeCreatureAnimationGraphController) => void",
+        "animationGraph?": "CreatureRuntimeAnimationGraph",
+        "animationGraphGuards?": "RuntimeCreatureAnimationGraphControllerOptions['guards']",
+        "onAnimationAction?": "(action: THREE.AnimationAction, context: RuntimeCreatureAnimationActionContext) => void"
+      },
+      "RuntimeCreatureIKChainPose": {
+        "chain": "CreatureRuntimeIKChainPlan",
+        "target": "[number, number, number]",
+        "reached": "boolean",
+        "distanceToTarget": "number",
+        "iterations": "number",
+        "solver": "CreatureRuntimeIKChainPlan['solver']",
+        "pose": "RuntimeCreaturePose"
+      },
+      "RuntimeCreatureIKPoseApplication": {
+        "ikRig": "CreatureRuntimeIKRigPlan",
+        "pose": "RuntimeCreaturePose",
+        "chains": "RuntimeCreatureIKChainPose[]",
+        "applications": "RuntimeCreaturePoseApplication[]"
+      },
+      "RuntimeCreatureIKPoseOptions": {
+        "includeMissing?": "boolean",
+        "clampToReach?": "boolean"
+      },
+      "RuntimeCreatureIKTarget": {
+        "position": "RuntimeCreaturePoseVector"
+      },
+      "RuntimeCreatureIKTargetMap": "type",
+      "RuntimeCreatureInput": "type",
+      "RuntimeCreaturePose": "type",
+      "RuntimeCreaturePoseApplication": {
+        "key": "string",
+        "object": "THREE.Object3D",
+        "binding?": "CreatureRuntimeRigBindingPlan['bindings'][number]",
+        "transform": "RuntimeCreaturePoseTransform",
+        "applied": "RuntimeCreaturePoseChannel[]"
+      },
+      "RuntimeCreaturePoseChannel": "type",
+      "RuntimeCreaturePoseOptions": {
+        "includeUnverified?": "boolean"
+      },
+      "RuntimeCreaturePoseQuaternion": "type",
+      "RuntimeCreaturePoseScale": "type",
+      "RuntimeCreaturePoseTransform": {
+        "position?": "RuntimeCreaturePoseVector",
+        "rotation?": "RuntimeCreaturePoseQuaternion",
+        "scale?": "RuntimeCreaturePoseScale"
+      },
+      "RuntimeCreaturePoseVector": "type",
+      "RuntimeCreatureProps": {
+        "creature": "RuntimeCreatureInput",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "assetMode?": "RuntimeCreatureAssetMode",
+        "animation?": "string",
+        "animationPlayback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "retargetAnimation?": "boolean | RuntimeCreatureAnimationRetargetOptions",
+        "onRigBinding?": "(plan: CreatureRuntimeRigBindingPlan) => void",
+        "onAnimationController?": "(controller: RuntimeCreatureAnimationController) => void",
+        "onAnimationAction?": "(action: THREE.AnimationAction, context: RuntimeCreatureAnimationActionContext) => void",
+        "renderBone?": "(bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => react__default.ReactNode",
+        "onBoneClick?": "(bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void"
+      },
       "RuntimeGeometry": "value",
-      "RuntimeMaterialOptions": "value",
+      "RuntimeMaterialOptions": {
+        "transparentVolumetrics?": "boolean",
+        "materialOverrides?": "Record<string, THREE.Material | MaterialDefinition>"
+      },
       "RuntimeProp": "value",
-      "RuntimePropCannonBodyHandle": "value",
-      "RuntimePropCannonBodyType": "value",
-      "RuntimePropCannonPhysicsHandleOptions": "value",
-      "RuntimePropInput": "value",
-      "RuntimePropInteractionContext": "value",
-      "RuntimePropInteractionControllerOptions": "value",
-      "RuntimePropInteractionControllerState": "value",
-      "RuntimePropInteractionHandler": "value",
+      "RuntimePropCannonBodyHandle": {
+        "type?": "RuntimePropCannonBodyType",
+        "collisionFilterMask?": "number",
+        "wakeUp?": "() => void"
+      },
+      "RuntimePropCannonBodyType": "type",
+      "RuntimePropCannonPhysicsHandleOptions": {
+        "body?": "RuntimePropCannonBodyHandle | null",
+        "bodyTypes?": "Partial<Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropCannonBodyType>>",
+        "enabledCollisionFilterMask?": "number",
+        "disabledCollisionFilterMask?": "number",
+        "wakeUp?": "boolean"
+      },
+      "RuntimePropInput": "type",
+      "RuntimePropInteractionContext": {
+        "runtime": "PropRuntimeAssembly",
+        "node": "PropRuntimeNode",
+        "event": "ThreeEvent<MouseEvent>",
+        "physicsApplications": "RuntimePropPhysicsApplication[]"
+      },
+      "RuntimePropInteractionControllerOptions": {
+        "initialState?": "PropRuntimeInteractionState"
+      },
+      "RuntimePropInteractionControllerState": {
+        "runtime": "PropRuntimeAssembly",
+        "state": "PropRuntimeInteractionState",
+        "setState": "(state: PropRuntimeInteractionState) => PropRuntimeInteractionState",
+        "reset": "(state?: PropRuntimeInteractionState) => PropRuntimeInteractionState",
+        "execute": "(action: string | PropRuntimeInteractionAction) => PropRuntimeInteractionResult"
+      },
+      "RuntimePropInteractionHandler": "type",
       "RuntimePropInteractionPanel": "value",
-      "RuntimePropInteractionPanelContext": "value",
-      "RuntimePropInteractionPanelProps": "value",
-      "RuntimePropInteractionPanelResultContext": "value",
-      "RuntimePropInteractionSelector": "value",
-      "RuntimePropObjectPhysicsAdapterOptions": "value",
-      "RuntimePropPhysicsAdapter": "value",
-      "RuntimePropPhysicsAdapterContext": "value",
-      "RuntimePropPhysicsApplication": "value",
-      "RuntimePropPhysicsApplicationOptions": "value",
-      "RuntimePropPhysicsEffect": "value",
-      "RuntimePropPhysicsHandle": "value",
-      "RuntimePropPhysicsHandleAttachOptions": "value",
-      "RuntimePropPhysicsObjectState": "value",
-      "RuntimePropProps": "value",
-      "RuntimePropRapierBodyType": "value",
-      "RuntimePropRapierColliderHandle": "value",
-      "RuntimePropRapierPhysicsHandleOptions": "value",
-      "RuntimePropRapierRigidBodyHandle": "value",
-      "RuntimeShapeRenderContext": "value",
+      "RuntimePropInteractionPanelContext": {
+        "runtime": "PropRuntimeAssembly",
+        "state": "PropRuntimeInteractionState"
+      },
+      "RuntimePropInteractionPanelProps": {
+        "prop": "RuntimePropInput",
+        "initialState?": "PropRuntimeInteractionState",
+        "actions?": "PropRuntimeInteractionAction[]",
+        "title?": "react__default.ReactNode",
+        "emptyLabel?": "react__default.ReactNode",
+        "showState?": "boolean",
+        "showStatus?": "boolean",
+        "showReset?": "boolean",
+        "className?": "string",
+        "style?": "react__default.CSSProperties",
+        "buttonStyle?": "react__default.CSSProperties",
+        "actionFilter?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => boolean",
+        "actionLabel?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => react__default.ReactNode",
+        "actionDisabled?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => boolean",
+        "onInteraction?": "(result: PropRuntimeInteractionResult, context: RuntimePropInteractionPanelResultContext) => void",
+        "onStateChange?": "(state: PropRuntimeInteractionState, context: RuntimePropInteractionPanelContext) => void"
+      },
+      "RuntimePropInteractionPanelResultContext": {
+        "result": "PropRuntimeInteractionResult"
+      },
+      "RuntimePropInteractionSelector": "type",
+      "RuntimePropObjectPhysicsAdapterOptions": {
+        "handleKey?": "string",
+        "resolveHandle?": "(context: RuntimePropPhysicsAdapterContext) => RuntimePropPhysicsHandle | null | undefined"
+      },
+      "RuntimePropPhysicsAdapter": {
+        "setMode?": "(context: RuntimePropPhysicsAdapterContext) => void",
+        "setColliderEnabled?": "(enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void",
+        "wakeBody?": "(context: RuntimePropPhysicsAdapterContext) => void"
+      },
+      "RuntimePropPhysicsAdapterContext": {
+        "runtime": "PropRuntimeAssembly",
+        "result": "PropRuntimeInteractionResult",
+        "effect": "RuntimePropPhysicsEffect",
+        "node": "PropRuntimeNode",
+        "object": "THREE.Object3D",
+        "state": "RuntimePropPhysicsObjectState"
+      },
+      "RuntimePropPhysicsApplication": {
+        "effect": "RuntimePropPhysicsEffect",
+        "node": "PropRuntimeNode",
+        "object": "THREE.Object3D",
+        "state": "RuntimePropPhysicsObjectState"
+      },
+      "RuntimePropPhysicsApplicationOptions": {
+        "adapter?": "RuntimePropPhysicsAdapter"
+      },
+      "RuntimePropPhysicsEffect": "type",
+      "RuntimePropPhysicsHandle": {
+        "setMode?": "(mode: RuntimePhysicsProfile['mode'], context: RuntimePropPhysicsAdapterContext) => void",
+        "setColliderEnabled?": "(enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void",
+        "wakeBody?": "(context: RuntimePropPhysicsAdapterContext) => void"
+      },
+      "RuntimePropPhysicsHandleAttachOptions": {
+        "handleKey?": "string"
+      },
+      "RuntimePropPhysicsObjectState": {
+        "mode?": "RuntimePhysicsProfile['mode']",
+        "colliderEnabled?": "boolean",
+        "awake?": "boolean",
+        "lastOperation": "RuntimePropPhysicsEffect['operation']"
+      },
+      "RuntimePropProps": {
+        "prop": "RuntimePropInput",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "assetMaterialMode?": "RuntimeAssetMaterialMode",
+        "renderNode?": "(node: PropRuntimeNode, context: RuntimeShapeRenderContext) => react__default.ReactNode",
+        "onNodeClick?": "(node: PropRuntimeNode, event: ThreeEvent<MouseEvent>) => void",
+        "interactionState?": "PropRuntimeInteractionState",
+        "selectInteractionAction?": "RuntimePropInteractionSelector",
+        "onInteraction?": "RuntimePropInteractionHandler",
+        "applyPhysicsEffects?": "boolean",
+        "physicsAdapter?": "RuntimePropPhysicsAdapter"
+      },
+      "RuntimePropRapierBodyType": "type",
+      "RuntimePropRapierColliderHandle": {
+        "setEnabled?": "(enabled: boolean) => void"
+      },
+      "RuntimePropRapierPhysicsHandleOptions": {
+        "body?": "RuntimePropRapierRigidBodyHandle | null",
+        "colliders?": "readonly (RuntimePropRapierColliderHandle | null | undefined)[]",
+        "bodyTypes?": "Partial<Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropRapierBodyType>>",
+        "wakeUp?": "boolean",
+        "disableBodyWhenColliderDisabled?": "boolean"
+      },
+      "RuntimePropRapierRigidBodyHandle": {
+        "setBodyType?": "(type: RuntimePropRapierBodyType, wakeUp: boolean) => void",
+        "setEnabled?": "(enabled: boolean) => void",
+        "wakeUp?": "() => void"
+      },
+      "RuntimeShapeRenderContext": {
+        "material": "THREE.Material",
+        "materialSlot": "RuntimeMaterialSlot"
+      },
       "SceneCard": "value",
-      "SceneCardProps": "value",
+      "SceneCardProps": {
+        "activeProfileId?": "string",
+        "availableSaveSlots?": "string[]",
+        "saveSlotInfo?": "Record<string, SaveInfo | null | undefined>",
+        "className?": "string",
+        "onAction?": "(action: SceneShellActionDefinition) => void | Promise<void>",
+        "pendingActionId?": "string | null",
+        "sceneId?": "string",
+        "style?": "CSSProperties",
+        "visible?": "boolean"
+      },
       "ScreenFlash": "value",
-      "ScreenFlashProps": "value",
+      "ScreenFlashProps": {
+        "active?": "boolean",
+        "duration?": "number",
+        "color?": "string",
+        "onComplete?": "() => void"
+      },
       "screenToWorld": "value",
       "SepiaSettings": "value",
-      "ShaderMeshProps": "value",
-      "ShaderMeshRef": "value",
+      "ShaderMeshProps": {
+        "geometry?": "THREE.BufferGeometry",
+        "children?": "react__default.ReactNode",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]"
+      },
+      "ShaderMeshRef": {
+        "mesh": "THREE.Mesh | null",
+        "material": "THREE.ShaderMaterial | null"
+      },
       "SideScrollerBackground": "value",
-      "SideScrollerBackgroundProps": "value",
+      "SideScrollerBackgroundProps": {
+        "scrollX": "number",
+        "children": "ReactNode",
+        "fog?": "boolean",
+        "fogColor?": "THREE.ColorRepresentation",
+        "timeOfDay?": "number"
+      },
       "Snow": "value",
-      "SnowProps": "value",
+      "SnowProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "intensity?": "number",
+        "windStrength?": "number",
+        "wind?": "THREE.Vector3",
+        "color?": "THREE.ColorRepresentation",
+        "flakeSize?": "number"
+      },
       "SpringBone": "value",
-      "SpringBoneProps": "value",
-      "SpringBoneRef": "value",
+      "SpringBoneProps": {
+        "config?": "Partial<SpringConfig>",
+        "gravity?": "[number, number, number]",
+        "children?": "react__default.ReactNode"
+      },
+      "SpringBoneRef": {
+        "getPosition": "() => THREE.Vector3",
+        "getVelocity": "() => THREE.Vector3",
+        "reset": "() => void"
+      },
       "SpriteAnimationState": "value",
       "SpriteSheetConfig": "value",
       "SSAOSettings": "value",
       "StateChangeEvent": "value",
-      "StateConfig": "value",
+      "StateConfig": {
+        "name": "string",
+        "onEnter?": "(entity: YUKA.GameEntity) => void",
+        "onExecute?": "(entity: YUKA.GameEntity) => void",
+        "onExit?": "(entity: YUKA.GameEntity) => void"
+      },
       "StateDebugger": "value",
-      "StateDebuggerProps": "value",
+      "StateDebuggerProps": {
+        "position?": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+        "collapsed?": "boolean"
+      },
       "stopRuntimeCreatureAnimationAction": "value",
       "STRATA_CANVAS_HOST_CLASS": "value",
       "STRATA_CANVAS_HOST_CSS": "value",
       "StrataCanvas": "value",
-      "StrataCanvasHostProps": "value",
+      "StrataCanvasHostProps": "type",
       "strataCanvasHostStyle": "value",
-      "StrataCanvasProps": "value",
-      "StrataCanvasQuality": "value",
+      "StrataCanvasProps": {
+        "active": "boolean",
+        "quality?": "StrataCanvasQuality",
+        "onContextLost?": "(canvas: HTMLCanvasElement) => void",
+        "onContextRestored?": "(canvas: HTMLCanvasElement) => void",
+        "preserveDrawingBuffer?": "boolean",
+        "toneMappingExposure?": "number",
+        "hostProps?": "StrataCanvasHostProps",
+        "children": "ReactNode"
+      },
+      "StrataCanvasQuality": {
+        "maxDpr": "number",
+        "antialias": "boolean"
+      },
       "StrataGame": "value",
       "syncYukaToThree": "value",
       "TailPhysics": "value",
-      "TailPhysicsProps": "value",
-      "TailPhysicsRef": "value",
+      "TailPhysicsProps": {
+        "segmentCount": "number",
+        "segmentLength?": "number",
+        "config?": "Partial<SpringConfig>",
+        "gravity?": "[number, number, number]",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "visualRadius?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "TailPhysicsRef": {
+        "getPositions": "() => THREE.Vector3[]",
+        "reset": "() => void"
+      },
       "threeVector3ToYuka": "value",
-      "TimeOfDayState": "value",
+      "TimeOfDayState": {
+        "sunIntensity": "number",
+        "sunAngle": "number",
+        "sunElevation?": "number",
+        "ambientLight": "number",
+        "starVisibility": "number",
+        "fogDensity": "number"
+      },
       "Tooltip": "value",
       "TooltipConfig": "value",
-      "TooltipProps": "value",
+      "TooltipProps": {
+        "x?": "number",
+        "y?": "number",
+        "visible?": "boolean",
+        "children?": "ReactNode",
+        "className?": "string"
+      },
       "ToonMesh": "value",
-      "ToonMeshProps": "value",
-      "ToonMeshRef": "value",
+      "ToonMeshProps": {
+        "showOutline?": "boolean"
+      },
+      "ToonMeshRef": "type",
       "toVector3": "value",
       "TreeInstances": "value",
-      "TriggerBehavior": "value",
-      "TriggerBehaviorConfig": "value",
+      "TriggerBehavior": "type",
+      "TriggerBehaviorConfig": {
+        "type": "TriggerBehavior",
+        "axis?": "'x' | 'y' | 'z'",
+        "threshold?": "number",
+        "springiness?": "number",
+        "returnSpeed?": "number"
+      },
       "TriggerComposer": "value",
-      "TriggerComposerProps": "value",
-      "TriggerComposerRef": "value",
-      "TriggerConfig": "value",
-      "TriggerMaterialConfig": "value",
-      "TriggerShape": "value",
+      "TriggerComposerProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "shapeConfig": "TriggerConfig",
+        "materialConfig?": "TriggerMaterialConfig",
+        "behaviorConfig?": "TriggerBehaviorConfig"
+      },
+      "TriggerComposerRef": {
+        "setValue": "(value: number) => void",
+        "getMesh": "() => THREE.Mesh | null"
+      },
+      "TriggerConfig": {
+        "shape": "TriggerShape",
+        "size?": "[number, number, number] | number",
+        "segments?": "number",
+        "customGeometry?": "THREE.BufferGeometry"
+      },
+      "TriggerMaterialConfig": {
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation",
+        "roughness?": "number",
+        "metalness?": "number",
+        "emissiveIntensity?": "number"
+      },
+      "TriggerShape": "type",
       "UIAnchor": "value",
       "UnderwaterOverlay": "value",
-      "UnderwaterOverlayProps": "value",
-      "UnderwaterSettings": "value",
+      "UnderwaterOverlayProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "causticStrength?": "number",
+        "waterSurface?": "number"
+      },
+      "UnderwaterSettings": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "causticStrength?": "number",
+        "waterSurface?": "number"
+      },
       "useActionPressed": "value",
       "useAlignment": "value",
       "UseAlignmentOptions": "value",
@@ -452,11 +1707,25 @@
       "useAudioListener": "value",
       "useAudioManager": "value",
       "useAutoSave": "value",
-      "UseAutoSaveOptions": "value",
-      "UseAutoSaveReturn": "value",
+      "UseAutoSaveOptions": {
+        "onSave?": "(success: boolean) => void"
+      },
+      "UseAutoSaveReturn": {
+        "isEnabled": "boolean",
+        "enable": "() => void",
+        "disable": "() => void",
+        "triggerSave": "() => Promise<void>",
+        "loadLatest": "() => Promise<boolean>"
+      },
       "useCameraTransition": "value",
       "useCheckpoint": "value",
-      "UseCheckpointReturn": "value",
+      "UseCheckpointReturn": {
+        "createCheckpoint": "(name: string, description?: string, metadata?: Record<string, unknown>) => Promise<boolean>",
+        "restoreCheckpoint": "(name: string) => Promise<boolean>",
+        "deleteCheckpoint": "(name: string) => Promise<boolean>",
+        "hasCheckpoint": "(name: string) => boolean",
+        "listCheckpoints": "() => CheckpointData<T>[]"
+      },
       "useCohesion": "value",
       "UseCohesionOptions": "value",
       "useControlHints": "value",
@@ -482,16 +1751,43 @@
       "useOffsetPursuit": "value",
       "UseOffsetPursuitOptions": "value",
       "useParallax": "value",
-      "UseParallaxOptions": "value",
-      "UseParallaxReturn": "value",
+      "UseParallaxOptions": {
+        "initialScroll?": "{ x: number; y: number; }",
+        "initialTimeOfDay?": "number",
+        "enableFog?": "boolean",
+        "fogColor?": "THREE.Color | string | number",
+        "fogDensity?": "number",
+        "maxFogOpacity?": "number",
+        "autoTimeOfDay?": "boolean",
+        "timeScale?": "number",
+        "depthSpeedFactor?": "number"
+      },
+      "UseParallaxReturn": {
+        "state": "ParallaxState",
+        "setScroll": "(x: number, y: number) => void",
+        "setTimeOfDay": "(time: number) => void",
+        "setWeather": "(weather: ParallaxState['weather'], intensity?: number) => void",
+        "getLayerOffset": "(depth: number) => { x: number; y: number; }",
+        "getLayerOpacity": "(depth: number, baseOpacity?: number) => number",
+        "getLayerTint": "(config: ParallaxLayerConfig) => THREE.Color"
+      },
       "usePauseToggle": "value",
       "UsePauseToggleOptions": "value",
       "usePursue": "value",
       "UsePursueOptions": "value",
       "useRuntimePropInteractionController": "value",
       "useSaveLoad": "value",
-      "UseSaveLoadOptions": "value",
-      "UseSaveLoadReturn": "value",
+      "UseSaveLoadOptions": {
+        "version?": "number"
+      },
+      "UseSaveLoadReturn": {
+        "save": "(slot?: string) => Promise<boolean>",
+        "load": "(slot?: string) => Promise<boolean>",
+        "deleteSave": "(slot: string) => Promise<boolean>",
+        "listSaves": "() => Promise<string[]>",
+        "exportJSON": "() => string",
+        "importJSON": "(json: string) => boolean"
+      },
       "useScene": "value",
       "useSeek": "value",
       "UseSeekOptions": "value",
@@ -500,70 +1796,298 @@
       "useSpatialAudio": "value",
       "useTransition": "value",
       "useUndo": "value",
-      "UseUndoReturn": "value",
+      "UseUndoReturn": {
+        "undo": "() => void",
+        "redo": "() => void",
+        "canUndo": "boolean",
+        "canRedo": "boolean"
+      },
       "useWander": "value",
       "UseWanderOptions": "value",
       "useYukaContext": "value",
       "VegetationLODConfig": "value",
-      "VegetationProps": "value",
+      "VegetationProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "biomes?": "BiomeData[]",
+        "heightFunc?": "(x: number, z: number) => number",
+        "height?": "number",
+        "color?": "THREE.ColorRepresentation"
+      },
       "VehicleBody": "value",
-      "VehicleBodyProps": "value",
-      "VehicleBodyRef": "value",
+      "VehicleBodyProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "config?": "Partial<VehicleConfig>",
+        "enableInput?": "boolean",
+        "inputMap?": "{ accelerate?: string[]; brake?: string[]; steerLeft?: string[]; steerRight?: string[]; handbrake?: string[]; }",
+        "onSpeedChange?": "(speed: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "VehicleBodyRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getSpeed": "() => number",
+        "getSteeringAngle": "() => number"
+      },
       "VignetteSettings": "value",
       "VintageEffects": "value",
-      "VintageEffectsProps": "value",
+      "VintageEffectsProps": {
+        "sepiaIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "filmGrain?": "boolean",
+        "saturation?": "number"
+      },
       "VirtualJoystick": "value",
-      "VirtualJoystickProps": "value",
+      "VirtualJoystickProps": {
+        "onMove?": "(x: number, y: number) => void",
+        "onChange?": "(vector: JoystickVector) => void",
+        "onStart?": "() => void",
+        "onEnd?": "() => void",
+        "size?": "number",
+        "color?": "string",
+        "accent?": "string",
+        "opacity?": "number",
+        "deadZone?": "number",
+        "disabled?": "boolean",
+        "allowMouse?": "boolean",
+        "hostSelector?": "string",
+        "label?": "string",
+        "className?": "string",
+        "containerStyle?": "react__default.CSSProperties",
+        "baseStyle?": "react__default.CSSProperties",
+        "style?": "react__default.CSSProperties"
+      },
       "VolumetricClouds": "value",
-      "VolumetricCloudsProps": "value",
+      "VolumetricCloudsProps": {
+        "cloudBase?": "number",
+        "cloudHeight?": "number",
+        "coverage?": "number",
+        "density?": "number",
+        "cloudColor?": "THREE.Color",
+        "shadowColor?": "THREE.Color",
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>",
+        "steps?": "number",
+        "lightSteps?": "number",
+        "radius?": "number"
+      },
       "VolumetricEffects": "value",
-      "VolumetricEffectsProps": "value",
+      "VolumetricEffectsProps": {
+        "enableFog?": "boolean",
+        "enableUnderwater?": "boolean",
+        "fogSettings?": "VolumetricFogSettings",
+        "underwaterSettings?": "UnderwaterSettings"
+      },
       "VolumetricFogMesh": "value",
-      "VolumetricFogMeshProps": "value",
-      "VolumetricFogSettings": "value",
+      "VolumetricFogMeshProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "height?": "number",
+        "size?": "number"
+      },
+      "VolumetricFogSettings": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "height?": "number"
+      },
       "VolumetricPointLight": "value",
-      "VolumetricPointLightProps": "value",
-      "VolumetricPointLightRef": "value",
+      "VolumetricPointLightProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "radius?": "number",
+        "dustDensity?": "number",
+        "flicker?": "number",
+        "enabled?": "boolean"
+      },
+      "VolumetricPointLightRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "mesh": "THREE.Mesh | null",
+        "setIntensity": "(intensity: number) => void"
+      },
       "VolumetricSpotlight": "value",
-      "VolumetricSpotlightProps": "value",
-      "VolumetricSpotlightRef": "value",
+      "VolumetricSpotlightProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "target?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "angle?": "number",
+        "penumbra?": "number",
+        "distance?": "number",
+        "dustDensity?": "number",
+        "enabled?": "boolean"
+      },
+      "VolumetricSpotlightRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "mesh": "THREE.Mesh | null",
+        "setIntensity": "(intensity: number) => void"
+      },
       "WallButton": "value",
-      "WallButtonProps": "value",
-      "WallButtonRef": "value",
+      "WallButtonProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "size?": "number",
+        "type?": "'momentary' | 'toggle'",
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation",
+        "housingColor?": "THREE.ColorRepresentation"
+      },
+      "WallButtonRef": {
+        "press": "() => void",
+        "setActive": "(active: boolean) => void"
+      },
       "Water": "value",
-      "WaterProps": "value",
+      "WaterProps": {
+        "position?": "[number, number, number]",
+        "size?": "number",
+        "segments?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "opacity?": "number",
+        "waveSpeed?": "number",
+        "waveHeight?": "number"
+      },
       "WeatherAudio": "value",
-      "WeatherAudioProps": "value",
-      "WeatherState": "value",
+      "WeatherAudioProps": {
+        "rainUrl?": "string",
+        "thunderUrl?": "string",
+        "windUrl?": "string",
+        "rainIntensity?": "number",
+        "windIntensity?": "number",
+        "thunderActive?": "boolean",
+        "fadeTime?": "number"
+      },
+      "WeatherState": {
+        "intensity": "number"
+      },
       "WeatherSystem": "value",
-      "WeatherSystemProps": "value",
+      "WeatherSystemProps": {
+        "weather?": "Partial<WeatherStateConfig>",
+        "rainCount?": "number",
+        "snowCount?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "enableLightning?": "boolean"
+      },
       "YUKA": "value",
       "YukaEntityManager": "value",
-      "YukaEntityManagerContextValue": "value",
-      "YukaEntityManagerProps": "value",
+      "YukaEntityManagerContextValue": {
+        "manager": "YUKA.EntityManager",
+        "time": "YUKA.Time",
+        "register": "(entity: YUKA.GameEntity) => void",
+        "unregister": "(entity: YUKA.GameEntity) => void"
+      },
+      "YukaEntityManagerProps": {
+        "children?": "ReactNode"
+      },
       "YukaNavMesh": "value",
-      "YukaNavMeshProps": "value",
-      "YukaNavMeshRef": "value",
+      "YukaNavMeshProps": {
+        "geometry": "THREE.BufferGeometry",
+        "visible?": "boolean",
+        "wireframe?": "boolean",
+        "color?": "THREE.ColorRepresentation"
+      },
+      "YukaNavMeshRef": {
+        "navMesh": "YUKA.NavMesh",
+        "findPath": "(from: THREE.Vector3, to: THREE.Vector3) => THREE.Vector3[]",
+        "getRandomRegion": "() => YUKA.Polygon | null",
+        "getClosestRegion": "(point: THREE.Vector3) => YUKA.Polygon | null"
+      },
       "YukaPath": "value",
-      "YukaPathProps": "value",
-      "YukaPathRef": "value",
+      "YukaPathProps": {
+        "waypoints": "Array<[number, number, number]>",
+        "loop?": "boolean",
+        "visible?": "boolean",
+        "color?": "THREE.ColorRepresentation",
+        "lineWidth?": "number",
+        "showWaypoints?": "boolean",
+        "waypointSize?": "number",
+        "waypointColor?": "THREE.ColorRepresentation",
+        "showDirection?": "boolean"
+      },
+      "YukaPathRef": {
+        "path": "YUKA.Path"
+      },
       "YukaStateMachine": "value",
-      "YukaStateMachineProps": "value",
-      "YukaStateMachineRef": "value",
+      "YukaStateMachineProps": {
+        "entity?": "YUKA.GameEntity",
+        "states": "StateConfig[]",
+        "initialState": "string",
+        "globalState?": "StateConfig"
+      },
+      "YukaStateMachineRef": {
+        "stateMachine": "YUKA.StateMachine<YUKA.GameEntity>",
+        "changeTo": "(stateName: string) => void",
+        "revert": "() => void",
+        "getCurrentState": "() => string | null"
+      },
       "yukaVector3ToThree": "value",
       "YukaVehicle": "value",
-      "YukaVehicleProps": "value",
-      "YukaVehicleRef": "value"
+      "YukaVehicleProps": {
+        "maxSpeed?": "number",
+        "maxForce?": "number",
+        "mass?": "number",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "children?": "ReactNode",
+        "onUpdate?": "(vehicle: YUKA.Vehicle, delta: number) => void"
+      },
+      "YukaVehicleRef": {
+        "vehicle": "YUKA.Vehicle",
+        "addBehavior": "(behavior: YUKA.SteeringBehavior) => void",
+        "removeBehavior": "(behavior: YUKA.SteeringBehavior) => void",
+        "clearBehaviors": "() => void"
+      }
     },
     "./components": {
       "AdvancedWater": "value",
-      "AdvancedWaterProps": "type",
+      "AdvancedWaterProps": {
+        "position?": "[number, number, number]",
+        "size?": "number | [number, number]",
+        "segments?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "waterColor?": "THREE.ColorRepresentation",
+        "deepColor?": "THREE.ColorRepresentation",
+        "foamColor?": "THREE.ColorRepresentation",
+        "causticIntensity?": "number",
+        "waveHeight?": "number",
+        "waveSpeed?": "number"
+      },
       "AmbientAudio": "value",
-      "AmbientAudioProps": "type",
-      "AmbientAudioRef": "type",
+      "AmbientAudioProps": {
+        "url": "string",
+        "volume?": "number",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "fadeTime?": "number",
+        "onLoad?": "() => void"
+      },
+      "AmbientAudioRef": {
+        "play": "() => void",
+        "stop": "() => void",
+        "fadeIn": "(duration: number) => void",
+        "fadeOut": "(duration: number) => void",
+        "setVolume": "(volume: number, fadeTime?: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "AnimatedBillboard": "value",
-      "AnimatedBillboardProps": "type",
-      "AnimatedBillboardRef": "type",
+      "AnimatedBillboardProps": {
+        "texture": "THREE.Texture",
+        "columns": "number",
+        "rows": "number",
+        "frameCount?": "number",
+        "frameRate?": "number",
+        "loop?": "boolean",
+        "pingPong?": "boolean",
+        "autoPlay?": "boolean",
+        "onAnimationComplete?": "() => void"
+      },
+      "AnimatedBillboardRef": {
+        "play": "() => void",
+        "pause": "() => void",
+        "reset": "() => void",
+        "setFrame": "(frame: number) => void",
+        "currentFrame": "number"
+      },
       "applyRuntimeCreatureAnimationBlend": "value",
       "applyRuntimeCreatureIKPose": "value",
       "applyRuntimeCreaturePose": "value",
@@ -571,54 +2095,219 @@
       "attachRuntimePropCannonPhysicsHandle": "value",
       "attachRuntimePropPhysicsHandle": "value",
       "attachRuntimePropRapierPhysicsHandle": "value",
-      "AudioContextValue": "type",
+      "AudioContextValue": {
+        "soundManager": "SoundManager | null",
+        "spatialAudio": "SpatialAudio | null",
+        "listener": "THREE.AudioListener | null",
+        "isReady": "boolean"
+      },
       "AudioEmitter": "value",
-      "AudioEmitterProps": "type",
-      "AudioEmitterRef": "type",
+      "AudioEmitterProps": {
+        "url": "string",
+        "position?": "[number, number, number]",
+        "follow?": "React.RefObject<THREE.Object3D>",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "volume?": "number",
+        "refDistance?": "number",
+        "maxDistance?": "number",
+        "rolloffFactor?": "number",
+        "distanceModel?": "DistanceModel",
+        "onLoad?": "() => void"
+      },
+      "AudioEmitterRef": {
+        "play": "() => void",
+        "stop": "() => void",
+        "pause": "() => void",
+        "setVolume": "(volume: number) => void",
+        "setPosition": "(x: number, y: number, z: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "AudioEnvironment": "value",
-      "AudioEnvironmentProps": "type",
+      "AudioEnvironmentProps": {
+        "type": "EnvironmentPreset",
+        "reverbDecay?": "number",
+        "reverbWet?": "number",
+        "lowpassFrequency?": "number",
+        "highpassFrequency?": "number"
+      },
       "AudioListener": "value",
-      "AudioListenerProps": "type",
+      "AudioListenerProps": {
+        "camera?": "THREE.Camera"
+      },
       "AudioProvider": "value",
-      "AudioProviderProps": "type",
+      "AudioProviderProps": {
+        "children": "React.ReactNode",
+        "masterVolume?": "number"
+      },
       "AudioZone": "value",
-      "AudioZoneProps": "type",
-      "AudioZoneRef": "type",
+      "AudioZoneProps": {
+        "position?": "[number, number, number]",
+        "geometry": "'box' | 'sphere'",
+        "size?": "[number, number, number]",
+        "radius?": "number",
+        "audioUrl?": "string",
+        "audioVolume?": "number",
+        "audioLoop?": "boolean",
+        "fadeTime?": "number",
+        "onEnter?": "() => void",
+        "onExit?": "() => void",
+        "debug?": "boolean",
+        "children?": "React.ReactNode"
+      },
+      "AudioZoneRef": {
+        "isInside": "() => boolean",
+        "getAudio": "() => AmbientAudioRef | null"
+      },
       "AutoSaveConfig": "value",
       "Billboard": "value",
       "BillboardConfig": "value",
-      "BillboardProps": "type",
-      "BillboardRef": "type",
+      "BillboardProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "texture": "THREE.Texture",
+        "color?": "THREE.ColorRepresentation",
+        "opacity?": "number",
+        "transparent?": "boolean",
+        "alphaTest?": "number",
+        "lockY?": "boolean",
+        "depthWrite?": "boolean",
+        "renderOrder?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "BillboardRef": {
+        "mesh": "THREE.Mesh | null",
+        "sprite": "THREE.Sprite | null"
+      },
       "BlinkController": "value",
-      "BlinkControllerProps": "type",
-      "BlinkControllerRef": "type",
+      "BlinkControllerProps": {
+        "blinkDuration?": "number",
+        "minInterval?": "number",
+        "maxInterval?": "number",
+        "leftEyeRef?": "react__default.RefObject<THREE.Object3D>",
+        "rightEyeRef?": "react__default.RefObject<THREE.Object3D>",
+        "onBlink?": "() => void",
+        "children?": "react__default.ReactNode"
+      },
+      "BlinkControllerRef": {
+        "blink": "() => void",
+        "setBlinking": "(enabled: boolean) => void"
+      },
       "BloomSettings": "value",
       "BreathingAnimation": "value",
-      "BreathingAnimationProps": "type",
-      "BreathingAnimationRef": "type",
+      "BreathingAnimationProps": {
+        "amplitude?": "number",
+        "frequency?": "number",
+        "axis?": "'x' | 'y' | 'z' | 'scale'",
+        "children?": "react__default.ReactNode"
+      },
+      "BreathingAnimationRef": {
+        "pause": "() => void",
+        "resume": "() => void",
+        "setAmplitude": "(amplitude: number) => void"
+      },
       "BrightnessContrastSettings": "value",
       "Buoyancy": "value",
-      "BuoyancyProps": "type",
-      "BuoyancyRef": "type",
+      "BuoyancyProps": {
+        "config?": "Partial<BuoyancyConfig>",
+        "samplePoints?": "[number, number, number][]",
+        "onSubmerged?": "(depth: number) => void",
+        "children?": "React.ReactNode"
+      },
+      "BuoyancyRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getSubmersionDepth": "() => number"
+      },
       "calculateRepeats": "value",
       "CameraShake": "value",
-      "CameraShakeProps": "type",
-      "CameraShakeRef": "type",
-      "CameraTransitionConfig": "type",
+      "CameraShakeProps": {
+        "intensity?": "number",
+        "decay?": "number",
+        "maxYaw?": "number",
+        "maxPitch?": "number",
+        "maxRoll?": "number",
+        "yawFrequency?": "number",
+        "pitchFrequency?": "number",
+        "rollFrequency?": "number"
+      },
+      "CameraShakeRef": {
+        "addTrauma": "(amount: number) => void",
+        "setTrauma": "(amount: number) => void",
+        "getTrauma": "() => number"
+      },
+      "CameraTransitionConfig": {
+        "from": "THREE.Vector3",
+        "to": "THREE.Vector3",
+        "fromLookAt?": "THREE.Vector3",
+        "toLookAt?": "THREE.Vector3",
+        "duration?": "number",
+        "easing?": "(t: number) => number",
+        "onComplete?": "() => void"
+      },
       "CharacterController": "value",
-      "CharacterControllerProps": "type",
-      "CharacterControllerRef": "type",
+      "CharacterControllerProps": {
+        "position?": "[number, number, number]",
+        "config?": "Partial<CharacterControllerConfig>",
+        "enableInput?": "boolean",
+        "inputMap?": "{ forward?: string[]; backward?: string[]; left?: string[]; right?: string[]; jump?: string[]; sprint?: string[]; }",
+        "sprintMultiplier?": "number",
+        "onGroundedChange?": "(grounded: boolean) => void",
+        "onJump?": "() => void",
+        "onLand?": "(velocity: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "CharacterControllerRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getPosition": "() => THREE.Vector3",
+        "getVelocity": "() => THREE.Vector3",
+        "setPosition": "(position: [number, number, number]) => void",
+        "applyImpulse": "(impulse: [number, number, number]) => void",
+        "isGrounded": "() => boolean",
+        "jump": "() => void"
+      },
       "CheckpointData": "value",
       "ChromaticAberrationSettings": "value",
       "CinematicCamera": "value",
-      "CinematicCameraProps": "type",
-      "CinematicCameraRef": "type",
+      "CinematicCameraProps": {
+        "path": "THREE.Vector3[]",
+        "duration?": "number",
+        "tension?": "number",
+        "closed?": "boolean",
+        "lookAt?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "autoPlay?": "boolean",
+        "loop?": "boolean",
+        "fov?": "number",
+        "fovKeyframes?": "{ time: number; fov: number; }[]",
+        "makeDefault?": "boolean",
+        "onComplete?": "() => void"
+      },
+      "CinematicCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "play": "() => void",
+        "pause": "() => void",
+        "reset": "() => void",
+        "setProgress": "(t: number) => void",
+        "getProgress": "() => number"
+      },
       "CinematicEffects": "value",
-      "CinematicEffectsProps": "type",
+      "CinematicEffectsProps": {
+        "bloomIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "chromaticAberration?": "number",
+        "filmGrain?": "boolean"
+      },
       "CloudLayer": "value",
-      "CloudLayerProps": "type",
+      "CloudLayerProps": {
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>",
+        "size?": "[number, number]"
+      },
       "CloudSky": "value",
-      "CloudSkyProps": "type",
+      "CloudSkyProps": {
+        "config?": "Partial<CloudSkyConfig>",
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>"
+      },
       "collectRuntimeCreatureSourceBoneNames": "value",
       "ColorGradingSettings": "value",
       "createGameHUD": "value",
@@ -641,219 +2330,878 @@
       "crossFadeRuntimeCreatureAnimationAction": "value",
       "Crosshair": "value",
       "CrosshairConfig": "value",
-      "CrosshairProps": "type",
+      "CrosshairProps": {
+        "spread?": "number",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "CrystalMesh": "value",
-      "CrystalMeshProps": "type",
+      "CrystalMeshProps": {
+        "animate?": "boolean"
+      },
       "CrystalMeshRef": "type",
       "DamageNumber": "value",
       "DamageNumberConfig": "value",
-      "DamageNumberProps": "type",
+      "DamageNumberProps": {
+        "position": "[number, number, number]",
+        "onComplete?": "() => void"
+      },
       "Decal": "value",
       "DecalInstance": "value",
       "DecalPool": "value",
-      "DecalPoolProps": "type",
-      "DecalPoolRef": "type",
+      "DecalPoolProps": {
+        "maxDecals?": "number",
+        "fadeTime?": "number",
+        "defaultSize?": "number | [number, number]",
+        "defaultTexture?": "THREE.Texture",
+        "depthTest?": "boolean",
+        "depthWrite?": "boolean"
+      },
+      "DecalPoolRef": {
+        "addDecal": "(position: THREE.Vector3 | [number, number, number], normal: THREE.Vector3 | [number, number, number], options?: { texture?: THREE.Texture; size?: number | [number, number]; rotation?: number; fadeTime?: number; color?: THREE.ColorRepresentation; }) => string",
+        "removeDecal": "(id: string) => boolean",
+        "clear": "() => void",
+        "count": "number"
+      },
       "DecalProjectorConfig": "value",
-      "DecalProps": "type",
-      "DecalRef": "type",
+      "DecalProps": {
+        "position": "THREE.Vector3 | [number, number, number]",
+        "normal": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "texture": "THREE.Texture",
+        "rotation?": "number",
+        "opacity?": "number",
+        "fadeTime?": "number",
+        "depthTest?": "boolean",
+        "depthWrite?": "boolean",
+        "polygonOffsetFactor?": "number",
+        "color?": "THREE.ColorRepresentation"
+      },
+      "DecalRef": {
+        "mesh": "THREE.Mesh | null",
+        "setOpacity": "(opacity: number) => void"
+      },
       "DEFAULT_BIOMES": "value",
       "Destructible": "value",
-      "DestructibleProps": "type",
-      "DestructibleRef": "type",
+      "DestructibleProps": {
+        "position?": "[number, number, number]",
+        "size?": "[number, number, number]",
+        "config?": "Partial<DestructibleConfig>",
+        "onBreak?": "() => void",
+        "onDamage?": "(remainingHealth: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "DestructibleRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "damage": "(amount: number) => void",
+        "destroy": "() => void",
+        "getHealth": "() => number"
+      },
       "DialogBox": "value",
-      "DialogBoxProps": "type",
-      "DialogBoxRef": "type",
+      "DialogBoxProps": {
+        "onLineComplete?": "(lineIndex: number) => void",
+        "onDialogComplete?": "() => void",
+        "onChoiceSelect?": "(choiceId: string, lineIndex: number) => void",
+        "visible?": "boolean",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "DialogBoxRef": {
+        "advance": "() => void",
+        "skip": "() => void",
+        "reset": "() => void",
+        "setLine": "(index: number) => void"
+      },
       "DialogChoice": "value",
       "DialogConfig": "value",
       "DialogLine": "value",
       "DissolveMesh": "value",
-      "DissolveMeshProps": "type",
-      "DissolveMeshRef": "type",
+      "DissolveMeshProps": {
+        "animate?": "boolean",
+        "animationSpeed?": "number",
+        "loop?": "boolean"
+      },
+      "DissolveMeshRef": {
+        "setProgress": "(progress: number) => void"
+      },
       "DOFSettings": "value",
       "DragState": "value",
       "DreamyEffects": "value",
-      "DreamyEffectsProps": "type",
+      "DreamyEffectsProps": {
+        "bloomIntensity?": "number",
+        "saturation?": "number",
+        "brightness?": "number"
+      },
       "DynamicDOF": "value",
-      "DynamicDOFProps": "type",
-      "DynamicDOFRef": "type",
-      "EffectPresetProps": "type",
+      "DynamicDOFProps": {
+        "target?": "react__default.RefObject<THREE.Object3D>",
+        "focusDistance?": "number",
+        "focalLength?": "number",
+        "bokehScale?": "number",
+        "focusSpeed?": "number"
+      },
+      "DynamicDOFRef": {
+        "focusOnTarget": "(target: THREE.Object3D) => void",
+        "getFocusDistance": "() => number"
+      },
+      "EffectPresetProps": {
+        "enabled?": "boolean",
+        "multisampling?": "number"
+      },
       "EffectStack": "value",
-      "EffectStackProps": "type",
+      "EffectStackProps": {
+        "preset": "PostProcessingPreset",
+        "enabled?": "boolean",
+        "multisampling?": "number",
+        "children?": "react__default.ReactNode"
+      },
       "EmissionShape": "value",
       "EmitterShapeParams": "value",
       "EnhancedFog": "value",
-      "EnhancedFogProps": "type",
+      "EnhancedFogProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "near?": "number",
+        "far?": "number"
+      },
       "FilmGrainSettings": "value",
       "FixedPerspectiveCamera": "value",
-      "FixedPerspectiveCameraProps": "type",
+      "FixedPerspectiveCameraProps": {
+        "preset?": "PerspectivePreset",
+        "yaw?": "number",
+        "pitch?": "number",
+        "roll?": "number",
+        "distance?": "number",
+        "orthographic?": "boolean",
+        "orthoScale?": "number",
+        "fov?": "number",
+        "target?": "[number, number, number]",
+        "followTarget?": "THREE.Object3D | null",
+        "followSpeed?": "number",
+        "followOffset?": "[number, number, number]",
+        "smooth?": "boolean",
+        "makeDefault?": "boolean"
+      },
       "FollowCamera": "value",
-      "FollowCameraProps": "type",
-      "FollowCameraRef": "type",
+      "FollowCameraProps": {
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "offset?": "[number, number, number]",
+        "smoothTime?": "number",
+        "lookAheadDistance?": "number",
+        "lookAheadSmoothing?": "number",
+        "rotationSmoothing?": "number",
+        "fov?": "number",
+        "makeDefault?": "boolean"
+      },
+      "FollowCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "setOffset": "(offset: [number, number, number]) => void"
+      },
       "FootstepAudio": "value",
-      "FootstepAudioProps": "type",
-      "FootstepAudioRef": "type",
+      "FootstepAudioProps": {
+        "surfaces": "Record<string, string>",
+        "defaultSurface?": "string",
+        "volume?": "number",
+        "poolSize?": "number",
+        "throttleMs?": "number"
+      },
+      "FootstepAudioRef": {
+        "playFootstep": "(surface?: string, position?: THREE.Vector3) => void"
+      },
       "Forcefield": "value",
-      "ForcefieldProps": "type",
-      "ForcefieldRef": "type",
+      "ForcefieldProps": {
+        "radius?": "number",
+        "position?": "[number, number, number]",
+        "animate?": "boolean"
+      },
+      "ForcefieldRef": {
+        "mesh": "THREE.Mesh | null",
+        "material": "THREE.ShaderMaterial | null",
+        "triggerHit": "(worldPosition: THREE.Vector3, intensity?: number) => void"
+      },
       "FPSCamera": "value",
-      "FPSCameraProps": "type",
-      "FPSCameraRef": "type",
+      "FPSCameraProps": {
+        "position?": "[number, number, number]",
+        "sensitivity?": "number",
+        "headBobEnabled?": "boolean",
+        "headBobFrequency?": "number",
+        "headBobAmplitude?": "number",
+        "fov?": "number",
+        "makeDefault?": "boolean",
+        "movementSpeed?": "number"
+      },
+      "FPSCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "setPosition": "(position: [number, number, number]) => void",
+        "setMovementSpeed": "(speed: number) => void",
+        "getMoving": "() => boolean"
+      },
       "GameHUD": "value",
-      "GameHUDProps": "type",
+      "GameHUDProps": {
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "GameStateContext": "value",
-      "GameStateContextValue": "type",
+      "GameStateContextValue": {
+        "store": "GameStoreApi<T>",
+        "useStore": "GameStoreApi<T>"
+      },
       "GameStateProvider": "value",
-      "GameStateProviderProps": "type",
+      "GameStateProviderProps": {
+        "store?": "GameStoreApi<T>",
+        "initialState?": "T",
+        "config?": "Partial<StoreConfig<T>>",
+        "onChange?": "(event: StateChangeEvent<T>) => void",
+        "children": "ReactNode"
+      },
       "GameStore": "value",
       "GameStoreApi": "value",
       "generateBackgroundLayers": "value",
       "generateBiomeInstanceData": "value",
-      "GeneratedLayer": "type",
+      "GeneratedLayer": {
+        "config": "ParallaxLayerConfig",
+        "elements": "ParallaxElement[]"
+      },
       "getCameraPosition": "value",
       "getDefaultRuntimePropInteractionAction": "value",
       "GlitchMesh": "value",
-      "GlitchMeshProps": "type",
+      "GlitchMeshProps": {
+        "animate?": "boolean"
+      },
       "GlitchMeshRef": "type",
       "GodRays": "value",
-      "GodRaysProps": "type",
-      "GodRaysRef": "type",
+      "GodRaysProps": {
+        "lightPosition?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "decay?": "number",
+        "density?": "number",
+        "samples?": "number",
+        "exposure?": "number",
+        "scattering?": "number",
+        "noiseFactor?": "number",
+        "enabled?": "boolean",
+        "sunAltitude?": "number",
+        "atmosphereColor?": "THREE.ColorRepresentation"
+      },
+      "GodRaysRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "setIntensity": "(intensity: number) => void",
+        "setLightPosition": "(position: THREE.Vector3) => void"
+      },
       "GPUInstancedMesh": "value",
-      "GPUInstancedMeshProps": "type",
+      "GPUInstancedMeshProps": {
+        "geometry": "THREE.BufferGeometry",
+        "material": "THREE.Material",
+        "count": "number",
+        "instances": "InstanceData[]",
+        "enableWind?": "boolean",
+        "windStrength?": "number",
+        "lodDistance?": "number",
+        "frustumCulled?": "boolean",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean"
+      },
       "GradientMesh": "value",
       "GradientMeshProps": "type",
       "GradientMeshRef": "type",
       "GrassInstances": "value",
       "GroundSwitch": "value",
-      "GroundSwitchProps": "type",
-      "GroundSwitchRef": "type",
+      "GroundSwitchProps": {
+        "position?": "[number, number, number]",
+        "axis?": "'x' | 'z'",
+        "throwDistance?": "number",
+        "material?": "'steel' | 'brass' | 'chrome'",
+        "size?": "number"
+      },
+      "GroundSwitchRef": {
+        "toggle": "() => void",
+        "setValue": "(value: number) => void"
+      },
       "GyroscopeCamera": "value",
-      "GyroscopeCameraProps": "type",
+      "GyroscopeCameraProps": {
+        "target?": "react__default.RefObject<THREE.Object3D> | THREE.Vector3",
+        "distance?": "number",
+        "minDistance?": "number",
+        "maxDistance?": "number",
+        "sensitivity?": "number",
+        "enableZoom?": "boolean",
+        "onAzimuthChange?": "(azimuth: number) => void",
+        "lerpSpeed?": "number",
+        "defaultElevation?": "number",
+        "minElevation?": "number",
+        "maxElevation?": "number",
+        "tiltSensitivity?": "number"
+      },
       "HeadTracker": "value",
-      "HeadTrackerProps": "type",
-      "HeadTrackerRef": "type",
+      "HeadTrackerProps": {
+        "target?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "followMouse?": "boolean",
+        "maxAngle?": "number",
+        "speed?": "number",
+        "deadzone?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "HeadTrackerRef": {
+        "lookAt": "(target: THREE.Vector3) => void",
+        "reset": "() => void"
+      },
       "HealthBar": "value",
-      "HealthBarProps": "type",
-      "HealthBarRef": "type",
+      "HealthBarProps": {
+        "position?": "[number, number, number]",
+        "offset?": "[number, number]",
+        "occlude?": "boolean",
+        "distanceFade?": "{ start: number; end: number; }",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "HealthBarRef": {
+        "setValue": "(value: number) => void",
+        "setMaxValue": "(maxValue: number) => void",
+        "flash": "() => void"
+      },
       "HologramMesh": "value",
-      "HologramMeshProps": "type",
+      "HologramMeshProps": {
+        "animate?": "boolean"
+      },
       "HologramMeshRef": "type",
       "HorrorEffects": "value",
-      "HorrorEffectsProps": "type",
+      "HorrorEffectsProps": {
+        "desaturation?": "number",
+        "noiseIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "chromaticAberration?": "boolean"
+      },
       "IKChain": "value",
-      "IKChainProps": "type",
-      "IKChainRef": "type",
+      "IKChainProps": {
+        "boneLengths": "number[]",
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "pole?": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "solver?": "'fabrik' | 'ccd'",
+        "tolerance?": "number",
+        "maxIterations?": "number",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "visualRadius?": "number",
+        "children?": "react__default.ReactNode",
+        "onSolve?": "(result: IKSolverResult) => void"
+      },
+      "IKChainRef": {
+        "getBones": "() => THREE.Object3D[]",
+        "getResult": "() => IKSolverResult | null",
+        "solve": "() => void"
+      },
       "IKLimb": "value",
-      "IKLimbProps": "type",
-      "IKLimbRef": "type",
+      "IKLimbProps": {
+        "upperLength": "number",
+        "lowerLength": "number",
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "poleTarget": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "children?": "react__default.ReactNode",
+        "onSolve?": "(midPos: THREE.Vector3, endPos: THREE.Vector3) => void"
+      },
+      "IKLimbRef": {
+        "getUpperBone": "() => THREE.Object3D | null",
+        "getLowerBone": "() => THREE.Object3D | null",
+        "getEndEffector": "() => THREE.Object3D | null"
+      },
       "Impostor": "value",
       "ImpostorConfig": "value",
-      "ImpostorProps": "type",
-      "ImpostorRef": "type",
+      "ImpostorProps": {
+        "texture": "THREE.Texture",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "size?": "number | [number, number]",
+        "views?": "number",
+        "billboardMode?": "'spherical' | 'cylindrical'",
+        "opacity?": "number",
+        "transparent?": "boolean",
+        "alphaTest?": "number",
+        "depthWrite?": "boolean",
+        "color?": "THREE.ColorRepresentation",
+        "renderOrder?": "number",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean"
+      },
+      "ImpostorRef": {
+        "mesh": "THREE.Mesh | null",
+        "currentView": "number",
+        "updateView": "() => void"
+      },
       "InfiniteRepeater": "value",
-      "InfiniteRepeaterProps": "type",
+      "InfiniteRepeaterProps": {
+        "children": "React.ReactNode",
+        "contentWidth": "number",
+        "viewportWidth": "number",
+        "scrollX": "number",
+        "direction?": "'horizontal' | 'vertical' | 'both'"
+      },
       "InputAxis": "value",
-      "InputControlEvents": "type",
-      "InputControlRef": "type",
+      "InputControlEvents": {
+        "onActivate?": "(event: InputEvent) => void",
+        "onDeactivate?": "(event: InputEvent) => void",
+        "onAxisChange?": "(axis: InputAxis, worldPosition: THREE.Vector3) => void",
+        "onPress?": "(event: InputEvent) => void",
+        "onRelease?": "(event: InputEvent) => void"
+      },
+      "InputControlRef": {
+        "getAxis": "() => InputAxis",
+        "getWorldPosition": "() => THREE.Vector3",
+        "isActive": "() => boolean",
+        "reset": "() => void"
+      },
       "InputEvent": "value",
       "Inventory": "value",
       "InventoryConfig": "value",
-      "InventoryProps": "type",
-      "InventoryRef": "type",
+      "InventoryProps": {
+        "onSlotClick?": "(slot: InventorySlot, index: number) => void",
+        "onSlotDrop?": "(fromIndex: number, toIndex: number) => void",
+        "onSlotHover?": "(slot: InventorySlot | null, index: number) => void",
+        "selectedIndex?": "number",
+        "visible?": "boolean",
+        "anchor?": "UIAnchor",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "InventoryRef": {
+        "selectSlot": "(index: number) => void",
+        "setSlots": "(slots: InventorySlot[]) => void"
+      },
       "InventorySlot": "value",
       "Joystick3D": "value",
-      "Joystick3DProps": "type",
-      "Joystick3DRef": "type",
+      "Joystick3DProps": {
+        "position?": "[number, number, number]",
+        "baseColor?": "THREE.ColorRepresentation",
+        "stalkColor?": "THREE.ColorRepresentation",
+        "knobColor?": "THREE.ColorRepresentation",
+        "size?": "number",
+        "deadzone?": "number",
+        "returnSpeed?": "number",
+        "maxTilt?": "number"
+      },
+      "Joystick3DRef": {
+        "addTrauma": "(amount: number) => void"
+      },
       "JoystickVector": "value",
       "KillStreakNotification": "value",
-      "KillStreakNotificationProps": "type",
+      "KillStreakNotificationProps": {
+        "streak?": "number",
+        "duration?": "number",
+        "streakNames?": "Record<number, string>",
+        "className?": "string"
+      },
       "Lightning": "value",
-      "LightningProps": "type",
+      "LightningProps": {
+        "active?": "boolean",
+        "frequency?": "number",
+        "boltColor?": "THREE.ColorRepresentation",
+        "flashColor?": "THREE.ColorRepresentation",
+        "flashIntensity?": "number",
+        "onStrike?": "() => void"
+      },
       "LightShafts": "value",
       "LODConfig": "value",
       "LODGroup": "value",
-      "LODGroupProps": "type",
-      "LODGroupRef": "type",
+      "LODGroupProps": {
+        "children": "React.ReactNode",
+        "levels": "Array<{ distance: number; childIndices?: number[]; }>",
+        "hysteresis?": "number",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "rotation?": "THREE.Euler | [number, number, number]",
+        "scale?": "THREE.Vector3 | [number, number, number] | number",
+        "onLevelChange?": "(level: number) => void"
+      },
+      "LODGroupRef": {
+        "group": "THREE.Group | null",
+        "currentLevel": "number",
+        "forceLevel": "(level: number) => void"
+      },
       "LODLevel": "value",
       "LODMesh": "value",
-      "LODMeshProps": "type",
-      "LODMeshRef": "type",
+      "LODMeshProps": {
+        "levels": "Array<{ distance: number; geometry: THREE.BufferGeometry; material?: THREE.Material; }>",
+        "baseMaterial?": "THREE.Material",
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "rotation?": "THREE.Euler | [number, number, number]",
+        "scale?": "THREE.Vector3 | [number, number, number] | number",
+        "hysteresis?": "number",
+        "transitionDuration?": "number",
+        "fadeMode?": "'instant' | 'crossfade' | 'dither'",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "frustumCulled?": "boolean",
+        "onLevelChange?": "(level: number) => void"
+      },
+      "LODMeshRef": {
+        "group": "THREE.Group | null",
+        "currentLevel": "number",
+        "getDistance": "() => number"
+      },
       "LODState": "value",
       "LODVegetation": "value",
-      "LODVegetationProps": "type",
-      "LODVegetationRef": "type",
+      "LODVegetationProps": {
+        "count": "number",
+        "instances": "Array<{ position: THREE.Vector3 | [number, number, number]; rotation?: THREE.Euler | [number, number, number]; scale?: THREE.Vector3 | [number, number, number] | number; }>",
+        "highDetailGeometry": "THREE.BufferGeometry",
+        "mediumDetailGeometry?": "THREE.BufferGeometry",
+        "lowDetailGeometry?": "THREE.BufferGeometry",
+        "impostorTexture?": "THREE.Texture",
+        "material?": "THREE.Material",
+        "lodConfig?": "Partial<VegetationLODConfig>",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "frustumCulled?": "boolean"
+      },
+      "LODVegetationRef": {
+        "group": "THREE.Group | null",
+        "visibleCounts": "{ high: number; medium: number; low: number; impostor: number; }",
+        "updateLOD": "() => void"
+      },
       "LookAt": "value",
-      "LookAtProps": "type",
-      "LookAtRef": "type",
+      "LookAtProps": {
+        "target": "THREE.Vector3 | react__default.RefObject<THREE.Object3D>",
+        "config?": "Partial<LookAtConfig>",
+        "children?": "react__default.ReactNode"
+      },
+      "LookAtRef": {
+        "getRotation": "() => THREE.Quaternion",
+        "reset": "() => void"
+      },
       "Minimap": "value",
       "MinimapConfig": "value",
-      "MinimapProps": "type",
+      "MinimapProps": {
+        "markers?": "Array<{ position: [number, number]; type?: string; id: string; }>",
+        "playerPosition?": "[number, number]",
+        "playerRotation?": "number",
+        "mapImage?": "string",
+        "anchor?": "UIAnchor",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "MotionBlurEffect": "value",
-      "MotionBlurEffectProps": "type",
+      "MotionBlurEffectProps": {
+        "intensity?": "number",
+        "jitter?": "number",
+        "samples?": "number"
+      },
       "Nameplate": "value",
       "NameplateConfig": "value",
-      "NameplateProps": "type",
-      "NameplateRef": "type",
+      "NameplateProps": {
+        "position?": "[number, number, number]",
+        "offset?": "[number, number]",
+        "occlude?": "boolean",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
+      "NameplateRef": {
+        "setName": "(name: string) => void",
+        "setHealth": "(value: number, maxValue: number) => void"
+      },
       "NeonEffects": "value",
-      "NeonEffectsProps": "type",
+      "NeonEffectsProps": {
+        "bloomIntensity?": "number",
+        "saturation?": "number",
+        "luminanceThreshold?": "number"
+      },
       "Notification": "value",
       "NotificationConfig": "value",
-      "NotificationProps": "type",
+      "NotificationProps": {
+        "onDismiss?": "() => void",
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "OrbitCamera": "value",
-      "OrbitCameraProps": "type",
-      "OrbitCameraRef": "type",
+      "OrbitCameraProps": {
+        "target?": "[number, number, number]",
+        "minDistance?": "number",
+        "maxDistance?": "number",
+        "minPolarAngle?": "number",
+        "maxPolarAngle?": "number",
+        "autoRotate?": "boolean",
+        "autoRotateSpeed?": "number",
+        "enableDamping?": "boolean",
+        "dampingFactor?": "number",
+        "enableZoom?": "boolean",
+        "enablePan?": "boolean",
+        "fov?": "number",
+        "makeDefault?": "boolean"
+      },
+      "OrbitCameraRef": {
+        "getCamera": "() => THREE.PerspectiveCamera | null",
+        "getControls": "() => any",
+        "setTarget": "(target: [number, number, number]) => void"
+      },
       "Outline": "value",
-      "OutlineProps": "type",
-      "ParallaxAnimationData": "type",
+      "OutlineProps": {
+        "children": "react__default.ReactNode"
+      },
+      "ParallaxAnimationData": {
+        "type": "'sway' | 'float' | 'pulse' | 'drift' | 'wave'",
+        "amplitude": "number",
+        "frequency": "number",
+        "phase?": "number"
+      },
       "ParallaxBackground": "value",
-      "ParallaxBackgroundProps": "type",
-      "ParallaxElement": "type",
-      "ParallaxGradientData": "type",
+      "ParallaxBackgroundProps": {
+        "layers?": "ParallaxLayerConfig[]",
+        "children?": "ReactNode",
+        "scrollX?": "number",
+        "scrollY?": "number",
+        "baseWidth?": "number",
+        "baseHeight?": "number",
+        "timeOfDay?": "number",
+        "autoScroll?": "boolean",
+        "autoScrollSpeed?": "number",
+        "enableDepthFog?": "boolean",
+        "fogColor?": "THREE.Color | string | number",
+        "fogDensity?": "number"
+      },
+      "ParallaxElement": {
+        "type": "'shape' | 'sprite' | 'gradient' | 'pattern' | 'particles'",
+        "x": "number",
+        "y": "number",
+        "width": "number",
+        "height": "number",
+        "shapeData?": "ParallaxShapeData",
+        "gradientData?": "ParallaxGradientData",
+        "particleData?": "ParallaxParticleData",
+        "animation?": "ParallaxAnimationData"
+      },
+      "ParallaxGradientData": {
+        "type": "'linear' | 'radial'",
+        "stops": "Array<{ offset: number; color: THREE.Color | string | number; }>",
+        "angle?": "number"
+      },
       "ParallaxLayer": "value",
-      "ParallaxLayerConfig": "type",
-      "ParallaxLayerProps": "type",
-      "ParallaxParticleData": "type",
-      "ParallaxShapeData": "type",
-      "ParallaxState": "type",
+      "ParallaxLayerConfig": {
+        "id": "string",
+        "depth": "number",
+        "scrollSpeed": "number",
+        "verticalScrollSpeed?": "number",
+        "repeatX?": "boolean",
+        "repeatY?": "boolean",
+        "contentWidth?": "number",
+        "contentHeight?": "number",
+        "opacity?": "number",
+        "tint?": "THREE.Color | string | number",
+        "affectedByDayNight?": "boolean",
+        "dayNightColors?": "{ day: THREE.Color | string | number; night: THREE.Color | string | number; dawn: THREE.Color | string | number; dusk: THREE.Color | string | number; }",
+        "elements?": "ParallaxElement[]"
+      },
+      "ParallaxLayerProps": {
+        "children?": "ReactNode",
+        "className?": "string"
+      },
+      "ParallaxParticleData": {
+        "particleType": "'firefly' | 'leaf' | 'snow' | 'rain' | 'dust' | 'spark' | 'bubble'",
+        "count": "number",
+        "color": "THREE.Color | string | number",
+        "sizeRange": "[number, number]",
+        "speedRange": "[number, number]",
+        "lifetime": "number",
+        "spawnArea": "'full' | 'top' | 'bottom' | 'left' | 'right'"
+      },
+      "ParallaxShapeData": {
+        "shape": "'rect' | 'ellipse' | 'triangle' | 'polygon' | 'path'",
+        "color": "THREE.Color | string | number",
+        "points?": "[number, number][]",
+        "borderRadius?": "number"
+      },
+      "ParallaxState": {
+        "scrollX": "number",
+        "scrollY": "number",
+        "timeOfDay": "number",
+        "elapsedTime": "number",
+        "weather": "'none' | 'rain' | 'snow' | 'fog' | 'storm'",
+        "weatherIntensity": "number"
+      },
       "ParticleBehavior": "value",
       "ParticleBurst": "value",
-      "ParticleBurstProps": "type",
+      "ParticleBurstProps": {
+        "count?": "number",
+        "trigger?": "boolean | number",
+        "onComplete?": "() => void"
+      },
       "ParticleEmitter": "value",
-      "ParticleEmitterProps": "type",
-      "ParticleEmitterRef": "type",
+      "ParticleEmitterProps": {
+        "position?": "[number, number, number] | THREE.Vector3",
+        "positionVariance?": "[number, number, number] | THREE.Vector3",
+        "velocity?": "[number, number, number] | THREE.Vector3",
+        "velocityVariance?": "[number, number, number] | THREE.Vector3",
+        "maxParticles?": "number",
+        "emissionRate?": "number",
+        "lifetime?": "number",
+        "lifetimeVariance?": "number",
+        "startColor?": "THREE.ColorRepresentation",
+        "endColor?": "THREE.ColorRepresentation",
+        "startSize?": "number",
+        "endSize?": "number",
+        "sizeVariance?": "number",
+        "startOpacity?": "number",
+        "endOpacity?": "number",
+        "shape?": "EmissionShape",
+        "shapeParams?": "EmitterShapeParams",
+        "forces?": "ParticleForces",
+        "behavior?": "ParticleBehavior",
+        "texture?": "THREE.Texture",
+        "blending?": "THREE.Blending",
+        "depthWrite?": "boolean",
+        "sortParticles?": "boolean",
+        "autoStart?": "boolean",
+        "paused?": "boolean"
+      },
+      "ParticleEmitterRef": {
+        "emitter": "ParticleEmitter$1",
+        "emit": "(count: number) => void",
+        "burst": "(count: number) => void",
+        "reset": "() => void",
+        "setPosition": "(position: THREE.Vector3) => void",
+        "setEmissionRate": "(rate: number) => void"
+      },
       "ParticleForces": "value",
       "PauseMenu": "value",
-      "PauseMenuProps": "type",
+      "PauseMenuProps": {
+        "className?": "string",
+        "style?": "CSSProperties"
+      },
       "PersistGate": "value",
-      "PersistGateProps": "type",
+      "PersistGateProps": {
+        "loading?": "ReactNode",
+        "storageKey?": "string",
+        "children": "ReactNode"
+      },
       "PerspectivePreset": "type",
       "playRuntimeCreatureAnimationAction": "value",
       "PositionalAudio": "value",
-      "PositionalAudioProps": "type",
-      "PositionalAudioRef": "type",
+      "PositionalAudioProps": {
+        "url": "string",
+        "position?": "[number, number, number]",
+        "loop?": "boolean",
+        "autoplay?": "boolean",
+        "volume?": "number",
+        "refDistance?": "number",
+        "maxDistance?": "number",
+        "rolloffFactor?": "number",
+        "distanceModel?": "DistanceModel",
+        "playbackRate?": "number",
+        "onLoad?": "() => void",
+        "onEnd?": "() => void"
+      },
+      "PositionalAudioRef": {
+        "play": "() => void",
+        "pause": "() => void",
+        "stop": "() => void",
+        "setVolume": "(volume: number) => void",
+        "setPosition": "(x: number, y: number, z: number) => void",
+        "isPlaying": "() => boolean"
+      },
       "PostProcessingPreset": "value",
       "PressurePlate": "value",
-      "PressurePlateProps": "type",
-      "PressurePlateRef": "type",
+      "PressurePlateProps": {
+        "position?": "[number, number, number]",
+        "size?": "[number, number, number]",
+        "activationDepth?": "number",
+        "springiness?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation"
+      },
+      "PressurePlateRef": {
+        "setPressed": "(pressed: boolean) => void",
+        "getPressure": "() => number"
+      },
       "ProceduralBackgroundComponent": "value",
-      "ProceduralBackgroundComponentProps": "type",
-      "ProceduralBackgroundConfig": "type",
+      "ProceduralBackgroundComponentProps": {
+        "scrollX?": "number",
+        "scrollY?": "number"
+      },
+      "ProceduralBackgroundConfig": {
+        "biome": "'forest' | 'desert' | 'tundra' | 'marsh' | 'mountain' | 'ocean' | 'cave' | 'city'",
+        "layerCount": "number",
+        "seed?": "number",
+        "animated?": "boolean",
+        "weather?": "'none' | 'rain' | 'snow' | 'fog' | 'storm'",
+        "weatherIntensity?": "number",
+        "timeOfDay?": "number"
+      },
       "ProceduralSky": "value",
-      "ProceduralSkyProps": "type",
+      "ProceduralSkyProps": {
+        "timeOfDay?": "Partial<TimeOfDayState>",
+        "weather?": "Partial<WeatherState>",
+        "size?": "[number, number]",
+        "distance?": "number"
+      },
       "ProceduralWalk": "value",
-      "ProceduralWalkProps": "type",
-      "ProceduralWalkRef": "type",
+      "ProceduralWalkProps": {
+        "config?": "Partial<GaitConfig>",
+        "bodyRef": "react__default.RefObject<THREE.Object3D>",
+        "leftFootRef?": "react__default.RefObject<THREE.Object3D>",
+        "rightFootRef?": "react__default.RefObject<THREE.Object3D>",
+        "enabled?": "boolean",
+        "onStep?": "(foot: 'left' | 'right', position: THREE.Vector3) => void"
+      },
+      "ProceduralWalkRef": {
+        "getState": "() => GaitState | null",
+        "getPhase": "() => number",
+        "reset": "() => void"
+      },
       "ProgressBar3D": "value",
-      "ProgressBar3DProps": "type",
+      "ProgressBar3DProps": {
+        "value": "number",
+        "maxValue": "number",
+        "width?": "number",
+        "height?": "number",
+        "depth?": "number",
+        "fillColor?": "string",
+        "backgroundColor?": "string",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "billboard?": "boolean"
+      },
       "ProgressBarConfig": "value",
       "Ragdoll": "value",
-      "RagdollProps": "type",
-      "RagdollRef": "type",
+      "RagdollProps": {
+        "position?": "[number, number, number]",
+        "config?": "Partial<RagdollConfig>",
+        "scale?": "number",
+        "active?": "boolean",
+        "initialVelocity?": "[number, number, number]",
+        "children?": "react__default.ReactNode"
+      },
+      "RagdollRef": {
+        "activate": "() => void",
+        "deactivate": "() => void",
+        "applyForceToAll": "(force: [number, number, number]) => void",
+        "getBodyPart": "(name: string) => RapierRigidBody | null"
+      },
       "Rain": "value",
-      "RainProps": "type",
+      "RainProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "intensity?": "number",
+        "windStrength?": "number",
+        "wind?": "THREE.Vector3",
+        "color?": "THREE.ColorRepresentation",
+        "dropLength?": "number"
+      },
       "Raymarching": "value",
-      "RaymarchingProps": "type",
+      "RaymarchingProps": {
+        "sdfFunction": "string",
+        "maxSteps?": "number",
+        "maxDistance?": "number",
+        "minDistance?": "number",
+        "backgroundColor?": "THREE.ColorRepresentation",
+        "fogStrength?": "number",
+        "fogColor?": "THREE.ColorRepresentation"
+      },
       "RealisticEffects": "value",
-      "RealisticEffectsProps": "type",
+      "RealisticEffectsProps": {
+        "ssao?": "boolean",
+        "ssaoIntensity?": "number",
+        "bloomIntensity?": "number",
+        "toneMappingMode?": "ToneMappingMode"
+      },
       "resolveRuntimeCreatureAnimationClipName": "value",
       "resolveRuntimeMaterial": "value",
       "retargetRuntimeCreatureAnimationClip": "value",
@@ -863,198 +3211,804 @@
       "RuntimeAssetMaterialMode": "type",
       "RuntimeAssetMesh": "value",
       "RuntimeCreature": "value",
-      "RuntimeCreatureAnimationActionContext": "type",
+      "RuntimeCreatureAnimationActionContext": {
+        "creature": "CreatureRuntimeAssembly",
+        "animation": "string",
+        "clipName": "string"
+      },
       "RuntimeCreatureAnimationActionMap": "type",
-      "RuntimeCreatureAnimationBlendApplication": "type",
-      "RuntimeCreatureAnimationBlendEntry": "type",
-      "RuntimeCreatureAnimationBlendOptions": "type",
-      "RuntimeCreatureAnimationController": "type",
-      "RuntimeCreatureAnimationCrossFadeOptions": "type",
-      "RuntimeCreatureAnimationGraphController": "type",
-      "RuntimeCreatureAnimationGraphControllerOptions": "type",
-      "RuntimeCreatureAnimationGraphTransitionContext": "type",
+      "RuntimeCreatureAnimationBlendApplication": {
+        "animation": "string",
+        "action": "THREE.AnimationAction",
+        "weight": "number"
+      },
+      "RuntimeCreatureAnimationBlendEntry": {
+        "animation": "string",
+        "weight": "number",
+        "playback?": "RuntimeCreatureAnimationPlaybackOptions"
+      },
+      "RuntimeCreatureAnimationBlendOptions": {
+        "normalize?": "boolean",
+        "stopZeroWeight?": "boolean",
+        "zeroWeightStop?": "RuntimeCreatureAnimationStopOptions",
+        "reset?": "boolean"
+      },
+      "RuntimeCreatureAnimationController": {
+        "creature": "CreatureRuntimeAssembly",
+        "actions": "RuntimeCreatureAnimationActionMap",
+        "current?": "THREE.AnimationAction",
+        "resolveClipName": "(animation: string) => string",
+        "getAction": "(animation: string) => THREE.AnimationAction | undefined",
+        "play": "(animation: string, options?: RuntimeCreatureAnimationPlaybackOptions) => THREE.AnimationAction | undefined",
+        "crossFade": "(animation: string, options?: RuntimeCreatureAnimationCrossFadeOptions) => THREE.AnimationAction | undefined",
+        "stop": "(animation: string, options?: RuntimeCreatureAnimationStopOptions) => boolean",
+        "stopAll": "(options?: RuntimeCreatureAnimationStopOptions) => void"
+      },
+      "RuntimeCreatureAnimationCrossFadeOptions": {
+        "from?": "string | THREE.AnimationAction",
+        "duration?": "number",
+        "warp?": "boolean"
+      },
+      "RuntimeCreatureAnimationGraphController": {
+        "graph": "CreatureRuntimeAnimationGraph",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController",
+        "initialState": "string",
+        "currentState?": "string",
+        "getAvailableTransitions": "(event?: string) => CreatureRuntimeAnimationGraphTransition[]",
+        "canTrigger": "(event: string) => boolean",
+        "trigger": "(event: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined",
+        "enter": "(state: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined"
+      },
+      "RuntimeCreatureAnimationGraphControllerOptions": {
+        "guards?": "RuntimeCreatureAnimationGraphTransitionGuardMap",
+        "stateGuards?": "Record<string, RuntimeCreatureAnimationStateGuard>"
+      },
+      "RuntimeCreatureAnimationGraphTransitionContext": {
+        "graph": "CreatureRuntimeAnimationGraph",
+        "transition": "CreatureRuntimeAnimationGraphTransition",
+        "currentState?": "string",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController"
+      },
       "RuntimeCreatureAnimationGraphTransitionGuard": "type",
       "RuntimeCreatureAnimationGraphTransitionGuardMap": "type",
-      "RuntimeCreatureAnimationPlaybackOptions": "type",
+      "RuntimeCreatureAnimationPlaybackOptions": {
+        "fadeInDuration?": "number",
+        "fadeOutDuration?": "number",
+        "timeScale?": "number",
+        "clampWhenFinished?": "boolean",
+        "loop?": "boolean",
+        "repetitions?": "number",
+        "reset?": "boolean"
+      },
       "RuntimeCreatureAnimationRetargetDirection": "type",
-      "RuntimeCreatureAnimationRetargetMetadata": "type",
-      "RuntimeCreatureAnimationRetargetOptions": "type",
-      "RuntimeCreatureAnimationStateController": "type",
-      "RuntimeCreatureAnimationStateDefinition": "type",
-      "RuntimeCreatureAnimationStateEnterOptions": "type",
+      "RuntimeCreatureAnimationRetargetMetadata": {
+        "direction": "RuntimeCreatureAnimationRetargetDirection",
+        "renamedTracks": "number",
+        "preservedTracks": "number",
+        "trackNameMap": "Record<string, string>"
+      },
+      "RuntimeCreatureAnimationRetargetOptions": {
+        "direction?": "RuntimeCreatureAnimationRetargetDirection",
+        "name?": "string",
+        "includeUnverified?": "boolean"
+      },
+      "RuntimeCreatureAnimationStateController": {
+        "controller": "RuntimeCreatureAnimationController",
+        "states": "Record<string, RuntimeCreatureAnimationStateDefinition>",
+        "currentState?": "string",
+        "getState": "(state: string) => RuntimeCreatureAnimationStateDefinition | undefined",
+        "canEnter": "(state: string) => boolean",
+        "enter": "(state: string, options?: RuntimeCreatureAnimationStateEnterOptions) => THREE.AnimationAction | undefined"
+      },
+      "RuntimeCreatureAnimationStateDefinition": {
+        "animation": "string",
+        "guard?": "RuntimeCreatureAnimationStateGuard",
+        "playback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "transition?": "RuntimeCreatureAnimationCrossFadeOptions"
+      },
+      "RuntimeCreatureAnimationStateEnterOptions": {
+        "mode?": "RuntimeCreatureAnimationStateTransitionMode",
+        "stopPrevious?": "boolean",
+        "previousStop?": "RuntimeCreatureAnimationStopOptions"
+      },
       "RuntimeCreatureAnimationStateGuard": "type",
-      "RuntimeCreatureAnimationStateGuardContext": "type",
+      "RuntimeCreatureAnimationStateGuardContext": {
+        "currentState?": "string",
+        "nextState": "string",
+        "definition": "RuntimeCreatureAnimationStateDefinition",
+        "controller": "RuntimeCreatureAnimationController",
+        "stateController": "RuntimeCreatureAnimationStateController"
+      },
       "RuntimeCreatureAnimationStateTransitionMode": "type",
-      "RuntimeCreatureAnimationStopOptions": "type",
+      "RuntimeCreatureAnimationStopOptions": {
+        "fadeOutDuration?": "number"
+      },
       "RuntimeCreatureAsset": "value",
       "RuntimeCreatureAssetMode": "type",
-      "RuntimeCreatureAssetProps": "type",
-      "RuntimeCreatureIKChainPose": "type",
-      "RuntimeCreatureIKPoseApplication": "type",
-      "RuntimeCreatureIKPoseOptions": "type",
-      "RuntimeCreatureIKTarget": "type",
+      "RuntimeCreatureAssetProps": {
+        "creature": "CreatureRuntimeAssembly",
+        "animation?": "string",
+        "animationPlayback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "retargetAnimation?": "boolean | RuntimeCreatureAnimationRetargetOptions",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "onRigBinding?": "(plan: CreatureRuntimeRigBindingPlan) => void",
+        "onAnimationController?": "(controller: RuntimeCreatureAnimationController) => void",
+        "onAnimationGraphController?": "(controller: RuntimeCreatureAnimationGraphController) => void",
+        "animationGraph?": "CreatureRuntimeAnimationGraph",
+        "animationGraphGuards?": "RuntimeCreatureAnimationGraphControllerOptions['guards']",
+        "onAnimationAction?": "(action: THREE.AnimationAction, context: RuntimeCreatureAnimationActionContext) => void"
+      },
+      "RuntimeCreatureIKChainPose": {
+        "chain": "CreatureRuntimeIKChainPlan",
+        "target": "[number, number, number]",
+        "reached": "boolean",
+        "distanceToTarget": "number",
+        "iterations": "number",
+        "solver": "CreatureRuntimeIKChainPlan['solver']",
+        "pose": "RuntimeCreaturePose"
+      },
+      "RuntimeCreatureIKPoseApplication": {
+        "ikRig": "CreatureRuntimeIKRigPlan",
+        "pose": "RuntimeCreaturePose",
+        "chains": "RuntimeCreatureIKChainPose[]",
+        "applications": "RuntimeCreaturePoseApplication[]"
+      },
+      "RuntimeCreatureIKPoseOptions": {
+        "includeMissing?": "boolean",
+        "clampToReach?": "boolean"
+      },
+      "RuntimeCreatureIKTarget": {
+        "position": "RuntimeCreaturePoseVector"
+      },
       "RuntimeCreatureIKTargetMap": "type",
       "RuntimeCreatureInput": "type",
       "RuntimeCreaturePose": "type",
-      "RuntimeCreaturePoseApplication": "type",
+      "RuntimeCreaturePoseApplication": {
+        "key": "string",
+        "object": "THREE.Object3D",
+        "binding?": "CreatureRuntimeRigBindingPlan['bindings'][number]",
+        "transform": "RuntimeCreaturePoseTransform",
+        "applied": "RuntimeCreaturePoseChannel[]"
+      },
       "RuntimeCreaturePoseChannel": "type",
-      "RuntimeCreaturePoseOptions": "type",
+      "RuntimeCreaturePoseOptions": {
+        "includeUnverified?": "boolean"
+      },
       "RuntimeCreaturePoseQuaternion": "type",
       "RuntimeCreaturePoseScale": "type",
-      "RuntimeCreaturePoseTransform": "type",
+      "RuntimeCreaturePoseTransform": {
+        "position?": "RuntimeCreaturePoseVector",
+        "rotation?": "RuntimeCreaturePoseQuaternion",
+        "scale?": "RuntimeCreaturePoseScale"
+      },
       "RuntimeCreaturePoseVector": "type",
-      "RuntimeCreatureProps": "type",
+      "RuntimeCreatureProps": {
+        "creature": "RuntimeCreatureInput",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "assetMode?": "RuntimeCreatureAssetMode",
+        "animation?": "string",
+        "animationPlayback?": "RuntimeCreatureAnimationPlaybackOptions",
+        "retargetAnimation?": "boolean | RuntimeCreatureAnimationRetargetOptions",
+        "onRigBinding?": "(plan: CreatureRuntimeRigBindingPlan) => void",
+        "onAnimationController?": "(controller: RuntimeCreatureAnimationController) => void",
+        "onAnimationAction?": "(action: THREE.AnimationAction, context: RuntimeCreatureAnimationActionContext) => void",
+        "renderBone?": "(bone: CreatureRuntimeBone, context: RuntimeShapeRenderContext) => react__default.ReactNode",
+        "onBoneClick?": "(bone: CreatureRuntimeBone, event: ThreeEvent<MouseEvent>) => void"
+      },
       "RuntimeGeometry": "value",
-      "RuntimeMaterialOptions": "type",
+      "RuntimeMaterialOptions": {
+        "transparentVolumetrics?": "boolean",
+        "materialOverrides?": "Record<string, THREE.Material | MaterialDefinition>"
+      },
       "RuntimeProp": "value",
-      "RuntimePropCannonBodyHandle": "type",
+      "RuntimePropCannonBodyHandle": {
+        "type?": "RuntimePropCannonBodyType",
+        "collisionFilterMask?": "number",
+        "wakeUp?": "() => void"
+      },
       "RuntimePropCannonBodyType": "type",
-      "RuntimePropCannonPhysicsHandleOptions": "type",
+      "RuntimePropCannonPhysicsHandleOptions": {
+        "body?": "RuntimePropCannonBodyHandle | null",
+        "bodyTypes?": "Partial<Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropCannonBodyType>>",
+        "enabledCollisionFilterMask?": "number",
+        "disabledCollisionFilterMask?": "number",
+        "wakeUp?": "boolean"
+      },
       "RuntimePropInput": "type",
-      "RuntimePropInteractionContext": "type",
-      "RuntimePropInteractionControllerOptions": "type",
-      "RuntimePropInteractionControllerState": "type",
+      "RuntimePropInteractionContext": {
+        "runtime": "PropRuntimeAssembly",
+        "node": "PropRuntimeNode",
+        "event": "ThreeEvent<MouseEvent>",
+        "physicsApplications": "RuntimePropPhysicsApplication[]"
+      },
+      "RuntimePropInteractionControllerOptions": {
+        "initialState?": "PropRuntimeInteractionState"
+      },
+      "RuntimePropInteractionControllerState": {
+        "runtime": "PropRuntimeAssembly",
+        "state": "PropRuntimeInteractionState",
+        "setState": "(state: PropRuntimeInteractionState) => PropRuntimeInteractionState",
+        "reset": "(state?: PropRuntimeInteractionState) => PropRuntimeInteractionState",
+        "execute": "(action: string | PropRuntimeInteractionAction) => PropRuntimeInteractionResult"
+      },
       "RuntimePropInteractionHandler": "type",
       "RuntimePropInteractionPanel": "value",
-      "RuntimePropInteractionPanelContext": "type",
-      "RuntimePropInteractionPanelProps": "type",
-      "RuntimePropInteractionPanelResultContext": "type",
+      "RuntimePropInteractionPanelContext": {
+        "runtime": "PropRuntimeAssembly",
+        "state": "PropRuntimeInteractionState"
+      },
+      "RuntimePropInteractionPanelProps": {
+        "prop": "RuntimePropInput",
+        "initialState?": "PropRuntimeInteractionState",
+        "actions?": "PropRuntimeInteractionAction[]",
+        "title?": "react__default.ReactNode",
+        "emptyLabel?": "react__default.ReactNode",
+        "showState?": "boolean",
+        "showStatus?": "boolean",
+        "showReset?": "boolean",
+        "className?": "string",
+        "style?": "react__default.CSSProperties",
+        "buttonStyle?": "react__default.CSSProperties",
+        "actionFilter?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => boolean",
+        "actionLabel?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => react__default.ReactNode",
+        "actionDisabled?": "(action: PropRuntimeInteractionAction, context: RuntimePropInteractionPanelContext) => boolean",
+        "onInteraction?": "(result: PropRuntimeInteractionResult, context: RuntimePropInteractionPanelResultContext) => void",
+        "onStateChange?": "(state: PropRuntimeInteractionState, context: RuntimePropInteractionPanelContext) => void"
+      },
+      "RuntimePropInteractionPanelResultContext": {
+        "result": "PropRuntimeInteractionResult"
+      },
       "RuntimePropInteractionSelector": "type",
-      "RuntimePropObjectPhysicsAdapterOptions": "type",
-      "RuntimePropPhysicsAdapter": "type",
-      "RuntimePropPhysicsAdapterContext": "type",
-      "RuntimePropPhysicsApplication": "type",
-      "RuntimePropPhysicsApplicationOptions": "type",
+      "RuntimePropObjectPhysicsAdapterOptions": {
+        "handleKey?": "string",
+        "resolveHandle?": "(context: RuntimePropPhysicsAdapterContext) => RuntimePropPhysicsHandle | null | undefined"
+      },
+      "RuntimePropPhysicsAdapter": {
+        "setMode?": "(context: RuntimePropPhysicsAdapterContext) => void",
+        "setColliderEnabled?": "(enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void",
+        "wakeBody?": "(context: RuntimePropPhysicsAdapterContext) => void"
+      },
+      "RuntimePropPhysicsAdapterContext": {
+        "runtime": "PropRuntimeAssembly",
+        "result": "PropRuntimeInteractionResult",
+        "effect": "RuntimePropPhysicsEffect",
+        "node": "PropRuntimeNode",
+        "object": "THREE.Object3D",
+        "state": "RuntimePropPhysicsObjectState"
+      },
+      "RuntimePropPhysicsApplication": {
+        "effect": "RuntimePropPhysicsEffect",
+        "node": "PropRuntimeNode",
+        "object": "THREE.Object3D",
+        "state": "RuntimePropPhysicsObjectState"
+      },
+      "RuntimePropPhysicsApplicationOptions": {
+        "adapter?": "RuntimePropPhysicsAdapter"
+      },
       "RuntimePropPhysicsEffect": "type",
-      "RuntimePropPhysicsHandle": "type",
-      "RuntimePropPhysicsHandleAttachOptions": "type",
-      "RuntimePropPhysicsObjectState": "type",
-      "RuntimePropProps": "type",
+      "RuntimePropPhysicsHandle": {
+        "setMode?": "(mode: RuntimePhysicsProfile['mode'], context: RuntimePropPhysicsAdapterContext) => void",
+        "setColliderEnabled?": "(enabled: boolean, context: RuntimePropPhysicsAdapterContext) => void",
+        "wakeBody?": "(context: RuntimePropPhysicsAdapterContext) => void"
+      },
+      "RuntimePropPhysicsHandleAttachOptions": {
+        "handleKey?": "string"
+      },
+      "RuntimePropPhysicsObjectState": {
+        "mode?": "RuntimePhysicsProfile['mode']",
+        "colliderEnabled?": "boolean",
+        "awake?": "boolean",
+        "lastOperation": "RuntimePropPhysicsEffect['operation']"
+      },
+      "RuntimePropProps": {
+        "prop": "RuntimePropInput",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]",
+        "castShadow?": "boolean",
+        "receiveShadow?": "boolean",
+        "assetMaterialMode?": "RuntimeAssetMaterialMode",
+        "renderNode?": "(node: PropRuntimeNode, context: RuntimeShapeRenderContext) => react__default.ReactNode",
+        "onNodeClick?": "(node: PropRuntimeNode, event: ThreeEvent<MouseEvent>) => void",
+        "interactionState?": "PropRuntimeInteractionState",
+        "selectInteractionAction?": "RuntimePropInteractionSelector",
+        "onInteraction?": "RuntimePropInteractionHandler",
+        "applyPhysicsEffects?": "boolean",
+        "physicsAdapter?": "RuntimePropPhysicsAdapter"
+      },
       "RuntimePropRapierBodyType": "type",
-      "RuntimePropRapierColliderHandle": "type",
-      "RuntimePropRapierPhysicsHandleOptions": "type",
-      "RuntimePropRapierRigidBodyHandle": "type",
-      "RuntimeShapeRenderContext": "type",
+      "RuntimePropRapierColliderHandle": {
+        "setEnabled?": "(enabled: boolean) => void"
+      },
+      "RuntimePropRapierPhysicsHandleOptions": {
+        "body?": "RuntimePropRapierRigidBodyHandle | null",
+        "colliders?": "readonly (RuntimePropRapierColliderHandle | null | undefined)[]",
+        "bodyTypes?": "Partial<Record<NonNullable<RuntimePhysicsProfile['mode']>, RuntimePropRapierBodyType>>",
+        "wakeUp?": "boolean",
+        "disableBodyWhenColliderDisabled?": "boolean"
+      },
+      "RuntimePropRapierRigidBodyHandle": {
+        "setBodyType?": "(type: RuntimePropRapierBodyType, wakeUp: boolean) => void",
+        "setEnabled?": "(enabled: boolean) => void",
+        "wakeUp?": "() => void"
+      },
+      "RuntimeShapeRenderContext": {
+        "material": "THREE.Material",
+        "materialSlot": "RuntimeMaterialSlot"
+      },
       "SceneCard": "value",
-      "SceneCardProps": "type",
+      "SceneCardProps": {
+        "activeProfileId?": "string",
+        "availableSaveSlots?": "string[]",
+        "saveSlotInfo?": "Record<string, SaveInfo | null | undefined>",
+        "className?": "string",
+        "onAction?": "(action: SceneShellActionDefinition) => void | Promise<void>",
+        "pendingActionId?": "string | null",
+        "sceneId?": "string",
+        "style?": "CSSProperties",
+        "visible?": "boolean"
+      },
       "ScreenFlash": "value",
-      "ScreenFlashProps": "type",
+      "ScreenFlashProps": {
+        "active?": "boolean",
+        "duration?": "number",
+        "color?": "string",
+        "onComplete?": "() => void"
+      },
       "screenToWorld": "value",
       "SepiaSettings": "value",
-      "ShaderMeshProps": "type",
-      "ShaderMeshRef": "type",
+      "ShaderMeshProps": {
+        "geometry?": "THREE.BufferGeometry",
+        "children?": "react__default.ReactNode",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "scale?": "number | [number, number, number]"
+      },
+      "ShaderMeshRef": {
+        "mesh": "THREE.Mesh | null",
+        "material": "THREE.ShaderMaterial | null"
+      },
       "SideScrollerBackground": "value",
-      "SideScrollerBackgroundProps": "type",
+      "SideScrollerBackgroundProps": {
+        "scrollX": "number",
+        "children": "ReactNode",
+        "fog?": "boolean",
+        "fogColor?": "THREE.ColorRepresentation",
+        "timeOfDay?": "number"
+      },
       "Snow": "value",
-      "SnowProps": "type",
+      "SnowProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "intensity?": "number",
+        "windStrength?": "number",
+        "wind?": "THREE.Vector3",
+        "color?": "THREE.ColorRepresentation",
+        "flakeSize?": "number"
+      },
       "SpringBone": "value",
-      "SpringBoneProps": "type",
-      "SpringBoneRef": "type",
+      "SpringBoneProps": {
+        "config?": "Partial<SpringConfig>",
+        "gravity?": "[number, number, number]",
+        "children?": "react__default.ReactNode"
+      },
+      "SpringBoneRef": {
+        "getPosition": "() => THREE.Vector3",
+        "getVelocity": "() => THREE.Vector3",
+        "reset": "() => void"
+      },
       "SpriteAnimationState": "value",
       "SpriteSheetConfig": "value",
       "SSAOSettings": "value",
       "StateChangeEvent": "value",
-      "StateConfig": "type",
+      "StateConfig": {
+        "name": "string",
+        "onEnter?": "(entity: YUKA.GameEntity) => void",
+        "onExecute?": "(entity: YUKA.GameEntity) => void",
+        "onExit?": "(entity: YUKA.GameEntity) => void"
+      },
       "StateDebugger": "value",
-      "StateDebuggerProps": "type",
+      "StateDebuggerProps": {
+        "position?": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+        "collapsed?": "boolean"
+      },
       "stopRuntimeCreatureAnimationAction": "value",
       "syncYukaToThree": "value",
       "TailPhysics": "value",
-      "TailPhysicsProps": "type",
-      "TailPhysicsRef": "type",
+      "TailPhysicsProps": {
+        "segmentCount": "number",
+        "segmentLength?": "number",
+        "config?": "Partial<SpringConfig>",
+        "gravity?": "[number, number, number]",
+        "visualize?": "boolean",
+        "visualColor?": "string",
+        "visualRadius?": "number",
+        "children?": "react__default.ReactNode"
+      },
+      "TailPhysicsRef": {
+        "getPositions": "() => THREE.Vector3[]",
+        "reset": "() => void"
+      },
       "threeVector3ToYuka": "value",
-      "TimeOfDayState": "type",
+      "TimeOfDayState": {
+        "sunIntensity": "number",
+        "sunAngle": "number",
+        "sunElevation?": "number",
+        "ambientLight": "number",
+        "starVisibility": "number",
+        "fogDensity": "number"
+      },
       "Tooltip": "value",
       "TooltipConfig": "value",
-      "TooltipProps": "type",
+      "TooltipProps": {
+        "x?": "number",
+        "y?": "number",
+        "visible?": "boolean",
+        "children?": "ReactNode",
+        "className?": "string"
+      },
       "ToonMesh": "value",
-      "ToonMeshProps": "type",
+      "ToonMeshProps": {
+        "showOutline?": "boolean"
+      },
       "ToonMeshRef": "type",
       "toVector3": "value",
       "TreeInstances": "value",
       "TriggerBehavior": "type",
-      "TriggerBehaviorConfig": "type",
+      "TriggerBehaviorConfig": {
+        "type": "TriggerBehavior",
+        "axis?": "'x' | 'y' | 'z'",
+        "threshold?": "number",
+        "springiness?": "number",
+        "returnSpeed?": "number"
+      },
       "TriggerComposer": "value",
-      "TriggerComposerProps": "type",
-      "TriggerComposerRef": "type",
-      "TriggerConfig": "type",
-      "TriggerMaterialConfig": "type",
+      "TriggerComposerProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "shapeConfig": "TriggerConfig",
+        "materialConfig?": "TriggerMaterialConfig",
+        "behaviorConfig?": "TriggerBehaviorConfig"
+      },
+      "TriggerComposerRef": {
+        "setValue": "(value: number) => void",
+        "getMesh": "() => THREE.Mesh | null"
+      },
+      "TriggerConfig": {
+        "shape": "TriggerShape",
+        "size?": "[number, number, number] | number",
+        "segments?": "number",
+        "customGeometry?": "THREE.BufferGeometry"
+      },
+      "TriggerMaterialConfig": {
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation",
+        "roughness?": "number",
+        "metalness?": "number",
+        "emissiveIntensity?": "number"
+      },
       "TriggerShape": "type",
       "UIAnchor": "value",
       "UnderwaterOverlay": "value",
-      "UnderwaterOverlayProps": "type",
-      "UnderwaterSettings": "type",
+      "UnderwaterOverlayProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "causticStrength?": "number",
+        "waterSurface?": "number"
+      },
+      "UnderwaterSettings": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "causticStrength?": "number",
+        "waterSurface?": "number"
+      },
       "useAudioContext": "value",
       "useAudioListener": "value",
       "useAudioManager": "value",
       "useAutoSave": "value",
-      "UseAutoSaveOptions": "type",
-      "UseAutoSaveReturn": "type",
+      "UseAutoSaveOptions": {
+        "onSave?": "(success: boolean) => void"
+      },
+      "UseAutoSaveReturn": {
+        "isEnabled": "boolean",
+        "enable": "() => void",
+        "disable": "() => void",
+        "triggerSave": "() => Promise<void>",
+        "loadLatest": "() => Promise<boolean>"
+      },
       "useCameraTransition": "value",
       "useCheckpoint": "value",
-      "UseCheckpointReturn": "type",
+      "UseCheckpointReturn": {
+        "createCheckpoint": "(name: string, description?: string, metadata?: Record<string, unknown>) => Promise<boolean>",
+        "restoreCheckpoint": "(name: string) => Promise<boolean>",
+        "deleteCheckpoint": "(name: string) => Promise<boolean>",
+        "hasCheckpoint": "(name: string) => boolean",
+        "listCheckpoints": "() => CheckpointData<T>[]"
+      },
       "useGameState": "value",
       "useGameStateContext": "value",
       "useParallax": "value",
-      "UseParallaxOptions": "type",
-      "UseParallaxReturn": "type",
+      "UseParallaxOptions": {
+        "initialScroll?": "{ x: number; y: number; }",
+        "initialTimeOfDay?": "number",
+        "enableFog?": "boolean",
+        "fogColor?": "THREE.Color | string | number",
+        "fogDensity?": "number",
+        "maxFogOpacity?": "number",
+        "autoTimeOfDay?": "boolean",
+        "timeScale?": "number",
+        "depthSpeedFactor?": "number"
+      },
+      "UseParallaxReturn": {
+        "state": "ParallaxState",
+        "setScroll": "(x: number, y: number) => void",
+        "setTimeOfDay": "(time: number) => void",
+        "setWeather": "(weather: ParallaxState['weather'], intensity?: number) => void",
+        "getLayerOffset": "(depth: number) => { x: number; y: number; }",
+        "getLayerOpacity": "(depth: number, baseOpacity?: number) => number",
+        "getLayerTint": "(config: ParallaxLayerConfig) => THREE.Color"
+      },
       "useRuntimePropInteractionController": "value",
       "useSaveLoad": "value",
-      "UseSaveLoadOptions": "type",
-      "UseSaveLoadReturn": "type",
+      "UseSaveLoadOptions": {
+        "version?": "number"
+      },
+      "UseSaveLoadReturn": {
+        "save": "(slot?: string) => Promise<boolean>",
+        "load": "(slot?: string) => Promise<boolean>",
+        "deleteSave": "(slot: string) => Promise<boolean>",
+        "listSaves": "() => Promise<string[]>",
+        "exportJSON": "() => string",
+        "importJSON": "(json: string) => boolean"
+      },
       "useSpatialAudio": "value",
       "useUndo": "value",
-      "UseUndoReturn": "type",
+      "UseUndoReturn": {
+        "undo": "() => void",
+        "redo": "() => void",
+        "canUndo": "boolean",
+        "canRedo": "boolean"
+      },
       "useYukaContext": "value",
       "VegetationLODConfig": "value",
-      "VegetationProps": "type",
+      "VegetationProps": {
+        "count?": "number",
+        "areaSize?": "number",
+        "biomes?": "BiomeData[]",
+        "heightFunc?": "(x: number, z: number) => number",
+        "height?": "number",
+        "color?": "THREE.ColorRepresentation"
+      },
       "VehicleBody": "value",
-      "VehicleBodyProps": "type",
-      "VehicleBodyRef": "type",
+      "VehicleBodyProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "config?": "Partial<VehicleConfig>",
+        "enableInput?": "boolean",
+        "inputMap?": "{ accelerate?: string[]; brake?: string[]; steerLeft?: string[]; steerRight?: string[]; handbrake?: string[]; }",
+        "onSpeedChange?": "(speed: number) => void",
+        "children?": "react__default.ReactNode"
+      },
+      "VehicleBodyRef": {
+        "getRigidBody": "() => RapierRigidBody | null",
+        "getSpeed": "() => number",
+        "getSteeringAngle": "() => number"
+      },
       "VignetteSettings": "value",
       "VintageEffects": "value",
-      "VintageEffectsProps": "type",
+      "VintageEffectsProps": {
+        "sepiaIntensity?": "number",
+        "vignetteDarkness?": "number",
+        "filmGrain?": "boolean",
+        "saturation?": "number"
+      },
       "VirtualJoystick": "value",
-      "VirtualJoystickProps": "type",
+      "VirtualJoystickProps": {
+        "onMove?": "(x: number, y: number) => void",
+        "onChange?": "(vector: JoystickVector) => void",
+        "onStart?": "() => void",
+        "onEnd?": "() => void",
+        "size?": "number",
+        "color?": "string",
+        "accent?": "string",
+        "opacity?": "number",
+        "deadZone?": "number",
+        "disabled?": "boolean",
+        "allowMouse?": "boolean",
+        "hostSelector?": "string",
+        "label?": "string",
+        "className?": "string",
+        "containerStyle?": "react__default.CSSProperties",
+        "baseStyle?": "react__default.CSSProperties",
+        "style?": "react__default.CSSProperties"
+      },
       "VolumetricClouds": "value",
-      "VolumetricCloudsProps": "type",
+      "VolumetricCloudsProps": {
+        "cloudBase?": "number",
+        "cloudHeight?": "number",
+        "coverage?": "number",
+        "density?": "number",
+        "cloudColor?": "THREE.Color",
+        "shadowColor?": "THREE.Color",
+        "wind?": "Partial<WindConfig>",
+        "dayNight?": "Partial<DayNightConfig>",
+        "steps?": "number",
+        "lightSteps?": "number",
+        "radius?": "number"
+      },
       "VolumetricEffects": "value",
-      "VolumetricEffectsProps": "type",
+      "VolumetricEffectsProps": {
+        "enableFog?": "boolean",
+        "enableUnderwater?": "boolean",
+        "fogSettings?": "VolumetricFogSettings",
+        "underwaterSettings?": "UnderwaterSettings"
+      },
       "VolumetricFogMesh": "value",
-      "VolumetricFogMeshProps": "type",
-      "VolumetricFogSettings": "type",
+      "VolumetricFogMeshProps": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "height?": "number",
+        "size?": "number"
+      },
+      "VolumetricFogSettings": {
+        "color?": "THREE.ColorRepresentation",
+        "density?": "number",
+        "height?": "number"
+      },
       "VolumetricPointLight": "value",
-      "VolumetricPointLightProps": "type",
-      "VolumetricPointLightRef": "type",
+      "VolumetricPointLightProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "radius?": "number",
+        "dustDensity?": "number",
+        "flicker?": "number",
+        "enabled?": "boolean"
+      },
+      "VolumetricPointLightRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "mesh": "THREE.Mesh | null",
+        "setIntensity": "(intensity: number) => void"
+      },
       "VolumetricSpotlight": "value",
-      "VolumetricSpotlightProps": "type",
-      "VolumetricSpotlightRef": "type",
+      "VolumetricSpotlightProps": {
+        "position?": "THREE.Vector3 | [number, number, number]",
+        "target?": "THREE.Vector3 | [number, number, number]",
+        "color?": "THREE.ColorRepresentation",
+        "intensity?": "number",
+        "angle?": "number",
+        "penumbra?": "number",
+        "distance?": "number",
+        "dustDensity?": "number",
+        "enabled?": "boolean"
+      },
+      "VolumetricSpotlightRef": {
+        "material": "THREE.ShaderMaterial | null",
+        "mesh": "THREE.Mesh | null",
+        "setIntensity": "(intensity: number) => void"
+      },
       "WallButton": "value",
-      "WallButtonProps": "type",
-      "WallButtonRef": "type",
+      "WallButtonProps": {
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "size?": "number",
+        "type?": "'momentary' | 'toggle'",
+        "color?": "THREE.ColorRepresentation",
+        "activeColor?": "THREE.ColorRepresentation",
+        "housingColor?": "THREE.ColorRepresentation"
+      },
+      "WallButtonRef": {
+        "press": "() => void",
+        "setActive": "(active: boolean) => void"
+      },
       "Water": "value",
-      "WaterProps": "type",
+      "WaterProps": {
+        "position?": "[number, number, number]",
+        "size?": "number",
+        "segments?": "number",
+        "color?": "THREE.ColorRepresentation",
+        "opacity?": "number",
+        "waveSpeed?": "number",
+        "waveHeight?": "number"
+      },
       "WeatherAudio": "value",
-      "WeatherAudioProps": "type",
-      "WeatherState": "type",
+      "WeatherAudioProps": {
+        "rainUrl?": "string",
+        "thunderUrl?": "string",
+        "windUrl?": "string",
+        "rainIntensity?": "number",
+        "windIntensity?": "number",
+        "thunderActive?": "boolean",
+        "fadeTime?": "number"
+      },
+      "WeatherState": {
+        "intensity": "number"
+      },
       "WeatherSystem": "value",
-      "WeatherSystemProps": "type",
+      "WeatherSystemProps": {
+        "weather?": "Partial<WeatherStateConfig>",
+        "rainCount?": "number",
+        "snowCount?": "number",
+        "areaSize?": "number",
+        "height?": "number",
+        "enableLightning?": "boolean"
+      },
       "YukaEntityManager": "value",
-      "YukaEntityManagerContextValue": "type",
-      "YukaEntityManagerProps": "type",
+      "YukaEntityManagerContextValue": {
+        "manager": "YUKA.EntityManager",
+        "time": "YUKA.Time",
+        "register": "(entity: YUKA.GameEntity) => void",
+        "unregister": "(entity: YUKA.GameEntity) => void"
+      },
+      "YukaEntityManagerProps": {
+        "children?": "ReactNode"
+      },
       "YukaNavMesh": "value",
-      "YukaNavMeshProps": "type",
-      "YukaNavMeshRef": "type",
+      "YukaNavMeshProps": {
+        "geometry": "THREE.BufferGeometry",
+        "visible?": "boolean",
+        "wireframe?": "boolean",
+        "color?": "THREE.ColorRepresentation"
+      },
+      "YukaNavMeshRef": {
+        "navMesh": "YUKA.NavMesh",
+        "findPath": "(from: THREE.Vector3, to: THREE.Vector3) => THREE.Vector3[]",
+        "getRandomRegion": "() => YUKA.Polygon | null",
+        "getClosestRegion": "(point: THREE.Vector3) => YUKA.Polygon | null"
+      },
       "YukaPath": "value",
-      "YukaPathProps": "type",
-      "YukaPathRef": "type",
+      "YukaPathProps": {
+        "waypoints": "Array<[number, number, number]>",
+        "loop?": "boolean",
+        "visible?": "boolean",
+        "color?": "THREE.ColorRepresentation",
+        "lineWidth?": "number",
+        "showWaypoints?": "boolean",
+        "waypointSize?": "number",
+        "waypointColor?": "THREE.ColorRepresentation",
+        "showDirection?": "boolean"
+      },
+      "YukaPathRef": {
+        "path": "YUKA.Path"
+      },
       "YukaStateMachine": "value",
-      "YukaStateMachineProps": "type",
-      "YukaStateMachineRef": "type",
+      "YukaStateMachineProps": {
+        "entity?": "YUKA.GameEntity",
+        "states": "StateConfig[]",
+        "initialState": "string",
+        "globalState?": "StateConfig"
+      },
+      "YukaStateMachineRef": {
+        "stateMachine": "YUKA.StateMachine<YUKA.GameEntity>",
+        "changeTo": "(stateName: string) => void",
+        "revert": "() => void",
+        "getCurrentState": "() => string | null"
+      },
       "yukaVector3ToThree": "value",
       "YukaVehicle": "value",
-      "YukaVehicleProps": "type",
-      "YukaVehicleRef": "type"
+      "YukaVehicleProps": {
+        "maxSpeed?": "number",
+        "maxForce?": "number",
+        "mass?": "number",
+        "position?": "[number, number, number]",
+        "rotation?": "[number, number, number]",
+        "children?": "ReactNode",
+        "onUpdate?": "(vehicle: YUKA.Vehicle, delta: number) => void"
+      },
+      "YukaVehicleRef": {
+        "vehicle": "YUKA.Vehicle",
+        "addBehavior": "(behavior: YUKA.SteeringBehavior) => void",
+        "removeBehavior": "(behavior: YUKA.SteeringBehavior) => void",
+        "clearBehaviors": "() => void"
+      }
     },
     "./hooks": {
       "ControlHint": "value",
@@ -1107,8 +4061,20 @@
       "StrataCanvas": "value",
       "StrataCanvasHostProps": "type",
       "strataCanvasHostStyle": "value",
-      "StrataCanvasProps": "type",
-      "StrataCanvasQuality": "type"
+      "StrataCanvasProps": {
+        "active": "boolean",
+        "quality?": "StrataCanvasQuality",
+        "onContextLost?": "(canvas: HTMLCanvasElement) => void",
+        "onContextRestored?": "(canvas: HTMLCanvasElement) => void",
+        "preserveDrawingBuffer?": "boolean",
+        "toneMappingExposure?": "number",
+        "hostProps?": "StrataCanvasHostProps",
+        "children": "ReactNode"
+      },
+      "StrataCanvasQuality": {
+        "maxDpr": "number",
+        "antialias": "boolean"
+      }
     }
   }
 }

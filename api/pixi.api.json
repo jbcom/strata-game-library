@@ -6,9 +6,25 @@
       "applyFilterResolutionFix": "value",
       "detectReduceMotion": "value",
       "getDpr": "value",
-      "MountOptions": "type",
+      "MountOptions": {
+        "canvas?": "HTMLCanvasElement",
+        "container?": "HTMLElement",
+        "background?": "number | string",
+        "maxResolution?": "number",
+        "pixelSnap?": "boolean",
+        "reduceMotion?": "boolean",
+        "resizeMode?": "'observer' | 'resizeTo' | 'manual'",
+        "resizeTarget?": "HTMLElement",
+        "onResize?": "(width: number, height: number) => void"
+      },
       "mountPixi": "value",
-      "PixiMountHandle": "type"
+      "PixiMountHandle": {
+        "app": "Application",
+        "canvas": "HTMLCanvasElement",
+        "reduceMotion": "boolean",
+        "width": "number",
+        "height": "number"
+      }
     }
   }
 }

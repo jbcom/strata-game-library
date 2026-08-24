@@ -145,7 +145,22 @@ function collectExports(dtsPath, seen = new Set()) {
           const name = element.name.text;
           // `export type { X }` on the statement, or `export { type X }` inline
           const isType = statement.isTypeOnly || element.isTypeOnly;
-          out.set(name, isType ? 'type' : kindFromDeclaration(source, element, name));
+          // Always consult the local declaration: `export type { X }` tells us
+          // X is a type but not its SHAPE, and the shape is what a consumer
+          // actually breaks against.
+          let resolved = kindFromDeclaration(source, element, name);
+          // `export { X } from './chunk'` puts the declaration in the OTHER
+          // file, so the local scan finds nothing and falls through to 'value'.
+          // dist/index.d.ts is exactly this: one re-export line for the whole
+          // package. Follow the specifier to recover the shape.
+          if (resolved === 'value' && isLocal && spec) {
+            const target = resolveDts(join(dirname(real), spec));
+            if (target) {
+              const fromModule = collectExports(target, new Set(seen)).get(name);
+              if (fromModule !== undefined) resolved = fromModule;
+            }
+          }
+          out.set(name, isType && resolved === 'value' ? 'type' : resolved);
         }
         continue;
       }
@@ -183,7 +198,7 @@ function collectExports(dtsPath, seen = new Set()) {
         if (ts.isIdentifier(decl.name)) out.set(decl.name.text, 'value');
       }
     } else if (statement.name && ts.isIdentifier(statement.name)) {
-      out.set(statement.name.text, isTypeDecl ? 'type' : 'value');
+      out.set(statement.name.text, isTypeDecl ? (shapeOf(statement) ?? 'type') : 'value');
     }
   }
 
@@ -197,13 +212,50 @@ function collectExports(dtsPath, seen = new Set()) {
  * conservative choice, since treating a value as a type would understate a
  * breaking change.
  */
+/**
+ * Record the SHAPE of an interface or object-type alias, not merely that it
+ * exists — `{ deadZone?: number; accent?: string }` rather than `"type"`.
+ *
+ * Without this the gate is blind to the changes most likely to break a
+ * consumer. Seven props were added to VirtualJoystickProps in one change and
+ * the snapshot did not move by a single character; a REMOVED prop, or one
+ * whose type narrowed, would have been equally invisible. Symbol names alone
+ * only catch a whole export appearing or vanishing.
+ *
+ * Member types are recorded as source text. That is deliberately literal: it
+ * flags a rename from `string` to `Color` even when the two are structurally
+ * identical, which for a published API is a change worth seeing.
+ */
+function shapeOf(statement) {
+  const members = ts.isInterfaceDeclaration(statement)
+    ? statement.members
+    : ts.isTypeAliasDeclaration(statement) && ts.isTypeLiteralNode(statement.type)
+      ? statement.type.members
+      : null;
+  if (!members) return null;
+
+  const shape = {};
+  for (const member of members) {
+    if (!member.name || !ts.isPropertySignature(member)) continue;
+    const key = member.name.getText?.() ?? String(member.name.text ?? '');
+    if (!key) continue;
+    const optional = member.questionToken ? '?' : '';
+    const type = member.type?.getText?.().replace(/\s+/g, ' ') ?? 'unknown';
+    shape[`${key}${optional}`] = type;
+  }
+  return Object.keys(shape).length ? shape : null;
+}
+
 function kindFromDeclaration(source, _element, name) {
   for (const statement of source.statements) {
     if (
       (ts.isInterfaceDeclaration(statement) || ts.isTypeAliasDeclaration(statement)) &&
       statement.name?.text === name
     ) {
-      return 'type';
+      // tsup inlines the declaration WITHOUT an export keyword and re-exports
+      // it by name, so this by-name scan is the only place the shape is
+      // reachable — the exported-declaration branch skips it entirely.
+      return shapeOf(statement) ?? 'type';
     }
   }
   return 'value';
@@ -340,8 +392,25 @@ function diffReports(committed, fresh) {
       if (!(name in after)) problems.push(`  - ${subpath} :: ${name} (${before[name]})`);
     }
     for (const name of Object.keys(after)) {
-      if (name in before && before[name] !== after[name]) {
-        problems.push(`  ~ ${subpath} :: ${name} (${before[name]} -> ${after[name]})`);
+      if (!(name in before)) continue;
+      const a = before[name];
+      const b = after[name];
+      // Shapes are objects, so `!==` compares references and fires on every
+      // symbol every run. Compare by value, and report which MEMBERS moved —
+      // "[object Object] -> [object Object]" tells a reviewer nothing.
+      if (typeof a === 'object' && typeof b === 'object' && a && b) {
+        const removed = Object.keys(a).filter((k) => !(k in b));
+        const added = Object.keys(b).filter((k) => !(k in a));
+        const retyped = Object.keys(b).filter((k) => k in a && a[k] !== b[k]);
+        if (!removed.length && !added.length && !retyped.length) continue;
+        const parts = [
+          ...removed.map((k) => `-${k}`),
+          ...added.map((k) => `+${k}`),
+          ...retyped.map((k) => `~${k}: ${a[k]} -> ${b[k]}`),
+        ];
+        problems.push(`  ~ ${subpath} :: ${name} { ${parts.join(', ')} }`);
+      } else if (a !== b) {
+        problems.push(`  ~ ${subpath} :: ${name} (${a} -> ${b})`);
       }
     }
   }

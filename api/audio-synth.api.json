@@ -6,7 +6,12 @@
       "AMBIENT_THEME": "value",
       "AudioSynthContextValue": "value",
       "AudioSynthProvider": "value",
-      "AudioSynthProviderProps": "value",
+      "AudioSynthProviderProps": {
+        "children": "ReactNode",
+        "masterVolume?": "number",
+        "debug?": "boolean",
+        "autoInit?": "boolean"
+      },
       "COMBAT_THEME": "value",
       "CONFIRM": "value",
       "createSynthManager": "value",
@@ -26,7 +31,7 @@
       "MUSIC_PATTERNS": "value",
       "MusicNote": "value",
       "MusicPattern": "value",
-      "MusicPatternId": "value",
+      "MusicPatternId": "type",
       "OscillatorType": "value",
       "PICKUP": "value",
       "POWERUP": "value",
@@ -34,7 +39,7 @@
       "SELECT": "value",
       "SFX_PRESETS": "value",
       "SFXPreset": "value",
-      "SFXPresetId": "value",
+      "SFXPresetId": "type",
       "SHOP_THEME": "value",
       "SPLASH": "value",
       "SynthManager": "value",
@@ -48,7 +53,12 @@
     },
     "./components": {
       "AudioSynthProvider": "value",
-      "AudioSynthProviderProps": "type",
+      "AudioSynthProviderProps": {
+        "children": "ReactNode",
+        "masterVolume?": "number",
+        "debug?": "boolean",
+        "autoInit?": "boolean"
+      },
       "useAudioReady": "value",
       "useAudioSynth": "value",
       "usePlayMusic": "value",

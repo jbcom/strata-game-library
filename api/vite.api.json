@@ -3,38 +3,120 @@
   "version": "0.1.0",
   "subpaths": {
     ".": {
-      "BrowserTestFragment": "type",
+      "BrowserTestFragment": {
+        "enabled": "true",
+        "instances": "Array<{ browser: PlaywrightBrowserName; }>",
+        "headless": "false",
+        "screenshotFailures": "true",
+        "fileParallelism": "boolean",
+        "provider": "ReturnType<typeof playwright>"
+      },
       "defaultBrowserLaunchArgs": "value",
       "defineBrowserTest": "value",
-      "DefineBrowserTestOptions": "type",
+      "DefineBrowserTestOptions": {
+        "include?": "string[]",
+        "optimizeDepsInclude?": "string[]",
+        "includeThree?": "boolean",
+        "fileParallelism?": "boolean",
+        "extraLaunchArgs?": "string[]"
+      },
       "defineGamePreset": "value",
-      "DefineGamePresetOptions": "type",
+      "DefineGamePresetOptions": {
+        "appName": "string",
+        "base?": "string",
+        "plugins?": "PluginOption[]",
+        "heavyDeps?": "HeavyDepsOptions",
+        "watchIgnore?": "string[]",
+        "dedupe?": "string[]",
+        "srcDir?": "string",
+        "overrides?": "UserConfig"
+      },
       "defineUnitTest": "value",
-      "DefineUnitTestOptions": "type",
-      "HeavyDepsOptions": "type",
+      "DefineUnitTestOptions": {
+        "include?": "string[]",
+        "exclude?": "string[]",
+        "environment?": "'jsdom' | 'node'"
+      },
+      "HeavyDepsOptions": {
+        "three?": "boolean",
+        "rapier?": "boolean",
+        "phaser?": "boolean"
+      },
       "libraryBuild": "value",
-      "LibraryBuildOptions": "type",
+      "LibraryBuildOptions": {
+        "name": "string",
+        "entry?": "Options['entry']",
+        "external?": "(string | RegExp)[]",
+        "jsx?": "'transform' | 'preserve' | 'automatic'",
+        "overrides?": "Options"
+      },
       "PlaywrightBrowserName": "type",
-      "UnitTestFragment": "type"
+      "UnitTestFragment": {
+        "include": "string[]",
+        "exclude": "string[]",
+        "environment": "'jsdom' | 'node'",
+        "environmentOptions?": "{ jsdom?: { url: string; }; }"
+      }
     },
     "./tsup": {
       "libraryBuild": "value",
-      "LibraryBuildOptions": "type"
+      "LibraryBuildOptions": {
+        "name": "string",
+        "entry?": "Options['entry']",
+        "external?": "(string | RegExp)[]",
+        "jsx?": "'transform' | 'preserve' | 'automatic'",
+        "overrides?": "Options"
+      }
     },
     "./vite": {
       "defineGamePreset": "value",
-      "DefineGamePresetOptions": "type",
-      "HeavyDepsOptions": "type"
+      "DefineGamePresetOptions": {
+        "appName": "string",
+        "base?": "string",
+        "plugins?": "PluginOption[]",
+        "heavyDeps?": "HeavyDepsOptions",
+        "watchIgnore?": "string[]",
+        "dedupe?": "string[]",
+        "srcDir?": "string",
+        "overrides?": "UserConfig"
+      },
+      "HeavyDepsOptions": {
+        "three?": "boolean",
+        "rapier?": "boolean",
+        "phaser?": "boolean"
+      }
     },
     "./vitest": {
-      "BrowserTestFragment": "type",
+      "BrowserTestFragment": {
+        "enabled": "true",
+        "instances": "Array<{ browser: PlaywrightBrowserName; }>",
+        "headless": "false",
+        "screenshotFailures": "true",
+        "fileParallelism": "boolean",
+        "provider": "ReturnType<typeof playwright>"
+      },
       "defaultBrowserLaunchArgs": "value",
       "defineBrowserTest": "value",
-      "DefineBrowserTestOptions": "type",
+      "DefineBrowserTestOptions": {
+        "include?": "string[]",
+        "optimizeDepsInclude?": "string[]",
+        "includeThree?": "boolean",
+        "fileParallelism?": "boolean",
+        "extraLaunchArgs?": "string[]"
+      },
       "defineUnitTest": "value",
-      "DefineUnitTestOptions": "type",
+      "DefineUnitTestOptions": {
+        "include?": "string[]",
+        "exclude?": "string[]",
+        "environment?": "'jsdom' | 'node'"
+      },
       "PlaywrightBrowserName": "type",
-      "UnitTestFragment": "type"
+      "UnitTestFragment": {
+        "include": "string[]",
+        "exclude": "string[]",
+        "environment": "'jsdom' | 'node'",
+        "environmentOptions?": "{ jsdom?: { url: string; }; }"
+      }
     }
   }
 }
