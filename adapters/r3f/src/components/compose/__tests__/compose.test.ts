@@ -144,6 +144,7 @@ void main() {
     expect(shader.uniforms[`${functionName}_scale`]?.value).toBe(plan.layers[0]?.scale);
     expect(shader.uniforms[`${functionName}_color`]?.value).toBeInstanceOf(THREE.Color);
     expect(shader.vertexShader).toContain('vStrataProceduralPosition');
+    expect(shader.fragmentShader).toContain(`uniform vec3 ${functionName}_color;`);
     expect(shader.fragmentShader).toContain(`float ${functionName}`);
     expect(shader.fragmentShader).toContain('diffuseColor.rgb = mix');
     expect(shader.fragmentShader).toContain('roughnessFactor = clamp');
