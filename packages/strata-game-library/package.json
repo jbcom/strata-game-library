@@ -99,7 +99,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome lint src/ tests/",
     "lint:fix": "biome lint --write src/ tests/",
-    "test": "pnpm run build:deps && vitest run",
+    "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
