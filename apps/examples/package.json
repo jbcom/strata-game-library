@@ -8,7 +8,7 @@
     "test": "pnpm run verify && pnpm run test:e2e",
     "test:e2e": "playwright test --project=chromium",
     "typecheck": "pnpm run verify",
-    "verify": "node scripts/verify.mjs"
+    "verify": "pnpm --dir ../../packages/strata-game-library run build && node scripts/verify.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.20.0",
