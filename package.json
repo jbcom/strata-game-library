@@ -9,6 +9,7 @@
   "scripts": {
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
+    "test:serial": "nx run-many -t test --parallel=1",
     "test:unit": "nx run-many -t test:unit",
     "test:integration": "nx run-many -t test:integration",
     "test:e2e": "nx run-many -t test:e2e",
@@ -28,7 +29,7 @@
     "docs:links": "node scripts/check-links.mjs docs/dist",
     "package:inspect": "node scripts/validate-packages.mjs",
     "package:validate": "pnpm run build && pnpm run package:inspect",
-    "release:validate": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run package:inspect && pnpm run docs:build && pnpm run docs:links",
+    "release:validate": "pnpm run lint && pnpm run typecheck && pnpm run test:serial && pnpm run package:inspect && pnpm run docs:build && pnpm run docs:links",
     "publish:ci": "node scripts/publish-workspace.mjs",
     "affected:build": "nx affected -t build",
     "affected:test": "nx affected -t test",
