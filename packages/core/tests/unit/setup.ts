@@ -503,3 +503,48 @@ if (typeof document !== 'undefined') {
     return null;
   };
 }
+
+/**
+ * Provision `localStorage` when the host Node does not.
+ *
+ * Node >= 24 defines a native `Storage` constructor but leaves `localStorage`
+ * undefined unless started with `--localstorage-file`. jsdom checks for
+ * `Storage` before installing its own implementation, sees it present, and
+ * declines — so `localStorage` stays undefined and every test touching
+ * persistence fails with "Cannot read properties of undefined (reading
+ * 'clear')".
+ *
+ * The repo pins `engines.node: ">=22 <24"` to turn that into a loud
+ * install-time error. This makes the suite work rather than merely fail
+ * loudly: an in-memory Storage is installed only when one is genuinely
+ * missing, so on Node 22 nothing changes.
+ */
+if (typeof globalThis.localStorage === 'undefined') {
+  const store = new Map<string, string>();
+  const memoryStorage: Storage = {
+    get length() {
+      return store.size;
+    },
+    clear: () => store.clear(),
+    getItem: (key: string) => store.get(String(key)) ?? null,
+    key: (index: number) => [...store.keys()][index] ?? null,
+    removeItem: (key: string) => {
+      store.delete(String(key));
+    },
+    setItem: (key: string, value: string) => {
+      store.set(String(key), String(value));
+    },
+  };
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    writable: true,
+    value: memoryStorage,
+  });
+  if (typeof globalThis.sessionStorage === 'undefined') {
+    Object.defineProperty(globalThis, 'sessionStorage', {
+      configurable: true,
+      writable: true,
+      value: { ...memoryStorage, clear: () => store.clear() },
+    });
+  }
+}

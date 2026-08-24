@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "engines": {
-    "node": ">=22 <24",
+    "node": ">=22",
     "pnpm": "9.x"
   },
   "scripts": {
@@ -13,6 +13,9 @@
     "test": "nx run-many -t test",
     "lint": "nx run-many -t lint",
     "typecheck": "nx run-many -t typecheck",
+    "api:report": "node scripts/api-report.mjs",
+    "api:update": "node scripts/api-report.mjs",
+    "api:check": "node scripts/api-report.mjs --check && node scripts/api-report.mjs --check-exports-map",
     "docs": "typedoc --options typedoc.json",
     "affected:build": "nx affected -t build",
     "affected:test": "nx affected -t test",
@@ -22,10 +25,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "packages/*/src/**/*.{ts,tsx}": [
+    "{packages,adapters,plugins}/*/src/**/*.{ts,tsx}": [
       "biome check --write --no-errors-on-unmatched"
     ],
-    "packages/*/src/**/*.{json,md,yml,yaml}": [
+    "{packages,adapters,plugins}/*/src/**/*.{json,md,yml,yaml}": [
       "biome format --write --no-errors-on-unmatched"
     ]
   },
