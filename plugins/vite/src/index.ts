@@ -9,6 +9,28 @@
  * than anything a stranger could use.
  */
 
-export * from './tsup.js';
-export * from './vite.js';
-export * from './vitest.js';
+export {
+  libraryBuild,
+} from './tsup.js';
+export type {
+  LibraryBuildOptions,
+} from './tsup.js';
+export {
+  defineGamePreset,
+} from './vite.js';
+export type {
+  DefineGamePresetOptions,
+  HeavyDepsOptions,
+} from './vite.js';
+export {
+  defaultBrowserLaunchArgs,
+  defineBrowserTest,
+  defineUnitTest,
+} from './vitest.js';
+export type {
+  BrowserTestFragment,
+  DefineBrowserTestOptions,
+  DefineUnitTestOptions,
+  PlaywrightBrowserName,
+  UnitTestFragment,
+} from './vitest.js';
