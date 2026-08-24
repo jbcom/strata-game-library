@@ -409,6 +409,13 @@
       "StateDebugger": "value",
       "StateDebuggerProps": "value",
       "stopRuntimeCreatureAnimationAction": "value",
+      "STRATA_CANVAS_HOST_CLASS": "value",
+      "STRATA_CANVAS_HOST_CSS": "value",
+      "StrataCanvas": "value",
+      "StrataCanvasHostProps": "value",
+      "strataCanvasHostStyle": "value",
+      "StrataCanvasProps": "value",
+      "StrataCanvasQuality": "value",
       "StrataGame": "value",
       "syncYukaToThree": "value",
       "TailPhysics": "value",
@@ -1093,6 +1100,15 @@
       "useWander": "value",
       "UseWanderOptions": "value",
       "YUKA": "value"
+    },
+    "./mount": {
+      "STRATA_CANVAS_HOST_CLASS": "value",
+      "STRATA_CANVAS_HOST_CSS": "value",
+      "StrataCanvas": "value",
+      "StrataCanvasHostProps": "type",
+      "strataCanvasHostStyle": "value",
+      "StrataCanvasProps": "type",
+      "StrataCanvasQuality": "type"
     }
   }
 }

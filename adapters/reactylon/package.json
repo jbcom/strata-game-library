@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./mount": {
+      "types": "./dist/mount/index.d.ts",
+      "import": "./dist/mount/index.js"
     }
   },
   "files": [
@@ -53,8 +57,14 @@
     "reactylon": ">=0.1.0"
   },
   "devDependencies": {
+    "@babylonjs/core": "^8.52.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "jsdom": "^29.1.1",
     "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "reactylon": "^3.5.4",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"

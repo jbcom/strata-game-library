@@ -18,6 +18,10 @@
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
       "import": "./dist/hooks/index.js"
+    },
+    "./mount": {
+      "types": "./dist/mount/index.d.ts",
+      "import": "./dist/mount/index.js"
     }
   },
   "files": [

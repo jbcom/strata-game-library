@@ -53,6 +53,7 @@
       "instantiateBabylonRuntimeCreatureAsset": "value",
       "instantiateBabylonRuntimeProp": "value",
       "instantiateBabylonRuntimePropAsync": "value",
+      "MAX_FRAME_DELTA_SECONDS": "value",
       "PhysicsConfig": "type",
       "ReactylonCreatureInput": "type",
       "ReactylonPropInput": "type",
@@ -65,6 +66,8 @@
       "ReactylonRuntimeTransformOptions": "type",
       "resolveReactylonRuntimeCreature": "value",
       "resolveReactylonRuntimeProp": "value",
+      "SceneRoot": "value",
+      "SceneRootProps": "value",
       "SkyUniformValues": "type",
       "StrataRuntimeCreature": "value",
       "StrataRuntimeCreatureProps": "type",
@@ -80,11 +83,18 @@
       "StrataWaterProps": "type",
       "TerrainUniformValues": "type",
       "TimeOfDayState": "type",
+      "useBeforeRender": "value",
       "useStrataScene": "value",
       "useStrataTerrainMaterial": "value",
       "version": "value",
       "WaterUniformValues": "type",
       "WeatherState": "type"
+    },
+    "./mount": {
+      "MAX_FRAME_DELTA_SECONDS": "value",
+      "SceneRoot": "value",
+      "SceneRootProps": "type",
+      "useBeforeRender": "value"
     }
   }
 }

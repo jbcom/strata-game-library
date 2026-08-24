@@ -5,6 +5,7 @@ export default defineConfig({
     index: 'src/index.ts',
     'components/index': 'src/components/index.ts',
     'hooks/index': 'src/hooks/index.ts',
+    'mount/index': 'src/mount/index.ts',
   },
   format: ['esm'],
   dts: true,
