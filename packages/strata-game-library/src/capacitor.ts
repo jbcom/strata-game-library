@@ -1,1 +1,2 @@
-export * from '@strata-game-library/capacitor';
+export { DEFAULT_INPUT_MAPPING, Strata, hello, version } from "@strata-game-library/capacitor";
+export type { ControlHints, DeviceInfo, DeviceProfile, DeviceType, HapticsOptions, InputMapping, InputMode, InputSnapshot, Orientation, OrientationOptions, PerformanceMode, Platform, SafeAreaInsets, StorageKeysResult, StorageOptions, StorageResult, StrataPlugin, TouchOptions, Vector2 } from "@strata-game-library/capacitor";

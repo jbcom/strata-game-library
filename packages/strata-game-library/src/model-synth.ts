@@ -1,1 +1,2 @@
-export * from '@strata-game-library/model-synth';
+export { AnimationsAPI, MeshyAuthError, MeshyBaseClient, MeshyError, MeshyPaymentError, MeshyRateLimitError, ModelSynth, OTTER_ANIMATIONS, RATE_LIMITS, ROCK_ANIMATIONS, RetextureAPI, RiggingAPI, TextTo3DAPI } from "@strata-game-library/model-synth";
+export type { AnimationTask, AnimationTaskParams, ArtStyle, CharacterAnimationName, CharacterAnimationRequest, CharacterGenerationTask, CharacterPollOptions, CreateRefineTaskParams, CreateTaskParams, MeshyErrorResponse, MeshyTask, ModelCategory, RetextureTaskParams, RetryConfig, RiggingTask, TextTo3DTargetFormat } from "@strata-game-library/model-synth";

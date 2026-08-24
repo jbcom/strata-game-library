@@ -1,1 +1,2 @@
-export * from '@strata-game-library/core/utils';
+export { TEXTURE_PROVIDER_PATTERNS, clearOptionalPackageCache, clearTextureCache, createTerrainMaterial, getOptionalPackagesStatus, isOptionalPackageAvailable, loadBiomeTextures, loadOptionalPackage, loadTexture, loadTextureSet, mergeOptionalExports, preloadBiomeTextures, probeOptionalPackage } from "@strata-game-library/core/utils";
+export type { BiomeType, OptionalPackageStatus, StandardTextureType, TerrainTextures } from "@strata-game-library/core/utils";

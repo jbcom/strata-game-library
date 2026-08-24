@@ -1,1 +1,2 @@
-export * from '@strata-game-library/audio-synth';
+export { AMBIENT_THEME, AudioSynthProvider, COMBAT_THEME, CONFIRM, DEFEAT_THEME, ERROR, EXPLORATION_THEME, EXPLOSION, FOOTSTEP, GUNSHOT, IMPACT, LASER, MENU_THEME, MUSIC_PATTERNS, PICKUP, POWERUP, RICOCHET, SELECT, SFX_PRESETS, SHOP_THEME, SPLASH, SynthManager, TENSION_THEME, VICTORY_THEME, createSynthManager, useAudioReady, useAudioSynth, usePlayMusic, usePlaySFX } from "@strata-game-library/audio-synth";
+export type { AudioSynthContextValue, AudioSynthProviderProps, EnvelopeConfig, FilterConfig, FrequencySweep, ISynthManager, MusicNote, MusicPattern, MusicPatternId, OscillatorType, SFXPreset, SFXPresetId, SynthManagerConfig } from "@strata-game-library/audio-synth";
