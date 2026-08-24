@@ -1,3 +1,10 @@
+---
+title: Agent protocols
+updated: 2026-08-23
+status: current
+domain: context
+---
+
 # AGENTS.md -- Strata Game Library
 
 > **Primary reference for all AI agents** (Claude, Copilot, Cursor, Jules).

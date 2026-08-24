@@ -1,3 +1,10 @@
+---
+title: Security policy
+updated: 2026-08-23
+status: current
+domain: ops
+---
+
 # Security Policy
 
 ## Project Overview

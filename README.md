@@ -1,3 +1,10 @@
+---
+title: Strata Game Library
+updated: 2026-08-23
+status: current
+domain: product
+---
+
 # Strata Game Library
 
 [![CI](https://github.com/jbcom/strata-game-library/actions/workflows/ci.yml/badge.svg)](https://github.com/jbcom/strata-game-library/actions/workflows/ci.yml)

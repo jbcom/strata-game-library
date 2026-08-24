@@ -1,3 +1,10 @@
+---
+title: Changelog
+updated: 2026-08-23
+status: current
+domain: context
+---
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
