@@ -4,10 +4,20 @@
  * @module presets/ai
  */
 
-export * from './FlockMemberPreset';
-export * from './FlockPreset';
-export * from './FollowerPreset';
-export * from './GuardPreset';
-export * from './PredatorPreset';
-export * from './PreyPreset';
-export * from './types';
+export { createFlockMemberPreset } from './FlockMemberPreset';
+export type { FlockConfig } from './FlockPreset';
+export { createFlock } from './FlockPreset';
+export { createFollowerPreset } from './FollowerPreset';
+export { createGuardPreset } from './GuardPreset';
+export { createPredatorPreset } from './PredatorPreset';
+export { createPreyPreset } from './PreyPreset';
+export type {
+  AIPresetConfig,
+  AIPresetName,
+  AIPresetResult,
+  FlockMemberPresetConfig,
+  FollowerPresetConfig,
+  GuardPresetConfig,
+  PredatorPresetConfig,
+  PreyPresetConfig,
+} from './types';

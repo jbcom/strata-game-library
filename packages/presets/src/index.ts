@@ -35,19 +35,108 @@
  * ```
  */
 
+export type {
+  CollectibleForm,
+  CollectibleParams,
+  RarityTier,
+} from './collectibles';
 // Collectibles (coins, gems, etc.)
-export * from './collectibles';
+export {
+  COLLECTIBLE_DEFAULTS,
+  COLLECTIBLE_FORMS,
+  createCollectible,
+  RARITY_MODIFIERS,
+} from './collectibles';
+export type {
+  CoatMorphology,
+  CreatureTheme,
+  DetailedMorphology,
+  EarMorphology,
+  EyeMorphology,
+  FormName,
+  MountParams,
+  PawMorphology,
+  QuadrupedParams,
+  SnoutMorphology,
+  TailMorphology,
+  WhiskerMorphology,
+} from './creatures';
 // Creatures (quadrupeds, etc.)
-export * from './creatures';
+export {
+  ALL_THEMES,
+  createCustomQuadruped,
+  createMorphology,
+  createMount,
+  createQuadruped,
+  FANTASY_THEMES,
+  generateCreaturePrompt,
+  generateMountPrompt,
+  getFantasyThemes,
+  getNaturalThemes,
+  getThemesByTag,
+  MORPHOLOGY_DEFAULTS,
+  MOUNT_DEFAULTS,
+  NATURAL_THEMES,
+  QUADRUPED_DEFAULTS,
+  QUADRUPED_FORMS,
+  quadrupedToMorphology,
+  SPECIES_MORPHOLOGY,
+  suggestGameplayStats,
+} from './creatures';
+export type {
+  EquipmentForm,
+  EquipmentParams,
+} from './equipment';
 // Equipment (weapons, armor, backpacks, etc.)
-export * from './equipment';
-
+export {
+  createEquipment,
+  EQUIPMENT_DEFAULTS,
+  EQUIPMENT_FORMS,
+  generateEquipmentPrompt,
+  suggestEquipmentStats,
+} from './equipment';
+export type {
+  HazardLevel,
+  ObstacleForm,
+  ObstacleParams,
+} from './obstacles';
 // Obstacles (rocks, spikes, etc.)
-export * from './obstacles';
+export {
+  createObstacle,
+  HAZARD_MODIFIERS,
+  OBSTACLE_DEFAULTS,
+  OBSTACLE_FORMS,
+} from './obstacles';
+export type {
+  BuildingForm,
+  BuildingParams,
+} from './structures/building';
 // Structures (buildings, etc.)
-export * from './structures/building';
+export {
+  BUILDING_DEFAULTS,
+  BUILDING_FORMS,
+  createBuilding,
+} from './structures/building';
+export type {
+  BiomeData,
+  InstanceData,
+  VegetationOptions,
+} from './vegetation';
 // Vegetation (grass, trees, rocks, instancing helpers)
-export * from './vegetation';
-
+export {
+  createGrassInstances,
+  createRockInstances,
+  createTreeInstances,
+  createVegetationMesh,
+} from './vegetation';
+export type {
+  VehicleForm,
+  VehicleParams,
+} from './vehicles';
 // Vehicles (boats, carts, etc.)
-export * from './vehicles';
+export {
+  createVehicle,
+  generateVehiclePrompt,
+  VEHICLE_DEFAULTS,
+  VEHICLE_FORMS,
+} from './vehicles';

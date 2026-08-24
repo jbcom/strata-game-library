@@ -21,10 +21,47 @@
  * ```
  */
 
-export * from './morphology';
-export * from './mount';
-export * from './quadruped';
-export * from './themes';
+export type {
+  CoatMorphology,
+  DetailedMorphology,
+  EarMorphology,
+  EyeMorphology,
+  PawMorphology,
+  SnoutMorphology,
+  TailMorphology,
+  WhiskerMorphology,
+} from './morphology';
+export {
+  createMorphology,
+  MORPHOLOGY_DEFAULTS,
+  quadrupedToMorphology,
+  SPECIES_MORPHOLOGY,
+} from './morphology';
+export type { MountParams } from './mount';
+export {
+  createMount,
+  generateMountPrompt,
+  MOUNT_DEFAULTS,
+} from './mount';
+export type {
+  FormName,
+  QuadrupedParams,
+} from './quadruped';
+export {
+  createCustomQuadruped,
+  createQuadruped,
+  QUADRUPED_DEFAULTS,
+  QUADRUPED_FORMS,
+} from './quadruped';
+export type { CreatureTheme } from './themes';
+export {
+  ALL_THEMES,
+  FANTASY_THEMES,
+  getFantasyThemes,
+  getNaturalThemes,
+  getThemesByTag,
+  NATURAL_THEMES,
+} from './themes';
 
 import type { QuadrupedParams } from './quadruped';
 import type { CreatureTheme } from './themes';
