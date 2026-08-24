@@ -175,3 +175,14 @@ updated: 2026-03-01
 
 **Current decision**:
 - The legacy authored corpus remains only as deterministic migration input; it is not a renderer, workspace build, deployment input, or second production site. Before final merge, decide whether to keep that source-adapter pipeline or make the generated Markdown directly tracked under `docs/` and then delete the duplicate corpus.
+
+### 2026-08-24 - SonarQube Cloud connection
+
+**What was done**:
+- Verified through the authenticated SonarQube Cloud UI that the existing `jbcom_strata-game-library` project is already imported under the `jbcom` OSS organization. Its last analysis is five months old and its current quality gate is failed, so a fresh CI scan is required before treating that state as current.
+- Added Sonar project metadata and a full-SHA-pinned `SonarSource/sonarqube-scan-action` CI job. The job is part of the aggregate CI gate.
+- Set the repository `SONAR_TOKEN` GitHub Actions secret by piping `gha` project / `ci` Doppler configuration directly into `gh secret set`; the secret was never printed or written to the worktree.
+- Confirmed the packages use the unscoped `strata-game-library` name or `@strata-game-library/*`; none publishes under `@jbdevprimary/*`.
+
+**Known coverage state**:
+- `pnpm run test:coverage` produces LCOV files, but the aggregate command currently fails because several existing packages do not meet their configured global coverage thresholds. Keep the first Sonar scan coverage-independent and address real coverage debt separately rather than uploading partial/failing coverage as if it were passing evidence.
