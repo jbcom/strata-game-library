@@ -375,9 +375,11 @@ function diffReports(committed, fresh) {
     ...Object.keys(fresh.subpaths ?? {}),
   ]);
 
-  if (committed.version !== fresh.version) {
-    problems.push(`  version: ${committed.version} -> ${fresh.version}`);
-  }
+  // `version` records which published package was used to create the
+  // snapshot, but it is not part of the public surface. Release Please changes
+  // package metadata after the API was already reviewed; treating that routine
+  // change as an API change makes every release fail its own CI gate. The
+  // subpaths and symbols below are the actual SemVer contract.
 
   for (const subpath of [...allSubpaths].sort()) {
     const before = committed.subpaths?.[subpath];
