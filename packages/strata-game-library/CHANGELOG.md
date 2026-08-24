@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.1](https://github.com/jbcom/strata-game-library/compare/strata-game-library@0.3.0...strata-game-library@0.3.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* **release:** preserve clean-checkout builds ([783b40b](https://github.com/jbcom/strata-game-library/commit/783b40b7433418da733de2b1066a3c0b2f9758f2))
+* **release:** prevent umbrella build races ([cc0bc72](https://github.com/jbcom/strata-game-library/commit/cc0bc72c0ef988ef523a0add3f864c66bd32c3ff))
+* **release:** prevent umbrella build races ([ab2a3ee](https://github.com/jbcom/strata-game-library/commit/ab2a3ee3c0bf43f3bb75f23fa343c4f76114eac9))
+
 ## [0.3.0](https://github.com/jbcom/strata-game-library/compare/strata-game-library@0.2.0...strata-game-library@0.3.0) (2026-08-24)
 
 ### ⚠ BREAKING CHANGE
