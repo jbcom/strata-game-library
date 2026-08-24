@@ -23,6 +23,7 @@ export * from './pathfinding';
 export * from './physics';
 export * from './postProcessing';
 export * from './raymarching';
+export * from './safe-area-insets';
 // Export sdf but exclude BiomeData (exported via instancing)
 export {
   calcNormal,
