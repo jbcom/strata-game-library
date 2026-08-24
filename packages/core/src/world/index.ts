@@ -9,8 +9,11 @@
  * @category World Building
  */
 
-export * from './ConnectionSystem';
-export * from './RegionSystem';
-export * from './SpawnSystem';
-export * from './types';
-export * from './WorldGraph';
+export { createConnectionSystem } from "./ConnectionSystem";
+export type { ConnectionSystemEntity, ConnectionSystemState, ModeManager } from "./ConnectionSystem";
+export { createRegionSystem } from "./RegionSystem";
+export type { RegionSystemEntity, RegionSystemState } from "./RegionSystem";
+export { createSpawnSystem } from "./SpawnSystem";
+export type { SpawnSystemConfig, SpawnSystemEntity } from "./SpawnSystem";
+export type { BoundingShape, Connection, ConnectionDefinition, ConnectionType, LightingConfig, NPCSpawn, Region, RegionDefinition, ResourceEntry, SpawnEntry, SpawnTable, UnlockCondition, WorldGraphDefinition } from "./types";
+export { WorldGraph, createWorldGraph, isWorldGraph } from "./WorldGraph";

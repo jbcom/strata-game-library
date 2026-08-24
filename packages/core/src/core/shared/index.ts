@@ -9,4 +9,5 @@
  * @category World Building
  */
 
-export * from './platform';
+export { detectCapabilities, detectPlatform, isCapacitor, isNative, isReactNative, isWeb, resetPlatformCache, selectAdapter } from "./platform";
+export type { AdapterMap, Platform, PlatformCapabilities } from "./platform";
