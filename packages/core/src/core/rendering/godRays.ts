@@ -15,7 +15,7 @@ import {
   volumetricPointLightVertexShader,
   volumetricSpotlightFragmentShader,
   volumetricSpotlightVertexShader,
-} from '@strata-game-library/shaders/godRays';
+} from '@strata-game-library/shaders';
 import * as THREE from 'three';
 
 /**
