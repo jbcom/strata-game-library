@@ -18,13 +18,12 @@ Strata is a pnpm monorepo publishing several packages under the `@strata-game-li
 
 - [README](README.md): What Strata is, install commands, and a runnable first scene.
 - [Getting Started](docs/GETTING_STARTED.md): Guided setup from empty project to rendered world.
-- [API.md](API.md): Hand-written orientation to the main entry points and how the packages fit together.
+- [PUBLIC_API.md](PUBLIC_API.md): Generated orientation to every package's subpaths and Core's domain barrels.
 
 ## API reference
 
 - [API_CONTRACT.md](docs/API_CONTRACT.md): **The rules.** What counts as public, the three support tiers, the barrel rules, and how the contract is enforced in CI. Read this before adding or removing an export.
 - [llms-full.txt](llms-full.txt): The Tier 1 public surface — every supported subpath, with the symbols that carry real traffic.
-- [PUBLIC_API.md](PUBLIC_API.md): The long-form per-symbol reference. Large, and mid-transition between two documentation models.
 - [api/](api/): Machine-readable snapshots (`<pkg>.api.json`) of every exported symbol per subpath, generated from the built type declarations. This is the ground truth the CI gate diffs against.
 
 ## Architecture and contributing
@@ -32,7 +31,7 @@ Strata is a pnpm monorepo publishing several packages under the `@strata-game-li
 - [ARCHITECTURE](docs/architecture/): Package boundaries, the core/adapter split, and data flow.
 - [CONTRIBUTING](CONTRIBUTING.md): Workflow, Conventional Commits, and the review gates.
 - [STANDARDS](docs/STANDARDS.md): Code quality rules and non-negotiables.
-- [BREAKING_CHANGES](BREAKING_CHANGES.md): Migration notes across major versions.
+- [BREAKING_CHANGES](docs/archive/BREAKING_CHANGES.md): Migration notes across major versions.
 
 ## Optional
 

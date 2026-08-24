@@ -115,9 +115,17 @@ Runtime composition of creatures and props. The second-highest-traffic subpath.
 
     ./api      ./game      ./world      ./utils      ./shaders
 
-Core declares 34 subpaths in total. The 27 not named here have no known
-importer and are candidates for removal in the next major — do not build
-against them. In particular, `@strata-game-library/core/types` and
+`./core/*` — fifteen domain subpaths, each backed by a real barrel with its own
+public surface: `animation`, `audio`, `camera`, `ecs`, `input`, `math`, `maze`,
+`meshing`, `particles`, `pathfinding`, `physics`, `rendering`, `shared`,
+`state`, `terrain`, `ui`. Import the domain, e.g.
+`@strata-game-library/core/core/terrain`, not a file inside it — file-level
+paths are internal and move without a major version.
+
+Core declares 23 subpaths in total, all of them meaningful. Earlier versions
+published one subpath per file — 28 deep `./core/*` entries, of which exactly
+one was ever imported anywhere — so the exports map mirrored file placement
+rather than the actual API. `@strata-game-library/core/types` and
 `@strata-game-library/core/molecular` appear in older documentation but are
 **not** declared in the exports map and will fail to resolve.
 
@@ -239,14 +247,20 @@ Re-exports the packages above under seven namespaces — `Core`, `Compose`,
 
     import { Core, Shaders } from 'strata-game-library';
 
-It additionally does a bare `export *` of `@strata-game-library/core/api`,
-`@strata-game-library/presets`, and `@strata-game-library/shaders`, so those
-packages' entire surfaces are flattened into the umbrella root. That is a
-barrel Rule 2 violation and will be narrowed; depend on the namespaces, not on
-flattened names reaching the root.
+The root ALSO flattens the surface of `@strata-game-library/core/api`,
+`@strata-game-library/presets`, and `@strata-game-library/shaders` — every
+named export of those three is reachable directly, not only through
+`Core`/`Presets`/`Shaders`. That is deliberate at the root and explicitly
+named (not `export *`); the namespaces exist for callers who want the
+narrower, disambiguated form.
 
-Convenient for applications; prefer the scoped packages in a library, so your
-dependency graph names what you actually use.
+Sixteen further subpaths alias a scoped package under this package's name —
+`./astro`, `./audio-synth`, `./capacitor`, `./model-synth`, `./r3f`,
+`./reactylon`, `./react-native`, plus the six re-exported above — so
+`strata-game-library/astro` reaches the same surface as
+`@strata-game-library/astro`. Prefer the scoped package in a library, so your
+dependency graph names what you actually use; the umbrella is for
+applications that already depend on the whole thing.
 
 ---
 
