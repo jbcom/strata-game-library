@@ -22,10 +22,10 @@ export * from './game';
 // They are not re-exported here to avoid duplicate export conflicts with ./core/shaders
 // (ShaderChunks, noiseSnippet). Import from '@strata-game-library/core/shaders' instead.
 
+// Export world topology
+export * from './maze';
 // Export utils
 export * from './utils';
-
-// Export world topology
 export * from './world';
 
 // Note: React hooks and R3F components have been extracted to @strata-game-library/r3f.
