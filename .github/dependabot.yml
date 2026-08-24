@@ -1,9 +1,7 @@
 # Dependabot Configuration
 # 
-# DIRECT PUSH MODE: Dependabot pushes directly to main (no PRs)
-# Branch rulesets allow Dependabot to bypass protections
-#
-# Dependabot ignores ecosystems that don't apply to your repo
+# Dependabot opens grouped PRs. Non-major groups fast-path through the trusted
+# merge queue; major groups remain visible for human review.
 
 version: 2
 
@@ -15,6 +13,13 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "ci"
+    groups:
+      actions-major:
+        patterns: ["*"]
+        update-types: [major]
+      actions-non-major:
+        patterns: ["*"]
+        update-types: [minor, patch]
 
   # Docker
   - package-ecosystem: "docker"
@@ -31,6 +36,13 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "deps"
+    groups:
+      major-dependencies:
+        patterns: ["*"]
+        update-types: [major]
+      non-major-dependencies:
+        patterns: ["*"]
+        update-types: [minor, patch]
 
   # Python/pip
   - package-ecosystem: "pip"
