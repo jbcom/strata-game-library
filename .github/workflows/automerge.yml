@@ -21,7 +21,10 @@ jobs:
           )
         ) ||
         (
-          github.actor == 'github-actions[bot]' &&
+          (
+            github.actor == 'github-actions[bot]' ||
+            github.actor == 'jbdevprimary'
+          ) &&
           startsWith(github.event.pull_request.head.ref, 'release-please--')
         )
       )
