@@ -13,7 +13,8 @@ export {
 } from './useInput';
 export type { UsePauseToggleOptions } from './useGameStatus';
 export { usePauseToggle } from './useGameStatus';
-export * from './useKeyboardControls';
+export { DEFAULT_KEYBOARD_MAPPING, useKeyboardControls } from "./useKeyboardControls";
+export type { KeyboardActions, KeyboardMapping } from "./useKeyboardControls";
 export type {
   UseAlignmentOptions,
   UseArriveOptions,

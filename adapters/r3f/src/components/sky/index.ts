@@ -4,4 +4,5 @@
  * @module components/sky
  */
 
-export * from './ProceduralSky';
+export { ProceduralSky, createTimeOfDay } from "./ProceduralSky";
+export type { ProceduralSkyProps, TimeOfDayState, WeatherState } from "./ProceduralSky";
