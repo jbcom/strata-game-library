@@ -37,7 +37,7 @@ export default defineConfig({
 		'core/math/utils': 'src/core/math/utils.ts',
 		'core/particles': 'src/core/particles.ts',
 		'core/pathfinding/index': 'src/core/pathfinding/index.ts',
-		'core/physics': 'src/core/physics.ts',
+		'core/physics/index': 'src/core/physics/index.ts',
 		'core/postProcessing': 'src/core/postProcessing.ts',
 		'core/raymarching': 'src/core/raymarching.ts',
 		'core/sdf': 'src/core/sdf.ts',
