@@ -36,18 +36,17 @@
  */
 
 // Collectibles (coins, gems, etc.)
-export * from './collectibles';
-// Creatures (quadrupeds, etc.)
-export * from './creatures';
-// Equipment (weapons, armor, backpacks, etc.)
-export * from './equipment';
-
-// Obstacles (rocks, spikes, etc.)
-export * from './obstacles';
-// Structures (buildings, etc.)
-export * from './structures/building';
-// Vegetation (grass, trees, rocks, instancing helpers)
-export * from './vegetation';
-
-// Vehicles (boats, carts, etc.)
-export * from './vehicles';
+export { COLLECTIBLE_DEFAULTS, COLLECTIBLE_FORMS, RARITY_MODIFIERS, createCollectible } from "./collectibles";
+export type { CollectibleForm, CollectibleParams, RarityTier } from "./collectibles";
+export { ALL_THEMES, FANTASY_THEMES, MORPHOLOGY_DEFAULTS, MOUNT_DEFAULTS, NATURAL_THEMES, QUADRUPED_DEFAULTS, QUADRUPED_FORMS, SPECIES_MORPHOLOGY, createCustomQuadruped, createMorphology, createMount, createQuadruped, generateCreaturePrompt, generateMountPrompt, getFantasyThemes, getNaturalThemes, getThemesByTag, quadrupedToMorphology, suggestGameplayStats } from "./creatures";
+export type { CoatMorphology, CreatureTheme, DetailedMorphology, EarMorphology, EyeMorphology, FormName, MountParams, PawMorphology, QuadrupedParams, SnoutMorphology, TailMorphology, WhiskerMorphology } from "./creatures";
+export { EQUIPMENT_DEFAULTS, EQUIPMENT_FORMS, createEquipment, generateEquipmentPrompt, suggestEquipmentStats } from "./equipment";
+export type { EquipmentForm, EquipmentParams } from "./equipment";
+export { HAZARD_MODIFIERS, OBSTACLE_DEFAULTS, OBSTACLE_FORMS, createObstacle } from "./obstacles";
+export type { HazardLevel, ObstacleForm, ObstacleParams } from "./obstacles";
+export { BUILDING_DEFAULTS, BUILDING_FORMS, createBuilding } from "./structures/building";
+export type { BuildingForm, BuildingParams } from "./structures/building";
+export { createGrassInstances, createRockInstances, createTreeInstances, createVegetationMesh } from "./vegetation";
+export type { BiomeData, InstanceData, VegetationOptions } from "./vegetation";
+export { VEHICLE_DEFAULTS, VEHICLE_FORMS, createVehicle, generateVehiclePrompt } from "./vehicles";
+export type { VehicleForm, VehicleParams } from "./vehicles";

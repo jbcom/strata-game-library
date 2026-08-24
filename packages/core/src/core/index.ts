@@ -4,64 +4,35 @@
  * @module core
  */
 
-export * from './animation';
-export * from './audio';
-export * from './camera/camera.js';
-export * from './ecs';
-export * from './input/input.js';
-export * from './input/joystick-normalize.js';
-export * from './input/safe-area-insets.js';
-export * from './math';
-// Generic SDF primitives, operators, and legacy noise. Terrain-specific SDFs
-// (sdTerrain, sdCaves, sdRock) and the biome height field come from './terrain'
-// below. BiomeData is excluded here and exported via instancing, as before.
-export {
-  calcNormal,
-  fbm,
-  noise3D,
-  opIntersection,
-  opSmoothIntersection,
-  opSmoothSubtraction,
-  opSmoothUnion,
-  opSubtraction,
-  opUnion,
-  sdBox,
-  sdCapsule,
-  sdCone,
-  sdPlane,
-  sdSphere,
-  sdTorus,
-  warpedFbm,
-} from './math/sdf-primitives.js';
-export * from './maze/index.js';
-export * from './particles';
-export * from './pathfinding';
-export * from './physics';
-export * from './rendering/clouds.js';
-// Debug tools (React-dependent) moved to @strata-game-library/r3f
-export * from './rendering/decals.js';
-export * from './rendering/godRays.js';
-export * from './rendering/lod.js';
-export * from './rendering/postProcessing.js';
-export * from './rendering/raymarching.js';
-export * from './rendering/shaders.js';
-export * from './rendering/sky.js';
-export * from './rendering/volumetrics.js';
-export * from './rendering/water.js';
-export * from './rendering/weather.js';
-export * from './shared';
-export * from './state';
-export type { TerrainChunk } from './terrain/index.js';
-// Terrain generation. BiomeData is intentionally omitted — it reaches the
-// barrel through './instancing' to avoid a duplicate-export conflict.
-export {
-  generateTerrainChunk,
-  getBiomeAt,
-  getTerrainHeight,
-  sdCaves,
-  sdRock,
-  sdTerrain,
-} from './terrain/index.js';
-export * from './terrain/instancing.js';
-export * from './meshing/marching-cubes.js';
-export * from './ui';
+export { CCDSolver, FABRIKSolver, LookAtController, ProceduralGait, SpringChain, SpringDynamics, TwoBoneIKSolver, calculateBlendWeights, calculateBoneRotation, clampAngle, createAnimationMachine, createBoneChain, createBoneChainFromLengths, createCombatMachine, createLocomotionMachine, dampedSpring, dampedSpringVector3, hermiteInterpolate, sampleCurve, smoothStep, smootherStep } from "./animation";
+export type { AnimationBlendReturn, AnimationContext, AnimationEvent, AnimationMachineConfig, AnimationMachineReturn, AnimationStateConfig, AnimationStateName, AnimationTransitionConfig, BlendTreeConfig, BlendTreeNode, BlendWeights, BoneChain, BoneConstraint, GaitConfig, GaitState, IKSolverResult, LookAtConfig, LookAtState, SpringConfig, SpringState, UseAnimationBlendOptions, UseAnimationMachineOptions } from "./animation";
+export { DEFAULT_SPATIAL_CONFIG, ENVIRONMENT_PRESETS, Howl, Howler, SoundManager, SpatialAudio, createSoundManager, createSpatialAudio, getAudioContext, isAudioContextUnlocked, resumeAudioContext, setupAutoUnlock, suspendAudioContext, unlockAudioContext } from "./audio";
+export type { AudioBus, AudioConfig, AudioFormat, AudioListenerState, AudioMixer, DistanceModel, EnvironmentEffectConfig, EnvironmentPreset, SoundConfig, SpatialConfig } from "./audio";
+export { CameraShake, CameraShakeCore, FOVTransition, calculateHeadBob, calculateLookAhead, calculateScreenShakeIntensity, evaluateCatmullRom, lerpVector3, slerp, smoothDampScalar, smoothDampVector3 } from "./camera";
+export type { CameraPath, CameraShakeConfig, CameraShakeType, FOVTransitionConfig, ScreenShakeIntensity } from "./camera";
+export { ARCHETYPES, World, addComponent, combineSystems, conditionalSystem, countEntities, createFromArchetype, createSystem, createSystemScheduler, createWorld, findEntityById, generateEntityId, hasComponents, removeComponent, resetEntityIdCounter, withTiming } from "./ecs";
+export type { Archetype, BaseEntity, ComponentKeys, OptionalComponents, QueryResult, RequiredComponents, StrataWorld, SystemConfig, SystemFn, SystemScheduler, WorldConfig } from "./ecs";
+export { HapticFeedback, InputManager, InputStateMachine, angleToAxis, axisToAngle, axisToMagnitude, clampAxis, createInputManager, getSafeAreaInsets, normalizeAxisValue, normalizeJoystick, resetSafeAreaCache } from "./input";
+export type { DragState, GamepadState, HapticPattern, InputActionBinding, InputActionMap, InputActionSource, InputAxis, InputEvent, InputManagerConfig, InputManagerSnapshot, JoystickVector, PointerState, RawOffset, SafeAreaInsets } from "./input";
+export { DEFAULT_FBM_CONFIG, TERRAIN_PRESETS, approximately, buffer, calcNormal, clamp, clamp01, createNoise2D, createNoise3D, createNoise4D, createTerrainNoise, degToRad, deltaAngle, distanceSquared2D, distanceSquared3D, easeInCubic, easeInOutCubic, easeOutCubic, easeOutElastic, easing, fbm, fbm2D, fbm3D, inverseLerp, lerp, lerpAngle, misc, moveTowards, noise3D, opIntersection, opSmoothIntersection, opSmoothSubtraction, opSmoothUnion, opSubtraction, opUnion, pingPong, radToDeg, random, remap, remapRange, ridgedNoise2D, sdBox, sdCapsule, sdCone, sdPlane, sdSphere, sdTorus, smoothDamp, smootherstep, smoothstep, triangle, warpedFbm, warpedNoise2D, warpedNoise3D, wrapAngle } from "./math";
+export type { EasingFn, FBMConfig, LerpFn, Noise2D, Noise3D, Noise4D, RandomFn, Range, TerrainNoisePreset, Vec2Like, Vec3Like, Vec4Like } from "./math";
+export { DEFAULT_CONFIG, assertSolvable, buildCurvedWalls, buildGeometry, distanceToWall, findDeadEnds, generateLayeredMaze, generateMaze, getConnections, getNodeConnections, gridToWorld, maxDeviation, minDistanceToWalls, worldToGrid } from "./maze";
+export type { BuildCurvedWallsOptions, CeilingTile, CurvedWall, DeadEnd, FloorTile, GenerateLayeredMazeOptions, LayerCellRef, LayerConnector, LayerConnectorKind, LayeredMaze, MazeCell, MazeConfig, MazeGeometry, MazeLayout, Passage, Point2, RailNode, SolvabilityReport, WallSegment, WobbleOptions } from "./maze";
+export { MAX_GRADIENT_STOPS, ParticleEmitter, ParticleEmitterCore, applyVariance, computeEmitPosition, computeEmitVelocity, createParticleEmitter, orientToDirection, particleFragmentShader, particleVertexShader, sampleShapePosition } from "./particles";
+export type { EmissionShape, EmitterShapeParams, ParticleBehavior, ParticleEmitterConfig, ParticleEmitterType, ParticleForces, RandomSource } from "./particles";
+export { aGreedy, aStar, addEdge, addNode, calculateDistance, createGraph, createGridGraph, createNGraph, createPathfinder, findClosestNode, findPath, findPathDijkstra, fromNavMesh, nba, simplifyPath, smoothPath } from "./pathfinding";
+export type { EdgeData, GraphEdge, GraphNode, NGraph, NLink, NNode, NPathFinder, NavMesh, NavMeshConversionOptions, NodeData, NodeId, PathResult, PathfinderConfig, Position3D, SmoothingOptions, StrataGraph, StrataGraphInstance, StrataPathfinderInstance, YukaVector3 } from "./pathfinding";
+export { CollisionLayer, applyDrag, calculateBuoyancyForce, calculateExplosionForce, calculateForce, calculateImpulse, calculateJumpImpulse, calculateLandingVelocity, calculateSlopeAngle, calculateSteeringAngle, calculateSuspensionForce, collisionFilters, createDefaultBuoyancyConfig, createDefaultCharacterConfig, createDefaultDestructibleConfig, createDefaultPhysicsConfig, createDefaultVehicleConfig, createHumanoidRagdoll, generateDebrisVelocity, isWalkableSlope, projectVelocityOntoGround } from "./physics";
+export type { BuoyancyConfig, CharacterControllerConfig, CollisionFilter, DestructibleConfig, PhysicsConfig, PhysicsMaterial, RagdollBodyPart, RagdollConfig, RagdollJointConfig, VehicleConfig, WheelConfig } from "./physics";
+export { DecalProjector, LODManager, ShaderChunks, WeatherSystem, WeatherSystemCore, WindSimulation, adaptCloudColorsForTimeOfDay, animationSnippet, apertureToBokehScale, applySpriteSheetFrame, batchLODObjects, blendGodRayColors, blendPostProcessingPresets, buildFragmentShader, buildVertexShader, calculateFocusDistance, calculateFocusDistanceToMesh, calculateGodRayIntensityFromAngle, calculateImpostorAngle, calculateLODLevel, calculateScatteringIntensity, calculateScreenSpaceSize, calculateTemperature, calculateVegetationDensity, calculateWindOffset, colorSnippet, composeShaderChunks, createAdvancedWaterMaterial, createBillboardMatrix, createBloodSplatterTexture, createBulletHoleTexture, createCloudLayerGeometry, createCloudLayerMaterial, createColorUniform, createDecalTexture, createDefaultCloudSkyConfig, createDitherPattern, createFootprintTexture, createGodRaysMaterial, createImpostorGeometry, createImpostorTexture, createLODLevels, createPointLightSphereGeometry, createProgressUniform, createRaymarchingGeometry, createRaymarchingMaterial, createScorchMarkTexture, createSkyGeometry, createSkyMaterial, createSpotlightConeGeometry, createSpriteSheetAnimation, createSpriteSheetMaterial, createTimeUniform, createUnderwaterOverlayMaterial, createVector2Uniform, createVector3Uniform, createVegetationLODLevels, createVolumetricCloudGeometry, createVolumetricCloudMaterial, createVolumetricFogMeshMaterial, createVolumetricPointLightMaterial, createVolumetricSpotlightMaterial, createWaterGeometry, createWaterMaterial, createWaterPuddleTexture, createWeatherSystem, createWindSimulation, defaultEffectSettings, dofScenarios, fbmNoise2D, focalLengthToFOV, fovToFocalLength, generateLODGeometries, getLightScreenPosition, getPrecipitationType, getSpriteSheetUVs, getTimeOfDayEffects, interpolateLODMaterials, lightingSnippet, lutConfigs, noiseSnippet, sampleCloudDensity, shouldUseLOD, simplifyGeometry, sortBillboardsByDepth, updateBillboardRotation, updateImpostorUV, updateSpriteSheetAnimation } from "./rendering";
+export type { AdvancedWaterMaterialOptions, AnimationChunk, BillboardConfig, BloomSettings, BrightnessContrastSettings, ChromaticAberrationSettings, CloudLayerConfig, CloudMaterialOptions, CloudSkyConfig, ColorChunk, ColorGradingSettings, DOFSettings, DayNightConfig, DecalInstance, DecalProjectorConfig, EffectsChunk, FilmGrainSettings, GodRaysMaterialOptions, ImpostorConfig, LODConfig, LODLevel, LODState, LUTConfig, LightingChunk, NoiseChunk, NoiseSettings, PostProcessingMood, PostProcessingPreset, RaymarchingMaterialOptions, SSAOSettings, SepiaSettings, ShaderChunkCategory, ShaderUniform, ShaderUniforms, SimplificationOptions, SkyMaterialOptions, SpriteAnimationState, SpriteSheetConfig, TemperatureConfig, TimeOfDayState, TimeOfDayStateCore, ToneMappingSettings, UVChunk, UnderwaterOverlayMaterialOptions, VegetationLODConfig, VignetteSettings, VolumetricCloudOptions, VolumetricFogMeshMaterialOptions, VolumetricPointLightMaterialOptions, VolumetricSpotlightMaterialOptions, WaterMaterialOptions, WeatherState, WeatherStateConfig, WeatherStateCore, WeatherSystemType, WeatherTransition, WeatherType, WindConfig, WindSimulationConfig } from "./rendering";
+export { detectCapabilities, detectPlatform, isCapacitor, isNative, isReactNative, isWeb, resetPlatformCache, selectAdapter } from "./shared";
+export type { AdapterMap, Platform, PlatformCapabilities } from "./shared";
+export { WebPersistenceAdapter, calculateChecksum, create, createGameStore, createPersistenceAdapter, createWebPersistenceAdapter, immer, temporal, useStore, verifyChecksum, webPersistenceAdapter } from "./state";
+export type { AutoSaveConfig, CheckpointData, CheckpointOptions, GameStore, GameStoreActions, GameStoreApi, GameStoreState, PersistenceAdapter, SaveData, SaveInfo, StateChangeEvent, StateChangeType, StateListener, StoreConfig } from "./state";
+export { createInstancedMesh, generateInstanceData, generateTerrainChunk, getBiomeAt, getTerrainHeight, sdCaves, sdRock, sdTerrain } from "./terrain";
+export type { BiomeData, InstanceData, InstancingOptions, TerrainChunk } from "./terrain";
+export { createGeometryFromMarchingCubes, marchingCubes } from "./meshing";
+export type { MarchingCubesOptions, MarchingCubesResult } from "./meshing";
+export { calculateFade, clampProgress, createDefaultCrosshair, createDefaultDamageNumber, createDefaultDialog, createDefaultInventory, createDefaultMinimap, createDefaultNameplate, createDefaultNotification, createDefaultProgressBar, createDefaultTooltip, formatNumber, formatProgressText, getAnchorOffset, getDamageNumberColor, getNotificationColor, getNotificationIcon, getTextDirection, screenToWorld, worldToScreen } from "./ui";
+export type { CrosshairConfig, DamageNumberConfig, DialogChoice, DialogConfig, DialogLine, InventoryConfig, InventorySlot, MinimapConfig, MinimapMarker, NameplateConfig, NotificationConfig, ProgressBarConfig, ScreenPosition, TextDirection, TooltipConfig, UIAnchor } from "./ui";

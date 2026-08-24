@@ -67,6 +67,28 @@ export type {
   Vec4Like,
 } from './types';
 export { DEFAULT_FBM_CONFIG } from './types';
+
+// Generic signed-distance-function primitives and operators — sdSphere,
+// opUnion, fbm, etc. Domain-neutral, so they live in math rather than
+// terrain, which builds its own SDFs (sdTerrain, sdCaves, sdRock) on top.
+export {
+  calcNormal,
+  fbm,
+  noise3D,
+  opIntersection,
+  opSmoothIntersection,
+  opSmoothSubtraction,
+  opSmoothUnion,
+  opSubtraction,
+  opUnion,
+  sdBox,
+  sdCapsule,
+  sdCone,
+  sdPlane,
+  sdSphere,
+  sdTorus,
+  warpedFbm,
+} from './sdf-primitives';
 export {
   approximately,
   clamp,
