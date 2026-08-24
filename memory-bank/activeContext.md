@@ -186,3 +186,15 @@ updated: 2026-03-01
 
 **Known coverage state**:
 - `pnpm run test:coverage` produces LCOV files, but the aggregate command currently fails because several existing packages do not meet their configured global coverage thresholds. Keep the first Sonar scan coverage-independent and address real coverage debt separately rather than uploading partial/failing coverage as if it were passing evidence.
+
+### 2026-08-24 - npm OIDC preparation and clean-CI repair
+
+**What was done**:
+- Confirmed npm ownership is `jbdevprimary` and all current Strata workspace packages use the intended unscoped `strata-game-library` name or `@strata-game-library/*` scope; none uses the incorrect `@jbdevprimary/*` scope.
+- Deprecated the two obsolete published package names with exact replacements: `@strata-game-library/capacitor-plugin` -> `@strata-game-library/capacitor` and `@strata-game-library/react-native-plugin` -> `@strata-game-library/react-native`.
+- Dry-ran npm trusted-publisher setup for every current publishable package. Each is ready to trust `jbcom/strata-game-library`, `.github/workflows/cd.yml`, and the `npm` environment with publish permission. Do not run the non-dry-run enrollment until the requested explicit OIDC confirmation arrives.
+- The first Sonar CI run could not start because the repository action allowlist excluded SonarSource. Added only `SonarSource/sonarqube-scan-action@*` while retaining selected-action policy and SHA pinning, then dispatched a fresh CI run.
+- Live CI exposed an examples verifier that passed locally only because package `dist/` artifacts already existed. `apps/examples` now builds the umbrella dependency chain before Vite verification, and local verification succeeded with that explicit prerequisite.
+
+**Current live state**:
+- Draft GitHub PR #129 is open at `63bde3e2`; its new PR CI run and SonarQube Cloud analysis are in progress. The old manual run is expected to be superseded.
