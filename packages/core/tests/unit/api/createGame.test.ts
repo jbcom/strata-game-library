@@ -288,6 +288,13 @@ describe('createGame', () => {
       expect(getSaveInfo).toHaveBeenCalledWith('camp');
     });
 
+    it('normalizes persistence prefixes without regex backtracking hazards', async () => {
+      const game = createGame(makeMinimalDefinition({ name: '__Rune---Forge__' }));
+
+      await expect(game.save('camp')).resolves.toBe(true);
+      expect(localStorage.getItem('strata_rpg_rune_forge_camp')).not.toBeNull();
+    });
+
     it('should initialize with the default state for a built-in preset', () => {
       const game = createGame(makeMinimalDefinition());
 

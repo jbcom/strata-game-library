@@ -339,7 +339,7 @@ function expandWildcard(pkgDir, subpath, entry) {
   for (const file of readdirSync(dir)) {
     if (!file.endsWith('.d.ts')) continue;
     const stem = file.slice(0, -'.d.ts'.length);
-    out.push([subpath.replace('*', stem), join(dir, file)]);
+    out.push([subpath.replaceAll('*', stem), join(dir, file)]);
   }
   return out.sort(([a], [b]) => a.localeCompare(b));
 }
