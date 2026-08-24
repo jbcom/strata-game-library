@@ -13,7 +13,7 @@ import {
   getLightScreenPosition,
   type VolumetricPointLightMaterialOptions,
   type VolumetricSpotlightMaterialOptions,
-} from '../core/godRays';
+} from '../core/rendering/godRays.js';
 
 describe('calculateScatteringIntensity', () => {
   it('should return high intensity when looking at light', () => {

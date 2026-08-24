@@ -15,7 +15,13 @@
  */
 
 import type * as THREE from 'three';
-import { fbm, noise3D, opSmoothSubtraction, opSmoothUnion, warpedFbm } from '../sdf.js';
+import {
+  fbm,
+  noise3D,
+  opSmoothSubtraction,
+  opSmoothUnion,
+  warpedFbm,
+} from '../math/sdf-primitives.js';
 import type { BiomeData } from './biomes.js';
 import { getTerrainHeight } from './biomes.js';
 

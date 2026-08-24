@@ -33,7 +33,7 @@ describe('core/terrain public surface', () => {
 
 describe('backward compatibility', () => {
   it('still exposes the terrain SDFs and biome helpers from core/sdf', async () => {
-    const sdf = await import('../../sdf');
+    const sdf = await import('../../math/sdf-primitives.js');
 
     expect(sdf.sdTerrain).toBe(terrain.sdTerrain);
     expect(sdf.sdCaves).toBe(terrain.sdCaves);
@@ -43,7 +43,7 @@ describe('backward compatibility', () => {
   });
 
   it('still exposes generateTerrainChunk from core/marching-cubes', async () => {
-    const mc = await import('../../marching-cubes');
+    const mc = await import('../marching-cubes.js');
 
     expect(mc.generateTerrainChunk).toBe(terrain.generateTerrainChunk);
   });

@@ -1,104 +1,42 @@
-import { defineConfig } from 'tsup';
+import { existsSync, readFileSync } from "node:fs";
+import { libraryBuild } from "@strata-game-library/vite/tsup";
 
 /**
- * tsup configuration for @strata-game-library/core
+ * Build config for @strata-game-library/core.
  *
- * Pure TypeScript algorithms — NO React dependencies.
- * React Three Fiber components are in @strata-game-library/r3f.
+ * Pure TypeScript algorithms — no React. React Three Fiber components live in
+ * @strata-game-library/r3f.
+ *
+ * Entries are DERIVED from package.json's `exports` rather than listed by
+ * hand. The previous config carried a comment claiming the two were kept in
+ * sync, and they were not: three subpaths had no entry, so they resolved to
+ * files the build never produced. Deriving them makes that impossible.
  */
-export default defineConfig({
-	// Entry points matching package.json exports
-	entry: {
-		// Main entry
-		index: 'src/index.ts',
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")) as {
+  exports: Record<string, { import?: string } | string>;
+};
 
-		// Subpath exports
-		'shaders/index': 'src/shaders.ts',
-		'utils/index': 'src/utils/index.ts',
-		'api/index': 'src/api/index.ts',
-		'game/index': 'src/game/index.ts',
-		'compose/index': 'src/compose/index.ts',
-		'world/index': 'src/world/index.ts',
-		'core/maze/index': 'src/core/maze/index.ts',
+const entry: Record<string, string> = {};
+for (const [subpath, target] of Object.entries(pkg.exports)) {
+  const dist = typeof target === "string" ? target : target.import;
+  if (!dist) continue;
+  // "./dist/core/maze/index.js" -> entry key "core/maze/index"
+  const key = dist.replace(/^\.\/dist\//, "").replace(/\.js$/, "");
+  if (subpath === ".") {
+    entry[key] = "src/index.ts";
+    continue;
+  }
+  // Most subpaths mirror their dist path into src. A few predate the domain
+  // layout and are flat files — ./shaders builds dist/shaders/index.js from
+  // src/shaders.ts — so fall back to the barrel-less form when the mirrored
+  // path does not exist.
+  const mirrored = `src/${key}.ts`;
+  const flattened = `src/${key.replace(/\/index$/, "")}.ts`;
+  entry[key] = existsSync(mirrored) ? mirrored : flattened;
+}
 
-		// Core submodule exports
-		'core/index': 'src/core/index.ts',
-		'core/animation/index': 'src/core/animation/index.ts',
-		'core/audio/index': 'src/core/audio/index.ts',
-		'core/camera': 'src/core/camera.ts',
-		'core/clouds': 'src/core/clouds.ts',
-		'core/decals': 'src/core/decals.ts',
-		'core/ecs/index': 'src/core/ecs/index.ts',
-		'core/godRays': 'src/core/godRays.ts',
-		'core/input': 'src/core/input.ts',
-		'core/instancing': 'src/core/instancing.ts',
-		'core/lod': 'src/core/lod.ts',
-		'core/marching-cubes': 'src/core/marching-cubes.ts',
-		'core/math/index': 'src/core/math/index.ts',
-		'core/math/utils': 'src/core/math/utils.ts',
-		'core/particles': 'src/core/particles/index.ts',
-		'core/pathfinding/index': 'src/core/pathfinding/index.ts',
-		'core/physics/index': 'src/core/physics/index.ts',
-		'core/postProcessing': 'src/core/postProcessing.ts',
-		'core/raymarching': 'src/core/raymarching.ts',
-		'core/sdf': 'src/core/sdf.ts',
-		'core/shared/index': 'src/core/shared/index.ts',
-		'core/sky': 'src/core/sky.ts',
-		'core/state/index': 'src/core/state/index.ts',
-		'core/terrain/index': 'src/core/terrain/index.ts',
-		'core/ui': 'src/core/ui/index.ts',
-		'core/volumetrics': 'src/core/volumetrics.ts',
-		'core/water': 'src/core/water.ts',
-		'core/weather': 'src/core/weather.ts',
-	},
-
-	// Output format - ESM only (the package is "type": "module")
-	format: ['esm'],
-
-	// DTS generation enabled
-	dts: true,
-
-	// Clean output directory before each build
-	clean: true,
-
-	// Generate source maps for debugging
-	sourcemap: true,
-
-	// Don't split chunks - each entry point is independent
-	splitting: false,
-
-	// Target ES2022 (matches tsconfig)
-	target: 'ES2022',
-
-	// External packages (don't bundle dependencies)
-	external: [
-		'@strata-game-library/shaders',
-		'three',
-		'zustand',
-		'yuka',
-		'xstate',
-		'howler',
-		'miniplex',
-		'ngraph.graph',
-		'ngraph.path',
-		'simplex-noise',
-		'zundo',
-		'immer',
-	],
-
-	noExternal: ['maath', 'maath/*'],
-
-	// Ensure proper ESM output
-	treeshake: true,
-
-	// Add banner for module compatibility
-	banner: {
-		js: '/* @strata-game-library/core - ESM Build */',
-	},
-
-	// Minification disabled for library (consumers can minify)
-	minify: false,
-
-	// Keep names for better debugging
-	keepNames: true,
+export default libraryBuild({
+  name: "@strata-game-library/core",
+  entry,
+  external: ["three", "yuka"],
 });

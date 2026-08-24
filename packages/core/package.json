@@ -48,52 +48,28 @@
       "import": "./dist/core/audio/index.js"
     },
     "./core/camera": {
-      "types": "./dist/core/camera.d.ts",
-      "import": "./dist/core/camera.js"
-    },
-    "./core/clouds": {
-      "types": "./dist/core/clouds.d.ts",
-      "import": "./dist/core/clouds.js"
-    },
-    "./core/decals": {
-      "types": "./dist/core/decals.d.ts",
-      "import": "./dist/core/decals.js"
+      "types": "./dist/core/camera/index.d.ts",
+      "import": "./dist/core/camera/index.js"
     },
     "./core/ecs": {
       "types": "./dist/core/ecs/index.d.ts",
       "import": "./dist/core/ecs/index.js"
     },
-    "./core/godRays": {
-      "types": "./dist/core/godRays.d.ts",
-      "import": "./dist/core/godRays.js"
-    },
     "./core/input": {
-      "types": "./dist/core/input.d.ts",
-      "import": "./dist/core/input.js"
-    },
-    "./core/instancing": {
-      "types": "./dist/core/instancing.d.ts",
-      "import": "./dist/core/instancing.js"
-    },
-    "./core/lod": {
-      "types": "./dist/core/lod.d.ts",
-      "import": "./dist/core/lod.js"
-    },
-    "./core/marching-cubes": {
-      "types": "./dist/core/marching-cubes.d.ts",
-      "import": "./dist/core/marching-cubes.js"
+      "types": "./dist/core/input/index.d.ts",
+      "import": "./dist/core/input/index.js"
     },
     "./core/math": {
       "types": "./dist/core/math/index.d.ts",
       "import": "./dist/core/math/index.js"
     },
-    "./core/math/utils": {
-      "types": "./dist/core/math/utils.d.ts",
-      "import": "./dist/core/math/utils.js"
+    "./core/maze": {
+      "types": "./dist/core/maze/index.d.ts",
+      "import": "./dist/core/maze/index.js"
     },
     "./core/particles": {
-      "types": "./dist/core/particles.d.ts",
-      "import": "./dist/core/particles.js"
+      "types": "./dist/core/particles/index.d.ts",
+      "import": "./dist/core/particles/index.js"
     },
     "./core/pathfinding": {
       "types": "./dist/core/pathfinding/index.d.ts",
@@ -103,25 +79,13 @@
       "types": "./dist/core/physics/index.d.ts",
       "import": "./dist/core/physics/index.js"
     },
-    "./core/postProcessing": {
-      "types": "./dist/core/postProcessing.d.ts",
-      "import": "./dist/core/postProcessing.js"
-    },
-    "./core/raymarching": {
-      "types": "./dist/core/raymarching.d.ts",
-      "import": "./dist/core/raymarching.js"
-    },
-    "./core/sdf": {
-      "types": "./dist/core/sdf.d.ts",
-      "import": "./dist/core/sdf.js"
+    "./core/rendering": {
+      "types": "./dist/core/rendering/index.d.ts",
+      "import": "./dist/core/rendering/index.js"
     },
     "./core/shared": {
       "types": "./dist/core/shared/index.d.ts",
       "import": "./dist/core/shared/index.js"
-    },
-    "./core/sky": {
-      "types": "./dist/core/sky.d.ts",
-      "import": "./dist/core/sky.js"
     },
     "./core/state": {
       "types": "./dist/core/state/index.d.ts",
@@ -132,24 +96,8 @@
       "import": "./dist/core/terrain/index.js"
     },
     "./core/ui": {
-      "types": "./dist/core/ui.d.ts",
-      "import": "./dist/core/ui.js"
-    },
-    "./core/volumetrics": {
-      "types": "./dist/core/volumetrics.d.ts",
-      "import": "./dist/core/volumetrics.js"
-    },
-    "./core/water": {
-      "types": "./dist/core/water.d.ts",
-      "import": "./dist/core/water.js"
-    },
-    "./core/weather": {
-      "types": "./dist/core/weather.d.ts",
-      "import": "./dist/core/weather.js"
-    },
-    "./core/maze": {
-      "types": "./dist/core/maze/index.d.ts",
-      "import": "./dist/core/maze/index.js"
+      "types": "./dist/core/ui/index.d.ts",
+      "import": "./dist/core/ui/index.js"
     }
   },
   "files": [
@@ -254,6 +202,7 @@
     "typescript": "^5.9.3",
     "vitest": "^4.1.10",
     "xstate": "^5.28.0",
-    "yuka": "^0.7.8"
+    "yuka": "^0.7.8",
+    "@strata-game-library/vite": "workspace:*"
   }
 }

@@ -38,7 +38,7 @@
  */
 
 import * as THREE from 'three';
-import { easeInOutCubic, lerp } from './math/utils';
+import { easeInOutCubic, lerp } from '../math/utils.js';
 
 /**
  * Configuration for trauma-based camera shake.

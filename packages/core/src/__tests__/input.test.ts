@@ -12,7 +12,7 @@ import {
   InputManager,
   InputStateMachine,
   normalizeAxisValue,
-} from '../core/input';
+} from '../core/input/input.js';
 
 describe('InputManager', () => {
   describe('instantiation', () => {

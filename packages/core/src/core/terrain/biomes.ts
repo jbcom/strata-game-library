@@ -13,7 +13,7 @@
  */
 
 import type * as THREE from 'three';
-import { fbm, noise3D, warpedFbm } from '../sdf.js';
+import { fbm, noise3D, warpedFbm } from '../math/sdf-primitives.js';
 
 /**
  * A labelled region of the world used to vary terrain height and to filter

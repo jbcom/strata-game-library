@@ -58,7 +58,7 @@ export interface InstanceData {
  * from here keeps existing `core/instancing` imports working; new code should
  * prefer `@strata-game-library/core/core/terrain`.
  */
-import type { BiomeData } from './terrain/biomes.js';
+import type { BiomeData } from './biomes.js';
 export type { BiomeData };
 
 /**

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { getSafeAreaInsets, resetSafeAreaCache } from '../core/safe-area-insets';
+import { getSafeAreaInsets, resetSafeAreaCache } from '../core/input/safe-area-insets.js';
 
 afterEach(() => {
   resetSafeAreaCache();

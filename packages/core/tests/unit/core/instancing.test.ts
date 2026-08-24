@@ -4,7 +4,7 @@
 
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { type BiomeData, generateInstanceData } from '../../../src/core/instancing';
+import { type BiomeData, generateInstanceData } from '../../../src/core/terrain/instancing';
 
 describe('generateInstanceData', () => {
   it('generates requested number of instances', () => {

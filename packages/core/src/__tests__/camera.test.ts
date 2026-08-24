@@ -11,7 +11,7 @@ import {
   slerp,
   smoothDampScalar,
   smoothDampVector3,
-} from '../core/camera';
+} from '../core/camera/camera.js';
 import { easeInCubic, easeInOutCubic, easeOutCubic, easeOutElastic, lerp } from '../core/math';
 
 describe('lerp utility', () => {

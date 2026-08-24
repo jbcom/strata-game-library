@@ -294,9 +294,9 @@ export function warpedFbm(x: number, y: number, z: number, octaves: number = 4):
 // New code should prefer:
 //   import { sdTerrain } from '@strata-game-library/core/core/terrain';
 
-export type { BiomeData } from './terrain/biomes.js';
-export { getBiomeAt, getTerrainHeight } from './terrain/biomes.js';
-export { sdCaves, sdRock, sdTerrain } from './terrain/sdf.js';
+export type { BiomeData } from '../terrain/biomes.js';
+export { getBiomeAt, getTerrainHeight } from '../terrain/biomes.js';
+export { sdCaves, sdRock, sdTerrain } from '../terrain/sdf.js';
 
 // ============================================================================
 // GRADIENT / NORMAL CALCULATION

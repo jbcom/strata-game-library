@@ -591,5 +591,5 @@ export function createGeometryFromMarchingCubes(result: MarchingCubesResult): TH
 // New code should prefer:
 //   import { generateTerrainChunk } from '@strata-game-library/core/core/terrain';
 
-export type { TerrainChunk } from './terrain/chunks.js';
-export { generateTerrainChunk } from './terrain/chunks.js';
+export type { TerrainChunk } from './chunks.js';
+export { generateTerrainChunk } from './chunks.js';

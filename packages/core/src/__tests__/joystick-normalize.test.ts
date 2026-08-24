@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeJoystick } from '../core/joystick-normalize';
+import { normalizeJoystick } from '../core/input/joystick-normalize.js';
 
 describe('normalizeJoystick', () => {
   it('returns zero at the origin', () => {

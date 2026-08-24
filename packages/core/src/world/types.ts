@@ -1,5 +1,5 @@
 import type * as THREE from 'three';
-import type { WeatherStateConfig } from '../core/weather';
+import type { WeatherStateConfig } from '../core/rendering/weather.js';
 import type { GameMode } from '../game/types';
 import type { BiomeType } from '../utils/texture-loader';
 

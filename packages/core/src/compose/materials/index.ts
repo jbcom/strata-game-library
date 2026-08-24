@@ -25,18 +25,8 @@ export {
   createMaterialProceduralBakeExportPlan,
   encodeMaterialProceduralBakeExportPlan,
 } from './bake-export';
-export {
-  createMaterialProceduralBakeBasisUniversalKtx2Encoder,
-  createMaterialProceduralBakeBrowserImageEncoder,
-} from './encoders';
-export {
-  createFurMaterial,
-  createMetalMaterial,
-  createOrganicMaterial,
-  createShellMaterial,
-  createVolumetricMaterial,
-  createWoodMaterial,
-} from './factory';
+export * from './encoders';
+export * from './factory';
 export {
   encodeMaterialProceduralBakeImagePng,
   encodeMaterialProceduralBakeRasterPng,
@@ -44,56 +34,5 @@ export {
 export { cloneMaterialDefinition, MATERIALS, resolveMaterialDefinition } from './presets';
 export { createMaterialProceduralPlan } from './procedural';
 export { createMaterialTrait, inferMaterialTraits } from './traits';
-export type {
-  MaterialDefinition,
-  MaterialPhysics,
-  MaterialProceduralAlgorithm,
-  MaterialProceduralBakeArtifacts,
-  MaterialProceduralBakeBasisUniversalEncoder,
-  MaterialProceduralBakeBasisUniversalKtx2EncoderOptions,
-  MaterialProceduralBakeBrowserImageEncoderOptions,
-  MaterialProceduralBakeCanvas2DContextLike,
-  MaterialProceduralBakeCanvasLike,
-  MaterialProceduralBakeColorSpace,
-  MaterialProceduralBakeEncodedImage,
-  MaterialProceduralBakeExportEncoder,
-  MaterialProceduralBakeExportEncoderFn,
-  MaterialProceduralBakeExportEncoderOptions,
-  MaterialProceduralBakeExportExecutionOptions,
-  MaterialProceduralBakeExportManifest,
-  MaterialProceduralBakeExportManifestTarget,
-  MaterialProceduralBakeExportMimeType,
-  MaterialProceduralBakeExportOptions,
-  MaterialProceduralBakeExportPlan,
-  MaterialProceduralBakeExportRequest,
-  MaterialProceduralBakeExportResult,
-  MaterialProceduralBakeFormat,
-  MaterialProceduralBakeImageDataLike,
-  MaterialProceduralBakeManifest,
-  MaterialProceduralBakeManifestTarget,
-  MaterialProceduralBakeMap,
-  MaterialProceduralBakePlan,
-  MaterialProceduralBakePlanOptions,
-  MaterialProceduralBakeRaster,
-  MaterialProceduralBakeRasterImage,
-  MaterialProceduralBakeTarget,
-  MaterialProceduralColor,
-  MaterialProceduralLayer,
-  MaterialProceduralPlan,
-  MaterialProceduralPlanOptions,
-  MaterialProceduralUniform,
-  MaterialProceduralUniformType,
-  MaterialTrait,
-  MaterialTraitChannel,
-  MaterialTraitInferenceOptions,
-  MaterialTraitOptions,
-  MaterialTraitType,
-  MaterialType,
-  MaterialVariantOptions,
-  MaterialVariantSetOptions,
-  OrganicProperties,
-  ShellPattern,
-  ShellProperties,
-  VolumetricProperties,
-} from './types';
+export * from './types';
 export { createMaterialVariant, createMaterialVariants } from './variants';

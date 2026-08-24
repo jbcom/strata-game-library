@@ -13,7 +13,7 @@ import {
   fbmNoise2D,
   sampleCloudDensity,
   type WindConfig,
-} from '../core/clouds';
+} from '../core/rendering/clouds.js';
 
 describe('createCloudLayerMaterial', () => {
   it('should create cloud layer material with defaults', () => {

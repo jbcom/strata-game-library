@@ -4,12 +4,12 @@
 
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
+import { sdSphere } from '../../../src/core/math/sdf-primitives';
 import {
   createGeometryFromMarchingCubes,
   generateTerrainChunk,
   marchingCubes,
-} from '../../../src/core/marching-cubes';
-import { sdSphere } from '../../../src/core/sdf';
+} from '../../../src/core/terrain/marching-cubes';
 
 describe('marchingCubes', () => {
   it('generates vertices for simple sphere', () => {

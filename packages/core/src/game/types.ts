@@ -1,7 +1,7 @@
 import type { Vector3 } from 'three';
 import type { SoundManager } from '../core/audio/sound-manager';
 import type { BaseEntity, StrataWorld, SystemFn } from '../core/ecs/types';
-import type { InputManager } from '../core/input';
+import type { InputManager } from '../core/input/input.js';
 import type { GameStoreApi, SaveInfo } from '../core/state';
 import type { BiomeType } from '../utils/texture-loader';
 import type { BoundingShape, ConnectionType } from '../world/types';

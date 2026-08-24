@@ -17,7 +17,7 @@ import {
   createTransition,
   StateMachine,
   type StateMachineConfig,
-} from '../../../src/core/stateMachine';
+} from '../../../src/core/state/stateMachine';
 
 // Test context type
 interface TestContext {
