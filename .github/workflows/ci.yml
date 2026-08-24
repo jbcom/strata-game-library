@@ -211,9 +211,7 @@ jobs:
 
   gate:
     name: CI / gate
-    if: >-
-      always() && (github.event_name != 'pull_request' ||
-      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')))
+    if: always()
     needs:
       - pr-title
       - toolchain
@@ -228,6 +226,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EVENT_NAME: ${{ github.event_name }}
+      SKIP_AUTOMATED_PR_VALIDATION: ${{ github.event_name == 'pull_request' && (startsWith(github.head_ref, 'release-please--') || startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') || startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')) }}
       PR_TITLE_RESULT: ${{ needs.pr-title.result }}
       TOOLCHAIN_RESULT: ${{ needs.toolchain.result }}
       COMPATIBILITY_RESULT: ${{ needs.compatibility.result }}
@@ -242,6 +241,10 @@ jobs:
       - name: Enforce all CI results
         shell: bash
         run: |
+          if [[ "$SKIP_AUTOMATED_PR_VALIDATION" == "true" ]]; then
+            echo "Automated release or non-major dependency PR: validation jobs intentionally skipped."
+            exit 0
+          fi
           required=(
             "$TOOLCHAIN_RESULT"
             "$COMPATIBILITY_RESULT"
