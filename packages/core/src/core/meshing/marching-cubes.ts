@@ -579,17 +579,8 @@ export function createGeometryFromMarchingCubes(result: MarchingCubesResult): TH
   return geometry;
 }
 
-// ============================================================================
-// TERRAIN CHUNKS (moved)
-// ============================================================================
-
-// Chunked terrain meshing now lives in `core/terrain`, which has its own
-// subpath export. Marching cubes itself is not terrain-specific — it extracts
-// an isosurface from any SDF — so it stays here. The chunk helpers are
-// re-exported so existing `core/marching-cubes` imports keep working.
-//
-// New code should prefer:
-//   import { generateTerrainChunk } from '@strata-game-library/core/core/terrain';
-
-export type { TerrainChunk } from './chunks.js';
-export { generateTerrainChunk } from './chunks.js';
+// Chunked terrain meshing lives in `core/terrain`, which has its own subpath
+// export. Marching cubes is not terrain-specific — it extracts an isosurface
+// from any SDF — so it stays here, and this module no longer re-exports the
+// chunk helpers: the `core/marching-cubes` subpath they existed to support was
+// removed when the API moved to domain entry points.

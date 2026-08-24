@@ -11,29 +11,13 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./shaders": {
-      "types": "./dist/shaders/index.d.ts",
-      "import": "./dist/shaders/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
-    },
     "./api": {
       "types": "./dist/api/index.d.ts",
       "import": "./dist/api/index.js"
     },
-    "./game": {
-      "types": "./dist/game/index.d.ts",
-      "import": "./dist/game/index.js"
-    },
     "./compose": {
       "types": "./dist/compose/index.d.ts",
       "import": "./dist/compose/index.js"
-    },
-    "./world": {
-      "types": "./dist/world/index.d.ts",
-      "import": "./dist/world/index.js"
     },
     "./core": {
       "types": "./dist/core/index.d.ts",
@@ -67,6 +51,10 @@
       "types": "./dist/core/maze/index.d.ts",
       "import": "./dist/core/maze/index.js"
     },
+    "./core/meshing": {
+      "types": "./dist/core/meshing/index.d.ts",
+      "import": "./dist/core/meshing/index.js"
+    },
     "./core/particles": {
       "types": "./dist/core/particles/index.d.ts",
       "import": "./dist/core/particles/index.js"
@@ -98,6 +86,22 @@
     "./core/ui": {
       "types": "./dist/core/ui/index.d.ts",
       "import": "./dist/core/ui/index.js"
+    },
+    "./game": {
+      "types": "./dist/game/index.d.ts",
+      "import": "./dist/game/index.js"
+    },
+    "./shaders": {
+      "types": "./dist/shaders/index.d.ts",
+      "import": "./dist/shaders/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./world": {
+      "types": "./dist/world/index.d.ts",
+      "import": "./dist/world/index.js"
     }
   },
   "files": [

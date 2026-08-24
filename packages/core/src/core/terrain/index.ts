@@ -27,10 +27,14 @@
  * `export *`, so adding a file to this directory does not silently widen the
  * public API.
  *
- * Deliberately NOT part of this module, because none of it is terrain-specific:
- * the generic SDF primitives and operators in `core/sdf`, the isosurface
- * extractor in `core/marching-cubes`, and the scatterer in `core/instancing`
- * (which places instances on any height function, terrain or not).
+ * Deliberately NOT part of this module, because neither is terrain-specific:
+ * the generic SDF primitives and operators in `core/math/sdf-primitives`, and
+ * the isosurface extractor in `core/meshing` — marching cubes turns any
+ * signed-distance field into geometry, and terrain is just one caller.
+ *
+ * Instancing IS part of this module. It was previously described as generic,
+ * but it takes `BiomeData` and scatters according to biome, so it cannot be
+ * used without terrain.
  *
  * @packageDocumentation
  * @module core/terrain
@@ -43,3 +47,5 @@ export type { TerrainChunk } from './chunks.js';
 
 export { generateTerrainChunk } from './chunks.js';
 export { sdCaves, sdRock, sdTerrain } from './sdf.js';
+export type { InstanceData, InstancingOptions } from './instancing.js';
+export { createInstancedMesh, generateInstanceData } from './instancing.js';

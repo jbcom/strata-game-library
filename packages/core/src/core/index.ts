@@ -63,5 +63,5 @@ export {
   sdTerrain,
 } from './terrain/index.js';
 export * from './terrain/instancing.js';
-export * from './terrain/marching-cubes.js';
+export * from './meshing/marching-cubes.js';
 export * from './ui';

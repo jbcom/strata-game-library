@@ -12,7 +12,7 @@
  */
 
 import * as THREE from 'three';
-import { createGeometryFromMarchingCubes, marchingCubes } from './marching-cubes.js';
+import { createGeometryFromMarchingCubes, marchingCubes } from '../meshing/marching-cubes.js';
 
 /**
  * A single meshed piece of a chunked terrain.

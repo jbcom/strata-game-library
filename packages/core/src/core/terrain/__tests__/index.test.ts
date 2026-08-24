@@ -8,6 +8,12 @@ import * as terrain from '../index';
  * runtime export has to be added here deliberately.
  */
 const EXPECTED_RUNTIME_EXPORTS = [
+  // Instancing scatters according to BiomeData, so it cannot be used without
+  // terrain and belongs to this module's surface. It was previously documented
+  // as generic and left unexported, which made it unreachable through any
+  // public subpath.
+  'createInstancedMesh',
+  'generateInstanceData',
   'generateTerrainChunk',
   'getBiomeAt',
   'getTerrainHeight',
@@ -42,10 +48,15 @@ describe('backward compatibility', () => {
     expect(sdf.getTerrainHeight).toBe(terrain.getTerrainHeight);
   });
 
-  it('still exposes generateTerrainChunk from core/marching-cubes', async () => {
-    const mc = await import('../marching-cubes.js');
+  it('keeps chunked terrain meshing out of core/meshing', async () => {
+    // marching cubes extracts an isosurface from any SDF, so it must not carry
+    // terrain-specific helpers. generateTerrainChunk was re-exported there to
+    // keep the old core/marching-cubes subpath working; that subpath is gone
+    // now that the API is domain-shaped, and so is the alias.
+    const mc = await import('../../meshing/marching-cubes.js');
 
-    expect(mc.generateTerrainChunk).toBe(terrain.generateTerrainChunk);
+    expect(mc).not.toHaveProperty('generateTerrainChunk');
+    expect(terrain.generateTerrainChunk).toBeTypeOf('function');
   });
 
   it('still exposes the terrain symbols from the core barrel', async () => {
