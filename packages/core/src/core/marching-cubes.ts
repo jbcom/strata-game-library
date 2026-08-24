@@ -579,71 +579,17 @@ export function createGeometryFromMarchingCubes(result: MarchingCubesResult): TH
   return geometry;
 }
 
-/**
- * Chunk-based terrain generation for large worlds.
- * @category World Building
- */
-export interface TerrainChunk {
-  /** The extracted geometry for the chunk. */
-  geometry: THREE.BufferGeometry;
-  /** World-space bounding box of the chunk. */
-  boundingBox: THREE.Box3;
-  /** Central world position of the chunk. */
-  position: THREE.Vector3;
-}
+// ============================================================================
+// TERRAIN CHUNKS (moved)
+// ============================================================================
 
-/**
- * Generate a single terrain chunk using marching cubes.
- *
- * @category World Building
- * @param sdf - The Signed Distance Function representing the terrain.
- * @param chunkPosition - Center position of the chunk.
- * @param chunkSize - Physical size of the chunk side.
- * @param resolution - Grid resolution for extraction.
- * @returns A populated TerrainChunk object.
- */
-export function generateTerrainChunk(
-  sdf: (p: THREE.Vector3) => number,
-  chunkPosition: THREE.Vector3,
-  chunkSize: number,
-  resolution: number
-): TerrainChunk {
-  if (!sdf || typeof sdf !== 'function') {
-    throw new Error('generateTerrainChunk: sdf must be a function');
-  }
-  if (!chunkPosition) {
-    throw new Error('generateTerrainChunk: chunkPosition is required');
-  }
-  if (chunkSize <= 0) {
-    throw new Error('generateTerrainChunk: chunkSize must be positive');
-  }
-  if (resolution <= 0 || !Number.isInteger(resolution)) {
-    throw new Error('generateTerrainChunk: resolution must be a positive integer');
-  }
-  if (resolution > 256) {
-    throw new Error('generateTerrainChunk: resolution must be <= 256');
-  }
+// Chunked terrain meshing now lives in `core/terrain`, which has its own
+// subpath export. Marching cubes itself is not terrain-specific — it extracts
+// an isosurface from any SDF — so it stays here. The chunk helpers are
+// re-exported so existing `core/marching-cubes` imports keep working.
+//
+// New code should prefer:
+//   import { generateTerrainChunk } from '@strata-game-library/core/core/terrain';
 
-  const halfSize = chunkSize / 2;
-  const bounds = {
-    min: new THREE.Vector3(
-      chunkPosition.x - halfSize,
-      chunkPosition.y - halfSize,
-      chunkPosition.z - halfSize
-    ),
-    max: new THREE.Vector3(
-      chunkPosition.x + halfSize,
-      chunkPosition.y + halfSize,
-      chunkPosition.z + halfSize
-    ),
-  };
-
-  const result = marchingCubes(sdf, { resolution, bounds });
-  const geometry = createGeometryFromMarchingCubes(result);
-
-  return {
-    geometry,
-    boundingBox: new THREE.Box3(bounds.min, bounds.max),
-    position: chunkPosition.clone(),
-  };
-}
+export type { TerrainChunk } from './terrain/chunks.js';
+export { generateTerrainChunk } from './terrain/chunks.js';

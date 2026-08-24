@@ -284,171 +284,19 @@ export function warpedFbm(x: number, y: number, z: number, octaves: number = 4):
 }
 
 // ============================================================================
-// TERRAIN SDF
+// TERRAIN (moved)
 // ============================================================================
 
-/**
- * Biome data for SDF terrain generation
- * Used in terrain height calculations and SDF operations
- */
-export interface BiomeData {
-  type: 'marsh' | 'forest' | 'desert' | 'tundra' | 'savanna' | 'mountain' | 'scrubland';
-  center: THREE.Vector2;
-  radius: number;
-}
+// Terrain-specific SDFs and the biome height field now live in `core/terrain`,
+// which has its own subpath export. They are re-exported here so that every
+// existing `core/sdf` import keeps working unchanged.
+//
+// New code should prefer:
+//   import { sdTerrain } from '@strata-game-library/core/core/terrain';
 
-/**
- * Get the dominant biome at a position
- */
-export function getBiomeAt(x: number, z: number, biomes: BiomeData[]): BiomeData {
-  if (!biomes || biomes.length === 0) {
-    throw new Error('getBiomeAt: biomes array cannot be empty');
-  }
-
-  let closest = biomes[0];
-  let closestDist = Infinity;
-
-  for (const biome of biomes) {
-    const dist = Math.sqrt((x - biome.center.x) ** 2 + (z - biome.center.y) ** 2);
-    if (dist < closestDist) {
-      closestDist = dist;
-      closest = biome;
-    }
-  }
-
-  return closest;
-}
-
-/**
- * Terrain height function based on biome
- */
-export function getTerrainHeight(x: number, z: number, biomes: BiomeData[]): number {
-  if (!biomes || biomes.length === 0) {
-    throw new Error('getTerrainHeight: biomes array cannot be empty');
-  }
-  const biome = getBiomeAt(x, z, biomes);
-
-  // Base noise
-  const baseNoise = fbm(x * 0.02, 0, z * 0.02, 3);
-
-  switch (biome.type) {
-    case 'mountain': {
-      // Tall peaks with ridges
-      const mountainNoise = warpedFbm(x * 0.03, 0, z * 0.03, 5);
-      const ridges = Math.abs(noise3D(x * 0.05, 0, z * 0.05) - 0.5) * 2;
-      return baseNoise * 2 + mountainNoise * 25 + ridges * 10;
-    }
-    case 'tundra':
-      // Gentle rolling hills
-      return baseNoise * 3 + fbm(x * 0.05, 0, z * 0.05, 2) * 2;
-
-    case 'forest':
-      // Moderate hills
-      return baseNoise * 5 + fbm(x * 0.04, 0, z * 0.04, 3) * 3;
-
-    case 'desert': {
-      // Dunes
-      const duneNoise = Math.sin(x * 0.1 + noise3D(x * 0.02, 0, z * 0.02) * 5);
-      return baseNoise * 2 + duneNoise * 3;
-    }
-    case 'marsh':
-      // Very flat with some bumps
-      return baseNoise * 0.5 + noise3D(x * 0.1, 0, z * 0.1) * 0.3;
-
-    case 'savanna': {
-      // Mostly flat with occasional kopjes
-      const kopje = Math.max(0, 1 - fbm(x * 0.08, 0, z * 0.08, 2) * 3);
-      return baseNoise * 1.5 + kopje * kopje * 8;
-    }
-    default:
-      return baseNoise * 2;
-  }
-}
-
-/**
- * Cave system SDF - creates tunnels and caverns
- */
-export function sdCaves(x: number, y: number, z: number): number {
-  // Worm-like caves using 3D noise
-  const caveNoise1 = noise3D(x * 0.05, y * 0.05, z * 0.05);
-  const caveNoise2 = noise3D(x * 0.08 + 100, y * 0.08, z * 0.08);
-
-  // Combine to create cave-like structures
-  const cave = caveNoise1 * caveNoise2;
-
-  // Threshold to create actual caves
-  const caveThreshold = 0.15;
-
-  // Only create caves below a certain height
-  const depthFactor = Math.max(0, 1 - y / 10);
-
-  if (cave < caveThreshold && depthFactor > 0.2) {
-    // Inside a cave - return negative distance
-    return (cave - caveThreshold) * 10 * depthFactor;
-  }
-
-  return 1000; // No cave here
-}
-
-/**
- * Complete terrain SDF
- * Returns distance to terrain surface (negative = underground)
- */
-export function sdTerrain(p: THREE.Vector3, biomes: BiomeData[]): number {
-  if (!biomes || biomes.length === 0) {
-    throw new Error('sdTerrain: biomes array cannot be empty');
-  }
-  const x = p.x;
-  const y = p.y;
-  const z = p.z;
-
-  // Get terrain height at this XZ position
-  const terrainHeight = getTerrainHeight(x, z, biomes);
-
-  // Base terrain distance (simple plane)
-  let d = y - terrainHeight;
-
-  // Add overhangs using noise
-  const overhangNoise = warpedFbm(x * 0.1, y * 0.1, z * 0.1, 3);
-  if (y < terrainHeight && y > terrainHeight - 5) {
-    // Create overhangs by pushing surface outward in certain areas
-    const overhangStrength = (1 - (terrainHeight - y) / 5) * overhangNoise;
-    d -= overhangStrength * 2;
-  }
-
-  // Carve out caves
-  const caveDist = sdCaves(x, y, z);
-  d = opSmoothSubtraction(d, -caveDist, 2);
-
-  return d;
-}
-
-/**
- * Rock SDF with irregular shape
- * Optimized to avoid allocations for better performance in tight loops
- */
-export function sdRock(p: THREE.Vector3, center: THREE.Vector3, baseRadius: number): number {
-  if (baseRadius <= 0) {
-    throw new Error('sdRock: baseRadius must be positive');
-  }
-  const qx = p.x - center.x;
-  const qy = p.y - center.y;
-  const qz = p.z - center.z;
-
-  // Base sphere
-  let d = Math.sqrt(qx * qx + qy * qy + qz * qz) - baseRadius;
-
-  // Add noise displacement for irregular shape
-  const displacement =
-    fbm(qx * 0.5 + center.x, qy * 0.5 + center.y, qz * 0.5 + center.z, 3) * baseRadius * 0.4;
-
-  d += displacement;
-
-  // Flatten bottom
-  d = opSmoothUnion(d, qy + baseRadius * 0.3, 0.3);
-
-  return d;
-}
+export type { BiomeData } from './terrain/biomes.js';
+export { getBiomeAt, getTerrainHeight } from './terrain/biomes.js';
+export { sdCaves, sdRock, sdTerrain } from './terrain/sdf.js';
 
 // ============================================================================
 // GRADIENT / NORMAL CALCULATION

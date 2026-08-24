@@ -100,8 +100,8 @@
       "import": "./dist/core/pathfinding/index.js"
     },
     "./core/physics": {
-      "types": "./dist/core/physics.d.ts",
-      "import": "./dist/core/physics.js"
+      "types": "./dist/core/physics/index.d.ts",
+      "import": "./dist/core/physics/index.js"
     },
     "./core/postProcessing": {
       "types": "./dist/core/postProcessing.d.ts",
@@ -127,6 +127,10 @@
       "types": "./dist/core/state/index.d.ts",
       "import": "./dist/core/state/index.js"
     },
+    "./core/terrain": {
+      "types": "./dist/core/terrain/index.d.ts",
+      "import": "./dist/core/terrain/index.js"
+    },
     "./core/ui": {
       "types": "./dist/core/ui.d.ts",
       "import": "./dist/core/ui.js"
@@ -144,8 +148,8 @@
       "import": "./dist/core/weather.js"
     },
     "./core/maze": {
-      "types": "./dist/core/maze.d.ts",
-      "import": "./dist/core/maze.js"
+      "types": "./dist/core/maze/index.d.ts",
+      "import": "./dist/core/maze/index.js"
     }
   },
   "files": [

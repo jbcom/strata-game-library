@@ -45,6 +45,7 @@ export default defineConfig({
 		'core/shared/index': 'src/core/shared/index.ts',
 		'core/sky': 'src/core/sky.ts',
 		'core/state/index': 'src/core/state/index.ts',
+		'core/terrain/index': 'src/core/terrain/index.ts',
 		'core/ui': 'src/core/ui/index.ts',
 		'core/volumetrics': 'src/core/volumetrics.ts',
 		'core/water': 'src/core/water.ts',

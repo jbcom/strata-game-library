@@ -52,11 +52,13 @@ export interface InstanceData {
 }
 
 /**
- * Biome data for instancing.
- * Compatible with SDF BiomeData but used for instance placement.
- * Import BiomeData from './sdf' instead.
+ * Biome data used to filter where instances may be placed.
+ *
+ * Re-exported from `core/terrain`, which owns the definition. Importing it
+ * from here keeps existing `core/instancing` imports working; new code should
+ * prefer `@strata-game-library/core/core/terrain`.
  */
-import type { BiomeData } from './sdf';
+import type { BiomeData } from './terrain/biomes.js';
 export type { BiomeData };
 
 /**

@@ -25,12 +25,12 @@ export * from './physics';
 export * from './postProcessing';
 export * from './raymarching';
 export * from './safe-area-insets';
-// Export sdf but exclude BiomeData (exported via instancing)
+// Generic SDF primitives, operators, and legacy noise. Terrain-specific SDFs
+// (sdTerrain, sdCaves, sdRock) and the biome height field come from './terrain'
+// below. BiomeData is excluded here and exported via instancing, as before.
 export {
   calcNormal,
   fbm,
-  getBiomeAt,
-  getTerrainHeight,
   noise3D,
   opIntersection,
   opSmoothIntersection,
@@ -40,12 +40,9 @@ export {
   opUnion,
   sdBox,
   sdCapsule,
-  sdCaves,
   sdCone,
   sdPlane,
-  sdRock,
   sdSphere,
-  sdTerrain,
   sdTorus,
   warpedFbm,
 } from './sdf';
@@ -53,6 +50,17 @@ export * from './shaders';
 export * from './shared';
 export * from './sky';
 export * from './state';
+export type { TerrainChunk } from './terrain/index.js';
+// Terrain generation. BiomeData is intentionally omitted — it reaches the
+// barrel through './instancing' to avoid a duplicate-export conflict.
+export {
+  generateTerrainChunk,
+  getBiomeAt,
+  getTerrainHeight,
+  sdCaves,
+  sdRock,
+  sdTerrain,
+} from './terrain/index.js';
 export * from './ui';
 export * from './volumetrics';
 export * from './water';
