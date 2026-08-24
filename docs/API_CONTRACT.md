@@ -107,7 +107,8 @@ Three layers, in dependency order.
 `api/<pkg>.api.json` holds every exported symbol per subpath, extracted from
 the **built `.d.ts`** and diffed in CI. Its `version` field is provenance for
 the snapshot, not a gated API input: Release Please may advance package
-metadata without changing exports or declaration shapes.
+metadata without changing exports or declaration shapes. Release Please updates
+that provenance field whenever it creates a package release PR.
 
 ```bash
 pnpm api:report   # regenerate snapshots

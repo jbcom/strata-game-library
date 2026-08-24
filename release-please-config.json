@@ -22,7 +22,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": "api/umbrella.api.json",
+          "path": "/api/umbrella.api.json",
           "jsonpath": "$.version"
         }
       ]
