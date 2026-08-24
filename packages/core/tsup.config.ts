@@ -19,6 +19,7 @@ export default defineConfig({
 		'game/index': 'src/game/index.ts',
 		'compose/index': 'src/compose/index.ts',
 		'world/index': 'src/world/index.ts',
+		'maze/index': 'src/maze/index.ts',
 
 		// Core submodule exports
 		'core/index': 'src/core/index.ts',
@@ -35,7 +36,7 @@ export default defineConfig({
 		'core/marching-cubes': 'src/core/marching-cubes.ts',
 		'core/math/index': 'src/core/math/index.ts',
 		'core/math/utils': 'src/core/math/utils.ts',
-		'core/particles': 'src/core/particles.ts',
+		'core/particles': 'src/core/particles/index.ts',
 		'core/pathfinding/index': 'src/core/pathfinding/index.ts',
 		'core/physics/index': 'src/core/physics/index.ts',
 		'core/postProcessing': 'src/core/postProcessing.ts',
@@ -44,7 +45,7 @@ export default defineConfig({
 		'core/shared/index': 'src/core/shared/index.ts',
 		'core/sky': 'src/core/sky.ts',
 		'core/state/index': 'src/core/state/index.ts',
-		'core/ui': 'src/core/ui.ts',
+		'core/ui': 'src/core/ui/index.ts',
 		'core/volumetrics': 'src/core/volumetrics.ts',
 		'core/water': 'src/core/water.ts',
 		'core/weather': 'src/core/weather.ts',
