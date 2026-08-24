@@ -1,6 +1,6 @@
+import { ChromaticAberrationFixed } from "./ChromaticAberrationFixed";
 import {
   BrightnessContrast,
-  ChromaticAberration,
   EffectComposer,
   HueSaturation,
   Noise,
@@ -44,7 +44,7 @@ export const HorrorEffects: React.FC<HorrorEffectsProps> = ({
 
   if (chromaticAberration) {
     effects.push(
-      <ChromaticAberration
+      <ChromaticAberrationFixed
         key="chromatic"
         offset={new THREE.Vector2(0.005, 0.005)}
         radialModulation

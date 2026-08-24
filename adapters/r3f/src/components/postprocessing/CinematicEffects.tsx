@@ -1,6 +1,6 @@
+import { ChromaticAberrationFixed } from "./ChromaticAberrationFixed";
 import {
   Bloom,
-  ChromaticAberration,
   EffectComposer,
   Noise,
   ToneMapping,
@@ -45,7 +45,7 @@ export const CinematicEffects: React.FC<CinematicEffectsProps> = ({
       mipmapBlur
     />,
     <Vignette key="vignette" darkness={vignetteDarkness} offset={0.4} />,
-    <ChromaticAberration
+    <ChromaticAberrationFixed
       key="chromatic"
       offset={new THREE.Vector2(chromaticAberration, chromaticAberration)}
       radialModulation

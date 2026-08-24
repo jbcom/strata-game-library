@@ -45,7 +45,7 @@
  *   node scripts/api-report.mjs --check-exports-map # gate: exports map <-> dist
  */
 
-import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
@@ -353,13 +353,50 @@ function diffReports(committed, fresh) {
 // Modes
 // ---------------------------------------------------------------------------
 
+/** Newest mtime under `dir`, or 0 when it does not exist. */
+function newestMtime(dir, depth = 0) {
+  if (depth > 12 || !existsSync(dir)) return 0;
+  let newest = 0;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
+    const full = join(dir, entry.name);
+    const t = entry.isDirectory() ? newestMtime(full, depth + 1) : statSync(full).mtimeMs;
+    if (t > newest) newest = t;
+  }
+  return newest;
+}
+
+/**
+ * Refuse to report against absent OR STALE build output.
+ *
+ * A missing dist/ was already caught. A stale one was not, and it is worse:
+ * the report succeeds and writes plausible-looking snapshots derived from
+ * artifacts that no longer match src. Running this on a dirty tree regenerated
+ * all twelve snapshots with inflated counts (core 979 -> 2836, r3f 574 -> 1084)
+ * alongside "unresolved subpath" warnings, and the churn had to be reverted by
+ * hand. Snapshots are the API contract; deriving them from stale dist records a
+ * contract nobody shipped.
+ */
 function requireBuilt(packages) {
   const unbuilt = packages.filter((p) => !existsSync(join(p.dir, 'dist')));
-  if (unbuilt.length === 0) return;
-  console.error('API report needs built packages. Missing dist/ for:');
-  for (const p of unbuilt) console.error(`  ${p.manifest.name}`);
-  console.error('\nRun `pnpm build` first.');
-  process.exit(2);
+  if (unbuilt.length > 0) {
+    console.error('API report needs built packages. Missing dist/ for:');
+    for (const p of unbuilt) console.error(`  ${p.manifest.name}`);
+    console.error('\nRun `pnpm build` first.');
+    process.exit(2);
+  }
+
+  const stale = packages.filter((p) => {
+    const src = newestMtime(join(p.dir, 'src'));
+    return src > 0 && src > newestMtime(join(p.dir, 'dist'));
+  });
+  if (stale.length > 0) {
+    console.error('API report needs CURRENT build output. src/ is newer than dist/ for:');
+    for (const p of stale) console.error(`  ${p.manifest.name}`);
+    console.error('\nRun `pnpm build` first — reporting against stale dist/ writes');
+    console.error('snapshots for an API that was never built.');
+    process.exit(2);
+  }
 }
 
 function modeWrite(packages) {

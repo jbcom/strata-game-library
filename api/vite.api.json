@@ -1,0 +1,40 @@
+{
+  "package": "@strata-game-library/vite",
+  "version": "0.1.0",
+  "subpaths": {
+    ".": {
+      "BrowserTestFragment": "type",
+      "defaultBrowserLaunchArgs": "value",
+      "defineBrowserTest": "value",
+      "DefineBrowserTestOptions": "type",
+      "defineGamePreset": "value",
+      "DefineGamePresetOptions": "type",
+      "defineUnitTest": "value",
+      "DefineUnitTestOptions": "type",
+      "HeavyDepsOptions": "type",
+      "libraryBuild": "value",
+      "LibraryBuildOptions": "type",
+      "PlaywrightBrowserName": "type",
+      "UnitTestFragment": "type"
+    },
+    "./tsup": {
+      "libraryBuild": "value",
+      "LibraryBuildOptions": "type"
+    },
+    "./vite": {
+      "defineGamePreset": "value",
+      "DefineGamePresetOptions": "type",
+      "HeavyDepsOptions": "type"
+    },
+    "./vitest": {
+      "BrowserTestFragment": "type",
+      "defaultBrowserLaunchArgs": "value",
+      "defineBrowserTest": "value",
+      "DefineBrowserTestOptions": "type",
+      "defineUnitTest": "value",
+      "DefineUnitTestOptions": "type",
+      "PlaywrightBrowserName": "type",
+      "UnitTestFragment": "type"
+    }
+  }
+}
