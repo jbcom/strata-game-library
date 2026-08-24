@@ -23,7 +23,6 @@ export * from './game';
 // (ShaderChunks, noiseSnippet). Import from '@strata-game-library/core/shaders' instead.
 
 // Export world topology
-export * from './maze';
 // Export utils
 export * from './utils';
 export * from './world';

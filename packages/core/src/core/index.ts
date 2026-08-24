@@ -18,6 +18,7 @@ export * from './joystick-normalize';
 export * from './lod';
 export * from './marching-cubes';
 export * from './math';
+export * from './maze/index.js';
 export * from './particles';
 export * from './pathfinding';
 export * from './physics';

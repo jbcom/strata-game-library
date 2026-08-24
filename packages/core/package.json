@@ -143,9 +143,9 @@
       "types": "./dist/core/weather.d.ts",
       "import": "./dist/core/weather.js"
     },
-    "./maze": {
-      "types": "./dist/maze/index.d.ts",
-      "import": "./dist/maze/index.js"
+    "./core/maze": {
+      "types": "./dist/core/maze.d.ts",
+      "import": "./dist/core/maze.js"
     }
   },
   "files": [

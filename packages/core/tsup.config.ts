@@ -19,7 +19,7 @@ export default defineConfig({
 		'game/index': 'src/game/index.ts',
 		'compose/index': 'src/compose/index.ts',
 		'world/index': 'src/world/index.ts',
-		'maze/index': 'src/maze/index.ts',
+		'core/maze/index': 'src/core/maze/index.ts',
 
 		// Core submodule exports
 		'core/index': 'src/core/index.ts',
