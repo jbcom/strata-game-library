@@ -1,4 +1,4 @@
-import { libraryBuild } from "@jbcom/vite-game-preset/tsup";
+import { libraryBuild } from "@strata-game-library/vite/tsup";
 import { globSync } from "glob";
 import path from "node:path";
 

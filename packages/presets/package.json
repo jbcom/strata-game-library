@@ -194,7 +194,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vitest": "^4.1.10",
-    "yuka": "^0.7.8"
+    "yuka": "^0.7.8",
+    "@strata-game-library/vite": "workspace:*"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.0",

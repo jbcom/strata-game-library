@@ -1,4 +1,4 @@
-import { libraryBuild } from "@jbcom/vite-game-preset/tsup";
+import { libraryBuild } from "@strata-game-library/vite/tsup";
 
 export default libraryBuild({
   name: "@strata-game-library/audio-synth",

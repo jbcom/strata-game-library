@@ -1,4 +1,4 @@
-import { libraryBuild } from "@jbcom/vite-game-preset/tsup";
+import { libraryBuild } from "@strata-game-library/vite/tsup";
 
 // Externals are the declared peerDependencies: bundling either of them would
 // ship a second copy of pixi and break `instanceof` against the host's.

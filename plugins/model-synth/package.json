@@ -70,7 +70,8 @@
     "@vitest/coverage-v8": "^4.1.10",
     "tsup": "^8.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "@strata-game-library/vite": "workspace:*"
   },
   "peerDependencies": {
     "typescript": ">=5.0.0"
