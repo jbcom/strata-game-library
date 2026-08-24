@@ -11,6 +11,39 @@
  * @category Entities & Simulation
  */
 
-export * from './ik-solver';
-export * from './procedural-animation';
-export * from './skeletal-animation';
+export type {
+  BoneChain,
+  BoneConstraint,
+  IKSolverResult,
+} from './ik-solver';
+export {
+  CCDSolver,
+  createBoneChain,
+  createBoneChainFromLengths,
+  FABRIKSolver,
+  TwoBoneIKSolver,
+} from './ik-solver';
+export type {
+  GaitConfig,
+  GaitState,
+  SpringConfig,
+  SpringState,
+} from './procedural-animation';
+export {
+  ProceduralGait,
+  SpringChain,
+  SpringDynamics,
+} from './procedural-animation';
+export type {
+  LookAtConfig,
+  LookAtState,
+} from './skeletal-animation';
+export {
+  calculateBoneRotation,
+  clampAngle,
+  dampedSpring,
+  dampedSpringVector3,
+  hermiteInterpolate,
+  LookAtController,
+  sampleCurve,
+} from './skeletal-animation';

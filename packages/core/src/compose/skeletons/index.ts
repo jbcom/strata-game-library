@@ -18,8 +18,18 @@ import {
 } from './presets';
 import type { SkeletonDefinition } from './types';
 
-export * from './presets';
-export * from './types';
+export {
+  createAvianSkeleton,
+  createBipedSkeleton,
+  createQuadrupedSkeleton,
+  createSerpentineSkeleton,
+  eulerToQuat,
+} from './presets';
+export type {
+  BoneDefinition,
+  IKChainDefinition,
+  SkeletonDefinition,
+} from './types';
 
 export const SKELETONS: Record<string, SkeletonDefinition> = {
   biped: createBipedSkeleton('biped', { height: 1.8 }),
