@@ -36,8 +36,11 @@
  * ```
  */
 
+// biome-ignore lint/performance/noReExportAll: namespace export (export * as X) scopes everything under X.thing rather than flattening it into this module's own symbol table — the collision/drift risk noReExportAll exists to catch does not apply.
 export * as buffer from 'maath/buffer';
+// biome-ignore lint/performance/noReExportAll: namespace export (export * as X) scopes everything under X.thing rather than flattening it into this module's own symbol table — the collision/drift risk noReExportAll exists to catch does not apply.
 export * as easing from 'maath/easing';
+// biome-ignore lint/performance/noReExportAll: namespace export (export * as X) scopes everything under X.thing rather than flattening it into this module's own symbol table — the collision/drift risk noReExportAll exists to catch does not apply.
 export * as triangle from 'maath/triangle';
 
 export {
