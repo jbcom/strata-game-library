@@ -1,7 +1,7 @@
 {
   "name": "@strata-game-library/astro",
   "version": "0.3.0",
-  "description": "Astro integration for Strata Game Library \u2014 Vite config, CSS tokens, and Starlight theme",
+  "description": "Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -63,6 +63,7 @@
     "tsup": "^8.5.0",
     "typescript": "^5.9.0",
     "vite": "^7.3.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "@jbcom/vite-game-preset": "link:../../../../arcade-cabinet/vite-game-preset"
   }
 }

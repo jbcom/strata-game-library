@@ -494,6 +494,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.6
         version: 2.4.6
+      '@jbcom/vite-game-preset':
+        specifier: link:../../../../arcade-cabinet/vite-game-preset
+        version: link:../../../../arcade-cabinet/vite-game-preset
       '@types/three':
         specifier: ^0.183.1
         version: 0.183.1
@@ -609,6 +612,9 @@ importers:
 
   plugins/astro:
     devDependencies:
+      '@jbcom/vite-game-preset':
+        specifier: link:../../../../arcade-cabinet/vite-game-preset
+        version: link:../../../../arcade-cabinet/vite-game-preset
       '@types/node':
         specifier: ^25.6.0
         version: 25.9.5
@@ -633,6 +639,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.6
         version: 2.4.6
+      '@jbcom/vite-game-preset':
+        specifier: link:../../../../arcade-cabinet/vite-game-preset
+        version: link:../../../../arcade-cabinet/vite-game-preset
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.18
@@ -670,6 +679,9 @@ importers:
       '@capacitor/docgen':
         specifier: 0.3.1
         version: 0.3.1
+      '@jbcom/vite-game-preset':
+        specifier: link:../../../../arcade-cabinet/vite-game-preset
+        version: link:../../../../arcade-cabinet/vite-game-preset
       '@playwright/browser-chromium':
         specifier: ^1.57.0
         version: 1.62.1
