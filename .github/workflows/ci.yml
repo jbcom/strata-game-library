@@ -149,6 +149,8 @@ jobs:
       - uses: ./.github/actions/setup-toolchain
       - name: Install Chromium system dependencies
         run: pnpm --dir packages/core exec playwright install --with-deps chromium
+      - name: Build browser test target
+        run: pnpm nx run @strata-game-library/core:build
       - run: pnpm nx run @strata-game-library/core:test:e2e
       - name: Upload browser results
         if: always()
@@ -170,6 +172,10 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+    env:
+      # Sourced from the Doppler-managed organization secret; this workflow
+      # deliberately does not create or shadow a repository-level credential.
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

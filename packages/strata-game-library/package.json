@@ -93,7 +93,7 @@
     "README.md"
   ],
   "scripts": {
-    "build:deps": "pnpm --dir ../.. --recursive --workspace-concurrency=1 --filter @strata-game-library/core --filter @strata-game-library/shaders --filter @strata-game-library/presets --filter @strata-game-library/r3f --filter @strata-game-library/reactylon --filter @strata-game-library/pixi --filter @strata-game-library/audio-synth --filter @strata-game-library/model-synth --filter @strata-game-library/capacitor --filter @strata-game-library/react-native --filter @strata-game-library/astro --filter @strata-game-library/yuka build",
+    "build:deps": "pnpm --dir ../.. --recursive --workspace-concurrency=1 --filter @strata-game-library/vite --filter @strata-game-library/core --filter @strata-game-library/shaders --filter @strata-game-library/presets --filter @strata-game-library/r3f --filter @strata-game-library/reactylon --filter @strata-game-library/pixi --filter @strata-game-library/audio-synth --filter @strata-game-library/model-synth --filter @strata-game-library/capacitor --filter @strata-game-library/react-native --filter @strata-game-library/astro --filter @strata-game-library/yuka build",
     "build": "pnpm run build:deps && tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/rewrite-bundled-types.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
