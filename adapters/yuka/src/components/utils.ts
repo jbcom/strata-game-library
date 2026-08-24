@@ -66,3 +66,19 @@ export function createPolygonsFromGeometry(vertices: number[], indices: number[]
 
   return polygons;
 }
+
+/**
+ * Select a region for non-security gameplay variation.
+ *
+ * The injectable source keeps selection deterministic in tests and makes the
+ * intentional use of a non-cryptographic random source explicit.
+ *
+ * @internal
+ */
+export function selectRandomRegion<T>(
+  regions: readonly T[],
+  random: () => number = Math.random // NOSONAR: navigation sampling only
+): T | null {
+  if (regions.length === 0) return null;
+  return regions[Math.min(regions.length - 1, Math.floor(random() * regions.length))];
+}

@@ -2,7 +2,12 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import * as THREE from 'three';
 import * as YUKA from 'yuka';
 import type { YukaNavMeshProps, YukaNavMeshRef } from './types';
-import { createPolygonsFromGeometry, threeVector3ToYuka, yukaVector3ToThree } from './utils';
+import {
+  createPolygonsFromGeometry,
+  selectRandomRegion,
+  threeVector3ToYuka,
+  yukaVector3ToThree,
+} from './utils';
 
 /**
  * Navigation mesh component for AI pathfinding.
@@ -63,9 +68,7 @@ export const YukaNavMesh = forwardRef<YukaNavMeshRef, YukaNavMeshProps>(function
         return path.map((p: YUKA.Vector3) => yukaVector3ToThree(p));
       },
       getRandomRegion: () => {
-        const regions = navMeshRef.current.regions;
-        if (regions.length === 0) return null;
-        return regions[Math.floor(Math.random() * regions.length)];
+        return selectRandomRegion(navMeshRef.current.regions);
       },
       getClosestRegion: (point: THREE.Vector3) => {
         const yukaPoint = threeVector3ToYuka(point);
