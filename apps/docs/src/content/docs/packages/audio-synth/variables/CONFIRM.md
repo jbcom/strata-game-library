@@ -2,11 +2,11 @@
 title: "CONFIRM"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / CONFIRM
+[strata-game-library/audio-synth](../globals.md) / CONFIRM
 
 # Variable: CONFIRM
 

@@ -83,6 +83,13 @@ try {
     if (packedManifestText.includes('workspace:')) {
       errors.push(`${displayDirectory}: packed manifest still contains workspace: dependency ranges`);
     }
+
+    for (const file of packed.files.filter((item) => item.path.endsWith('.d.ts'))) {
+      const declaration = run('tar', ['-xOf', packed.filename, `package/${file.path}`]);
+      if (/\b(?:from\s+|import\s*(?:\(\s*)?)['"]@strata-game-library\//.test(declaration)) {
+        errors.push(`${displayDirectory}: packed declaration ${file.path} references a private workspace package`);
+      }
+    }
   }
 
   if (errors.length) {
@@ -107,7 +114,10 @@ try {
       'react@latest',
       'react-dom@latest',
       'three@latest',
+      '@react-three/fiber@latest',
+      '@react-three/drei@latest',
       'typescript@latest',
+      'zustand@latest',
       'yuka@latest',
     ],
     { cwd: consumerDirectory, stdio: 'pipe' }
@@ -116,14 +126,31 @@ try {
     join(consumerDirectory, 'consumer.mjs'),
     [
       "import * as strata from 'strata-game-library';",
-      "import { normalizeJoystick } from '@strata-game-library/core/core/input';",
+      "import { normalizeJoystick } from 'strata-game-library/core';",
+      "import { YukaEntityManager } from 'strata-game-library/yuka';",
       "if (typeof strata.createGame !== 'function') throw new Error('createGame export is unavailable');",
       "const value = normalizeJoystick({ x: 75, y: 0 }, 100, 0.2);",
       "if (!Number.isFinite(value.x)) throw new Error('core input export is not executable');",
+      "if (typeof YukaEntityManager !== 'function') throw new Error('Yuka adapter export is unavailable');",
       "console.log('consumer-smoke-ok');",
     ].join('\n')
   );
   run('node', ['consumer.mjs'], { cwd: consumerDirectory, stdio: 'inherit' });
+  await writeFile(
+    join(consumerDirectory, 'consumer.ts'),
+    [
+      "import { createGame } from 'strata-game-library';",
+      "import { normalizeJoystick } from 'strata-game-library/core';",
+      "import { YukaEntityManager } from 'strata-game-library/yuka';",
+      'void createGame;',
+      'void normalizeJoystick;',
+      'void YukaEntityManager;',
+    ].join('\n')
+  );
+  run('node', ['node_modules/typescript/bin/tsc', '--noEmit', '--skipLibCheck', '--module', 'NodeNext', '--moduleResolution', 'NodeNext', 'consumer.ts'], {
+    cwd: consumerDirectory,
+    stdio: 'inherit',
+  });
 
   console.log(`Validated ${packages.length} package tarballs and a clean consumer install.`);
 } finally {

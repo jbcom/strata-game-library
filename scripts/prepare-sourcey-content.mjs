@@ -5,7 +5,7 @@ const root = resolve(import.meta.dirname, '..');
 const sourceRoot = join(root, 'apps/docs/src/content/docs');
 const destinationRoot = join(root, 'docs');
 const manifestPath = join(destinationRoot, '.sourcey-legacy-manifest.json');
-const siteBase = 'https://jonbogaty.com/strata-game-library';
+const siteBase = 'https://strata.game';
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -41,7 +41,8 @@ function semanticMarkdown(markdown) {
   return markdown
     .split(/(```[\s\S]*?```)/g)
     .map((part, index) => (index % 2 === 1 ? part : transformProse(part)))
-    .join('');
+    .join('')
+    .replaceAll('https://jonbogaty.com/strata-game-library', siteBase);
 }
 
 const sourceFiles = (await walk(sourceRoot)).filter((file) => /\.(md|mdx)$/i.test(file));

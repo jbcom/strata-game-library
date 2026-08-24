@@ -2,11 +2,11 @@
 title: "IMPACT"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / IMPACT
+[strata-game-library/audio-synth](../globals.md) / IMPACT
 
 # Variable: IMPACT
 

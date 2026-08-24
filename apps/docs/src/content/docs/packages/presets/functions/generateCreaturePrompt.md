@@ -2,11 +2,11 @@
 title: "generateCreaturePrompt"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / generateCreaturePrompt
+[strata-game-library/presets](../globals.md) / generateCreaturePrompt
 
 # Function: generateCreaturePrompt()
 

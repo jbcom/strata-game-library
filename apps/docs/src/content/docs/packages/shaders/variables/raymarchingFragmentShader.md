@@ -2,11 +2,11 @@
 title: "raymarchingFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / raymarchingFragmentShader
+[strata-game-library/shaders](../globals.md) / raymarchingFragmentShader
 
 # Variable: raymarchingFragmentShader
 

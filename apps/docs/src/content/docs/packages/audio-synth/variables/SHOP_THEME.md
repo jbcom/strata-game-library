@@ -2,11 +2,11 @@
 title: "SHOP_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SHOP\_THEME
+[strata-game-library/audio-synth](../globals.md) / SHOP\_THEME
 
 # Variable: SHOP\_THEME
 

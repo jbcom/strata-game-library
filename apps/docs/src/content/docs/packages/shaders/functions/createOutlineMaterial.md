@@ -2,11 +2,11 @@
 title: "createOutlineMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createOutlineMaterial
+[strata-game-library/shaders](../globals.md) / createOutlineMaterial
 
 # Function: createOutlineMaterial()
 

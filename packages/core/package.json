@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/core",
+  "private": true,
   "version": "1.7.0",
   "description": "Renderer-free TypeScript for procedural 3D games: terrain, physics, pathfinding, ECS, animation, audio, input, maze generation and rendering effects.",
   "type": "module",
@@ -159,13 +160,9 @@
     "access": "public"
   },
   "peerDependencies": {
-    "three": ">=0.150.0",
-    "yuka": ">=0.7.0"
+    "three": ">=0.150.0"
   },
   "peerDependenciesMeta": {
-    "yuka": {
-      "optional": true
-    },
     "three": {
       "optional": true
     }
@@ -192,7 +189,6 @@
     "@types/node": "^26.2.0",
     "@types/seedrandom": "^3.0.8",
     "@types/three": "^0.185.4",
-    "@types/yuka": "^0.7.4",
     "@vitest/coverage-v8": "^4.1.11",
     "glob": "^13.0.6",
     "howler": "^2.2.4",
@@ -206,7 +202,6 @@
     "tsup": "^8.5.1",
     "typescript": "5.9.3",
     "vitest": "^4.1.11",
-    "xstate": "^5.28.0",
-    "yuka": "^0.7.8"
+    "xstate": "^5.28.0"
   }
 }

@@ -2,11 +2,11 @@
 title: "createEquipment"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createEquipment
+[strata-game-library/presets](../globals.md) / createEquipment
 
 # Function: createEquipment()
 

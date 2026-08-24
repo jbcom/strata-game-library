@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/vite",
+  "private": true,
   "version": "0.1.0",
   "description": "Vite toolchain integration for Strata: shared Vite, Vitest and tsup configuration for Strata packages and the games built on them.",
   "license": "MIT",

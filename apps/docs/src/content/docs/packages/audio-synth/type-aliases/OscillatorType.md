@@ -2,11 +2,11 @@
 title: "OscillatorType"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / OscillatorType
+[strata-game-library/audio-synth](../globals.md) / OscillatorType
 
 # Type Alias: OscillatorType
 

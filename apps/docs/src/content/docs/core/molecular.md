@@ -10,7 +10,7 @@ Strata provides specialized rendering for molecular structures, particle systems
 ## Quick Start
 
 ```tsx
-import { MoleculeRenderer } from '@strata-game-library/core';
+import { MoleculeRenderer } from 'strata-game-library/core';
 
 <MoleculeRenderer
   atoms={moleculeData.atoms}
@@ -25,7 +25,7 @@ import { MoleculeRenderer } from '@strata-game-library/core';
 Render molecular structures:
 
 ```tsx
-import { MoleculeRenderer } from '@strata-game-library/core';
+import { MoleculeRenderer } from 'strata-game-library/core';
 
 <MoleculeRenderer
   // Data
@@ -60,7 +60,7 @@ import { MoleculeRenderer } from '@strata-game-library/core';
 GPU-instanced atomic particles:
 
 ```tsx
-import { AtomicParticles } from '@strata-game-library/core';
+import { AtomicParticles } from 'strata-game-library/core';
 
 <AtomicParticles
   count={10000}
@@ -216,7 +216,7 @@ Secondary structure visualization:
 ### PDB Files
 
 ```tsx
-import { loadPDB } from '@strata-game-library/core/molecular';
+import { loadPDB } from 'strata-game-library/core/molecular';
 
 const molecule = await loadPDB('/proteins/1crn.pdb');
 
@@ -231,7 +231,7 @@ const molecule = await loadPDB('/proteins/1crn.pdb');
 ### SDF/MOL Files
 
 ```tsx
-import { loadSDF } from '@strata-game-library/core/molecular';
+import { loadSDF } from 'strata-game-library/core/molecular';
 
 const molecule = await loadSDF('/molecules/caffeine.sdf');
 
@@ -244,7 +244,7 @@ const molecule = await loadSDF('/molecules/caffeine.sdf');
 ### XYZ Files
 
 ```tsx
-import { loadXYZ } from '@strata-game-library/core/molecular';
+import { loadXYZ } from 'strata-game-library/core/molecular';
 
 const trajectory = await loadXYZ('/trajectories/water.xyz');
 
@@ -258,7 +258,7 @@ const trajectory = await loadXYZ('/trajectories/water.xyz');
 ### Electron Cloud
 
 ```tsx
-import { ElectronCloud } from '@strata-game-library/core';
+import { ElectronCloud } from 'strata-game-library/core';
 
 <ElectronCloud
   nucleusPosition={[0, 0, 0]}
@@ -279,7 +279,7 @@ import { ElectronCloud } from '@strata-game-library/core';
 ### Particle Field
 
 ```tsx
-import { ParticleField } from '@strata-game-library/core';
+import { ParticleField } from 'strata-game-library/core';
 
 <ParticleField
   count={5000}
@@ -314,7 +314,7 @@ import { ParticleField } from '@strata-game-library/core';
 ### Isosurfaces
 
 ```tsx
-import { Isosurface } from '@strata-game-library/core';
+import { Isosurface } from 'strata-game-library/core';
 
 <Isosurface
   data={volumetricData}
@@ -331,7 +331,7 @@ import { Isosurface } from '@strata-game-library/core';
 ### Vector Fields
 
 ```tsx
-import { VectorField } from '@strata-game-library/core';
+import { VectorField } from 'strata-game-library/core';
 
 <VectorField
   data={vectorFieldData}

@@ -1,2 +1,20 @@
-export { DEFAULT_KEYBOARD_MAPPING, YUKA, useActionPressed, useAlignment, useArrive, useCohesion, useControlHints, useCurrentInputMap, useEvade, useFlee, useFollowPath, useGameStatus, useInput, useInputManager, useInterpose, useKeyboardControls, useMode, useObstacleAvoidance, useOffsetPursuit, usePauseToggle, usePursue, useScene, useSeek, useSeparation, useTransition, useWander } from "@strata-game-library/r3f/hooks";
-export type { ControlHint, KeyboardActions, KeyboardMapping, UseAlignmentOptions, UseArriveOptions, UseCohesionOptions, UseEvadeOptions, UseFleeOptions, UseFollowPathOptions, UseInterposeOptions, UseObstacleAvoidanceOptions, UseOffsetPursuitOptions, UsePauseToggleOptions, UsePursueOptions, UseSeekOptions, UseSeparationOptions, UseWanderOptions } from "@strata-game-library/r3f/hooks";
+export type {
+  ControlHint,
+  KeyboardActions,
+  KeyboardMapping,
+  UsePauseToggleOptions,
+} from '@strata-game-library/r3f/hooks';
+export {
+  DEFAULT_KEYBOARD_MAPPING,
+  useActionPressed,
+  useControlHints,
+  useCurrentInputMap,
+  useGameStatus,
+  useInput,
+  useInputManager,
+  useKeyboardControls,
+  useMode,
+  usePauseToggle,
+  useScene,
+  useTransition,
+} from '@strata-game-library/r3f/hooks';

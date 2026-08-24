@@ -2,11 +2,11 @@
 title: "ALL_THEMES"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / ALL\_THEMES
+[strata-game-library/presets](../globals.md) / ALL\_THEMES
 
 # Variable: ALL\_THEMES
 

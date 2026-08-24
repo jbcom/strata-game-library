@@ -2,11 +2,11 @@
 title: "FANTASY_THEMES"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / FANTASY\_THEMES
+[strata-game-library/presets](../globals.md) / FANTASY\_THEMES
 
 # Variable: FANTASY\_THEMES
 

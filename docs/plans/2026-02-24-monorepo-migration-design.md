@@ -51,37 +51,37 @@ strata/                          # monorepo root
 ├── playwright.config.ts         # E2E config
 │
 ├── packages/                    # publishable npm packages
-│   ├── core/                    # @strata-game-library/core
+│   ├── core/                    # strata-game-library/core
 │   │   ├── package.json
 │   │   ├── tsconfig.json        # extends ../../tsconfig.base.json
 │   │   ├── tsup.config.ts
 │   │   └── src/                 # current strata/src/ (minus shaders)
 │   │
-│   ├── shaders/                 # @strata-game-library/shaders
+│   ├── shaders/                 # strata-game-library/shaders
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   ├── tsup.config.ts
 │   │   └── src/                 # standalone repo (superior implementations)
 │   │
-│   ├── presets/                 # @strata-game-library/presets
+│   ├── presets/                 # strata-game-library/presets
 │   │   ├── package.json         # depends on core via workspace:*
 │   │   ├── tsconfig.json
 │   │   ├── tsup.config.ts
 │   │   └── src/
 │   │
-│   ├── audio-synth/             # @strata-game-library/audio-synth
+│   ├── audio-synth/             # strata-game-library/audio-synth
 │   │   ├── package.json         # Tone.js based
 │   │   ├── tsconfig.json
 │   │   ├── tsup.config.ts
 │   │   └── src/
 │   │
-│   ├── model-synth/             # @strata-game-library/model-synth
+│   ├── model-synth/             # strata-game-library/model-synth
 │   │   ├── package.json         # Meshy API client
 │   │   ├── tsconfig.json
 │   │   ├── tsup.config.ts
 │   │   └── src/                 # from feature branch
 │   │
-│   ├── capacitor-plugin/        # @strata-game-library/capacitor-plugin
+│   ├── capacitor-plugin/        # strata-game-library/capacitor-plugin
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   ├── tsup.config.ts
@@ -89,7 +89,7 @@ strata/                          # monorepo root
 │   │   ├── android/             # native Java code
 │   │   └── src/
 │   │
-│   └── react-native-plugin/     # @strata-game-library/react-native-plugin
+│   └── react-native-plugin/     # strata-game-library/react-native-plugin
 │       ├── package.json
 │       ├── tsconfig.json
 │       ├── tsup.config.ts
@@ -129,7 +129,7 @@ strata/                          # monorepo root
 
 - Move `src/` to `packages/core/src/`
 - Remove `src/shaders/` (replaced by packages/shaders)
-- Core re-exports shaders: `export * from '@strata-game-library/shaders'`
+- Core re-exports shaders: `export * from 'strata-game-library/shaders'`
 - Update all internal imports
 - Keep all 30+ subpath exports
 - Preserve existing tests in `packages/core/tests/`
@@ -149,7 +149,7 @@ Standalone wins every 1:1 comparison. Actions:
 ### packages/presets (from presets repo)
 
 - Move as-is (12,690 LOC, 45 files, 28 exports)
-- Update `@strata-game-library/core` dependency to `workspace:*`
+- Update `strata-game-library/core` dependency to `workspace:*`
 - 17 files import from core — all continue working via workspace protocol
 - Preserve existing tests (9 test files + E2E)
 
@@ -166,7 +166,7 @@ Standalone wins every 1:1 comparison. Actions:
 - Main branch is scaffolded only (package name still "template")
 - **Add**: biome.json, tsup.config.ts, vitest config
 - **Migrate**: eslint -> biome
-- Fix package name from "template" to "@strata-game-library/model-synth"
+- Fix package name from "template" to "strata-game-library/model-synth"
 
 ### packages/capacitor-plugin (from capacitor-plugin repo)
 

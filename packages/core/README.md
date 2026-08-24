@@ -45,7 +45,7 @@ function Scene() {
 - **Characters** -- Skeletal animation, IK solvers, and procedural motion
 - **ECS** -- Entity component system built on Miniplex
 - **Physics** -- Rapier integration for rigid body and collision handling
-- **AI** -- Pathfinding, steering behaviors, and state machines (Yuka / XState)
+- **AI** -- Renderer-agnostic graph pathfinding and state machines
 - **Animation** -- Tweening, bone animation, and inverse kinematics
 - **Audio** -- Spatial audio and sound management via Howler
 - **State** -- Game state management with Zustand and undo/redo support

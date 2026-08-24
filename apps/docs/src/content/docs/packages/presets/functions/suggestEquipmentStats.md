@@ -2,11 +2,11 @@
 title: "suggestEquipmentStats"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / suggestEquipmentStats
+[strata-game-library/presets](../globals.md) / suggestEquipmentStats
 
 # Function: suggestEquipmentStats()
 

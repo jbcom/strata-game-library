@@ -16,7 +16,6 @@ export default libraryBuild({
     "three",
     "postprocessing",
     "zustand",
-    "yuka",
     "xstate",
     "@xstate/react",
     "howler",

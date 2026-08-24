@@ -2,11 +2,11 @@
 title: "GlitchMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / GlitchMaterialOptions
+[strata-game-library/shaders](../globals.md) / GlitchMaterialOptions
 
 # Interface: GlitchMaterialOptions
 

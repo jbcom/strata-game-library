@@ -2,11 +2,11 @@
 title: "AdvancedWaterUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / AdvancedWaterUniforms
+[strata-game-library/shaders](../globals.md) / AdvancedWaterUniforms
 
 # Interface: AdvancedWaterUniforms
 

@@ -2,11 +2,11 @@
 title: "createDustParticlesUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createDustParticlesUniforms
+[strata-game-library/shaders](../globals.md) / createDustParticlesUniforms
 
 # Function: createDustParticlesUniforms()
 

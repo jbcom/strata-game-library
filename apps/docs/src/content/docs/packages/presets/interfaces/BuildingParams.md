@@ -2,11 +2,11 @@
 title: "BuildingParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / BuildingParams
+[strata-game-library/presets](../globals.md) / BuildingParams
 
 # Interface: BuildingParams
 

@@ -2,11 +2,11 @@
 title: "UnderwaterUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / UnderwaterUniforms
+[strata-game-library/shaders](../globals.md) / UnderwaterUniforms
 
 # Interface: UnderwaterUniforms
 

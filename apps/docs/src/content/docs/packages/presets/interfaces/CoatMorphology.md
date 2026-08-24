@@ -2,11 +2,11 @@
 title: "CoatMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / CoatMorphology
+[strata-game-library/presets](../globals.md) / CoatMorphology
 
 # Interface: CoatMorphology
 

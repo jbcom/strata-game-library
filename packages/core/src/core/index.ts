@@ -297,8 +297,6 @@ export type {
   EdgeData,
   GraphEdge,
   GraphNode,
-  NavMesh,
-  NavMeshConversionOptions,
   NGraph,
   NLink,
   NNode,
@@ -312,7 +310,6 @@ export type {
   StrataGraph,
   StrataGraphInstance,
   StrataPathfinderInstance,
-  YukaVector3,
 } from './pathfinding';
 export {
   addEdge,
@@ -327,7 +324,6 @@ export {
   findClosestNode,
   findPath,
   findPathDijkstra,
-  fromNavMesh,
   nba,
   simplifyPath,
   smoothPath,

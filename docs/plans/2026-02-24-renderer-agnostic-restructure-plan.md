@@ -304,15 +304,15 @@ For each moved package, update the `repository.directory` field:
 
 - `plugins/audio-synth/package.json`: `"directory": "plugins/audio-synth"`
 - `plugins/model-synth/package.json`: `"directory": "plugins/model-synth"`
-- `plugins/capacitor/package.json`: `"directory": "plugins/capacitor"`, also update `"name"` to `"@strata-game-library/capacitor"`
-- `plugins/react-native/package.json`: `"directory": "plugins/react-native"`, also update `"name"` to `"@strata-game-library/react-native"`
+- `plugins/capacitor/package.json`: `"directory": "plugins/capacitor"`, also update `"name"` to `"strata-game-library/capacitor"`
+- `plugins/react-native/package.json`: `"directory": "plugins/react-native"`, also update `"name"` to `"strata-game-library/react-native"`
 
 **Step 3: Update nx.json release projects**
 
 Replace the old package names in the `release.projects` array:
 
-- `@strata-game-library/capacitor-plugin` -> `@strata-game-library/capacitor`
-- `@strata-game-library/react-native-plugin` -> `@strata-game-library/react-native`
+- `strata-game-library/capacitor-plugin` -> `strata-game-library/capacitor`
+- `strata-game-library/react-native-plugin` -> `strata-game-library/react-native`
 
 **Step 4: Run pnpm install to update lockfile**
 
@@ -343,7 +343,7 @@ git commit -m "refactor: move plugin packages to plugins/ directory, rename capa
 
 ### Task 7: Extract R3F components from core to adapters/r3f
 
-This is the biggest task. It creates the `@strata-game-library/r3f` adapter package.
+This is the biggest task. It creates the `strata-game-library/r3f` adapter package.
 
 **Files:**
 
@@ -360,7 +360,7 @@ This is the biggest task. It creates the `@strata-game-library/r3f` adapter pack
 
 ```json
 {
-  "name": "@strata-game-library/r3f",
+  "name": "strata-game-library/r3f",
   "version": "0.1.0",
   "description": "React Three Fiber components for Strata - terrain, water, vegetation, sky, volumetrics, physics, animation",
   "type": "module",
@@ -396,8 +396,8 @@ This is the biggest task. It creates the `@strata-game-library/r3f` adapter pack
   "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/r3f#readme",
   "publishConfig": { "access": "public" },
   "dependencies": {
-    "@strata-game-library/core": "workspace:*",
-    "@strata-game-library/shaders": "workspace:*"
+    "strata-game-library/core": "workspace:*",
+    "strata-game-library/shaders": "workspace:*"
   },
   "peerDependencies": {
     "@react-three/drei": ">=9.0.0",
@@ -469,8 +469,8 @@ export default defineConfig({
   target: 'ES2022',
   jsx: 'automatic',
   external: [
-    '@strata-game-library/core',
-    '@strata-game-library/shaders',
+    'strata-game-library/core',
+    'strata-game-library/shaders',
     'react', 'react-dom', 'three',
     '@react-three/fiber', '@react-three/drei',
     '@react-three/rapier', '@react-three/postprocessing',
@@ -482,7 +482,7 @@ export default defineConfig({
   treeshake: true,
   minify: false,
   keepNames: true,
-  banner: { js: '/* @strata-game-library/r3f - ESM Build */' },
+  banner: { js: '/* strata-game-library/r3f - ESM Build */' },
 });
 ```
 
@@ -503,16 +503,16 @@ export * from './components/index.js';
 
 **Step 6: Update import paths in moved component files**
 
-All component files that import from `../core/...` need updated paths to import from `@strata-game-library/core` instead. This is a search-and-replace across all files in `adapters/r3f/src/components/`:
+All component files that import from `../core/...` need updated paths to import from `strata-game-library/core` instead. This is a search-and-replace across all files in `adapters/r3f/src/components/`:
 
-- `from '../core/` -> `from '@strata-game-library/core/core/`
-- `from '../../core/` -> `from '@strata-game-library/core/core/`
+- `from '../core/` -> `from 'strata-game-library/core/core/`
+- `from '../../core/` -> `from 'strata-game-library/core/core/`
 - `from '../hooks/` -> check if renderer-specific or pure
-- `from '../shaders` -> `from '@strata-game-library/shaders`
-- `from '../api/` -> `from '@strata-game-library/core/api`
-- `from '../game/` -> `from '@strata-game-library/core/game`
-- `from '../compose/` -> `from '@strata-game-library/core/compose`
-- `from '../utils/` -> `from '@strata-game-library/core/utils`
+- `from '../shaders` -> `from 'strata-game-library/shaders`
+- `from '../api/` -> `from 'strata-game-library/api`
+- `from '../game/` -> `from 'strata-game-library/game`
+- `from '../compose/` -> `from 'strata-game-library/compose`
+- `from '../utils/` -> `from 'strata-game-library/utils`
 
 **Step 7: Update packages/core**
 
@@ -535,7 +535,7 @@ The core package should have NO React dependencies at all.
 
 **Step 8: Add r3f to nx.json release projects**
 
-Add `"@strata-game-library/r3f"` to `release.projects` array.
+Add `"strata-game-library/r3f"` to `release.projects` array.
 
 **Step 9: Run pnpm install**
 
@@ -546,14 +546,14 @@ pnpm install
 **Step 10: Verify core builds without React**
 
 ```bash
-pnpm -F @strata-game-library/core run build
-pnpm -F @strata-game-library/core run typecheck
+pnpm -F strata-game-library/core run build
+pnpm -F strata-game-library/core run typecheck
 ```
 
 **Step 11: Verify r3f builds**
 
 ```bash
-pnpm -F @strata-game-library/r3f run build
+pnpm -F strata-game-library/r3f run build
 ```
 
 **Step 12: Fix any import path issues found during build**
@@ -577,17 +577,17 @@ git commit -m "refactor: extract R3F components from core to adapters/r3f"
 
 **Step 1: Check if presets imports from core/components**
 
-Search presets source for imports from `@strata-game-library/core/components` or `@strata-game-library/core` component types. If found, add `@strata-game-library/r3f` as a peer dependency.
+Search presets source for imports from `strata-game-library/core/components` or `strata-game-library/core` component types. If found, add `strata-game-library/r3f` as a peer dependency.
 
 **Step 2: Update imports if needed**
 
-Replace `@strata-game-library/core/components` -> `@strata-game-library/r3f`
+Replace `strata-game-library/core/components` -> `strata-game-library/r3f`
 
 **Step 3: Verify build**
 
 ```bash
-pnpm -F @strata-game-library/presets run build
-pnpm -F @strata-game-library/presets run test
+pnpm -F strata-game-library/presets run build
+pnpm -F strata-game-library/presets run test
 ```
 
 **Step 4: Commit (if changes were needed)**
@@ -601,7 +601,7 @@ git commit -m "refactor: update presets to import from r3f adapter"
 
 ## Phase 3: Astro Plugin
 
-### Task 9: Create the @strata-game-library/astro plugin package
+### Task 9: Create the strata-game-library/astro plugin package
 
 **Files:**
 
@@ -615,7 +615,7 @@ git commit -m "refactor: update presets to import from r3f adapter"
 
 ```json
 {
-  "name": "@strata-game-library/astro",
+  "name": "strata-game-library/astro",
   "version": "0.1.0",
   "description": "Astro integration for Strata - Vite SSR config, demo components, and CSS design system",
   "type": "module",
@@ -674,7 +674,7 @@ export default function strataAstro(config: StrataAstroConfig = {}): AstroIntegr
   const { css = true, starlight = false, viteR3F = true } = config;
 
   return {
-    name: '@strata-game-library/astro',
+    name: 'strata-game-library/astro',
     hooks: {
       'astro:config:setup': ({ updateConfig, injectRoute }) => {
         if (viteR3F) {
@@ -732,20 +732,20 @@ Standard tsup config for the integration (similar to other plugins).
 
 **Step 6: Add to nx.json release projects**
 
-Add `"@strata-game-library/astro"` to the release projects array.
+Add `"strata-game-library/astro"` to the release projects array.
 
 **Step 7: Verify build**
 
 ```bash
 pnpm install
-pnpm -F @strata-game-library/astro run build
+pnpm -F strata-game-library/astro run build
 ```
 
 **Step 8: Commit**
 
 ```bash
 git add -A
-git commit -m "feat: create @strata-game-library/astro integration plugin"
+git commit -m "feat: create strata-game-library/astro integration plugin"
 ```
 
 ---
@@ -754,14 +754,14 @@ git commit -m "feat: create @strata-game-library/astro integration plugin"
 
 **Files:**
 
-- Modify: `apps/docs/package.json` (add @strata-game-library/astro dep)
+- Modify: `apps/docs/package.json` (add strata-game-library/astro dep)
 - Modify: `apps/docs/astro.config.mjs` (use plugin instead of manual config)
 - Modify: `apps/docs/src/styles/custom.css` (replace with imports from plugin)
 
 **Step 1: Add plugin dependency**
 
 ```json
-"@strata-game-library/astro": "workspace:*"
+"strata-game-library/astro": "workspace:*"
 ```
 
 **Step 2: Update astro.config.mjs**
@@ -769,7 +769,7 @@ git commit -m "feat: create @strata-game-library/astro integration plugin"
 Replace manual Vite SSR config with plugin import:
 
 ```js
-import strata from '@strata-game-library/astro';
+import strata from 'strata-game-library/astro';
 
 export default defineConfig({
   integrations: [
@@ -787,9 +787,9 @@ Remove the manual `vite: { ssr: { noExternal: [...] } }` block.
 Replace bulk of custom.css with:
 
 ```css
-@import '@strata-game-library/astro/css/tokens.css';
-@import '@strata-game-library/astro/css/components.css';
-@import '@strata-game-library/astro/css/starlight.css';
+@import 'strata-game-library/astro/css/tokens.css';
+@import 'strata-game-library/astro/css/components.css';
+@import 'strata-game-library/astro/css/starlight.css';
 
 /* Any docs-site-specific overrides below */
 ```
@@ -804,14 +804,14 @@ pnpm -F docs run build
 
 ```bash
 git add -A
-git commit -m "refactor(docs): dogfood @strata-game-library/astro plugin"
+git commit -m "refactor(docs): dogfood strata-game-library/astro plugin"
 ```
 
 ---
 
 ## Phase 4: Reactylon Adapter (Scaffold)
 
-### Task 11: Create the @strata-game-library/reactylon adapter package
+### Task 11: Create the strata-game-library/reactylon adapter package
 
 **Files:**
 
@@ -826,7 +826,7 @@ git commit -m "refactor(docs): dogfood @strata-game-library/astro plugin"
 
 ```json
 {
-  "name": "@strata-game-library/reactylon",
+  "name": "strata-game-library/reactylon",
   "version": "0.1.0",
   "description": "Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics",
   "type": "module",
@@ -853,7 +853,7 @@ git commit -m "refactor(docs): dogfood @strata-game-library/astro plugin"
   },
   "publishConfig": { "access": "public" },
   "dependencies": {
-    "@strata-game-library/core": "workspace:*"
+    "strata-game-library/core": "workspace:*"
   },
   "peerDependencies": {
     "@babylonjs/core": ">=8.0.0",
@@ -884,20 +884,20 @@ A helper hook that configures a Babylon.js scene with Strata defaults.
 
 **Step 5: Add to nx.json release projects**
 
-Add `"@strata-game-library/reactylon"` to the release projects array.
+Add `"strata-game-library/reactylon"` to the release projects array.
 
 **Step 6: Verify build**
 
 ```bash
 pnpm install
-pnpm -F @strata-game-library/reactylon run build
+pnpm -F strata-game-library/reactylon run build
 ```
 
 **Step 7: Commit**
 
 ```bash
 git add -A
-git commit -m "feat: scaffold @strata-game-library/reactylon adapter for Babylon.js"
+git commit -m "feat: scaffold strata-game-library/reactylon adapter for Babylon.js"
 ```
 
 ---
@@ -914,16 +914,16 @@ git commit -m "feat: scaffold @strata-game-library/reactylon adapter for Babylon
 
 ```json
 "projects": [
-  "@strata-game-library/shaders",
-  "@strata-game-library/core",
-  "@strata-game-library/r3f",
-  "@strata-game-library/reactylon",
-  "@strata-game-library/presets",
-  "@strata-game-library/astro",
-  "@strata-game-library/audio-synth",
-  "@strata-game-library/model-synth",
-  "@strata-game-library/capacitor",
-  "@strata-game-library/react-native"
+  "strata-game-library/shaders",
+  "strata-game-library/core",
+  "strata-game-library/r3f",
+  "strata-game-library/reactylon",
+  "strata-game-library/presets",
+  "strata-game-library/astro",
+  "strata-game-library/audio-synth",
+  "strata-game-library/model-synth",
+  "strata-game-library/capacitor",
+  "strata-game-library/react-native"
 ]
 ```
 

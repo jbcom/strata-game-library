@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/audio-synth",
+  "private": true,
   "version": "1.1.0",
   "description": "Procedural audio synthesis for Strata 3D using Tone.js - SFX, music, and ambient sound generation",
   "main": "dist/index.js",

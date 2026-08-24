@@ -2,11 +2,11 @@
 title: "AudioSynthProviderProps"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / AudioSynthProviderProps
+[strata-game-library/audio-synth](../globals.md) / AudioSynthProviderProps
 
 # Interface: AudioSynthProviderProps
 

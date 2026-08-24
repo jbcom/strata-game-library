@@ -2,11 +2,11 @@
 title: "createVolumetricFogUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createVolumetricFogUniforms
+[strata-game-library/shaders](../globals.md) / createVolumetricFogUniforms
 
 # Function: createVolumetricFogUniforms()
 

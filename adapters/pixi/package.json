@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/pixi",
+  "private": true,
   "version": "0.1.0",
   "description": "Pixi 8 Application mount/unmount lifecycle for Strata — StrictMode-safe fresh-canvas handling and filter resolution fixes.",
   "license": "MIT",

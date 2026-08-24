@@ -38,5 +38,5 @@ for (const [subpath, target] of Object.entries(pkg.exports)) {
 export default libraryBuild({
   name: "@strata-game-library/core",
   entry,
-  external: ["three", "yuka"],
+  external: ["three"],
 });

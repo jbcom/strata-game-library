@@ -2,11 +2,11 @@
 title: "ForcefieldMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / ForcefieldMaterialOptions
+[strata-game-library/shaders](../globals.md) / ForcefieldMaterialOptions
 
 # Interface: ForcefieldMaterialOptions
 

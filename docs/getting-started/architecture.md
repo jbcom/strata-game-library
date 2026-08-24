@@ -38,14 +38,14 @@ import type {
   WaterConfig,
   SkyConfig,
   TerrainChunk
-} from '@strata-game-library/core/types';
+} from 'strata-game-library/core';
 
 import {
   clamp,
   lerp,
   smoothstep,
   vec3
-} from '@strata-game-library/core/utils';
+} from 'strata-game-library/utils';
 ```
 
 ## Layer 1: GLSL Shaders
@@ -58,7 +58,7 @@ import {
   waterFragmentShader,
   skyVertexShader,
   skyFragmentShader
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 
 // Use with Three.js ShaderMaterial
 const material = new THREE.ShaderMaterial({
@@ -96,7 +96,7 @@ import {
   opUnion,
   opSubtraction,
   opSmoothUnion
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 // Combine shapes
 const scene = opSmoothUnion(
@@ -113,7 +113,7 @@ import {
   noise3D,
   fbm,
   warpedFbm
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 // Generate terrain height
 const height = fbm(x * 0.01, 0, z * 0.01, {
@@ -130,7 +130,7 @@ import {
   marchingCubes,
   createGeometryFromMarchingCubes,
   generateTerrainChunk
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 // Generate terrain mesh
 const geometry = generateTerrainChunk({
@@ -149,7 +149,7 @@ import {
   createAdvancedWaterMaterial,
   createSkyMaterial,
   createRaymarchingMaterial
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 const waterMaterial = createWaterMaterial({
   color: new THREE.Color(0x0077be),
@@ -165,7 +165,7 @@ High-level React Three Fiber components that wrap the core algorithms.
 ### Water Components
 
 ```tsx
-import { Water, AdvancedWater } from '@strata-game-library/core';
+import { Water, AdvancedWater } from 'strata-game-library/core';
 
 <Water size={100} depth={20} />
 <AdvancedWater
@@ -184,7 +184,7 @@ import {
   TreeInstances,
   RockInstances,
   GPUInstancedMesh
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 <GrassInstances count={10000} spread={100} />
 <TreeInstances count={500} spread={200} />
@@ -193,7 +193,7 @@ import {
 ### Sky Components
 
 ```tsx
-import { ProceduralSky } from '@strata-game-library/core';
+import { ProceduralSky } from 'strata-game-library/core';
 
 <ProceduralSky
   sunPosition={[100, 50, 100]}
@@ -210,7 +210,7 @@ import {
   VolumetricFogMesh,
   UnderwaterOverlay,
   EnhancedFog
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 <VolumetricFogMesh density={0.02} />
 <UnderwaterOverlay depth={10} />
@@ -223,20 +223,20 @@ The highest layer provides ready-to-use configurations and game framework utilit
 ### Presets
 
 ```tsx
-import { tropicalOceanWater, arcticWater } from '@strata-game-library/presets';
+import { tropicalOceanWater, arcticWater } from 'strata-game-library/presets';
 
 // Apply a water preset directly
 <Water {...tropicalOceanWater} />
 
 // Or configure AI behaviors
-import { guardPreset, followerPreset } from '@strata-game-library/presets';
+import { guardPreset, followerPreset } from 'strata-game-library/presets';
 ```
 
 ### Game Framework
 
 ```tsx
-import { createGame, StrataGame } from '@strata-game-library/core/api';
-import { SceneManager, ModeManager, TriggerSystem } from '@strata-game-library/core/game';
+import { createGame, StrataGame } from 'strata-game-library/api';
+import { SceneManager, ModeManager, TriggerSystem } from 'strata-game-library/game';
 
 // Declarative game definition
 const game = createGame({
@@ -251,25 +251,25 @@ const game = createGame({
 
 Strata is organized as multiple packages for flexibility:
 
-### Main Package (`@strata-game-library/core`)
+### Main Package (`strata-game-library/core`)
 
 The core library with components, algorithms, and utilities:
 
 ```tsx
 // Main package - components
-import { Water, ProceduralSky, GrassInstances, VolumetricFogMesh } from '@strata-game-library/core';
+import { Water, ProceduralSky, GrassInstances, VolumetricFogMesh } from 'strata-game-library/core';
 
 // Subpath: Core algorithms
-import { marchingCubes, noise3D, sdSphere } from '@strata-game-library/core';
+import { marchingCubes, noise3D, sdSphere } from 'strata-game-library/core';
 
 // Subpath: Utility functions
-import { clamp, lerp, smoothstep } from '@strata-game-library/core/utils';
+import { clamp, lerp, smoothstep } from 'strata-game-library/utils';
 
 // Subpath: TypeScript types
-import type { BiomeConfig, WaterConfig } from '@strata-game-library/core/types';
+import type { BiomeConfig, WaterConfig } from 'strata-game-library/core';
 ```
 
-### Shaders Package (`@strata-game-library/shaders`)
+### Shaders Package (`strata-game-library/shaders`)
 
 Standalone GLSL shaders (works with any Three.js project):
 
@@ -279,16 +279,16 @@ import {
   waterFragmentShader,
   skyVertexShader,
   skyFragmentShader
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
-### Presets Package (`@strata-game-library/presets`)
+### Presets Package (`strata-game-library/presets`)
 
-Pre-configured settings (requires `@strata-game-library/core`):
+Pre-configured settings (requires `strata-game-library/core`):
 
 ```tsx
-import { tropicalOceanWater, arcticWater } from '@strata-game-library/presets';
-import { guardPreset, flockMemberPreset } from '@strata-game-library/presets';
+import { tropicalOceanWater, arcticWater } from 'strata-game-library/presets';
+import { guardPreset, flockMemberPreset } from 'strata-game-library/presets';
 ```
 
 ### Mobile Plugins
@@ -297,16 +297,16 @@ Platform-specific capabilities:
 
 ```tsx
 // React Native
-import { useDevice, useHaptics } from '@strata-game-library/react-native';
+import { useDevice, useHaptics } from 'strata-game-library/react-native';
 
 // Capacitor (Web/iOS/Android/Electron)
-import { useDevice, useInput } from '@strata-game-library/capacitor/react';
+import { useDevice, useInput } from 'strata-game-library/capacitor';
 ```
 
 ## Directory Structure
 
 ```
-@strata-game-library/core/
+strata-game-library/core/
 ├── src/
 │   ├── api/          # Public API contracts
 │   ├── components/   # React Three Fiber components
@@ -345,7 +345,7 @@ Full type safety with excellent IDE support.
 
 ## Next Steps
 
-- [Core Features](https://jonbogaty.com/strata-game-library/core/) - Explore all components
-- [Shaders](https://jonbogaty.com/strata-game-library/shaders/) - Use shaders directly
-- [Presets](https://jonbogaty.com/strata-game-library/presets/) - Ready-to-use configurations
-- [API Reference](https://jonbogaty.com/strata-game-library/packages/) - Complete API documentation
+- [Core Features](https://strata.game/core/) - Explore all components
+- [Shaders](https://strata.game/shaders/) - Use shaders directly
+- [Presets](https://strata.game/presets/) - Ready-to-use configurations
+- [API Reference](https://strata.game/packages/) - Complete API documentation

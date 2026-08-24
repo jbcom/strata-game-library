@@ -2,11 +2,11 @@
 title: "SFXPresetId"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SFXPresetId
+[strata-game-library/audio-synth](../globals.md) / SFXPresetId
 
 # Type Alias: SFXPresetId
 

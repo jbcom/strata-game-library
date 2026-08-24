@@ -2,11 +2,11 @@
 title: Globals
 ---
 
-[**@strata-game-library/capacitor**](README.md)
+[**strata-game-library/capacitor**](README.md)
 
 ***
 
-# @strata-game-library/capacitor
+# strata-game-library/capacitor
 
 ## Interfaces
 

@@ -95,6 +95,7 @@ describe('strata-game-library umbrella package', () => {
       './capacitor': expect.any(Object),
       './react-native': expect.any(Object),
       './astro': expect.any(Object),
+      './yuka': expect.any(Object),
     });
   });
 });

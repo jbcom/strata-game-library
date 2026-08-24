@@ -114,8 +114,8 @@ function typesEntryFor(target) {
  *   - `export declare const x` / `interface Y`  — direct declaration
  *
  * Local relative re-exports are followed so the chunk boundary never appears in
- * the report. A re-export from a bare specifier (e.g. `export { YUKA } from
- * 'yuka'`) is recorded as a symbol but NOT followed — it is foreign surface,
+ * the report. A re-export from a bare specifier is recorded as a symbol but
+ * NOT followed — it is foreign surface,
  * which is precisely what we want visible in the snapshot.
  *
  * `seen` guards against cyclic chunk graphs.

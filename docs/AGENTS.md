@@ -10,7 +10,7 @@ last_updated: 2026-08-24
 
 `docs/` is the source for the public Sourcey site. The production output is
 `docs/dist`, built with `pnpm run docs:build` and published by the Pages job.
-The canonical public base URL is `https://jonbogaty.com/strata-game-library/`.
+The canonical public base URL is `https://strata.game/`.
 
 ## Public documentation
 

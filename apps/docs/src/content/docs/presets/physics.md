@@ -10,7 +10,7 @@ Ready-to-use physics configurations for common game scenarios.
 ## Quick Start
 
 ```typescript
-import { createPhysicsPreset, PhysicsPresets } from '@strata-game-library/presets/physics';
+import { createPhysicsPreset, PhysicsPresets } from 'strata-game-library/presets/physics';
 
 <PhysicsWorld {...PhysicsPresets.REALISTIC} />
 ```
@@ -88,8 +88,8 @@ PhysicsPresets.PLATFORMER = {
 ## Using with Components
 
 ```tsx
-import { PhysicsWorld, RigidBody } from '@strata-game-library/core';
-import { PhysicsPresets } from '@strata-game-library/presets/physics';
+import { PhysicsWorld, RigidBody } from 'strata-game-library/core';
+import { PhysicsPresets } from 'strata-game-library/presets/physics';
 
 <PhysicsWorld {...PhysicsPresets.REALISTIC}>
   <RigidBody type="dynamic">

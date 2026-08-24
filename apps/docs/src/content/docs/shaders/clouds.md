@@ -15,7 +15,7 @@ import {
   cloudLayerFragmentShader,
   volumetricCloudVertexShader,
   volumetricCloudFragmentShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## 2D Cloud Layer
@@ -37,7 +37,7 @@ Efficient billboarded cloud layers:
 ### Usage
 
 ```typescript
-import { cloudLayerVertexShader, cloudLayerFragmentShader } from '@strata-game-library/shaders';
+import { cloudLayerVertexShader, cloudLayerFragmentShader } from 'strata-game-library/shaders';
 
 const cloudMaterial = new THREE.ShaderMaterial({
   vertexShader: cloudLayerVertexShader,
@@ -86,7 +86,7 @@ Full 3D volumetric cloud rendering with ray marching:
 ### Usage
 
 ```typescript
-import { volumetricCloudVertexShader, volumetricCloudFragmentShader } from '@strata-game-library/shaders';
+import { volumetricCloudVertexShader, volumetricCloudFragmentShader } from 'strata-game-library/shaders';
 
 const volumetricCloudMaterial = new THREE.ShaderMaterial({
   vertexShader: volumetricCloudVertexShader,

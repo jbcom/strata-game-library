@@ -2,11 +2,11 @@
 title: "quadrupedToMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / quadrupedToMorphology
+[strata-game-library/presets](../globals.md) / quadrupedToMorphology
 
 # Function: quadrupedToMorphology()
 

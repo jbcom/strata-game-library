@@ -2,11 +2,11 @@
 title: "ISynthManager"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / ISynthManager
+[strata-game-library/audio-synth](../globals.md) / ISynthManager
 
 # Interface: ISynthManager
 

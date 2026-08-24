@@ -2,11 +2,11 @@
 title: "MusicNote"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / MusicNote
+[strata-game-library/audio-synth](../globals.md) / MusicNote
 
 # Interface: MusicNote
 

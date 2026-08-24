@@ -1,8 +1,8 @@
 ---
-title: "@strata-game-library/audio-synth"
+title: "strata-game-library/audio-synth"
 ---
 
-# @strata-game-library/audio-synth
+# strata-game-library/audio-synth
 
 Procedural audio synthesis and spatial sound design for immersive game audio.
 

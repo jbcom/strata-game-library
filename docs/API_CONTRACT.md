@@ -50,7 +50,7 @@ narrowing a symbol requires a major version. The supported set is listed in
 
 Adapters legitimately need core internals that consumers should not touch. The
 honest destination for that pressure is a **declared, documented, exempt**
-subpath — `@strata-game-library/core/internal` — rather than letting it
+subpath — `strata-game-library/core/internal` — rather than letting it
 re-inflate Tier 1.
 
 It is published, because an adapter shipped as a separate package cannot
@@ -83,9 +83,9 @@ barrel, that is the bug.
    public API a deliberate, diff-visible act. Currently at warning level
    (`performance/noReExportAll`) because 287 pre-existing violations remain;
    it becomes an error as each package is curated.
-2. **A barrel re-exports only from its own package.** No re-exporting another
-   `@strata-game-library/*` package or a third party. A package's surface must
-   be something it owns and can version.
+2. **A barrel re-exports only from its own public package surface.** Private
+   workspace modules and third parties are bundled behind
+   `strata-game-library` subpaths; users never install them separately.
 3. **Every `exports` subpath maps to exactly one barrel, and every barrel is a
    declared subpath.** Bidirectional, enforced by `--check-exports-map`.
 4. **A barrel contains only re-exports** plus its module docblock — no
@@ -153,20 +153,20 @@ emitted entry is reachable through a declared subpath.
 
 Three, all real, all consumer-facing:
 
-1. **`@strata-game-library/presets/characters`** is declared in the published
+1. **`strata-game-library/presets/characters`** is declared in the published
    `exports` map, but `src/characters` does not exist and nothing is emitted.
    Importing it throws for any consumer.
-2. **`@strata-game-library/model-synth/clients/*`** is declared and exists in
+2. **`strata-game-library/model-synth/clients/*`** is declared and exists in
    source, but the build's entry glob never emits it.
-3. **`@strata-game-library/r3f` re-exports ~40 symbols it does not own** —
+3. **`strata-game-library/r3f` re-exports ~40 symbols it does not own** —
    core types (`GameStore`, `LODConfig`, `BloomSettings`, `InputAxis`,
    `MinimapConfig`, `VignetteSettings`, …) plus the entire third-party `YUKA`
    namespace. A consumer importing `LODConfig` from r3f is welded to a symbol
    r3f cannot version, and a core patch can break r3f's consumers through a
    type r3f merely passed through.
 
-Separately, the published docs reference `@strata-game-library/core/types` and
-`@strata-game-library/core/molecular`, neither of which is in core's `exports`
+Separately, the published docs reference `strata-game-library/core` and
+`strata-game-library/core/molecular`, neither of which is in core's `exports`
 map — documentation teaching imports that do not resolve.
 
 These are recorded, not fixed here. Establishing the contract and narrowing the

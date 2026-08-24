@@ -2,17 +2,17 @@
 
 > A TypeScript framework for procedural 3D worlds — terrain, water, sky, vegetation, physics, AI, animation, and audio. The engine-agnostic algorithms live in one core package; thin adapters bind them to a renderer (React Three Fiber, Babylon/Reactylon, Pixi). MIT licensed.
 
-Strata is a pnpm monorepo publishing several packages under the `@strata-game-library/*` scope. Pick the adapter that matches your renderer; everything else is shared.
+Strata is a pnpm monorepo that publishes one package: `strata-game-library`. Pick the documented subpath that matches your renderer; everything else is bundled privately.
 
 **Which package do I install?**
 
-- **React Three Fiber** (the primary, best-supported path) — `@strata-game-library/core` + `@strata-game-library/r3f`
-- **Babylon.js via Reactylon** — `@strata-game-library/core` + `@strata-game-library/reactylon`
-- **Pixi 8 (2D)** — `@strata-game-library/core` + `@strata-game-library/pixi`
-- **No renderer / headless logic** — `@strata-game-library/core` alone; it is the only package with no adapter dependency
+- **React Three Fiber** (the primary, best-supported path) — `strata-game-library/r3f`
+- **Babylon.js via Reactylon** — `strata-game-library/reactylon`
+- **Pixi 8 (2D)** — `strata-game-library/pixi`
+- **No renderer / headless logic** — `strata-game-library/core`
 - **Everything at once** — `strata-game-library`, an umbrella that re-exports the above under namespaces
 
-**Entry point.** Import from a package root unless you need a narrower subpath: `import { createRPGGame } from '@strata-game-library/core'`. Every legal import path is declared in that package's `exports` map — if it is not declared there, it is not public API, regardless of what is reachable at runtime.
+**Entry point.** Import from a package root unless you need a narrower subpath: `import { createRPGGame } from 'strata-game-library/core'`. Every legal import path is declared in that package's `exports` map — if it is not declared there, it is not public API, regardless of what is reachable at runtime.
 
 ## Start here
 

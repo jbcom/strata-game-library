@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/astro",
+  "private": true,
   "version": "0.3.0",
   "description": "Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme",
   "type": "module",

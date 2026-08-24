@@ -2,11 +2,11 @@
 title: "EXPLOSION"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / EXPLOSION
+[strata-game-library/audio-synth](../globals.md) / EXPLOSION
 
 # Variable: EXPLOSION
 

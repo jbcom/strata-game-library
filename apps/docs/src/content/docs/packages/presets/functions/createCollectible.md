@@ -2,11 +2,11 @@
 title: "createCollectible"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createCollectible
+[strata-game-library/presets](../globals.md) / createCollectible
 
 # Function: createCollectible()
 

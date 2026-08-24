@@ -2,11 +2,11 @@
 title: "MusicPatternId"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / MusicPatternId
+[strata-game-library/audio-synth](../globals.md) / MusicPatternId
 
 # Type Alias: MusicPatternId
 

@@ -2,11 +2,11 @@
 title: "HologramMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / HologramMaterialOptions
+[strata-game-library/shaders](../globals.md) / HologramMaterialOptions
 
 # Interface: HologramMaterialOptions
 

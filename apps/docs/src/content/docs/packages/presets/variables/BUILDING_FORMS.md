@@ -2,11 +2,11 @@
 title: "BUILDING_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / BUILDING\_FORMS
+[strata-game-library/presets](../globals.md) / BUILDING\_FORMS
 
 # Variable: BUILDING\_FORMS
 

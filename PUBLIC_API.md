@@ -5,8 +5,6 @@ status: current
 domain: technical
 ---
 
-# Strata public API
-
 What each package exports, and what is guaranteed to keep working.
 
 Generated from the workspace manifests. Every subpath listed here is declared
@@ -22,9 +20,9 @@ Three tiers, and the tier tells you what the package is for.
 
 | Package | Purpose | Subpaths |
 | --- | --- | --- |
-| `@strata-game-library/core` | Pure TypeScript algorithms for procedural 3D graphics - terrain, water, vegetation, sky, volumetrics, ECS, pathfinding, physics | 22 |
-| `@strata-game-library/presets` | Pre-configured presets for Strata 3D - ready-to-use terrain, weather, physics settings | 30 |
-| `@strata-game-library/shaders` | GLSL shader collection for Strata 3D - terrain, water, clouds, volumetric effects | 13 |
+| `strata-game-library/core` | Pure TypeScript algorithms for procedural 3D graphics - terrain, water, vegetation, sky, volumetrics, ECS, pathfinding, physics | 22 |
+| `strata-game-library/presets` | Pre-configured presets for Strata 3D - ready-to-use terrain, weather, physics settings | 30 |
+| `strata-game-library/shaders` | GLSL shader collection for Strata 3D - terrain, water, clouds, volumetric effects | 13 |
 | `strata-game-library` | Single-package entrypoint for Strata - declarative game APIs, React Three Fiber components, presets, shaders, and integrations | 17 |
 
 ### Renderer adapters
@@ -33,53 +31,53 @@ One per renderer. Pick the one matching your stack; you do not need the others.
 
 | Package | Purpose | Subpaths |
 | --- | --- | --- |
-| `@strata-game-library/pixi` | Pixi 8 Application mount/unmount lifecycle for Strata — StrictMode-safe fresh-canvas handling and filter resolution fixes. | 0 |
-| `@strata-game-library/r3f` | React Three Fiber components for Strata - terrain, water, vegetation, sky, volumetrics, physics, animation | 3 |
-| `@strata-game-library/reactylon` | Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics | 1 |
+| `strata-game-library/pixi` | Pixi 8 Application mount/unmount lifecycle for Strata — StrictMode-safe fresh-canvas handling and filter resolution fixes. | 0 |
+| `strata-game-library/r3f` | React Three Fiber components for Strata - terrain, water, vegetation, sky, volumetrics, physics, animation | 3 |
+| `strata-game-library/reactylon` | Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics | 1 |
 
 ### Host toolchain plugins
 
 One per platform or build toolchain.
 
 Two of these are published under a different name than the workspace uses:
-`@strata-game-library/capacitor` installs as `@strata-game-library/capacitor-plugin`,
-and `@strata-game-library/react-native` as `@strata-game-library/react-native-plugin`.
+`strata-game-library/capacitor` installs as `strata-game-library/capacitor-plugin`,
+and `strata-game-library/react-native` as `strata-game-library/react-native-plugin`.
 The rename has not reached npm.
 
 | Package | Purpose | Subpaths |
 | --- | --- | --- |
-| `@strata-game-library/astro` | Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme | 3 |
-| `@strata-game-library/audio-synth` | Procedural audio synthesis for Strata 3D using Tone.js - SFX, music, and ambient sound generation | 3 |
-| `@strata-game-library/capacitor` | Cross-platform input, device detection, and haptics for Strata 3D games | 1 |
-| `@strata-game-library/model-synth` | Procedural 3D model generation using Meshy API - characters, props, animations for React Three Fiber games | 1 |
-| `@strata-game-library/react-native` | React Native plugin for Strata 3D - cross-platform input, device detection, and haptics for mobile games | 0 |
-| `@strata-game-library/vite` | Vite toolchain integration for Strata: shared Vite, Vitest and tsup configuration for Strata packages and the games built on them. | 6 |
+| `strata-game-library/astro` | Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme | 3 |
+| `strata-game-library/audio-synth` | Procedural audio synthesis for Strata 3D using Tone.js - SFX, music, and ambient sound generation | 3 |
+| `strata-game-library/capacitor` | Cross-platform input, device detection, and haptics for Strata 3D games | 1 |
+| `strata-game-library/model-synth` | Procedural 3D model generation using Meshy API - characters, props, animations for React Three Fiber games | 1 |
+| `strata-game-library/react-native` | React Native plugin for Strata 3D - cross-platform input, device detection, and haptics for mobile games | 0 |
+| `strata-game-library/vite` | Vite toolchain integration for Strata: shared Vite, Vitest and tsup configuration for Strata packages and the games built on them. | 6 |
 
 ## Core domains
 
-`@strata-game-library/core` is renderer-free TypeScript. It is organised into
+`strata-game-library/core` is renderer-free TypeScript. It is organised into
 15 domains, each with its own entry point:
 
-- `@strata-game-library/core/core/animation`
-- `@strata-game-library/core/core/audio`
-- `@strata-game-library/core/core/camera`
-- `@strata-game-library/core/core/ecs`
-- `@strata-game-library/core/core/input`
-- `@strata-game-library/core/core/math`
-- `@strata-game-library/core/core/maze`
-- `@strata-game-library/core/core/particles`
-- `@strata-game-library/core/core/pathfinding`
-- `@strata-game-library/core/core/physics`
-- `@strata-game-library/core/core/rendering`
-- `@strata-game-library/core/core/shared`
-- `@strata-game-library/core/core/state`
-- `@strata-game-library/core/core/terrain`
-- `@strata-game-library/core/core/ui`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
+- `strata-game-library/core`
 
 Import the domain, not the file:
 
 ```ts
-import { createTerrain } from "@strata-game-library/core/core/terrain";
+import { createTerrain } from "strata-game-library/core";
 ```
 
 Deep file paths are not API. Earlier versions published one subpath per file —

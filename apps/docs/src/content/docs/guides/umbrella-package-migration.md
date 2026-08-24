@@ -20,37 +20,37 @@ pnpm add strata-game-library @react-three/fiber @react-three/drei three
 Fallback while the umbrella package is pending first publish:
 
 ```bash
-pnpm add @strata-game-library/core @strata-game-library/r3f @react-three/fiber @react-three/drei three
+pnpm add strata-game-library/core strata-game-library/r3f @react-three/fiber @react-three/drei three
 ```
 
 ## Import Mapping
 
 | Old import | New umbrella import |
 |------------|---------------------|
-| `@strata-game-library/core` | `strata-game-library/core` or `strata-game-library` for high-level game helpers |
-| `@strata-game-library/core/game` | `strata-game-library/game` |
-| `@strata-game-library/core/compose` | `strata-game-library/compose` |
-| `@strata-game-library/core/world` | `strata-game-library/world` |
-| `@strata-game-library/core/utils` | `strata-game-library/utils` |
-| `@strata-game-library/shaders` | `strata-game-library/shaders` |
-| `@strata-game-library/presets` | `strata-game-library/presets` |
-| `@strata-game-library/r3f` | `strata-game-library/r3f` |
-| `@strata-game-library/r3f/components` | `strata-game-library/components` |
-| `@strata-game-library/r3f/hooks` | `strata-game-library/hooks` |
-| `@strata-game-library/audio-synth` | `strata-game-library/audio-synth` |
-| `@strata-game-library/model-synth` | `strata-game-library/model-synth` |
-| `@strata-game-library/capacitor` | `strata-game-library/capacitor` |
-| `@strata-game-library/react-native` | `strata-game-library/react-native` |
-| `@strata-game-library/reactylon` | `strata-game-library/reactylon` |
-| `@strata-game-library/astro` | `strata-game-library/astro` |
+| `strata-game-library/core` | `strata-game-library/core` or `strata-game-library` for high-level game helpers |
+| `strata-game-library/game` | `strata-game-library/game` |
+| `strata-game-library/compose` | `strata-game-library/compose` |
+| `strata-game-library/world` | `strata-game-library/world` |
+| `strata-game-library/utils` | `strata-game-library/utils` |
+| `strata-game-library/shaders` | `strata-game-library/shaders` |
+| `strata-game-library/presets` | `strata-game-library/presets` |
+| `strata-game-library/r3f` | `strata-game-library/r3f` |
+| `strata-game-library/components` | `strata-game-library/components` |
+| `strata-game-library/hooks` | `strata-game-library/hooks` |
+| `strata-game-library/audio-synth` | `strata-game-library/audio-synth` |
+| `strata-game-library/model-synth` | `strata-game-library/model-synth` |
+| `strata-game-library/capacitor` | `strata-game-library/capacitor` |
+| `strata-game-library/react-native` | `strata-game-library/react-native` |
+| `strata-game-library/reactylon` | `strata-game-library/reactylon` |
+| `strata-game-library/astro` | `strata-game-library/astro` |
 
 ## Example Migration
 
 Before:
 
 ```tsx
-import { createRPGGame } from '@strata-game-library/core/game';
-import { ProceduralSky, StrataGame, Water } from '@strata-game-library/r3f';
+import { createRPGGame } from 'strata-game-library/game';
+import { ProceduralSky, StrataGame, Water } from 'strata-game-library/r3f';
 ```
 
 After:
@@ -66,16 +66,16 @@ The umbrella root is intentionally small. Renderer, mobile, audio, model generat
 
 The scoped packages are not being removed in this consolidation cycle. They remain supported direct entrypoints for smaller installs and advanced consumers:
 
-- `@strata-game-library/core`
-- `@strata-game-library/shaders`
-- `@strata-game-library/presets`
-- `@strata-game-library/r3f`
-- `@strata-game-library/reactylon`
-- `@strata-game-library/audio-synth`
-- `@strata-game-library/model-synth`
-- `@strata-game-library/capacitor`
-- `@strata-game-library/react-native`
-- `@strata-game-library/astro`
+- `strata-game-library/core`
+- `strata-game-library/shaders`
+- `strata-game-library/presets`
+- `strata-game-library/r3f`
+- `strata-game-library/reactylon`
+- `strata-game-library/audio-synth`
+- `strata-game-library/model-synth`
+- `strata-game-library/capacitor`
+- `strata-game-library/react-native`
+- `strata-game-library/astro`
 
 Use the umbrella package for new app documentation and examples. Use direct scoped packages when you intentionally want separate package versioning or minimal dependency surfaces.
 
@@ -85,8 +85,8 @@ The old mobile package names are legacy names:
 
 | Legacy name | Replacement |
 |-------------|-------------|
-| `@strata-game-library/capacitor-plugin` | `@strata-game-library/capacitor` or `strata-game-library/capacitor` |
-| `@strata-game-library/react-native-plugin` | `@strata-game-library/react-native` or `strata-game-library/react-native` |
+| `strata-game-library/capacitor-plugin` | `strata-game-library/capacitor` or `strata-game-library/capacitor` |
+| `strata-game-library/react-native-plugin` | `strata-game-library/react-native` or `strata-game-library/react-native` |
 
 The legacy names should only be deprecated after the renamed packages are published and verified.
 

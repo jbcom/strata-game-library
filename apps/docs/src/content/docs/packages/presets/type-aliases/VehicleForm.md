@@ -2,11 +2,11 @@
 title: "VehicleForm"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / VehicleForm
+[strata-game-library/presets](../globals.md) / VehicleForm
 
 # Type Alias: VehicleForm
 

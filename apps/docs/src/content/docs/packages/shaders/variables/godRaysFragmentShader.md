@@ -2,11 +2,11 @@
 title: "godRaysFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / godRaysFragmentShader
+[strata-game-library/shaders](../globals.md) / godRaysFragmentShader
 
 # Variable: godRaysFragmentShader
 

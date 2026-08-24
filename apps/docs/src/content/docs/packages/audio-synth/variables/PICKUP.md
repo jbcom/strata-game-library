@@ -2,11 +2,11 @@
 title: "PICKUP"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / PICKUP
+[strata-game-library/audio-synth](../globals.md) / PICKUP
 
 # Variable: PICKUP
 

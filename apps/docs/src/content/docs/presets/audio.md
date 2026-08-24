@@ -10,7 +10,7 @@ Ready-to-use audio configurations for immersive soundscapes.
 ## Quick Start
 
 ```typescript
-import { createAudioPreset, AudioPresets } from '@strata-game-library/presets/audio';
+import { createAudioPreset, AudioPresets } from 'strata-game-library/presets/audio';
 
 <AudioSystem {...AudioPresets.FOREST} />
 ```
@@ -95,8 +95,8 @@ AudioPresets.OCEAN = {
 ## Using with Components
 
 ```tsx
-import { AudioSystem, SpatialSound } from '@strata-game-library/core';
-import { AudioPresets } from '@strata-game-library/presets/audio';
+import { AudioSystem, SpatialSound } from 'strata-game-library/core';
+import { AudioPresets } from 'strata-game-library/presets/audio';
 
 <AudioSystem {...AudioPresets.FOREST}>
   <SpatialSound

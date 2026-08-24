@@ -13,7 +13,7 @@ Shaders for realistic wind animation on instanced vegetation including grass, tr
 import {
   grassWindVertexShader,
   treeWindVertexShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Grass Wind Shader
@@ -34,7 +34,7 @@ Wind animation for grass instances:
 ### Usage with InstancedMesh
 
 ```typescript
-import { grassWindVertexShader } from '@strata-game-library/shaders';
+import { grassWindVertexShader } from 'strata-game-library/shaders';
 
 const grassMaterial = new THREE.ShaderMaterial({
   vertexShader: grassWindVertexShader,
@@ -77,7 +77,7 @@ More complex wind for trees with branch hierarchy:
 ### Usage
 
 ```typescript
-import { treeWindVertexShader } from '@strata-game-library/shaders';
+import { treeWindVertexShader } from 'strata-game-library/shaders';
 
 const treeMaterial = new THREE.ShaderMaterial({
   vertexShader: treeWindVertexShader,

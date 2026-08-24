@@ -2,11 +2,11 @@
 title: "SimpleTerrainUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / SimpleTerrainUniforms
+[strata-game-library/shaders](../globals.md) / SimpleTerrainUniforms
 
 # Interface: SimpleTerrainUniforms
 

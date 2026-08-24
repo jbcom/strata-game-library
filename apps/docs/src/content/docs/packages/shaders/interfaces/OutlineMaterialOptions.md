@@ -2,11 +2,11 @@
 title: "OutlineMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / OutlineMaterialOptions
+[strata-game-library/shaders](../globals.md) / OutlineMaterialOptions
 
 # Interface: OutlineMaterialOptions
 

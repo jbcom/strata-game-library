@@ -2,11 +2,11 @@
 title: "FrequencySweep"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / FrequencySweep
+[strata-game-library/audio-synth](../globals.md) / FrequencySweep
 
 # Interface: FrequencySweep
 

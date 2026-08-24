@@ -2,11 +2,11 @@
 title: "MENU_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / MENU\_THEME
+[strata-game-library/audio-synth](../globals.md) / MENU\_THEME
 
 # Variable: MENU\_THEME
 

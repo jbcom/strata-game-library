@@ -2,11 +2,11 @@
 title: "LASER"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / LASER
+[strata-game-library/audio-synth](../globals.md) / LASER
 
 # Variable: LASER
 

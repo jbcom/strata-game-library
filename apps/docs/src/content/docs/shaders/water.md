@@ -16,7 +16,7 @@ import {
   advancedWaterVertexShader,
   advancedWaterFragmentShader,
   causticsShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Basic Water Shader
@@ -36,7 +36,7 @@ Simple animated water with Fresnel reflections:
 ### Usage
 
 ```typescript
-import { waterVertexShader, waterFragmentShader } from '@strata-game-library/shaders';
+import { waterVertexShader, waterFragmentShader } from 'strata-game-library/shaders';
 
 const waterMaterial = new THREE.ShaderMaterial({
   vertexShader: waterVertexShader,
@@ -85,7 +85,7 @@ Full-featured water with Gerstner waves, reflections, refractions, and effects:
 ### Usage
 
 ```typescript
-import { advancedWaterVertexShader, advancedWaterFragmentShader } from '@strata-game-library/shaders';
+import { advancedWaterVertexShader, advancedWaterFragmentShader } from 'strata-game-library/shaders';
 
 const advancedWaterMaterial = new THREE.ShaderMaterial({
   vertexShader: advancedWaterVertexShader,
@@ -128,7 +128,7 @@ const advancedWaterMaterial = new THREE.ShaderMaterial({
 Animated caustic patterns for underwater surfaces:
 
 ```typescript
-import { causticsShader } from '@strata-game-library/shaders';
+import { causticsShader } from 'strata-game-library/shaders';
 
 const causticsMaterial = new THREE.ShaderMaterial({
   vertexShader: causticsShader.vertex,

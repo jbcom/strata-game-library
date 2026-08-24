@@ -2,11 +2,11 @@
 title: "createQuadruped"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createQuadruped
+[strata-game-library/presets](../globals.md) / createQuadruped
 
 # Function: createQuadruped()
 

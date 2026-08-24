@@ -8,12 +8,10 @@
 
 import type { Graph as NGraph, Link as NLink, Node as NNode } from 'ngraph.graph';
 import createNGraph from 'ngraph.graph';
-import type { NavMesh, Polygon } from 'yuka';
 import type {
   EdgeData,
   GraphEdge,
   GraphNode,
-  NavMeshConversionOptions,
   NodeData,
   NodeId,
   Position3D,
@@ -217,131 +215,6 @@ export function calculateDistance(a: Position3D, b: Position3D): number {
 }
 
 /**
- * Converts a Yuka NavMesh to an ngraph graph for pathfinding.
- *
- * @param navMesh - The Yuka NavMesh to convert
- * @param options - Conversion configuration
- * @returns A Strata graph representing the NavMesh
- *
- * Warning: for large meshes with more than 100 regions, neighbor detection has O(n²)
- * complexity, which may cause performance issues. Consider setting
- * `connectNeighbors: false` and manually connecting critical paths, or implementing
- * spatial indexing for production use cases with large navigation meshes.
- *
- * @example
- * ```typescript
- * import { fromNavMesh, createPathfinder, findPath } from '@jbcom/strata/core/pathfinding';
- * import { NavMesh } from 'yuka';
- *
- * const navMesh = new NavMesh();
- * // ... populate navMesh from geometry
- *
- * const graph = fromNavMesh(navMesh);
- * const pathfinder = createPathfinder(graph);
- * const result = findPath(pathfinder, graph, 'region_0', 'region_5');
- * ```
- */
-export function fromNavMesh(
-  navMesh: NavMesh,
-  options: NavMeshConversionOptions = {}
-): StrataGraphInstance<NodeData, EdgeData> {
-  const { connectNeighbors = true, edgeWeight } = options;
-
-  const graph = createGraph<NodeData, EdgeData>();
-  const regions = navMesh.regions;
-
-  for (let i = 0; i < regions.length; i++) {
-    const region = regions[i] as Polygon;
-    const centroid = region.centroid;
-
-    addNode(graph, `region_${i}`, {
-      x: centroid.x,
-      y: centroid.y,
-      z: centroid.z,
-    });
-  }
-
-  if (connectNeighbors) {
-    for (let i = 0; i < regions.length; i++) {
-      for (let j = i + 1; j < regions.length; j++) {
-        const regionA = regions[i] as Polygon;
-        const regionB = regions[j] as Polygon;
-
-        if (arePolygonsAdjacent(regionA, regionB)) {
-          const weight =
-            edgeWeight ??
-            calculateDistance(
-              { x: regionA.centroid.x, y: regionA.centroid.y, z: regionA.centroid.z },
-              { x: regionB.centroid.x, y: regionB.centroid.y, z: regionB.centroid.z }
-            );
-
-          addEdge(graph, `region_${i}`, `region_${j}`, {
-            weight,
-            bidirectional: true,
-          });
-        }
-      }
-    }
-  }
-
-  return graph;
-}
-
-/**
- * Gets the vertices of a polygon using Yuka's getContour method.
- * Uses type assertion because @types/yuka may not expose all Polygon properties correctly.
- */
-function getPolygonVertices(poly: Polygon): Position3D[] {
-  const contour: Position3D[] = [];
-  // Use Yuka's getContour method to get vertices
-  // Cast to any to work around @types/yuka type coverage gaps
-  const yukaPolygon = poly as unknown as {
-    getContour(result: unknown[]): Array<{ x: number; y: number; z: number }>;
-  };
-  const result = yukaPolygon.getContour([]);
-  for (const v of result) {
-    contour.push({ x: v.x, y: v.y, z: v.z });
-  }
-  return contour;
-}
-
-/**
- * Checks if two polygons share an edge (are adjacent).
- * Two polygons are adjacent if they share at least 2 vertices.
- */
-function arePolygonsAdjacent(polyA: Polygon, polyB: Polygon): boolean {
-  const verticesA = getPolygonVertices(polyA);
-  const verticesB = getPolygonVertices(polyB);
-
-  let sharedCount = 0;
-  const epsilon = 0.001;
-
-  for (const vA of verticesA) {
-    // Check if this vertex from A matches any vertex in B
-    let foundMatch = false;
-    for (const vB of verticesB) {
-      const dx = Math.abs(vA.x - vB.x);
-      const dy = Math.abs(vA.y - vB.y);
-      const dz = Math.abs(vA.z - vB.z);
-
-      if (dx < epsilon && dy < epsilon && dz < epsilon) {
-        foundMatch = true;
-        break; // Each vertex from A should only count once
-      }
-    }
-
-    if (foundMatch) {
-      sharedCount++;
-      if (sharedCount >= 2) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-/**
  * Creates a grid-based navigation graph for tile-based games.
  *
  * Generates a uniform grid of nodes connected horizontally, vertically, and optionally
@@ -519,4 +392,4 @@ export function createGridGraph(
   return graph;
 }
 
-export type { NGraph, NNode, NLink };
+export type { NGraph, NLink, NNode };

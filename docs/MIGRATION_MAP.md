@@ -24,5 +24,4 @@ and one deployment artifact: `docs/dist`.
 
 Historical links to `/api/` and `/api/types/` are rewritten to the current
 package reference landing page during preparation. All other known legacy
-relative routes retain their slash-style paths below
-`/strata-game-library/`.
+relative routes retain their slash-style paths below `https://strata.game/`.

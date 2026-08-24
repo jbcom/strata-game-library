@@ -2,11 +2,11 @@
 title: "EQUIPMENT_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / EQUIPMENT\_FORMS
+[strata-game-library/presets](../globals.md) / EQUIPMENT\_FORMS
 
 # Variable: EQUIPMENT\_FORMS
 

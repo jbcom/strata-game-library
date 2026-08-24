@@ -9,7 +9,7 @@
 
 Strata is a declarative TypeScript game framework for procedural worlds. Its pure core handles game definitions, state, input, persistence, composition, pathfinding, and procedural algorithms; optional adapters bring those capabilities to React Three Fiber, Babylon/Reactylon, and Pixi.
 
-[Documentation](https://jonbogaty.com/strata-game-library/) · [Quick start](https://jonbogaty.com/strata-game-library/quickstart/) · [Packages](https://jonbogaty.com/strata-game-library/packages/) · [Contributing](https://jonbogaty.com/strata-game-library/contributing/)
+[Documentation](https://strata.game/) · [Quick start](https://strata.game/quickstart/) · [Packages](https://strata.game/packages/) · [Adapters](https://strata.game/adapters/) · [Contributing](https://strata.game/contributing/)
 
 ## Install
 
@@ -22,13 +22,8 @@ pnpm add strata-game-library react react-dom three \
 
 The same package works with npm, Yarn, and Bun. Node.js 22 or newer is supported; consumers are not required to use pnpm or Mise.
 
-Focused packages remain available when a smaller dependency surface is preferable:
-
-```bash
-pnpm add @strata-game-library/core
-pnpm add @strata-game-library/shaders three
-pnpm add @strata-game-library/r3f react react-dom three @react-three/fiber
-```
+Use explicit subpath imports from the same install when you need a renderer or
+integration. There are no separately installable Strata packages.
 
 ## Quick start
 
@@ -66,25 +61,13 @@ export function App() {
 }
 ```
 
-The root entry is renderer-independent. Renderer components and integrations use explicit subpaths such as `strata-game-library/r3f`, `/reactylon`, `/pixi`, `/astro`, `/capacitor`, and `/react-native`, so installing Strata does not eagerly load every optional framework.
+The root entry is renderer-independent. Renderer components and integrations use explicit subpaths such as `strata-game-library/r3f`, `/reactylon`, `/pixi`, `/astro`, `/capacitor`, `/react-native`, and `/yuka`, so installing Strata does not eagerly load every optional framework. The Yuka subpath is an ecosystem adapter: install Yuka and its R3F peers only when that is the AI runtime your game has chosen.
 
-## Packages
+## Package
 
-| Package | Purpose |
-| --- | --- |
-| [`strata-game-library`](https://www.npmjs.com/package/strata-game-library) | Single-install entrypoint with explicit adapter and plugin subpaths |
-| [`@strata-game-library/core`](https://www.npmjs.com/package/@strata-game-library/core) | Pure TypeScript orchestration, state, input, persistence, ECS, AI, and procedural algorithms |
-| [`@strata-game-library/shaders`](https://www.npmjs.com/package/@strata-game-library/shaders) | Standalone GLSL shader modules |
-| [`@strata-game-library/presets`](https://www.npmjs.com/package/@strata-game-library/presets) | Reusable game, environment, character, and object presets |
-| [`@strata-game-library/r3f`](https://www.npmjs.com/package/@strata-game-library/r3f) | React Three Fiber components and hooks |
-| [`@strata-game-library/reactylon`](https://www.npmjs.com/package/@strata-game-library/reactylon) | Babylon.js integration through Reactylon |
-| [`@strata-game-library/pixi`](https://www.npmjs.com/package/@strata-game-library/pixi) | Pixi 8 lifecycle and rendering utilities |
-| [`@strata-game-library/audio-synth`](https://www.npmjs.com/package/@strata-game-library/audio-synth) | Procedural audio synthesis |
-| [`@strata-game-library/model-synth`](https://www.npmjs.com/package/@strata-game-library/model-synth) | Optional model-generation client |
-| [`@strata-game-library/capacitor`](https://www.npmjs.com/package/@strata-game-library/capacitor) | Capacitor mobile integration |
-| [`@strata-game-library/react-native`](https://www.npmjs.com/package/@strata-game-library/react-native) | React Native bridge |
-| [`@strata-game-library/astro`](https://www.npmjs.com/package/@strata-game-library/astro) | Astro integration and styles |
-| [`@strata-game-library/vite`](https://www.npmjs.com/package/@strata-game-library/vite) | Shared Vite, Vitest, tsup, TypeScript, and Biome configuration |
+[`strata-game-library`](https://www.npmjs.com/package/strata-game-library) is
+the only published package. Its public subpaths keep optional renderer and
+plugin code tree-shakeable without creating additional npm identities.
 
 ## Architecture
 
@@ -109,7 +92,7 @@ mise run check
 
 CI uses the official Node and pnpm setup actions, not Mise. It tests both the declared Node.js support floor and the latest stable Node.js, then runs linting, type checking, tests, builds, documentation checks, and packed-package consumption tests.
 
-See the [contribution guide](https://jonbogaty.com/strata-game-library/contributing/) for repository setup and pull-request expectations. Releases use Conventional Commits and release-please; trusted GitHub Actions publication uses npm provenance.
+See the [contribution guide](https://strata.game/contributing/) for repository setup and pull-request expectations. Releases use Conventional Commits and release-please; trusted GitHub Actions publication uses npm provenance.
 
 ## License
 

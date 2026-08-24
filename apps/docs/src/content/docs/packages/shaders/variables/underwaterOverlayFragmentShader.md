@@ -2,11 +2,11 @@
 title: "underwaterOverlayFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / underwaterOverlayFragmentShader
+[strata-game-library/shaders](../globals.md) / underwaterOverlayFragmentShader
 
 # Variable: underwaterOverlayFragmentShader
 

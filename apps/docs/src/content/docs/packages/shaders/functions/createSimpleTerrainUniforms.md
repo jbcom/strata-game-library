@@ -2,11 +2,11 @@
 title: "createSimpleTerrainUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createSimpleTerrainUniforms
+[strata-game-library/shaders](../globals.md) / createSimpleTerrainUniforms
 
 # Function: createSimpleTerrainUniforms()
 

@@ -2,11 +2,11 @@
 title: "IUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / IUniforms
+[strata-game-library/shaders](../globals.md) / IUniforms
 
 # Interface: IUniforms
 

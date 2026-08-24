@@ -2,11 +2,11 @@
 title: "QuadrupedParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / QuadrupedParams
+[strata-game-library/presets](../globals.md) / QuadrupedParams
 
 # Interface: QuadrupedParams
 

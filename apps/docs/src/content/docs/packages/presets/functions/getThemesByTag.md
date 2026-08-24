@@ -2,11 +2,11 @@
 title: "getThemesByTag"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / getThemesByTag
+[strata-game-library/presets](../globals.md) / getThemesByTag
 
 # Function: getThemesByTag()
 

@@ -10,7 +10,7 @@ Strata's vegetation system uses GPU instancing to render 10,000+ instances of gr
 ## Quick Start
 
 ```tsx
-import { GrassInstances, TreeInstances, RockInstances } from '@strata-game-library/core';
+import { GrassInstances, TreeInstances, RockInstances } from 'strata-game-library/core';
 
 <GrassInstances count={10000} spread={100} />
 <TreeInstances count={500} spread={200} />
@@ -24,7 +24,7 @@ import { GrassInstances, TreeInstances, RockInstances } from '@strata-game-libra
 GPU-instanced grass with wind animation:
 
 ```tsx
-import { GrassInstances } from '@strata-game-library/core';
+import { GrassInstances } from 'strata-game-library/core';
 
 <GrassInstances
   // Instance count
@@ -74,7 +74,7 @@ import { GrassInstances } from '@strata-game-library/core';
 GPU-instanced trees with variety:
 
 ```tsx
-import { TreeInstances } from '@strata-game-library/core';
+import { TreeInstances } from 'strata-game-library/core';
 
 <TreeInstances
   // Instance count
@@ -126,7 +126,7 @@ import { TreeInstances } from '@strata-game-library/core';
 GPU-instanced rocks and boulders:
 
 ```tsx
-import { RockInstances } from '@strata-game-library/core';
+import { RockInstances } from 'strata-game-library/core';
 
 <RockInstances
   // Instance count
@@ -161,7 +161,7 @@ import { RockInstances } from '@strata-game-library/core';
 Generic GPU instancing for any mesh:
 
 ```tsx
-import { GPUInstancedMesh } from '@strata-game-library/core';
+import { GPUInstancedMesh } from 'strata-game-library/core';
 
 <GPUInstancedMesh
   geometry={customGeometry}
@@ -272,7 +272,7 @@ const terrainRef = useRef();
 ### Wind Zones
 
 ```tsx
-import { WindZone } from '@strata-game-library/core';
+import { WindZone } from 'strata-game-library/core';
 
 <WindZone
   position={[50, 0, 50]}
@@ -346,7 +346,7 @@ Trees become billboards at distance:
 ### Custom Grass Geometry
 
 ```tsx
-import { createGrassGeometry } from '@strata-game-library/core';
+import { createGrassGeometry } from 'strata-game-library/core';
 
 const customGrass = createGrassGeometry({
   segments: 5,

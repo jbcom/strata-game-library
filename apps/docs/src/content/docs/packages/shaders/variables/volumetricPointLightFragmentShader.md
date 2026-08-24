@@ -2,11 +2,11 @@
 title: "volumetricPointLightFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / volumetricPointLightFragmentShader
+[strata-game-library/shaders](../globals.md) / volumetricPointLightFragmentShader
 
 # Variable: volumetricPointLightFragmentShader
 

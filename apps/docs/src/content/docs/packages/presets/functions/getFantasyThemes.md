@@ -2,11 +2,11 @@
 title: "getFantasyThemes"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / getFantasyThemes
+[strata-game-library/presets](../globals.md) / getFantasyThemes
 
 # Function: getFantasyThemes()
 

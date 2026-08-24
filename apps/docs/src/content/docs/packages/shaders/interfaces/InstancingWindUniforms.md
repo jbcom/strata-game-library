@@ -2,11 +2,11 @@
 title: "InstancingWindUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / InstancingWindUniforms
+[strata-game-library/shaders](../globals.md) / InstancingWindUniforms
 
 # Interface: InstancingWindUniforms
 

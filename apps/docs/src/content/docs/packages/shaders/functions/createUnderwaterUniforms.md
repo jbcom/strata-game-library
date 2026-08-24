@@ -2,11 +2,11 @@
 title: "createUnderwaterUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createUnderwaterUniforms
+[strata-game-library/shaders](../globals.md) / createUnderwaterUniforms
 
 # Function: createUnderwaterUniforms()
 

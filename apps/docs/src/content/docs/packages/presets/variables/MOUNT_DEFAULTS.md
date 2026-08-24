@@ -2,11 +2,11 @@
 title: "MOUNT_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / MOUNT\_DEFAULTS
+[strata-game-library/presets](../globals.md) / MOUNT\_DEFAULTS
 
 # Variable: MOUNT\_DEFAULTS
 

@@ -2,11 +2,11 @@
 title: "skyVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / skyVertexShader
+[strata-game-library/shaders](../globals.md) / skyVertexShader
 
 # Variable: skyVertexShader
 

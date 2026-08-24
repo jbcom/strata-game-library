@@ -33,14 +33,14 @@ All historical repositories were clean on `main` at audit time. The monorepo rem
 | Historical repo | Historical package | Current monorepo location | Decision | Residual work |
 |-----------------|--------------------|---------------------------|----------|---------------|
 | `.github` | None | `.github/` | Excluded from npm package scope; repo-level workflows and metadata only | Keep only current repo-owned workflows; do not treat as runtime library code |
-| `audio-synth` | `@strata-game-library/audio-synth@1.0.2` | `plugins/audio-synth` | Migrated and superseded by current `@strata-game-library/audio-synth@1.1.0` | Keep tests and docs current through umbrella subpath docs |
-| `capacitor-plugin` | `@strata-game-library/capacitor-plugin@1.0.2` | `plugins/capacitor` | Migrated, renamed, and superseded by `@strata-game-library/capacitor@1.2.0` | Publish renamed package, then deprecate legacy `-plugin` name; decide whether to port old example/e2e coverage |
+| `audio-synth` | `strata-game-library/audio-synth@1.0.2` | `plugins/audio-synth` | Migrated and superseded by current `strata-game-library/audio-synth@1.1.0` | Keep tests and docs current through umbrella subpath docs |
+| `capacitor-plugin` | `strata-game-library/capacitor-plugin@1.0.2` | `plugins/capacitor` | Migrated, renamed, and superseded by `strata-game-library/capacitor@1.2.0` | Publish renamed package, then deprecate legacy `-plugin` name; decide whether to port old example/e2e coverage |
 | `control-center` | None | None | Excluded from npm package scope; ecosystem automation/control plane | Do not merge unless a specific workflow is adopted into `.github/` |
 | `examples` | Private `@strata/examples@1.0.0` | `apps/examples` | Migrated and expanded | Expand current built-output browser smoke into deeper WebGL-capable runtime assertions |
 | `model-synth` | `template@0.1.0` | `plugins/model-synth` | Current monorepo implementation supersedes old template scaffold | Run the gated live Meshy smoke path with real credentials and add production usage guidance |
-| `presets` | `@strata-game-library/presets@1.1.1` | `packages/presets` | Migrated and improved by current `@strata-game-library/presets@1.2.2` | Keep browser preset coverage in regular verification |
-| `react-native-plugin` | `@strata-game-library/react-native-plugin@1.1.0` | `plugins/react-native` | Migrated, renamed, and superseded by `@strata-game-library/react-native@1.3.0` | Publish renamed package, then deprecate legacy `-plugin` name; validate native example/build coverage |
-| `shaders` | `@strata-game-library/shaders@1.0.2` | `packages/shaders` | Migrated and improved by current `@strata-game-library/shaders@1.1.0` | Keep shader package tests and docs aligned |
+| `presets` | `strata-game-library/presets@1.1.1` | `packages/presets` | Migrated and improved by current `strata-game-library/presets@1.2.2` | Keep browser preset coverage in regular verification |
+| `react-native-plugin` | `strata-game-library/react-native-plugin@1.1.0` | `plugins/react-native` | Migrated, renamed, and superseded by `strata-game-library/react-native@1.3.0` | Publish renamed package, then deprecate legacy `-plugin` name; validate native example/build coverage |
+| `shaders` | `strata-game-library/shaders@1.0.2` | `packages/shaders` | Migrated and improved by current `strata-game-library/shaders@1.1.0` | Keep shader package tests and docs aligned |
 | `strata-game-library.github.io` | `app@0.0.1` | `apps/docs` | Superseded by Astro Starlight docs site | Continue public migration/adoption doc cleanup |
 
 ## Inventory Details
@@ -62,12 +62,12 @@ All historical repositories were clean on `main` at audit time. The monorepo rem
 
 | Current location | Current package | Parity conclusion |
 |------------------|-----------------|-------------------|
-| `plugins/audio-synth` | `@strata-game-library/audio-synth@1.1.0` | Runtime code is migrated. Current package adds tests and release metadata; historical repo is no longer canonical. |
-| `packages/shaders` | `@strata-game-library/shaders@1.1.0` | Runtime code is migrated and versioned forward. Current package is canonical. |
-| `packages/presets` | `@strata-game-library/presets@1.2.2` | Runtime code is migrated and materially expanded. Current test count is higher than historical repo. |
-| `plugins/capacitor` | `@strata-game-library/capacitor@1.2.0` | Runtime code is migrated and renamed. Historical example/e2e assets were not fully adopted into regular verification. |
-| `plugins/react-native` | `@strata-game-library/react-native@1.3.0` | Runtime code and test intent are migrated under the renamed package. Native controller detection and input snapshots now exist; native example/build verification remains. |
-| `plugins/model-synth` | `@strata-game-library/model-synth@0.2.0` | Current code supersedes the historical template package with real Meshy clients, schemas, high-level preview/refine/rigging/animation orchestration, and a gated live smoke command. |
+| `plugins/audio-synth` | `strata-game-library/audio-synth@1.1.0` | Runtime code is migrated. Current package adds tests and release metadata; historical repo is no longer canonical. |
+| `packages/shaders` | `strata-game-library/shaders@1.1.0` | Runtime code is migrated and versioned forward. Current package is canonical. |
+| `packages/presets` | `strata-game-library/presets@1.2.2` | Runtime code is migrated and materially expanded. Current test count is higher than historical repo. |
+| `plugins/capacitor` | `strata-game-library/capacitor@1.2.0` | Runtime code is migrated and renamed. Historical example/e2e assets were not fully adopted into regular verification. |
+| `plugins/react-native` | `strata-game-library/react-native@1.3.0` | Runtime code and test intent are migrated under the renamed package. Native controller detection and input snapshots now exist; native example/build verification remains. |
+| `plugins/model-synth` | `strata-game-library/model-synth@0.2.0` | Current code supersedes the historical template package with real Meshy clients, schemas, high-level preview/refine/rigging/animation orchestration, and a gated live smoke command. |
 | `apps/examples` | Private examples app group | Main historical examples are present, new declarative/world-topology examples were added, and the examples workspace now verifies umbrella-package dependencies, legacy package import removal, Vite bundles, and built-output Chromium smoke for the nested examples. Deeper WebGL-capable runtime coverage remains thin. |
 | `apps/docs` | Private Starlight app | Historical public docs are superseded by the Starlight site plus generated TypeDoc API pages. |
 
@@ -85,4 +85,4 @@ All historical repositories were clean on `main` at audit time. The monorepo rem
 2. Expand `apps/examples` verification beyond current package/import/bundle/browser-smoke checks into deeper WebGL-capable runtime assertions.
 3. Expand adapter/example browser coverage now that core browser integration is restored in CI.
 4. After the first umbrella publish, verify `npm view strata-game-library` and each renamed mobile package.
-5. Deprecate `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin` only after renamed package install docs are live and validated.
+5. Deprecate `strata-game-library/capacitor-plugin` and `strata-game-library/react-native-plugin` only after renamed package install docs are live and validated.

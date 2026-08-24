@@ -2,11 +2,11 @@
 title: "VEHICLE_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / VEHICLE\_FORMS
+[strata-game-library/presets](../globals.md) / VEHICLE\_FORMS
 
 # Variable: VEHICLE\_FORMS
 

@@ -39,6 +39,6 @@ export function App() {
 }
 ```
 
-The root package stays renderer-independent. Import integrations deliberately from `strata-game-library/r3f`, `/reactylon`, `/pixi`, `/astro`, `/capacitor`, or `/react-native`.
+The root package stays renderer-independent. Import integrations deliberately from `strata-game-library/r3f`, `/reactylon`, `/pixi`, `/astro`, `/capacitor`, `/react-native`, or `/yuka`. See the [adapter guide](https://strata.game/adapters/) for peer-install and architecture choices.
 
 Next, read the [architecture](architecture.md) and [package reference](packages.md) before selecting a lower-level package.

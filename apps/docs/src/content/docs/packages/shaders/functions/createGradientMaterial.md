@@ -2,11 +2,11 @@
 title: "createGradientMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createGradientMaterial
+[strata-game-library/shaders](../globals.md) / createGradientMaterial
 
 # Function: createGradientMaterial()
 

@@ -278,7 +278,7 @@ Append to `.gitignore`:
 **Step 4: Verify Nx sees the root project**
 
 Run: `pnpm nx show projects`
-Expected: Lists `@strata-game-library/core` (the root project — will move to packages/core later)
+Expected: Lists `strata-game-library/core` (the root project — will move to packages/core later)
 
 **Step 5: Commit**
 
@@ -484,7 +484,7 @@ Update the root `package.json` to become the monorepo root:
 **Step 3: Verify the workspace sees both projects**
 
 Run: `pnpm nx show projects`
-Expected: Lists `@strata-game-library/monorepo` and `@strata-game-library/core`
+Expected: Lists `@strata-game-library/monorepo` and `strata-game-library/core`
 
 **Step 4: Commit**
 
@@ -647,8 +647,8 @@ Expected: All unit tests pass
 **Step 4: Verify Nx can run the targets**
 
 ```bash
-pnpm nx run @strata-game-library/core:build
-pnpm nx run @strata-game-library/core:test
+pnpm nx run strata-game-library/core:build
+pnpm nx run strata-game-library/core:test
 ```
 
 Expected: Both succeed. Second run should show "cache hit" for build.
@@ -704,7 +704,7 @@ Copy from the standalone repo and update repository URLs:
 
 ```json
 {
-  "name": "@strata-game-library/shaders",
+  "name": "strata-game-library/shaders",
   "version": "1.0.2",
   "description": "GLSL shader collection for Strata 3D - terrain, water, clouds, volumetric effects",
   "main": "dist/index.js",
@@ -923,7 +923,7 @@ Add to `packages/core/package.json` dependencies:
 ```json
 {
   "dependencies": {
-    "@strata-game-library/shaders": "workspace:*"
+    "strata-game-library/shaders": "workspace:*"
   }
 }
 ```
@@ -933,10 +933,10 @@ Add to `packages/core/package.json` dependencies:
 Create `packages/core/src/shaders.ts` (a single file, not a directory):
 
 ```typescript
-export * from '@strata-game-library/shaders';
+export * from 'strata-game-library/shaders';
 ```
 
-This maintains backward compatibility for consumers importing from `@strata-game-library/core/shaders`.
+This maintains backward compatibility for consumers importing from `strata-game-library/shaders`.
 
 **Step 4: Update tsup.config.ts**
 
@@ -961,7 +961,7 @@ Replace with a single re-export entry:
 'shaders/index': 'src/shaders.ts',
 ```
 
-Also add `@strata-game-library/shaders` to the `external` array.
+Also add `strata-game-library/shaders` to the `external` array.
 
 **Step 5: Update core's package.json exports**
 
@@ -980,7 +980,7 @@ Expected: Build succeeds. The `shaders/index.js` output re-exports from the shad
 
 ```bash
 git add -A
-git commit -m "refactor(core): replace inline shaders with @strata-game-library/shaders dependency"
+git commit -m "refactor(core): replace inline shaders with strata-game-library/shaders dependency"
 ```
 
 ---
@@ -1023,7 +1023,7 @@ git commit -m "feat(presets): add presets source from standalone repo"
 
 Copy from the standalone presets repo and update:
 
-- Change `@strata-game-library/core` dependency to `"workspace:*"`
+- Change `strata-game-library/core` dependency to `"workspace:*"`
 - Update `repository.url` to monorepo URL with `"directory": "packages/presets"`
 - Keep all 28+ subpath exports as-is
 - Keep all scripts (build, test, lint, typecheck)
@@ -1101,7 +1101,7 @@ cp -r /Users/jbogaty/src/strata-game-library/audio-synth/src packages/audio-synt
 
 Create `packages/audio-synth/package.json` based on the standalone version, with these changes:
 
-- Keep `name`: `@strata-game-library/audio-synth`
+- Keep `name`: `strata-game-library/audio-synth`
 - Change `build` script from `tsc` to `tsup`
 - Add `tsup` to devDependencies
 - Update repository URL to monorepo with `"directory": "packages/audio-synth"`
@@ -1144,7 +1144,7 @@ export default defineConfig({
   minify: false,
   keepNames: true,
   banner: {
-    js: '/* @strata-game-library/audio-synth - ESM Build */',
+    js: '/* strata-game-library/audio-synth - ESM Build */',
   },
 });
 ```
@@ -1194,7 +1194,7 @@ Create `packages/model-synth/package.json`:
 
 ```json
 {
-  "name": "@strata-game-library/model-synth",
+  "name": "strata-game-library/model-synth",
   "version": "0.1.0",
   "description": "Procedural 3D model generation using Meshy API",
   "main": "./dist/index.js",
@@ -1271,7 +1271,7 @@ export default defineConfig({
   minify: false,
   keepNames: true,
   banner: {
-    js: '/* @strata-game-library/model-synth - ESM Build */',
+    js: '/* strata-game-library/model-synth - ESM Build */',
   },
 });
 ```
@@ -1393,7 +1393,7 @@ Copy from standalone repo, with changes:
 - Change `test` script from `jest` to `vitest run`
 - Replace jest devDependency with vitest
 - Add tsup devDependency
-- Change `@strata-game-library/core` peerDependency to `"workspace:*"` or keep `">=1.4.0"` for external consumers
+- Change `strata-game-library/core` peerDependency to `"workspace:*"` or keep `">=1.4.0"` for external consumers
 - Update repository URL
 
 **Step 3: Create tsconfig.json**
@@ -1426,12 +1426,12 @@ export default defineConfig({
   sourcemap: true,
   target: 'ES2022',
   jsx: 'preserve',
-  external: ['react', 'react-native', '@strata-game-library/core'],
+  external: ['react', 'react-native', 'strata-game-library/core'],
   treeshake: true,
   minify: false,
   keepNames: true,
   banner: {
-    js: '/* @strata-game-library/react-native-plugin - ESM Build */',
+    js: '/* strata-game-library/react-native-plugin - ESM Build */',
   },
 });
 ```
@@ -1553,13 +1553,13 @@ Note: Check which examples actually exist in each repo's `examples/` directory b
 
 **Step 3: Update each example's package.json**
 
-For each example, update the `@strata-game-library/core` (or `@jbcom/strata`) dependency to `workspace:*`:
+For each example, update the `strata-game-library/core` (or `@jbcom/strata`) dependency to `workspace:*`:
 
 ```json
 {
   "dependencies": {
-    "@strata-game-library/core": "workspace:*",
-    "@strata-game-library/shaders": "workspace:*"
+    "strata-game-library/core": "workspace:*",
+    "strata-game-library/shaders": "workspace:*"
   }
 }
 ```
@@ -1893,7 +1893,7 @@ Update the project overview, directory structure, and commands sections to refle
 
 - Architecture section shows `packages/` and `apps/` structure
 - Commands use `pnpm nx run-many -t build` instead of `pnpm run build`
-- Per-package commands: `pnpm nx run @strata-game-library/core:build`
+- Per-package commands: `pnpm nx run strata-game-library/core:build`
 - Note about `pnpm nx affected` for CI
 
 **Step 2: Update README.md**
@@ -1916,12 +1916,12 @@ git commit -m "docs: update project docs for monorepo structure"
 
 | Package | Path | Version | Publishes to npm |
 |---------|------|---------|-----------------|
-| @strata-game-library/core | packages/core | 1.4.11 | Yes |
-| @strata-game-library/shaders | packages/shaders | 1.0.2 | Yes |
-| @strata-game-library/presets | packages/presets | 1.1.1 | Yes |
-| @strata-game-library/audio-synth | packages/audio-synth | 1.0.2 | Yes |
-| @strata-game-library/model-synth | packages/model-synth | 0.1.0 | Yes |
-| @strata-game-library/capacitor-plugin | packages/capacitor-plugin | 1.0.2 | Yes |
-| @strata-game-library/react-native-plugin | packages/react-native-plugin | 1.1.0 | Yes |
+| strata-game-library/core | packages/core | 1.4.11 | Yes |
+| strata-game-library/shaders | packages/shaders | 1.0.2 | Yes |
+| strata-game-library/presets | packages/presets | 1.1.1 | Yes |
+| strata-game-library/audio-synth | packages/audio-synth | 1.0.2 | Yes |
+| strata-game-library/model-synth | packages/model-synth | 0.1.0 | Yes |
+| strata-game-library/capacitor-plugin | packages/capacitor-plugin | 1.0.2 | Yes |
+| strata-game-library/react-native-plugin | packages/react-native-plugin | 1.1.0 | Yes |
 | @strata-game-library/docs | apps/docs | 0.0.1 | No (private) |
 | @strata-game-library/examples | apps/examples | 0.0.1 | No (private) |

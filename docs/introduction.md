@@ -20,6 +20,9 @@ pnpm add strata-game-library react react-dom three \
   composition, pathfinding, and procedural behavior without importing React.
 - **Renderer adapters.** Use React Three Fiber, Babylon through Reactylon, or
   Pixi through explicit subpaths. Optional frameworks stay optional.
+- **Ecosystem adapters.** Choose third-party runtimes deliberately. The
+  [Yuka adapter](https://strata.game/adapters/yuka/) adds steering and navigation only to games
+  that opt into it.
 - **Procedural systems.** Compose terrain, water, sky, vegetation, shaders,
   materials, animation, audio, and world topology from tested primitives.
 - **Package confidence.** Every release validates exports, types, packed files,
@@ -61,16 +64,17 @@ export function App() {
 
 The root export remains renderer-independent. Renderer components and
 integrations use explicit subpaths such as `strata-game-library/r3f`,
-`/reactylon`, `/pixi`, `/astro`, `/capacitor`, and `/react-native`.
+`/reactylon`, `/pixi`, `/astro`, `/capacitor`, `/react-native`, and `/yuka`.
 
 ## Learn by workflow
 
-- [Install and choose packages](https://jonbogaty.com/strata-game-library/getting-started/installation/)
-- [Understand the boundaries](https://jonbogaty.com/strata-game-library/getting-started/architecture/)
-- [Move from split packages](https://jonbogaty.com/strata-game-library/guides/umbrella-package-migration/)
-- [Diagnose a problem](https://jonbogaty.com/strata-game-library/guides/troubleshooting/)
+- [Install and choose packages](https://strata.game/getting-started/installation/)
+- [Choose adapters and their peers](https://strata.game/adapters/)
+- [Understand the boundaries](https://strata.game/getting-started/architecture/)
+- [Move from split packages](https://strata.game/guides/umbrella-package-migration/)
+- [Diagnose a problem](https://strata.game/guides/troubleshooting/)
 
-- [Start a game](https://jonbogaty.com/strata-game-library/quickstart/)
-- [Understand the renderer boundary](https://jonbogaty.com/strata-game-library/architecture/)
-- [Choose packages](https://jonbogaty.com/strata-game-library/packages/)
-- [Contribute safely](https://jonbogaty.com/strata-game-library/contributing/)
+- [Start a game](https://strata.game/quickstart/)
+- [Understand the renderer boundary](https://strata.game/architecture/)
+- [Choose packages](https://strata.game/packages/)
+- [Contribute safely](https://strata.game/contributing/)

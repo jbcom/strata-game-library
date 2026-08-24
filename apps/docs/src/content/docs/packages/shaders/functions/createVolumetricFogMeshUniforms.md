@@ -2,11 +2,11 @@
 title: "createVolumetricFogMeshUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createVolumetricFogMeshUniforms
+[strata-game-library/shaders](../globals.md) / createVolumetricFogMeshUniforms
 
 # Function: createVolumetricFogMeshUniforms()
 

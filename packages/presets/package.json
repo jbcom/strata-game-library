@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/presets",
+  "private": true,
   "version": "1.2.2",
   "description": "Pre-configured presets for Strata 3D - ready-to-use terrain, weather, physics settings",
   "main": "dist/index.js",
@@ -10,10 +11,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./ai": {
-      "types": "./dist/ai/index.d.ts",
-      "import": "./dist/ai/index.js"
     },
     "./animation": {
       "types": "./dist/animation/index.d.ts",
@@ -194,15 +191,13 @@
     "tsup": "^8.5.1",
     "typescript": "5.9.3",
     "vite": "^8.2.2",
-    "vitest": "^4.1.11",
-    "yuka": "^0.7.8"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.0",
-    "@strata-game-library/core": ">=1.4.0",
-    "@strata-game-library/r3f": ">=0.1.0",
+    "@strata-game-library/core": "workspace:*",
+    "@strata-game-library/r3f": "workspace:*",
     "react": ">=18.0.0",
-    "three": ">=0.150.0",
-    "yuka": ">=0.7.0"
+    "three": ">=0.150.0"
   }
 }

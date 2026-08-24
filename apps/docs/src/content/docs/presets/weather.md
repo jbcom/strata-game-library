@@ -10,7 +10,7 @@ Ready-to-use weather configurations for atmospheric effects.
 ## Quick Start
 
 ```typescript
-import { createWeatherPreset, WeatherPresets } from '@strata-game-library/presets/weather';
+import { createWeatherPreset, WeatherPresets } from 'strata-game-library/presets/weather';
 
 // Use a preset directly
 const rain = createWeatherPreset(WeatherPresets.RAIN);
@@ -144,7 +144,7 @@ WeatherPresets.SNOW = {
 ## Weather Transitions
 
 ```typescript
-import { transitionWeather } from '@strata-game-library/presets/weather';
+import { transitionWeather } from 'strata-game-library/presets/weather';
 
 // Smoothly transition between weather states
 transitionWeather({
@@ -211,8 +211,8 @@ interface WeatherPresetOptions {
 ## Using with Components
 
 ```tsx
-import { WeatherSystem } from '@strata-game-library/core';
-import { WeatherPresets } from '@strata-game-library/presets/weather';
+import { WeatherSystem } from 'strata-game-library/core';
+import { WeatherPresets } from 'strata-game-library/presets/weather';
 
 function Scene() {
   const [weather, setWeather] = useState(WeatherPresets.CLEAR);

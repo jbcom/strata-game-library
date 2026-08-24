@@ -2,11 +2,11 @@
 title: "EquipmentForm"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / EquipmentForm
+[strata-game-library/presets](../globals.md) / EquipmentForm
 
 # Type Alias: EquipmentForm
 

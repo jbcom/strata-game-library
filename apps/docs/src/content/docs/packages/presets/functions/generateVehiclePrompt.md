@@ -2,11 +2,11 @@
 title: "generateVehiclePrompt"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / generateVehiclePrompt
+[strata-game-library/presets](../globals.md) / generateVehiclePrompt
 
 # Function: generateVehiclePrompt()
 

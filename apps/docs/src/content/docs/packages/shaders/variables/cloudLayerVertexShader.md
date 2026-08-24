@@ -2,11 +2,11 @@
 title: "cloudLayerVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / cloudLayerVertexShader
+[strata-game-library/shaders](../globals.md) / cloudLayerVertexShader
 
 # Variable: cloudLayerVertexShader
 

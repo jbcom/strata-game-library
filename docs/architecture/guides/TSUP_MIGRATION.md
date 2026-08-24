@@ -114,7 +114,7 @@ Expected output:
 
 ## Package-Specific Configs
 
-### @strata-game-library/audio-synth
+### strata-game-library/audio-synth
 
 ```typescript
 import { defineConfig } from 'tsup';
@@ -136,7 +136,7 @@ export default defineConfig({
 });
 ```
 
-### @strata-game-library/presets
+### strata-game-library/presets
 
 ```typescript
 import { defineConfig } from 'tsup';
@@ -150,11 +150,11 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   target: 'ES2022',
-  external: ['@strata-game-library/core'],
+  external: ['strata-game-library/core'],
 });
 ```
 
-### @strata-game-library/shaders
+### strata-game-library/shaders
 
 ```typescript
 import { defineConfig } from 'tsup';

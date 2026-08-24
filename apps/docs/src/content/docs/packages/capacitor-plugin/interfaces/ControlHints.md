@@ -2,11 +2,11 @@
 title: "ControlHints"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / ControlHints
+[strata-game-library/capacitor](../globals.md) / ControlHints
 
 # Interface: ControlHints
 

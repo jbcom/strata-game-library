@@ -2,11 +2,11 @@
 title: "UniformValue"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / UniformValue
+[strata-game-library/shaders](../globals.md) / UniformValue
 
 # Type Alias: UniformValue\<T\>
 

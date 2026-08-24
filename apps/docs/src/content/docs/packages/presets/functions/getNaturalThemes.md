@@ -2,11 +2,11 @@
 title: "getNaturalThemes"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / getNaturalThemes
+[strata-game-library/presets](../globals.md) / getNaturalThemes
 
 # Function: getNaturalThemes()
 

@@ -2,11 +2,11 @@
 title: "EXPLORATION_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / EXPLORATION\_THEME
+[strata-game-library/audio-synth](../globals.md) / EXPLORATION\_THEME
 
 # Variable: EXPLORATION\_THEME
 

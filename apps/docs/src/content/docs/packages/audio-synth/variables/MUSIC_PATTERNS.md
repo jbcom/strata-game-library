@@ -2,11 +2,11 @@
 title: "MUSIC_PATTERNS"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / MUSIC\_PATTERNS
+[strata-game-library/audio-synth](../globals.md) / MUSIC\_PATTERNS
 
 # Variable: MUSIC\_PATTERNS
 

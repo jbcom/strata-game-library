@@ -2,11 +2,11 @@
 title: "furFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / furFragmentShader
+[strata-game-library/shaders](../globals.md) / furFragmentShader
 
 # Variable: furFragmentShader
 

@@ -27,8 +27,8 @@ function sourcePages(directory: string): string[] {
 
 export default defineConfig({
   name: "Strata Game Library",
-  siteUrl: "https://jonbogaty.com",
-  baseUrl: "/strata-game-library",
+  siteUrl: "https://strata.game",
+  baseUrl: "/",
   prettyUrls: "slash",
   theme: {
     preset: "default",
@@ -50,7 +50,7 @@ export default defineConfig({
   logo: {
     light: "../.github/assets/strata-hero.webp",
     dark: "../.github/assets/strata-hero.webp",
-    href: "/strata-game-library/",
+    href: "/",
   },
   favicon: "../.github/assets/strata-favicon.svg",
   ogImage: "../.github/assets/strata-hero.webp",
@@ -103,6 +103,7 @@ export default defineConfig({
             {
               group: "Adapters and plugins",
               pages: [
+                ...sourcePages("adapters"),
                 ...sourcePages("audio-synth"),
                 ...sourcePages("capacitor-plugin"),
                 ...sourcePages("mobile"),
@@ -124,7 +125,7 @@ export default defineConfig({
   },
   navbar: {
     links: [{ type: "github", href: "https://github.com/jbcom/strata-game-library", label: "GitHub" }],
-    primary: { type: "button", label: "Get started", href: "/strata-game-library/quickstart/" },
+    primary: { type: "button", label: "Get started", href: "/quickstart/" },
   },
   footer: {
     links: [

@@ -2,11 +2,11 @@
 title: "createHologramMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createHologramMaterial
+[strata-game-library/shaders](../globals.md) / createHologramMaterial
 
 # Function: createHologramMaterial()
 

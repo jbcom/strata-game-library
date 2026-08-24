@@ -2,11 +2,11 @@
 title: "SFX_PRESETS"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SFX\_PRESETS
+[strata-game-library/audio-synth](../globals.md) / SFX\_PRESETS
 
 # Variable: SFX\_PRESETS
 

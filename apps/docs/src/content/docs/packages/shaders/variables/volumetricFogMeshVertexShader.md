@@ -2,11 +2,11 @@
 title: "volumetricFogMeshVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / volumetricFogMeshVertexShader
+[strata-game-library/shaders](../globals.md) / volumetricFogMeshVertexShader
 
 # Variable: volumetricFogMeshVertexShader
 

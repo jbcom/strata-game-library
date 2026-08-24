@@ -2,7 +2,9 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import { dirname, join, normalize, relative, resolve } from 'node:path';
 
 const root = resolve(process.argv[2] ?? 'docs/dist');
-const baseUrl = (process.env.DOCS_BASE_URL ?? '/strata-game-library').replace(/\/$/, '');
+// Strata now owns its root custom domain. Keep an override for preview builds,
+// but validate root-absolute links as local by default.
+const baseUrl = (process.env.DOCS_BASE_URL ?? '/').replace(/\/$/, '');
 const errors = [];
 
 async function filesUnder(directory) {

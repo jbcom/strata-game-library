@@ -2,11 +2,11 @@
 title: "WhiskerMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / WhiskerMorphology
+[strata-game-library/presets](../globals.md) / WhiskerMorphology
 
 # Interface: WhiskerMorphology
 

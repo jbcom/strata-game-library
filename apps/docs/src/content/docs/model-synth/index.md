@@ -5,18 +5,18 @@ description: AI-powered 3D model generation for game assets
 
 # Model Synth
 
-The `@strata-game-library/model-synth` package provides Meshy-backed 3D model generation for game assets. It exposes a high-level `ModelSynth` workflow plus lower-level text-to-3D, rigging, animation, and retexture clients.
+The `strata-game-library/model-synth` package provides Meshy-backed 3D model generation for game assets. It exposes a high-level `ModelSynth` workflow plus lower-level text-to-3D, rigging, animation, and retexture clients.
 
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/model-synth
+pnpm add strata-game-library/model-synth
 ```
 
 ## Quick Start
 
 ```tsx
-import { ModelSynth } from '@strata-game-library/model-synth';
+import { ModelSynth } from 'strata-game-library/model-synth';
 
 const synth = new ModelSynth({ apiKey: process.env.MESHY_API_KEY! });
 
@@ -74,7 +74,7 @@ Named animations are resolved through Strata's bundled Meshy action-id map (`idl
 
 ## Live Smoke Testing
 
-`@strata-game-library/model-synth` includes a gated real-API smoke command:
+`strata-game-library/model-synth` includes a gated real-API smoke command:
 
 ```bash
 MESHY_API_KEY=... pnpm --dir plugins/model-synth test:smoke

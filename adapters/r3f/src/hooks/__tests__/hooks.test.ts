@@ -1,135 +1,12 @@
 /**
  * Hooks Tests
  *
- * Tests for useKeyboardControls and useYuka hook exports.
+ * Tests for the standard React Three Fiber hook exports.
  *
  * @module hooks/__tests__/hooks.test
  */
 
-import { describe, expect, it, vi } from 'vitest';
-
-vi.mock('yuka', () => {
-  class Vector3 {
-    x: number;
-    y: number;
-    z: number;
-    constructor(x = 0, y = 0, z = 0) {
-      this.x = x;
-      this.y = y;
-      this.z = z;
-    }
-  }
-  class GameEntity {
-    position = new Vector3();
-  }
-  class Vehicle extends GameEntity {
-    maxSpeed = 1;
-  }
-  class SteeringBehavior {
-    weight = 1;
-  }
-  class SeekBehavior extends SteeringBehavior {
-    target = new Vector3();
-  }
-  class FleeBehavior extends SteeringBehavior {
-    target = new Vector3();
-    panicDistance = 10;
-  }
-  class ArriveBehavior extends SteeringBehavior {
-    target = new Vector3();
-    deceleration = 3;
-    tolerance = 0.1;
-  }
-  class PursuitBehavior extends SteeringBehavior {
-    evader: Vehicle;
-    constructor(evader: Vehicle) {
-      super();
-      this.evader = evader;
-    }
-  }
-  class EvadeBehavior extends SteeringBehavior {
-    pursuer: Vehicle;
-    panicDistance = 10;
-    constructor(pursuer: Vehicle) {
-      super();
-      this.pursuer = pursuer;
-    }
-  }
-  class WanderBehavior extends SteeringBehavior {
-    radius = 1;
-    distance = 5;
-    jitter = 5;
-  }
-  class Path {
-    loop = false;
-  }
-  class FollowPathBehavior extends SteeringBehavior {
-    path: Path;
-    nextWaypointDistance = 1;
-    constructor(path: Path) {
-      super();
-      this.path = path;
-    }
-  }
-  class SeparationBehavior extends SteeringBehavior {}
-  class AlignmentBehavior extends SteeringBehavior {}
-  class CohesionBehavior extends SteeringBehavior {}
-  class ObstacleAvoidanceBehavior extends SteeringBehavior {
-    obstacles: GameEntity[];
-    dBoxMinLength = 4;
-    constructor(obstacles: GameEntity[]) {
-      super();
-      this.obstacles = obstacles;
-    }
-  }
-  class OffsetPursuitBehavior extends SteeringBehavior {
-    constructor(_leader: Vehicle, _offset: Vector3) {
-      super();
-    }
-  }
-  class InterposeBehavior extends SteeringBehavior {
-    entity1: Vehicle;
-    entity2: Vehicle;
-    constructor(entity1: Vehicle, entity2: Vehicle) {
-      super();
-      this.entity1 = entity1;
-      this.entity2 = entity2;
-    }
-  }
-  class Polygon {
-    fromContour(_points: Vector3[]) {}
-  }
-  class EntityManager {}
-  class Time {}
-  class StateMachine {}
-  class NavMesh {}
-
-  return {
-    Vector3,
-    GameEntity,
-    Vehicle,
-    SteeringBehavior,
-    SeekBehavior,
-    FleeBehavior,
-    ArriveBehavior,
-    PursuitBehavior,
-    EvadeBehavior,
-    WanderBehavior,
-    Path,
-    FollowPathBehavior,
-    SeparationBehavior,
-    AlignmentBehavior,
-    CohesionBehavior,
-    ObstacleAvoidanceBehavior,
-    OffsetPursuitBehavior,
-    InterposeBehavior,
-    Polygon,
-    EntityManager,
-    Time,
-    StateMachine,
-    NavMesh,
-  };
-});
+import { describe, expect, it } from 'vitest';
 
 describe('Hooks exports', () => {
   it('should export useKeyboardControls from index', async () => {
@@ -156,29 +33,6 @@ describe('Hooks exports', () => {
     expect(typeof hooks.useMode).toBe('function');
     expect(hooks.useTransition).toBeDefined();
     expect(typeof hooks.useTransition).toBe('function');
-  });
-
-  it('should export all Yuka behavior hooks from index', async () => {
-    const hooks = await import('../index');
-
-    expect(hooks.useSeek).toBeDefined();
-    expect(hooks.useFlee).toBeDefined();
-    expect(hooks.useArrive).toBeDefined();
-    expect(hooks.usePursue).toBeDefined();
-    expect(hooks.useEvade).toBeDefined();
-    expect(hooks.useWander).toBeDefined();
-    expect(hooks.useFollowPath).toBeDefined();
-    expect(hooks.useSeparation).toBeDefined();
-    expect(hooks.useAlignment).toBeDefined();
-    expect(hooks.useCohesion).toBeDefined();
-    expect(hooks.useObstacleAvoidance).toBeDefined();
-    expect(hooks.useOffsetPursuit).toBeDefined();
-    expect(hooks.useInterpose).toBeDefined();
-  });
-
-  it('should re-export the YUKA namespace', async () => {
-    const hooks = await import('../index');
-    expect(hooks.YUKA).toBeDefined();
   });
 });
 

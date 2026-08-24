@@ -18,7 +18,6 @@ export default libraryBuild({
     "@react-three/fiber",
     "react",
     "three",
-    "yuka",
   ],
   jsx: "automatic",
   // preserveSymlinks: false so dts generation follows the workspace symlink

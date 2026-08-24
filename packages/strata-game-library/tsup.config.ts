@@ -12,6 +12,20 @@ const internalPackages = [
   '@strata-game-library/react-native',
   '@strata-game-library/reactylon',
   '@strata-game-library/shaders',
+  '@strata-game-library/yuka',
+];
+
+// Private workspace builds can preserve their own dependency imports during
+// development. The public umbrella cannot: it must not leak implementation
+// module resolution (including directory-only ESM paths) into a consumer.
+const bundledDependencies = [
+  'howler',
+  'maath',
+  'miniplex',
+  'ngraph.graph',
+  'ngraph.path',
+  'xstate',
+  'zundo',
 ];
 
 const peerPackages = [
@@ -55,8 +69,11 @@ export default defineConfig({
     capacitor: 'src/capacitor.ts',
     'react-native': 'src/react-native.ts',
     astro: 'src/astro.ts',
+    yuka: 'src/yuka.ts',
   },
   format: ['esm'],
+  // The public tarball must be self-contained. Resolve the declarations for
+  // private workspace modules just as noExternal resolves their runtime code.
   dts: true,
   clean: true,
   sourcemap: true,
@@ -65,7 +82,7 @@ export default defineConfig({
   treeshake: true,
   minify: false,
   keepNames: true,
-  noExternal: internalPackages,
+  noExternal: [...internalPackages, ...bundledDependencies],
   external: peerPackages,
   banner: {
     js: '/* strata-game-library - umbrella ESM build */',

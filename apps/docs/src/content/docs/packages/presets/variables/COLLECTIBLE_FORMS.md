@@ -2,11 +2,11 @@
 title: "COLLECTIBLE_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / COLLECTIBLE\_FORMS
+[strata-game-library/presets](../globals.md) / COLLECTIBLE\_FORMS
 
 # Variable: COLLECTIBLE\_FORMS
 

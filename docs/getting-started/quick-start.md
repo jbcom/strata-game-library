@@ -33,7 +33,7 @@ function App() {
 Import and add the `ProceduralSky` component:
 
 ```tsx
-import { ProceduralSky } from '@strata-game-library/core';
+import { ProceduralSky } from 'strata-game-library/core';
 
 function Scene() {
   return (
@@ -56,7 +56,7 @@ The sky automatically includes:
 Add a water plane with realistic rendering:
 
 ```tsx
-import { Water } from '@strata-game-library/core';
+import { Water } from 'strata-game-library/core';
 
 function Scene() {
   return (
@@ -83,7 +83,7 @@ The water includes:
 Populate your scene with GPU-instanced vegetation:
 
 ```tsx
-import { GrassInstances, TreeInstances, RockInstances } from '@strata-game-library/core';
+import { GrassInstances, TreeInstances, RockInstances } from 'strata-game-library/core';
 
 function Scene() {
   return (
@@ -127,7 +127,7 @@ All vegetation includes:
 Enhance the atmosphere with fog and effects:
 
 ```tsx
-import { VolumetricFogMesh, EnhancedFog } from '@strata-game-library/core';
+import { VolumetricFogMesh, EnhancedFog } from 'strata-game-library/core';
 
 function Scene() {
   return (
@@ -162,7 +162,7 @@ import {
   TreeInstances,
   RockInstances,
   VolumetricFogMesh
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 function Scene() {
   return (
@@ -230,7 +230,7 @@ In under 50 lines of code, you created:
 
 ```tsx
 import { useState, useEffect } from 'react';
-import { createTimeOfDay } from '@strata-game-library/core';
+import { createTimeOfDay } from 'strata-game-library/core';
 
 function DynamicSky() {
   const [hour, setHour] = useState(14);
@@ -249,14 +249,14 @@ function DynamicSky() {
 ### Weather Effects
 
 ```tsx
-import { createWeatherPreset, WeatherPresets } from '@strata-game-library/presets/weather';
+import { createWeatherPreset, WeatherPresets } from 'strata-game-library/presets/weather';
 
 const weather = createWeatherPreset(WeatherPresets.RAIN);
 ```
 
 ## Next Steps
 
-- [Architecture](https://jonbogaty.com/strata-game-library/getting-started/architecture/) - Understand how Strata works
-- [Terrain](https://jonbogaty.com/strata-game-library/core/terrain/) - Add procedural terrain
-- [Characters](https://jonbogaty.com/strata-game-library/core/characters/) - Add animated characters
-- [Live Demos](https://jonbogaty.com/strata-game-library/showcase/) - See more examples
+- [Architecture](https://strata.game/getting-started/architecture/) - Understand how Strata works
+- [Terrain](https://strata.game/core/terrain/) - Add procedural terrain
+- [Characters](https://strata.game/core/characters/) - Add animated characters
+- [Live Demos](https://strata.game/showcase/) - See more examples

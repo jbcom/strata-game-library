@@ -294,8 +294,6 @@ export type {
   MinimapConfig,
   MinimapMarker,
   NameplateConfig,
-  NavMesh,
-  NavMeshConversionOptions,
   NGraph,
   NLink,
   NNode,
@@ -405,7 +403,6 @@ export type {
   WindSimulationConfig,
   WobbleOptions,
   WorldConfig,
-  YukaVector3,
 } from './core';
 export {
   ARCHETYPES,
@@ -597,7 +594,6 @@ export {
   formatNumber,
   formatProgressText,
   fovToFocalLength,
-  fromNavMesh,
   generateDebrisVelocity,
   generateEntityId,
   generateInstanceData,

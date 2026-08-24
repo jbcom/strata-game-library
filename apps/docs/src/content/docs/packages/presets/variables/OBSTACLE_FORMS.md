@@ -2,11 +2,11 @@
 title: "OBSTACLE_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / OBSTACLE\_FORMS
+[strata-game-library/presets](../globals.md) / OBSTACLE\_FORMS
 
 # Variable: OBSTACLE\_FORMS
 

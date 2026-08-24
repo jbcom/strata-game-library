@@ -15,7 +15,7 @@ import {
   skyFragmentShader,
   atmosphereVertexShader,
   atmosphereFragmentShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Sky Shader
@@ -36,7 +36,7 @@ Complete procedural sky with sun and atmospheric effects:
 ### Usage
 
 ```typescript
-import { skyVertexShader, skyFragmentShader } from '@strata-game-library/shaders';
+import { skyVertexShader, skyFragmentShader } from 'strata-game-library/shaders';
 
 const skyMaterial = new THREE.ShaderMaterial({
   vertexShader: skyVertexShader,
@@ -77,7 +77,7 @@ Standalone atmospheric scattering for planet rendering:
 ### Usage
 
 ```typescript
-import { atmosphereVertexShader, atmosphereFragmentShader } from '@strata-game-library/shaders';
+import { atmosphereVertexShader, atmosphereFragmentShader } from 'strata-game-library/shaders';
 
 const atmosphereMaterial = new THREE.ShaderMaterial({
   vertexShader: atmosphereVertexShader,

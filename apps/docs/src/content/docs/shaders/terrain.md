@@ -15,7 +15,7 @@ import {
   terrainFragmentShader,
   triplanarVertexShader,
   triplanarFragmentShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Basic Terrain Shader
@@ -149,7 +149,7 @@ void main() {
 ## Usage in Three.js
 
 ```typescript
-import { terrainVertexShader, terrainFragmentShader } from '@strata-game-library/shaders';
+import { terrainVertexShader, terrainFragmentShader } from 'strata-game-library/shaders';
 import * as THREE from 'three';
 
 const terrainMaterial = new THREE.ShaderMaterial({

@@ -10,7 +10,7 @@ Strata's sky system provides physically-based atmospheric scattering with a dyna
 ## Quick Start
 
 ```tsx
-import { ProceduralSky } from '@strata-game-library/core';
+import { ProceduralSky } from 'strata-game-library/core';
 
 <ProceduralSky sunPosition={[100, 50, 100]} />
 ```
@@ -22,7 +22,7 @@ import { ProceduralSky } from '@strata-game-library/core';
 Complete procedural sky with all features:
 
 ```tsx
-import { ProceduralSky, createTimeOfDay } from '@strata-game-library/core';
+import { ProceduralSky, createTimeOfDay } from 'strata-game-library/core';
 
 <ProceduralSky
   // Sun position (can use sunPosition or timeOfDay)
@@ -82,7 +82,7 @@ import { ProceduralSky, createTimeOfDay } from '@strata-game-library/core';
 ### Using `createTimeOfDay`
 
 ```tsx
-import { createTimeOfDay } from '@strata-game-library/core';
+import { createTimeOfDay } from 'strata-game-library/core';
 
 // Specific time
 const noon = createTimeOfDay(12, 0);      // 12:00 PM
@@ -96,7 +96,7 @@ const midnight = createTimeOfDay(0, 0);   // 12:00 AM
 
 ```tsx
 import { useState, useEffect } from 'react';
-import { createTimeOfDay } from '@strata-game-library/core';
+import { createTimeOfDay } from 'strata-game-library/core';
 
 function AnimatedSky() {
   const [hour, setHour] = useState(12);
@@ -123,7 +123,7 @@ function AnimatedSky() {
 ### Geographic Sun Position
 
 ```tsx
-import { calculateSunPosition } from '@strata-game-library/core';
+import { calculateSunPosition } from 'strata-game-library/core';
 
 const sunPos = calculateSunPosition({
   latitude: 40.7128,    // NYC
@@ -234,7 +234,7 @@ Controls atmospheric haziness:
 ### Clear Day
 
 ```tsx
-import { SkyPresets } from '@strata-game-library/presets';
+import { SkyPresets } from 'strata-game-library/presets';
 
 <ProceduralSky {...SkyPresets.CLEAR_DAY} />
 ```
@@ -306,7 +306,7 @@ import { SkyPresets } from '@strata-game-library/presets';
 The sky automatically provides scene lighting:
 
 ```tsx
-import { ProceduralSky, SkyLight } from '@strata-game-library/core';
+import { ProceduralSky, SkyLight } from 'strata-game-library/core';
 
 <ProceduralSky timeOfDay={createTimeOfDay(14, 0)}>
   {/* Directional light follows sun */}
@@ -338,7 +338,7 @@ import {
   skyFragmentShader,
   atmosphereVertexShader,
   atmosphereFragmentShader
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 
 const skyMaterial = new THREE.ShaderMaterial({
   vertexShader: skyVertexShader,

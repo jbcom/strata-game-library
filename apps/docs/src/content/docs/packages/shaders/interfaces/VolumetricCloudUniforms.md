@@ -2,11 +2,11 @@
 title: "VolumetricCloudUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / VolumetricCloudUniforms
+[strata-game-library/shaders](../globals.md) / VolumetricCloudUniforms
 
 # Interface: VolumetricCloudUniforms
 

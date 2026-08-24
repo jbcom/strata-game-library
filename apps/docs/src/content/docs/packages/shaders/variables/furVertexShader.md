@@ -2,11 +2,11 @@
 title: "furVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / furVertexShader
+[strata-game-library/shaders](../globals.md) / furVertexShader
 
 # Variable: furVertexShader
 

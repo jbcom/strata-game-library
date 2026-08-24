@@ -14,7 +14,7 @@ This document reflects the actual state of the repository after the umbrella-pac
 | Monorepo infrastructure | Strong | Nx + pnpm workspace, CI/CD, release-please, package metadata, and READMEs are established |
 | Umbrella package `strata-game-library` | In progress | Workspace package now exists, passes local `lint`, `typecheck`, `build`, and `test`, is release-tracked, and is included in the npm publish workflow; first npm publish has not happened |
 | Scoped package publishing | Partial | `core`, `shaders`, `presets`, and `audio-synth` are published; `r3f`, `reactylon`, `model-synth`, and `astro` are still workspace-only |
-| Mobile package rename | Partial | npm still uses `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
+| Mobile package rename | Partial | npm still uses `strata-game-library/capacitor-plugin` and `strata-game-library/react-native-plugin`; workspace has moved to `capacitor` and `react-native` |
 | Layer 3 compositional objects | Partial | Material presets, procedural material trait metadata, procedural shader/texture layer plans, R3F procedural material shader injection, Reactylon/Babylon PBR procedural material shader injection, full built-in skeleton presets, public `createCreature()` / `createProp()` factories, adapter-neutral runtime assembly plans, material slots, bounds, physics metadata, creature asset bindings, prop interaction action descriptors, execution helpers, stateful interaction controllers, first-pass R3F runtime renderers, R3F static GLB prop-node loading, R3F GLB-backed creature loading, R3F/Reactylon prop interaction seams, Reactylon runtime descriptors, native Babylon instantiation helpers, async Babylon asset loading helpers, and API-showcase examples now exist; renderer-ready rig retargeting/control and full asset-pipeline integration remain incomplete |
 | Layer 4 declarative games | Partial | `createGame()`, state preset factories, preset game helpers, definition-driven transition defaults, built-in genre control maps, definition-driven `ui.shell` defaults, scene-level shell cards, pause-aware runtime snapshots, transition-aware scene/mode helpers, reactive input snapshots/hooks, `StrataGame`, built-in HUD/pause-menu/loading/scene-card scaffolding, and `useTransition()` now exist, but richer template content and deeper orchestration are still incomplete |
 | Documentation/status tracking | Partial | Umbrella package docs, package strategy, split-repo parity matrix, and migration guide are now aligned, but planning/status docs still need continued cleanup as implementation moves |
@@ -127,13 +127,13 @@ Verified during this session:
 - `pnpm run docs:internal`: passed
 - `pnpm nx run @strata-game-library/docs:typecheck --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after the R3F `bufferAttribute` JSX update
-- `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after bundling maath submodules into the core ESM output
-- `pnpm nx run @strata-game-library/core:test:e2e -- --project=chromium --reporter=list`: passed, 32 browser integration tests
+- `pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after bundling maath submodules into the core ESM output
+- `pnpm nx run strata-game-library/core:test:e2e -- --project=chromium --reporter=list`: passed, 32 browser integration tests
 - `pnpm --dir plugins/react-native typecheck`: passed after native snapshot type updates
 - `pnpm --dir plugins/react-native test`: passed, covering controller-aware device profiles and native input snapshot polling
-- `pnpm nx run @strata-game-library/react-native:test --skip-nx-cache`: passed for the same React Native coverage through the CI-style Nx target
+- `pnpm nx run strata-game-library/react-native:test --skip-nx-cache`: passed for the same React Native coverage through the CI-style Nx target
 - `pnpm nx run @strata-game-library/docs:build --skip-nx-cache`: passed after React Native mobile docs updates
-- `pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after React Native adapter-map changes
+- `pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after React Native adapter-map changes
 - `pnpm --dir packages/core test:unit -- tests/unit/core/platform.test.ts tests/unit/core/platform-ssr.test.ts`: passed, 39 files / 994 tests
 - `pnpm --dir plugins/model-synth typecheck`: passed after character rigging/animation orchestration updates
 - `pnpm --dir plugins/model-synth test`: passed, 38 tests covering Meshy clients and high-level character preview/refine/rigging/animation orchestration
@@ -144,12 +144,12 @@ Verified during this session:
 - PR #88 CI on GitHub: passed for lint, typecheck, build, test, docs, dependency review, and CodeQL
 - `pnpm --dir packages/core typecheck`: passed after composition runtime assembly updates
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts tests/unit/api/exports.test.ts`: passed, including runtime composition assembly coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after composition runtime assembly updates
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after composition runtime assembly updates
 - `pnpm --dir packages/strata-game-library exec tsup`: passed, confirming umbrella package declarations and subpath bundles still emit
 - `pnpm --dir adapters/r3f typecheck`: passed after R3F runtime composition renderer updates
 - `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, including runtime composition export/material/geometry/asset-node coverage
 - `pnpm --dir adapters/r3f exec biome check src/components/compose src/components/index.ts`: passed for the new R3F compose component surface
-- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after R3F runtime composition renderer updates
+- `NX_DAEMON=false pnpm nx run strata-game-library/r3f:build --skip-nx-cache`: passed after R3F runtime composition renderer updates
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after the R3F build, confirming umbrella bundles pick up the new runtime composition exports
 - `pnpm --dir apps/examples/api-showcase exec tsc --noEmit`: passed after adding explicit R3F JSX type augmentation to the API-showcase app
 - `pnpm --dir apps/examples exec vite build api-showcase --config api-showcase/vite.config.ts --logLevel warn`: passed for the composition-enabled API showcase bundle
@@ -158,41 +158,41 @@ Verified during this session:
 - `pnpm --dir adapters/reactylon typecheck`: passed after adding Reactylon runtime composition descriptors and Babylon instantiation helpers
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, including all existing Reactylon tests plus descriptor and Babylon `NullEngine` instantiation coverage
 - `pnpm --dir adapters/reactylon exec biome check src/components/compose src/index.ts tests/compose.test.ts`: passed
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after descriptor exports
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after descriptor exports
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after Reactylon descriptor exports
 - `pnpm --dir packages/core typecheck`: passed after prop interaction execution helpers
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 999 tests including interaction execution coverage
 - `pnpm --dir packages/core check`: passed after prop interaction execution helpers
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after prop interaction execution helpers
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after prop interaction execution helpers
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after prop interaction execution helpers
 - `pnpm --dir adapters/r3f typecheck`: passed after `RuntimeProp` interaction wiring
 - `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 327 tests including R3F runtime prop interaction action coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after `RuntimeProp` interaction wiring
+- `NX_DAEMON=false pnpm nx run strata-game-library/r3f:build --skip-nx-cache`: passed after `RuntimeProp` interaction wiring
 - `pnpm --dir adapters/reactylon typecheck`: passed after Babylon prop interaction execution wiring
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Babylon prop interaction execution coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Babylon prop interaction execution wiring
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after Babylon prop interaction execution wiring
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after adapter interaction wiring
 - `pnpm --dir packages/core typecheck`: passed after procedural material trait metadata
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1000 tests including material trait coverage
 - `pnpm --dir packages/core check`: passed after procedural material trait metadata
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after procedural material trait metadata
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after procedural material trait metadata
 - `pnpm --dir adapters/r3f typecheck`: passed after preserving material traits on Three.js material `userData`
 - `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 327 tests including R3F material trait metadata coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after material trait metadata wiring
+- `NX_DAEMON=false pnpm nx run strata-game-library/r3f:build --skip-nx-cache`: passed after material trait metadata wiring
 - `pnpm --dir adapters/reactylon typecheck`: passed after preserving material traits in Reactylon descriptors
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon material trait metadata coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after material trait metadata wiring
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after material trait metadata wiring
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after procedural material trait metadata
 - `pnpm --dir packages/core typecheck`: passed after creature asset binding metadata
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1001 tests including creature asset binding coverage
 - `pnpm --dir packages/core check`: passed after creature asset binding metadata
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after creature asset binding metadata
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after creature asset binding metadata
 - `pnpm --dir adapters/r3f typecheck`: passed after `RuntimeCreatureAsset` GLB-backed creature rendering support
 - `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 328 tests including R3F creature asset binding export/runtime coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after `RuntimeCreatureAsset` support
+- `NX_DAEMON=false pnpm nx run strata-game-library/r3f:build --skip-nx-cache`: passed after `RuntimeCreatureAsset` support
 - `pnpm --dir adapters/reactylon typecheck`: passed after preserving creature asset bindings in Reactylon descriptors
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon creature asset descriptor coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon creature asset descriptor coverage
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon creature asset descriptor coverage
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after creature asset binding and adapter export updates
 - `git diff --check`: passed after creature asset binding updates
 - `pnpm --dir apps/examples exec biome check --write api-showcase/src/main.tsx tests/e2e/examples.spec.ts`: passed after wiring the API showcase entrypoint to the real app and adding browser runtime assertions
@@ -201,32 +201,32 @@ Verified during this session:
 - `pnpm --dir packages/core typecheck`: passed after procedural material plan generation
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1001 tests including procedural material plan coverage
 - `pnpm --dir packages/core check`: passed after procedural material plan generation
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after procedural material plan generation
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after procedural material plan generation
 - `pnpm --dir adapters/r3f typecheck`: passed after carrying procedural material plans into Three.js material `userData` and injecting them into shader compilation
 - `pnpm --dir adapters/r3f test -- src/components/compose/__tests__/compose.test.ts`: passed, 30 files / 329 tests including R3F procedural plan metadata and shader-injection coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/r3f:build --skip-nx-cache`: passed after R3F procedural material plan metadata and shader injection
+- `NX_DAEMON=false pnpm nx run strata-game-library/r3f:build --skip-nx-cache`: passed after R3F procedural material plan metadata and shader injection
 - `pnpm --dir adapters/reactylon typecheck`: passed after preserving procedural material plans in descriptors
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 48 tests including Reactylon procedural plan metadata coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon procedural material plan metadata
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after Reactylon procedural material plan metadata
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after procedural material plan exports and adapter metadata propagation
 - `git diff --check`: passed after procedural material plan updates
 - `pnpm --dir adapters/reactylon typecheck`: passed after async Babylon asset loading helpers
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including async prop-node loading, creature-asset loading, and Babylon animation playback coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after async Babylon asset loading helpers
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after async Babylon asset loading helpers
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after async Babylon asset loading exports
 - `git diff --check`: passed after async Babylon asset loading updates
 - `pnpm --dir adapters/reactylon lint`: passed after Babylon PBR procedural material plugin support
 - `pnpm --dir adapters/reactylon typecheck`: passed after Babylon PBR procedural material plugin support
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including Babylon procedural material plugin, async asset loading, and animation playback coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after Babylon PBR procedural material plugin support
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after Babylon PBR procedural material plugin support
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after Babylon PBR procedural material plugin exports
 - `git diff --check`: passed after Babylon PBR procedural material plugin updates
 - `pnpm --dir packages/core typecheck`: passed after prop interaction controller support
 - `pnpm --dir packages/core test:unit -- tests/unit/compose/runtime-composition.test.ts`: passed, 40 files / 1001 tests including interaction controller coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/core:build --skip-nx-cache`: passed after prop interaction controller exports
+- `NX_DAEMON=false pnpm nx run strata-game-library/core:build --skip-nx-cache`: passed after prop interaction controller exports
 - `pnpm --dir adapters/reactylon typecheck`: passed after stateful Babylon prop interaction controller wiring
 - `pnpm --dir adapters/reactylon test -- tests/compose.test.ts`: passed, 6 files / 50 tests including stateful Babylon prop interaction metadata coverage
-- `NX_DAEMON=false pnpm nx run @strata-game-library/reactylon:build --skip-nx-cache`: passed after stateful Babylon prop interaction controller wiring
+- `NX_DAEMON=false pnpm nx run strata-game-library/reactylon:build --skip-nx-cache`: passed after stateful Babylon prop interaction controller wiring
 - `pnpm --dir packages/strata-game-library exec tsup`: passed after prop interaction controller umbrella exports
 - `git diff --check`: passed after prop interaction controller updates
 

@@ -2,11 +2,11 @@
 title: "TailMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / TailMorphology
+[strata-game-library/presets](../globals.md) / TailMorphology
 
 # Interface: TailMorphology
 

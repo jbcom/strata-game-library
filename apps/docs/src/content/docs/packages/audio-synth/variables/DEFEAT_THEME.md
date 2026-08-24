@@ -2,11 +2,11 @@
 title: "DEFEAT_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / DEFEAT\_THEME
+[strata-game-library/audio-synth](../globals.md) / DEFEAT\_THEME
 
 # Variable: DEFEAT\_THEME
 

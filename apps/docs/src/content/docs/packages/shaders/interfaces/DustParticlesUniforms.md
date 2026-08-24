@@ -2,11 +2,11 @@
 title: "DustParticlesUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / DustParticlesUniforms
+[strata-game-library/shaders](../globals.md) / DustParticlesUniforms
 
 # Interface: DustParticlesUniforms
 

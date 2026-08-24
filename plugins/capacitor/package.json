@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/capacitor",
+  "private": true,
   "version": "1.2.0",
   "description": "Cross-platform input, device detection, and haptics for Strata 3D games",
   "type": "module",

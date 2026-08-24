@@ -2,11 +2,11 @@
 title: "simpleTerrainFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / simpleTerrainFragmentShader
+[strata-game-library/shaders](../globals.md) / simpleTerrainFragmentShader
 
 # Variable: simpleTerrainFragmentShader
 

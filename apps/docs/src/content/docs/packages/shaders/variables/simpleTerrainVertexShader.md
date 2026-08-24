@@ -2,11 +2,11 @@
 title: "simpleTerrainVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / simpleTerrainVertexShader
+[strata-game-library/shaders](../globals.md) / simpleTerrainVertexShader
 
 # Variable: simpleTerrainVertexShader
 

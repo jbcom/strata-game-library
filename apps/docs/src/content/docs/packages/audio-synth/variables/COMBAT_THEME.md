@@ -2,11 +2,11 @@
 title: "COMBAT_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / COMBAT\_THEME
+[strata-game-library/audio-synth](../globals.md) / COMBAT\_THEME
 
 # Variable: COMBAT\_THEME
 

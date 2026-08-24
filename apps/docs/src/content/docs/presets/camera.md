@@ -10,7 +10,7 @@ Ready-to-use camera configurations for common game perspectives.
 ## Quick Start
 
 ```typescript
-import { createCameraPreset, CameraPresets } from '@strata-game-library/presets/camera';
+import { createCameraPreset, CameraPresets } from 'strata-game-library/presets/camera';
 
 <CameraController {...CameraPresets.THIRD_PERSON} />
 ```
@@ -94,8 +94,8 @@ CameraPresets.CINEMATIC = {
 ## Using with Components
 
 ```tsx
-import { CameraController } from '@strata-game-library/core';
-import { CameraPresets } from '@strata-game-library/presets/camera';
+import { CameraController } from 'strata-game-library/core';
+import { CameraPresets } from 'strata-game-library/presets/camera';
 
 <CameraController
   {...CameraPresets.THIRD_PERSON}

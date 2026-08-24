@@ -2,11 +2,11 @@
 title: "advancedWaterVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / advancedWaterVertexShader
+[strata-game-library/shaders](../globals.md) / advancedWaterVertexShader
 
 # Variable: advancedWaterVertexShader
 

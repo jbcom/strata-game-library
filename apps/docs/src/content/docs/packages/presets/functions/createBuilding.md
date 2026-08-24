@@ -2,11 +2,11 @@
 title: "createBuilding"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createBuilding
+[strata-game-library/presets](../globals.md) / createBuilding
 
 # Function: createBuilding()
 

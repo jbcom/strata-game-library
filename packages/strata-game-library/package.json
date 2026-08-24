@@ -82,6 +82,10 @@
     "./astro": {
       "types": "./dist/astro.d.ts",
       "import": "./dist/astro.js"
+    },
+    "./yuka": {
+      "types": "./dist/yuka.d.ts",
+      "import": "./dist/yuka.js"
     }
   },
   "files": [
@@ -89,8 +93,8 @@
     "README.md"
   ],
   "scripts": {
-    "build:deps": "pnpm --dir ../.. --recursive --workspace-concurrency=1 --filter @strata-game-library/core --filter @strata-game-library/shaders --filter @strata-game-library/presets --filter @strata-game-library/r3f --filter @strata-game-library/reactylon --filter @strata-game-library/pixi --filter @strata-game-library/audio-synth --filter @strata-game-library/model-synth --filter @strata-game-library/capacitor --filter @strata-game-library/react-native --filter @strata-game-library/astro build",
-    "build": "pnpm run build:deps && tsup",
+    "build:deps": "pnpm --dir ../.. --recursive --workspace-concurrency=1 --filter @strata-game-library/core --filter @strata-game-library/shaders --filter @strata-game-library/presets --filter @strata-game-library/r3f --filter @strata-game-library/reactylon --filter @strata-game-library/pixi --filter @strata-game-library/audio-synth --filter @strata-game-library/model-synth --filter @strata-game-library/capacitor --filter @strata-game-library/react-native --filter @strata-game-library/astro --filter @strata-game-library/yuka build",
+    "build": "pnpm run build:deps && tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/rewrite-bundled-types.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint src/ tests/",
@@ -125,6 +129,21 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@types/howler": "^2.2.13",
+    "@types/react": "^19.2.18",
+    "@types/three": "^0.185.4",
+    "@types/yuka": "^0.7.4",
+    "howler": "^2.2.4",
+    "immer": "^11.1.18",
+    "maath": "^0.10.8",
+    "miniplex": "^2.0.0",
+    "ngraph.graph": "^20.1.2",
+    "ngraph.path": "^1.6.1",
+    "xstate": "^5.32.5",
+    "zundo": "^2.3.0",
+    "zustand": "^5.0.15"
+  },
   "peerDependencies": {
     "@babylonjs/core": ">=9.0.0",
     "@pixi/react": ">=8.0.0",
@@ -141,8 +160,7 @@
     "three": ">=0.150.0",
     "tone": ">=14.0.0",
     "typescript": ">=5.0.0",
-    "yuka": ">=0.7.0",
-    "zustand": ">=4.0.0"
+    "yuka": ">=0.7.0"
   },
   "peerDependenciesMeta": {
     "@babylonjs/core": {
@@ -192,9 +210,6 @@
     },
     "yuka": {
       "optional": true
-    },
-    "zustand": {
-      "optional": true
     }
   },
   "devDependencies": {
@@ -210,6 +225,7 @@
     "@strata-game-library/react-native": "workspace:*",
     "@strata-game-library/reactylon": "workspace:*",
     "@strata-game-library/shaders": "workspace:*",
+    "@strata-game-library/yuka": "workspace:*",
     "@vitest/coverage-v8": "^4.1.11",
     "tsup": "^8.5.1",
     "typescript": "5.9.3",

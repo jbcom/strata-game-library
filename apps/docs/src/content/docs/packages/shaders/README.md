@@ -4,7 +4,7 @@ title: "Shaders Overview"
 
 # Shaders Package
 
-`@strata-game-library/shaders` provides standalone GLSL shaders for Three.js applications.
+`strata-game-library/shaders` provides standalone GLSL shaders for Three.js applications.
 
 ## Shader Categories
 
@@ -21,7 +21,7 @@ title: "Shaders Overview"
 ## Usage
 
 ```tsx
-import { waterVertexShader, waterFragmentShader } from '@strata-game-library/shaders';
+import { waterVertexShader, waterFragmentShader } from 'strata-game-library/shaders';
 
 const material = new THREE.ShaderMaterial({
   vertexShader: waterVertexShader,
@@ -36,7 +36,7 @@ const material = new THREE.ShaderMaterial({
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/shaders
+pnpm add strata-game-library/shaders
 ```
 
 See the [full shader reference](/shaders/) for all available exports.

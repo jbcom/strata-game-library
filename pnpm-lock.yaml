@@ -134,9 +134,6 @@ importers:
       '@types/three':
         specifier: ^0.185.4
         version: 0.185.4
-      '@types/yuka':
-        specifier: ^0.7.4
-        version: 0.7.4
       '@vitest/coverage-v8':
         specifier: ^4.1.11
         version: 4.1.11(@vitest/browser@4.1.11)(vitest@4.1.11)
@@ -176,9 +173,6 @@ importers:
       xstate:
         specifier: ^5.32.5
         version: 5.32.5
-      yuka:
-        specifier: ^0.7.8
-        version: 0.7.8
       zundo:
         specifier: ^2.3.0
         version: 2.3.0(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)))
@@ -232,6 +226,45 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@26.2.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0))
 
+  adapters/yuka:
+    devDependencies:
+      '@react-three/drei':
+        specifier: ^10.7.8
+        version: 10.7.8(@react-three/fiber@9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.87.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.185.1))(@types/react@19.2.18)(@types/three@0.185.4)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(three@0.185.1)
+      '@react-three/fiber':
+        specifier: ^9.7.0
+        version: 9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.87.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.185.1)
+      '@strata-game-library/vite':
+        specifier: workspace:*
+        version: link:../../plugins/vite
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
+      '@types/three':
+        specifier: ^0.185.4
+        version: 0.185.4
+      '@types/yuka':
+        specifier: ^0.7.4
+        version: 0.7.4
+      react:
+        specifier: 19.2.5
+        version: 19.2.5
+      three:
+        specifier: ^0.185.1
+        version: 0.185.1
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.26)(supports-color@8.1.1)(typescript@5.9.3)(yaml@2.9.0)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.11
+        version: 4.1.11(@types/node@26.2.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0))
+      yuka:
+        specifier: ^0.7.8
+        version: 0.7.8
+
   apps/examples:
     dependencies:
       '@dimforge/rapier3d-compat':
@@ -267,9 +300,6 @@ importers:
       three:
         specifier: ^0.185.1
         version: 0.185.1
-      yuka:
-        specifier: ^0.7.8
-        version: 0.7.8
       zustand:
         specifier: ^5.0.15
         version: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
@@ -359,9 +389,6 @@ importers:
       '@types/three':
         specifier: ^0.185.4
         version: 0.185.4
-      '@types/yuka':
-        specifier: ^0.7.4
-        version: 0.7.4
       '@vitest/coverage-v8':
         specifier: ^4.1.11
         version: 4.1.11(@vitest/browser@4.1.11)(vitest@4.1.11)
@@ -386,9 +413,6 @@ importers:
       vitest:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@26.2.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0))
-      yuka:
-        specifier: ^0.7.8
-        version: 0.7.8
 
   packages/presets:
     devDependencies:
@@ -449,9 +473,6 @@ importers:
       vitest:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@26.2.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0))
-      yuka:
-        specifier: ^0.7.8
-        version: 0.7.8
 
   packages/shaders:
     devDependencies:
@@ -500,9 +521,39 @@ importers:
       '@react-three/rapier':
         specifier: '>=1.0.0 || >=2.0.0'
         version: 2.2.0(@react-three/fiber@9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.84.1(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.183.2))(react@19.2.5)(three@0.183.2)
+      '@types/howler':
+        specifier: ^2.2.13
+        version: 2.2.13
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
+      '@types/three':
+        specifier: ^0.185.4
+        version: 0.185.4
+      '@types/yuka':
+        specifier: ^0.7.4
+        version: 0.7.4
       astro:
         specifier: 7.2.4
         version: 7.2.4(@astrojs/markdown-remark@7.2.4(supports-color@8.1.1))(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0)
+      howler:
+        specifier: ^2.2.4
+        version: 2.2.4
+      immer:
+        specifier: ^11.1.18
+        version: 11.1.18
+      maath:
+        specifier: ^0.10.8
+        version: 0.10.8(@types/three@0.185.4)(three@0.183.2)
+      miniplex:
+        specifier: ^2.0.0
+        version: 2.0.0
+      ngraph.graph:
+        specifier: ^20.1.2
+        version: 20.1.2
+      ngraph.path:
+        specifier: ^1.6.1
+        version: 1.6.1
       pixi.js:
         specifier: '>=8.0.0'
         version: 8.20.0
@@ -527,11 +578,17 @@ importers:
       tone:
         specifier: '>=14.0.0'
         version: 15.1.22
+      xstate:
+        specifier: ^5.32.5
+        version: 5.32.5
       yuka:
         specifier: '>=0.7.0'
         version: 0.7.8
+      zundo:
+        specifier: ^2.3.0
+        version: 2.3.0(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)))
       zustand:
-        specifier: '>=4.0.0'
+        specifier: ^5.0.15
         version: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
     devDependencies:
       '@biomejs/biome':
@@ -570,6 +627,9 @@ importers:
       '@strata-game-library/shaders':
         specifier: workspace:*
         version: link:../shaders
+      '@strata-game-library/yuka':
+        specifier: workspace:*
+        version: link:../../adapters/yuka
       '@vitest/coverage-v8':
         specifier: ^4.1.11
         version: 4.1.11(@vitest/browser@4.1.11)(vitest@4.1.11)
@@ -729,8 +789,8 @@ importers:
   plugins/react-native:
     dependencies:
       '@strata-game-library/core':
-        specifier: '>=1.4.0'
-        version: 1.4.12(04528a344a72bd4e76e11c1ecb8ecbde)
+        specifier: workspace:*
+        version: link:../../packages/core
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.10
@@ -3161,28 +3221,6 @@ packages:
     resolution: {integrity: sha512-9g9dWI4gsSVe8bNLlb+lMkBYsnIKCZTmvqvDG+Avnn69XfmHZKiaMrx7cgTaddq7aTPPmXiTsbFcUy0xgI4+wA==}
     peerDependencies:
       react: 19.2.5
-
-  '@strata-game-library/core@1.4.12':
-    resolution: {integrity: sha512-JM/IS3HrGDg30C+0KXHKT2JnAZQQXLXRKT3hrnu1I+gpsMgxWbcO7NmmvRgMZCKL5W+M4bmdSTqiTnartu8d1A==}
-    peerDependencies:
-      '@react-three/drei': '>=9.0.0'
-      '@react-three/fiber': '>=8.0.0'
-      '@react-three/rapier': '>=1.0.0'
-      postprocessing: '>=6.0.0'
-      react: 19.2.5
-      react-dom: 19.2.5
-      three: '>=0.150.0'
-      yuka: '>=0.7.0'
-      zustand: '>=4.0.0'
-    peerDependenciesMeta:
-      '@react-three/rapier':
-        optional: true
-      postprocessing:
-        optional: true
-      yuka:
-        optional: true
-      zustand:
-        optional: true
 
   '@tailwindcss/node@4.3.3':
     resolution: {integrity: sha512-/T8IKEsf9VTU6tLjgC7+sv2mOPtQxzE2jMw7u4Tt40Tx+QSZxpzh95/H6cMKoja9XuW7iMdLJYBB0o9G1CaAgg==}
@@ -10088,37 +10126,6 @@ snapshots:
   '@stitches/react@1.2.8(react@19.2.5)':
     dependencies:
       react: 19.2.5
-
-  '@strata-game-library/core@1.4.12(04528a344a72bd4e76e11c1ecb8ecbde)':
-    dependencies:
-      '@react-three/drei': 10.7.8(@react-three/fiber@9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.87.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.185.1))(@types/react@19.2.18)(@types/three@0.185.4)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(three@0.185.1)
-      '@react-three/fiber': 9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.87.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.185.1)
-      '@types/howler': 2.2.13
-      '@xstate/react': 6.1.0(@types/react@19.2.18)(react@19.2.5)(xstate@5.32.5)
-      howler: 2.2.4
-      immer: 11.1.18
-      leva: 0.10.1(@types/react-dom@19.2.5(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      maath: 0.10.8(@types/three@0.185.4)(three@0.183.2)
-      miniplex: 2.0.0
-      miniplex-react: 2.0.1(miniplex@2.0.0)(react@19.2.5)
-      ngraph.graph: 20.1.2
-      ngraph.path: 1.6.1
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-      simplex-noise: 4.0.3
-      three: 0.183.2
-      tunnel-rat: 0.1.2(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)
-      xstate: 5.32.5
-      zundo: 2.3.0(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)))
-    optionalDependencies:
-      '@react-three/rapier': 2.2.0(@react-three/fiber@9.7.0(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-native@0.87.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/react@19.2.18)(react@19.2.5)(supports-color@8.1.1))(react@19.2.5)(three@0.185.1))(react@19.2.5)(three@0.185.1)
-      postprocessing: 6.39.4(three@0.185.1)
-      yuka: 0.7.8
-      zustand: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
-      - '@types/three'
 
   '@tailwindcss/node@4.3.3':
     dependencies:
