@@ -1,13 +1,12 @@
 # Automerge - Auto-merge Dependabot and Release Please PRs after CI passes
 #
-# Approves and enables auto-merge (squash) for PRs opened by Dependabot
-# or Release Please. GitHub will merge the PR automatically once all
-# required status checks pass.
+# Enables native auto-merge for trusted release-please PRs and grouped
+# Dependabot non-major updates. Those branches deliberately skip CI.
 name: Automerge
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
   contents: write
@@ -15,19 +14,19 @@ permissions:
 
 jobs:
   # ────────────────────────────────────────────────────────────────────
-  # Approve and auto-merge Dependabot PRs
+  # Auto-merge only non-major Dependabot groups. Major upgrades stay human-reviewed.
   # ────────────────────────────────────────────────────────────────────
   dependabot:
     name: Dependabot Auto-merge
-    if: github.actor == 'dependabot[bot]'
+    if: >-
+      github.actor == 'dependabot[bot]' &&
+      (startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') ||
+       startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{ github.event.pull_request.html_url }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
     steps:
-      - name: Approve PR
-        run: gh pr review "$PR_URL" --approve
-
       - name: Enable auto-merge
         run: gh pr merge "$PR_URL" --auto --squash
 
@@ -40,10 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_URL: ${{ github.event.pull_request.html_url }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
     steps:
-      - name: Approve PR
-        run: gh pr review "$PR_URL" --approve
-
       - name: Enable auto-merge
         run: gh pr merge "$PR_URL" --auto --squash

@@ -18,12 +18,19 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # Release-please encapsulates commits already accepted on main. Dependabot
+  # non-major groups are pinned, machine-authored maintenance updates. Both are
+  # fast-pathed by the trusted merge queue instead of repeating the full suite.
+  FAST_PATH_PR: ${{ github.event_name == 'pull_request' && (startsWith(github.head_ref, 'release-please--') || startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') || startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')) }}
+
 jobs:
   # ────────────────────────────────────────────────────────────────────
   # Determine which packages are affected
   # ────────────────────────────────────────────────────────────────────
   affected:
     name: Detect affected packages
+    if: env.FAST_PATH_PR != 'true'
     runs-on: ubuntu-latest
     outputs:
       packages: ${{ steps.set-matrix.outputs.packages }}
@@ -74,7 +81,7 @@ jobs:
   check:
     name: "${{ matrix.task }} / ${{ matrix.package }}"
     needs: affected
-    if: needs.affected.outputs.has_affected == 'true'
+    if: env.FAST_PATH_PR != 'true' && needs.affected.outputs.has_affected == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -126,6 +133,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────
   docs:
     name: "Docs / ${{ matrix.task }}"
+    if: env.FAST_PATH_PR != 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -168,7 +176,7 @@ jobs:
   e2e:
     name: Core Browser Integration
     needs: [affected, check]
-    if: needs.affected.outputs.has_affected == 'true'
+    if: env.FAST_PATH_PR != 'true' && needs.affected.outputs.has_affected == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -214,7 +222,7 @@ jobs:
   # ────────────────────────────────────────────────────────────────────
   dependency-review:
     name: Dependency Review
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && env.FAST_PATH_PR != 'true'
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
