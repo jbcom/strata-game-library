@@ -169,7 +169,7 @@ function chainEdges(
     const degree = incident.get(key)?.length ?? 0;
     return degree === 1 || degree > 2;
   });
-  startKeys.sort();
+  startKeys.sort((left, right) => left.localeCompare(right));
 
   for (const key of startKeys) {
     const [cx, cy] = key.split(',').map(Number);

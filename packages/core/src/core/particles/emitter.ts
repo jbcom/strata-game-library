@@ -12,6 +12,7 @@
  */
 
 import * as THREE from 'three';
+import { gameRandom } from '../shared/random';
 import { computeEmitPosition, computeEmitVelocity } from './emission';
 import { noise3D } from './noise';
 import { MAX_GRADIENT_STOPS, particleFragmentShader, particleVertexShader } from './shaders';
@@ -184,13 +185,13 @@ export class ParticleEmitterCore {
     particle.velocity.copy(this.getEmitVelocity());
     particle.age = 0;
     particle.lifetime =
-      this.config.lifetime * (1 + (Math.random() - 0.5) * 2 * this.config.lifetimeVariance);
-    particle.startSize = 1 + (Math.random() - 0.5) * 2 * this.config.sizeVariance;
-    particle.rotation = Math.random() * Math.PI * 2;
+      this.config.lifetime * (1 + (gameRandom() - 0.5) * 2 * this.config.lifetimeVariance);
+    particle.startSize = 1 + (gameRandom() - 0.5) * 2 * this.config.sizeVariance;
+    particle.rotation = gameRandom() * Math.PI * 2;
     particle.rotationSpeed = this.config.behavior.spin
-      ? (this.config.behavior.spinSpeed ?? 1) * (Math.random() - 0.5) * 2
+      ? (this.config.behavior.spinSpeed ?? 1) * (gameRandom() - 0.5) * 2
       : 0;
-    particle.colorIndex = Math.random();
+    particle.colorIndex = gameRandom();
     particle.active = true;
 
     return true;

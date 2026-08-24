@@ -15,6 +15,7 @@
  */
 
 import * as THREE from 'three';
+import { gameRandom } from '../shared/random';
 
 /**
  * Calculate an impulse to apply based on desired velocity change
@@ -205,11 +206,11 @@ export function generateDebrisVelocity(
   randomness: number = 0.3
 ): THREE.Vector3 {
   const direction = debrisPosition.clone().sub(explosionCenter).normalize();
-  const force = baseForce * (1 + (Math.random() - 0.5) * randomness);
+  const force = baseForce * (1 + (gameRandom() - 0.5) * randomness);
 
-  direction.x += (Math.random() - 0.5) * randomness;
-  direction.y += Math.random() * randomness * 0.5;
-  direction.z += (Math.random() - 0.5) * randomness;
+  direction.x += (gameRandom() - 0.5) * randomness;
+  direction.y += gameRandom() * randomness * 0.5;
+  direction.z += (gameRandom() - 0.5) * randomness;
 
   return direction.normalize().multiplyScalar(force);
 }
