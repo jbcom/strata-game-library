@@ -1,0 +1,69 @@
+{
+  "package": "strata-game-library",
+  "version": "0.2.0",
+  "subpaths": {
+    ".": {
+      "Compose": "value",
+      "Core": "value",
+      "export * from '@strata-game-library/core/api'": "star-reexport",
+      "export * from '@strata-game-library/presets'": "star-reexport",
+      "export * from '@strata-game-library/shaders'": "star-reexport",
+      "Game": "value",
+      "Presets": "value",
+      "Shaders": "value",
+      "Utils": "value",
+      "World": "value"
+    },
+    "./api": {
+      "export * from '@strata-game-library/core/api'": "star-reexport"
+    },
+    "./astro": {
+      "export * from '@strata-game-library/astro'": "star-reexport"
+    },
+    "./audio-synth": {
+      "export * from '@strata-game-library/audio-synth'": "star-reexport"
+    },
+    "./capacitor": {
+      "export * from '@strata-game-library/capacitor'": "star-reexport"
+    },
+    "./components": {
+      "export * from '@strata-game-library/r3f/components'": "star-reexport"
+    },
+    "./compose": {
+      "export * from '@strata-game-library/core/compose'": "star-reexport"
+    },
+    "./core": {
+      "export * from '@strata-game-library/core'": "star-reexport"
+    },
+    "./game": {
+      "export * from '@strata-game-library/core/game'": "star-reexport"
+    },
+    "./hooks": {
+      "export * from '@strata-game-library/r3f/hooks'": "star-reexport"
+    },
+    "./model-synth": {
+      "export * from '@strata-game-library/model-synth'": "star-reexport"
+    },
+    "./presets": {
+      "export * from '@strata-game-library/presets'": "star-reexport"
+    },
+    "./r3f": {
+      "export * from '@strata-game-library/r3f'": "star-reexport"
+    },
+    "./react-native": {
+      "export * from '@strata-game-library/react-native'": "star-reexport"
+    },
+    "./reactylon": {
+      "export * from '@strata-game-library/reactylon'": "star-reexport"
+    },
+    "./shaders": {
+      "export * from '@strata-game-library/shaders'": "star-reexport"
+    },
+    "./utils": {
+      "export * from '@strata-game-library/core/utils'": "star-reexport"
+    },
+    "./world": {
+      "export * from '@strata-game-library/core/world'": "star-reexport"
+    }
+  }
+}

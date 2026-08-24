@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["packages/*/src/**", "packages/*/tests/**", "plugins/*/src/**", "plugins/*/tests/**", "adapters/*/src/**", "adapters/*/tests/**", "apps/**"]
+    "includes": [
+      "packages/*/src/**",
+      "packages/*/tests/**",
+      "plugins/*/src/**",
+      "plugins/*/tests/**",
+      "adapters/*/src/**",
+      "adapters/*/tests/**",
+      "apps/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -29,6 +37,9 @@
         "noUselessCatch": "error",
         "noUselessConstructor": "error",
         "noUselessTypeConstraint": "error"
+      },
+      "performance": {
+        "noReExportAll": "warn"
       },
       "correctness": {
         "noUnusedVariables": "warn",
@@ -55,7 +66,41 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.d.ts"],
+      "includes": [
+        "**"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@strata-game-library/core/internal": "SemVer-exempt adapter-facing surface. Application and docs code must import from a stable public subpath (e.g. '@strata-game-library/core') instead. See docs/API_CONTRACT.md."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "adapters/*/src/**",
+        "packages/strata-game-library/src/**"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/*.d.ts"
+      ],
       "linter": {
         "rules": {
           "style": {

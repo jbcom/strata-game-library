@@ -1,0 +1,10 @@
+{
+  "package": "@strata-game-library/astro",
+  "version": "0.3.0",
+  "subpaths": {
+    ".": {
+      "default": "value",
+      "StrataAstroConfig": "type"
+    }
+  }
+}

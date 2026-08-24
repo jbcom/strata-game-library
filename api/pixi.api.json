@@ -1,0 +1,14 @@
+{
+  "package": "@strata-game-library/pixi",
+  "version": "0.1.0",
+  "subpaths": {
+    ".": {
+      "applyFilterResolutionFix": "value",
+      "detectReduceMotion": "value",
+      "getDpr": "value",
+      "MountOptions": "type",
+      "mountPixi": "value",
+      "PixiMountHandle": "type"
+    }
+  }
+}

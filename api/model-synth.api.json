@@ -1,0 +1,71 @@
+{
+  "package": "@strata-game-library/model-synth",
+  "version": "0.2.0",
+  "subpaths": {
+    ".": {
+      "AnimationsAPI": "value",
+      "AnimationTask": "value",
+      "AnimationTaskParams": "value",
+      "ArtStyle": "type",
+      "CharacterAnimationName": "type",
+      "CharacterAnimationRequest": "type",
+      "CharacterGenerationTask": "type",
+      "CharacterPollOptions": "type",
+      "CreateRefineTaskParams": "value",
+      "CreateTaskParams": "value",
+      "MeshyAuthError": "value",
+      "MeshyBaseClient": "value",
+      "MeshyError": "value",
+      "MeshyErrorResponse": "value",
+      "MeshyPaymentError": "value",
+      "MeshyRateLimitError": "value",
+      "MeshyTask": "value",
+      "ModelCategory": "type",
+      "ModelSynth": "value",
+      "OTTER_ANIMATIONS": "value",
+      "RATE_LIMITS": "value",
+      "RetextureAPI": "value",
+      "RetextureTaskParams": "value",
+      "RetryConfig": "value",
+      "RiggingAPI": "value",
+      "RiggingTask": "value",
+      "ROCK_ANIMATIONS": "value",
+      "TextTo3DAPI": "value",
+      "TextTo3DTargetFormat": "value"
+    },
+    "./clients/animations": {
+      "AnimationsAPI": "value",
+      "AnimationTask": "type",
+      "AnimationTaskParams": "type",
+      "OTTER_ANIMATIONS": "value",
+      "ROCK_ANIMATIONS": "value"
+    },
+    "./clients/base": {
+      "MeshyAuthError": "value",
+      "MeshyBaseClient": "value",
+      "MeshyError": "value",
+      "MeshyErrorResponse": "type",
+      "MeshyPaymentError": "value",
+      "MeshyRateLimitError": "value",
+      "RATE_LIMITS": "value",
+      "RetryConfig": "type"
+    },
+    "./clients/retexture": {
+      "RetextureAPI": "value",
+      "RetextureTask": "type",
+      "RetextureTaskParams": "type"
+    },
+    "./clients/rigging": {
+      "RiggingAPI": "value",
+      "RiggingTask": "type",
+      "RiggingTaskParams": "type"
+    },
+    "./clients/text-to-3d": {
+      "CreateRefineTaskParams": "type",
+      "CreateTaskParams": "type",
+      "MeshyTask": "type",
+      "TextTo3DAPI": "value",
+      "TextTo3DTargetFormat": "type"
+    }
+  }
+}

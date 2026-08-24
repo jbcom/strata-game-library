@@ -1,0 +1,43 @@
+{
+  "package": "@strata-game-library/capacitor",
+  "version": "1.2.0",
+  "subpaths": {
+    ".": {
+      "ControlHints": "value",
+      "DEFAULT_INPUT_MAPPING": "value",
+      "DeviceInfo": "value",
+      "DeviceProfile": "value",
+      "DeviceType": "value",
+      "HapticsOptions": "value",
+      "hello": "value",
+      "InputMapping": "value",
+      "InputMode": "value",
+      "InputSnapshot": "value",
+      "Orientation": "value",
+      "OrientationOptions": "value",
+      "PerformanceMode": "value",
+      "Platform": "value",
+      "SafeAreaInsets": "value",
+      "StorageKeysResult": "value",
+      "StorageOptions": "value",
+      "StorageResult": "value",
+      "Strata": "value",
+      "StrataPlugin": "value",
+      "TouchOptions": "value",
+      "Vector2": "value",
+      "version": "value"
+    },
+    "./react": {
+      "DeviceContext": "value",
+      "DeviceProvider": "value",
+      "InputContext": "value",
+      "InputProvider": "value",
+      "useControlHints": "value",
+      "useDevice": "value",
+      "useHaptics": "value",
+      "useInput": "value",
+      "useStorage": "value",
+      "useStrata": "value"
+    }
+  }
+}

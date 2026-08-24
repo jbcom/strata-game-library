@@ -31,10 +31,6 @@
       "types": "./dist/camera/index.d.ts",
       "import": "./dist/camera/index.js"
     },
-    "./characters": {
-      "types": "./dist/characters/index.d.ts",
-      "import": "./dist/characters/index.js"
-    },
     "./clouds": {
       "types": "./dist/clouds/index.d.ts",
       "import": "./dist/clouds/index.js"

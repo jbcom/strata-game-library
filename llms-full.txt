@@ -1,0 +1,261 @@
+# Strata Game Library — Tier 1 Public Surface
+
+> The supported public API. Strata exports roughly 2,400 symbols, but the large
+> majority are internal wiring that `export *` promoted to public by accident.
+> This file lists Tier 1: the surface that is deliberately supported, carries
+> real usage, and is covered by the SemVer promise in `docs/API_CONTRACT.md`.
+>
+> A symbol being importable is NOT the same as it being supported. If a name is
+> not here, treat it as internal and subject to removal without a major version.
+> The machine-readable snapshot of everything currently emitted — supported or
+> not — is in `api/*.api.json`.
+
+Generated against: core 1.7.0, shaders 1.1.0, presets 1.2.2, r3f 0.5.0,
+reactylon 0.5.0, pixi 0.1.0, umbrella 0.2.0.
+
+---
+
+## Install
+
+```bash
+# React Three Fiber (primary path)
+pnpm add @strata-game-library/core @strata-game-library/r3f \
+         @react-three/fiber @react-three/drei three
+
+# Headless / no renderer
+pnpm add @strata-game-library/core
+```
+
+`three` and `@react-three/fiber` are peer dependencies — Strata never bundles a
+copy of either.
+
+---
+
+## @strata-game-library/core
+
+The only package with no renderer dependency, and the only one with substantial
+real traffic. Import from the root unless a narrower subpath is listed below.
+
+### Root — `@strata-game-library/core`
+
+Game construction and lifecycle — one factory per genre:
+
+    createRPGGame, createActionGame, createPlatformerGame, createPuzzleGame,
+    createRacingGame, createSandboxGame
+    Game, GameDefinition, GameMode
+
+Scene shells (announcement overlays, pause, dismissal):
+
+    createAnnouncementScene, createAnnouncementSceneShell,
+    createDismissSceneShellAction, createTogglePauseSceneShellAction
+    GameHUDDefinition, GameLoadingOverlayDefinition
+
+State:
+
+    GameStore, GameStoreApi
+
+Terrain:
+
+    createTerrainMaterial, createTerrainNoise, generateTerrainChunk,
+    getTerrainHeight, TerrainChunk, TerrainNoisePreset, TerrainTextures
+
+Water:
+
+    createWaterMaterial, createWaterGeometry, createAdvancedWaterMaterial,
+    createUnderwaterOverlayMaterial
+    WaterMaterialOptions, AdvancedWaterMaterialOptions,
+    UnderwaterOverlayMaterialOptions
+
+Sky and biomes:
+
+    createSkyMaterial, createSkyGeometry, createDefaultCloudSkyConfig
+    SkyMaterialOptions, CloudSkyConfig
+    BiomeData, BiomeType, getBiomeAt, loadBiomeTextures, preloadBiomeTextures
+
+Physics:
+
+    createDefaultPhysicsConfig, PhysicsConfig, PhysicsMaterial,
+    MaterialPhysics, RuntimePhysicsProfile
+
+Particles:
+
+    createParticleEmitter, ParticleEmitter, ParticleEmitterConfig,
+    ParticleEmitterType, ParticleBehavior, ParticleForces
+
+Level of detail:
+
+    LODConfig, LODLevel, LODState
+
+Input:
+
+    createInputManager, InputManager, InputManagerConfig, InputAxis,
+    InputEvent, InputActionMap, InputActionBinding, GamepadState
+
+Skeletons and animation rigging:
+
+    createBipedSkeleton, createAvianSkeleton, createBoneChain,
+    createBoneChainFromLengths, createAnimationMachine
+
+Math and easing (also reachable at `./core/math`):
+
+    lerp, clamp, easeInCubic, easeOutCubic, easeInOutCubic
+
+### `@strata-game-library/core/compose`
+
+Runtime composition of creatures and props. The second-highest-traffic subpath.
+
+    createCreature, createCreatureAnimationGraph, createCreatureRigBindingPlan,
+    createCreatureIKRigPlan, createCreatureIKPosePlan,
+    resolveCreatureComposition
+    CreatureDefinition, CreatureComposition, CreatureAssetDefinition,
+    CreateCreatureInput
+    createProp, createPropInteractionController, CreatePropInput
+
+### Other supported core subpaths
+
+    ./api      ./game      ./world      ./utils      ./shaders
+
+Core declares 34 subpaths in total. The 27 not named here have no known
+importer and are candidates for removal in the next major — do not build
+against them. In particular, `@strata-game-library/core/types` and
+`@strata-game-library/core/molecular` appear in older documentation but are
+**not** declared in the exports map and will fail to resolve.
+
+---
+
+## @strata-game-library/shaders
+
+Standalone GLSL factories. Usable without the rest of Strata, and the package
+with the healthiest subpath discipline — prefer the narrow subpath over the root.
+
+### `./materials`
+
+    createToonMaterial, createHologramMaterial, createDissolveMaterial,
+    createOutlineMaterial, createGlitchMaterial, createCrystalMaterial,
+    createForcefieldMaterial, createGradientMaterial, createScanlineMaterial
+
+Each has a matching options type (`ToonMaterialOptions`, `HologramMaterialOptions`,
+`DissolveMaterialOptions`, `OutlineMaterialOptions`, `GlitchMaterialOptions`,
+`CrystalMaterialOptions`, `ForcefieldMaterialOptions`, `GradientMaterialOptions`,
+`ScanlineMaterialOptions`).
+
+### `./clouds`
+
+    cloudLayerVertexShader, cloudLayerFragmentShader, createCloudLayerUniforms
+    volumetricCloudVertexShader, volumetricCloudFragmentShader,
+    createVolumetricCloudUniforms
+
+### `./godRays`
+
+    godRaysVertexShader, godRaysFragmentShader, createGodRaysUniforms
+    volumetricSpotlightVertexShader, volumetricSpotlightFragmentShader,
+    createVolumetricSpotlightUniforms
+    volumetricPointLightVertexShader, volumetricPointLightFragmentShader,
+    createVolumetricPointLightUniforms
+
+### `./water`
+
+    waterVertexShader, waterFragmentShader, createWaterUniforms
+    advancedWaterVertexShader, advancedWaterFragmentShader,
+    createAdvancedWaterUniforms
+
+### `./sky`
+
+    skyVertexShader, skyFragmentShader, createSkyUniforms
+
+### `./raymarching`
+
+    raymarchingVertexShader, raymarchingFragmentShader, createRaymarchingUniforms
+
+### `./volumetrics`
+
+    atmosphereVertexShader, atmosphereFragmentShader, createAtmosphereUniforms
+    volumetricFogVertexShader, volumetricFogFragmentShader,
+    createVolumetricFogUniforms
+    underwaterVertexShader, underwaterFragmentShader, createUnderwaterUniforms
+    dustParticlesVertexShader, dustParticlesFragmentShader,
+    createDustParticlesUniforms
+
+Every shader subpath follows the same shape: a vertex shader string, a fragment
+shader string, a `create*Uniforms` factory, and a `*Uniforms` type.
+
+---
+
+## @strata-game-library/r3f
+
+React Three Fiber bindings. The package emits over 500 symbols across only three
+subpaths; the following are the components with real usage.
+
+### Root — `@strata-game-library/r3f`
+
+    StrataGame, ProceduralSky, Water, ProceduralBackgroundComponent
+
+Hooks are re-exported from the root as well as `./hooks`, and follow React
+conventions (`useAudioManager`, `useCameraTransition`, `useCheckpoint`,
+`useAutoSave`, `useCurrentInputMap`, and others).
+
+### `./components` and `./hooks`
+
+Declared subpaths, but everything reachable through them is also reachable from
+the root. Prefer the root import.
+
+**Known defect — do not rely on this.** r3f currently re-exports around forty
+symbols it does not own, including core types (`GameStore`, `LODConfig`,
+`BloomSettings`, `InputAxis`, `MinimapConfig`, `VignetteSettings`, and others)
+and the entire third-party `YUKA` namespace. These are **not** part of r3f's
+supported surface and will be removed. Import core types from
+`@strata-game-library/core` and Yuka from `yuka` directly.
+
+---
+
+## @strata-game-library/presets
+
+Configuration presets, organised into 31 subpaths mirroring core's systems
+(`./terrain`, `./water`, `./physics`, `./camera`, `./input`, `./animation`,
+`./postprocessing`, `./state`, …).
+
+Only `./terrain`, `./water`, and the root currently have any importer.
+Roughly 95% of this package's exports are consumed solely by its own tests, so
+Tier 1 here is deliberately minimal pending the curation pass.
+
+---
+
+## Adapters and plugins
+
+- **`@strata-game-library/reactylon`** — Babylon.js bindings. The supported
+  entry points are `StrataSky`, `StrataTerrain`, `StrataWater`, and the
+  `useStrataScene` hook.
+- **`@strata-game-library/pixi`** — Pixi 8 (2D) adapter. New, small surface.
+- **`@strata-game-library/model-synth`** — `ModelSynth` is the supported entry point.
+- **`@strata-game-library/audio-synth`** — procedural audio; no cross-package
+  importer yet.
+- **`@strata-game-library/capacitor`**, **`.../react-native`**, **`.../astro`** —
+  platform and build-tool integrations, consumed via their default exports.
+
+## strata-game-library (umbrella)
+
+Re-exports the packages above under seven namespaces — `Core`, `Compose`,
+`Game`, `Presets`, `Shaders`, `Utils`, `World`:
+
+    import { Core, Shaders } from 'strata-game-library';
+
+It additionally does a bare `export *` of `@strata-game-library/core/api`,
+`@strata-game-library/presets`, and `@strata-game-library/shaders`, so those
+packages' entire surfaces are flattened into the umbrella root. That is a
+barrel Rule 2 violation and will be narrowed; depend on the namespaces, not on
+flattened names reaching the root.
+
+Convenient for applications; prefer the scoped packages in a library, so your
+dependency graph names what you actually use.
+
+---
+
+## Rules for generating code against Strata
+
+1. **Only import what is listed here.** The rest of the surface is unsupported.
+2. **Never deep-import.** Only paths declared in a package's `exports` map
+   resolve. There are no TypeScript path aliases to fall back on.
+3. **Import core types from core**, never from an adapter that re-exports them.
+4. **`three` is a peer dependency** — import it directly, not through Strata.
+5. When a shader subpath and core both export a similarly named symbol, prefer
+   the shaders package; core's shader re-exports are a known duplicate path.

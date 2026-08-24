@@ -1,0 +1,47 @@
+# Strata Game Library
+
+> A TypeScript framework for procedural 3D worlds — terrain, water, sky, vegetation, physics, AI, animation, and audio. The engine-agnostic algorithms live in one core package; thin adapters bind them to a renderer (React Three Fiber, Babylon/Reactylon, Pixi). MIT licensed.
+
+Strata is a pnpm monorepo publishing several packages under the `@strata-game-library/*` scope. Pick the adapter that matches your renderer; everything else is shared.
+
+**Which package do I install?**
+
+- **React Three Fiber** (the primary, best-supported path) — `@strata-game-library/core` + `@strata-game-library/r3f`
+- **Babylon.js via Reactylon** — `@strata-game-library/core` + `@strata-game-library/reactylon`
+- **Pixi 8 (2D)** — `@strata-game-library/core` + `@strata-game-library/pixi`
+- **No renderer / headless logic** — `@strata-game-library/core` alone; it is the only package with no adapter dependency
+- **Everything at once** — `strata-game-library`, an umbrella that re-exports the above under namespaces
+
+**Entry point.** Import from a package root unless you need a narrower subpath: `import { createRPGGame } from '@strata-game-library/core'`. Every legal import path is declared in that package's `exports` map — if it is not declared there, it is not public API, regardless of what is reachable at runtime.
+
+## Start here
+
+- [README](README.md): What Strata is, install commands, and a runnable first scene.
+- [Getting Started](docs/GETTING_STARTED.md): Guided setup from empty project to rendered world.
+- [API.md](API.md): Hand-written orientation to the main entry points and how the packages fit together.
+
+## API reference
+
+- [API_CONTRACT.md](docs/API_CONTRACT.md): **The rules.** What counts as public, the three support tiers, the barrel rules, and how the contract is enforced in CI. Read this before adding or removing an export.
+- [llms-full.txt](llms-full.txt): The Tier 1 public surface — every supported subpath, with the symbols that carry real traffic.
+- [PUBLIC_API.md](PUBLIC_API.md): The long-form per-symbol reference. Large, and mid-transition between two documentation models.
+- [api/](api/): Machine-readable snapshots (`<pkg>.api.json`) of every exported symbol per subpath, generated from the built type declarations. This is the ground truth the CI gate diffs against.
+
+## Architecture and contributing
+
+- [ARCHITECTURE](docs/architecture/): Package boundaries, the core/adapter split, and data flow.
+- [CONTRIBUTING](CONTRIBUTING.md): Workflow, Conventional Commits, and the review gates.
+- [STANDARDS](docs/STANDARDS.md): Code quality rules and non-negotiables.
+- [BREAKING_CHANGES](BREAKING_CHANGES.md): Migration notes across major versions.
+
+## Optional
+
+- [Shaders](packages/shaders): Standalone GLSL material and effect factories; usable without the rest of Strata.
+- [Audio Synth](plugins/audio-synth) and [Model Synth](plugins/model-synth): Procedural audio and mesh generation plugins.
+- [Capacitor](plugins/capacitor), [React Native](plugins/react-native), [Astro](plugins/astro): Platform and build-tool integrations.
+
+## Notes for automated readers
+
+- The surface is large and currently under-curated: roughly 2,400 symbols are exported, but only a few hundred are imported anywhere. **Prefer the symbols listed in `llms-full.txt`** — a symbol being importable does not mean it is supported.
+- `export *` is still widespread, so many exported names are internal wiring that was promoted to public by accident. Treat anything absent from `llms-full.txt` as unsupported and subject to removal.
+- Do not suggest deep imports. If a path is not in a package's `exports` map, it will not resolve for a consumer.
