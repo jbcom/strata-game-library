@@ -1,0 +1,762 @@
+{
+  "package": "@strata-game-library/shaders",
+  "version": "1.1.0",
+  "subpaths": {
+    ".": {
+      "advancedWaterFragmentShader": "value",
+      "AdvancedWaterUniforms": {
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color | number[]; }",
+        "uDeepWaterColor": "{ value: THREE.Color | number[]; }",
+        "uFoamColor": "{ value: THREE.Color | number[]; }",
+        "uCausticIntensity": "{ value: number; }"
+      },
+      "advancedWaterVertexShader": "value",
+      "atmosphereFragmentShader": "value",
+      "atmosphereShader": "value",
+      "AtmosphereUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uSunDirection": "{ value: THREE.Vector3; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uSkyColor": "{ value: THREE.Color; }",
+        "uRayleighCoeff": "{ value: number; }",
+        "uMieCoeff": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "atmosphereVertexShader": "value",
+      "cloudLayerFragmentShader": "value",
+      "CloudLayerUniforms": {
+        "uTime": "{ value: number; }",
+        "uCoverage": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uAltitude": "{ value: number; }",
+        "uCloudColor": "{ value: THREE.Color; }",
+        "uShadowColor": "{ value: THREE.Color; }",
+        "uWindDirection": "{ value: THREE.Vector2; }",
+        "uWindSpeed": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uScale": "{ value: number; }"
+      },
+      "cloudLayerVertexShader": "value",
+      "ColorRepresentation": "type",
+      "createAdvancedWaterUniforms": "value",
+      "createAtmosphereUniforms": "value",
+      "createCloudLayerUniforms": "value",
+      "createCrystalMaterial": "value",
+      "createDissolveMaterial": "value",
+      "createDustParticlesUniforms": "value",
+      "createForcefieldMaterial": "value",
+      "createFurUniforms": "value",
+      "createGlitchMaterial": "value",
+      "createGodRaysUniforms": "value",
+      "createGradientMaterial": "value",
+      "createHologramMaterial": "value",
+      "createInstancingWindUniforms": "value",
+      "createOutlineMaterial": "value",
+      "createRaymarchingUniforms": "value",
+      "createScanlineMaterial": "value",
+      "createSimpleTerrainUniforms": "value",
+      "createSkyUniforms": "value",
+      "createTerrainUniforms": "value",
+      "createToonMaterial": "value",
+      "createUnderwaterOverlayUniforms": "value",
+      "createUnderwaterUniforms": "value",
+      "createVolumetricCloudUniforms": "value",
+      "createVolumetricFogMeshUniforms": "value",
+      "createVolumetricFogUniforms": "value",
+      "createVolumetricPointLightUniforms": "value",
+      "createVolumetricSpotlightUniforms": "value",
+      "createWaterUniforms": "value",
+      "CrystalMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "refractionRatio?": "number",
+        "fresnelPower?": "number",
+        "rainbowIntensity?": "number",
+        "envMapIntensity?": "number"
+      },
+      "defaultFurConfig": "value",
+      "DissolveMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "edgeColor?": "THREE.ColorRepresentation",
+        "progress?": "number",
+        "edgeWidth?": "number",
+        "noiseScale?": "number"
+      },
+      "dustParticlesFragmentShader": "value",
+      "dustParticlesShader": "value",
+      "DustParticlesUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uParticleSize": "{ value: number; }",
+        "uLightDirection": "{ value: THREE.Vector3; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uResolution": "{ value: THREE.Vector2; }"
+      },
+      "dustParticlesVertexShader": "value",
+      "ForcefieldMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "secondaryColor?": "THREE.ColorRepresentation",
+        "fresnelPower?": "number",
+        "pulseSpeed?": "number",
+        "hexagonScale?": "number",
+        "alpha?": "number"
+      },
+      "FurConfig": {
+        "layers": "number",
+        "spacing": "number",
+        "colorBase": "[number, number, number]",
+        "colorTip": "[number, number, number]"
+      },
+      "furFragmentShader": "value",
+      "FurUniforms": {
+        "layerOffset": "{ value: number; }",
+        "spacing": "{ value: number; }",
+        "time": "{ value: number; }",
+        "colorBase": "{ value: THREE.Color; }",
+        "colorTip": "{ value: THREE.Color; }"
+      },
+      "furVertexShader": "value",
+      "GlitchMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "glitchIntensity?": "number",
+        "scanlineIntensity?": "number",
+        "rgbShiftAmount?": "number"
+      },
+      "godRaysFragmentShader": "value",
+      "GodRaysUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uDecay": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uWeight": "{ value: number; }",
+        "uExposure": "{ value: number; }",
+        "uSamples": "{ value: number; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uScattering": "{ value: number; }",
+        "uNoiseFactor": "{ value: number; }"
+      },
+      "godRaysVertexShader": "value",
+      "GradientMaterialOptions": {
+        "colorStart?": "THREE.ColorRepresentation",
+        "colorEnd?": "THREE.ColorRepresentation",
+        "colorMiddle?": "THREE.ColorRepresentation",
+        "direction?": "'vertical' | 'horizontal' | 'radial'",
+        "useThreeColors?": "boolean"
+      },
+      "HologramMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "scanlineIntensity?": "number",
+        "scanlineDensity?": "number",
+        "flickerSpeed?": "number",
+        "fresnelPower?": "number",
+        "alpha?": "number"
+      },
+      "InstancingWindUniforms": {
+        "uTime": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uWindStrength": "{ value: number; }",
+        "uLodDistance": "{ value: number; }",
+        "uEnableWind": "{ value: boolean; }"
+      },
+      "instancingWindVertexShader": "value",
+      "IUniforms": "type",
+      "MathChunks": "value",
+      "NoiseChunks": "value",
+      "noiseSnippet": "value",
+      "OutlineMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "outlineWidth?": "number"
+      },
+      "raymarchingFragmentShader": "value",
+      "RaymarchingUniforms": {
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraMatrix": "{ value: THREE.Matrix4; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uTime": "{ value: number; }",
+        "uMaxSteps": "{ value: number; }",
+        "uMaxDistance": "{ value: number; }",
+        "uMinDistance": "{ value: number; }",
+        "uBackgroundColor": "{ value: THREE.Color; }",
+        "uFogStrength": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }"
+      },
+      "raymarchingVertexShader": "value",
+      "ScanlineMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "backgroundColor?": "THREE.ColorRepresentation",
+        "scanlineDensity?": "number",
+        "scanlineOpacity?": "number",
+        "flickerIntensity?": "number",
+        "curvature?": "number"
+      },
+      "ShaderChunks": "value",
+      "simpleTerrainFragmentShader": "value",
+      "SimpleTerrainUniforms": {
+        "uGroundColor": "{ value: THREE.Color | number[]; }",
+        "uRockColor": "{ value: THREE.Color | number[]; }",
+        "uRoughness": "{ value: number; }"
+      },
+      "simpleTerrainVertexShader": "value",
+      "skyFragmentShader": "value",
+      "SkyUniforms": {
+        "uTime": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uAmbientLight": "{ value: number; }",
+        "uStarVisibility": "{ value: number; }",
+        "uFogDensity": "{ value: number; }",
+        "uWeatherIntensity": "{ value: number; }",
+        "uGyroTilt": "{ value: THREE.Vector2; }"
+      },
+      "skyVertexShader": "value",
+      "terrainFragmentShader": "value",
+      "TerrainUniforms": {
+        "biomeColors": "{ value: THREE.Color[] | number[][]; }",
+        "biomeCenters": "{ value: THREE.Vector2[] | number[][]; }",
+        "biomeRadii": "{ value: number[]; }",
+        "biomeTypes": "{ value: number[]; }",
+        "useTextures": "{ value: boolean; }",
+        "marshAlbedo": "{ value: THREE.Texture | null; }",
+        "marshNormal": "{ value: THREE.Texture | null; }",
+        "marshRoughness": "{ value: THREE.Texture | null; }",
+        "marshAO": "{ value: THREE.Texture | null; }",
+        "forestAlbedo": "{ value: THREE.Texture | null; }",
+        "forestNormal": "{ value: THREE.Texture | null; }",
+        "forestRoughness": "{ value: THREE.Texture | null; }",
+        "forestAO": "{ value: THREE.Texture | null; }",
+        "desertAlbedo": "{ value: THREE.Texture | null; }",
+        "desertNormal": "{ value: THREE.Texture | null; }",
+        "desertRoughness": "{ value: THREE.Texture | null; }",
+        "desertAO": "{ value: THREE.Texture | null; }",
+        "tundraAlbedo": "{ value: THREE.Texture | null; }",
+        "tundraNormal": "{ value: THREE.Texture | null; }",
+        "tundraRoughness": "{ value: THREE.Texture | null; }",
+        "tundraAO": "{ value: THREE.Texture | null; }",
+        "mountainAlbedo": "{ value: THREE.Texture | null; }",
+        "mountainNormal": "{ value: THREE.Texture | null; }",
+        "mountainRoughness": "{ value: THREE.Texture | null; }",
+        "mountainAO": "{ value: THREE.Texture | null; }"
+      },
+      "terrainVertexShader": "value",
+      "ToonMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "outlineColor?": "THREE.ColorRepresentation",
+        "outlineWidth?": "number",
+        "levels?": "number",
+        "rimColor?": "THREE.ColorRepresentation",
+        "rimPower?": "number"
+      },
+      "underwaterFragmentShader": "value",
+      "underwaterOverlayFragmentShader": "value",
+      "UnderwaterOverlayUniforms": {
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color; }",
+        "uDensity": "{ value: number; }",
+        "uCausticStrength": "{ value: number; }",
+        "uWaterSurface": "{ value: number; }",
+        "uCameraY": "{ value: number; }"
+      },
+      "underwaterOverlayVertexShader": "value",
+      "underwaterShader": "value",
+      "UnderwaterUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color; }",
+        "uWaterDensity": "{ value: number; }",
+        "uCausticStrength": "{ value: number; }",
+        "uCausticScale": "{ value: number; }",
+        "uWaterSurface": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "underwaterVertexShader": "value",
+      "UniformValue": {
+        "value": "T"
+      },
+      "Vector2Representation": "type",
+      "Vector3Representation": "type",
+      "volumetricCloudFragmentShader": "value",
+      "VolumetricCloudUniforms": {
+        "uTime": "{ value: number; }",
+        "uCoverage": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uCloudBase": "{ value: number; }",
+        "uCloudHeight": "{ value: number; }",
+        "uCloudColor": "{ value: THREE.Color; }",
+        "uShadowColor": "{ value: THREE.Color; }",
+        "uWindDirection": "{ value: THREE.Vector2; }",
+        "uWindSpeed": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uSteps": "{ value: number; }",
+        "uLightSteps": "{ value: number; }"
+      },
+      "volumetricCloudVertexShader": "value",
+      "volumetricFogFragmentShader": "value",
+      "volumetricFogMeshFragmentShader": "value",
+      "VolumetricFogMeshUniforms": {
+        "uTime": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }",
+        "uFogDensity": "{ value: number; }",
+        "uFogHeight": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }"
+      },
+      "volumetricFogMeshVertexShader": "value",
+      "volumetricFogShader": "value",
+      "VolumetricFogUniforms": {
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }",
+        "uFogDensity": "{ value: number; }",
+        "uFogHeight": "{ value: number; }",
+        "uFogFalloff": "{ value: number; }",
+        "uTime": "{ value: number; }",
+        "uLightDirection": "{ value: THREE.Vector3; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uScatteringStrength": "{ value: number; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "volumetricFogVertexShader": "value",
+      "volumetricPointLightFragmentShader": "value",
+      "VolumetricPointLightUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uRadius": "{ value: number; }",
+        "uDustDensity": "{ value: number; }",
+        "uFlicker": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }"
+      },
+      "volumetricPointLightVertexShader": "value",
+      "volumetricSpotlightFragmentShader": "value",
+      "VolumetricSpotlightUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uAngle": "{ value: number; }",
+        "uPenumbra": "{ value: number; }",
+        "uDistance": "{ value: number; }",
+        "uDustDensity": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }",
+        "uLightDirection": "{ value: THREE.Vector3; }"
+      },
+      "volumetricSpotlightVertexShader": "value",
+      "waterFragmentShader": "value",
+      "WaterUniforms": {
+        "time": "{ value: number; }"
+      },
+      "waterVertexShader": "value"
+    },
+    "./chunks": {
+      "MathChunks": "value",
+      "NoiseChunks": "value"
+    },
+    "./clouds": {
+      "cloudLayerFragmentShader": "value",
+      "CloudLayerUniforms": {
+        "uTime": "{ value: number; }",
+        "uCoverage": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uAltitude": "{ value: number; }",
+        "uCloudColor": "{ value: THREE.Color; }",
+        "uShadowColor": "{ value: THREE.Color; }",
+        "uWindDirection": "{ value: THREE.Vector2; }",
+        "uWindSpeed": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uScale": "{ value: number; }"
+      },
+      "cloudLayerVertexShader": "value",
+      "createCloudLayerUniforms": "value",
+      "createVolumetricCloudUniforms": "value",
+      "volumetricCloudFragmentShader": "value",
+      "VolumetricCloudUniforms": {
+        "uTime": "{ value: number; }",
+        "uCoverage": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uCloudBase": "{ value: number; }",
+        "uCloudHeight": "{ value: number; }",
+        "uCloudColor": "{ value: THREE.Color; }",
+        "uShadowColor": "{ value: THREE.Color; }",
+        "uWindDirection": "{ value: THREE.Vector2; }",
+        "uWindSpeed": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uSteps": "{ value: number; }",
+        "uLightSteps": "{ value: number; }"
+      },
+      "volumetricCloudVertexShader": "value"
+    },
+    "./fur": {
+      "createFurUniforms": "value",
+      "defaultFurConfig": "value",
+      "FurConfig": {
+        "layers": "number",
+        "spacing": "number",
+        "colorBase": "[number, number, number]",
+        "colorTip": "[number, number, number]"
+      },
+      "furFragmentShader": "value",
+      "FurUniforms": {
+        "layerOffset": "{ value: number; }",
+        "spacing": "{ value: number; }",
+        "time": "{ value: number; }",
+        "colorBase": "{ value: THREE.Color; }",
+        "colorTip": "{ value: THREE.Color; }"
+      },
+      "furVertexShader": "value"
+    },
+    "./godRays": {
+      "createGodRaysUniforms": "value",
+      "createVolumetricPointLightUniforms": "value",
+      "createVolumetricSpotlightUniforms": "value",
+      "godRaysFragmentShader": "value",
+      "GodRaysUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uDecay": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uWeight": "{ value: number; }",
+        "uExposure": "{ value: number; }",
+        "uSamples": "{ value: number; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uScattering": "{ value: number; }",
+        "uNoiseFactor": "{ value: number; }"
+      },
+      "godRaysVertexShader": "value",
+      "volumetricPointLightFragmentShader": "value",
+      "VolumetricPointLightUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uRadius": "{ value: number; }",
+        "uDustDensity": "{ value: number; }",
+        "uFlicker": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }"
+      },
+      "volumetricPointLightVertexShader": "value",
+      "volumetricSpotlightFragmentShader": "value",
+      "VolumetricSpotlightUniforms": {
+        "uTime": "{ value: number; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uIntensity": "{ value: number; }",
+        "uAngle": "{ value: number; }",
+        "uPenumbra": "{ value: number; }",
+        "uDistance": "{ value: number; }",
+        "uDustDensity": "{ value: number; }",
+        "uLightPosition": "{ value: THREE.Vector3; }",
+        "uLightDirection": "{ value: THREE.Vector3; }"
+      },
+      "volumetricSpotlightVertexShader": "value"
+    },
+    "./instancing-wind": {
+      "createInstancingWindUniforms": "value",
+      "InstancingWindUniforms": {
+        "uTime": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uWindStrength": "{ value: number; }",
+        "uLodDistance": "{ value: number; }",
+        "uEnableWind": "{ value: boolean; }"
+      },
+      "instancingWindVertexShader": "value"
+    },
+    "./materials": {
+      "createCrystalMaterial": "value",
+      "createDissolveMaterial": "value",
+      "createForcefieldMaterial": "value",
+      "createGlitchMaterial": "value",
+      "createGradientMaterial": "value",
+      "createHologramMaterial": "value",
+      "createOutlineMaterial": "value",
+      "createScanlineMaterial": "value",
+      "createToonMaterial": "value",
+      "CrystalMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "refractionRatio?": "number",
+        "fresnelPower?": "number",
+        "rainbowIntensity?": "number",
+        "envMapIntensity?": "number"
+      },
+      "DissolveMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "edgeColor?": "THREE.ColorRepresentation",
+        "progress?": "number",
+        "edgeWidth?": "number",
+        "noiseScale?": "number"
+      },
+      "ForcefieldMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "secondaryColor?": "THREE.ColorRepresentation",
+        "fresnelPower?": "number",
+        "pulseSpeed?": "number",
+        "hexagonScale?": "number",
+        "alpha?": "number"
+      },
+      "GlitchMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "glitchIntensity?": "number",
+        "scanlineIntensity?": "number",
+        "rgbShiftAmount?": "number"
+      },
+      "GradientMaterialOptions": {
+        "colorStart?": "THREE.ColorRepresentation",
+        "colorEnd?": "THREE.ColorRepresentation",
+        "colorMiddle?": "THREE.ColorRepresentation",
+        "direction?": "'vertical' | 'horizontal' | 'radial'",
+        "useThreeColors?": "boolean"
+      },
+      "HologramMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "scanlineIntensity?": "number",
+        "scanlineDensity?": "number",
+        "flickerSpeed?": "number",
+        "fresnelPower?": "number",
+        "alpha?": "number"
+      },
+      "noiseSnippet": "value",
+      "OutlineMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "outlineWidth?": "number"
+      },
+      "ScanlineMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "backgroundColor?": "THREE.ColorRepresentation",
+        "scanlineDensity?": "number",
+        "scanlineOpacity?": "number",
+        "flickerIntensity?": "number",
+        "curvature?": "number"
+      },
+      "ShaderChunks": "value",
+      "ToonMaterialOptions": {
+        "color?": "THREE.ColorRepresentation",
+        "outlineColor?": "THREE.ColorRepresentation",
+        "outlineWidth?": "number",
+        "levels?": "number",
+        "rimColor?": "THREE.ColorRepresentation",
+        "rimPower?": "number"
+      }
+    },
+    "./raymarching": {
+      "createRaymarchingUniforms": "value",
+      "raymarchingFragmentShader": "value",
+      "RaymarchingUniforms": {
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraMatrix": "{ value: THREE.Matrix4; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uTime": "{ value: number; }",
+        "uMaxSteps": "{ value: number; }",
+        "uMaxDistance": "{ value: number; }",
+        "uMinDistance": "{ value: number; }",
+        "uBackgroundColor": "{ value: THREE.Color; }",
+        "uFogStrength": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }"
+      },
+      "raymarchingVertexShader": "value"
+    },
+    "./sky": {
+      "createSkyUniforms": "value",
+      "skyFragmentShader": "value",
+      "SkyUniforms": {
+        "uTime": "{ value: number; }",
+        "uSunIntensity": "{ value: number; }",
+        "uSunAngle": "{ value: number; }",
+        "uAmbientLight": "{ value: number; }",
+        "uStarVisibility": "{ value: number; }",
+        "uFogDensity": "{ value: number; }",
+        "uWeatherIntensity": "{ value: number; }",
+        "uGyroTilt": "{ value: THREE.Vector2; }"
+      },
+      "skyVertexShader": "value"
+    },
+    "./terrain": {
+      "createSimpleTerrainUniforms": "value",
+      "createTerrainUniforms": "value",
+      "simpleTerrainFragmentShader": "value",
+      "SimpleTerrainUniforms": {
+        "uGroundColor": "{ value: THREE.Color | number[]; }",
+        "uRockColor": "{ value: THREE.Color | number[]; }",
+        "uRoughness": "{ value: number; }"
+      },
+      "simpleTerrainVertexShader": "value",
+      "terrainFragmentShader": "value",
+      "TerrainUniforms": {
+        "biomeColors": "{ value: THREE.Color[] | number[][]; }",
+        "biomeCenters": "{ value: THREE.Vector2[] | number[][]; }",
+        "biomeRadii": "{ value: number[]; }",
+        "biomeTypes": "{ value: number[]; }",
+        "useTextures": "{ value: boolean; }",
+        "marshAlbedo": "{ value: THREE.Texture | null; }",
+        "marshNormal": "{ value: THREE.Texture | null; }",
+        "marshRoughness": "{ value: THREE.Texture | null; }",
+        "marshAO": "{ value: THREE.Texture | null; }",
+        "forestAlbedo": "{ value: THREE.Texture | null; }",
+        "forestNormal": "{ value: THREE.Texture | null; }",
+        "forestRoughness": "{ value: THREE.Texture | null; }",
+        "forestAO": "{ value: THREE.Texture | null; }",
+        "desertAlbedo": "{ value: THREE.Texture | null; }",
+        "desertNormal": "{ value: THREE.Texture | null; }",
+        "desertRoughness": "{ value: THREE.Texture | null; }",
+        "desertAO": "{ value: THREE.Texture | null; }",
+        "tundraAlbedo": "{ value: THREE.Texture | null; }",
+        "tundraNormal": "{ value: THREE.Texture | null; }",
+        "tundraRoughness": "{ value: THREE.Texture | null; }",
+        "tundraAO": "{ value: THREE.Texture | null; }",
+        "mountainAlbedo": "{ value: THREE.Texture | null; }",
+        "mountainNormal": "{ value: THREE.Texture | null; }",
+        "mountainRoughness": "{ value: THREE.Texture | null; }",
+        "mountainAO": "{ value: THREE.Texture | null; }"
+      },
+      "terrainVertexShader": "value"
+    },
+    "./types": {
+      "ColorRepresentation": "type",
+      "IUniforms": "type",
+      "UniformValue": {
+        "value": "T"
+      },
+      "Vector2Representation": "type",
+      "Vector3Representation": "type"
+    },
+    "./volumetrics": {
+      "atmosphereFragmentShader": "value",
+      "atmosphereShader": "value",
+      "AtmosphereUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uSunDirection": "{ value: THREE.Vector3; }",
+        "uSunColor": "{ value: THREE.Color; }",
+        "uSkyColor": "{ value: THREE.Color; }",
+        "uRayleighCoeff": "{ value: number; }",
+        "uMieCoeff": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "atmosphereVertexShader": "value",
+      "createAtmosphereUniforms": "value",
+      "createDustParticlesUniforms": "value",
+      "createUnderwaterUniforms": "value",
+      "createVolumetricFogUniforms": "value",
+      "dustParticlesFragmentShader": "value",
+      "dustParticlesShader": "value",
+      "DustParticlesUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uDensity": "{ value: number; }",
+        "uParticleSize": "{ value: number; }",
+        "uLightDirection": "{ value: THREE.Vector3; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uResolution": "{ value: THREE.Vector2; }"
+      },
+      "dustParticlesVertexShader": "value",
+      "underwaterFragmentShader": "value",
+      "underwaterShader": "value",
+      "UnderwaterUniforms": {
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color; }",
+        "uWaterDensity": "{ value: number; }",
+        "uCausticStrength": "{ value: number; }",
+        "uCausticScale": "{ value: number; }",
+        "uWaterSurface": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "underwaterVertexShader": "value",
+      "volumetricFogFragmentShader": "value",
+      "volumetricFogShader": "value",
+      "VolumetricFogUniforms": {
+        "tDepth": "{ value: THREE.Texture | null; }",
+        "tDiffuse": "{ value: THREE.Texture | null; }",
+        "uCameraNear": "{ value: number; }",
+        "uCameraFar": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }",
+        "uFogDensity": "{ value: number; }",
+        "uFogHeight": "{ value: number; }",
+        "uFogFalloff": "{ value: number; }",
+        "uTime": "{ value: number; }",
+        "uLightDirection": "{ value: THREE.Vector3; }",
+        "uLightColor": "{ value: THREE.Color; }",
+        "uScatteringStrength": "{ value: number; }",
+        "uResolution": "{ value: THREE.Vector2; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }",
+        "uProjectionMatrixInverse": "{ value: THREE.Matrix4 | null; }",
+        "uViewMatrixInverse": "{ value: THREE.Matrix4 | null; }"
+      },
+      "volumetricFogVertexShader": "value"
+    },
+    "./volumetrics-components": {
+      "createUnderwaterOverlayUniforms": "value",
+      "createVolumetricFogMeshUniforms": "value",
+      "underwaterOverlayFragmentShader": "value",
+      "UnderwaterOverlayUniforms": {
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color; }",
+        "uDensity": "{ value: number; }",
+        "uCausticStrength": "{ value: number; }",
+        "uWaterSurface": "{ value: number; }",
+        "uCameraY": "{ value: number; }"
+      },
+      "underwaterOverlayVertexShader": "value",
+      "volumetricFogMeshFragmentShader": "value",
+      "VolumetricFogMeshUniforms": {
+        "uTime": "{ value: number; }",
+        "uFogColor": "{ value: THREE.Color; }",
+        "uFogDensity": "{ value: number; }",
+        "uFogHeight": "{ value: number; }",
+        "uCameraPosition": "{ value: THREE.Vector3; }"
+      },
+      "volumetricFogMeshVertexShader": "value"
+    },
+    "./water": {
+      "advancedWaterFragmentShader": "value",
+      "AdvancedWaterUniforms": {
+        "uTime": "{ value: number; }",
+        "uWaterColor": "{ value: THREE.Color | number[]; }",
+        "uDeepWaterColor": "{ value: THREE.Color | number[]; }",
+        "uFoamColor": "{ value: THREE.Color | number[]; }",
+        "uCausticIntensity": "{ value: number; }"
+      },
+      "advancedWaterVertexShader": "value",
+      "createAdvancedWaterUniforms": "value",
+      "createWaterUniforms": "value",
+      "waterFragmentShader": "value",
+      "WaterUniforms": {
+        "time": "{ value: number; }"
+      },
+      "waterVertexShader": "value"
+    }
+  }
+}

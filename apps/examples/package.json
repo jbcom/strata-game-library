@@ -8,30 +8,29 @@
     "test": "pnpm run verify && pnpm run test:e2e",
     "test:e2e": "playwright test --project=chromium",
     "typecheck": "pnpm run verify",
-    "verify": "node scripts/verify.mjs"
+    "verify": "pnpm --dir ../../packages/strata-game-library run build && node scripts/verify.mjs"
   },
   "dependencies": {
-    "@dimforge/rapier3d-compat": "^0.19.3",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.4.2",
-    "@react-three/postprocessing": "^3.0.4",
+    "@dimforge/rapier3d-compat": "^0.20.0",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@react-three/postprocessing": "^3.1.0",
     "@react-three/rapier": "^2.2.0",
     "leva": "^0.10.1",
-    "postprocessing": "^6.38.2",
-    "react": "19.2.5",
-    "react-dom": "19.2.5",
+    "postprocessing": "^6.39.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "strata-game-library": "workspace:*",
-    "three": "^0.182.0",
-    "yuka": "^0.7.8",
-    "zustand": "^5.0.9"
+    "three": "^0.185.1",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.183.1",
-    "@vitejs/plugin-react": "^5.2.0",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "@playwright/test": "^1.62.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@types/three": "^0.185.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "typescript": "5.9.3",
+    "vite": "^8.2.2"
   }
 }

@@ -2,11 +2,11 @@
 title: "BUILDING_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / BUILDING\_DEFAULTS
+[strata-game-library/presets](../globals.md) / BUILDING\_DEFAULTS
 
 # Variable: BUILDING\_DEFAULTS
 

@@ -2,11 +2,11 @@
 title: "createGodRaysUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createGodRaysUniforms
+[strata-game-library/shaders](../globals.md) / createGodRaysUniforms
 
 # Function: createGodRaysUniforms()
 

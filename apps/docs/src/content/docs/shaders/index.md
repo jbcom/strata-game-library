@@ -5,12 +5,12 @@ description: Standalone GLSL shader collection for Three.js
 
 # Shaders
 
-The `@strata-game-library/shaders` package provides a standalone collection of production-ready GLSL shaders. Use them with any Three.js project — no React required.
+The `strata-game-library/shaders` package provides a standalone collection of production-ready GLSL shaders. Use them with any Three.js project — no React required.
 
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/shaders
+pnpm add strata-game-library/shaders
 ```
 
 ## Available Shaders
@@ -62,7 +62,7 @@ Wind animation for instanced vegetation.
 All shaders can be used directly with Three.js:
 
 ```ts
-import { waterFragmentShader, waterVertexShader } from '@strata-game-library/shaders';
+import { waterFragmentShader, waterVertexShader } from 'strata-game-library/shaders';
 
 const material = new THREE.ShaderMaterial({
   vertexShader: waterVertexShader,
@@ -80,7 +80,7 @@ const material = new THREE.ShaderMaterial({
 Reusable GLSL snippets for building custom shaders:
 
 ```ts
-import { ShaderChunks, noiseSnippet } from '@strata-game-library/shaders';
+import { ShaderChunks, noiseSnippet } from 'strata-game-library/shaders';
 
 // Use noise functions in your own shaders
 const customShader = `

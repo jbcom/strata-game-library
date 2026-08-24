@@ -478,4 +478,4 @@ const state = useMyStore();  // ❌ (separate store)
 
 ---
 
-*Need help? See [Agent Instructions](./AGENTS.md) or file an issue.*
+*Need help? See [the repository agent instructions](https://github.com/jbcom/strata-game-library/blob/main/AGENTS.md) or file an issue.*

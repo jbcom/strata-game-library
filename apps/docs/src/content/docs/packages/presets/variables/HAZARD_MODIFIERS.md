@@ -2,11 +2,11 @@
 title: "HAZARD_MODIFIERS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / HAZARD\_MODIFIERS
+[strata-game-library/presets](../globals.md) / HAZARD\_MODIFIERS
 
 # Variable: HAZARD\_MODIFIERS
 

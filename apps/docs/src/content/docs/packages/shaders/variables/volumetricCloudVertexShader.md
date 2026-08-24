@@ -2,11 +2,11 @@
 title: "volumetricCloudVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / volumetricCloudVertexShader
+[strata-game-library/shaders](../globals.md) / volumetricCloudVertexShader
 
 # Variable: volumetricCloudVertexShader
 

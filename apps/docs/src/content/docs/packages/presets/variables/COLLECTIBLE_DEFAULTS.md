@@ -2,11 +2,11 @@
 title: "COLLECTIBLE_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / COLLECTIBLE\_DEFAULTS
+[strata-game-library/presets](../globals.md) / COLLECTIBLE\_DEFAULTS
 
 # Variable: COLLECTIBLE\_DEFAULTS
 

@@ -2,11 +2,11 @@
 title: "CrystalMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / CrystalMaterialOptions
+[strata-game-library/shaders](../globals.md) / CrystalMaterialOptions
 
 # Interface: CrystalMaterialOptions
 

@@ -2,11 +2,11 @@
 title: "TENSION_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / TENSION\_THEME
+[strata-game-library/audio-synth](../globals.md) / TENSION\_THEME
 
 # Variable: TENSION\_THEME
 

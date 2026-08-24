@@ -2,11 +2,11 @@
 title: "godRaysVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / godRaysVertexShader
+[strata-game-library/shaders](../globals.md) / godRaysVertexShader
 
 # Variable: godRaysVertexShader
 

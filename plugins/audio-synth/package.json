@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/audio-synth",
+  "private": true,
   "version": "1.1.0",
   "description": "Procedural audio synthesis for Strata 3D using Tone.js - SFX, music, and ambient sound generation",
   "main": "dist/index.js",
@@ -71,13 +72,14 @@
     "tone": ">=14.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
-    "@vitest/coverage-v8": "^4.1.10",
-    "@types/react": "^19.2.14",
-    "react": "^19.2.4",
-    "tone": "^15.0.0",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.0",
-    "vitest": "^4.1.10"
+    "@biomejs/biome": "^2.5.10",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/react": "^19.2.18",
+    "@vitest/coverage-v8": "^4.1.11",
+    "react": "19.2.8",
+    "tone": "^15.1.22",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   }
 }

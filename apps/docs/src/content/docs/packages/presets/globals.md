@@ -2,11 +2,11 @@
 title: Globals
 ---
 
-[**@strata-game-library/presets**](README.md)
+[**strata-game-library/presets**](README.md)
 
 ***
 
-# @strata-game-library/presets
+# strata-game-library/presets
 
 ## Interfaces
 

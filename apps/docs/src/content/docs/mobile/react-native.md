@@ -5,12 +5,12 @@ description: Cross-platform input, device detection, and haptics for React Nativ
 
 # React Native Plugin
 
-The `@strata-game-library/react-native` provides native mobile capabilities for React Native games built with Strata.
+The `strata-game-library/react-native` provides native mobile capabilities for React Native games built with Strata.
 
 ## Installation
 
 ```bash
-npm install @strata-game-library/react-native
+npm install strata-game-library/react-native
 ```
 
 ### iOS Setup
@@ -40,7 +40,7 @@ Automatically linked via autolinking.
 Returns the current device profile:
 
 ```tsx
-import { useDevice } from '@strata-game-library/react-native';
+import { useDevice } from 'strata-game-library/react-native';
 
 function Game() {
   const device = useDevice();
@@ -65,7 +65,7 @@ function Game() {
 Returns the current input state. Touches come from `StrataInputProvider`; native controller snapshots are polled when the installed native module exposes `getInputSnapshot()`:
 
 ```tsx
-import { useInput, StrataInputProvider } from '@strata-game-library/react-native';
+import { useInput, StrataInputProvider } from 'strata-game-library/react-native';
 
 function Game() {
   const input = useInput();
@@ -97,7 +97,7 @@ function App() {
 Returns haptic feedback controls:
 
 ```tsx
-import { useHaptics } from '@strata-game-library/react-native';
+import { useHaptics } from 'strata-game-library/react-native';
 
 function Game() {
   const { trigger } = useHaptics();
@@ -128,7 +128,7 @@ function Game() {
 Returns localized control hints based on input mode:
 
 ```tsx
-import { useControlHints } from '@strata-game-library/react-native';
+import { useControlHints } from 'strata-game-library/react-native';
 
 function ControlsOverlay() {
   const hints = useControlHints();
@@ -150,7 +150,7 @@ function ControlsOverlay() {
 Wraps your app to capture and process input events:
 
 ```tsx
-import { StrataInputProvider } from '@strata-game-library/react-native';
+import { StrataInputProvider } from 'strata-game-library/react-native';
 
 function App() {
   return (
@@ -173,7 +173,7 @@ function App() {
 Lock screen orientation:
 
 ```typescript
-import { setOrientation } from '@strata-game-library/react-native';
+import { setOrientation } from 'strata-game-library/react-native';
 
 // Lock to landscape
 await setOrientation('landscape');

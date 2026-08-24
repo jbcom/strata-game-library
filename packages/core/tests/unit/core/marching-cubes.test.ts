@@ -4,12 +4,13 @@
 
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
+import { sdSphere } from '../../../src/core/math/sdf-primitives';
 import {
   createGeometryFromMarchingCubes,
-  generateTerrainChunk,
   marchingCubes,
-} from '../../../src/core/marching-cubes';
-import { sdSphere } from '../../../src/core/sdf';
+} from '../../../src/core/meshing/marching-cubes';
+// Chunked terrain meshing belongs to terrain, not to the generic extractor.
+import { generateTerrainChunk } from '../../../src/core/terrain';
 
 describe('marchingCubes', () => {
   it('generates vertices for simple sphere', () => {

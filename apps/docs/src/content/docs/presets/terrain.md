@@ -10,7 +10,7 @@ Ready-to-use terrain configurations for common landscape types.
 ## Quick Start
 
 ```typescript
-import { createTerrainPreset, TerrainBiomes, TerrainPresets } from '@strata-game-library/presets/terrain';
+import { createTerrainPreset, TerrainBiomes, TerrainPresets } from 'strata-game-library/presets/terrain';
 
 // Use a preset directly
 <Terrain {...TerrainPresets.MOUNTAIN_RANGE} />
@@ -132,8 +132,8 @@ interface TerrainPresetOptions {
 ## Using with Components
 
 ```tsx
-import { Terrain } from '@strata-game-library/core';
-import { TerrainPresets } from '@strata-game-library/presets/terrain';
+import { Terrain } from 'strata-game-library/core';
+import { TerrainPresets } from 'strata-game-library/presets/terrain';
 
 function Scene() {
   return (
@@ -151,7 +151,7 @@ function Scene() {
 ## Customizing Presets
 
 ```typescript
-import { createTerrainPreset, TerrainPresets } from '@strata-game-library/presets/terrain';
+import { createTerrainPreset, TerrainPresets } from 'strata-game-library/presets/terrain';
 
 // Extend a preset
 const tallerMountains = {

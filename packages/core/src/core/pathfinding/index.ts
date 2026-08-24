@@ -30,8 +30,6 @@
 import createNGraph from 'ngraph.graph';
 import { aGreedy, aStar, nba } from 'ngraph.path';
 
-export { createNGraph, nba, aStar, aGreedy };
-
 export type { NGraph, NLink, NNode, StrataGraphInstance } from './graph';
 export {
   addEdge,
@@ -39,7 +37,6 @@ export {
   calculateDistance,
   createGraph,
   createGridGraph,
-  fromNavMesh,
 } from './graph';
 export type { NPathFinder, StrataPathfinderInstance } from './pathfinder';
 export {
@@ -54,8 +51,6 @@ export type {
   EdgeData,
   GraphEdge,
   GraphNode,
-  NavMesh,
-  NavMeshConversionOptions,
   NodeData,
   NodeId,
   PathfinderConfig,
@@ -63,5 +58,5 @@ export type {
   Position3D,
   SmoothingOptions,
   StrataGraph,
-  YukaVector3,
 } from './types';
+export { aGreedy, aStar, createNGraph, nba };

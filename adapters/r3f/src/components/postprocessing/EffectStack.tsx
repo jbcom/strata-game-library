@@ -1,7 +1,7 @@
+import { ChromaticAberrationFixed } from "./ChromaticAberrationFixed";
 import {
   Bloom,
   BrightnessContrast,
-  ChromaticAberration,
   DepthOfField,
   EffectComposer,
   HueSaturation,
@@ -78,7 +78,7 @@ export const EffectStack: React.FC<EffectStackProps> = ({
 
   if (preset.chromaticAberration) {
     effects.push(
-      <ChromaticAberration
+      <ChromaticAberrationFixed
         key="chromatic"
         offset={
           new THREE.Vector2(

@@ -21,7 +21,7 @@ import {
   forcefieldFragmentShader,
   glitchVertexShader,
   glitchFragmentShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Toon Shader
@@ -41,7 +41,7 @@ Cel-shading with customizable color bands:
 ### Usage
 
 ```typescript
-import { toonVertexShader, toonFragmentShader } from '@strata-game-library/shaders';
+import { toonVertexShader, toonFragmentShader } from 'strata-game-library/shaders';
 
 const toonMaterial = new THREE.ShaderMaterial({
   vertexShader: toonVertexShader,
@@ -75,7 +75,7 @@ Sci-fi holographic effect with scanlines and flicker:
 ### Usage
 
 ```typescript
-import { hologramVertexShader, hologramFragmentShader } from '@strata-game-library/shaders';
+import { hologramVertexShader, hologramFragmentShader } from 'strata-game-library/shaders';
 
 const hologramMaterial = new THREE.ShaderMaterial({
   vertexShader: hologramVertexShader,
@@ -111,7 +111,7 @@ Noise-based dissolve transition effect:
 ### Usage
 
 ```typescript
-import { dissolveVertexShader, dissolveFragmentShader } from '@strata-game-library/shaders';
+import { dissolveVertexShader, dissolveFragmentShader } from 'strata-game-library/shaders';
 
 const dissolveMaterial = new THREE.ShaderMaterial({
   vertexShader: dissolveVertexShader,
@@ -155,7 +155,7 @@ Energy shield / forcefield effect:
 ### Usage
 
 ```typescript
-import { forcefieldVertexShader, forcefieldFragmentShader } from '@strata-game-library/shaders';
+import { forcefieldVertexShader, forcefieldFragmentShader } from 'strata-game-library/shaders';
 
 const forcefieldMaterial = new THREE.ShaderMaterial({
   vertexShader: forcefieldVertexShader,
@@ -195,7 +195,7 @@ Digital glitch / corruption effect:
 ### Usage
 
 ```typescript
-import { glitchVertexShader, glitchFragmentShader } from '@strata-game-library/shaders';
+import { glitchVertexShader, glitchFragmentShader } from 'strata-game-library/shaders';
 
 const glitchMaterial = new THREE.ShaderMaterial({
   vertexShader: glitchVertexShader,

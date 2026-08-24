@@ -2,11 +2,11 @@
 title: "Vector3Representation"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / Vector3Representation
+[strata-game-library/shaders](../globals.md) / Vector3Representation
 
 # Type Alias: Vector3Representation
 

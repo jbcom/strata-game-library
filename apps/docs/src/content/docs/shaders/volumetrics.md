@@ -15,7 +15,7 @@ import {
   godRaysVertexShader,
   godRaysFragmentShader,
   underwaterShader,
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 ```
 
 ## Volumetric Fog
@@ -39,7 +39,7 @@ Height and distance-based fog with optional animation:
 ### Usage
 
 ```typescript
-import { volumetricFogShader } from '@strata-game-library/shaders';
+import { volumetricFogShader } from 'strata-game-library/shaders';
 
 const fogMaterial = new THREE.ShaderMaterial({
   vertexShader: volumetricFogShader.vertex,
@@ -81,7 +81,7 @@ Volumetric light shafts from sun or other light sources:
 ### Usage
 
 ```typescript
-import { godRaysVertexShader, godRaysFragmentShader } from '@strata-game-library/shaders';
+import { godRaysVertexShader, godRaysFragmentShader } from 'strata-game-library/shaders';
 
 const godRaysMaterial = new THREE.ShaderMaterial({
   vertexShader: godRaysVertexShader,
@@ -124,7 +124,7 @@ Complete underwater overlay with fog, caustics, and color absorption:
 ### Usage
 
 ```typescript
-import { underwaterShader } from '@strata-game-library/shaders';
+import { underwaterShader } from 'strata-game-library/shaders';
 
 const underwaterMaterial = new THREE.ShaderMaterial({
   vertexShader: underwaterShader.vertex,

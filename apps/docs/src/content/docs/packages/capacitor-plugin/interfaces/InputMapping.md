@@ -2,11 +2,11 @@
 title: "InputMapping"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / InputMapping
+[strata-game-library/capacitor](../globals.md) / InputMapping
 
 # Interface: InputMapping
 

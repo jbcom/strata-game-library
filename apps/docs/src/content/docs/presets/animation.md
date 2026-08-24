@@ -10,7 +10,7 @@ Ready-to-use animation configurations for character movement and behavior.
 ## Quick Start
 
 ```typescript
-import { createAnimationPreset, AnimationPresets } from '@strata-game-library/presets/animation';
+import { createAnimationPreset, AnimationPresets } from 'strata-game-library/presets/animation';
 
 <Character animation={AnimationPresets.HUMANOID_WALK} />
 ```
@@ -97,8 +97,8 @@ AnimationPresets.QUADRUPED_RUN = {
 ## Using with Components
 
 ```tsx
-import { Character } from '@strata-game-library/core';
-import { AnimationPresets } from '@strata-game-library/presets/animation';
+import { Character } from 'strata-game-library/core';
+import { AnimationPresets } from 'strata-game-library/presets/animation';
 
 <Character
   model={characterModel}

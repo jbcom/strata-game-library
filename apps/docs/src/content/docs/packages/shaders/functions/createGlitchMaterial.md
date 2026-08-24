@@ -2,11 +2,11 @@
 title: "createGlitchMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createGlitchMaterial
+[strata-game-library/shaders](../globals.md) / createGlitchMaterial
 
 # Function: createGlitchMaterial()
 

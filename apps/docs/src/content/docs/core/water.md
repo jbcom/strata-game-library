@@ -10,7 +10,7 @@ Strata's water system provides realistic water rendering with Gerstner wave simu
 ## Quick Start
 
 ```tsx
-import { Water } from '@strata-game-library/core';
+import { Water } from 'strata-game-library/core';
 
 <Water size={200} depth={20} />
 ```
@@ -22,7 +22,7 @@ import { Water } from '@strata-game-library/core';
 Standard water component with good performance:
 
 ```tsx
-import { Water } from '@strata-game-library/core';
+import { Water } from 'strata-game-library/core';
 
 <Water
   // Size and position
@@ -61,7 +61,7 @@ import { Water } from '@strata-game-library/core';
 Full-featured water with all effects:
 
 ```tsx
-import { AdvancedWater } from '@strata-game-library/core';
+import { AdvancedWater } from 'strata-game-library/core';
 
 <AdvancedWater
   // Size
@@ -213,7 +213,7 @@ Wave foam with shore foam:
 Full underwater experience:
 
 ```tsx
-import { UnderwaterOverlay } from '@strata-game-library/core';
+import { UnderwaterOverlay } from 'strata-game-library/core';
 
 function Scene() {
   const [isUnderwater, setIsUnderwater] = useState(false);
@@ -242,7 +242,7 @@ function Scene() {
 Use water materials directly with Three.js:
 
 ```tsx
-import { createWaterMaterial, createAdvancedWaterMaterial } from '@strata-game-library/core';
+import { createWaterMaterial, createAdvancedWaterMaterial } from 'strata-game-library/core';
 import * as THREE from 'three';
 
 // Simple water material
@@ -275,7 +275,7 @@ import {
   waterFragmentShader,
   advancedWaterVertexShader,
   advancedWaterFragmentShader
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 
 const material = new THREE.ShaderMaterial({
   vertexShader: waterVertexShader,
@@ -296,7 +296,7 @@ const material = new THREE.ShaderMaterial({
 ### Ocean
 
 ```tsx
-import { createWaterPreset, WaterTypes } from '@strata-game-library/presets/water';
+import { createWaterPreset, WaterTypes } from 'strata-game-library/presets/water';
 
 const ocean = createWaterPreset(WaterTypes.OCEAN);
 
@@ -316,8 +316,8 @@ const lake = createWaterPreset(WaterTypes.LAKE);
 Rivers can be created using the `Water` component with flow configuration:
 
 ```tsx
-import { Water } from '@strata-game-library/core';
-import { createWaterPreset, WaterTypes } from '@strata-game-library/presets/water';
+import { Water } from 'strata-game-library/core';
+import { createWaterPreset, WaterTypes } from 'strata-game-library/presets/water';
 
 // Get river preset with directional flow
 const river = createWaterPreset(WaterTypes.RIVER);

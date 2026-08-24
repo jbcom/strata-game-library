@@ -2,11 +2,11 @@
 title: "createRaymarchingUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createRaymarchingUniforms
+[strata-game-library/shaders](../globals.md) / createRaymarchingUniforms
 
 # Function: createRaymarchingUniforms()
 

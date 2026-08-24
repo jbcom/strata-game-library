@@ -2,11 +2,11 @@
 title: "ColorRepresentation"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / ColorRepresentation
+[strata-game-library/shaders](../globals.md) / ColorRepresentation
 
 # Type Alias: ColorRepresentation
 

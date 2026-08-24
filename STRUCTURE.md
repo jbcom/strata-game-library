@@ -1,3 +1,10 @@
+---
+title: Repository structure
+updated: 2026-08-23
+status: current
+domain: technical
+---
+
 # Strata Structure
 
 This document clearly delineates the structure of Strata, separating examples, tests, and the public API.

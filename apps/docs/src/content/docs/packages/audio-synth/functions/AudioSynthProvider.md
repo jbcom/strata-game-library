@@ -2,11 +2,11 @@
 title: "AudioSynthProvider"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / AudioSynthProvider
+[strata-game-library/audio-synth](../globals.md) / AudioSynthProvider
 
 # Function: AudioSynthProvider()
 

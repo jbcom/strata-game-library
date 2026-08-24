@@ -2,11 +2,11 @@
 title: "dustParticlesShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / dustParticlesShader
+[strata-game-library/shaders](../globals.md) / dustParticlesShader
 
 # Variable: dustParticlesShader
 

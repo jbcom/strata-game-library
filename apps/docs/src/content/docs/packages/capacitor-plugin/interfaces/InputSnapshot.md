@@ -2,11 +2,11 @@
 title: "InputSnapshot"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / InputSnapshot
+[strata-game-library/capacitor](../globals.md) / InputSnapshot
 
 # Interface: InputSnapshot
 

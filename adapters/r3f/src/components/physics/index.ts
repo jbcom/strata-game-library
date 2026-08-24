@@ -4,8 +4,13 @@
  * @module components/physics
  */
 
-export * from './Buoyancy';
-export * from './CharacterController';
-export * from './Destructible';
-export * from './Ragdoll';
-export * from './VehicleBody';
+export { Buoyancy } from "./Buoyancy";
+export type { BuoyancyProps, BuoyancyRef } from "./Buoyancy";
+export { CharacterController } from "./CharacterController";
+export type { CharacterControllerProps, CharacterControllerRef } from "./CharacterController";
+export { Destructible } from "./Destructible";
+export type { DestructibleProps, DestructibleRef } from "./Destructible";
+export { Ragdoll } from "./Ragdoll";
+export type { RagdollProps, RagdollRef } from "./Ragdoll";
+export { VehicleBody } from "./VehicleBody";
+export type { VehicleBodyProps, VehicleBodyRef } from "./VehicleBody";

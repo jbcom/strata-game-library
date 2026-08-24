@@ -1,132 +1,66 @@
 ---
 title: "Package Strategy"
-description: "Supported package, subpath, migration, and publishing strategy after the umbrella-package consolidation"
+description: "Single-package, subpath, and publishing strategy"
 status: active
-implementation: 80
-last_updated: 2026-04-21
+implementation: 90
+last_updated: 2026-08-24
 area: architecture
 ---
 
 # Package Strategy
 
-This document is the package contract for the consolidation branch. It replaces the older split-repository package-decomposition plan with the post-consolidation decision: `strata-game-library` becomes the default install target, while the scoped packages remain supported direct entrypoints for consumers who want smaller installs or adapter/plugin-specific dependency control.
+`strata-game-library` is the only public npm package. The repository remains a
+pnpm workspace for development, but its core systems, adapters, and plugins are
+private implementation modules bundled behind explicit public subpaths.
 
-## Canonical Repository
+## Install and import contract
 
-The canonical source repository is now:
-
-```text
-https://github.com/jbcom/strata-game-library
-```
-
-The local checkout used for this audit points at `git@github.com:jbcom/strata-game-library.git`. The historical `strata-game-library/*` repositories under `~/src/strata-game-library` are treated as migration sources and parity references, not active library sources.
-
-## Decision
-
-1. `strata-game-library` is the default product package and the recommended install path after its first npm publish.
-2. Scoped packages stay supported direct entrypoints through the current consolidation cycle.
-3. Renderer adapters and plugins are exposed both as umbrella subpaths and as direct scoped packages.
-4. The old `-plugin` mobile package names are legacy npm names. They should be deprecated after the renamed packages are published and verified.
-5. Non-library repositories such as `.github`, `control-center`, and historical deployment/docs repos are outside the npm package contract unless code is explicitly copied into this monorepo.
-
-## Install Contract
-
-Default React Three Fiber consumers should install:
+Install exactly one Strata package, plus the peers needed by the subpaths you
+use:
 
 ```bash
-pnpm add strata-game-library @react-three/fiber @react-three/drei three
+pnpm add strata-game-library react react-dom three @react-three/fiber @react-three/drei
 ```
-
-Until the first umbrella release lands on npm, the published fallback remains:
-
-```bash
-pnpm add @strata-game-library/core @strata-game-library/r3f @react-three/fiber @react-three/drei three
-```
-
-Small-surface consumers can keep direct installs:
-
-```bash
-pnpm add @strata-game-library/core
-pnpm add @strata-game-library/shaders
-pnpm add @strata-game-library/presets @strata-game-library/core
-```
-
-## Package Disposition
-
-| Package | Status | Decision | Primary imports |
-|---------|--------|----------|-----------------|
-| `strata-game-library` | Pending first npm publish | Default product package | `strata-game-library`, `strata-game-library/r3f` |
-| `@strata-game-library/core` | Published | Keep as first-class direct package | `@strata-game-library/core`, `strata-game-library/core` |
-| `@strata-game-library/shaders` | Published | Keep as first-class direct package | `@strata-game-library/shaders`, `strata-game-library/shaders` |
-| `@strata-game-library/presets` | Published | Keep as first-class direct package | `@strata-game-library/presets`, `strata-game-library/presets` |
-| `@strata-game-library/r3f` | Release-tracked, pending npm availability | Publish and keep as first-class R3F adapter | `@strata-game-library/r3f`, `strata-game-library/r3f` |
-| `@strata-game-library/reactylon` | Release-tracked, pending npm availability | Publish as a supported thin Babylon/Reactylon adapter | `@strata-game-library/reactylon`, `strata-game-library/reactylon` |
-| `@strata-game-library/audio-synth` | Published | Keep as first-class direct plugin | `@strata-game-library/audio-synth`, `strata-game-library/audio-synth` |
-| `@strata-game-library/model-synth` | Release-tracked, pending npm availability | Publish, with rigging/animation gaps documented | `@strata-game-library/model-synth`, `strata-game-library/model-synth` |
-| `@strata-game-library/capacitor` | Release-tracked renamed package | Publish as replacement for `@strata-game-library/capacitor-plugin` | `@strata-game-library/capacitor`, `strata-game-library/capacitor` |
-| `@strata-game-library/react-native` | Release-tracked renamed package | Publish as replacement for `@strata-game-library/react-native-plugin` | `@strata-game-library/react-native`, `strata-game-library/react-native` |
-| `@strata-game-library/astro` | Release-tracked, pending npm availability | Publish as docs/demo integration package | `@strata-game-library/astro`, `strata-game-library/astro` |
-| `@strata-game-library/capacitor-plugin` | Historical npm name | Deprecate after renamed package is published and adoption docs are live | Use `@strata-game-library/capacitor` |
-| `@strata-game-library/react-native-plugin` | Historical npm name | Deprecate after renamed package is published and adoption docs are live | Use `@strata-game-library/react-native` |
-
-## Subpath Contract
-
-The umbrella package root is intentionally runtime-light. It should export stable core, presets, shaders, and high-level declarative game helpers without forcing React, Three.js renderer adapters, mobile integrations, or optional service clients into the default import path.
-
-Adapter and plugin code must stay behind explicit subpaths:
 
 ```ts
 import { createRPGGame } from 'strata-game-library';
 import { StrataGame } from 'strata-game-library/r3f';
-import { createSynthManager } from 'strata-game-library/audio-synth';
 ```
 
-This keeps the one-package story simple while preserving tree-shaking and optional peer dependency boundaries.
+The root is renderer-independent. Public subpaths such as `/core`, `/shaders`,
+`/presets`, `/r3f`, `/reactylon`, `/pixi`, `/audio-synth`, `/model-synth`,
+`/capacitor`, `/react-native`, `/astro`, and `/yuka` preserve optional peer boundaries
+without creating separately installable npm identities.
 
-## Release Automation
+`/yuka` is the model for third-party ecosystem adapters: it declares Yuka and
+its rendering peers as optional peer dependencies, and is imported only by a
+game that has deliberately selected that runtime. Core and ordinary renderer
+adapters must not import third-party ecosystem adapters. This leaves room for
+future integrations, including ECS runtimes such as Koota, without turning the
+default package surface into a dependency bundle.
 
-Release-please already tracks all non-private packages, including `packages/strata-game-library`. The npm release workflow must publish every tracked package:
+## Workspace disposition
 
-- `packages/core`
-- `packages/shaders`
-- `packages/presets`
-- `adapters/r3f`
-- `adapters/reactylon`
-- `plugins/audio-synth`
-- `plugins/model-synth`
-- `plugins/capacitor`
-- `plugins/react-native`
-- `plugins/astro`
-- `packages/strata-game-library`
+| Workspace area | Status | Public surface |
+| --- | --- | --- |
+| `packages/strata-game-library` | Public and release-tracked | `strata-game-library` and its export-map subpaths |
+| `packages/`, `adapters/`, `plugins/` implementation modules | Private | Bundled behind the public package; never separately published |
 
-Publishing remains gated on GitHub Releases and npm trusted publishing. The first umbrella publish also requires verifying that npm trusted publishing is configured for `strata-game-library`.
+## Release contract
 
-## Migration Policy
+Release-please tracks only `packages/strata-game-library`. CD builds, validates
+the exact tarball, and publishes only that package through npm trusted
+publishing with provenance. No npm credential is exposed to pull requests.
 
-Consumer migration should be additive first:
+Historical scoped packages are removed rather than preserved as aliases. They
+must not be reintroduced in documentation, release configuration, or new
+consumer examples.
 
-1. Keep existing scoped imports working.
-2. Add umbrella imports for new documentation and examples.
-3. Move app code from scoped imports to umbrella subpaths when the umbrella package is published.
-4. Deprecate only the old mobile `-plugin` names after renamed packages are published and verified.
+## Acceptance checklist
 
-Do not deprecate `@strata-game-library/core`, `@strata-game-library/shaders`, `@strata-game-library/presets`, or adapter/plugin direct packages during this cycle. They remain useful for minimal installs and explicit peer dependency control.
-
-## Non-Goals
-
-- Do not collapse all scoped packages into unpublished internals in this cycle.
-- Do not require consumers to install renderer/mobile/plugin peer dependencies unless they import those subpaths.
-- Do not move `.github`, `control-center`, or old deployment-only artifacts into the npm package.
-- Do not claim the package is published until `npm view strata-game-library` confirms the release.
-
-## Acceptance Checklist
-
-- [x] Umbrella package exists with root and subpath exports.
-- [x] Release-please tracks the umbrella package.
-- [x] Release workflow includes the umbrella package in the npm publish loop.
-- [x] README and package README identify the default and fallback install paths.
-- [x] Public migration docs exist.
-- [x] Historical split-repo parity matrix exists.
-- [ ] First `strata-game-library` npm publish succeeds.
-- [ ] npm trusted publishing is verified for every release-tracked package.
-- [ ] Legacy mobile `-plugin` packages are deprecated after renamed package publication.
+- [x] One public package exists with explicit subpath exports.
+- [x] Release-please tracks only that package.
+- [x] Workspace implementation modules are private.
+- [ ] The public tarball has no scoped runtime or type dependency.
+- [ ] `strata-game-library` is published and its trusted publisher is verified.
+- [ ] Historical scoped packages and their npm organization are deleted.

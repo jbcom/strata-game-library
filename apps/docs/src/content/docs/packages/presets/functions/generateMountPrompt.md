@@ -2,11 +2,11 @@
 title: "generateMountPrompt"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / generateMountPrompt
+[strata-game-library/presets](../globals.md) / generateMountPrompt
 
 # Function: generateMountPrompt()
 

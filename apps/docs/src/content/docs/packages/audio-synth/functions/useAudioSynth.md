@@ -2,11 +2,11 @@
 title: "useAudioSynth"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / useAudioSynth
+[strata-game-library/audio-synth](../globals.md) / useAudioSynth
 
 # Function: useAudioSynth()
 

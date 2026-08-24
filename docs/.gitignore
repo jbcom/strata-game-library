@@ -1,0 +1,14 @@
+node_modules
+dist
+.sourcey-legacy-manifest.json
+audio-synth/
+capacitor-plugin/
+core/
+examples/
+guides/
+mobile/
+model-synth/
+packages/
+presets/
+shaders/
+showcase/

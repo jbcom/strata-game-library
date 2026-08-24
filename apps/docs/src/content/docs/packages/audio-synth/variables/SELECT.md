@@ -2,11 +2,11 @@
 title: "SELECT"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SELECT
+[strata-game-library/audio-synth](../globals.md) / SELECT
 
 # Variable: SELECT
 

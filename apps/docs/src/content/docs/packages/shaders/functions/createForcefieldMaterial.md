@@ -2,11 +2,11 @@
 title: "createForcefieldMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createForcefieldMaterial
+[strata-game-library/shaders](../globals.md) / createForcefieldMaterial
 
 # Function: createForcefieldMaterial()
 

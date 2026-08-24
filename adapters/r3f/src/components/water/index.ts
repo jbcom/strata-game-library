@@ -4,4 +4,5 @@
  * @module components/water
  */
 
-export * from './Water';
+export { AdvancedWater, Water } from "./Water";
+export type { AdvancedWaterProps, WaterProps } from "./Water";

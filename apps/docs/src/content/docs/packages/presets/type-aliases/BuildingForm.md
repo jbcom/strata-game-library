@@ -2,11 +2,11 @@
 title: "BuildingForm"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / BuildingForm
+[strata-game-library/presets](../globals.md) / BuildingForm
 
 # Type Alias: BuildingForm
 

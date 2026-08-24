@@ -2,11 +2,11 @@
 title: "CollectibleParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / CollectibleParams
+[strata-game-library/presets](../globals.md) / CollectibleParams
 
 # Interface: CollectibleParams
 

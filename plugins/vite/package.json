@@ -1,0 +1,80 @@
+{
+  "name": "@strata-game-library/vite",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vite toolchain integration for Strata: shared Vite, Vitest and tsup configuration for Strata packages and the games built on them.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.js"
+    },
+    "./vitest": {
+      "types": "./dist/vitest.d.ts",
+      "import": "./dist/vitest.js"
+    },
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./biome.base.json": "./biome.base.json",
+    "./package.json": "./package.json",
+    "./tsup": {
+      "types": "./dist/tsup.d.ts",
+      "import": "./dist/tsup.js"
+    }
+  },
+  "files": [
+    "dist",
+    "tsconfig.base.json",
+    "biome.base.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "tsup": "^8",
+    "vite": "^7 || ^8",
+    "vitest": "^3 || ^4"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    },
+    "tsup": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@vitest/browser-playwright": "^4.1.11",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "plugins/vite"
+  },
+  "bugs": {
+    "url": "https://github.com/jbcom/strata-game-library/issues"
+  },
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/plugins/vite#readme"
+}

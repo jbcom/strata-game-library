@@ -1,0 +1,14 @@
+{
+  "name": "@strata-game-library/docs-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-content": "node ../scripts/prepare-sourcey-content.mjs",
+    "dev": "pnpm run prepare-content && sourcey dev",
+    "build": "pnpm run prepare-content && sourcey build",
+    "validate": "pnpm run build"
+  },
+  "dependencies": {
+    "sourcey": "^3.6.0"
+  }
+}

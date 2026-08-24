@@ -1,8 +1,8 @@
 ---
-title: "@strata-game-library/shaders"
+title: "strata-game-library/shaders"
 ---
 
-# @strata-game-library/shaders
+# strata-game-library/shaders
 
 Standalone GLSL shaders for Three.js -- terrain, water, sky, volumetrics, clouds, fur, and more.
 

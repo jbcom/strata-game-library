@@ -1,0 +1,35 @@
+name: Setup Strata toolchain
+description: Install current Node.js and pnpm with their official actions, then restore dependencies
+
+inputs:
+  node-version:
+    description: Node.js version or alias; defaults to the latest stable release
+    required: false
+    default: latest
+  pnpm-version:
+    description: pnpm version or alias; defaults to the latest stable release
+    required: false
+    default: latest
+  install-dependencies:
+    description: Install dependencies from pnpm-lock.yaml
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+      with:
+        version: ${{ inputs.pnpm-version }}
+
+    - name: Install Node.js
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    - name: Install workspace dependencies
+      if: inputs.install-dependencies == 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile

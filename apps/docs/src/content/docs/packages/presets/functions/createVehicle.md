@@ -2,11 +2,11 @@
 title: "createVehicle"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createVehicle
+[strata-game-library/presets](../globals.md) / createVehicle
 
 # Function: createVehicle()
 

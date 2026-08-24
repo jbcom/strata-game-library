@@ -1,54 +1,48 @@
-# CD - Release Please & Deploy Docs (Nx monorepo)
-#
-# Handles:
-#   1. Release Please: creates/updates Release PRs with version bumps and changelogs.
-#      When a Release PR is merged, creates GitHub Releases (which trigger release.yml).
-#   2. Docs deployment to GitHub Pages (on every push to main).
-#
-# npm publishing is handled separately by release.yml (triggered by GitHub Releases).
 name: CD
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:
-
-permissions:
-  contents: write
-  pull-requests: write
-  pages: write
-  id-token: write
+    inputs:
+      ref:
+        description: Release tag or commit to deliver
+        required: true
 
 concurrency:
-  group: cd-deploy
+  group: cd-${{ github.event.release.tag_name || inputs.ref }}
   cancel-in-progress: false
 
-jobs:
-  # ────────────────────────────────────────────────────────────────────
-  # Release Please: version bumps, changelogs, tags, GitHub Releases
-  # ────────────────────────────────────────────────────────────────────
-  release-please:
-    name: Release Please
-    if: "!contains(github.event.head_commit.message || '', '[skip actions]')"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
-        with:
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
-          config-file: release-please-config.json
-          manifest-file: .release-please-manifest.json
+permissions:
+  contents: read
 
-  # ────────────────────────────────────────────────────────────────────
-  # Deploy docs to GitHub Pages (independent of release)
-  # ────────────────────────────────────────────────────────────────────
+jobs:
+  publish:
+    name: Publish npm packages
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - name: Use the latest npm trusted-publishing client
+        run: npm install --global npm@latest
+      - name: Validate release packages
+        run: pnpm run release:validate
+      - name: Publish with provenance
+        run: pnpm run publish:ci
+
   docs:
-    name: Deploy Docs
-    if: "!contains(github.event.head_commit.message || '', '[skip actions]') && !cancelled()"
+    name: Deploy documentation
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
@@ -57,29 +51,20 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.event.release.tag_name || inputs.ref }}
           fetch-depth: 0
-
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build all packages (docs depends on type exports)
-        run: pnpm nx run-many -t build --exclude @strata-game-library/docs
-
-      - name: Build docs
-        run: pnpm nx run @strata-game-library/docs:build
-
+          persist-credentials: false
+      - uses: ./.github/actions/setup-toolchain
+      - name: Build packages
+        run: pnpm run build
+      - name: Build Sourcey documentation
+        run: pnpm run docs:build
+      - name: Validate documentation links
+        run: pnpm run docs:links
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: apps/docs/dist
-
+          path: docs/dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

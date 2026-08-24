@@ -2,11 +2,11 @@
 title: "createCrystalMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createCrystalMaterial
+[strata-game-library/shaders](../globals.md) / createCrystalMaterial
 
 # Function: createCrystalMaterial()
 

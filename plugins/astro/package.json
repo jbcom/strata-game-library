@@ -1,7 +1,8 @@
 {
   "name": "@strata-game-library/astro",
+  "private": true,
   "version": "0.3.0",
-  "description": "Astro integration for Strata Game Library \u2014 Vite config, CSS tokens, and Starlight theme",
+  "description": "Astro integration for Strata Game Library — Vite config, CSS tokens, and Starlight theme",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -58,11 +59,12 @@
     "astro": ">=4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "astro": "^6.0.5",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.0",
-    "vite": "^7.3.1",
-    "vitest": "^4.1.10"
+    "@strata-game-library/vite": "workspace:*",
+    "@types/node": "^26.2.0",
+    "astro": "^7.2.4",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   }
 }

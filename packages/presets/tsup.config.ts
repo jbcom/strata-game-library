@@ -1,45 +1,26 @@
-import { defineConfig } from 'tsup';
-import { globSync } from 'glob';
-import path from 'path';
+import { libraryBuild } from "@strata-game-library/vite/tsup";
+import { globSync } from "glob";
+import path from "node:path";
 
-/**
- * tsup configuration for @strata-game-library/presets
- *
- * Ensures proper Node.js ESM support with correct .js extensions
- */
-export default defineConfig({
-	entry: globSync(['src/**/index.ts', 'src/structures/building.ts']).reduce<Record<string, string>>((acc, file) => {
-		const key = path.relative('src', file).replace(/\\/g, '/').replace('.ts', '');
-		acc[key] = file;
-		return acc;
-	}, {}),
-	format: ['esm'],
+const entry = globSync(["src/**/index.ts", "src/structures/building.ts"]).reduce<
+  Record<string, string>
+>((acc, file) => {
+  acc[path.relative("src", file).replace(/\\/g, "/").replace(".ts", "")] = file;
+  return acc;
+}, {});
 
-	// DTS generation enabled — core now provides .d.ts files
-	dts: {
-		compilerOptions: {
-			// Follow workspace symlinks to resolve @strata-game-library/core types
-			preserveSymlinks: false,
-		},
-	},
-
-	clean: true,
-	sourcemap: true,
-	splitting: false,
-	target: 'ES2022',
-	jsx: 'automatic',
-	external: [
-		'@strata-game-library/core',
-		'@strata-game-library/r3f',
-		'@react-three/fiber',
-		'react',
-		'three',
-		'yuka',
-	],
-	treeshake: true,
-	minify: false,
-	keepNames: true,
-	banner: {
-		js: '/* @strata-game-library/presets - ESM Build */',
-	},
+export default libraryBuild({
+  name: "@strata-game-library/presets",
+  entry,
+  external: [
+    "@strata-game-library/core",
+    "@strata-game-library/r3f",
+    "@react-three/fiber",
+    "react",
+    "three",
+  ],
+  jsx: "automatic",
+  // preserveSymlinks: false so dts generation follows the workspace symlink
+  // into @strata-game-library/core and resolves its types.
+  overrides: { dts: { compilerOptions: { preserveSymlinks: false } } },
 });

@@ -2,11 +2,11 @@
 title: "createDissolveMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createDissolveMaterial
+[strata-game-library/shaders](../globals.md) / createDissolveMaterial
 
 # Function: createDissolveMaterial()
 

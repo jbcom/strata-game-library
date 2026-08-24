@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+enable_free_tier: true
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  fail_commit_status: true
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 0
+    drafts: false
+    base_branches:
+      - main
+  path_instructions:
+    - path: packages/core/**
+      instructions: >-
+        Enforce the renderer boundary: core must remain strict, portable TypeScript with no React,
+        React Three Fiber, Babylon, or Pixi imports. Review public API compatibility, deterministic
+        state transitions, persistence safety, and actionable validation errors.
+    - path: .github/**
+      instructions: >-
+        Treat workflow and repository automation as a security boundary. Flag floating action refs,
+        overbroad token permissions, secret exposure, untrusted interpolation, privileged execution
+        of fork code, self-hosted public-PR execution, and untrusted artifact or cache promotion.
+    - path: "{packages,adapters,plugins}/**"
+      instructions: >-
+        Treat exported behavior and package metadata as public API. Require JSDoc for new public
+        APIs, meaningful tests, compatible export maps and types, and explicit release or migration
+        documentation for intentional breaking changes.
+  pre_merge_checks:
+    custom_checks:
+      - name: Hardcoded credentials
+        mode: error
+        instructions: >-
+          Fail only when the change introduces likely real credentials, passwords, authentication
+          tokens, API keys, private keys, or production secret material in source, configuration,
+          logs, or documentation. Do not fail clearly synthetic values confined to named test
+          fixtures or examples.
+      - name: Sensitive data logging
+        mode: error
+        instructions: >-
+          Fail when new or changed logging can disclose credentials, authorization headers, cookies,
+          session identifiers, private keys, access tokens, refresh tokens, or comparably sensitive
+          authentication material.
+      - name: Unsafe GitHub Actions
+        mode: error
+        instructions: >-
+          For GitHub Actions changes, fail on floating uses refs, unnecessary write permissions,
+          secret exposure, direct interpolation of attacker-controlled fields in shell code,
+          privileged execution of fork code, public-PR execution on self-hosted runners, or promotion
+          of artifacts and caches produced by untrusted PR code into a privileged workflow.
+      - name: Undeclared public API break
+        mode: error
+        instructions: >-
+          Fail when a change removes or incompatibly alters an exported npm API without an explicit
+          BREAKING CHANGE declaration and corresponding contract, migration, and release notes.
+  tools:
+    github-checks:
+      enabled: true
+    biome:
+      enabled: true
+    actionlint:
+      enabled: true
+    zizmor:
+      enabled: true
+    gitleaks:
+      enabled: true
+    trufflehog:
+      enabled: true

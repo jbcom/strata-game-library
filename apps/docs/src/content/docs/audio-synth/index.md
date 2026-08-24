@@ -5,18 +5,18 @@ description: Procedural audio synthesis and spatial sound design for game audio
 
 # Audio Synth
 
-The `@strata-game-library/audio-synth` package provides procedural audio synthesis for game sound effects and music. Generate sounds programmatically without audio files — explosions, footsteps, UI clicks, ambient music, and more.
+The `strata-game-library/audio-synth` package provides procedural audio synthesis for game sound effects and music. Generate sounds programmatically without audio files — explosions, footsteps, UI clicks, ambient music, and more.
 
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/audio-synth
+pnpm add strata-game-library/audio-synth
 ```
 
 ## Quick Start
 
 ```tsx
-import { AudioSynthProvider, usePlaySFX, usePlayMusic } from '@strata-game-library/audio-synth';
+import { AudioSynthProvider, usePlaySFX, usePlayMusic } from 'strata-game-library/audio-synth';
 
 function Game() {
   return (

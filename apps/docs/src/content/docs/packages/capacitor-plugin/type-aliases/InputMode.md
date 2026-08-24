@@ -2,11 +2,11 @@
 title: "InputMode"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / InputMode
+[strata-game-library/capacitor](../globals.md) / InputMode
 
 # Type Alias: InputMode
 

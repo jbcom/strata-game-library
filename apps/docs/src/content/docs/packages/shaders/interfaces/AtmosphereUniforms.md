@@ -2,11 +2,11 @@
 title: "AtmosphereUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / AtmosphereUniforms
+[strata-game-library/shaders](../globals.md) / AtmosphereUniforms
 
 # Interface: AtmosphereUniforms
 

@@ -2,11 +2,11 @@
 title: "skyFragmentShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / skyFragmentShader
+[strata-game-library/shaders](../globals.md) / skyFragmentShader
 
 # Variable: skyFragmentShader
 

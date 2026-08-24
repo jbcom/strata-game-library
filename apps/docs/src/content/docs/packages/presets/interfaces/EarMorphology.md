@@ -2,11 +2,11 @@
 title: "EarMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / EarMorphology
+[strata-game-library/presets](../globals.md) / EarMorphology
 
 # Interface: EarMorphology
 

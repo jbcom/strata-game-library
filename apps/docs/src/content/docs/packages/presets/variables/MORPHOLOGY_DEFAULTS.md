@@ -2,11 +2,11 @@
 title: "MORPHOLOGY_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / MORPHOLOGY\_DEFAULTS
+[strata-game-library/presets](../globals.md) / MORPHOLOGY\_DEFAULTS
 
 # Variable: MORPHOLOGY\_DEFAULTS
 

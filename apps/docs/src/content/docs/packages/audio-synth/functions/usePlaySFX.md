@@ -2,11 +2,11 @@
 title: "usePlaySFX"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / usePlaySFX
+[strata-game-library/audio-synth](../globals.md) / usePlaySFX
 
 # Function: usePlaySFX()
 

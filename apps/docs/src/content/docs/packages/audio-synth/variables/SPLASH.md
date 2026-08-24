@@ -2,11 +2,11 @@
 title: "SPLASH"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SPLASH
+[strata-game-library/audio-synth](../globals.md) / SPLASH
 
 # Variable: SPLASH
 

@@ -119,13 +119,14 @@ export function App() {
 - `strata-game-library/capacitor`
 - `strata-game-library/react-native`
 - `strata-game-library/astro`
+- `strata-game-library/yuka` (optional Yuka steering and navigation adapter)
 
 ## Notes
 
 - The root export is intentionally runtime-light: core API, presets, and shaders.
 - Framework adapters and plugins live on explicit subpaths such as `strata-game-library/r3f`.
-- The scoped `@strata-game-library/*` packages remain the canonical internal workspace modules and legacy external entrypoints during the consolidation period.
-- The scoped packages remain supported direct entrypoints in this consolidation cycle; the old `@strata-game-library/capacitor-plugin` and `@strata-game-library/react-native-plugin` names are legacy aliases to deprecate after the renamed packages are published and verified.
+- `strata-game-library/yuka` is opt-in: install Yuka and the R3F peers only for games that choose Yuka for steering, navigation, or state machines.
+- `strata-game-library` is the only public npm package. The renderer adapters and integrations are bundled private workspace modules, exposed only through the documented subpaths above.
 - `StrataGame` owns the canvas, binds the core `InputManager` automatically, and the R3F adapter now also exposes `useInput()`, `useActionPressed()`, `useControlHints()`, `useGameStatus()`, and `useTransition()` alongside `useGame()`, `useScene()`, and `useMode()`.
 - Pause is part of the default runtime path: `StrataGame` listens for the active mode's `pause` action by default, keeps only that binding live while paused, and renders `ui.menus.pause` automatically.
 - Built-in `GameHUD`, `PauseMenu`, and `SceneCard` helpers now provide a first-pass declarative game-shell scaffold, `SceneCard` supports announcement/title/menu/session/archive variants plus runtime-backed action buttons, and the core package now exposes reusable scene-shell builders, scene-definition builders, and scene-shell action builders.

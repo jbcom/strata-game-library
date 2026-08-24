@@ -1,0 +1,30 @@
+{
+  "package": "@strata-game-library/pixi",
+  "version": "0.1.0",
+  "subpaths": {
+    ".": {
+      "applyFilterResolutionFix": "value",
+      "detectReduceMotion": "value",
+      "getDpr": "value",
+      "MountOptions": {
+        "canvas?": "HTMLCanvasElement",
+        "container?": "HTMLElement",
+        "background?": "number | string",
+        "maxResolution?": "number",
+        "pixelSnap?": "boolean",
+        "reduceMotion?": "boolean",
+        "resizeMode?": "'observer' | 'resizeTo' | 'manual'",
+        "resizeTarget?": "HTMLElement",
+        "onResize?": "(width: number, height: number) => void"
+      },
+      "mountPixi": "value",
+      "PixiMountHandle": {
+        "app": "Application",
+        "canvas": "HTMLCanvasElement",
+        "reduceMotion": "boolean",
+        "width": "number",
+        "height": "number"
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ import {
   sdBox,
   sdPlane,
   sdSphere,
-} from '../../../src/core/sdf';
+} from '../../../src/core/math/sdf-primitives';
 
 describe('SDF Primitives', () => {
   describe('sdSphere', () => {

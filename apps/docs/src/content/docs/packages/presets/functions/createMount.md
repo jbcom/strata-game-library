@@ -2,11 +2,11 @@
 title: "createMount"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createMount
+[strata-game-library/presets](../globals.md) / createMount
 
 # Function: createMount()
 

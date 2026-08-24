@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createSkyMaterial } from '../../../src/core/sky';
+import { createSkyMaterial } from '../../../src/core/rendering/sky';
 
 // Note: THREE is not directly used in tests but imported for type compatibility
 

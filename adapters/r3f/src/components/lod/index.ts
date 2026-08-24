@@ -4,8 +4,8 @@
  * @module components/lod
  */
 
-export * from './Impostor';
-export * from './LODGroup';
-export * from './LODMesh';
-export * from './LODVegetation';
-export * from './types';
+export { Impostor } from "./Impostor";
+export { LODGroup } from "./LODGroup";
+export { LODMesh } from "./LODMesh";
+export { LODVegetation } from "./LODVegetation";
+export type { ImpostorConfig, ImpostorProps, ImpostorRef, LODConfig, LODGroupProps, LODGroupRef, LODLevel, LODMeshProps, LODMeshRef, LODState, LODVegetationProps, LODVegetationRef, VegetationLODConfig } from "./types";

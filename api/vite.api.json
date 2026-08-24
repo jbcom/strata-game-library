@@ -1,0 +1,122 @@
+{
+  "package": "@strata-game-library/vite",
+  "version": "0.1.0",
+  "subpaths": {
+    ".": {
+      "BrowserTestFragment": {
+        "enabled": "true",
+        "instances": "Array<{ browser: PlaywrightBrowserName; }>",
+        "headless": "false",
+        "screenshotFailures": "true",
+        "fileParallelism": "boolean",
+        "provider": "ReturnType<typeof playwright>"
+      },
+      "defaultBrowserLaunchArgs": "value",
+      "defineBrowserTest": "value",
+      "DefineBrowserTestOptions": {
+        "include?": "string[]",
+        "optimizeDepsInclude?": "string[]",
+        "includeThree?": "boolean",
+        "fileParallelism?": "boolean",
+        "extraLaunchArgs?": "string[]"
+      },
+      "defineGamePreset": "value",
+      "DefineGamePresetOptions": {
+        "appName": "string",
+        "base?": "string",
+        "plugins?": "PluginOption[]",
+        "heavyDeps?": "HeavyDepsOptions",
+        "watchIgnore?": "string[]",
+        "dedupe?": "string[]",
+        "srcDir?": "string",
+        "overrides?": "UserConfig"
+      },
+      "defineUnitTest": "value",
+      "DefineUnitTestOptions": {
+        "include?": "string[]",
+        "exclude?": "string[]",
+        "environment?": "'jsdom' | 'node'"
+      },
+      "HeavyDepsOptions": {
+        "three?": "boolean",
+        "rapier?": "boolean",
+        "phaser?": "boolean"
+      },
+      "libraryBuild": "value",
+      "LibraryBuildOptions": {
+        "name": "string",
+        "entry?": "Options['entry']",
+        "external?": "(string | RegExp)[]",
+        "jsx?": "'transform' | 'preserve' | 'automatic'",
+        "overrides?": "Options"
+      },
+      "PlaywrightBrowserName": "type",
+      "UnitTestFragment": {
+        "include": "string[]",
+        "exclude": "string[]",
+        "environment": "'jsdom' | 'node'",
+        "environmentOptions?": "{ jsdom?: { url: string; }; }"
+      }
+    },
+    "./tsup": {
+      "libraryBuild": "value",
+      "LibraryBuildOptions": {
+        "name": "string",
+        "entry?": "Options['entry']",
+        "external?": "(string | RegExp)[]",
+        "jsx?": "'transform' | 'preserve' | 'automatic'",
+        "overrides?": "Options"
+      }
+    },
+    "./vite": {
+      "defineGamePreset": "value",
+      "DefineGamePresetOptions": {
+        "appName": "string",
+        "base?": "string",
+        "plugins?": "PluginOption[]",
+        "heavyDeps?": "HeavyDepsOptions",
+        "watchIgnore?": "string[]",
+        "dedupe?": "string[]",
+        "srcDir?": "string",
+        "overrides?": "UserConfig"
+      },
+      "HeavyDepsOptions": {
+        "three?": "boolean",
+        "rapier?": "boolean",
+        "phaser?": "boolean"
+      }
+    },
+    "./vitest": {
+      "BrowserTestFragment": {
+        "enabled": "true",
+        "instances": "Array<{ browser: PlaywrightBrowserName; }>",
+        "headless": "false",
+        "screenshotFailures": "true",
+        "fileParallelism": "boolean",
+        "provider": "ReturnType<typeof playwright>"
+      },
+      "defaultBrowserLaunchArgs": "value",
+      "defineBrowserTest": "value",
+      "DefineBrowserTestOptions": {
+        "include?": "string[]",
+        "optimizeDepsInclude?": "string[]",
+        "includeThree?": "boolean",
+        "fileParallelism?": "boolean",
+        "extraLaunchArgs?": "string[]"
+      },
+      "defineUnitTest": "value",
+      "DefineUnitTestOptions": {
+        "include?": "string[]",
+        "exclude?": "string[]",
+        "environment?": "'jsdom' | 'node'"
+      },
+      "PlaywrightBrowserName": "type",
+      "UnitTestFragment": {
+        "include": "string[]",
+        "exclude": "string[]",
+        "environment": "'jsdom' | 'node'",
+        "environmentOptions?": "{ jsdom?: { url: string; }; }"
+      }
+    }
+  }
+}

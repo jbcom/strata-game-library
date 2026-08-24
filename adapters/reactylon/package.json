@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/reactylon",
+  "private": true,
   "version": "0.5.0",
   "description": "Babylon.js components for Strata via Reactylon - water, sky, vegetation, volumetrics",
   "type": "module",
@@ -9,6 +10,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./mount": {
+      "types": "./dist/mount/index.d.ts",
+      "import": "./dist/mount/index.js"
     }
   },
   "files": [
@@ -48,15 +53,22 @@
     "@strata-game-library/shaders": "workspace:*"
   },
   "peerDependencies": {
-    "@babylonjs/core": ">=8.0.0",
+    "@babylonjs/core": ">=9.0.0",
     "react": ">=18.0.0",
     "reactylon": ">=0.1.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
-    "react": "^19.2.4",
+    "@babylonjs/core": "^9.22.1",
+    "@strata-game-library/vite": "workspace:*",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "jsdom": "^30.0.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "reactylon": "^3.5.8",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   }
 }

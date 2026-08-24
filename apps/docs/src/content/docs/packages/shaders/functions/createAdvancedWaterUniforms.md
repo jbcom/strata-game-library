@@ -2,11 +2,11 @@
 title: "createAdvancedWaterUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createAdvancedWaterUniforms
+[strata-game-library/shaders](../globals.md) / createAdvancedWaterUniforms
 
 # Function: createAdvancedWaterUniforms()
 

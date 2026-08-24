@@ -1,0 +1,194 @@
+{
+  "package": "@strata-game-library/model-synth",
+  "version": "0.2.0",
+  "subpaths": {
+    ".": {
+      "AnimationsAPI": "value",
+      "AnimationTask": "value",
+      "AnimationTaskParams": "value",
+      "ArtStyle": "type",
+      "CharacterAnimationName": "type",
+      "CharacterAnimationRequest": "type",
+      "CharacterGenerationTask": {
+        "previewTask?": "MeshyTask",
+        "riggingTask?": "RiggingTask",
+        "riggedModelUrls?": "Record<string, string | undefined>",
+        "animationTasks?": "Record<string, AnimationTask>",
+        "animationUrls?": "Record<string, string | null>"
+      },
+      "CharacterPollOptions": {
+        "maxRetries?": "number",
+        "intervalMs?": "number"
+      },
+      "CreateRefineTaskParams": "value",
+      "CreateTaskParams": {
+        "text_prompt": "string",
+        "art_style?": "'realistic' | 'cartoon' | 'anime' | 'sculpture' | 'pbr' | 'realistic-3D' | 'voxel' | '3D Printing' | 'heroic fantasy' | 'dark fantasy'",
+        "ai_model?": "'meshy-4' | 'meshy-5' | 'latest'",
+        "topology?": "'triangle' | 'quad'",
+        "target_polycount?": "number",
+        "should_remesh?": "boolean",
+        "symmetry_mode?": "'auto' | 'symmetric' | 'asymmetric'",
+        "is_a_t_pose?": "boolean",
+        "moderation?": "boolean | 'strict'"
+      },
+      "MeshyAuthError": "value",
+      "MeshyBaseClient": "value",
+      "MeshyError": "value",
+      "MeshyErrorResponse": {
+        "message?": "string",
+        "code?": "string",
+        "details?": "unknown"
+      },
+      "MeshyPaymentError": "value",
+      "MeshyRateLimitError": "value",
+      "MeshyTask": "value",
+      "ModelCategory": "type",
+      "ModelSynth": "value",
+      "OTTER_ANIMATIONS": "value",
+      "RATE_LIMITS": "value",
+      "RetextureAPI": "value",
+      "RetextureTaskParams": {
+        "input_task_id?": "string",
+        "model_url?": "string",
+        "text_style_prompt?": "string",
+        "image_style_url?": "string",
+        "ai_model?": "'meshy-4' | 'meshy-5'",
+        "enable_original_uv?": "boolean",
+        "enable_pbr?": "boolean"
+      },
+      "RetryConfig": {
+        "maxRetries": "number",
+        "baseDelay": "number",
+        "maxDelay": "number",
+        "retryOn": "number[]"
+      },
+      "RiggingAPI": "value",
+      "RiggingTask": "value",
+      "ROCK_ANIMATIONS": "value",
+      "TextTo3DAPI": "value",
+      "TextTo3DTargetFormat": "type"
+    },
+    "./clients/animations": {
+      "AnimationsAPI": "value",
+      "AnimationTask": {
+        "id": "string",
+        "status": "'PENDING' | 'IN_PROGRESS' | 'SUCCEEDED' | 'FAILED' | 'CANCELED'",
+        "progress?": "number",
+        "created_at": "number",
+        "started_at?": "number",
+        "finished_at?": "number",
+        "expires_at?": "number",
+        "result?": "{ animation_glb_url?: string; animation_fbx_url?: string; processed_usdz_url?: string; processed_armature_fbx_url?: string; processed_animation_fps_fbx_url?: string; }",
+        "task_error?": "{ message: string; }",
+        "preceding_tasks?": "number"
+      },
+      "AnimationTaskParams": {
+        "rig_task_id": "string",
+        "action_id": "number",
+        "post_process?": "{ operation_type: 'change_fps' | 'fbx2usdz' | 'extract_armature'; fps?: 24 | 25 | 30 | 60; }"
+      },
+      "OTTER_ANIMATIONS": "value",
+      "ROCK_ANIMATIONS": "value"
+    },
+    "./clients/base": {
+      "MeshyAuthError": "value",
+      "MeshyBaseClient": "value",
+      "MeshyError": "value",
+      "MeshyErrorResponse": {
+        "message?": "string",
+        "code?": "string",
+        "details?": "unknown"
+      },
+      "MeshyPaymentError": "value",
+      "MeshyRateLimitError": "value",
+      "RATE_LIMITS": "value",
+      "RetryConfig": {
+        "maxRetries": "number",
+        "baseDelay": "number",
+        "maxDelay": "number",
+        "retryOn": "number[]"
+      }
+    },
+    "./clients/retexture": {
+      "RetextureAPI": "value",
+      "RetextureTask": {
+        "id": "string",
+        "status": "'PENDING' | 'IN_PROGRESS' | 'SUCCEEDED' | 'FAILED' | 'EXPIRED'",
+        "progress?": "number",
+        "model_urls?": "{ glb?: string; fbx?: string; usdz?: string; } | null",
+        "texture_urls?": "Array<{ base_color?: string; metallic?: string; normal?: string; roughness?: string; }> | null",
+        "created_at": "number",
+        "finished_at?": "number",
+        "started_at?": "number",
+        "expires_at?": "number"
+      },
+      "RetextureTaskParams": {
+        "input_task_id?": "string",
+        "model_url?": "string",
+        "text_style_prompt?": "string",
+        "image_style_url?": "string",
+        "ai_model?": "'meshy-4' | 'meshy-5'",
+        "enable_original_uv?": "boolean",
+        "enable_pbr?": "boolean"
+      }
+    },
+    "./clients/rigging": {
+      "RiggingAPI": "value",
+      "RiggingTask": {
+        "id": "string",
+        "status": "'PENDING' | 'IN_PROGRESS' | 'SUCCEEDED' | 'FAILED' | 'CANCELED'",
+        "progress?": "number",
+        "created_at": "number",
+        "started_at?": "number",
+        "finished_at?": "number",
+        "expires_at?": "number",
+        "result?": "{ rigged_character_glb_url?: string; rigged_character_fbx_url?: string; basic_animations?: { walking_glb_url?: string; walking_fbx_url?: string; walking_armature_glb_url?: string; running_glb_url?: string; running_fbx_url?: string; running_armature_glb_url?: string; }; }",
+        "task_error?": "{ message: string; }",
+        "preceding_tasks?": "number"
+      },
+      "RiggingTaskParams": {
+        "input_task_id": "string",
+        "height_meters?": "number",
+        "custom_animations?": "{ idle?: boolean; attack?: boolean; cast?: boolean; death?: boolean; jump?: boolean; dodge?: boolean; emote_wave?: boolean; emote_talk?: boolean; }",
+        "animation_style?": "'realistic' | 'stylized' | 'exaggerated'",
+        "fps?": "30 | 60"
+      }
+    },
+    "./clients/text-to-3d": {
+      "CreateRefineTaskParams": {
+        "enable_pbr?": "boolean",
+        "texture_prompt?": "string",
+        "texture_image_url?": "string",
+        "ai_model?": "'meshy-5' | 'meshy-6' | 'latest' | string",
+        "moderation?": "boolean | 'strict'",
+        "remove_lighting?": "boolean",
+        "target_formats?": "TextTo3DTargetFormat[]",
+        "auto_size?": "boolean",
+        "origin_at?": "'bottom' | 'center'"
+      },
+      "CreateTaskParams": {
+        "text_prompt": "string",
+        "art_style?": "'realistic' | 'cartoon' | 'anime' | 'sculpture' | 'pbr' | 'realistic-3D' | 'voxel' | '3D Printing' | 'heroic fantasy' | 'dark fantasy'",
+        "ai_model?": "'meshy-4' | 'meshy-5' | 'latest'",
+        "topology?": "'triangle' | 'quad'",
+        "target_polycount?": "number",
+        "should_remesh?": "boolean",
+        "symmetry_mode?": "'auto' | 'symmetric' | 'asymmetric'",
+        "is_a_t_pose?": "boolean",
+        "moderation?": "boolean | 'strict'"
+      },
+      "MeshyTask": {
+        "id": "string",
+        "status": "'PENDING' | 'IN_PROGRESS' | 'SUCCEEDED' | 'FAILED' | 'EXPIRED'",
+        "progress?": "number",
+        "model_urls?": "{ glb?: string; fbx?: string; usdz?: string; obj?: string; mtl?: string; } | null",
+        "model_url?": "string",
+        "created_at": "string",
+        "finished_at": "number"
+      },
+      "TextTo3DAPI": "value",
+      "TextTo3DTargetFormat": "type"
+    }
+  }
+}

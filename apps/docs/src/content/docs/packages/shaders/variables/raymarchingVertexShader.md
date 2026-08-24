@@ -2,11 +2,11 @@
 title: "raymarchingVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / raymarchingVertexShader
+[strata-game-library/shaders](../globals.md) / raymarchingVertexShader
 
 # Variable: raymarchingVertexShader
 

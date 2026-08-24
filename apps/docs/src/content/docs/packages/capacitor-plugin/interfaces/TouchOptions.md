@@ -2,11 +2,11 @@
 title: "TouchOptions"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / TouchOptions
+[strata-game-library/capacitor](../globals.md) / TouchOptions
 
 # Interface: TouchOptions
 

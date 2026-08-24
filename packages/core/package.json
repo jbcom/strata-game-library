@@ -1,7 +1,8 @@
 {
   "name": "@strata-game-library/core",
+  "private": true,
   "version": "1.7.0",
-  "description": "Pure TypeScript algorithms for procedural 3D graphics - terrain, water, vegetation, sky, volumetrics, ECS, pathfinding, physics",
+  "description": "Renderer-free TypeScript for procedural 3D games: terrain, physics, pathfinding, ECS, animation, audio, input, maze generation and rendering effects.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,29 +12,13 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./shaders": {
-      "types": "./dist/shaders/index.d.ts",
-      "import": "./dist/shaders/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
-    },
     "./api": {
       "types": "./dist/api/index.d.ts",
       "import": "./dist/api/index.js"
     },
-    "./game": {
-      "types": "./dist/game/index.d.ts",
-      "import": "./dist/game/index.js"
-    },
     "./compose": {
       "types": "./dist/compose/index.d.ts",
       "import": "./dist/compose/index.js"
-    },
-    "./world": {
-      "types": "./dist/world/index.d.ts",
-      "import": "./dist/world/index.js"
     },
     "./core": {
       "types": "./dist/core/index.d.ts",
@@ -48,100 +33,76 @@
       "import": "./dist/core/audio/index.js"
     },
     "./core/camera": {
-      "types": "./dist/core/camera.d.ts",
-      "import": "./dist/core/camera.js"
-    },
-    "./core/clouds": {
-      "types": "./dist/core/clouds.d.ts",
-      "import": "./dist/core/clouds.js"
-    },
-    "./core/decals": {
-      "types": "./dist/core/decals.d.ts",
-      "import": "./dist/core/decals.js"
+      "types": "./dist/core/camera/index.d.ts",
+      "import": "./dist/core/camera/index.js"
     },
     "./core/ecs": {
       "types": "./dist/core/ecs/index.d.ts",
       "import": "./dist/core/ecs/index.js"
     },
-    "./core/godRays": {
-      "types": "./dist/core/godRays.d.ts",
-      "import": "./dist/core/godRays.js"
-    },
     "./core/input": {
-      "types": "./dist/core/input.d.ts",
-      "import": "./dist/core/input.js"
-    },
-    "./core/instancing": {
-      "types": "./dist/core/instancing.d.ts",
-      "import": "./dist/core/instancing.js"
-    },
-    "./core/lod": {
-      "types": "./dist/core/lod.d.ts",
-      "import": "./dist/core/lod.js"
-    },
-    "./core/marching-cubes": {
-      "types": "./dist/core/marching-cubes.d.ts",
-      "import": "./dist/core/marching-cubes.js"
+      "types": "./dist/core/input/index.d.ts",
+      "import": "./dist/core/input/index.js"
     },
     "./core/math": {
       "types": "./dist/core/math/index.d.ts",
       "import": "./dist/core/math/index.js"
     },
-    "./core/math/utils": {
-      "types": "./dist/core/math/utils.d.ts",
-      "import": "./dist/core/math/utils.js"
+    "./core/maze": {
+      "types": "./dist/core/maze/index.d.ts",
+      "import": "./dist/core/maze/index.js"
+    },
+    "./core/meshing": {
+      "types": "./dist/core/meshing/index.d.ts",
+      "import": "./dist/core/meshing/index.js"
     },
     "./core/particles": {
-      "types": "./dist/core/particles.d.ts",
-      "import": "./dist/core/particles.js"
+      "types": "./dist/core/particles/index.d.ts",
+      "import": "./dist/core/particles/index.js"
     },
     "./core/pathfinding": {
       "types": "./dist/core/pathfinding/index.d.ts",
       "import": "./dist/core/pathfinding/index.js"
     },
     "./core/physics": {
-      "types": "./dist/core/physics.d.ts",
-      "import": "./dist/core/physics.js"
+      "types": "./dist/core/physics/index.d.ts",
+      "import": "./dist/core/physics/index.js"
     },
-    "./core/postProcessing": {
-      "types": "./dist/core/postProcessing.d.ts",
-      "import": "./dist/core/postProcessing.js"
-    },
-    "./core/raymarching": {
-      "types": "./dist/core/raymarching.d.ts",
-      "import": "./dist/core/raymarching.js"
-    },
-    "./core/sdf": {
-      "types": "./dist/core/sdf.d.ts",
-      "import": "./dist/core/sdf.js"
+    "./core/rendering": {
+      "types": "./dist/core/rendering/index.d.ts",
+      "import": "./dist/core/rendering/index.js"
     },
     "./core/shared": {
       "types": "./dist/core/shared/index.d.ts",
       "import": "./dist/core/shared/index.js"
     },
-    "./core/sky": {
-      "types": "./dist/core/sky.d.ts",
-      "import": "./dist/core/sky.js"
-    },
     "./core/state": {
       "types": "./dist/core/state/index.d.ts",
       "import": "./dist/core/state/index.js"
     },
+    "./core/terrain": {
+      "types": "./dist/core/terrain/index.d.ts",
+      "import": "./dist/core/terrain/index.js"
+    },
     "./core/ui": {
-      "types": "./dist/core/ui.d.ts",
-      "import": "./dist/core/ui.js"
+      "types": "./dist/core/ui/index.d.ts",
+      "import": "./dist/core/ui/index.js"
     },
-    "./core/volumetrics": {
-      "types": "./dist/core/volumetrics.d.ts",
-      "import": "./dist/core/volumetrics.js"
+    "./game": {
+      "types": "./dist/game/index.d.ts",
+      "import": "./dist/game/index.js"
     },
-    "./core/water": {
-      "types": "./dist/core/water.d.ts",
-      "import": "./dist/core/water.js"
+    "./shaders": {
+      "types": "./dist/shaders/index.d.ts",
+      "import": "./dist/shaders/index.js"
     },
-    "./core/weather": {
-      "types": "./dist/core/weather.d.ts",
-      "import": "./dist/core/weather.js"
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./world": {
+      "types": "./dist/world/index.d.ts",
+      "import": "./dist/world/index.js"
     }
   },
   "files": [
@@ -199,51 +160,48 @@
     "access": "public"
   },
   "peerDependencies": {
-    "three": ">=0.150.0",
-    "yuka": ">=0.7.0"
+    "three": ">=0.150.0"
   },
   "peerDependenciesMeta": {
-    "yuka": {
-      "optional": true
-    },
     "three": {
       "optional": true
     }
   },
   "dependencies": {
     "@strata-game-library/shaders": "workspace:*",
-    "@types/howler": "^2.2.12",
+    "@types/howler": "^2.2.13",
     "howler": "^2.2.4",
-    "immer": "^11.1.4",
+    "immer": "^11.1.18",
     "maath": "^0.10.8",
     "miniplex": "^2.0.0",
     "ngraph.graph": "^20.1.2",
     "ngraph.path": "^1.6.1",
+    "seedrandom": "^3.0.5",
     "simplex-noise": "^4.0.3",
-    "xstate": "^5.28.0",
+    "xstate": "^5.32.5",
     "zundo": "^2.3.0",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.62.1",
+    "@strata-game-library/vite": "workspace:*",
     "@types/howler": "^2.2.12",
-    "@types/node": "^25.5.0",
-    "@types/three": "^0.183.1",
-    "@types/yuka": "^0.7.4",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@types/node": "^26.2.0",
+    "@types/seedrandom": "^3.0.8",
+    "@types/three": "^0.185.4",
+    "@vitest/coverage-v8": "^4.1.11",
     "glob": "^13.0.6",
     "howler": "^2.2.4",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "miniplex": "^2.0.0",
     "ngraph.graph": "^20.1.2",
     "ngraph.path": "^1.6.1",
     "rimraf": "^6.1.3",
     "simplex-noise": "^4.0.3",
-    "three": "^0.183.2",
+    "three": "^0.185.1",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10",
-    "xstate": "^5.28.0",
-    "yuka": "^0.7.8"
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11",
+    "xstate": "^5.28.0"
   }
 }

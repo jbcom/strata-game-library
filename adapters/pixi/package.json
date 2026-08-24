@@ -1,0 +1,63 @@
+{
+  "name": "@strata-game-library/pixi",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pixi 8 Application mount/unmount lifecycle for Strata — StrictMode-safe fresh-canvas handling and filter resolution fixes.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "test": "vitest run --passWithNoTests",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "@pixi/react": "^8.0.0",
+    "pixi.js": "^8.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@pixi/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@pixi/react": "^8.0.5",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "jsdom": "^30.0.1",
+    "pixi.js": "^8.20.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "adapters/pixi"
+  },
+  "bugs": {
+    "url": "https://github.com/jbcom/strata-game-library/issues"
+  },
+  "homepage": "https://github.com/jbcom/strata-game-library/tree/main/adapters/pixi#readme",
+  "sideEffects": false
+}

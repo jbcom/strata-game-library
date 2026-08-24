@@ -2,11 +2,11 @@
 title: "DissolveMaterialOptions"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / DissolveMaterialOptions
+[strata-game-library/shaders](../globals.md) / DissolveMaterialOptions
 
 # Interface: DissolveMaterialOptions
 

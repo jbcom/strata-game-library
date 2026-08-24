@@ -2,11 +2,11 @@
 title: "createCloudLayerUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createCloudLayerUniforms
+[strata-game-library/shaders](../globals.md) / createCloudLayerUniforms
 
 # Function: createCloudLayerUniforms()
 

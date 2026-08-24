@@ -2,13 +2,13 @@
 title: Globals
 ---
 
-[**@strata-game-library/audio-synth**](README.md)
+[**strata-game-library/audio-synth**](README.md)
 
 ***
 
-# @strata-game-library/audio-synth
+# strata-game-library/audio-synth
 
-@strata-game-library/audio-synth
+strata-game-library/audio-synth
 
 Procedural audio synthesis for Strata 3D using Tone.js.
 Provides SFX, music, and ambient sound generation without external audio files.

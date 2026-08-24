@@ -10,7 +10,7 @@ Ready-to-use cloud configurations for various atmospheric conditions.
 ## Quick Start
 
 ```typescript
-import { createCloudPreset, CloudPresets } from '@strata-game-library/presets/clouds';
+import { createCloudPreset, CloudPresets } from 'strata-game-library/presets/clouds';
 
 <Clouds {...CloudPresets.CUMULUS} />
 ```
@@ -89,8 +89,8 @@ CloudPresets.CUMULONIMBUS = {
 ## Using with Components
 
 ```tsx
-import { Clouds, ProceduralSky } from '@strata-game-library/core';
-import { CloudPresets, SkyPresets } from '@strata-game-library/presets';
+import { Clouds, ProceduralSky } from 'strata-game-library/core';
+import { CloudPresets, SkyPresets } from 'strata-game-library/presets';
 
 <ProceduralSky {...SkyPresets.AFTERNOON} />
 <Clouds {...CloudPresets.CUMULUS} />

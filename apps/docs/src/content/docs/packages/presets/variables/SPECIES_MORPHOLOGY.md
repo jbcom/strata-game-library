@@ -2,11 +2,11 @@
 title: "SPECIES_MORPHOLOGY"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / SPECIES\_MORPHOLOGY
+[strata-game-library/presets](../globals.md) / SPECIES\_MORPHOLOGY
 
 # Variable: SPECIES\_MORPHOLOGY
 

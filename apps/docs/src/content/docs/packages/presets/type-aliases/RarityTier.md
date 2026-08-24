@@ -2,11 +2,11 @@
 title: "RarityTier"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / RarityTier
+[strata-game-library/presets](../globals.md) / RarityTier
 
 # Type Alias: RarityTier
 

@@ -1,0 +1,14 @@
+{
+  "package": "@strata-game-library/astro",
+  "version": "0.3.0",
+  "subpaths": {
+    ".": {
+      "default": "value",
+      "StrataAstroConfig": {
+        "css?": "boolean",
+        "starlight?": "boolean",
+        "viteR3F?": "boolean"
+      }
+    }
+  }
+}

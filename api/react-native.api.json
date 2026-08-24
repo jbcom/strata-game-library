@@ -1,0 +1,50 @@
+{
+  "package": "@strata-game-library/react-native",
+  "version": "1.3.0",
+  "subpaths": {
+    ".": {
+      "DeviceProfile": {
+        "deviceType": "'mobile' | 'tablet' | 'foldable' | 'desktop'",
+        "platform": "'ios' | 'android' | 'web'",
+        "inputMode": "'touch' | 'keyboard' | 'gamepad' | 'hybrid'",
+        "orientation": "'portrait' | 'landscape'",
+        "hasTouch": "boolean",
+        "hasGamepad": "boolean",
+        "screenWidth": "number",
+        "screenHeight": "number",
+        "pixelRatio": "number",
+        "safeAreaInsets": "{ top: number; right: number; bottom: number; left: number; }",
+        "performanceMode": "'low' | 'medium' | 'high'"
+      },
+      "HapticsOptions": {
+        "intensity?": "'light' | 'medium' | 'heavy'",
+        "customIntensity?": "number",
+        "duration?": "number",
+        "pattern?": "number[]"
+      },
+      "InputSnapshot": {
+        "timestamp": "number",
+        "leftStick": "{ x: number; y: number; }",
+        "rightStick": "{ x: number; y: number; }",
+        "buttons": "Record<string, boolean>",
+        "triggers": "{ left: number; right: number; }",
+        "touches": "TouchState[]",
+        "connectedGamepads?": "Array<number | { index: number; id: string; }>"
+      },
+      "setOrientation": "value",
+      "StrataInputProvider": "value",
+      "TouchState": {
+        "identifier": "string",
+        "pageX": "number",
+        "pageY": "number",
+        "locationX": "number",
+        "locationY": "number",
+        "timestamp": "number"
+      },
+      "useControlHints": "value",
+      "useDevice": "value",
+      "useHaptics": "value",
+      "useInput": "value"
+    }
+  }
+}

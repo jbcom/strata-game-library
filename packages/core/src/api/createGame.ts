@@ -88,11 +88,24 @@ function validateGameDefinition<TState extends object>(definition: GameDefinitio
 }
 
 function normalizeStoragePrefix(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '');
+  let normalized = '';
+  let pendingSeparator = false;
+
+  for (const character of name.trim().toLowerCase()) {
+    const code = character.charCodeAt(0);
+    const isAsciiLetter = code >= 97 && code <= 122;
+    const isDigit = code >= 48 && code <= 57;
+
+    if (isAsciiLetter || isDigit) {
+      if (pendingSeparator && normalized.length > 0) normalized += '_';
+      normalized += character;
+      pendingSeparator = false;
+    } else if (normalized.length > 0) {
+      pendingSeparator = true;
+    }
+  }
+
+  return normalized;
 }
 
 function resolveInitialState<TState extends object>(definition: GameDefinition<TState>): TState {

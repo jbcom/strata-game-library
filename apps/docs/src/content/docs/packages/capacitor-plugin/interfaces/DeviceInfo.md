@@ -2,11 +2,11 @@
 title: "DeviceInfo"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / DeviceInfo
+[strata-game-library/capacitor](../globals.md) / DeviceInfo
 
 # Interface: DeviceInfo
 

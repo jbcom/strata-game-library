@@ -9,7 +9,7 @@
  *
  * @example
  * ```tsx
- * import { CharacterController, Ragdoll, YukaVehicle } from '@jbcom/strata/api/entities';
+ * import { CharacterController, Ragdoll } from 'strata-game-library/core';
  *
  * function Player() {
  *   return (

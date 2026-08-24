@@ -2,11 +2,11 @@
 title: "defaultFurConfig"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / defaultFurConfig
+[strata-game-library/shaders](../globals.md) / defaultFurConfig
 
 # Variable: defaultFurConfig
 

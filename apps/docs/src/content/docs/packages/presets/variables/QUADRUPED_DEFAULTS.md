@@ -2,11 +2,11 @@
 title: "QUADRUPED_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / QUADRUPED\_DEFAULTS
+[strata-game-library/presets](../globals.md) / QUADRUPED\_DEFAULTS
 
 # Variable: QUADRUPED\_DEFAULTS
 

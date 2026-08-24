@@ -2,11 +2,11 @@
 title: "OBSTACLE_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / OBSTACLE\_DEFAULTS
+[strata-game-library/presets](../globals.md) / OBSTACLE\_DEFAULTS
 
 # Variable: OBSTACLE\_DEFAULTS
 

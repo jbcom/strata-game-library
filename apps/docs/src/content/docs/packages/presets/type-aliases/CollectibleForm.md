@@ -2,11 +2,11 @@
 title: "CollectibleForm"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / CollectibleForm
+[strata-game-library/presets](../globals.md) / CollectibleForm
 
 # Type Alias: CollectibleForm
 

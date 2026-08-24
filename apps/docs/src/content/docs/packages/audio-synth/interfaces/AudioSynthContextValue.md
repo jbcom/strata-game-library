@@ -2,11 +2,11 @@
 title: "AudioSynthContextValue"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / AudioSynthContextValue
+[strata-game-library/audio-synth](../globals.md) / AudioSynthContextValue
 
 # Interface: AudioSynthContextValue
 

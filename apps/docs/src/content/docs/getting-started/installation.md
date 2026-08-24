@@ -43,7 +43,7 @@ bun add strata-game-library @react-three/fiber @react-three/drei three
 `strata-game-library` is the new umbrella package and is pending its first npm publish. If the package is not available in npm yet, use the current published fallback:
 
 ```bash
-pnpm add @strata-game-library/core @strata-game-library/r3f @react-three/fiber @react-three/drei three
+pnpm add strata-game-library/core strata-game-library/r3f @react-three/fiber @react-three/drei three
 ```
 
 ## TypeScript Support
@@ -61,7 +61,7 @@ pnpm add -D @types/three
 If you only need the GLSL shaders (no React dependencies):
 
 ```bash
-pnpm add @strata-game-library/shaders
+pnpm add strata-game-library/shaders
 ```
 
 ### Presets Only
@@ -69,7 +69,7 @@ pnpm add @strata-game-library/shaders
 For pre-configured terrain, weather, and effects:
 
 ```bash
-pnpm add @strata-game-library/presets @strata-game-library/core
+pnpm add strata-game-library/presets strata-game-library/core
 ```
 
 ### Mobile Plugins
@@ -77,14 +77,14 @@ pnpm add @strata-game-library/presets @strata-game-library/core
 For React Native projects:
 
 ```bash
-npm install @strata-game-library/react-native
+npm install strata-game-library/react-native
 cd ios && pod install
 ```
 
 For Capacitor projects:
 
 ```bash
-pnpm add @strata-game-library/capacitor
+pnpm add strata-game-library/capacitor
 npx cap sync
 ```
 

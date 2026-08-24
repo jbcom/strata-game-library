@@ -202,8 +202,8 @@ export const StrataInputProvider: React.FC<{
     const timestamp = event.nativeEvent.timestamp;
 
     changedTouches.forEach((touch) => {
-      touches.current.set(touch.identifier, {
-        identifier: touch.identifier,
+      touches.current.set(String(touch.identifier), {
+        identifier: String(touch.identifier),
         pageX: touch.pageX,
         pageY: touch.pageY,
         locationX: touch.locationX,
@@ -227,7 +227,7 @@ export const StrataInputProvider: React.FC<{
   const removeTouches = (event: GestureResponderEvent) => {
     const changedTouches = event.nativeEvent.changedTouches;
     changedTouches.forEach((touch) => {
-      touches.current.delete(touch.identifier);
+      touches.current.delete(String(touch.identifier));
     });
 
     const snapshot: InputSnapshot = {

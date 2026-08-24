@@ -2,11 +2,11 @@
 title: "QUADRUPED_FORMS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / QUADRUPED\_FORMS
+[strata-game-library/presets](../globals.md) / QUADRUPED\_FORMS
 
 # Variable: QUADRUPED\_FORMS
 

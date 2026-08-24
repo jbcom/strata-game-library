@@ -10,7 +10,7 @@ Strata's terrain system uses Signed Distance Functions (SDF) and the Marching Cu
 ## Quick Start
 
 ```tsx
-import { Terrain } from '@strata-game-library/core';
+import { Terrain } from 'strata-game-library/core';
 
 <Terrain
   biomes={['grassland', 'mountain', 'desert']}
@@ -30,7 +30,7 @@ Terrain is defined as a mathematical function that returns the distance to the s
 - **Zero**: The surface
 
 ```tsx
-import { sdTerrain, sdCaves, sdRock } from '@strata-game-library/core';
+import { sdTerrain, sdCaves, sdRock } from 'strata-game-library/core';
 
 function customTerrainSDF(point: [number, number, number]): number {
   // Base terrain heightmap
@@ -57,7 +57,7 @@ function customTerrainSDF(point: [number, number, number]): number {
 The marching cubes algorithm converts the SDF into a triangle mesh:
 
 ```tsx
-import { generateTerrainChunk } from '@strata-game-library/core';
+import { generateTerrainChunk } from 'strata-game-library/core';
 
 const geometry = generateTerrainChunk({
   position: [0, 0, 0],
@@ -72,7 +72,7 @@ const geometry = generateTerrainChunk({
 Multiple biomes blend smoothly based on noise:
 
 ```tsx
-import { getBiomeAt, getTerrainHeight } from '@strata-game-library/core';
+import { getBiomeAt, getTerrainHeight } from 'strata-game-library/core';
 
 const biome = getBiomeAt(x, z, biomeConfig);
 const height = getTerrainHeight(x, z, biome);
@@ -85,7 +85,7 @@ const height = getTerrainHeight(x, z, biome);
 The main terrain component with automatic chunking and LOD.
 
 ```tsx
-import { Terrain } from '@strata-game-library/core';
+import { Terrain } from 'strata-game-library/core';
 
 <Terrain
   // Biome configuration
@@ -129,7 +129,7 @@ import { Terrain } from '@strata-game-library/core';
 Individual terrain chunk for custom chunking systems:
 
 ```tsx
-import { TerrainChunk } from '@strata-game-library/core';
+import { TerrainChunk } from 'strata-game-library/core';
 
 <TerrainChunk
   position={[32, 0, 0]}
@@ -157,7 +157,7 @@ import { TerrainChunk } from '@strata-game-library/core';
 ### Custom Biomes
 
 ```tsx
-import { createBiome } from '@strata-game-library/core';
+import { createBiome } from 'strata-game-library/core';
 
 const customBiome = createBiome({
   name: 'alienPlanet',
@@ -191,7 +191,7 @@ import {
   sdRock,
   sdPlateaus,
   calcNormal
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 // Basic terrain heightfield
 const d1 = sdTerrain(point, config);
@@ -212,7 +212,7 @@ const normal = calcNormal(point, sdfFunction);
 ### Noise Functions
 
 ```tsx
-import { noise3D, fbm, warpedFbm } from '@strata-game-library/core';
+import { noise3D, fbm, warpedFbm } from 'strata-game-library/core';
 
 // Simple 3D noise
 const n1 = noise3D(x, y, z);
@@ -238,7 +238,7 @@ import {
   marchingCubes,
   createGeometryFromMarchingCubes,
   generateTerrainChunk
-} from '@strata-game-library/core';
+} from 'strata-game-library/core';
 
 // Low-level marching cubes
 const { vertices, indices } = marchingCubes(sdf, bounds, resolution);
@@ -267,7 +267,7 @@ const chunk = generateTerrainChunk({
 Strata uses triplanar mapping to avoid texture stretching on steep surfaces:
 
 ```tsx
-import { createTriplanarMaterial } from '@strata-game-library/core';
+import { createTriplanarMaterial } from 'strata-game-library/core';
 import { useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
 
@@ -292,7 +292,7 @@ const material = createTriplanarMaterial({
 ### Height-Based Blending
 
 ```tsx
-import { createHeightBlendMaterial } from '@strata-game-library/core';
+import { createHeightBlendMaterial } from 'strata-game-library/core';
 
 const material = createHeightBlendMaterial({
   levels: [
@@ -359,8 +359,8 @@ const material = createHeightBlendMaterial({
 You can create terrain with caves by composing the `Terrain` component with cave SDF functions:
 
 ```tsx
-import { Terrain } from '@strata-game-library/core';
-import { sdTerrain, sdCaves } from '@strata-game-library/core';
+import { Terrain } from 'strata-game-library/core';
+import { sdTerrain, sdCaves } from 'strata-game-library/core';
 
 // Define a custom SDF that combines terrain with caves
 function terrainWithCaves(point: [number, number, number]): number {

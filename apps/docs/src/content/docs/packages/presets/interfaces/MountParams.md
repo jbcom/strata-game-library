@@ -2,11 +2,11 @@
 title: "MountParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / MountParams
+[strata-game-library/presets](../globals.md) / MountParams
 
 # Interface: MountParams
 

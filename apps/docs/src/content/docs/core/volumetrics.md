@@ -10,7 +10,7 @@ Strata provides volumetric rendering for fog, god rays, underwater effects, and 
 ## Quick Start
 
 ```tsx
-import { VolumetricFogMesh } from '@strata-game-library/core';
+import { VolumetricFogMesh } from 'strata-game-library/core';
 
 <VolumetricFogMesh density={0.02} color="#8899aa" />
 ```
@@ -22,7 +22,7 @@ import { VolumetricFogMesh } from '@strata-game-library/core';
 Height-based volumetric fog:
 
 ```tsx
-import { VolumetricFogMesh } from '@strata-game-library/core';
+import { VolumetricFogMesh } from 'strata-game-library/core';
 
 <VolumetricFogMesh
   // Fog parameters
@@ -65,7 +65,7 @@ import { VolumetricFogMesh } from '@strata-game-library/core';
 Simple distance-based fog (post-processing):
 
 ```tsx
-import { EnhancedFog } from '@strata-game-library/core';
+import { EnhancedFog } from 'strata-game-library/core';
 
 <EnhancedFog
   color="#aabbcc"
@@ -80,7 +80,7 @@ import { EnhancedFog } from '@strata-game-library/core';
 Complete underwater effect:
 
 ```tsx
-import { UnderwaterOverlay } from '@strata-game-library/core';
+import { UnderwaterOverlay } from 'strata-game-library/core';
 
 <UnderwaterOverlay
   // Fog
@@ -114,7 +114,7 @@ import { UnderwaterOverlay } from '@strata-game-library/core';
 Volumetric light shafts:
 
 ```tsx
-import { GodRays } from '@strata-game-library/core';
+import { GodRays } from 'strata-game-library/core';
 
 <GodRays
   // Light source
@@ -140,7 +140,7 @@ import { GodRays } from '@strata-game-library/core';
 All-in-one volumetric controller:
 
 ```tsx
-import { VolumetricEffects } from '@strata-game-library/core';
+import { VolumetricEffects } from 'strata-game-library/core';
 
 <VolumetricEffects
   // Fog
@@ -309,7 +309,7 @@ Light patterns on underwater surfaces:
 ### Basic Atmosphere
 
 ```tsx
-import { AtmosphericScattering } from '@strata-game-library/core';
+import { AtmosphericScattering } from 'strata-game-library/core';
 
 <AtmosphericScattering
   sunPosition={[100, 50, 100]}
@@ -380,7 +380,7 @@ import {
   godRaysFragmentShader,
   // Underwater shader is also an object
   underwaterShader
-} from '@strata-game-library/shaders';
+} from 'strata-game-library/shaders';
 import * as THREE from 'three';
 import { useThree } from '@react-three/fiber';
 

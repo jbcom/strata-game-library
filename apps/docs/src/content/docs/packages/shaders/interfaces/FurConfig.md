@@ -2,11 +2,11 @@
 title: "FurConfig"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / FurConfig
+[strata-game-library/shaders](../globals.md) / FurConfig
 
 # Interface: FurConfig
 

@@ -123,6 +123,14 @@ export {
   type TerrainUniformValues,
   type WaterUniformValues,
 } from './materials/index.js';
-
+// Scene mount / lifecycle primitives — phase-gated subtree mounting and the
+// per-frame hook. Explicitly named (not `export *`) so adding a file under
+// mount/ cannot silently widen the public API.
+export {
+  MAX_FRAME_DELTA_SECONDS,
+  SceneRoot,
+  type SceneRootProps,
+  useBeforeRender,
+} from './mount/index.js';
 // Version
 export { version } from './version.js';

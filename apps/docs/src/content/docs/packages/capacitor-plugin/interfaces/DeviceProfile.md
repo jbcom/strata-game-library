@@ -2,11 +2,11 @@
 title: "DeviceProfile"
 ---
 
-[**@strata-game-library/capacitor**](../README.md)
+[**strata-game-library/capacitor**](../README.md)
 
 ***
 
-[@strata-game-library/capacitor](../globals.md) / DeviceProfile
+[strata-game-library/capacitor](../globals.md) / DeviceProfile
 
 # Interface: DeviceProfile
 

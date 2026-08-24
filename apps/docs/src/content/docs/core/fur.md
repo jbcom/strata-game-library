@@ -10,7 +10,7 @@ Strata provides GPU-accelerated fur rendering using the shell technique, capable
 ## Quick Start
 
 ```tsx
-import { createFurSystem } from '@strata-game-library/core';
+import { createFurSystem } from 'strata-game-library/core';
 
 const fur = createFurSystem({
   density: 1000,
@@ -23,7 +23,7 @@ const fur = createFurSystem({
 ### Basic Fur
 
 ```tsx
-import { FurMesh } from '@strata-game-library/core';
+import { FurMesh } from 'strata-game-library/core';
 
 <FurMesh
   geometry={animalGeometry}
@@ -168,7 +168,7 @@ More shells = smoother fur, higher performance cost:
 ### Touch Interaction
 
 ```tsx
-import { useFurInteraction } from '@strata-game-library/core';
+import { useFurInteraction } from 'strata-game-library/core';
 
 function InteractiveFur() {
   const { onPointerMove, deformation } = useFurInteraction();
@@ -188,7 +188,7 @@ function InteractiveFur() {
 ### Animal Presets
 
 ```tsx
-import { FurPresets } from '@strata-game-library/presets';
+import { FurPresets } from 'strata-game-library/presets';
 
 // Short fur (cat, dog)
 <FurMesh {...FurPresets.SHORT_FUR} />
@@ -223,7 +223,7 @@ import { FurPresets } from '@strata-game-library/presets';
 Low-level fur system creation:
 
 ```tsx
-import { createFurSystem } from '@strata-game-library/core';
+import { createFurSystem } from 'strata-game-library/core';
 
 const furSystem = createFurSystem({
   geometry: meshGeometry,
@@ -262,7 +262,7 @@ useFrame((_, delta) => {
 ### Shader Access
 
 ```tsx
-import { furVertexShader, furFragmentShader } from '@strata-game-library/shaders';
+import { furVertexShader, furFragmentShader } from 'strata-game-library/shaders';
 
 const material = new THREE.ShaderMaterial({
   vertexShader: furVertexShader,

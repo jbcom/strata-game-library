@@ -1,82 +1,24 @@
 ---
-title: "Contributing"
-description: "Guide for contributing to the Strata game library project"
-status: deprecated
-implementation: 100
-last_updated: 2026-03-01
-area: guides
+title: Contributing
+description: Set up Strata locally and contribute changes that can be released safely.
 ---
 
 # Contributing
 
-Thank you for your interest in contributing to PACKAGE_NAME!
-
-## Development Setup
+Maintainers use Mise to select the latest stable Node.js and pnpm releases. Published packages support Node.js 22 and later.
 
 ```bash
-# Clone the repository
-git clone https://github.com/jbcom/PACKAGE_NAME.git
-cd PACKAGE_NAME
-
-# Install with all development dependencies
-uv sync --all-extras
+mise trust
+mise install
+pnpm install --frozen-lockfile
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run build
 ```
 
-## Running Tests
+Use Conventional Commits such as `feat(core): add deterministic world snapshots`. Open an upstream topic branch and pull request; do not push directly to `main`. Pull requests merge with merge commits only, preserving their meaningful constituent commits.
 
-```bash
-# Run tests
-uv run pytest
+The repository runs automated native checks, package inspection, public API compatibility checks, browser integration, Sourcey documentation validation, dependency review, CodeQL, and automated review. External forks are intentionally untrusted: they do not receive privileged tokens or deployment credentials and cannot change repository control-plane files.
 
-# Run with coverage
-uv run pytest --cov=PACKAGE_NAME
-```
-
-## Code Style
-
-This project uses:
-
-- [Ruff](https://docs.astral.sh/ruff/) for linting and formatting
-- Type hints throughout
-
-```bash
-# Check code style
-uv run ruff check .
-uv run ruff format --check .
-
-# Auto-fix issues
-uv run ruff check --fix .
-uv run ruff format .
-```
-
-## Building Documentation
-
-```bash
-# Install docs dependencies
-uv sync --extra docs
-
-# Build docs
-cd docs
-uv run sphinx-build -b html . _build/html
-
-# Or use make
-make html
-```
-
-## Pull Request Process
-
-1. Create a feature branch from `main`
-2. Make your changes with tests
-3. Ensure CI passes (lint + tests)
-4. Submit PR - an AI agent will review and merge
-
-## Commit Messages
-
-Use conventional commits:
-
-- `feat:` New features
-- `fix:` Bug fixes
-- `docs:` Documentation changes
-- `refactor:` Code refactoring
-- `test:` Test changes
-- `chore:` Maintenance tasks
+For the complete contributor and security process, read [`CONTRIBUTING.md`](https://github.com/jbcom/strata-game-library/blob/main/CONTRIBUTING.md) and [`SECURITY.md`](https://github.com/jbcom/strata-game-library/blob/main/SECURITY.md).

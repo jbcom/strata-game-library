@@ -2,11 +2,11 @@
 title: "EnvelopeConfig"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / EnvelopeConfig
+[strata-game-library/audio-synth](../globals.md) / EnvelopeConfig
 
 # Interface: EnvelopeConfig
 

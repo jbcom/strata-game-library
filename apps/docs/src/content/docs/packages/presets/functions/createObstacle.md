@@ -2,11 +2,11 @@
 title: "createObstacle"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createObstacle
+[strata-game-library/presets](../globals.md) / createObstacle
 
 # Function: createObstacle()
 

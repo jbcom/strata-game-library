@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixi React Mount GPU Gate</title>
+    <style>
+      html,
+      body,
+      #fixture-root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #080810;
+      }
+      #fixture-stage {
+        width: 640px;
+        height: 360px;
+      }
+      #fixture-controls {
+        position: fixed;
+        top: 370px;
+        left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="fixture-root"></div>
+    <script type="module" src="./pixi-react-mount-fixture.tsx"></script>
+  </body>
+</html>

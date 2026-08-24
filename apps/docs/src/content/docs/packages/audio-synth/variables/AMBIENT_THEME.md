@@ -2,11 +2,11 @@
 title: "AMBIENT_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / AMBIENT\_THEME
+[strata-game-library/audio-synth](../globals.md) / AMBIENT\_THEME
 
 # Variable: AMBIENT\_THEME
 

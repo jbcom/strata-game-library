@@ -1,3 +1,10 @@
+---
+title: Code of conduct
+updated: 2026-08-23
+status: current
+domain: product
+---
+
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge

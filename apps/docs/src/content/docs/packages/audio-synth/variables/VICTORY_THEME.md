@@ -2,11 +2,11 @@
 title: "VICTORY_THEME"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / VICTORY\_THEME
+[strata-game-library/audio-synth](../globals.md) / VICTORY\_THEME
 
 # Variable: VICTORY\_THEME
 

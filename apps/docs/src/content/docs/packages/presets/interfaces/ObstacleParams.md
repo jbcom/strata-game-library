@@ -2,11 +2,11 @@
 title: "ObstacleParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / ObstacleParams
+[strata-game-library/presets](../globals.md) / ObstacleParams
 
 # Interface: ObstacleParams
 

@@ -2,11 +2,11 @@
 title: "ShaderChunks"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / ShaderChunks
+[strata-game-library/shaders](../globals.md) / ShaderChunks
 
 # Variable: ShaderChunks
 

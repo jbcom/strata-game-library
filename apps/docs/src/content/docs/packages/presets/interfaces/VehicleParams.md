@@ -2,11 +2,11 @@
 title: "VehicleParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / VehicleParams
+[strata-game-library/presets](../globals.md) / VehicleParams
 
 # Interface: VehicleParams
 

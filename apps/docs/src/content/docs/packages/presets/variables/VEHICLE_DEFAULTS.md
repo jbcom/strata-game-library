@@ -2,11 +2,11 @@
 title: "VEHICLE_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / VEHICLE\_DEFAULTS
+[strata-game-library/presets](../globals.md) / VEHICLE\_DEFAULTS
 
 # Variable: VEHICLE\_DEFAULTS
 

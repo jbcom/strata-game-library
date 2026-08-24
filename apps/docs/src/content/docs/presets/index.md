@@ -5,18 +5,18 @@ description: Production-ready configurations for Strata features
 
 # Presets
 
-The `@strata-game-library/presets` package provides production-ready configurations for all Strata features. Use presets to quickly set up terrain biomes, weather systems, water types, vegetation patterns, and more.
+The `strata-game-library/presets` package provides production-ready configurations for all Strata features. Use presets to quickly set up terrain biomes, weather systems, water types, vegetation patterns, and more.
 
 ## Installation
 
 ```bash
-pnpm add @strata-game-library/presets
+pnpm add strata-game-library/presets
 ```
 
 ## Quick Start
 
 ```tsx
-import { TerrainPresets, WaterPresets } from '@strata-game-library/presets';
+import { TerrainPresets, WaterPresets } from 'strata-game-library/presets';
 
 <Terrain preset={TerrainPresets.Alpine} />
 <Water preset={WaterPresets.CalmOcean} />
@@ -83,7 +83,7 @@ Audio settings for different environments and moods.
 Presets can be combined and customized:
 
 ```tsx
-import { TerrainPresets, WaterPresets, WeatherPresets } from '@strata-game-library/presets';
+import { TerrainPresets, WaterPresets, WeatherPresets } from 'strata-game-library/presets';
 
 // Use a preset as a base and override specific values
 <Terrain

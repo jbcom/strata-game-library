@@ -88,6 +88,13 @@ function createProceduralChannelInjection(plan: MaterialProceduralPlan): string 
   return [maskDeclarations, colorApplication].filter(Boolean).join('\n');
 }
 
+function createProceduralColorUniformDeclarations(plan: MaterialProceduralPlan): string {
+  return plan.uniforms
+    .filter((uniform) => uniform.type === 'color')
+    .map((uniform) => `uniform vec3 ${uniform.name};`)
+    .join('\n');
+}
+
 function createProceduralScalarInjection(
   plan: MaterialProceduralPlan,
   channel: 'roughness' | 'metalness' | 'opacity' | 'emissive' | 'normal'
@@ -130,6 +137,7 @@ varying vec2 vStrataProceduralUv;
 `.trim();
   const fragmentPreamble = /* glsl */ `
 ${vertexVaryings}
+${createProceduralColorUniformDeclarations(plan)}
 ${plan.shaderChunk}
 `.trim();
 

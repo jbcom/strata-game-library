@@ -2,11 +2,11 @@
 title: "VolumetricFogMeshUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / VolumetricFogMeshUniforms
+[strata-game-library/shaders](../globals.md) / VolumetricFogMeshUniforms
 
 # Interface: VolumetricFogMeshUniforms
 

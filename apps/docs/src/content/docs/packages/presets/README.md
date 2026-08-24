@@ -1,8 +1,8 @@
 ---
-title: "@strata-game-library/presets"
+title: "strata-game-library/presets"
 ---
 
-# @strata-game-library/presets
+# strata-game-library/presets
 
 Production-ready configurations for terrain biomes, weather systems, water types, and more.
 

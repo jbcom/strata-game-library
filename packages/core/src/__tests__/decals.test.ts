@@ -16,7 +16,7 @@ import {
   sortBillboardsByDepth,
   updateBillboardRotation,
   updateSpriteSheetAnimation,
-} from '../core/decals';
+} from '../core/rendering/decals.js';
 
 describe('DecalProjector', () => {
   describe('instantiation', () => {

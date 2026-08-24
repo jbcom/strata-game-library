@@ -1,3 +1,10 @@
+---
+title: Claude entry point
+updated: 2026-08-23
+status: current
+domain: context
+---
+
 # CLAUDE.md
 
 > **Claude Code-specific instructions.** For comprehensive project reference, see [AGENTS.md](AGENTS.md).

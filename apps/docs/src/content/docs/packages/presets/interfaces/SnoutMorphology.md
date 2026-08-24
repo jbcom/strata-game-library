@@ -2,11 +2,11 @@
 title: "SnoutMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / SnoutMorphology
+[strata-game-library/presets](../globals.md) / SnoutMorphology
 
 # Interface: SnoutMorphology
 

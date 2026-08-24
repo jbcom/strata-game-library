@@ -62,16 +62,16 @@ strata/
 
 | Directory | npm Package | Status |
 |-----------|------------|--------|
-| `packages/core` | `@strata-game-library/core` | Existing (scope narrowed) |
-| `packages/shaders` | `@strata-game-library/shaders` | Existing (unchanged) |
-| `packages/presets` | `@strata-game-library/presets` | Existing (unchanged) |
-| `adapters/r3f` | `@strata-game-library/r3f` | New |
-| `adapters/reactylon` | `@strata-game-library/reactylon` | New |
-| `plugins/astro` | `@strata-game-library/astro` | New |
-| `plugins/audio-synth` | `@strata-game-library/audio-synth` | Existing (moved) |
-| `plugins/model-synth` | `@strata-game-library/model-synth` | Existing (moved) |
-| `plugins/capacitor` | `@strata-game-library/capacitor` | Existing (renamed) |
-| `plugins/react-native` | `@strata-game-library/react-native` | Existing (renamed) |
+| `packages/core` | `strata-game-library/core` | Existing (scope narrowed) |
+| `packages/shaders` | `strata-game-library/shaders` | Existing (unchanged) |
+| `packages/presets` | `strata-game-library/presets` | Existing (unchanged) |
+| `adapters/r3f` | `strata-game-library/r3f` | New |
+| `adapters/reactylon` | `strata-game-library/reactylon` | New |
+| `plugins/astro` | `strata-game-library/astro` | New |
+| `plugins/audio-synth` | `strata-game-library/audio-synth` | Existing (moved) |
+| `plugins/model-synth` | `strata-game-library/model-synth` | Existing (moved) |
+| `plugins/capacitor` | `strata-game-library/capacitor` | Existing (renamed) |
+| `plugins/react-native` | `strata-game-library/react-native` | Existing (renamed) |
 
 ## Dependency Graph
 
@@ -147,7 +147,7 @@ plugins/astro/src/
 ### Usage
 
 ```js
-import strata from '@strata-game-library/astro';
+import strata from 'strata-game-library/astro';
 
 export default defineConfig({
   integrations: [
@@ -189,7 +189,7 @@ adapters/reactylon/src/
 Each component imports pure TS from core and wraps in Reactylon JSX:
 
 ```tsx
-import { createWaterGeometry, calculateGerstnerWave } from '@strata-game-library/core';
+import { createWaterGeometry, calculateGerstnerWave } from 'strata-game-library/core';
 // Reactylon JSX creates Babylon.js mesh with computed geometry
 ```
 

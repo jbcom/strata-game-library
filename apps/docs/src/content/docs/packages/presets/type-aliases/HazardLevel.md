@@ -2,11 +2,11 @@
 title: "HazardLevel"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / HazardLevel
+[strata-game-library/presets](../globals.md) / HazardLevel
 
 # Type Alias: HazardLevel
 

@@ -1,5 +1,6 @@
 {
   "name": "@strata-game-library/model-synth",
+  "private": true,
   "version": "0.2.0",
   "description": "Procedural 3D model generation using Meshy API - characters, props, animations for React Three Fiber games",
   "type": "module",
@@ -62,15 +63,16 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
-    "@types/node": "^25.5.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "tsup": "^8.0.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "@biomejs/biome": "^2.5.10",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "typescript": ">=5.0.0"

@@ -2,11 +2,11 @@
 title: "atmosphereShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / atmosphereShader
+[strata-game-library/shaders](../globals.md) / atmosphereShader
 
 # Variable: atmosphereShader
 

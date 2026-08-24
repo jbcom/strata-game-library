@@ -2,11 +2,11 @@
 title: "Vector2Representation"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / Vector2Representation
+[strata-game-library/shaders](../globals.md) / Vector2Representation
 
 # Type Alias: Vector2Representation
 

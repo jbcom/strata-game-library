@@ -2,11 +2,11 @@
 title: "FilterConfig"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / FilterConfig
+[strata-game-library/audio-synth](../globals.md) / FilterConfig
 
 # Interface: FilterConfig
 

@@ -2,11 +2,11 @@
 title: "FormName"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / FormName
+[strata-game-library/presets](../globals.md) / FormName
 
 # Type Alias: FormName
 

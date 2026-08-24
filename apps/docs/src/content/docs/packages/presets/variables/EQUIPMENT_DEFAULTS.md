@@ -2,11 +2,11 @@
 title: "EQUIPMENT_DEFAULTS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / EQUIPMENT\_DEFAULTS
+[strata-game-library/presets](../globals.md) / EQUIPMENT\_DEFAULTS
 
 # Variable: EQUIPMENT\_DEFAULTS
 

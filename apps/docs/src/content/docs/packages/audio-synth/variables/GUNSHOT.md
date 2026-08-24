@@ -2,11 +2,11 @@
 title: "GUNSHOT"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / GUNSHOT
+[strata-game-library/audio-synth](../globals.md) / GUNSHOT
 
 # Variable: GUNSHOT
 

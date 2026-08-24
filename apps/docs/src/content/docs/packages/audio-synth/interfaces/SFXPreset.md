@@ -2,11 +2,11 @@
 title: "SFXPreset"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / SFXPreset
+[strata-game-library/audio-synth](../globals.md) / SFXPreset
 
 # Interface: SFXPreset
 

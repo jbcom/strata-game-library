@@ -2,11 +2,11 @@
 title: "createScanlineMaterial"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createScanlineMaterial
+[strata-game-library/shaders](../globals.md) / createScanlineMaterial
 
 # Function: createScanlineMaterial()
 

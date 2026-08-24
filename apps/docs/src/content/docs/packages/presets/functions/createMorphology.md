@@ -2,11 +2,11 @@
 title: "createMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / createMorphology
+[strata-game-library/presets](../globals.md) / createMorphology
 
 # Function: createMorphology()
 

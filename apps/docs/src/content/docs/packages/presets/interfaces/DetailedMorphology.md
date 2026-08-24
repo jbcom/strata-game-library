@@ -2,11 +2,11 @@
 title: "DetailedMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / DetailedMorphology
+[strata-game-library/presets](../globals.md) / DetailedMorphology
 
 # Interface: DetailedMorphology
 

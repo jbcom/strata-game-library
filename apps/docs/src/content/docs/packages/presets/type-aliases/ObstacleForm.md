@@ -2,11 +2,11 @@
 title: "ObstacleForm"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / ObstacleForm
+[strata-game-library/presets](../globals.md) / ObstacleForm
 
 # Type Alias: ObstacleForm
 

@@ -2,11 +2,11 @@
 title: "noiseSnippet"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / noiseSnippet
+[strata-game-library/shaders](../globals.md) / noiseSnippet
 
 # Variable: noiseSnippet
 

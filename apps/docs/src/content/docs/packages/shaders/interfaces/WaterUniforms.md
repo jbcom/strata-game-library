@@ -2,11 +2,11 @@
 title: "WaterUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / WaterUniforms
+[strata-game-library/shaders](../globals.md) / WaterUniforms
 
 # Interface: WaterUniforms
 

@@ -2,11 +2,11 @@
 title: "CreatureTheme"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / CreatureTheme
+[strata-game-library/presets](../globals.md) / CreatureTheme
 
 # Interface: CreatureTheme
 

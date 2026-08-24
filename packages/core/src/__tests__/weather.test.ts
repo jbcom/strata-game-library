@@ -8,7 +8,7 @@ import {
   WeatherSystem,
   type WeatherType,
   WindSimulation,
-} from '../core/weather';
+} from '../core/rendering/weather.js';
 
 describe('WeatherSystem', () => {
   describe('instantiation', () => {

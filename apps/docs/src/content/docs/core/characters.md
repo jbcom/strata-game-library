@@ -10,7 +10,7 @@ Strata's character system provides articulated characters with inverse kinematic
 ## Quick Start
 
 ```tsx
-import { Character, createWalkCycle } from '@strata-game-library/core';
+import { Character, createWalkCycle } from 'strata-game-library/core';
 
 <Character
   model={characterModel}
@@ -25,7 +25,7 @@ import { Character, createWalkCycle } from '@strata-game-library/core';
 Complete character controller with animation:
 
 ```tsx
-import { Character } from '@strata-game-library/core';
+import { Character } from 'strata-game-library/core';
 
 <Character
   // Model
@@ -61,7 +61,7 @@ import { Character } from '@strata-game-library/core';
 Inverse kinematics for limbs:
 
 ```tsx
-import { IKChain } from '@strata-game-library/core';
+import { IKChain } from 'strata-game-library/core';
 
 <IKChain
   // Chain definition
@@ -84,7 +84,7 @@ import { IKChain } from '@strata-game-library/core';
 ### Procedural Walk Cycle
 
 ```tsx
-import { createWalkCycle, createRunCycle } from '@strata-game-library/core';
+import { createWalkCycle, createRunCycle } from 'strata-game-library/core';
 
 const walk = createWalkCycle({
   speed: 1,
@@ -106,7 +106,7 @@ const run = createRunCycle({
 ### Animation Blending
 
 ```tsx
-import { useAnimationBlend } from '@strata-game-library/core';
+import { useAnimationBlend } from 'strata-game-library/core';
 
 function AnimatedCharacter() {
   const { blend, setWeight } = useAnimationBlend({
@@ -127,7 +127,7 @@ function AnimatedCharacter() {
 ### State Machine
 
 ```tsx
-import { createAnimationStateMachine } from '@strata-game-library/core';
+import { createAnimationStateMachine } from 'strata-game-library/core';
 
 const stateMachine = createAnimationStateMachine({
   initial: 'idle',
@@ -216,7 +216,7 @@ const targetRef = useRef();
 ### Ragdoll
 
 ```tsx
-import { Ragdoll } from '@strata-game-library/core';
+import { Ragdoll } from 'strata-game-library/core';
 
 <Ragdoll
   model={characterModel}
@@ -244,7 +244,7 @@ import { Ragdoll } from '@strata-game-library/core';
 ### Character Controller
 
 ```tsx
-import { CharacterController } from '@strata-game-library/core';
+import { CharacterController } from 'strata-game-library/core';
 
 <CharacterController
   // Capsule shape
@@ -275,7 +275,7 @@ import { CharacterController } from '@strata-game-library/core';
 ### Humanoid Preset
 
 ```tsx
-import { createHumanoidPreset } from '@strata-game-library/presets/animation';
+import { createHumanoidPreset } from 'strata-game-library/presets/animation';
 
 const humanoid = createHumanoidPreset({
   height: 1.8,
@@ -289,7 +289,7 @@ const humanoid = createHumanoidPreset({
 ### Creature Preset
 
 ```tsx
-import { createCreaturePreset } from '@strata-game-library/presets/animation';
+import { createCreaturePreset } from 'strata-game-library/presets/animation';
 
 const quadruped = createCreaturePreset({
   type: 'quadruped',
@@ -317,7 +317,7 @@ const quadruped = createCreaturePreset({
 ### Crowd Rendering
 
 ```tsx
-import { CharacterCrowd } from '@strata-game-library/core';
+import { CharacterCrowd } from 'strata-game-library/core';
 
 <CharacterCrowd
   count={100}

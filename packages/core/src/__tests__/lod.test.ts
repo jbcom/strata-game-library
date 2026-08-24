@@ -18,7 +18,7 @@ import {
   shouldUseLOD,
   simplifyGeometry,
   updateImpostorUV,
-} from '../core/lod';
+} from '../core/rendering/lod.js';
 
 describe('LODManager', () => {
   describe('instantiation', () => {

@@ -2,11 +2,11 @@
 title: "ERROR"
 ---
 
-[**@strata-game-library/audio-synth**](../README.md)
+[**strata-game-library/audio-synth**](../README.md)
 
 ***
 
-[@strata-game-library/audio-synth](../globals.md) / ERROR
+[strata-game-library/audio-synth](../globals.md) / ERROR
 
 # Variable: ERROR
 

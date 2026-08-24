@@ -5,8 +5,6 @@
  * @public
  */
 
-import type { NavMesh, Vector3 as YukaVector3 } from 'yuka';
-
 /**
  * Position data for graph nodes.
  *
@@ -95,17 +93,6 @@ export interface SmoothingOptions {
 }
 
 /**
- * Configuration for NavMesh to graph conversion.
- *
- * @property connectNeighbors - Connect adjacent polygons
- * @property edgeWeight - Default edge weight
- */
-export interface NavMeshConversionOptions {
-  connectNeighbors?: boolean;
-  edgeWeight?: number;
-}
-
-/**
  * Graph node representation for external use.
  *
  * @property id - Unique node identifier
@@ -150,5 +137,3 @@ export interface StrataGraph<N = NodeData, E = EdgeData> {
   forEachNode(callback: (node: GraphNode<N>) => void | boolean): void;
   forEachEdge(callback: (edge: GraphEdge<E>) => void | boolean): void;
 }
-
-export type { NavMesh, YukaVector3 };

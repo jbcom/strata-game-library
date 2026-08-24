@@ -1,45 +1,37 @@
-# Automerge - Auto-merge Dependabot and Release Please PRs after CI passes
-#
-# Enables native auto-merge for trusted release-please PRs and grouped
-# Dependabot non-major updates. Those branches deliberately skip CI.
-name: Automerge
+name: Trusted automation merge queue
 
 on:
   pull_request_target:
     types: [opened, synchronize, reopened, ready_for_review]
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  # ────────────────────────────────────────────────────────────────────
-  # Auto-merge only non-major Dependabot groups. Major upgrades stay human-reviewed.
-  # ────────────────────────────────────────────────────────────────────
-  dependabot:
-    name: Dependabot Auto-merge
+  enable:
+    name: Enable merge-commit auto-merge
     if: >-
-      github.actor == 'dependabot[bot]' &&
-      (startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') ||
-       startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (
+        (
+          github.actor == 'dependabot[bot]' &&
+          (
+            startsWith(github.event.pull_request.head.ref, 'dependabot/npm_and_yarn/non-major-dependencies-') ||
+            startsWith(github.event.pull_request.head.ref, 'dependabot/github_actions/actions-non-major-')
+          )
+        ) ||
+        (
+          github.actor == 'github-actions[bot]' &&
+          startsWith(github.event.pull_request.head.ref, 'release-please--')
+        )
+      )
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     env:
-      PR_URL: ${{ github.event.pull_request.html_url }}
       GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
-    steps:
-      - name: Enable auto-merge
-        run: gh pr merge "$PR_URL" --auto --squash
-
-  # ────────────────────────────────────────────────────────────────────
-  # Approve and auto-merge Release Please PRs
-  # ────────────────────────────────────────────────────────────────────
-  release-please:
-    name: Release Please Auto-merge
-    if: startsWith(github.head_ref, 'release-please--')
-    runs-on: ubuntu-latest
-    env:
       PR_URL: ${{ github.event.pull_request.html_url }}
-      GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
     steps:
-      - name: Enable auto-merge
-        run: gh pr merge "$PR_URL" --auto --squash
+      - name: Enable merge when every policy gate passes
+        run: gh pr merge "$PR_URL" --auto --merge

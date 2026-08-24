@@ -3,29 +3,46 @@
   "private": true,
   "description": "Strata Game Library - monorepo for procedural 3D graphics and game framework",
   "type": "module",
-  "packageManager": "pnpm@9.15.9",
   "engines": {
-    "node": ">=22 <24",
-    "pnpm": "9.x"
+    "node": ">=22"
   },
   "scripts": {
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
+    "test:unit": "nx run-many -t test:unit",
+    "test:integration": "nx run-many -t test:integration",
+    "test:e2e": "nx run-many -t test:e2e",
+    "test:coverage": "nx run-many -t test:coverage",
     "lint": "nx run-many -t lint",
+    "lint:fix": "nx run-many -t lint:fix",
+    "format": "pnpm -r --if-present run format",
+    "format:check": "pnpm -r --if-present run format:check",
     "typecheck": "nx run-many -t typecheck",
-    "docs": "typedoc --options typedoc.json",
+    "api:report": "node scripts/api-report.mjs",
+    "api:update": "node scripts/api-report.mjs",
+    "api:check": "node scripts/api-report.mjs --check && node scripts/api-report.mjs --check-exports-map",
+    "docs": "pnpm run docs:dev",
+    "docs:dev": "pnpm --dir docs run dev",
+    "docs:build": "pnpm --dir docs run build",
+    "docs:build:pages": "pnpm run docs:build",
+    "docs:links": "node scripts/check-links.mjs docs/dist",
+    "package:inspect": "node scripts/validate-packages.mjs",
+    "package:validate": "pnpm run build && pnpm run package:inspect",
+    "release:validate": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run package:inspect && pnpm run docs:build && pnpm run docs:links",
+    "publish:ci": "node scripts/publish-workspace.mjs",
     "affected:build": "nx affected -t build",
     "affected:test": "nx affected -t test",
     "affected:lint": "nx affected -t lint",
     "graph": "nx graph",
+    "docs:api": "typedoc --options typedoc.json",
     "docs:internal": "typedoc --options typedoc.internal.json",
     "prepare": "husky"
   },
   "lint-staged": {
-    "packages/*/src/**/*.{ts,tsx}": [
+    "{packages,adapters,plugins}/*/src/**/*.{ts,tsx}": [
       "biome check --write --no-errors-on-unmatched"
     ],
-    "packages/*/src/**/*.{json,md,yml,yaml}": [
+    "{packages,adapters,plugins}/*/src/**/*.{json,md,yml,yaml}": [
       "biome format --write --no-errors-on-unmatched"
     ]
   },
@@ -35,23 +52,14 @@
     "type": "git",
     "url": "git+https://github.com/jbcom/strata-game-library.git"
   },
-  "pnpm": {
-    "overrides": {
-      "minimatch": "10.2.5",
-      "@isaacs/brace-expansion": "5.0.8",
-      "react": "19.2.5",
-      "react-dom": "19.2.5",
-      "brace-expansion": "5.0.8"
-    }
-  },
   "devDependencies": {
-    "@biomejs/biome": "2.4.6",
-    "@nx/js": "22.5.4",
+    "@biomejs/biome": "2.5.10",
+    "@nx/js": "23.1.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.3.3",
-    "nx": "22.5.4",
+    "lint-staged": "^17.3.0",
+    "nx": "23.1.1",
     "rimraf": "^6.1.3",
-    "typedoc": "^0.28.15",
-    "typescript": "^5.9.3"
+    "typedoc": "^0.28.20",
+    "typescript": "5.9.3"
   }
 }

@@ -1,0 +1,380 @@
+{
+  "package": "@strata-game-library/reactylon",
+  "version": "0.5.0",
+  "subpaths": {
+    ".": {
+      "AmbientLightConfig": {
+        "intensity?": "number",
+        "color?": "string"
+      },
+      "applyBabylonRuntimeCreatureIKPose": "value",
+      "BABYLON_RUNTIME_PROCEDURAL_PLUGIN_NAME": "value",
+      "BabylonRuntimeAssetLoader": "type",
+      "BabylonRuntimeAssetLoaderContext": {
+        "scene": "Scene",
+        "root": "TransformNode",
+        "source": "string",
+        "kind": "'prop-node' | 'creature-asset'",
+        "material?": "Material",
+        "materialSlot?": "ReactylonRuntimeMaterialDescriptor",
+        "propNode?": "ReactylonRuntimePropNodeDescriptor",
+        "creature?": "ReactylonRuntimeCreatureDescriptor"
+      },
+      "BabylonRuntimeAssetLoadingOptions": {
+        "assetLoader?": "BabylonRuntimeAssetLoader",
+        "useSourceMaterials?": "boolean"
+      },
+      "BabylonRuntimeAssetLoadResult": {
+        "meshes": "AbstractMesh[]",
+        "animationGroups?": "AnimationGroup[]",
+        "skeletons?": "Skeleton[]"
+      },
+      "BabylonRuntimeCreatureAnimationGraphController": {
+        "descriptor": "ReactylonRuntimeCreatureDescriptor",
+        "graph": "CreatureRuntimeAnimationGraph",
+        "animationGroups": "AnimationGroup[]",
+        "initialState": "string",
+        "currentState?": "string",
+        "currentGroup?": "AnimationGroup"
+      },
+      "BabylonRuntimeCreatureAnimationGraphControllerOptions": {
+        "guards?": "Record<string, BabylonRuntimeCreatureAnimationGraphTransitionGuard>",
+        "stateGuards?": "Record<string, BabylonRuntimeCreatureAnimationGraphStateGuard>"
+      },
+      "BabylonRuntimeCreatureAnimationGraphStateContext": {
+        "descriptor": "ReactylonRuntimeCreatureDescriptor",
+        "graph": "CreatureRuntimeAnimationGraph",
+        "state": "CreatureRuntimeAnimationGraphState",
+        "currentState?": "string",
+        "controller": "BabylonRuntimeCreatureAnimationGraphController"
+      },
+      "BabylonRuntimeCreatureAnimationGraphStateGuard": "type",
+      "BabylonRuntimeCreatureAnimationGraphTransitionContext": {
+        "transition": "CreatureRuntimeAnimationGraphTransition"
+      },
+      "BabylonRuntimeCreatureAnimationGraphTransitionGuard": "type",
+      "BabylonRuntimeCreatureAnimationPlaybackOptions": {
+        "loop?": "boolean",
+        "speedRatio?": "number",
+        "from?": "number",
+        "to?": "number",
+        "reset?": "boolean",
+        "stopPrevious?": "boolean"
+      },
+      "BabylonRuntimeCreatureAssetInstantiationOptions": {
+        "animation?": "string"
+      },
+      "BabylonRuntimeCreatureIKPoseApplication": {
+        "pose": "CreatureRuntimeIKPosePlan",
+        "applications": "BabylonRuntimeCreatureIKPoseApplicationEntry[]"
+      },
+      "BabylonRuntimeCreatureIKPoseApplicationEntry": {
+        "key": "string",
+        "target": "BabylonRuntimeCreatureIKPoseTarget",
+        "binding?": "CreatureRuntimeRigBindingPlan['bindings'][number]",
+        "position": "[number, number, number]"
+      },
+      "BabylonRuntimeCreatureIKPoseTarget": "type",
+      "BabylonRuntimeCreatureInstance": {
+        "kind": "'creature'",
+        "descriptor": "ReactylonRuntimeCreatureDescriptor",
+        "root": "TransformNode",
+        "meshes": "AbstractMesh[]",
+        "materials": "Record<string, Material>",
+        "skeletons": "Skeleton[]",
+        "animationGroups": "AnimationGroup[]",
+        "rigBinding": "CreatureRuntimeRigBindingPlan"
+      },
+      "BabylonRuntimeCreatureInstantiationOptions": {
+        "createBoneMesh?": "BabylonRuntimeCreatureMeshFactory"
+      },
+      "BabylonRuntimeCreatureMeshFactory": "type",
+      "BabylonRuntimeInstantiationOptions": {
+        "rootName?": "string",
+        "materialFactory?": "BabylonRuntimeMaterialFactory",
+        "disposeMaterials?": "boolean"
+      },
+      "BabylonRuntimeMaterialFactory": "type",
+      "BabylonRuntimeMaterialOptions": {
+        "namePrefix?": "string"
+      },
+      "BabylonRuntimeMeshFactoryContext": {
+        "scene": "Scene",
+        "root": "TransformNode",
+        "material": "Material",
+        "materialSlot": "ReactylonRuntimeMaterialDescriptor"
+      },
+      "BabylonRuntimeProceduralMaterialPlugin": "value",
+      "BabylonRuntimePropAssetInstantiationOptions": "type",
+      "BabylonRuntimePropInstance": {
+        "kind": "'prop'",
+        "descriptor": "ReactylonRuntimePropDescriptor",
+        "root": "TransformNode",
+        "meshes": "AbstractMesh[]",
+        "materials": "Record<string, Material>",
+        "interactionState": "PropRuntimeInteractionState",
+        "interactionController": "PropRuntimeInteractionController"
+      },
+      "BabylonRuntimePropInstantiationOptions": {
+        "createNodeMesh?": "BabylonRuntimePropMeshFactory"
+      },
+      "BabylonRuntimePropMeshFactory": "type",
+      "BabylonSkyMaterialHandle": {
+        "vertexShader": "string",
+        "fragmentShader": "string"
+      },
+      "BabylonSkyMaterialOptions": {
+        "timeOfDay": "{ sunIntensity: number; sunAngle: number; ambientLight: number; starVisibility: number; fogDensity: number; }",
+        "weather?": "{ intensity: number; }"
+      },
+      "BabylonTerrainMaterialHandle": {
+        "vertexShader": "string",
+        "fragmentShader": "string"
+      },
+      "BabylonTerrainMaterialOptions": {
+        "groundColor?": "string",
+        "rockColor?": "string",
+        "roughness?": "number"
+      },
+      "BabylonWaterMaterialHandle": {
+        "vertexShader": "string",
+        "fragmentShader": "string"
+      },
+      "BabylonWaterMaterialOptions": {
+        "waterColor?": "string",
+        "deepWaterColor?": "string",
+        "foamColor?": "string",
+        "causticIntensity?": "number",
+        "waveHeight?": "number"
+      },
+      "createBabylonRuntimeCreatureAnimationGraphController": "value",
+      "createBabylonRuntimeMaterial": "value",
+      "createBabylonSkyShaderMaterial": "value",
+      "createBabylonTerrainShaderMaterial": "value",
+      "createBabylonWaterShaderMaterial": "value",
+      "createReactylonRuntimeMaterialDescriptor": "value",
+      "createTimeOfDay": "value",
+      "enableBabylonRuntimeProceduralMaterial": "value",
+      "FogConfig": {
+        "mode": "'linear' | 'exponential' | 'exponential2'",
+        "density?": "number",
+        "color?": "string",
+        "near?": "number",
+        "far?": "number"
+      },
+      "getBabylonRuntimeProceduralMaterialPlugin": "value",
+      "instantiateBabylonRuntimeCreature": "value",
+      "instantiateBabylonRuntimeCreatureAsset": "value",
+      "instantiateBabylonRuntimeProp": "value",
+      "instantiateBabylonRuntimePropAsync": "value",
+      "MAX_FRAME_DELTA_SECONDS": "value",
+      "PhysicsConfig": {
+        "gravity?": "number",
+        "enabled?": "boolean"
+      },
+      "ReactylonCreatureInput": "type",
+      "ReactylonPropInput": "type",
+      "ReactylonRuntimeCreatureBoneDescriptor": {
+        "id": "string",
+        "boneId": "string",
+        "parent?": "string",
+        "shape": "CreatureRuntimeBone['shape']",
+        "size": "RuntimeVector3Tuple",
+        "position": "RuntimeVector3Tuple",
+        "rotation?": "RuntimeQuaternionTuple",
+        "materialSlot": "string",
+        "materialId": "string",
+        "volume": "number",
+        "physics": "RuntimePhysicsProfile",
+        "animationTargets": "string[]"
+      },
+      "ReactylonRuntimeCreatureDescriptor": {
+        "kind": "'creature'",
+        "id": "string",
+        "name": "string",
+        "position": "RuntimeVector3Tuple",
+        "rotation?": "RuntimeQuaternionTuple",
+        "resolvedScale": "number",
+        "scale": "RuntimeVector3Tuple",
+        "bones": "ReactylonRuntimeCreatureBoneDescriptor[]",
+        "materialSlots": "Record<string, ReactylonRuntimeMaterialDescriptor>",
+        "bounds": "RuntimeBounds",
+        "physics": "RuntimePhysicsProfile",
+        "animations": "CreatureRuntimeAssembly['animations']",
+        "animationGraph": "CreatureRuntimeAssembly['animationGraph']",
+        "asset": "CreatureRuntimeAssembly['asset']",
+        "rigBinding": "CreatureRuntimeRigBindingPlan",
+        "ikChains": "CreatureRuntimeAssembly['ikChains']",
+        "ikRig": "CreatureRuntimeAssembly['ikRig']",
+        "spawn": "CreatureRuntimeAssembly['spawn']",
+        "ai": "CreatureRuntimeAssembly['ai']",
+        "stats": "CreatureRuntimeAssembly['stats']",
+        "drops": "CreatureRuntimeAssembly['drops']",
+        "sounds": "CreatureRuntimeAssembly['sounds']"
+      },
+      "ReactylonRuntimeMaterialDescriptor": {
+        "id": "string",
+        "materialId": "string",
+        "type": "MaterialDefinition['type']",
+        "baseColor": "ReactylonColorValue",
+        "roughness": "number",
+        "metalness": "number",
+        "normalScale?": "number",
+        "transparent": "boolean",
+        "opacity": "number",
+        "physics?": "RuntimeMaterialSlot['physics']",
+        "swappableWith": "string[]",
+        "traits?": "MaterialDefinition['traits']",
+        "procedural?": "MaterialProceduralPlan",
+        "proceduralBake?": "MaterialProceduralBakePlan"
+      },
+      "ReactylonRuntimeMaterialOptions": {
+        "transparentVolumetrics?": "boolean",
+        "materialOverrides?": "Record<string, string | MaterialDefinition>"
+      },
+      "ReactylonRuntimePropDescriptor": {
+        "kind": "'prop'",
+        "id": "string",
+        "name": "string",
+        "position": "RuntimeVector3Tuple",
+        "rotation?": "RuntimeQuaternionTuple",
+        "scale": "RuntimeVector3Tuple",
+        "nodes": "ReactylonRuntimePropNodeDescriptor[]",
+        "materialSlots": "Record<string, ReactylonRuntimeMaterialDescriptor>",
+        "bounds": "RuntimeBounds",
+        "physics": "RuntimePhysicsProfile",
+        "interaction?": "PropRuntimeAssembly['interaction']",
+        "interactionActions": "PropRuntimeAssembly['interactionActions']",
+        "audio?": "PropRuntimeAssembly['audio']"
+      },
+      "ReactylonRuntimePropNodeDescriptor": {
+        "id": "string",
+        "componentIndex": "number",
+        "shape": "PropRuntimeNode['shape']",
+        "size": "RuntimeVector3Tuple",
+        "position": "RuntimeVector3Tuple",
+        "rotation?": "RuntimeQuaternionTuple",
+        "mesh?": "string",
+        "materialSlot": "string",
+        "materialId": "string",
+        "volume": "number",
+        "physics": "RuntimePhysicsProfile",
+        "interaction?": "PropRuntimeNode['interaction']"
+      },
+      "ReactylonRuntimeTransformOptions": {
+        "position?": "RuntimeVector3Tuple",
+        "rotation?": "RuntimeQuaternionTuple",
+        "scale?": "number | RuntimeVector3Tuple"
+      },
+      "resolveReactylonRuntimeCreature": "value",
+      "resolveReactylonRuntimeProp": "value",
+      "SceneRoot": "value",
+      "SceneRootProps": {
+        "activeKey": "T",
+        "matchKey": "T",
+        "children": "(root: TransformNode) => ReactNode"
+      },
+      "SkyUniformValues": {
+        "uTime": "number",
+        "uSunIntensity": "number",
+        "uSunAngle": "number",
+        "uAmbientLight": "number",
+        "uStarVisibility": "number",
+        "uFogDensity": "number",
+        "uWeatherIntensity": "number",
+        "uGyroTilt": "[number, number]"
+      },
+      "StrataRuntimeCreature": "value",
+      "StrataRuntimeCreatureProps": {
+        "creature": "ReactylonCreatureInput",
+        "visible?": "boolean",
+        "onResolve?": "(descriptor: ReactylonRuntimeCreatureDescriptor) => void"
+      },
+      "StrataRuntimeProp": "value",
+      "StrataRuntimePropProps": {
+        "prop": "ReactylonPropInput",
+        "visible?": "boolean",
+        "onResolve?": "(descriptor: ReactylonRuntimePropDescriptor) => void"
+      },
+      "StrataSceneConfig": {
+        "fog?": "FogConfig",
+        "ambientLight?": "AmbientLightConfig",
+        "physics?": "PhysicsConfig"
+      },
+      "StrataSceneResult": {
+        "ready": "boolean",
+        "config": "Required<StrataSceneConfig>",
+        "applyToScene": "(scene: unknown) => void"
+      },
+      "StrataSky": "value",
+      "StrataSkyProps": {
+        "timeOfDay?": "TimeOfDayState",
+        "weather?": "WeatherState",
+        "size?": "[number, number]",
+        "distance?": "number",
+        "visible?": "boolean"
+      },
+      "StrataTerrain": "value",
+      "StrataTerrainProps": {
+        "position?": "[number, number, number]",
+        "size?": "number",
+        "segments?": "number",
+        "groundColor?": "string",
+        "rockColor?": "string",
+        "roughness?": "number",
+        "visible?": "boolean"
+      },
+      "StrataWater": "value",
+      "StrataWaterProps": {
+        "position?": "[number, number, number]",
+        "size?": "number",
+        "segments?": "number",
+        "waterColor?": "string",
+        "deepWaterColor?": "string",
+        "foamColor?": "string",
+        "causticIntensity?": "number",
+        "waveHeight?": "number",
+        "waveSpeed?": "number",
+        "visible?": "boolean",
+        "children?": "ReactNode"
+      },
+      "TerrainUniformValues": {
+        "uGroundColor": "[number, number, number]",
+        "uRockColor": "[number, number, number]",
+        "uRoughness": "number"
+      },
+      "TimeOfDayState": {
+        "sunIntensity?": "number",
+        "sunAngle?": "number",
+        "ambientLight?": "number",
+        "starVisibility?": "number",
+        "fogDensity?": "number"
+      },
+      "useBeforeRender": "value",
+      "useStrataScene": "value",
+      "useStrataTerrainMaterial": "value",
+      "version": "value",
+      "WaterUniformValues": {
+        "uTime": "number",
+        "uWaterColor": "[number, number, number]",
+        "uDeepWaterColor": "[number, number, number]",
+        "uFoamColor": "[number, number, number]",
+        "uCausticIntensity": "number",
+        "uWaveHeight": "number"
+      },
+      "WeatherState": {
+        "intensity?": "number"
+      }
+    },
+    "./mount": {
+      "MAX_FRAME_DELTA_SECONDS": "value",
+      "SceneRoot": "value",
+      "SceneRootProps": {
+        "activeKey": "T",
+        "matchKey": "T",
+        "children": "(root: TransformNode) => ReactNode"
+      },
+      "useBeforeRender": "value"
+    }
+  }
+}

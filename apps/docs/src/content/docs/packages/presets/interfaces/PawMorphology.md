@@ -2,11 +2,11 @@
 title: "PawMorphology"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / PawMorphology
+[strata-game-library/presets](../globals.md) / PawMorphology
 
 # Interface: PawMorphology
 

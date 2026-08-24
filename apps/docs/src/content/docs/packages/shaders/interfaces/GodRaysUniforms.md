@@ -2,11 +2,11 @@
 title: "GodRaysUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / GodRaysUniforms
+[strata-game-library/shaders](../globals.md) / GodRaysUniforms
 
 # Interface: GodRaysUniforms
 

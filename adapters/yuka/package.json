@@ -1,0 +1,57 @@
+{
+  "name": "@strata-game-library/yuka",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Optional Yuka steering, navigation, and React Three Fiber adapter for Strata",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": ["strata", "yuka", "steering", "navigation", "react-three-fiber", "game-ai"],
+  "author": "Jon Bogaty <jon@jonbogaty.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbcom/strata-game-library.git",
+    "directory": "adapters/yuka"
+  },
+  "homepage": "https://strata.game/adapters/yuka/",
+  "bugs": { "url": "https://github.com/jbcom/strata-game-library/issues" },
+  "peerDependencies": {
+    "@react-three/drei": ">=9.0.0",
+    "@react-three/fiber": ">=8.0.0",
+    "react": ">=18.0.0",
+    "three": ">=0.150.0",
+    "yuka": ">=0.7.0"
+  },
+  "devDependencies": {
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@strata-game-library/vite": "workspace:*",
+    "@types/react": "^19.2.18",
+    "@types/three": "^0.185.4",
+    "@types/yuka": "^0.7.4",
+    "react": "19.2.8",
+    "three": "^0.185.1",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11",
+    "yuka": "^0.7.8"
+  }
+}

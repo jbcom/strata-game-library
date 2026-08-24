@@ -2,11 +2,11 @@
 title: "underwaterShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / underwaterShader
+[strata-game-library/shaders](../globals.md) / underwaterShader
 
 # Variable: underwaterShader
 

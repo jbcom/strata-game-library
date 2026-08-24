@@ -1,41 +1,15 @@
-# Dependabot Configuration
-# 
-# Dependabot opens grouped PRs. Non-major groups fast-path through the trusted
-# merge queue; major groups remain visible for human review.
-
 version: 2
 
 updates:
-  # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
+    target-branch: main
     schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "ci"
-    groups:
-      actions-major:
-        patterns: ["*"]
-        update-types: [major]
-      actions-non-major:
-        patterns: ["*"]
-        update-types: [minor, patch]
-
-  # Docker
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "build"
-
-  # NPM/Node.js
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
+      interval: weekly
+      day: monday
+      time: 09:00
+      timezone: America/Chicago
+    open-pull-requests-limit: 5
     groups:
       major-dependencies:
         patterns: ["*"]
@@ -43,43 +17,27 @@ updates:
       non-major-dependencies:
         patterns: ["*"]
         update-types: [minor, patch]
-
-  # Python/pip
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
     commit-message:
-      prefix: "deps"
+      prefix: chore(deps)
+      prefix-development: chore(deps-dev)
+      include: scope
 
-  # Go modules
-  - package-ecosystem: "gomod"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: main
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+      time: 09:30
+      timezone: America/Chicago
+    open-pull-requests-limit: 5
+    groups:
+      actions-major:
+        patterns: ["*"]
+        update-types: [major]
+      actions-non-major:
+        patterns: ["*"]
+        update-types: [minor, patch]
     commit-message:
-      prefix: "deps"
-
-  # Rust/Cargo
-  - package-ecosystem: "cargo"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Terraform
-  - package-ecosystem: "terraform"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
-
-  # Git submodules
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    commit-message:
-      prefix: "deps"
+      prefix: ci(deps)
+      include: scope

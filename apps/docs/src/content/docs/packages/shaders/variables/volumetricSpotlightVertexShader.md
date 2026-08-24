@@ -2,11 +2,11 @@
 title: "volumetricSpotlightVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / volumetricSpotlightVertexShader
+[strata-game-library/shaders](../globals.md) / volumetricSpotlightVertexShader
 
 # Variable: volumetricSpotlightVertexShader
 

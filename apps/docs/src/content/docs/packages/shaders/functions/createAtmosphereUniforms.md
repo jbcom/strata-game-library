@@ -2,11 +2,11 @@
 title: "createAtmosphereUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / createAtmosphereUniforms
+[strata-game-library/shaders](../globals.md) / createAtmosphereUniforms
 
 # Function: createAtmosphereUniforms()
 

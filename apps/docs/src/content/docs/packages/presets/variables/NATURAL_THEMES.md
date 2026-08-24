@@ -2,11 +2,11 @@
 title: "NATURAL_THEMES"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / NATURAL\_THEMES
+[strata-game-library/presets](../globals.md) / NATURAL\_THEMES
 
 # Variable: NATURAL\_THEMES
 

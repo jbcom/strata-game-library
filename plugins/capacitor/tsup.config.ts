@@ -1,27 +1,11 @@
-import { defineConfig } from 'tsup';
+import { libraryBuild } from "@strata-game-library/vite/tsup";
 
-/**
- * tsup configuration for @strata-game-library/capacitor
- *
- * Ensures proper Node.js ESM support with correct .js extensions
- */
-export default defineConfig({
-	entry: {
-		index: 'src/index.ts',
-		'react/index': 'src/react/index.ts',
-	},
-	format: ['esm'],
-	dts: true,
-	clean: true,
-	sourcemap: true,
-	splitting: true,
-	target: 'ES2020',
-	jsx: 'automatic',
-	external: ['@capacitor/core', 'react'],
-	treeshake: true,
-	minify: false,
-	keepNames: true,
-	banner: {
-		js: '/* @strata-game-library/capacitor - ESM Build */',
-	},
+export default libraryBuild({
+  name: "@strata-game-library/capacitor",
+  entry: { index: "src/index.ts", "react/index": "src/react/index.ts" },
+  external: ["@capacitor/core", "react"],
+  jsx: "automatic",
+  // ES2020, not the preset's ES2022: this ships into Capacitor WebViews, whose
+  // floor is older than a modern browser's.
+  overrides: { target: "es2020", splitting: true },
 });

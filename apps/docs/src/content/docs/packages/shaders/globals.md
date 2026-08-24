@@ -2,11 +2,11 @@
 title: Globals
 ---
 
-[**@strata-game-library/shaders**](README.md)
+[**strata-game-library/shaders**](README.md)
 
 ***
 
-# @strata-game-library/shaders
+# strata-game-library/shaders
 
 @strata/shaders
 

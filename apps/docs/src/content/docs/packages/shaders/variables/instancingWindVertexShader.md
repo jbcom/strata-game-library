@@ -2,11 +2,11 @@
 title: "instancingWindVertexShader"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / instancingWindVertexShader
+[strata-game-library/shaders](../globals.md) / instancingWindVertexShader
 
 # Variable: instancingWindVertexShader
 

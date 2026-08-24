@@ -1,49 +1,40 @@
-# AGENTS.md -- Strata Game Library
+---
+title: Agent protocols
+updated: 2026-08-23
+status: current
+domain: context
+---
+
+## AGENTS.md -- Strata Game Library
 
 > **Primary reference for all AI agents** (Claude, Copilot, Cursor, Jules).
 
 ## Project Overview
 
-**@jbcom/strata** is a game framework for React Three Fiber, organized as an Nx + pnpm monorepo with 10 packages and 2 apps. It is evolving from a procedural 3D graphics toolkit (terrain, water, sky, ECS, physics) into a complete declarative game framework with orchestration, world topology, and compositional objects.
+**Strata Game Library** is a renderer-agnostic game framework organized as an Nx + pnpm monorepo with 13 publishable packages and 2 apps. Pure TypeScript algorithms live in core; React Three Fiber, Reactylon/Babylon, and Pixi adapters bind them to renderers.
 
 ## Quick Start
 
-### Toolchain (pinned — do not substitute)
+### Toolchain
 
-| Tool | Version | Pinned by |
-|------|---------|-----------|
-| Node | 22 | `.nvmrc`, `engines.node` (`>=22 <24`) |
-| pnpm | 9.15.9 | `packageManager`, `engines.pnpm` |
-
-Use `corepack` so the pinned pnpm is the one that actually runs:
+Maintainers and CI use the latest stable Node.js and pnpm releases through
+`mise.toml`. Published packages support every maintained Node release from 22
+forward; the maintainer tool version is intentionally not a consumer constraint.
 
 ```bash
-corepack enable
-nvm use          # or: fnm use — reads .nvmrc
-pnpm install     # resolves to pnpm@9.15.9 via packageManager
+mise trust
+mise install node@latest pnpm@latest
+mise exec -- pnpm install --frozen-lockfile
 ```
 
-Both pins are load-bearing, not cosmetic:
+Do not add a root `packageManager` pin, pnpm engine pin, `.nvmrc`, or duplicated
+Node/pnpm versions in workflows. Keep the local and CI toolchain DRY through
+`mise.toml`. The Node engine floor remains a real compatibility promise and CI
+must test both that floor and the latest stable runtime.
 
-- **pnpm must stay on 9.x.** `package.json` carries a `pnpm.overrides` block that
-  unifies `react`/`react-dom` on a single copy and floors `minimatch` /
-  `@isaacs/brace-expansion` to patched versions. **pnpm 11 no longer reads the
-  `pnpm` field of `package.json` and does so silently** — no warning, no error —
-  so an unpinned pnpm 11 would drop all four overrides while the repo still
-  looked patched. pnpm 11 also rewrites ~2400 lockfile lines and injects
-  placeholder `allowBuilds` stubs into `pnpm-workspace.yaml`. If this repo ever
-  moves to pnpm ≥11, the overrides **must** migrate to `pnpm-workspace.yaml` in
-  the same change, and the resolved tree must be re-verified (see below).
-- **Node must stay below 24.** Node ≥24 defines a native `Storage` constructor but
-  leaves `localStorage` undefined unless `--localstorage-file` is passed. jsdom
-  sees `Storage` present, declines to provision its own, and every
-  `localStorage`-backed test fails with `Cannot read properties of undefined
-  (reading 'clear')` — 25 failures in `packages/core` alone, with no hint that
-  the Node version is the cause.
-
-`engine-strict=true` in the root `.npmrc` makes both pins hard failures rather
-than warnings, so a wrong Node or pnpm fails at `pnpm install` instead of
-surfacing later as unexplained test failures or silently-dropped overrides.
+Security overrides live in `pnpm-workspace.yaml`, the location current pnpm
+versions consume. The test setup provisions browser storage explicitly so
+modern Node runtimes do not depend on jsdom's historical global behavior.
 
 Verify the overrides actually took effect (config parsing is not proof — check
 the lockfile, since a stale `node_modules/.pnpm` can retain orphaned copies):
@@ -104,7 +95,7 @@ plugins/
   react-native/      # React Native bridge
   astro/             # Astro integration
 apps/
-  docs/              # Astro Starlight documentation site (strata.game)
+  docs/              # Sourcey documentation site (jonbogaty.com/strata-game-library/)
   examples/          # Example projects
 ```
 
@@ -140,7 +131,7 @@ git commit -m "test: add pathfinding tests"             # no release
 
 See [docs/AGENTS.md](docs/AGENTS.md) for the full documentation system, frontmatter conventions, and domain indexes.
 
-Two tiers: legacy `docs/` (internal planning, RFCs) and Starlight `apps/docs/` (public site at strata.game, 311 pages including 257 auto-generated TypeDoc API pages).
+`docs/` is the production Sourcey site and its source content. `apps/docs/` is legacy Astro/Starlight material retained only while its useful content is migrated; it must not be treated as a production renderer or deployment source.
 
 ## Agentic Memory
 

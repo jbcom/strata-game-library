@@ -10,7 +10,7 @@ Ready-to-use vegetation configurations for different environment types.
 ## Quick Start
 
 ```typescript
-import { createVegetationPreset, VegetationPresets } from '@strata-game-library/presets/vegetation';
+import { createVegetationPreset, VegetationPresets } from 'strata-game-library/presets/vegetation';
 
 // Use a preset
 <VegetationSystem {...VegetationPresets.DENSE_FOREST} />
@@ -190,8 +190,8 @@ interface VegetationPresetOptions {
 ## Using with Components
 
 ```tsx
-import { GrassInstances, TreeInstances, RockInstances } from '@strata-game-library/core';
-import { VegetationPresets } from '@strata-game-library/presets/vegetation';
+import { GrassInstances, TreeInstances, RockInstances } from 'strata-game-library/core';
+import { VegetationPresets } from 'strata-game-library/presets/vegetation';
 
 function Forest() {
   const preset = VegetationPresets.DENSE_FOREST;

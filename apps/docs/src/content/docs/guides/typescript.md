@@ -49,7 +49,7 @@ import type {
   WindConfig,
   DeviceProfile,
   InputSnapshot,
-} from '@strata-game-library/core/types';
+} from 'strata-game-library/core';
 ```
 
 ## Component Props
@@ -57,7 +57,7 @@ import type {
 All components have typed props:
 
 ```tsx
-import { Water, type WaterProps } from '@strata-game-library/core';
+import { Water, type WaterProps } from 'strata-game-library/core';
 
 const waterConfig: WaterProps = {
   size: 200,
@@ -74,7 +74,7 @@ const waterConfig: WaterProps = {
 Some functions are generic:
 
 ```typescript
-import { createPreset } from '@strata-game-library/presets';
+import { createPreset } from 'strata-game-library/presets';
 
 interface CustomTerrainConfig extends TerrainConfig {
   crystalFormations: boolean;
@@ -105,7 +105,7 @@ useFrame(() => {
 Extend existing types:
 
 ```typescript
-import type { BiomeConfig } from '@strata-game-library/core/types';
+import type { BiomeConfig } from 'strata-game-library/core';
 
 interface AlienBiomeConfig extends BiomeConfig {
   crystalDensity: number;

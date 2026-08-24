@@ -2,11 +2,11 @@
 title: "FurUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / FurUniforms
+[strata-game-library/shaders](../globals.md) / FurUniforms
 
 # Interface: FurUniforms
 

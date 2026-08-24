@@ -2,11 +2,11 @@
 title: "RARITY_MODIFIERS"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / RARITY\_MODIFIERS
+[strata-game-library/presets](../globals.md) / RARITY\_MODIFIERS
 
 # Variable: RARITY\_MODIFIERS
 

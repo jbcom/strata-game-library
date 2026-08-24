@@ -2,11 +2,11 @@
 title: "EquipmentParams"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / EquipmentParams
+[strata-game-library/presets](../globals.md) / EquipmentParams
 
 # Interface: EquipmentParams
 

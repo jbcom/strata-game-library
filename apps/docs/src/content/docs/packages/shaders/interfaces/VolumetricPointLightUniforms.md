@@ -2,11 +2,11 @@
 title: "VolumetricPointLightUniforms"
 ---
 
-[**@strata-game-library/shaders**](../README.md)
+[**strata-game-library/shaders**](../README.md)
 
 ***
 
-[@strata-game-library/shaders](../globals.md) / VolumetricPointLightUniforms
+[strata-game-library/shaders](../globals.md) / VolumetricPointLightUniforms
 
 # Interface: VolumetricPointLightUniforms
 

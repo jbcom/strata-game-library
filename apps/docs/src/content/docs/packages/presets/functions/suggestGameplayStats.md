@@ -2,11 +2,11 @@
 title: "suggestGameplayStats"
 ---
 
-[**@strata-game-library/presets**](../README.md)
+[**strata-game-library/presets**](../README.md)
 
 ***
 
-[@strata-game-library/presets](../globals.md) / suggestGameplayStats
+[strata-game-library/presets](../globals.md) / suggestGameplayStats
 
 # Function: suggestGameplayStats()
 
