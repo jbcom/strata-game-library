@@ -40,6 +40,11 @@ concurrency:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') &&
+       !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') &&
+       !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

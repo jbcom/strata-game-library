@@ -19,7 +19,11 @@ permissions:
 jobs:
   pr-title:
     name: Conventional PR title
-    if: github.event_name == 'pull_request'
+    if: >-
+      github.event_name == 'pull_request' &&
+      !startsWith(github.head_ref, 'release-please--') &&
+      !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') &&
+      !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')
     runs-on: ubuntu-latest
     env:
       PR_TITLE: ${{ github.event.pull_request.title }}
@@ -34,6 +38,9 @@ jobs:
 
   toolchain:
     name: Runtime compatibility matrix
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     outputs:
       node-versions: ${{ steps.matrix.outputs.node-versions }}
@@ -50,6 +57,9 @@ jobs:
 
   compatibility:
     name: Node ${{ matrix.node }} compatibility
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     needs: toolchain
     runs-on: ubuntu-latest
     strategy:
@@ -68,6 +78,9 @@ jobs:
 
   quality:
     name: ${{ matrix.task }}
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -84,6 +97,9 @@ jobs:
 
   public-api:
     name: Public API contract
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -95,6 +111,9 @@ jobs:
 
   package:
     name: Published package contents
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -105,6 +124,9 @@ jobs:
 
   docs:
     name: Documentation
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -116,6 +138,9 @@ jobs:
 
   browser:
     name: Browser integration
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -138,6 +163,9 @@ jobs:
 
   sonar:
     name: SonarQube Cloud analysis
+    if: >-
+      github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-'))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -153,7 +181,11 @@ jobs:
 
   dependency-review:
     name: Dependency review
-    if: github.event_name == 'pull_request'
+    if: >-
+      github.event_name == 'pull_request' &&
+      !startsWith(github.head_ref, 'release-please--') &&
+      !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') &&
+      !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -169,7 +201,9 @@ jobs:
 
   gate:
     name: CI / gate
-    if: always()
+    if: >-
+      always() && (github.event_name != 'pull_request' ||
+      (!startsWith(github.head_ref, 'release-please--') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/non-major-dependencies-') && !startsWith(github.head_ref, 'dependabot/github_actions/actions-non-major-')))
     needs:
       - pr-title
       - toolchain

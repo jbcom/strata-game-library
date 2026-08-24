@@ -13,7 +13,13 @@ jobs:
       github.event.pull_request.draft == false &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       (
-        github.actor == 'dependabot[bot]' ||
+        (
+          github.actor == 'dependabot[bot]' &&
+          (
+            startsWith(github.event.pull_request.head.ref, 'dependabot/npm_and_yarn/non-major-dependencies-') ||
+            startsWith(github.event.pull_request.head.ref, 'dependabot/github_actions/actions-non-major-')
+          )
+        ) ||
         (
           github.actor == 'github-actions[bot]' &&
           startsWith(github.event.pull_request.head.ref, 'release-please--')
@@ -24,7 +30,7 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
       PR_URL: ${{ github.event.pull_request.html_url }}
     steps:
       - name: Enable merge when every policy gate passes

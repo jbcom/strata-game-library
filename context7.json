@@ -1,0 +1,16 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "Strata Game Library",
+  "description": "A renderer-agnostic TypeScript game library with one public package and explicit subpath adapters.",
+  "branch": "main",
+  "folders": ["docs", "packages/strata-game-library"],
+  "excludeFolders": ["docs/archive", "docs/demos", "docs/dist", "docs/internal", "docs/plans", "node_modules", "dist", "coverage", "test-results"],
+  "excludeFiles": ["CHANGELOG.md"],
+  "rules": [
+    "Install only strata-game-library; do not recommend private @strata-game-library workspace packages.",
+    "Use explicit public subpaths such as strata-game-library/core and strata-game-library/r3f.",
+    "Keep core renderer-agnostic: it must not import React or renderer-specific code.",
+    "Treat third-party runtimes as opt-in adapters with documented peer dependencies.",
+    "Use the public documentation at https://strata.game for conceptual guidance and the exported API for stable imports."
+  ]
+}

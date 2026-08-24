@@ -11,11 +11,11 @@ updates:
       timezone: America/Chicago
     open-pull-requests-limit: 5
     groups:
-      production-minor-and-patch:
-        dependency-type: production
-        update-types: [minor, patch]
-      development-minor-and-patch:
-        dependency-type: development
+      major-dependencies:
+        patterns: ["*"]
+        update-types: [major]
+      non-major-dependencies:
+        patterns: ["*"]
         update-types: [minor, patch]
     commit-message:
       prefix: chore(deps)
@@ -32,7 +32,11 @@ updates:
       timezone: America/Chicago
     open-pull-requests-limit: 5
     groups:
-      actions-minor-and-patch:
+      actions-major:
+        patterns: ["*"]
+        update-types: [major]
+      actions-non-major:
+        patterns: ["*"]
         update-types: [minor, patch]
     commit-message:
       prefix: ci(deps)
