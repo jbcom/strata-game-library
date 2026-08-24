@@ -118,12 +118,17 @@ function typesEntryFor(target) {
  * NOT followed — it is foreign surface,
  * which is precisely what we want visible in the snapshot.
  *
- * `seen` guards against cyclic chunk graphs.
+ * `seen` guards against cyclic chunk graphs. `cache` avoids reparsing shared
+ * tsup chunks for every public entrypoint; one large flattened package can
+ * otherwise expand into an exponential declaration traversal.
  */
-function collectExports(dtsPath, seen = new Set()) {
-  const out = new Map();
+function collectExports(dtsPath, seen = new Set(), cache = new Map()) {
   const real = resolveDts(dtsPath);
-  if (!real || seen.has(real)) return out;
+  if (!real || seen.has(real)) return new Map();
+  const cached = cache.get(real);
+  if (cached) return new Map(cached);
+
+  const out = new Map();
   seen.add(real);
 
   const source = ts.createSourceFile(
@@ -156,7 +161,7 @@ function collectExports(dtsPath, seen = new Set()) {
           if (resolved === 'value' && isLocal && spec) {
             const target = resolveDts(join(dirname(real), spec));
             if (target) {
-              const fromModule = collectExports(target, new Set(seen)).get(name);
+              const fromModule = collectExports(target, new Set(seen), cache).get(name);
               if (fromModule !== undefined) resolved = fromModule;
             }
           }
@@ -170,7 +175,7 @@ function collectExports(dtsPath, seen = new Set()) {
         if (isLocal) {
           // A local tsup chunk: follow it, so the chunk boundary never shows up
           // in the report.
-          const nested = collectExports(join(dirname(real), spec), seen);
+          const nested = collectExports(join(dirname(real), spec), new Set(seen), cache);
           for (const [name, kind] of nested) if (!out.has(name)) out.set(name, kind);
         } else {
           // A star re-export of an entire OTHER package. Its symbol list is that
@@ -202,7 +207,8 @@ function collectExports(dtsPath, seen = new Set()) {
     }
   }
 
-  return out;
+  cache.set(real, out);
+  return new Map(out);
 }
 
 /**
@@ -282,6 +288,7 @@ function resolveDts(candidate) {
 function buildReport(pkg) {
   const subpaths = {};
   const missing = [];
+  const exportCache = new Map();
 
   for (const [subpath, target] of Object.entries(pkg.manifest.exports)) {
     const entry = typesEntryFor(target);
@@ -293,7 +300,7 @@ function buildReport(pkg) {
     // public path without the gate noticing.
     if (subpath.includes('*')) {
       for (const [concrete, file] of expandWildcard(pkg.dir, subpath, entry)) {
-        const symbols = collectExports(file);
+        const symbols = collectExports(file, new Set(), exportCache);
         subpaths[concrete] = Object.fromEntries(
           [...symbols.entries()].sort(([a], [b]) => a.localeCompare(b))
         );
@@ -307,7 +314,7 @@ function buildReport(pkg) {
       continue;
     }
 
-    const symbols = collectExports(dtsPath);
+    const symbols = collectExports(dtsPath, new Set(), exportCache);
     subpaths[subpath] = Object.fromEntries(
       [...symbols.entries()].sort(([a], [b]) => a.localeCompare(b))
     );
