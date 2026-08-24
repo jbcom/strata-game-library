@@ -198,3 +198,15 @@ updated: 2026-03-01
 
 **Current live state**:
 - Draft GitHub PR #129 is open at `63bde3e2`; its new PR CI run and SonarQube Cloud analysis are in progress. The old manual run is expected to be superseded.
+
+### 2026-08-24 - Tokenless Sonar correction and npm publisher enrollment
+
+**What was done**:
+- Removed the repository-specific `SONAR_TOKEN` after the organization-level Doppler sync direction. The scanner has already authenticated through the existing SonarQube Cloud GitHub integration, so CI deliberately passes no Sonar secret.
+- Fetched every third-party and GitHub Action tag through `gh` and resolved its commit (including annotated tags). All workflow pins already match the latest stable releases, including SonarQube Scan v8.2.1.
+- Corrected the first scanner failure: `sonar.sources` and `sonar.tests` cannot contain wildcard paths. The properties now use literal roots and classify source/test content with inclusions and exclusions.
+- Attempted npm trusted-publisher enrollment for all 13 publishable packages after receiving OIDC authorization. npm rejected every request before making a change because the current granular token bypasses two-factor authentication; no publisher trust configuration was created.
+
+**Next steps**:
+- Re-run tokenless Sonar CI and use its fresh quality-gate result as the source of truth.
+- Use the authenticated npm Chrome session to configure trusted publishers, with a just-in-time confirmation immediately before the UI saves the persistent publisher settings.
