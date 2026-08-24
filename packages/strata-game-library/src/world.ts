@@ -1,1 +1,30 @@
-export * from '@strata-game-library/core/world';
+export type {
+  BoundingShape,
+  Connection,
+  ConnectionDefinition,
+  ConnectionSystemEntity,
+  ConnectionSystemState,
+  ConnectionType,
+  LightingConfig,
+  ModeManager,
+  NPCSpawn,
+  Region,
+  RegionDefinition,
+  RegionSystemEntity,
+  RegionSystemState,
+  ResourceEntry,
+  SpawnEntry,
+  SpawnSystemConfig,
+  SpawnSystemEntity,
+  SpawnTable,
+  UnlockCondition,
+  WorldGraphDefinition,
+} from '@strata-game-library/core/world';
+export {
+  createConnectionSystem,
+  createRegionSystem,
+  createSpawnSystem,
+  createWorldGraph,
+  isWorldGraph,
+  WorldGraph,
+} from '@strata-game-library/core/world';
