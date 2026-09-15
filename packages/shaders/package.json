@@ -109,12 +109,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.10",
+    "@biomejs/biome": "^2.5.13",
     "@strata-game-library/vite": "workspace:*",
-    "@types/three": "^0.185.4",
+    "@types/three": "^0.186.0",
     "@vitest/coverage-v8": "^4.1.11",
     "glob": "^13.0.6",
-    "three": "^0.185.1",
+    "three": "^0.186.0",
     "tsup": "^8.5.1",
     "typescript": "5.9.3",
     "vitest": "^4.1.11"
