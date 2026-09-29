@@ -131,7 +131,7 @@
   },
   "dependencies": {
     "@types/howler": "^2.2.13",
-    "@types/react": "^19.2.18",
+    "@types/react": "^19.3.0",
     "@types/three": "^0.185.4",
     "@types/yuka": "^0.7.4",
     "howler": "^2.2.4",
@@ -140,7 +140,7 @@
     "miniplex": "^2.0.0",
     "ngraph.graph": "^20.1.2",
     "ngraph.path": "^1.6.1",
-    "xstate": "^5.32.5",
+    "xstate": "^5.33.2",
     "zundo": "^2.3.0",
     "zustand": "^5.0.15"
   },
@@ -213,7 +213,7 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.10",
+    "@biomejs/biome": "^2.5.14",
     "@strata-game-library/astro": "workspace:*",
     "@strata-game-library/audio-synth": "workspace:*",
     "@strata-game-library/capacitor": "workspace:*",
