@@ -74,7 +74,7 @@ Games being built with Strata to validate the framework:
 
 | Game | Type | Key Systems |
 |------|------|-------------|
-| Rivermarsh | Mobile exploration | World topology, creatures, terrain |
-| Otter River Rush | Racing | Game modes, physics, terrain |
-| Otterfall | 3D adventure | AI, animation, world graph |
-| Rivers of Reckoning | Roguelike | ECS, procedural generation |
+| Sample Game | Mobile exploration | World topology, creatures, terrain |
+| Racing Demo | Racing | Game modes, physics, terrain |
+| Adventure Demo | 3D adventure | AI, animation, world graph |
+| Roguelike Demo | Roguelike | ECS, procedural generation |

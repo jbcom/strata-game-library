@@ -2,12 +2,12 @@
 
 /**
  * Ecosystem Curator
- * 
+ *
  * Nightly autonomous orchestration using @agentic/control for:
  * - Cursor Cloud Agent management (via CursorAPI)
  * - Issue triage
  * - PR processing
- * 
+ *
  * @see https://github.com/jbcom/nodejs-agentic-control
  */
 
@@ -45,9 +45,9 @@ let CursorAPI = null;
 
 async function loadAgenticControl() {
   try {
-    const fleet = await import('@agentic/control/fleet');
-    CursorAPI = fleet.CursorAPI;
-    console.log('✅ Loaded @agentic/control/fleet');
+    const control = await import('@agentic/control/fleet');
+    CursorAPI = control.CursorAPI;
+    console.log('✅ Loaded agent control');
     return true;
   } catch (e) {
     console.warn(`⚠️  @agentic/control not available: ${e.message}`);
@@ -67,7 +67,7 @@ async function cursorRequest(endpoint, method = 'GET', body = null) {
     console.log(`    [DRY RUN] Cursor: ${method} ${endpoint}`);
     return { id: 'dry-run', state: 'pending' };
   }
-  
+
   const res = await fetch(`${CURSOR_BASE_URL}${endpoint}`, {
     method,
     headers: {
@@ -76,12 +76,12 @@ async function cursorRequest(endpoint, method = 'GET', body = null) {
     },
     body: body ? JSON.stringify(body) : undefined,
   });
-  
+
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }));
     throw new Error(`Cursor API ${res.status}: ${JSON.stringify(error)}`);
   }
-  
+
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
@@ -104,12 +104,12 @@ async function ghApi(endpoint, options = {}) {
       ...options.headers
     }
   });
-  
+
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }));
     throw new Error(`GitHub API ${res.status}: ${JSON.stringify(error)}`);
   }
-  
+
   return res.json();
 }
 
@@ -122,7 +122,7 @@ async function julesApi(endpoint, options = {}) {
     console.log(`    [DRY RUN] Jules: POST ${endpoint}`);
     return { name: 'sessions/dry-run' };
   }
-  
+
   const res = await fetch(`https://jules.googleapis.com/v1alpha${endpoint}`, {
     ...options,
     headers: {
@@ -130,24 +130,24 @@ async function julesApi(endpoint, options = {}) {
       'Content-Type': 'application/json',
     }
   });
-  
+
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }));
     throw new Error(`Jules API ${res.status}: ${JSON.stringify(error)}`);
   }
-  
+
   return res.json();
 }
 
 // ============================================
-// Ollama API  
+// Ollama API
 // ============================================
 async function ollamaChat(messages) {
   if (DRY_RUN) {
     console.log(`    [DRY RUN] Ollama chat`);
     return { message: { content: 'Dry run response' } };
   }
-  
+
   const res = await fetch(`${OLLAMA_HOST}/api/chat`, {
     method: 'POST',
     headers: {
@@ -160,7 +160,7 @@ async function ollamaChat(messages) {
       stream: false
     })
   });
-  
+
   if (!res.ok) throw new Error(`Ollama API ${res.status}`);
   return res.json();
 }
@@ -175,7 +175,7 @@ async function initCursor() {
     console.warn('⚠️  CURSOR_API_KEY not set - Cursor agents disabled');
     return false;
   }
-  
+
   if (CursorAPI) {
     try {
       cursorApi = new CursorAPI({ apiKey: CURSOR_API_KEY });
@@ -185,7 +185,7 @@ async function initCursor() {
       console.warn(`⚠️  CursorAPI init failed: ${e.message}`);
     }
   }
-  
+
   console.log('ℹ️  Using direct Cursor API calls');
   return true;
 }
@@ -204,7 +204,7 @@ async function spawnCursorAgent(repository, task, options = {}) {
     if (!result.success) throw new Error(result.error);
     return result.data;
   }
-  
+
   // Fallback to direct API
   return cursorRequest('/agents', 'POST', {
     prompt: { text: task },
@@ -232,7 +232,7 @@ async function listCursorAgents() {
 async function discoverRepos() {
   const orgs = TARGET_ORG ? [TARGET_ORG] : ORGANIZATIONS;
   console.log(`🔍 Discovering repos in: ${orgs.join(', ')}`);
-  
+
   if (TARGET_REPO) {
     for (const org of orgs) {
       try {
@@ -241,7 +241,7 @@ async function discoverRepos() {
     }
     return [];
   }
-  
+
   let repos = [];
   for (const org of orgs) {
     try {
@@ -257,11 +257,11 @@ async function discoverRepos() {
 
 async function triageIssue(repo, issue) {
   console.log(`  📋 Issue #${issue.number}: ${issue.title.substring(0, 50)}`);
-  
+
   const labels = issue.labels.map(l => l.name.toLowerCase());
   const isComplex = labels.includes('complex') || labels.includes('epic') || (issue.body?.length || 0) > 1000;
   const isQuestion = labels.includes('question') || issue.title.endsWith('?');
-  
+
   if (isQuestion && OLLAMA_API_KEY) {
     try {
       const response = await ollamaChat([
@@ -308,25 +308,25 @@ async function triageIssue(repo, issue) {
       stats.errors.push(`Cursor: ${e.message}`);
     }
   }
-  
+
   stats.issues_triaged++;
 }
 
 async function processPR(repo, pr) {
   console.log(`  🔀 PR #${pr.number}: ${pr.title.substring(0, 50)}`);
-  
+
   const [checks, reviews] = await Promise.all([
     ghApi(`/repos/${repo.full_name}/commits/${pr.head.sha}/check-runs`),
     ghApi(`/repos/${repo.full_name}/pulls/${pr.number}/reviews`)
   ]);
-  
-  const allPass = checks.check_runs?.every(c => 
+
+  const allPass = checks.check_runs?.every(c =>
     c.status === 'completed' && ['success', 'neutral', 'skipped'].includes(c.conclusion)
   );
   const hasFailure = checks.check_runs?.some(c => c.conclusion === 'failure');
   const isApproved = reviews.some(r => r.state === 'APPROVED');
   const hasChangesRequested = reviews.some(r => r.state === 'CHANGES_REQUESTED');
-  
+
   if (hasFailure && CURSOR_API_KEY) {
     try {
       await spawnCursorAgent(repo.full_name, `Fix CI in PR #${pr.number}: ${pr.title}`, {
@@ -350,7 +350,7 @@ async function processPR(repo, pr) {
       console.error(`     Merge error: ${e.message}`);
     }
   }
-  
+
   stats.prs_processed++;
 }
 
@@ -359,33 +359,33 @@ async function main() {
   console.log('║                    ECOSYSTEM CURATOR                              ║');
   console.log('║              Powered by @agentic/control                          ║');
   console.log('╚══════════════════════════════════════════════════════════════════╝\n');
-  
+
   console.log(`Time: ${new Date().toISOString()}`);
   console.log(`Mode: ${DRY_RUN ? 'DRY RUN' : 'LIVE'}`);
   console.log(`Target: ${TARGET_ORG || 'all orgs'} / ${TARGET_REPO || 'all repos'}\n`);
-  
+
   if (!GITHUB_TOKEN) {
     console.error('❌ GITHUB_TOKEN required');
     process.exit(1);
   }
-  
+
   // Load @agentic/control if available
   await loadAgenticControl();
   await initCursor();
-  
+
   const repos = await discoverRepos();
   stats.repos_scanned = repos.length;
-  
+
   for (const repo of repos) {
     console.log(`\n📦 ${repo.full_name}`);
-    
+
     try {
       // Process issues
       const issues = await ghApi(`/repos/${repo.full_name}/issues?state=open&per_page=50`);
       for (const issue of issues.filter(i => !i.pull_request && !i.assignee)) {
         await triageIssue(repo, issue);
       }
-      
+
       // Process PRs
       const prs = await ghApi(`/repos/${repo.full_name}/pulls?state=open&per_page=50`);
       for (const pr of prs) {
@@ -396,15 +396,15 @@ async function main() {
       stats.errors.push(`${repo.full_name}: ${e.message}`);
     }
   }
-  
-  // Fleet status
+
+  // Agent status
   if (CURSOR_API_KEY) {
     try {
       const agents = await listCursorAgents();
-      console.log(`\n🤖 Cursor Fleet: ${agents.length} agents`);
+      console.log(`\n🤖 Cursor agents: ${agents.length} agents`);
     } catch {}
   }
-  
+
   // Report
   await writeFile('curator-report.json', JSON.stringify(stats, null, 2));
   console.log('\n' + JSON.stringify(stats, null, 2));

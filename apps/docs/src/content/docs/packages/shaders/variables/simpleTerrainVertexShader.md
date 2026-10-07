@@ -15,5 +15,3 @@ title: "simpleTerrainVertexShader"
 Defined in: [terrain.ts:357](https://github.com/strata-game-library/shaders/blob/6bdfb2582aaf48f6f3744bdf896e8c5144c8f6df/src/terrain.ts#L357)
 
 Simple terrain shader for non-biome use
-
-Lifted from Otterfall biome selector diorama.

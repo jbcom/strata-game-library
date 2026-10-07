@@ -133,6 +133,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-toolchain
+      - run: pnpm run docs:api
       - run: pnpm run docs:build
       - run: pnpm run docs:links
 
@@ -173,8 +174,7 @@ jobs:
       contents: read
       pull-requests: read
     env:
-      # Sourced from the Doppler-managed organization secret; this workflow
-      # deliberately does not create or shadow a repository-level credential.
+      # Use the organization secret without shadowing it at repository level.
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

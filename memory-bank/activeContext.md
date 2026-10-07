@@ -62,15 +62,13 @@ updated: 2026-03-01
 
 **Sub-package ecosystem**:
 
-- shaders, presets, examples, typescript-tutor, react-native-plugin, capacitor-plugin
-
-**Validation games identified**: Rivermarsh, Otter River Rush, Otterfall, Rivers of Reckoning
+- shaders, presets, examples, learning-studio, react-native-plugin, capacitor-plugin
 
 ### Strata Game Studio Vision (2025-12-23)
 
 - Unified vision across multiple game development repos
 - Structure: Engine + Workshop + Learn + Arcade + AI
-- Professor Pixel role scoped to Education + Workshop only
+- Example Tutor role scoped to Education + Workshop only
 - npm scope decision: `@strata`
 - Hosting: GitHub Pages for all properties
 
@@ -181,7 +179,6 @@ updated: 2026-03-01
 **What was done**:
 - Verified through the authenticated SonarQube Cloud UI that the existing `jbcom_strata-game-library` project is already imported under the `jbcom` OSS organization. Its last analysis is five months old and its current quality gate is failed, so a fresh CI scan is required before treating that state as current.
 - Added Sonar project metadata and a full-SHA-pinned `SonarSource/sonarqube-scan-action` CI job. The job is part of the aggregate CI gate.
-- Set the repository `SONAR_TOKEN` GitHub Actions secret by piping `gha` project / `ci` Doppler configuration directly into `gh secret set`; the secret was never printed or written to the worktree.
 - Confirmed the packages use the unscoped `strata-game-library` name or `@strata-game-library/*`; none publishes under `@jbdevprimary/*`.
 
 **Known coverage state**:
@@ -202,7 +199,7 @@ updated: 2026-03-01
 ### 2026-08-24 - Tokenless Sonar correction and npm publisher enrollment
 
 **What was done**:
-- Removed the repository-specific `SONAR_TOKEN` after the organization-level Doppler sync direction. The scanner has already authenticated through the existing SonarQube Cloud GitHub integration, so CI deliberately passes no Sonar secret.
+- Removed the repository-specific `SONAR_TOKEN`; CI uses the organization secret.
 - Fetched every third-party and GitHub Action tag through `gh` and resolved its commit (including annotated tags). All workflow pins already match the latest stable releases, including SonarQube Scan v8.2.1.
 - Corrected the first scanner failure: `sonar.sources` and `sonar.tests` cannot contain wildcard paths. The properties now use literal roots and classify source/test content with inclusions and exclusions.
 - Attempted npm trusted-publisher enrollment for all 13 publishable packages after receiving OIDC authorization. npm rejected every request before making a change because the current granular token bypasses two-factor authentication; no publisher trust configuration was created.

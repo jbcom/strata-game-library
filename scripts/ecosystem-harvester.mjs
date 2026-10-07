@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
  * Ecosystem Harvester
- * 
+ *
  * Runs every 15 minutes to:
  * 1. Check Cursor Background Composers → process completed work
  * 2. Check completed Jules sessions → process their PRs
  * 3. Find PRs ready to merge → merge them
  * 4. Request reviews on PRs needing attention
- * 
+ *
  * Uses:
  * - Cursor Background Composer API (https://cursor.com)
  * - Google Jules API (https://jules.googleapis.com)
@@ -76,51 +76,51 @@ function getCursorHeaders() {
 async function cursorListComposers(n = 100) {
   const headers = getCursorHeaders();
   if (!headers) return [];
-  
+
   const res = await fetch('https://cursor.com/api/background-composer/list', {
     method: 'POST',
     headers,
     body: JSON.stringify({ n, include_status: true })
   });
-  
+
   if (!res.ok) {
     throw new Error(`Cursor API ${res.status}: ${await res.text()}`);
   }
-  
+
   return res.json();
 }
 
 async function cursorGetDetailed(bcId) {
   const headers = getCursorHeaders();
   if (!headers) return null;
-  
+
   const res = await fetch('https://cursor.com/api/background-composer/get-detailed-composer', {
     method: 'POST',
     headers,
     body: JSON.stringify({ bcId, n: 1, includeDiff: true, includeTeamWide: true })
   });
-  
+
   if (!res.ok) {
     throw new Error(`Cursor API ${res.status}: ${await res.text()}`);
   }
-  
+
   return res.json();
 }
 
 async function cursorOpenPr(bcId) {
   const headers = getCursorHeaders();
   if (!headers) return null;
-  
+
   const res = await fetch('https://cursor.com/api/background-composer/open-pr', {
     method: 'POST',
     headers,
     body: JSON.stringify({ bcId })
   });
-  
+
   if (!res.ok) {
     throw new Error(`Cursor API ${res.status}: ${await res.text()}`);
   }
-  
+
   return res.json();
 }
 
@@ -151,29 +151,29 @@ async function julesApi(endpoint, options = {}) {
 
 async function harvestCursorComposers() {
   console.log('\n🤖 Harvesting Cursor Background Composers...');
-  
+
   if (!CURSOR_SESSION_TOKEN) {
     console.log('   ⚠️ CURSOR_SESSION_TOKEN not set - skipping');
     return;
   }
-  
+
   try {
     const composers = await cursorListComposers(100);
     stats.cursor_composers_checked = Array.isArray(composers) ? composers.length : 0;
     console.log(`   Found ${stats.cursor_composers_checked} composers`);
-    
+
     for (const composer of (composers || [])) {
       const status = composer.status || composer.state || 'unknown';
       console.log(`   - ${composer.bcId || composer.id}: ${status}`);
-      
+
       // Check if completed and needs PR
       if (status === 'completed' || status === 'finished' || status === 'done') {
         stats.cursor_composers_completed++;
-        
+
         // Try to get detailed info
         try {
           const details = await cursorGetDetailed(composer.bcId || composer.id);
-          
+
           // If there are changes but no PR, open one
           if (details?.hasChanges && !details?.prUrl && !DRY_RUN) {
             console.log(`     -> Opening PR for completed composer`);
@@ -196,23 +196,23 @@ async function harvestCursorComposers() {
 
 async function harvestJulesSessions() {
   console.log('\n📝 Harvesting Jules Sessions...');
-  
+
   if (!GOOGLE_JULES_API_KEY) {
     console.log('   ⚠️ GOOGLE_JULES_API_KEY not set - skipping');
     return;
   }
-  
+
   try {
     const sessionsData = await julesApi('/sessions');
     const sessions = sessionsData?.sessions || [];
     stats.jules_sessions_checked = sessions.length;
     console.log(`   Found ${sessions.length} sessions`);
-    
+
     for (const session of sessions) {
       const sessionId = session.name?.split('/').pop();
       const state = session.state || 'unknown';
       console.log(`   - ${sessionId}: ${state}`);
-      
+
       if (state === 'COMPLETED' || state === 'PR_CREATED') {
         stats.jules_sessions_completed++;
       } else if (state === 'PROPOSED_PLAN' && !DRY_RUN) {
@@ -236,15 +236,15 @@ async function harvestJulesSessions() {
 
 async function processPRs() {
   console.log('\n📋 Processing Open PRs...');
-  
+
   for (const org of ORGANIZATIONS) {
     console.log(`   Scanning ${org}...`);
     try {
       const repos = await ghApi(`/orgs/${org}/repos?per_page=100`);
-      
+
       for (const repo of repos.filter(r => !r.archived)) {
         const prs = await ghApi(`/repos/${org}/${repo.name}/pulls?state=open&per_page=50`);
-        
+
         for (const pr of prs) {
           await processPR(org, repo.name, pr);
         }
@@ -259,21 +259,21 @@ async function processPRs() {
 async function processPR(owner, repo, pr) {
   stats.prs_reviewed++;
   console.log(`   ${owner}/${repo}#${pr.number}: ${pr.title.substring(0, 50)}...`);
-  
+
   try {
     // Check CI status
     const checks = await ghApi(`/repos/${owner}/${repo}/commits/${pr.head.sha}/check-runs`);
-    const allChecksPass = checks.check_runs?.length > 0 && 
-      checks.check_runs.every(c => 
-        c.status === 'completed' && 
+    const allChecksPass = checks.check_runs?.length > 0 &&
+      checks.check_runs.every(c =>
+        c.status === 'completed' &&
         ['success', 'neutral', 'skipped'].includes(c.conclusion)
       );
-    
+
     // Check for blocking reviews
     const reviews = await ghApi(`/repos/${owner}/${repo}/pulls/${pr.number}/reviews`);
     const hasBlocker = reviews.some(r => r.state === 'CHANGES_REQUESTED');
     const isApproved = reviews.some(r => r.state === 'APPROVED');
-    
+
     // Determine action
     if (allChecksPass && isApproved && !hasBlocker && pr.mergeable !== false && !pr.draft) {
       console.log(`     🚀 Ready to merge!`);
@@ -324,19 +324,19 @@ async function main() {
   console.log(`Time: ${new Date().toISOString()}`);
   console.log(`Dry Run: ${DRY_RUN}`);
   console.log('');
-  
+
   if (!GITHUB_TOKEN) {
     console.error('❌ GITHUB_TOKEN not set');
     process.exit(1);
   }
-  
+
   await harvestCursorComposers();
   await harvestJulesSessions();
   await processPRs();
-  
+
   // Write report
   writeFileSync('harvester-report.json', JSON.stringify(stats, null, 2));
-  
+
   console.log('\n═══════════════════════════════════════════════════════════════════');
   console.log('                         HARVESTER REPORT                           ');
   console.log('═══════════════════════════════════════════════════════════════════');

@@ -17,6 +17,7 @@ Find and implement ONE micro-UX improvement that makes the interface more intuit
 ## Boundaries
 
 ✅ **Always do:**
+
 - Run `{{TEST_COMMAND}}` before creating PR
 - Add ARIA labels to icon-only buttons
 - Use existing design system components
@@ -24,10 +25,12 @@ Find and implement ONE micro-UX improvement that makes the interface more intuit
 - Keep changes under 50 lines
 
 ⚠️ **Ask first:**
+
 - Major design changes affecting multiple pages
 - Adding new design tokens or colors
 
 🚫 **Never do:**
+
 - Complete page redesigns
 - Add new UI dependencies
 - Change backend logic
@@ -45,6 +48,7 @@ Find and implement ONE micro-UX improvement that makes the interface more intuit
 Before starting, read `.jules/palette.md` (create if missing).
 
 Only add entries for CRITICAL learnings:
+
 - An accessibility pattern specific to this app
 - A UX change that was well/poorly received
 - A design constraint to remember
@@ -56,6 +60,7 @@ Format: `## YYYY-MM-DD - [Title]
 ## Scan Checklist
 
 ### Accessibility
+
 - [ ] Missing ARIA labels on icon buttons
 - [ ] Insufficient color contrast
 - [ ] Missing keyboard navigation
@@ -64,6 +69,7 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Missing focus indicators
 
 ### Interaction
+
 - [ ] Missing loading states
 - [ ] No feedback on actions
 - [ ] Missing disabled state explanations
@@ -71,12 +77,14 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Missing empty states
 
 ### Visual Polish
+
 - [ ] Inconsistent spacing
 - [ ] Missing hover states
 - [ ] No transitions for state changes
 - [ ] Poor mobile responsiveness
 
 ### Helpful Additions
+
 - [ ] Missing tooltips on icon buttons
 - [ ] No placeholder text
 - [ ] Missing helper text on forms
@@ -88,6 +96,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if UI_FRAMEWORK equals "react"}}
 **React Focus:**
+
 - Components missing `aria-label`
 - Buttons without `disabled` prop
 - Missing `key` props causing re-render issues
@@ -97,6 +106,7 @@ Format: `## YYYY-MM-DD - [Title]
 ### 2. 🎯 SELECT
 
 Pick the BEST opportunity that:
+
 - Has immediate visible impact
 - Improves accessibility
 - Can be done in < 50 lines

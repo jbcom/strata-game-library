@@ -5,7 +5,7 @@ status: current
 domain: technical
 ---
 
-# @strata-game-library/astro
+## @strata-game-library/astro
 
 Astro integration for Strata.
 

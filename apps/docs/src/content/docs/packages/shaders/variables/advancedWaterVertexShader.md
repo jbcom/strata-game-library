@@ -15,5 +15,3 @@ title: "advancedWaterVertexShader"
 Defined in: [water.ts:153](https://github.com/strata-game-library/shaders/blob/6bdfb2582aaf48f6f3744bdf896e8c5144c8f6df/src/water.ts#L153)
 
 Advanced water shader with caustics
-
-Lifted from Otterfall prototype.

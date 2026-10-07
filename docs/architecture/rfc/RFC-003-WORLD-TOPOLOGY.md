@@ -32,7 +32,7 @@ Currently, developers must implement this topology manually. The World Topology 
 3. **Progression** - Unlock connections through gameplay
 4. **Procedural support** - Generate world topology algorithmically
 
-## The Rivermarsh Example
+## The Sample Game Example
 
 ```
     ┌─────────┐         ┌─────────┐         ┌──────────┐
@@ -221,7 +221,7 @@ interface ConnectionDefinition {
 ### Usage Example
 
 ```typescript
-const rivermarshWorld = createWorldGraph({
+const sampleWorld = createWorldGraph({
   regions: {
     marsh: {
       name: 'The Marsh',

@@ -208,11 +208,11 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 
 ## Phase 6: Validation (Week 8)
 
-**Goal**: Validate framework with Rivermarsh rebuild.
+**Goal**: Validate framework with Sample Game rebuild.
 
 ### Deliverables
 
-#### Rivermarsh Port
+#### Sample Game Port
 
 - [ ] Port to declarative definition
 - [ ] All creatures as creature definitions
@@ -228,7 +228,7 @@ This roadmap outlines the evolution of Strata from a rendering toolkit to a comp
 
 ### Success Criteria
 
-- Rivermarsh < 1000 lines of game code
+- Sample Game < 1000 lines of game code
 - Feature parity with current version
 - 60fps on mobile devices
 

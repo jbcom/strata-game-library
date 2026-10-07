@@ -4,7 +4,6 @@ import type { IUniforms } from './types.js';
 /**
  * Water shader - animated rippling water surface with procedural normal mapping
  *
- * Lifted from Otterfall procedural rendering system.
  */
 
 export const waterVertexShader = /* glsl */ `
@@ -148,7 +147,6 @@ export const waterFragmentShader = /* glsl */ `
 /**
  * Advanced water shader with caustics
  *
- * Lifted from Otterfall prototype.
  */
 export const advancedWaterVertexShader = /* glsl */ `
   uniform float uTime;

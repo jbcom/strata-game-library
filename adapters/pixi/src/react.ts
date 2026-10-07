@@ -1,16 +1,14 @@
 /**
- * @arcade-cabinet/pixi-mount/react — optional React hook wrapper.
+ * Optional React hook wrapper for the Pixi adapter.
  *
  * Thin, NOT the primary API: the framework-agnostic core stays
- * element-in/handle-out (on-the-ropes' model). This hook is a convenience
- * layer mirroring bioluminescent-sea's disposed-guard useEffect pattern
- * for StrictMode safety.
+ * element-in/handle-out.
  *
  * `react` is an optional peer dependency — only this subpath needs it.
  */
 
 import { type RefObject, useEffect, useRef, useState } from 'react';
-import { mountPixi, type MountOptions, type PixiMountHandle } from './mount.js';
+import { type MountOptions, mountPixi, type PixiMountHandle } from './mount.js';
 
 /**
  * Mount a Pixi Application onto the ref'd element.
@@ -19,8 +17,8 @@ import { mountPixi, type MountOptions, type PixiMountHandle } from './mount.js';
  * mount then mints a fresh canvas per Application, which is what makes
  * StrictMode's mount→cleanup→mount cycle safe — a destroyed Pixi app's
  * WebGL context is lost forever on its canvas ELEMENT, so a reused
- * `<canvas>` ref boots the second app onto a dead context (illinois-jim's
- * documented WEBGL_lose_context poison). A canvas ref still works for
+ * `<canvas>` ref boots the second app onto a dead context.
+ * A canvas ref still works for
  * single-mount trees, but carries that hazard under StrictMode.
  *
  * `options` are captured when the mount effect runs; changing them later
@@ -28,7 +26,7 @@ import { mountPixi, type MountOptions, type PixiMountHandle } from './mount.js';
  */
 export function usePixiMount(
   ref: RefObject<HTMLCanvasElement | HTMLElement | null>,
-  options: MountOptions = {},
+  options: MountOptions = {}
 ): PixiMountHandle | null {
   const [handle, setHandle] = useState<PixiMountHandle | null>(null);
   const optionsRef = useRef(options);

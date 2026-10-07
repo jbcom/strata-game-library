@@ -7,6 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "verify": "pnpm run lint && pnpm run typecheck && pnpm run test:serial && pnpm run build && pnpm run api:check && pnpm run package:inspect && pnpm run docs:build && pnpm run docs:links",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "test:serial": "nx run-many -t test --parallel=1",
@@ -24,7 +25,7 @@
     "api:check": "node scripts/api-report.mjs --check && node scripts/api-report.mjs --check-exports-map",
     "docs": "pnpm run docs:dev",
     "docs:dev": "pnpm --dir docs run dev",
-    "docs:build": "pnpm --dir docs run build",
+    "docs:build": "pnpm run docs:api && pnpm --dir docs run build",
     "docs:build:pages": "pnpm run docs:build",
     "docs:links": "node scripts/check-links.mjs docs/dist",
     "package:inspect": "node scripts/validate-packages.mjs",

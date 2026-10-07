@@ -70,7 +70,7 @@ This document outlines the comprehensive plan for Strata 2.0, transforming the p
 | **nodejs-strata-shaders** | GLSL shader collection | New (needs extraction) | `shaders.strata.game` |
 | **nodejs-strata-presets** | Preset configurations | New (needs extraction) | `presets.strata.game` |
 | **nodejs-strata-examples** | Example applications | Needs migration | `examples.strata.game` |
-| **nodejs-strata-typescript-tutor** | Professor Pixel educational platform | Active | `tutor.strata.game` |
+| **example-learning-studio** | Example Tutor educational platform | Active | `tutor.strata.game` |
 | **nodejs-strata-react-native-plugin** | React Native mobile support | New | `react-native.strata.game` |
 | **nodejs-strata-capacitor-plugin** | Capacitor mobile support | New | `capacitor.strata.game` |
 
@@ -78,9 +78,9 @@ This document outlines the comprehensive plan for Strata 2.0, transforming the p
 
 | Repository | Description | Framework Target |
 |------------|-------------|------------------|
-| nodejs-rivermarsh | Mobile-first 3D exploration game | Primary validation |
-| nodejs-otter-river-rush | Fast-paced river racing game | Racing mode validation |
-| nodejs-otterfall | 3D adventure with procedural terrain | AI/terrain validation |
+| exploration-demo | Mobile-first 3D exploration game | Primary validation |
+| racing-demo | Fast-paced river racing game | Racing mode validation |
+| adventure-demo | 3D adventure with procedural terrain | AI/terrain validation |
 
 ### Sub-Package Issues
 
@@ -91,7 +91,7 @@ This document outlines the comprehensive plan for Strata 2.0, transforming the p
 | strata-examples | #2: CI/CD for latest strata | Open |
 | strata-examples | #3: Deploy to GitHub Pages | Open |
 | strata-examples | #4: Migrate examples from main | Open |
-| strata-typescript-tutor | #1: Consolidate as Professor Pixel frontend | Open |
+| example-learning-studio | #1: Consolidate as Example Tutor frontend | Open |
 
 ---
 
@@ -118,7 +118,7 @@ strata.game/
 
 | Subdomain | Package | Content |
 |-----------|---------|---------|
-| `tutor.strata.game` | @jbcom/strata-typescript-tutor | Professor Pixel educational platform |
+| `tutor.strata.game` | @jbcom/example-learning-studio | Example Tutor educational platform |
 | `examples.strata.game` | @jbcom/strata-examples | Interactive runnable demos |
 | `shaders.strata.game` | @jbcom/strata-shaders | Shader documentation & playground |
 | `presets.strata.game` | @jbcom/strata-presets | Preset gallery & configuration |
@@ -366,7 +366,7 @@ Work is organized by **functional domains** with explicit issue dependencies. Mi
 │                        │                                                 │  │
 │                        ▼                                                 │  │
 │              M9: VALIDATION                                              │  │
-│              [Rivermarsh port]                                           │  │
+│              [Sample Game port]                                           │  │
 │                                                                          │  │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -518,11 +518,11 @@ Work is organized by **functional domains** with explicit issue dependencies. Mi
 
 | Target | Scope | Metric | Acceptance |
 |--------|-------|--------|------------|
-| Rivermarsh port | Full game migration | <1000 lines game code | Feature parity with 1.x |
-| Otter River Rush | Racing mode validation | Racing works | Leaderboards, obstacles |
+| Sample Game port | Full game migration | <1000 lines game code | Feature parity with 1.x |
+| Racing Demo | Racing mode validation | Racing works | Leaderboards, obstacles |
 | Mobile performance | All validation targets | 60fps | Tested on 3+ devices |
 
-**Done when**: Rivermarsh runs on Strata 2.0 with documented code reduction.
+**Done when**: Sample Game runs on Strata 2.0 with documented code reduction.
 
 ---
 
@@ -620,7 +620,7 @@ All v2.0 issues should have:
 
 | Metric | Target | Current |
 |--------|--------|---------|
-| Code reduction (Rivermarsh) | <1000 lines | ~10000 lines |
+| Code reduction (Sample Game) | <1000 lines | ~10000 lines |
 | API documentation | 100% | ~60% |
 | Test coverage | >80% | 73.41% |
 | TypeScript coverage | 100% | ~95% |
@@ -675,15 +675,15 @@ All v2.0 issues should have:
 - [ ] Color palette extensions: Approved by jbcom brand?
 - [ ] Marketing materials needed?
 
-### Professor Pixel Integration
+### Example Tutor Integration
 
-- [x] typescript-tutor stays as-is (correct repo, correct name) (RESOLVED)
-- [x] Professor Pixel scope: **Education + Workshop ONLY** (RESOLVED)
+- [x] learning-studio stays as-is (correct repo, correct name) (RESOLVED)
+- [x] Example Tutor scope: **Education + Workshop ONLY** (RESOLVED)
   - Kindly old professor version → Learn/Education
   - Cyberpunk version → Workshop/Game creation
   - NOT a general Strata mascot
 - [x] Existing assets available for both versions (scattered, needs consolidation)
-- [ ] Consolidate Professor Pixel assets into typescript-tutor repo
+- [ ] Consolidate Example Tutor assets into learning-studio repo
 
 ---
 
@@ -728,9 +728,9 @@ The Strata brand unifies **four game development paradigms** into a cohesive pla
 | Pillar | Domain | Purpose | Source |
 |--------|--------|---------|--------|
 | **Strata Engine** | `strata.game` | Core rendering & game framework | nodejs-strata |
-| **Strata Workshop** | `workshop.strata.game` | AI-powered game creation wizard | typescript-tutor flows |
-| **Strata Learn** | `learn.strata.game` | Interactive TypeScript education | typescript-tutor lessons |
-| **Strata Arcade** | `arcade.strata.game` | Game showcase gallery | rivermarsh, otterfall, etc. |
+| **Strata Workshop** | `workshop.strata.game` | AI-powered game creation wizard | learning-studio flows |
+| **Strata Learn** | `learn.strata.game` | Interactive TypeScript education | learning-studio lessons |
+| **Strata Arcade** | `arcade.strata.game` | Game showcase gallery | sampleGame, adventure-demo, etc. |
 
 ### AI Layer Consolidation
 
@@ -739,11 +739,11 @@ The Strata brand unifies **four game development paradigms** into a cohesive pla
 | rust-agentic-game-development | Rust | Strata AI Core (crate) |
 | rust-agentic-game-generator | Rust | Merge into AI Core |
 | python-agentic-game-development | Python | PyO3 bindings to AI Core |
-| typescript-tutor flows | TypeScript | agentic-control configs |
+| learning-studio flows | TypeScript | agentic-control configs |
 
-### Professor Pixel: Brand Mascot
+### Example Tutor: Brand Mascot
 
-Professor Pixel evolves from "tutor mascot" to **Strata's official mascot** across ALL properties:
+Example Tutor evolves from "tutor mascot" to **Strata's official mascot** across ALL properties:
 
 | Context | Personality |
 |---------|-------------|
@@ -768,14 +768,14 @@ flows:
 
 ai:
   personas:
-    professor-pixel:
-      system: "You are Professor Pixel, Strata's friendly mascot..."
+    example-tutor:
+      system: "You are Example Tutor, Strata's friendly mascot..."
 ```
 
 ### Studio Monorepo Structure (Future)
 
 ```
-nodejs-strata-studio/          # Monorepo (from typescript-tutor)
+nodejs-strata-studio/          # Monorepo (from learning-studio)
 ├── packages/
 │   ├── workshop/              # Game wizard flows
 │   ├── learn/                 # Education platform
@@ -794,9 +794,9 @@ nodejs-strata-studio/          # Monorepo (from typescript-tutor)
 | Repo | Issue | Title |
 |------|-------|-------|
 | nodejs-strata | [#101](https://github.com/jbcom/strata-game-library/issues/101) | EPIC: Strata Game Studio |
-| typescript-tutor | [#1](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/1) | Consolidation as Professor Pixel frontend |
-| typescript-tutor | [#25](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/25) | Convert lessons to TypeScript/Strata |
-| typescript-tutor | [#26](https://github.com/jbcom/strata-game-library-typescript-tutor/issues/26) | Full Strata sub-package alignment |
+| learning-studio | [#1](https://github.com/jbcom/strata-game-library/issues/1) | Consolidation as Example Tutor frontend |
+| learning-studio | [#25](https://github.com/jbcom/strata-game-library/issues/25) | Convert lessons to TypeScript/Strata |
+| learning-studio | [#26](https://github.com/jbcom/strata-game-library/issues/26) | Full Strata sub-package alignment |
 | python-agentic-game-dev | [#1](https://github.com/jbcom/python-agentic-game-development/issues/1) | Merge into unified platform |
 | rust-agentic-game-generator | [#21](https://github.com/jbcom/rust-agentic-game-generator/issues/21) | Split and align with ecosystem |
 
@@ -810,10 +810,10 @@ nodejs-strata-studio/          # Monorepo (from typescript-tutor)
 
 | Question | Options | Impact |
 |----------|---------|--------|
-| **Monorepo vs Multi-repo?** | Studio as monorepo OR keep separate repos | Determines typescript-tutor transformation |
+| **Monorepo vs Multi-repo?** | Studio as monorepo OR keep separate repos | Determines learning-studio transformation |
 | **npm scope** | Stay `@jbcom/` OR create `@strata/` | Package naming for all sub-packages |
 | **AI Core distribution** | WASM + native bindings OR server-only | Workshop capabilities |
-| **Professor Pixel assets** | Commission professional art OR use existing | Brand consistency |
+| **Example Tutor assets** | Commission professional art OR use existing | Brand consistency |
 
 ### Maintainer Tasks (M3: Infrastructure)
 
@@ -879,7 +879,7 @@ jbcom/
 │
 ├─────────────── STUDIO ──────────────
 │
-├── nodejs-strata-typescript-tutor     # → nodejs-strata-studio
+├── example-learning-studio     # → nodejs-strata-studio
 │   ├── packages/workshop/             # Game wizard flows
 │   ├── packages/learn/                # Education platform
 │   ├── packages/arcade/               # Showcase gallery
@@ -902,10 +902,10 @@ jbcom/
 │
 ├─────────────── VALIDATION GAMES ────
 │
-├── nodejs-rivermarsh                  # Primary validation (mobile exploration)
-├── nodejs-otter-river-rush            # Racing mode validation
-├── nodejs-otterfall                   # 3D adventure validation
-└── nodejs-rivers-of-reckoning         # Roguelike validation
+├── exploration-demo                  # Primary validation (mobile exploration)
+├── racing-demo            # Racing mode validation
+├── adventure-demo                   # 3D adventure validation
+└── roguelike-demo         # Roguelike validation
 ```
 
 ---

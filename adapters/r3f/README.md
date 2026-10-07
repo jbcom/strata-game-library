@@ -5,7 +5,7 @@ status: current
 domain: technical
 ---
 
-# @strata-game-library/r3f
+## @strata-game-library/r3f
 
 React Three Fiber components for Strata.
 

@@ -4,10 +4,6 @@
  * Kept in its own module rather than folded into `input.ts` because it is
  * genuinely engine-agnostic: no imports at all, so it can be used by any
  * adapter — or by a consumer with no renderer — without pulling three.js in.
- *
- * Contributed from @arcade-cabinet/input-joystick, where it backed a
- * touch-anywhere floating joystick. Strata's own VirtualJoystick had no
- * deadzone handling, which is the gap this fills.
  */
 
 export interface JoystickVector {

@@ -1,8 +1,6 @@
 /**
  * Opt-in module-load side effect, deliberately NOT baked into mountPixi —
  * too load-bearing and PixiJS-version-specific to apply silently.
- *
- * Extracted from bioluminescent-sea's src/render/stage.ts.
  */
 
 import { Filter } from 'pixi.js';
@@ -15,8 +13,7 @@ import { Filter } from 'pixi.js';
  * upper-left quadrant.
  *
  * Call it once, from a guaranteed-executed code path (e.g. right before
- * your first mountPixi). bioluminescent-sea learned the hard way that a
- * module-scope assignment gets tree-shaken by Rolldown — bundlers may drop
+ * your first mountPixi). Bundlers may drop
  * module-level mutations to imported namespace objects even with
  * side-effect intent — which is exactly why this ships as a callable
  * function rather than an import side effect.

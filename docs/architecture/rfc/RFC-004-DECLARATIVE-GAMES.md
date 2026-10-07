@@ -19,17 +19,17 @@ This RFC proposes a top-level `createGame()` API that enables developers to defi
 
 ## Vision
 
-A complete game like Rivermarsh should be defined in **<1000 lines of game-specific code**:
+A complete game like Sample Game should be defined in **<1000 lines of game-specific code**:
 
 ```typescript
 import { createGame, StrataGame } from '@jbcom/strata/game';
 
-const rivermarsh = createGame({
-  name: 'Rivermarsh',
+const sampleGame = createGame({
+  name: 'Sample Game',
   version: '1.0.0',
   
   content: { creatures, props, materials, items },
-  world: rivermarshWorld,
+  world: sampleWorld,
   
   scenes: { title, gameplay, credits },
   initialScene: 'title',
@@ -43,7 +43,7 @@ const rivermarsh = createGame({
 });
 
 function App() {
-  return <StrataGame game={rivermarsh} />;
+  return <StrataGame game={sampleGame} />;
 }
 ```
 
@@ -459,10 +459,10 @@ function StrataGame({ game, loading, error: ErrorComponent, children }: StrataGa
 }
 ```
 
-## Complete Example: Rivermarsh
+## Complete Example: Sample Game
 
 ```typescript
-// rivermarsh/game.ts
+// sampleGame/game.ts
 import { createGame } from '@jbcom/strata/game';
 import { creatures } from './creatures';
 import { props } from './props';
@@ -473,8 +473,8 @@ import { scenes } from './scenes';
 import { modes } from './modes';
 import { controls } from './controls';
 
-export const rivermarsh = createGame({
-  name: 'Rivermarsh',
+export const sampleGame = createGame({
+  name: 'Sample Game',
   version: '1.0.0',
   description: 'An exploration game in a procedural wetland world',
   
@@ -518,7 +518,7 @@ export const rivermarsh = createGame({
   controls,
   
   ui: {
-    hud: RivermarshHUD,
+    hud: SampleHUD,
     theme: marshTheme,
   },
   
@@ -539,11 +539,11 @@ export const rivermarsh = createGame({
   },
 });
 
-// rivermarsh/App.tsx
+// sampleGame/App.tsx
 function App() {
   return (
     <StrataGame 
-      game={rivermarsh}
+      game={sampleGame}
       loading={<LoadingScreen />}
     />
   );
@@ -553,7 +553,7 @@ function App() {
 ### Scene Definitions
 
 ```typescript
-// rivermarsh/scenes/index.ts
+// sampleGame/scenes/index.ts
 import { SceneDefinition } from '@jbcom/strata/game';
 
 export const title: SceneDefinition = {
@@ -595,7 +595,7 @@ export const scenes = { title, gameplay, credits };
 ### Mode Definitions
 
 ```typescript
-// rivermarsh/modes/exploration.ts
+// sampleGame/modes/exploration.ts
 export const exploration: ModeDefinition = {
   id: 'exploration',
   
@@ -648,7 +648,7 @@ function RacingHUD({ instance }: { instance: ModeInstance }) {
   );
 }
 
-// rivermarsh/modes/racing.ts
+// sampleGame/modes/racing.ts
 export const racing: ModeDefinition = {
   id: 'racing',
   
@@ -726,7 +726,7 @@ Remove all manual implementation, game is pure configuration.
 
 | Metric | Threshold |
 |--------|-----------|
-| Lines of code (Rivermarsh) | <1000 |
+| Lines of code (Sample Game) | <1000 |
 | Time to new game prototype | <1 hour |
 | API documentation coverage | 100% |
 | TypeScript coverage | 100% |

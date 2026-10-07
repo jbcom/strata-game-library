@@ -36,10 +36,9 @@ This document defines the 5-layer memory architecture for AI agents working on t
 - This is the primary handoff mechanism between agent sessions
 - **Write here**: Session state, patterns, progress tracking
 
-### Layer 4: Repository Instructions (`AGENTS.md`, `CLAUDE.md`)
+### Layer 4: Repository Instructions (`AGENTS.md`)
 
 - Root-level instruction files checked into the repository
-- `CLAUDE.md` -- Claude Code specific instructions (commands, architecture)
 - `AGENTS.md` -- Universal agent instructions (all AI tools)
 - Stable, rarely updated. Defines project rules and conventions.
 
@@ -72,7 +71,6 @@ When starting a new session, read files in this order:
 3. **`memory-bank/activeContext.md`** -- what happened recently
 4. **`memory-bank/progress.md`** -- what's done, what's left
 5. **Specific files as needed** -- `systemPatterns.md`, `techContext.md`, etc.
-6. **Root `CLAUDE.md`** -- commands and development workflow
 
 ## How to WRITE Memory
 

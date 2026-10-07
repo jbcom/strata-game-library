@@ -29,9 +29,9 @@
 
 <!-- List the key changes in your PR -->
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Testing
 
@@ -51,24 +51,28 @@
 <!-- Check all items before requesting review -->
 
 ### Code Quality
+
 - [ ] Code follows project style guidelines
 - [ ] No linting errors
 - [ ] Code is properly formatted
 - [ ] Type checking passes (if applicable)
 - [ ] Self-reviewed code for logic errors
 
-### Testing
+### Test coverage checklist
+
 - [ ] All new code is covered by tests
 - [ ] All tests pass locally
 - [ ] Edge cases are tested
 - [ ] Error cases are tested
 
 ### Documentation
+
 - [ ] Comments added for public APIs
 - [ ] Complex logic is commented
 - [ ] README updated (if needed)
 
 ### Commits
+
 - [ ] Commits follow conventional commit format
 - [ ] Commit messages are clear and descriptive
 

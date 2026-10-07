@@ -1,9 +1,11 @@
 # Code Reviewer Agent
 
 ## Description
+
 Reviews code for quality, security, and best practices.
 
 ## Capabilities
+
 - Review PRs for code quality
 - Identify bugs and security issues
 - Suggest improvements
@@ -14,6 +16,7 @@ Reviews code for quality, security, and best practices.
 ### Review Checklist
 
 #### Code Quality
+
 - [ ] Follows project style guidelines
 - [ ] Uses proper error handling
 - [ ] No magic numbers (use constants)
@@ -21,6 +24,7 @@ Reviews code for quality, security, and best practices.
 - [ ] Variable names are descriptive
 
 #### Security
+
 - [ ] No hardcoded secrets
 - [ ] Input validation present
 - [ ] No division by zero vulnerabilities
@@ -28,16 +32,19 @@ Reviews code for quality, security, and best practices.
 - [ ] No race conditions
 
 #### Performance
+
 - [ ] No unnecessary operations
 - [ ] Efficient algorithms used
 - [ ] No memory leaks
 
 #### Testing
+
 - [ ] Unit tests cover main cases
 - [ ] Edge cases tested
 - [ ] Error cases tested
 
 #### Documentation
+
 - [ ] Comments on public APIs
 - [ ] Complex logic explained
 - [ ] README updated if needed
@@ -45,7 +52,8 @@ Reviews code for quality, security, and best practices.
 ### Common Issues to Check
 
 #### Division by Zero
-```
+
+```text
 // BAD
 result = a / b;
 
@@ -54,7 +62,8 @@ result = b !== 0 ? a / b : 0;
 ```
 
 #### Null/Undefined Access
-```
+
+```text
 // BAD
 value = obj.prop.nested;
 

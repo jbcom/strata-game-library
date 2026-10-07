@@ -59,6 +59,7 @@ export interface InstanceData {
  * prefer `@strata-game-library/core/core/terrain`.
  */
 import type { BiomeData } from './biomes.js';
+
 export type { BiomeData };
 
 /**

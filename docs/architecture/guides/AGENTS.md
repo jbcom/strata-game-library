@@ -131,7 +131,7 @@ test(world): add RegionSystem integration tests
 refactor(core): extract trigger logic from ECS
 ```
 
-### Validation Target: Rivermarsh
+### Validation Target: Sample Game
 
 Success criteria: <1000 lines game code, defined via createGame(), feature parity, 60fps mobile.
 

@@ -3,7 +3,6 @@ import type { IUniforms } from './types.js';
 
 /**
  * Fur shell shader - layered alpha-tested shells for volumetric fur effect
- * Migrated from rivermarsh procedural rendering system.
  *
  * Multi-layer shell displacement with wind animation and density falloff.
  */

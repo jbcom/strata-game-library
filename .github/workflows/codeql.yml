@@ -9,7 +9,6 @@
 # dependabot fans), on every PR targeting main, and weekly so the
 # main-branch result stays fresh.
 #
-# Maintained centrally at github.com/jbdevprimary/gh-fleet-sync.
 # Sync via `scripts/fanout.sh` in that repo. Do not edit in place.
 
 name: CodeQL

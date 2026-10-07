@@ -1,6 +1,6 @@
 ---
 title: "Strata Ecosystem Integration Report"
-description: "Analysis of TypeScript games in arcade-cabinet organization for Strata API integration"
+description: "Analysis of TypeScript games in example-games organization for Strata API integration"
 status: active
 implementation: 30
 last_updated: 2026-03-01
@@ -11,7 +11,7 @@ area: architecture
 
 ## Overview
 
-This document provides an analysis of TypeScript games in the arcade-cabinet organization that should be using the Strata API, along with integration recommendations.
+The fictional demo projects below illustrate integration and migration planning for the Strata API.
 
 **Last Updated:** 2025-12-26
 
@@ -23,37 +23,37 @@ This document provides an analysis of TypeScript games in the arcade-cabinet org
 
 | Game | Repository | Strata Version | Status |
 |------|------------|----------------|--------|
-| Rivermarsh | `arcade-cabinet/rivermarsh` | ^1.4.10 | ✅ Current |
-| Protocol: Silent Night | `arcade-cabinet/protocol-silent-night` | ^1.0.0 | ⚠️ Outdated |
+| Sample Game | `example-games/sampleGame` | ^1.4.10 | ✅ Current |
+| Stealth Demo | `example-games/stealth-demo` | ^1.0.0 | ⚠️ Outdated |
 
 ### Games NOT Using Strata (Candidates for Migration)
 
 | Game | Repository | Current Stack | Strata Fit |
 |------|------------|---------------|------------|
-| Otter River Rush | `arcade-cabinet/otter-river-rush` | R3F monorepo | 🎯 High - Racing/endless runner |
-| Ebb and Bloom | `arcade-cabinet/ebb-and-bloom` | R3F + Rapier | 🎯 High - World simulation |
-| Realm Walker | `arcade-cabinet/realm-walker` | R3F + Yuka | 🎯 High - Adventure game |
+| Racing Demo | `example-games/racing-demo` | R3F monorepo | 🎯 High - Racing/endless runner |
+| Simulation Demo | `example-games/simulation-demo` | R3F + Rapier | 🎯 High - World simulation |
+| Adventure Demo | `example-games/adventure-demo` | R3F + Yuka | 🎯 High - Adventure game |
 
 ### Non-TypeScript Games (Not Applicable)
 
 | Game | Repository | Language | Engine |
 |------|------------|----------|--------|
-| Cosmic Cults | `arcade-cabinet/cosmic-cults` | Rust | Bevy |
-| Rivers of Reckoning | `arcade-cabinet/rivers-of-reckoning` | Python | Pygame-ce |
-| Dragons Labyrinth | `arcade-cabinet/dragons-labyrinth` | Python | Unknown |
-| Echoes of Beastlight | `arcade-cabinet/echoes-of-beastlight` | Rust | Unknown |
+| Strategy Demo | `example-games/strategy-demo` | Rust | Bevy |
+| Roguelike Demo | `example-games/roguelike-demo` | Python | Pygame-ce |
+| Dungeon Demo | `example-games/dungeon-demo` | Python | Unknown |
+| Action Demo | `example-games/action-demo` | Rust | Unknown |
 
 ---
 
 ## Integration Recommendations
 
-### 1. Protocol: Silent Night - Version Update
+### 1. Stealth Demo - Version Update
 
 **Current:** `@jbcom/strata: ^1.0.0`
 **Recommended:** `@jbcom/strata: ^1.4.10`
 
 ```bash
-# In protocol-silent-night repo
+# In stealth-demo repo
 pnpm update @jbcom/strata
 ```
 
@@ -64,7 +64,7 @@ pnpm update @jbcom/strata
 - Better water rendering
 - Game orchestration primitives
 
-### 2. Otterfall - Full Migration
+### 2. Adventure Demo - Full Migration
 
 **Current Stack:**
 
@@ -101,7 +101,7 @@ import { createGame, StrataGame } from '@jbcom/strata/api';
 4. Add vegetation using `GrassInstances`, `TreeInstances`
 5. Integrate game orchestration for modes
 
-### 3. Realm Walker - Partial Integration
+### 3. Adventure Demo - Partial Integration
 
 **Current Stack:**
 
@@ -122,7 +122,7 @@ import { createGame, StrataGame } from '@jbcom/strata/api';
 
 **Estimated Effort:** 40-50 hours (larger scope)
 
-### 4. Ebb and Bloom - Evaluation Needed
+### 4. Simulation Demo - Evaluation Needed
 
 **Current:** TypeScript project (private)
 
@@ -319,14 +319,14 @@ export default {
 
 ### Immediate (This Week)
 
-1. [ ] Update protocol-silent-night to strata ^1.4.10
-2. [ ] Create migration issue for nodejs-otterfall
-3. [ ] Review ebb-and-bloom for Strata compatibility
+1. [ ] Update stealth-demo to strata ^1.4.10
+2. [ ] Create migration issue for adventure-demo
+3. [ ] Review simulation-demo for Strata compatibility
 
 ### Short-term (This Month)
 
-1. [ ] Begin nodejs-otterfall migration
-2. [ ] Create Strata integration guide for arcade-cabinet games
+1. [ ] Begin adventure-demo migration
+2. [ ] Create Strata integration guide for example-games games
 3. [ ] Set up shared CI configuration
 
 ### Long-term (This Quarter)

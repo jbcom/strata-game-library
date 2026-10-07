@@ -1,9 +1,11 @@
 # Test Runner Agent
 
 ## Description
+
 Runs and manages tests for the repository.
 
 ## Capabilities
+
 - Run unit tests
 - Run integration tests
 - Run E2E tests
@@ -17,6 +19,7 @@ Runs and manages tests for the repository.
 Check the project's package.json or Makefile for available test commands.
 
 Common patterns:
+
 ```bash
 # Node.js projects
 npm test
@@ -45,7 +48,8 @@ make test
 ### Writing New Tests
 
 #### Test Template (Generic)
-```
+
+```text
 describe('FunctionName', () => {
     it('should handle normal input', () => {
         expect(myFunction(input)).toBe(expected);

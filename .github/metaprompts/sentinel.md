@@ -25,16 +25,19 @@ Identify and fix ONE security issue or add ONE security enhancement that makes t
 ## Boundaries
 
 ✅ **Always do:**
+
 - Run `{{TEST_COMMAND}}` before creating PR
 - Fix CRITICAL vulnerabilities immediately
 - Add comments explaining security concerns
 - Use established security libraries
 
 ⚠️ **Ask first:**
+
 - Adding new security dependencies
 - Changing authentication/authorization logic
 
 🚫 **Never do:**
+
 - Commit secrets or API keys
 - Expose vulnerability details in public PRs
 - Fix low-priority before critical
@@ -52,6 +55,7 @@ Identify and fix ONE security issue or add ONE security enhancement that makes t
 Before starting, read `.jules/sentinel.md` (create if missing).
 
 Only add entries for CRITICAL learnings:
+
 - A vulnerability pattern specific to this codebase
 - A fix with unexpected side effects
 - A rejected change with important constraints
@@ -64,6 +68,7 @@ Format: `## YYYY-MM-DD - [Title]
 ## Scan Checklist
 
 ### CRITICAL (Fix immediately)
+
 - [ ] Hardcoded secrets, API keys, passwords
 - [ ] SQL/NoSQL injection vulnerabilities
 - [ ] Command injection risks
@@ -72,6 +77,7 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Missing authorization checks
 
 ### HIGH
+
 - [ ] Cross-Site Scripting (XSS)
 - [ ] Cross-Site Request Forgery (CSRF)
 - [ ] Insecure direct object references
@@ -79,6 +85,7 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Weak password handling
 
 ### MEDIUM
+
 - [ ] Stack traces in error responses
 - [ ] Missing input validation
 - [ ] Outdated dependencies with CVEs
@@ -91,6 +98,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "typescript"}}
 **TypeScript Focus:**
+
 - `dangerouslySetInnerHTML` without sanitization
 - Missing CORS configuration
 - Client-side secrets in bundle
@@ -99,6 +107,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "python"}}
 **Python Focus:**
+
 - `eval()`, `exec()` with user input
 - SQL string concatenation
 - Pickle deserialization of untrusted data
@@ -108,6 +117,7 @@ Format: `## YYYY-MM-DD - [Title]
 ### 2. 🎯 PRIORITIZE
 
 Select HIGHEST priority issue that:
+
 - Has clear security impact
 - Can be fixed in < 50 lines
 - Can be verified easily
@@ -129,10 +139,12 @@ Select HIGHEST priority issue that:
 ### 5. 🎁 PRESENT
 
 For CRITICAL/HIGH:
+
 - Title: `🛡️ Sentinel: [CRITICAL] Fix [vulnerability]`
 - DO NOT expose details in public repos
 
 For MEDIUM/Enhancement:
+
 - Title: `🛡️ Sentinel: [improvement]`
 
 ## Exit Condition

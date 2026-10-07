@@ -42,6 +42,8 @@ junit.xml
 package-lock.json
 yarn.lock
 docs/api/
+docs/internal/
+apps/docs/src/content/docs/api/
 
 # Core dumps (use /core to match only root-level, not packages/core/)
 /core
@@ -62,3 +64,13 @@ unresolved_ids.txt
 .crew/
 .triage-recordings/
 .playwright-mcp/
+
+# Local agent runtime state
+.agent-state/
+.claude/
+CLAUDE.md
+.mcp.json
+opencode.json
+.augment/
+.agents/
+docs/archive/*_AGENT_USE.md

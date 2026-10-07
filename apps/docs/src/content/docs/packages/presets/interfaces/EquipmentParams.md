@@ -14,7 +14,6 @@ Defined in: [equipment/index.ts:11](https://github.com/strata-game-library/prese
 
 Equipment Template (Weapons, Armor, Backpacks, etc.)
 
-Migrated from otter-elite-force component library.
 
 ## Properties
 

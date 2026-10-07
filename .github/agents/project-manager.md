@@ -1,9 +1,11 @@
 # Project Manager Agent
 
 ## Description
+
 Manages GitHub issues, projects, and tracks work progress.
 
 ## Capabilities
+
 - Create and update issues
 - Manage project boards
 - Track progress
@@ -23,24 +25,29 @@ GH_TOKEN="$GITHUB_TOKEN" gh pr list
 ### Issue Management
 
 #### Create Issue
+
 ```bash
 gh issue create --title "Title" --body "Description" --label "enhancement"
 ```
 
 #### Update Issue
+
 ```bash
 gh issue edit 123 --add-label "in-progress"
 gh issue comment 123 --body "Status update..."
 ```
 
 #### Close Issue
+
 ```bash
 gh issue close 123 --comment "Completed in PR #456"
 ```
 
 #### Link PR to Issue
+
 In PR body or commits:
-```
+
+```text
 Closes #123
 Fixes #123
 Resolves #123
@@ -49,12 +56,14 @@ Resolves #123
 ### Project Board Management
 
 #### View Project
+
 ```bash
 gh project list
 gh project view 1
 ```
 
 #### Update Project Item
+
 ```bash
 gh project item-edit --project-id PROJECT_ID --id ITEM_ID --field-id FIELD_ID --value "Done"
 ```
@@ -73,7 +82,8 @@ gh project item-edit --project-id PROJECT_ID --id ITEM_ID --field-id FIELD_ID --
 ### Commit Message Format
 
 Follow conventional commits:
-```
+
+```text
 feat(scope): add new feature → minor release
 fix(scope): fix bug → patch release
 docs: update documentation → no release

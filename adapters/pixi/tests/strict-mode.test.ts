@@ -1,11 +1,6 @@
 /**
  * tests/strict-mode.test.ts — the fresh-canvas-per-Application contract.
  *
- * Lifted from illinois-jim-and-the-shrine-of-catastrophe's
- * tests/browser/pixiStrictMode.test.ts (adapted from real-Chromium to this
- * package's jsdom+mock harness; the WebGL-limit assertions that need a
- * real GPU stay in illinois-jim).
- *
  * Regression it pins: React StrictMode double-mounts effects (mount →
  * cleanup → mount). The first mount initialises a Pixi Application
  * (acquiring a WebGL2 context on a canvas), then cleanup destroys it.

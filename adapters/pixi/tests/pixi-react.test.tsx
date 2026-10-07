@@ -2,7 +2,7 @@
  * PixiReactMount unit contract.
  *
  * @pixi/react is mocked only at its Application boundary. The browser gate
- * exercises the actual reconciler and GPU; these tests pin fleet policy,
+ * exercises the actual reconciler and GPU; these tests pin adapter policy,
  * option mapping, resize ordering and StrictMode cleanup deterministically.
  */
 
@@ -113,14 +113,14 @@ describe('PixiReactMount', () => {
     expect(source.match(/<PixiReactApplication\b/g)).toHaveLength(1);
   });
 
-  it('keeps one Application/canvas under StrictMode and preserves fleet options', async () => {
+  it('keeps one Application/canvas under StrictMode and preserves adapter options', async () => {
     const host = sizedHost(640, 360);
     const ready: PixiReactMountHandle[] = [];
     const resized: Array<[number, number]> = [];
     const root = await render(
       <StrictMode>
         <PixiReactMount
-          className="fleet-canvas"
+          className="example-canvas"
           background={0x123456}
           maxResolution={2}
           onReady={(handle) => ready.push(handle)}

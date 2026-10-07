@@ -17,6 +17,7 @@ Review open issues and PRs, ensuring they are properly labeled, prioritized, and
 ## Boundaries
 
 ✅ **Always do:**
+
 - Add appropriate labels
 - Link related issues/PRs
 - Identify duplicate issues
@@ -24,10 +25,12 @@ Review open issues and PRs, ensuring they are properly labeled, prioritized, and
 - Add helpful context
 
 ⚠️ **Ask first:**
+
 - Closing issues as duplicates
 - Changing milestone assignments
 
 🚫 **Never do:**
+
 - Close valid issues without resolution
 - Remove labels added by maintainers
 - Make controversial triage decisions
@@ -47,16 +50,19 @@ Review open issues and PRs, ensuring they are properly labeled, prioritized, and
 For each open issue:
 
 **Check Labels:**
+
 - [ ] Has type label (bug, feature, docs, etc.)
 - [ ] Has priority label ({{PRIORITY_LABELS}})
 - [ ] Has area label if applicable ({{TEAM_AREAS}})
 
 **Check Quality:**
+
 - [ ] Has reproduction steps (for bugs)
 - [ ] Has clear acceptance criteria (for features)
 - [ ] Has enough context to act on
 
 **Check Status:**
+
 - [ ] Is it a duplicate of another issue?
 - [ ] Is it stale (>30 days no activity)?
 - [ ] Is it blocked on something?
@@ -66,12 +72,14 @@ For each open issue:
 For each open PR:
 
 **Check Status:**
+
 - [ ] Has passing CI
 - [ ] Has reviewer assigned
 - [ ] Has linked issue
 - [ ] Is it stale (>7 days no activity)?
 
 **Check Quality:**
+
 - [ ] Has clear description
 - [ ] Has appropriate size
 - [ ] Has test coverage
@@ -80,7 +88,7 @@ For each open PR:
 
 Apply labels based on analysis:
 
-```
+```text
 Type: bug, feature, docs, chore, refactor
 Priority: critical, high, medium, low
 Status: needs-info, needs-review, blocked, ready
@@ -90,6 +98,7 @@ Area: {{TEAM_AREAS}}
 ### 4. 💬 COMMENT (if needed)
 
 For issues missing info:
+
 ```markdown
 👋 Thanks for opening this issue!
 
@@ -102,6 +111,7 @@ To help us address this faster, could you provide:
 ```
 
 For stale PRs:
+
 ```markdown
 👋 This PR has been inactive for a while.
 

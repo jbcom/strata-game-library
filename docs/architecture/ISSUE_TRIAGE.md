@@ -116,48 +116,6 @@ The type re-exports have been addressed:
 **Remaining Components:** 50+
 **Estimated Effort:** 20-25 hours
 
-## Cross-Repository Issues (arcade-cabinet)
-
-### arcade-cabinet/rivermarsh
-
-**Status:** ✅ Using Strata ^1.4.10
-
-### arcade-cabinet/protocol-silent-night
-
-| # | Title | Priority |
-|---|-------|----------|
-| 7 | Update @jbcom/strata to ^1.4.10 | High |
-
-**Status:** ⚠️ Using Strata ^1.0.0 (outdated)
-
-### arcade-cabinet/otter-river-rush
-
-| # | Title | Priority |
-|---|-------|----------|
-| 49 | Integrate @jbcom/strata for water, terrain, effects | Medium |
-
-**Status:** ❌ Not using Strata
-
-### arcade-cabinet/ebb-and-bloom
-
-| # | Title | Priority |
-|---|-------|----------|
-| 20 | Integrate @jbcom/strata for world topology and AI | Medium |
-
-**Status:** ❌ Not using Strata
-
-### arcade-cabinet/realm-walker
-
-| # | Title | Priority |
-|---|-------|----------|
-| 28 | Integrate @jbcom/strata for world management | Medium |
-| 16 | (Code quality) | Medium |
-| 15 | (Code quality) | High |
-| 14 | (Code quality) | High |
-| 13 | (Code quality) | High |
-
-**Status:** ❌ Not using Strata
-
 ## Strata Organization Structure
 
 The `strata-game-library` GitHub organization hosts all Strata packages:
@@ -179,14 +137,3 @@ The `strata-game-library` GitHub organization hosts all Strata packages:
 | Critical | 1 |
 | High Priority | 3 |
 | Medium Priority | 2 |
-| arcade-cabinet games using Strata | 2/5 |
-| arcade-cabinet games needing migration | 3 |
-
-## Integration Issues Created
-
-| Repo | Issue | Title |
-|------|-------|-------|
-| arcade-cabinet/protocol-silent-night | #7 | Update @jbcom/strata to latest |
-| arcade-cabinet/otter-river-rush | #49 | Integrate @jbcom/strata for water, terrain, effects |
-| arcade-cabinet/ebb-and-bloom | #20 | Integrate @jbcom/strata for world topology and AI |
-| arcade-cabinet/realm-walker | #28 | Integrate @jbcom/strata for world management |

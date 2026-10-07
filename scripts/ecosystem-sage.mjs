@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
  * Ecosystem Sage
- * 
+ *
  * On-call intelligent advisor that:
  * 1. Answers technical questions with codebase context
  * 2. Reviews code and provides feedback
  * 3. Decomposes complex tasks into actionable subtasks
  * 4. Unblocks stuck agents with guidance
  * 5. Routes work to appropriate agents (Cursor/Jules)
- * 
+ *
  * Triggered by:
  * - @sage or /sage in comments
  * - workflow_call from Harvester/Curator
@@ -71,11 +71,11 @@ async function ollama(messages, options = {}) {
       ...options
     })
   });
-  
+
   if (!res.ok) {
     throw new Error(`Ollama API ${res.status}`);
   }
-  
+
   const result = await res.json();
   return result.message?.content || '';
 }
@@ -111,13 +111,13 @@ async function julesApi(endpoint, options = {}) {
 
 function getRepoStructure(dir = '.', depth = 0, maxDepth = 3) {
   if (depth >= maxDepth) return '';
-  
+
   let structure = '';
-  const items = readdirSync(dir).filter(f => 
-    !f.startsWith('.') && 
+  const items = readdirSync(dir).filter(f =>
+    !f.startsWith('.') &&
     !['node_modules', 'dist', 'build', '__pycache__', 'venv'].includes(f)
   );
-  
+
   for (const item of items.slice(0, 20)) { // Limit items
     const path = join(dir, item);
     try {
@@ -139,7 +139,7 @@ function getRepoStructure(dir = '.', depth = 0, maxDepth = 3) {
 function getKeyFiles() {
   const keyFiles = ['README.md', 'CLAUDE.md', 'AGENTS.md', 'package.json', 'Cargo.toml', 'pyproject.toml'];
   const content = {};
-  
+
   for (const file of keyFiles) {
     try {
       content[file] = readFileSync(file, 'utf-8').slice(0, 2000); // First 2000 chars
@@ -156,7 +156,7 @@ function getKeyFiles() {
 
 function classifyQuery(query) {
   const lower = query.toLowerCase();
-  
+
   if (lower.includes('review') || lower.includes('feedback') || lower.includes('look at')) {
     return 'REVIEW';
   }
@@ -178,7 +178,7 @@ function classifyQuery(query) {
   if (lower.includes('blocked') || lower.includes('stuck') || lower.includes('help')) {
     return 'UNBLOCK';
   }
-  
+
   return 'GENERAL';
 }
 
@@ -189,7 +189,7 @@ function classifyQuery(query) {
 async function generateResponse(query, context) {
   const queryType = classifyQuery(query);
   console.log(`Query type: ${queryType}`);
-  
+
   const systemPrompt = `You are the Ecosystem Sage - an intelligent advisor for the jbcom organization's codebase.
 
 Your role:
@@ -227,13 +227,13 @@ Please provide your response:`;
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ]);
-    
+
     return { response, queryType };
   } catch (e) {
     console.error(`Ollama error: ${e.message}`);
-    return { 
+    return {
       response: `⚠️ Sage is temporarily unavailable (Ollama error). Please try again later or consult the documentation in CLAUDE.md and AGENTS.md.`,
-      queryType 
+      queryType
     };
   }
 }
@@ -268,7 +268,7 @@ Break this into subtasks:`;
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ]);
-    
+
     return response;
   } catch (e) {
     return `Unable to decompose task: ${e.message}`;
@@ -291,7 +291,7 @@ async function spawnAgent(type, task, repo) {
       })
     });
   }
-  
+
   if (type === 'JULES' && GOOGLE_JULES_API_KEY) {
     console.log(`Creating Jules session for: ${task.slice(0, 50)}...`);
     const [owner, repoName] = repo.split('/');
@@ -307,7 +307,7 @@ async function spawnAgent(type, task, repo) {
       })
     });
   }
-  
+
   return null;
 }
 
@@ -321,12 +321,12 @@ async function sage() {
   console.log('╚══════════════════════════════════════════════════════════════════╝');
   console.log(`\nTime: ${new Date().toISOString()}`);
   console.log(`Event: ${EVENT_NAME}`);
-  
+
   // Determine the query
   let query = '';
   let repo = REPO_FULL_NAME;
   let issueNum = ISSUE_NUMBER;
-  
+
   if (EVENT_NAME === 'issue_comment' || EVENT_NAME === 'pull_request_review_comment') {
     // Extract query from comment (remove @sage or /sage prefix)
     query = COMMENT_BODY.replace(/@sage\s*/gi, '').replace(/\/sage\s*/gi, '').trim();
@@ -340,12 +340,12 @@ async function sage() {
     console.log('No query provided');
     process.exit(0);
   }
-  
+
   // Gather context
   console.log('\nGathering codebase context...');
   const structure = getRepoStructure();
   const keyFiles = getKeyFiles();
-  
+
   // Get issue/PR context if available
   let issueContext = '';
   if (issueNum && repo) {
@@ -356,22 +356,22 @@ async function sage() {
       console.log('Could not fetch issue context');
     }
   }
-  
+
   const context = { structure, keyFiles, issueContext };
-  
+
   // Generate response
   console.log('\nGenerating response...');
   const { response, queryType } = await generateResponse(query, context);
-  
+
   // Handle special query types
   let finalResponse = response;
-  
+
   if (queryType === 'DECOMPOSE') {
     console.log('\nDecomposing task...');
     const decomposition = await decomposeTask(query, context);
     finalResponse = `## 🎯 Task Decomposition\n\n${decomposition}`;
   }
-  
+
   // Format the response
   const formattedResponse = `## 🔮 Sage Response
 
@@ -382,13 +382,13 @@ ${finalResponse}
 
   console.log('\n=== Response ===');
   console.log(formattedResponse);
-  
+
   // Save response for workflow to post
   writeFileSync('sage-response.md', formattedResponse);
-  
+
   // Output for workflow_call
   console.log(`::set-output name=response::${response.replace(/\n/g, '%0A')}`);
-  
+
   console.log('\n✅ Sage complete');
 }
 

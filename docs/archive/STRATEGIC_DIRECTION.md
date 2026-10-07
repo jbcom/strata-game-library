@@ -157,10 +157,10 @@ Games decompose into:
 **After** (declarative):
 
 ```typescript
-const rivermarsh = createGame({
-  name: 'Rivermarsh',
+const sampleGame = createGame({
+  name: 'Sample Game',
   content: { creatures, props, materials },
-  world: rivermarshWorld,
+  world: sampleWorld,
   modes: { exploration, combat, dialogue },
   initialState: createRPGState({ player }),
   controls: { desktop, mobile, gamepad }
@@ -175,7 +175,7 @@ const rivermarsh = createGame({
 
 ### Validation Plan
 
-**Rivermarsh Rebuild**: Use the new framework to rebuild the Rivermarsh game, confirming <1,000 lines of game-specific code achieves the 10x reduction promise.
+**Sample Game Rebuild**: Use the new framework to rebuild the Sample Game game, confirming <1,000 lines of game-specific code achieves the 10x reduction promise.
 
 ---
 
@@ -455,7 +455,7 @@ src/api/
 
 **Validation**:
 
-- Rivermarsh rebuild (<1,000 lines)
+- Sample Game rebuild (<1,000 lines)
 - 3+ example games (RPG, platformer, racing)
 - Documentation with migration guides
 - Backward compatibility confirmed
@@ -576,7 +576,7 @@ const game = createGame({
    - Deprecate (but maintain) old APIs
 
 3. **v2.1+**: Iterative improvements
-   - Refine based on Rivermarsh validation
+   - Refine based on Sample Game validation
    - Community feedback integration
 
 #### Migration Support
@@ -593,7 +593,7 @@ Must provide:
 Define **concrete, measurable** targets:
 
 1. **Code Reduction**
-   - Target: <1,000 lines for complete game (Rivermarsh validation)
+   - Target: <1,000 lines for complete game (Sample Game validation)
    - Measure: Total lines in game directory
    - Success: ≥10x reduction vs. manual approach
 
@@ -651,7 +651,7 @@ Define **concrete, measurable** targets:
    - Immediate value for existing users
 
 6. ✅ **Set up validation framework**
-   - Clone Rivermarsh codebase
+   - Clone Sample Game codebase
    - Establish baseline metrics
    - Plan incremental migration
 
@@ -679,7 +679,7 @@ Define **concrete, measurable** targets:
     - If complexity too high → stop at imperative APIs
     - Community feedback crucial
 
-11. ✅ **Rivermarsh validation**
+11. ✅ **Sample Game validation**
     - Complete rebuild using new framework
     - Measure actual code reduction
     - Document pain points
@@ -773,7 +773,7 @@ Define **concrete, measurable** targets:
 
 **Mitigation**:
 
-- **Validate with real games** (Rivermarsh + 2-3 community projects)
+- **Validate with real games** (Sample Game + 2-3 community projects)
 - Early alpha releases for feedback
 - Breaking changes OK during alpha
 - Iterate based on actual usage, not theory
@@ -905,7 +905,7 @@ Define **concrete, measurable** targets:
 3. **Week 3-4**: Implement + validate Compositional System
 4. **Week 5-6**: Implement + validate Game Orchestration
 5. **Week 7-8**: GO/NO-GO decision for remaining phases
-6. **Month 3**: Rivermarsh validation
+6. **Month 3**: Sample Game validation
 7. **Month 4-6**: Polish, documentation, v2.0 release
 
 ### Risk Management
@@ -979,7 +979,7 @@ Define **concrete, measurable** targets:
 ### Phase 5 (Declarative) Completion Criteria
 
 - [ ] `createGame()` API implemented
-- [ ] Rivermarsh rebuilt in <1,000 lines
+- [ ] Sample Game rebuilt in <1,000 lines
 - [ ] 3+ example games using declarative API
 - [ ] Migration guide from v1.x
 - [ ] Backward compatibility confirmed

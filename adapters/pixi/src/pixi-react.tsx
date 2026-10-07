@@ -1,5 +1,5 @@
 /**
- * @arcade-cabinet/pixi-mount/pixi-react — fleet mount policy for @pixi/react.
+ * Pixi React adapter mount policy for @pixi/react.
  *
  * @pixi/react v8 creates and owns its Application; it cannot adopt the
  * Application returned by mountPixi(). This component therefore wraps
@@ -11,10 +11,7 @@
  * single resize-pipeline contracts around that one upstream-owned instance.
  */
 
-import {
-  Application as PixiReactApplication,
-  type ApplicationRef,
-} from '@pixi/react';
+import { type ApplicationRef, Application as PixiReactApplication } from '@pixi/react';
 import type { Application } from 'pixi.js';
 import {
   type ComponentProps,
@@ -50,7 +47,7 @@ export interface PixiReactMountProps {
   children?: PixiReactChildren;
   /** CSS class applied to @pixi/react's canvas. */
   className?: string;
-  /** Pixi background color. Defaults to the fleet near-black. */
+  /** Pixi background color. Defaults to near-black. */
   background?: number | string;
   /** Caps devicePixelRatio. Defaults to 2. */
   maxResolution?: number;
@@ -110,7 +107,7 @@ function isWindowTarget(target: HTMLElement | Window): target is Window {
 function measure(
   target: HTMLElement | Window,
   fallbackWidth: number,
-  fallbackHeight: number,
+  fallbackHeight: number
 ): readonly [number, number] {
   if (isWindowTarget(target)) {
     return [target.innerWidth || fallbackWidth, target.innerHeight || fallbackHeight];
@@ -130,7 +127,7 @@ function logicalSize(app: Application): readonly [number, number] {
 }
 
 /**
- * Render one @pixi/react Application with the shared arcade mount policy.
+ * Render one @pixi/react Application with the adapter mount policy.
  *
  * Application options are captured for this component lifetime. Change its
  * React key to deliberately rebuild with different mount policy. `onResize`
@@ -277,7 +274,7 @@ export function PixiReactMount({
       bindRuntime(runtime);
       onReadyRef.current?.(handle);
     },
-    [bindRuntime, unbindRuntime],
+    [bindRuntime, unbindRuntime]
   );
 
   useEffect(() => {

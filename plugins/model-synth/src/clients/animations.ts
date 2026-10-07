@@ -38,7 +38,7 @@ export interface AnimationTask {
 }
 
 /**
- * Animation Library IDs for Otter River Rush
+ * Animation library IDs for character movement
  * Selected from 600+ available animations
  */
 export const OTTER_ANIMATIONS = {

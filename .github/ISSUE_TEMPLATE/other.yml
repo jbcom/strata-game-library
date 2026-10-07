@@ -1,7 +1,7 @@
 name: 🔧 Other
 description: CI/CD, infrastructure, tooling, or other issues
 title: "[Other] "
-labels: ["needs-triage"]
+labels: [needs-triage]
 body:
   - type: markdown
     attributes:
