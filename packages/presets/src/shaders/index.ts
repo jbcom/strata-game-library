@@ -413,7 +413,7 @@ export const scanlinePresets: Record<string, ScanlinePreset> = {
   },
   arcade: {
     name: 'Arcade',
-    description: 'Arcade cabinet monitor',
+    description: 'Arcade machine CRT monitor',
     color: 0xffffff,
     backgroundColor: 0x000000,
     scanlineDensity: 350,
