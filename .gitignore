@@ -68,7 +68,6 @@ unresolved_ids.txt
 # Local agent runtime state
 .agent-state/
 .claude/
-CLAUDE.md
 .mcp.json
 opencode.json
 .augment/
