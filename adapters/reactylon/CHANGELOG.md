@@ -2,17 +2,20 @@
 
 ## [0.5.0](https://github.com/jbcom/strata-game-library/compare/@strata-game-library/reactylon@0.4.0...@strata-game-library/reactylon@0.5.0) (2026-04-22)
 
+
 ### Features
 
 * consolidate composition runtime package ([ebef273](https://github.com/jbcom/strata-game-library/commit/ebef2733fbcf8fe38661acc6494233224c02a6e9))
 
 ## [0.4.0](https://github.com/jbcom/strata-game-library/compare/@strata-game-library/reactylon@0.3.0...@strata-game-library/reactylon@0.4.0) (2026-04-21)
 
+
 ### Features
 
 * consolidate game library runtime ([47bdce2](https://github.com/jbcom/strata-game-library/commit/47bdce23170faf2ac826bfecafdc00cb9398eae5))
 
 ## [0.3.0](https://github.com/jbcom/strata-game-library/compare/@strata-game-library/reactylon@0.2.1...@strata-game-library/reactylon@0.3.0) (2026-02-26)
+
 
 ### Features
 
@@ -23,14 +26,14 @@
 
 ### 🚀 Features
 
-* create @strata-game-library/reactylon adapter scaffold for Babylon.js ([f18d1b14](https://github.com/jbcom/strata-game-library/commit/f18d1b14))
+- create @strata-game-library/reactylon adapter scaffold for Babylon.js ([f18d1b14](https://github.com/jbcom/strata-game-library/commit/f18d1b14))
 
 ### 🧱 Updated Dependencies
 
-* Updated @strata-game-library/shaders to 1.1.0
-* Updated @strata-game-library/core to 1.5.0
+- Updated @strata-game-library/shaders to 1.1.0
+- Updated @strata-game-library/core to 1.5.0
 
 ### ❤️ Thank You
 
-* Claude Opus 4.6
-* Jon B @jbdevprimary
+- Claude Opus 4.6
+- Jon B @jbdevprimary
