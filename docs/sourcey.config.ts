@@ -85,6 +85,7 @@ export default defineConfig({
               group: "Framework design",
               pages: [
                 "architecture/PACKAGE_STRATEGY",
+                "architecture/INTEGRATION_EXAMPLES",
                 "architecture/rfc/RFC-001-GAME-ORCHESTRATION", // pragma: allowlist secret
                 "architecture/rfc/RFC-002-COMPOSITIONAL-OBJECTS", // pragma: allowlist secret
                 "architecture/rfc/RFC-003-WORLD-TOPOLOGY", // pragma: allowlist secret

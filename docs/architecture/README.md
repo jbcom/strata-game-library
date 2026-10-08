@@ -48,5 +48,5 @@ This directory contains architectural documentation for Strata's evolution from 
 ## Quick Links
 
 - [GitHub Epic #50](https://github.com/jbcom/strata-game-library/issues/50) - Master tracking issue
-- [API Documentation](../api/) - Generated TypeDoc
+- [API documentation](https://strata.game/packages/) - Package reference
 - [Examples](../../examples/) - Working code examples

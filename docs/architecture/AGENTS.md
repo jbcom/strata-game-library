@@ -59,7 +59,6 @@ The framework vision adds four layers to Strata's existing rendering primitives:
 
 ## Related
 
-- [CLAUDE.md](../../CLAUDE.md) - Project-level instructions including framework overview
 - [AGENTS.md](../../AGENTS.md) - Root agent instructions
 - [PUBLIC_API.md](../../PUBLIC_API.md) - Stable API reference (some listed APIs not yet implemented)
 - [CONTRACT.md](../../CONTRACT.md) - Stability guarantees

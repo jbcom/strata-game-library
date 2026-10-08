@@ -109,4 +109,4 @@ This directory now contains two kinds of planning documents:
 
 - [Architecture docs](../architecture/) - Current architecture documentation
 - [ROADMAP.md](../architecture/ROADMAP.md) - Framework implementation timeline (ongoing)
-- [CLAUDE.md](../../CLAUDE.md) - Current monorepo structure and commands
+- [AGENTS.md](../../AGENTS.md) - Current monorepo structure and commands

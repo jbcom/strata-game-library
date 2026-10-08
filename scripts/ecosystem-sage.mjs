@@ -137,7 +137,7 @@ function getRepoStructure(dir = '.', depth = 0, maxDepth = 3) {
 }
 
 function getKeyFiles() {
-  const keyFiles = ['README.md', 'CLAUDE.md', 'AGENTS.md', 'package.json', 'Cargo.toml', 'pyproject.toml'];
+  const keyFiles = ['README.md', 'AGENTS.md', 'package.json', 'Cargo.toml', 'pyproject.toml'];
   const content = {};
 
   for (const file of keyFiles) {
@@ -232,7 +232,7 @@ Please provide your response:`;
   } catch (e) {
     console.error(`Ollama error: ${e.message}`);
     return {
-      response: `⚠️ Sage is temporarily unavailable (Ollama error). Please try again later or consult the documentation in CLAUDE.md and AGENTS.md.`,
+      response: `⚠️ Sage is temporarily unavailable (Ollama error). Please try again later or consult AGENTS.md.`,
       queryType
     };
   }
@@ -394,6 +394,6 @@ ${finalResponse}
 
 sage().catch(e => {
   console.error('Sage error:', e);
-  writeFileSync('sage-response.md', `## ⚠️ Sage Error\n\n${e.message}\n\nPlease try again or consult CLAUDE.md for guidance.`);
+  writeFileSync('sage-response.md', `## ⚠️ Sage Error\n\n${e.message}\n\nPlease try again or consult AGENTS.md for guidance.`);
   process.exit(1);
 });

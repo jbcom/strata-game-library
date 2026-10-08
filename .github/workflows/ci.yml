@@ -133,7 +133,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-toolchain
-      - run: pnpm run docs:api
+      # TypeDoc follows each workspace package's published type entry point.
+      # Build those declarations in this isolated job before documenting them.
+      - run: pnpm run build
       - run: pnpm run docs:build
       - run: pnpm run docs:links
 

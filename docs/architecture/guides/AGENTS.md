@@ -158,7 +158,7 @@ pnpm run docs       # Generate TypeDoc
 - [Architecture AGENTS.md](../AGENTS.md) - Parent architecture index
 - [RFC documents](../rfc/) - Technical specifications the guides reference
 - [ROADMAP.md](../ROADMAP.md) - Implementation timeline
-- [CLAUDE.md](../../../CLAUDE.md) - Project-level development commands
+- [AGENTS.md](../../../AGENTS.md) - Project-level development commands
 
 ---
 
