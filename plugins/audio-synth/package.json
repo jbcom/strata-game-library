@@ -75,11 +75,11 @@
     "@biomejs/biome": "^2.5.15",
     "@strata-game-library/vite": "workspace:*",
     "@types/react": "^19.3.0",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.3",
     "react": "19.3.0",
     "tone": "^15.1.22",
     "tsup": "^8.5.1",
-    "typescript": "5.9.3",
-    "vitest": "^4.1.11"
+    "typescript": "7.0.2",
+    "vitest": "^5.0.3"
   }
 }

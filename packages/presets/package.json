@@ -183,15 +183,15 @@
     "@types/react": "^19.3.0",
     "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.3",
     "glob": "^13.0.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "three": "^0.186.1",
     "tsup": "^8.5.1",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "vite": "^8.3.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.3"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.0",
