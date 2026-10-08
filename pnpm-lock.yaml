@@ -544,7 +544,7 @@ importers:
         version: 11.1.18
       maath:
         specifier: ^0.10.8
-        version: 0.10.8(@types/three@0.185.4)(three@0.183.2)
+        version: 0.10.8(@types/three@0.185.4)(three@0.185.1)
       miniplex:
         specifier: ^2.0.0
         version: 2.0.0
@@ -574,7 +574,7 @@ importers:
         version: 3.5.8(@babylonjs/core@9.22.1)(@babylonjs/gui@9.22.1(@babylonjs/core@9.22.1))(@types/react@19.2.18)(immer@11.1.18)(react-dom@19.2.5(react@19.2.5))(react-reconciler@0.31.0(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
       three:
         specifier: '>=0.150.0'
-        version: 0.183.2
+        version: 0.185.1
       tone:
         specifier: '>=14.0.0'
         version: 15.1.22
@@ -4198,8 +4198,8 @@ packages:
     engines: {node: '>= 16.0.0'}
     hasBin: true
 
-  devalue@5.9.1:
-    resolution: {integrity: sha512-+17vil3EVQRzvtDJSFuTWEb8XJRvXqAiV3qZyQWD398QeXUa6CxsUyMdD1fxzEhUrd4FojitFz7lhIHBTlV4fw==}
+  devalue@5.9.4:
+    resolution: {integrity: sha512-sPAT4pztbu6586/hrhOnMKS17IJrvg12mXiSPSS3W5qDeN2RGgvZ0diZCm31dBbnevfVmujNO3IM2wrS4Y2Rhg==}
 
   devlop@1.1.0:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
@@ -9148,7 +9148,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 25.9.5
+      '@types/node': 26.2.0
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -10579,7 +10579,7 @@ snapshots:
       clsx: 2.1.1
       common-ancestor-path: 2.0.0
       cookie: 2.0.1
-      devalue: 5.9.1
+      devalue: 5.9.4
       diff: 8.0.4
       dset: 3.1.4
       es-module-lexer: 2.3.2
@@ -11216,7 +11216,7 @@ snapshots:
     dependencies:
       address: 2.0.3
 
-  devalue@5.9.1: {}
+  devalue@5.9.4: {}
 
   devlop@1.1.0:
     dependencies:
@@ -11999,7 +11999,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 25.9.5
+      '@types/node': 26.2.0
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
