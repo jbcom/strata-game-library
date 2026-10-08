@@ -29,30 +29,36 @@ cat go.mod 2>/dev/null || true
 For each area, create a dedicated report file:
 
 ### reports/analysis.md
+
 Main summary with:
+
 - Codebase overview (languages, size, structure)
 - Architecture patterns identified
 - Overall health score (1-10)
 
 ### reports/test-coverage.md
+
 - Current test file count
 - Estimated coverage gaps
 - Priority files needing tests
 - Suggested test patterns
 
 ### reports/security.md
+
 - Dependency vulnerabilities (run `npm audit` or equivalent)
 - Hardcoded secrets scan
 - Auth/authz patterns
 - Input validation gaps
 
 ### reports/documentation.md
+
 - README quality assessment
 - API documentation gaps
 - Missing docstrings/comments
 - Suggested documentation priorities
 
 ### reports/code-quality.md
+
 - Linting issues
 - Code duplication
 - Complex functions (cyclomatic complexity)
@@ -72,6 +78,7 @@ Create `reports/improvements.json`:
 ```
 
 Only include areas that actually need work. Prioritize based on:
+
 - **high**: Should be fixed this week
 - **medium**: Should be fixed this month
 - **low**: Nice to have

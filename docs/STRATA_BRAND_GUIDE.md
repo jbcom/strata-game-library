@@ -282,7 +282,7 @@ When describing Strata's layered architecture, use stacked/layered text treatmen
 > "Our awesome framework makes building games super easy and fun!!"
 
 **DO:**
-> "10x code reduction. Rivermarsh in under 1,000 lines. That's the Strata difference."
+> "10x code reduction. Sample Game in under 1,000 lines. That's the Strata difference."
 
 **DON'T:**
 > "Strata might help you write less code if you use it correctly..."
@@ -371,7 +371,7 @@ Each subdomain maintains the Strata brand but with feature-specific accents:
 | shaders.strata.game | `--strata-sky` | Purple accent |
 | presets.strata.game | `--strata-game` | Gold accent |
 | examples.strata.game | `--strata-vegetation` | Green accent |
-| tutor.strata.game | Special | Professor Pixel brand |
+| tutor.strata.game | Special | Example Tutor brand |
 
 ---
 

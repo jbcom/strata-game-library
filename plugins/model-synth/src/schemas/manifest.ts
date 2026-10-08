@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Asset Manifest Schema for Otter River Rush
+ * Asset manifest schema for game content
  * Defines 3D models, textures, and sprites with proper typing
  */
 

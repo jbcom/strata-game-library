@@ -1,8 +1,8 @@
 /**
- * @arcade-cabinet/pixi-mount — public API.
+ * Pixi adapter public API.
  *
  * Framework-agnostic Pixi 8 Application mount/unmount lifecycle. The
- * optional React hook lives at `@arcade-cabinet/pixi-mount/react` so the
+ * optional React hook lives in the separate React module so the
  * core entry never touches react.
  */
 

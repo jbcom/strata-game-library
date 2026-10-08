@@ -220,8 +220,8 @@ const woodenCrate = createProp({
 **Purpose**: Define entire games as configuration.
 
 ```typescript
-const rivermarsh = createGame({
-  name: 'Rivermarsh',
+const sampleGame = createGame({
+  name: 'Sample Game',
   
   content: {
     creatures: [riverOtter, fox, rabbit, ...],
@@ -229,7 +229,7 @@ const rivermarsh = createGame({
     materials: [furOtter, woodOak, metalIron, ...],
   },
   
-  world: rivermarshWorld,
+  world: sampleWorld,
   
   modes: {
     exploration: ExplorationMode,
@@ -247,7 +247,7 @@ const rivermarsh = createGame({
 
 // Usage
 function App() {
-  return <StrataGame game={rivermarsh} />;
+  return <StrataGame game={sampleGame} />;
 }
 ```
 
@@ -255,7 +255,7 @@ function App() {
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| Lines of code (Rivermarsh) | ~10,000 | <1,000 |
+| Lines of code (Sample Game) | ~10,000 | <1,000 |
 | Time to prototype | Days | Hours |
 | API documentation | Partial | 100% |
 | Type safety | Partial | Full |
@@ -275,7 +275,7 @@ function App() {
 | 2 | 2 weeks | Game orchestration layer |
 | 3 | 2 weeks | Compositional system |
 | 4 | 1 week | Declarative game definition |
-| 5 | 1 week | Rivermarsh validation |
+| 5 | 1 week | Sample Game validation |
 
 ---
 

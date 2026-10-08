@@ -1114,4 +1114,4 @@ export function createPlatformerGame(options: PlatformerGameOptions = {}) {
   return createPresetGame(options, PLATFORMER_TEMPLATE_DEFAULTS);
 }
 
-export type { ActionState, DeepPartial, PuzzleState, RPGState, RacingState, SandboxState };
+export type { ActionState, DeepPartial, PuzzleState, RacingState, RPGState, SandboxState };

@@ -6,7 +6,6 @@ import type { IUniforms } from './types.js';
  *
  * Raymarched volumetric effects for fog, underwater, and atmospheric scattering.
  *
- * Lifted from Otterfall procedural rendering system.
  */
 
 // Common GLSL noise functions

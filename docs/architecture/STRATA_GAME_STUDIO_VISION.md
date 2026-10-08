@@ -18,17 +18,17 @@ Today, game development tooling is fragmented across multiple repositories with 
 | Repo | Language | Focus | Target Package |
 |------|----------|-------|----------------|
 | `nodejs-strata` | TypeScript | 3D rendering engine for R3F | `@strata/core` |
-| `nodejs-strata-typescript-tutor` | TypeScript | Interactive education + wizard flows | `@strata/studio` |
+| `example-learning-studio` | TypeScript | Interactive education + wizard flows | `@strata/studio` |
 | `python-agentic-game-development` | Python | AI-assisted game dev academy | (internal/bindings) |
 | `rust-agentic-game-generator` | Rust | AI-powered RPG generation | `strata-ai-core` (crate) |
 | `rust-agentic-game-development` | Rust | Core AI client libraries | `strata-ai-core` (crate) |
 
 **Plus validation games:**
 
-- `nodejs-rivermarsh` - Mobile exploration
-- `nodejs-otter-river-rush` - Racing
-- `nodejs-otterfall` - 3D adventure
-- `nodejs-rivers-of-reckoning` - Narrative roguelike
+- `exploration-demo` - Mobile exploration
+- `racing-demo` - Racing
+- `adventure-demo` - 3D adventure
+- `roguelike-demo` - Narrative roguelike
 
 ## The Vision: Strata Game Studio
 
@@ -82,17 +82,17 @@ Today, game development tooling is fragmented across multiple repositories with 
 
 ### 2. Strata Workshop (`workshop.strata.game`)
 
-**AI-powered game creation wizard with Professor Pixel as guide.**
+**AI-powered game creation wizard with Example Tutor as guide.**
 
 Consolidates:
 
-- Game wizard flows from typescript-tutor (platformer, racing, RPG, dungeon, space, puzzle)
+- Game wizard flows from learning-studio (platformer, racing, RPG, dungeon, space, puzzle)
 - AI generation capabilities from rust-agentic-game-generator
 - Orchestration via agentic-control
 
 **Key Features:**
 
-- Conversational game design with Professor Pixel
+- Conversational game design with Example Tutor
 - Template-based project scaffolding
 - Asset selection and customization
 - Code generation targeting Strata Engine
@@ -114,7 +114,7 @@ flows:
     ai:
       asset-generation: strata-ai
       code-generation: strata-ai
-      dialogue: professor-pixel
+      dialogue: example-tutor
 ```
 
 ---
@@ -125,8 +125,8 @@ flows:
 
 Consolidates:
 
-- Curriculum from typescript-tutor
-- Teaching methodology from Professor Pixel's Arcade Academy
+- Curriculum from learning-studio
+- Teaching methodology from Example Tutor's Arcade Academy
 - Integration with actual Strata APIs
 
 **Curriculum:**
@@ -147,7 +147,7 @@ Consolidates:
 
 **Showcase gallery of games built with Strata.**
 
-- Playable demos (Rivermarsh, Otter River Rush, Otterfall)
+- Playable demos (Sample Game, Racing Demo, Adventure Demo)
 - Community submissions
 - "Made with Strata" badge program
 - Performance benchmarks
@@ -172,7 +172,7 @@ Consolidates:
 - **Asset Generation** - Sprites, 3D models, audio via external APIs
 - **Code Generation** - TypeScript/Strata code from natural language
 - **Game Blending** - Combine genres and mechanics
-- **Dialogue** - Professor Pixel personality and teaching
+- **Dialogue** - Example Tutor personality and teaching
 
 **Architecture:**
 
@@ -199,9 +199,9 @@ Consolidates:
 
 ---
 
-## Professor Pixel: Education & Workshop Mascot
+## Example Tutor: Education & Workshop Mascot
 
-Professor Pixel is the mascot for **education and game creation** only - NOT a general Strata brand mascot.
+Example Tutor is the mascot for **education and game creation** only - NOT a general Strata brand mascot.
 
 ### Two Versions
 
@@ -212,7 +212,7 @@ Professor Pixel is the mascot for **education and game creation** only - NOT a g
 
 ### Scope
 
-| Property | Professor Pixel? |
+| Property | Example Tutor? |
 |----------|-----------------|
 | **Strata Learn** | ✅ Kindly Professor version |
 | **Strata Workshop** | ✅ Cyberpunk version |
@@ -222,7 +222,7 @@ Professor Pixel is the mascot for **education and game creation** only - NOT a g
 
 ### Existing Assets
 
-Assets exist for both versions (scattered across repos) - need consolidation into typescript-tutor.
+Assets exist for both versions (scattered across repos) - need consolidation into learning-studio.
 
 ---
 
@@ -259,7 +259,7 @@ arcade.strata.game/           # Game showcase
 | Current | Action | Target |
 |---------|--------|--------|
 | `nodejs-strata` | Keep as core | `@jbcom/strata` |
-| `nodejs-strata-typescript-tutor` | Rename + extend | `@strata/studio` (monorepo root) |
+| `example-learning-studio` | Rename + extend | `@strata/studio` (monorepo root) |
 | `nodejs-strata-shaders` | Extract from main | `@strata/shaders` |
 | `nodejs-strata-presets` | Extract from main | `@strata/presets` |
 | `nodejs-strata-examples` | Keep | `@strata/examples` |
@@ -275,7 +275,7 @@ arcade.strata.game/           # Game showcase
 ### Phase 3: Studio Structure
 
 ```
-nodejs-strata-typescript-tutor/    # Stays as-is (correct name)
+example-learning-studio/    # Stays as-is (correct name)
 ├── client/
 │   ├── public/
 │   │   ├── lessons/               # Learn content (Kindly Professor)
@@ -334,9 +334,9 @@ ai:
   default: anthropic
   
   personas:
-    professor-pixel:
+    example-tutor:
       system: |
-        You are Professor Pixel, Strata's friendly mascot.
+        You are Example Tutor, Strata's friendly mascot.
         You guide users through game creation with enthusiasm.
         Use gaming metaphors and celebrate progress.
 ```
@@ -348,7 +348,7 @@ ai:
 ### Brand Unification
 
 - [ ] All game-related repos use "Strata" branding
-- [ ] Professor Pixel appears across all properties
+- [ ] Example Tutor appears across all properties
 - [ ] Consistent visual design (colors, typography)
 - [ ] Cross-linking between all subdomains
 
@@ -370,10 +370,10 @@ ai:
 ## Resolved Questions
 
 1. **Monorepo vs Multi-repo?**
-   - ✅ **Multi-repo** - typescript-tutor stays as-is with its correct name
+   - ✅ **Multi-repo** - learning-studio stays as-is with its correct name
    - No transformation needed, it IS already the workshop/learn platform
 
-2. **Professor Pixel Scope**
+2. **Example Tutor Scope**
    - ✅ **Education + Workshop ONLY** - NOT a general Strata mascot
    - Kindly old professor version → Learn/Education content
    - Cyberpunk version → Workshop/Game creation wizard
@@ -417,7 +417,7 @@ All Strata repositories are managed through control-center's ecosystem sync:
         "nodejs-strata-shaders",
         "nodejs-strata-presets",
         "nodejs-strata-examples",
-        "nodejs-strata-typescript-tutor",
+        "example-learning-studio",
         "nodejs-strata-react-native-plugin",
         "nodejs-strata-capacitor-plugin"
       ]
@@ -452,15 +452,15 @@ pages:
 | [#416](https://github.com/jbcom/control-center/issues/416) | Domain: Configure agentic.dev |
 | [#418](https://github.com/jbcom/control-center/issues/418) | Document multi-repo domain standard |
 | [#349](https://github.com/jbcom/control-center/issues/349) | EPIC: Game Development Ecosystem Integration |
-| [#351](https://github.com/jbcom/control-center/issues/351) | EPIC: Unify Professor Pixel |
+| [#351](https://github.com/jbcom/control-center/issues/351) | EPIC: Unify Example Tutor |
 
 ---
 
 ## Immediate Next Steps
 
 1. **Create Epic Issue** - "Strata Game Studio Unification" spanning all repos ✅ (#101)
-2. **Prototype Studio Monorepo** - Start with typescript-tutor as base
-3. **Update Branding** - Apply Strata brand to Professor Pixel properties
+2. **Prototype Studio Monorepo** - Start with learning-studio as base
+3. **Update Branding** - Apply Strata brand to Example Tutor properties
 4. **Document AI Architecture** - How Rust core serves TypeScript/Python
 5. **Workshop Flow Extraction** - Move flows to agentic-control configs
 

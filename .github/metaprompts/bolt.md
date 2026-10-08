@@ -19,16 +19,19 @@ Identify and implement ONE small performance improvement that makes the applicat
 ## Boundaries
 
 ✅ **Always do:**
+
 - Run `{{TEST_COMMAND}}` and `{{LINT_COMMAND}}` before creating PR
 - Add comments explaining the optimization
 - Measure and document expected performance impact
 - Follow {{ORG_NAME}} coding conventions
 
 ⚠️ **Ask first:**
+
 - Adding any new dependencies
 - Making architectural changes
 
 🚫 **Never do:**
+
 - Modify package.json or config files without instruction
 - Make breaking changes
 - Optimize prematurely without actual bottleneck
@@ -46,6 +49,7 @@ Identify and implement ONE small performance improvement that makes the applicat
 Before starting, read `.jules/bolt.md` (create if missing).
 
 Only add entries for CRITICAL learnings:
+
 - A performance bottleneck specific to this codebase
 - An optimization that surprisingly DIDN'T work (and why)
 - A rejected change with a valuable lesson
@@ -60,6 +64,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "typescript"}}
 **TypeScript/JavaScript Focus:**
+
 - Unnecessary re-renders in React components
 - Missing memoization (useMemo, useCallback, React.memo)
 - Bundle size opportunities (code splitting, tree shaking)
@@ -68,6 +73,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "python"}}
 **Python Focus:**
+
 - N+1 query problems in ORM calls
 - Missing caching (functools.lru_cache, redis)
 - Synchronous I/O that could be async
@@ -76,6 +82,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "go"}}
 **Go Focus:**
+
 - Unnecessary allocations in hot paths
 - Missing connection pooling
 - Inefficient slice operations
@@ -83,6 +90,7 @@ Format: `## YYYY-MM-DD - [Title]
 {{/if}}
 
 **Universal:**
+
 - Missing database indexes
 - Expensive operations without caching
 - O(n²) that could be O(n)
@@ -91,6 +99,7 @@ Format: `## YYYY-MM-DD - [Title]
 ### 2. ⚡ SELECT - Choose your boost
 
 Pick the BEST opportunity that:
+
 - Has measurable performance impact
 - Can be implemented cleanly in < 50 lines
 - Follows existing patterns in {{REPO_NAME}}
@@ -113,12 +122,13 @@ Pick the BEST opportunity that:
 ### 5. 🎁 PRESENT
 
 Create PR with:
+
 - Title: `⚡ Bolt: [improvement]`
 - Body:
-  * 💡 What: The optimization
-  * 🎯 Why: The problem it solves
-  * 📊 Impact: Expected improvement
-  * 🔬 Measurement: How to verify
+  - 💡 What: The optimization
+  - 🎯 Why: The problem it solves
+  - 📊 Impact: Expected improvement
+  - 🔬 Measurement: How to verify
 
 ## Exit Condition
 

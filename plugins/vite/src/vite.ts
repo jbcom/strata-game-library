@@ -3,10 +3,6 @@ import { mergeConfig, normalizePath, type PluginOption, type UserConfig } from '
 
 /**
  * Known-gotcha heavy dependencies that need co-chunking / optimizeDeps care.
- * Toggling one of these on wires in the fix the fleet has already rediscovered
- * per-repo (see blobolines' vite.config.ts for the three.js/Rapier war story
- * and little-legends' vitest.browser.config.ts for the declarative-hex-worlds
- * mid-run re-bundle fix this preset generalizes).
  */
 export interface HeavyDepsOptions {
   /** three.js: dedupe + its own Rolldown code-splitting group + optimizeDeps.include. */
@@ -152,7 +148,7 @@ function reconcileNamedCodeSplittingGroups(config: UserConfig): UserConfig {
 }
 
 /**
- * Base Vite config factory encoding the fleet's shared build conventions:
+ * Base Vite config factory for shared build conventions:
  * env-switched `base`, heavy-dep co-chunking fixes, and HMR watch-ignore
  * globs — merging caller overrides last so any repo can fully escape-hatch.
  */

@@ -33,8 +33,6 @@
 
 import { easeOutCubic, easeOutElastic, lerp } from '../math/utils';
 
-export { lerp, easeOutCubic, easeOutElastic };
-
 export {
   createDefaultCrosshair,
   createDefaultDamageNumber,
@@ -69,3 +67,4 @@ export type {
   TooltipConfig,
   UIAnchor,
 } from './types';
+export { easeOutCubic, easeOutElastic, lerp };

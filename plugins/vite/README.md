@@ -8,7 +8,7 @@ different package and bundled two of its own peer dependencies, so consumers
 got a second copy of a renderer and `instanceof` checks against the host copy
 failed. This preset exists to make that class of mistake unrepresentable.
 
-MIT licensed. No dependency on the fleet it was extracted from.
+MIT licensed.
 
 ## Install
 

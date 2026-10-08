@@ -139,10 +139,6 @@ See [memory-bank/AGENTS.md](memory-bank/AGENTS.md) for the 5-layer memory archit
 
 **CRITICAL**: Review `memory-bank/activeContext.md` before any significant work session.
 
-## Custom Commands & Agents
-
-See [.claude/README.md](.claude/README.md) for Strata-specific slash commands (`/add-component`, `/add-shader`, `/review-package`) and specialized agents (Game Architect, Shader Specialist, R3F Developer, Docs Reviewer).
-
 ## Quality Checklist
 
 Before completing work:
@@ -160,7 +156,6 @@ Before completing work:
 |----------|---------|
 | [docs/AGENTS.md](docs/AGENTS.md) | Documentation architecture and indexes |
 | [memory-bank/AGENTS.md](memory-bank/AGENTS.md) | Agentic memory system |
-| [.claude/README.md](.claude/README.md) | Custom commands and agents |
 | [PUBLIC_API.md](PUBLIC_API.md) | Stable, versioned API reference |
 | [CONTRACT.md](CONTRACT.md) | Stability guarantees and versioning |
 | [docs/architecture/](docs/architecture/) | Framework vision, roadmap, RFCs |

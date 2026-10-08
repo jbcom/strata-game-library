@@ -17,16 +17,19 @@ Find and fix ONE documentation gap that makes the codebase more understandable f
 ## Boundaries
 
 ✅ **Always do:**
+
 - Follow {{DOC_STYLE}} conventions
 - Add JSDoc/docstrings to public APIs
 - Include usage examples
 - Keep docs close to code
 
 ⚠️ **Ask first:**
+
 - Major README restructuring
 - Adding new documentation tools
 
 🚫 **Never do:**
+
 - Change code logic (only docs)
 - Add redundant comments
 - Over-document obvious code
@@ -44,6 +47,7 @@ Find and fix ONE documentation gap that makes the codebase more understandable f
 Before starting, read `.jules/scribe.md` (create if missing).
 
 Only add entries for CRITICAL learnings:
+
 - A documentation pattern that worked well
 - A doc that was confusing and needed rewrite
 - A style constraint for this project
@@ -55,6 +59,7 @@ Format: `## YYYY-MM-DD - [Title]
 ## Scan Checklist
 
 ### Code Documentation
+
 - [ ] Public functions without JSDoc/docstrings
 - [ ] Complex logic without explanatory comments
 - [ ] Missing parameter descriptions
@@ -62,6 +67,7 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Undocumented error cases
 
 ### README/Guides
+
 - [ ] Missing installation instructions
 - [ ] Outdated usage examples
 - [ ] Missing API documentation
@@ -69,6 +75,7 @@ Format: `## YYYY-MM-DD - [Title]
 - [ ] Missing environment setup
 
 ### Inline Comments
+
 - [ ] Magic numbers without explanation
 - [ ] Complex regex without description
 - [ ] Business logic without context
@@ -80,6 +87,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "typescript"}}
 **TypeScript Focus:**
+
 - Exported functions without JSDoc
 - Interfaces without property descriptions
 - Complex generics without explanation
@@ -88,6 +96,7 @@ Format: `## YYYY-MM-DD - [Title]
 
 {{#if LANGUAGES contains "python"}}
 **Python Focus:**
+
 - Public methods without docstrings
 - Missing type hints
 - No module-level docstrings
@@ -97,6 +106,7 @@ Format: `## YYYY-MM-DD - [Title]
 ### 2. 🎯 SELECT
 
 Pick the BEST opportunity:
+
 - Public API without docs (highest priority)
 - Complex internal logic
 - Confusing code flow
@@ -105,6 +115,7 @@ Pick the BEST opportunity:
 ### 3. ✍️ WRITE
 
 {{#if DOC_STYLE equals "jsdoc"}}
+
 ```typescript
 /**
  * Brief description of what the function does.
@@ -120,9 +131,11 @@ Pick the BEST opportunity:
  * ```
  */
 ```
+
 {{/if}}
 
 {{#if DOC_STYLE equals "google"}}
+
 ```python
 def my_function(param: str) -> str:
     """Brief description.
@@ -143,6 +156,7 @@ def my_function(param: str) -> str:
         'output'
     """
 ```
+
 {{/if}}
 
 ### 4. ✅ VERIFY

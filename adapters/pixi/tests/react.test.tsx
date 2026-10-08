@@ -3,7 +3,7 @@
  *
  * The load-bearing scenario: StrictMode's mount→cleanup→mount cycle must
  * leave exactly ONE live Pixi app on ONE fresh canvas, with every
- * superseded app destroyed and its canvas removed (the illinois-jim
+ * superseded app destroyed and its canvas removed (the
  * WEBGL_lose_context regression, exercised through the hook).
  */
 

@@ -5,8 +5,6 @@ status: current
 domain: context
 ---
 
-# CLAUDE.md
-
 > **Claude Code-specific instructions.** For comprehensive project reference, see [AGENTS.md](AGENTS.md).
 
 ## Claude-Specific Settings
@@ -22,4 +20,3 @@ domain: context
 - [AGENTS.md](AGENTS.md) -- Primary project reference (architecture, standards, commands)
 - [docs/AGENTS.md](docs/AGENTS.md) -- Documentation system
 - [memory-bank/AGENTS.md](memory-bank/AGENTS.md) -- Agentic memory
-- [.claude/README.md](.claude/README.md) -- Custom slash commands and agents

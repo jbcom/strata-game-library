@@ -1,6 +1,6 @@
 /**
  * tests/filter-resolution-fix.test.ts — the pixijs/pixijs#11467 workaround
- * (bioluminescent-sea's Filter.defaultOptions.resolution = 'inherit').
+ * (Filter.defaultOptions.resolution = 'inherit').
  */
 
 import { describe, expect, it, vi } from 'vitest';

@@ -15,6 +15,5 @@ title: "furVertexShader"
 Defined in: [fur.ts:11](https://github.com/strata-game-library/shaders/blob/6bdfb2582aaf48f6f3744bdf896e8c5144c8f6df/src/fur.ts#L11)
 
 Fur shell shader - layered alpha-tested shells for volumetric fur effect
-Migrated from rivermarsh procedural rendering system.
 
 Multi-layer shell displacement with wind animation and density falloff.

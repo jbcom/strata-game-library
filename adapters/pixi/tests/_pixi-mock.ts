@@ -6,8 +6,6 @@
  * resize + 'resize' event emission (Pixi 8's AbstractRenderer emits
  * 'resize' with logical screen dimensions after every resize), and
  * Filter.defaultOptions for the filter-resolution fix.
- *
- * Derived from on-the-ropes' tests/rendering/_pixi-mock.ts.
  */
 
 export interface MockAppRecord {

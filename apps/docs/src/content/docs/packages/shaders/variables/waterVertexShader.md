@@ -15,5 +15,3 @@ title: "waterVertexShader"
 Defined in: [water.ts:10](https://github.com/strata-game-library/shaders/blob/6bdfb2582aaf48f6f3744bdf896e8c5144c8f6df/src/water.ts#L10)
 
 Water shader - animated rippling water surface with procedural normal mapping
-
-Lifted from Otterfall procedural rendering system.

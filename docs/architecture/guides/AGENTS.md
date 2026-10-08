@@ -131,7 +131,7 @@ test(world): add RegionSystem integration tests
 refactor(core): extract trigger logic from ECS
 ```
 
-### Validation Target: Rivermarsh
+### Validation Target: Sample Game
 
 Success criteria: <1000 lines game code, defined via createGame(), feature parity, 60fps mobile.
 
@@ -158,7 +158,7 @@ pnpm run docs       # Generate TypeDoc
 - [Architecture AGENTS.md](../AGENTS.md) - Parent architecture index
 - [RFC documents](../rfc/) - Technical specifications the guides reference
 - [ROADMAP.md](../ROADMAP.md) - Implementation timeline
-- [CLAUDE.md](../../../CLAUDE.md) - Project-level development commands
+- [AGENTS.md](../../../AGENTS.md) - Project-level development commands
 
 ---
 

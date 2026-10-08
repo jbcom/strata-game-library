@@ -669,13 +669,13 @@ git commit -m "chore: update lockfile after core package migration"
 **Files:**
 
 - Create: `packages/shaders/`
-- Create: `packages/shaders/src/` (from `/Users/jbogaty/src/strata-game-library/shaders/src/`)
+- Create: `packages/shaders/src/`
 
 **Step 1: Create directory and copy source**
 
 ```bash
 mkdir -p packages/shaders
-cp -r /Users/jbogaty/src/strata-game-library/shaders/src packages/shaders/src
+cp -r /path/to/source/shaders/src packages/shaders/src
 ```
 
 **Step 2: Verify all 14 files copied**
@@ -835,7 +835,7 @@ git commit -m "feat(shaders): add package.json for shaders package"
 **Step 2: Copy tsup.config.ts from standalone repo**
 
 ```bash
-cp /Users/jbogaty/src/strata-game-library/shaders/tsup.config.ts packages/shaders/tsup.config.ts
+cp /path/to/source/shaders/tsup.config.ts packages/shaders/tsup.config.ts
 ```
 
 **Step 3: Update root tsconfig.json references**
@@ -997,10 +997,10 @@ git commit -m "refactor(core): replace inline shaders with strata-game-library/s
 
 ```bash
 mkdir -p packages/presets
-cp -r /Users/jbogaty/src/strata-game-library/presets/src packages/presets/src
-cp -r /Users/jbogaty/src/strata-game-library/presets/tests packages/presets/tests 2>/dev/null || true
-cp /Users/jbogaty/src/strata-game-library/presets/tsup.config.ts packages/presets/tsup.config.ts
-cp /Users/jbogaty/src/strata-game-library/presets/vitest.config.ts packages/presets/vitest.config.ts 2>/dev/null || true
+cp -r /path/to/source/presets/src packages/presets/src
+cp -r /path/to/source/presets/tests packages/presets/tests 2>/dev/null || true
+cp /path/to/source/presets/tsup.config.ts packages/presets/tsup.config.ts
+cp /path/to/source/presets/vitest.config.ts packages/presets/vitest.config.ts 2>/dev/null || true
 ```
 
 **Step 2: Commit**
@@ -1094,7 +1094,7 @@ git commit -m "feat(presets): configure presets package with workspace:* depende
 
 ```bash
 mkdir -p packages/audio-synth
-cp -r /Users/jbogaty/src/strata-game-library/audio-synth/src packages/audio-synth/src
+cp -r /path/to/source/audio-synth/src packages/audio-synth/src
 ```
 
 **Step 2: Create package.json**
@@ -1183,9 +1183,9 @@ git commit -m "feat(audio-synth): migrate audio-synth with tsup build"
 
 ```bash
 mkdir -p packages/model-synth
-cd /Users/jbogaty/src/strata-game-library/model-synth && git checkout origin/feature/initial-implementation -- src/
-cp -r /Users/jbogaty/src/strata-game-library/model-synth/src packages/model-synth/src
-cd /Users/jbogaty/src/strata-game-library/model-synth && git checkout main -- . 2>/dev/null || true
+cd /path/to/source/model-synth && git checkout origin/feature/initial-implementation -- src/
+cp -r /path/to/source/model-synth/src packages/model-synth/src
+cd /path/to/source/model-synth && git checkout main -- . 2>/dev/null || true
 ```
 
 **Step 2: Create package.json**
@@ -1310,11 +1310,11 @@ git commit -m "feat(model-synth): migrate model-synth from feature branch with t
 
 ```bash
 mkdir -p packages/capacitor-plugin
-cp -r /Users/jbogaty/src/strata-game-library/capacitor-plugin/src packages/capacitor-plugin/src
-cp -r /Users/jbogaty/src/strata-game-library/capacitor-plugin/ios packages/capacitor-plugin/ios
-cp -r /Users/jbogaty/src/strata-game-library/capacitor-plugin/android packages/capacitor-plugin/android
-cp /Users/jbogaty/src/strata-game-library/capacitor-plugin/tsup.config.ts packages/capacitor-plugin/tsup.config.ts
-cp /Users/jbogaty/src/strata-game-library/capacitor-plugin/vitest.config.ts packages/capacitor-plugin/vitest.config.ts 2>/dev/null || true
+cp -r /path/to/source/capacitor-plugin/src packages/capacitor-plugin/src
+cp -r /path/to/source/capacitor-plugin/ios packages/capacitor-plugin/ios
+cp -r /path/to/source/capacitor-plugin/android packages/capacitor-plugin/android
+cp /path/to/source/capacitor-plugin/tsup.config.ts packages/capacitor-plugin/tsup.config.ts
+cp /path/to/source/capacitor-plugin/vitest.config.ts packages/capacitor-plugin/vitest.config.ts 2>/dev/null || true
 ```
 
 **Step 2: Create package.json**
@@ -1380,9 +1380,9 @@ git commit -m "feat(capacitor-plugin): migrate capacitor plugin with native ios/
 
 ```bash
 mkdir -p packages/react-native-plugin
-cp -r /Users/jbogaty/src/strata-game-library/react-native-plugin/src packages/react-native-plugin/src
-cp -r /Users/jbogaty/src/strata-game-library/react-native-plugin/ios packages/react-native-plugin/ios
-cp -r /Users/jbogaty/src/strata-game-library/react-native-plugin/android packages/react-native-plugin/android
+cp -r /path/to/source/react-native-plugin/src packages/react-native-plugin/src
+cp -r /path/to/source/react-native-plugin/ios packages/react-native-plugin/ios
+cp -r /path/to/source/react-native-plugin/android packages/react-native-plugin/android
 ```
 
 **Step 2: Create package.json**
@@ -1470,11 +1470,11 @@ git commit -m "feat(react-native-plugin): migrate with tsup build and vitest"
 
 ```bash
 mkdir -p apps/docs
-cp -r /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/src apps/docs/src
-cp -r /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/public apps/docs/public
-cp /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/astro.config.mjs apps/docs/astro.config.mjs
-cp /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/tsconfig.json apps/docs/tsconfig.astro.json
-cp /Users/jbogaty/src/strata-game-library/strata-game-library.github.io/sidebar.config.mjs apps/docs/sidebar.config.mjs 2>/dev/null || true
+cp -r /path/to/source/strata-game-library.github.io/src apps/docs/src
+cp -r /path/to/source/strata-game-library.github.io/public apps/docs/public
+cp /path/to/source/strata-game-library.github.io/astro.config.mjs apps/docs/astro.config.mjs
+cp /path/to/source/strata-game-library.github.io/tsconfig.json apps/docs/tsconfig.astro.json
+cp /path/to/source/strata-game-library.github.io/sidebar.config.mjs apps/docs/sidebar.config.mjs 2>/dev/null || true
 ```
 
 **Step 2: Create apps/docs/package.json**
@@ -1534,19 +1534,19 @@ Per the comparison results:
 
 ```bash
 # Standalone wins: basic-terrain, water-scene, sky-volumetrics
-cp -r /Users/jbogaty/src/strata-game-library/examples/basic-terrain apps/examples/basic-terrain
-cp -r /Users/jbogaty/src/strata-game-library/examples/water-scene apps/examples/water-scene
-cp -r /Users/jbogaty/src/strata-game-library/examples/sky-volumetrics apps/examples/sky-volumetrics
+cp -r /path/to/source/examples/basic-terrain apps/examples/basic-terrain
+cp -r /path/to/source/examples/water-scene apps/examples/water-scene
+cp -r /path/to/source/examples/sky-volumetrics apps/examples/sky-volumetrics
 
 # Core wins: vegetation-showcase
-cp -r /Users/jbogaty/src/strata-game-library/strata/examples/vegetation-showcase apps/examples/vegetation-showcase 2>/dev/null || true
+cp -r /path/to/source/strata/examples/vegetation-showcase apps/examples/vegetation-showcase 2>/dev/null || true
 
 # Core only: declarative-game, world-topology
-cp -r /Users/jbogaty/src/strata-game-library/strata/examples/declarative-game apps/examples/declarative-game 2>/dev/null || true
-cp -r /Users/jbogaty/src/strata-game-library/strata/examples/world-topology apps/examples/world-topology 2>/dev/null || true
+cp -r /path/to/source/strata/examples/declarative-game apps/examples/declarative-game 2>/dev/null || true
+cp -r /path/to/source/strata/examples/world-topology apps/examples/world-topology 2>/dev/null || true
 
 # Merge: api-showcase (use standalone as base, incorporate core's modular exports)
-cp -r /Users/jbogaty/src/strata-game-library/examples/api-showcase apps/examples/api-showcase
+cp -r /path/to/source/examples/api-showcase apps/examples/api-showcase
 ```
 
 Note: Check which examples actually exist in each repo's `examples/` directory before copying. Some may not exist if they were only in planning stages.

@@ -4,7 +4,6 @@ import type { IUniforms } from './types.js';
 /**
  * Terrain shader - PBR textured ground with triplanar mapping and biome-specific elevation
  *
- * Lifted from Otterfall procedural rendering system.
  */
 
 /**
@@ -352,7 +351,6 @@ export const terrainFragmentShader = /* glsl */ `
 /**
  * Simple terrain shader for non-biome use
  *
- * Lifted from Otterfall biome selector diorama.
  */
 export const simpleTerrainVertexShader = /* glsl */ `
   varying vec2 vUv;

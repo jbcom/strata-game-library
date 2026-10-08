@@ -1,11 +1,7 @@
 /**
- * @arcade-cabinet/pixi-mount — Pixi 8 Application mount/unmount lifecycle.
+ * Pixi 8 Application mount/unmount lifecycle.
  *
- * Extracted from on-the-ropes' src/rendering/ring/RingRenderer.ts +
- * src/rendering/show-mode-controller.ts (the pixi-mount tournament winner),
- * with two lessons from the runners-up folded in:
- *
- *  - illinois-jim's StrictMode fresh-canvas fix: a WebGL context is bound to
+ * A WebGL context is bound to
  *    its canvas ELEMENT for the element's lifetime. When Pixi's
  *    `app.destroy()` tears down the GL context it loses it
  *    (`WEBGL_lose_context.loseContext()`), and `getContext('webgl2')` on
@@ -16,18 +12,13 @@
  *    the SAME element, so #2 always boots onto a dead context. The fix is
  *    structural: omit `canvas` and let mountPixi mint a FRESH `<canvas>` per
  *    Application inside your (reusable) container — virgin context every
- *    time. (illinois-jim paintingRenderer.ts.)
+ *    time.
  *
- *  - ONE resize pipeline (opus-review adjustment): the source game ran TWO
- *    ResizeObservers on the same canvas — the renderer's (surface resize)
- *    and the controller's (scene reflow) — which only produced
- *    resize-then-reflow ordering via implicit registration-order firing.
- *    Here a single observer drives `renderer.resize()` and THEN the
+ * A single observer drives `renderer.resize()` and THEN the
  *    caller's `onResize` hook, making the ordering an explicit contract.
  *
  * Zero framework coupling: element in, handle out. Works with React,
- * Preact, or nothing. The optional React hook lives in
- * `@arcade-cabinet/pixi-mount/react`.
+ * Preact, or nothing. The optional React hook lives in a separate module.
  *
  * No Math.random anywhere — this module is rendering bootstrap only.
  */
@@ -42,30 +33,28 @@ export interface MountOptions {
   /**
    * Provide your own canvas, or omit to let mountPixi create+own a fresh one
    * (recommended default — avoids the StrictMode WEBGL_lose_context poison
-   * documented in illinois-jim's paintingRenderer.ts; see module header).
+   * described in the module header).
    * A provided canvas is never removed from the DOM on destroy; an owned
    * canvas always is.
    */
   canvas?: HTMLCanvasElement;
   /** If no canvas is given, the created canvas is appended here. */
   container?: HTMLElement;
-  /** Pixi background color (default 0x080810 — on-the-ropes' near-black). */
+  /** Pixi background color (default 0x080810 — near-black). */
   background?: number | string;
   /** Caps devicePixelRatio (default 2 — going higher wastes GPU on pixel art). */
   maxResolution?: number;
   /**
    * roundPixels + antialias:false + resolution:1 — for retro/pixel-art
-   * titles (on-the-ropes' "1993 mode": snap to integer coords for chunky
-   * sprites).
+   * titles: snap to integer coords for chunky sprites.
    */
   pixelSnap?: boolean;
-  /** Auto-detects prefers-reduced-motion when omitted (on-the-ropes' detectReduceMotion). */
+  /** Auto-detects prefers-reduced-motion when omitted. */
   reduceMotion?: boolean;
   /**
    * 'observer' (default): ONE ResizeObserver on the sizing element drives
    *   renderer.resize() then onResize — the collapsed single pipeline.
-   * 'resizeTo': Pixi's built-in push-based resizeTo:element (illinois-jim /
-   *   bioluminescent-sea's pattern); onResize still fires via the
+   * 'resizeTo': Pixi's built-in push-based resizeTo:element; onResize still fires via the
    *   renderer's own 'resize' event.
    * 'manual': no automatic wiring — call handle.resize() yourself.
    */
@@ -76,9 +65,7 @@ export interface MountOptions {
    */
   resizeTarget?: HTMLElement;
   /**
-   * Called on every resize AFTER renderer.resize() — for scene reflow
-   * (on-the-ropes' ringScene.layout() pattern; without this hook most
-   * pixi mounts only resize the surface and never reflow content).
+   * Called on every resize AFTER renderer.resize() — for scene reflow.
    */
   onResize?: (width: number, height: number) => void;
 }
@@ -154,7 +141,7 @@ function measure(el: HTMLElement, fallbackW: number, fallbackH: number): [number
 // ---------------------------------------------------------------------------
 
 /**
- * Initialise a Pixi 8 Application with the arcade-cabinet mount contract.
+ * Initialise a Pixi 8 Application with the adapter mount contract.
  *
  * Pixi 8 requires `await app.init(...)`. The returned handle is fully usable
  * once this Promise resolves.
@@ -172,7 +159,7 @@ export async function mountPixi(options: MountOptions = {}): Promise<PixiMountHa
   } = options;
   const reduceMotion = options.reduceMotion ?? detectReduceMotion();
 
-  // Fresh-canvas default (illinois-jim's StrictMode fix — see module header).
+  // Fresh-canvas default — see module header.
   const ownsCanvas = providedCanvas === undefined;
   const canvas = providedCanvas ?? document.createElement('canvas');
   if (ownsCanvas) {
@@ -186,7 +173,6 @@ export async function mountPixi(options: MountOptions = {}): Promise<PixiMountHa
   // owned canvas that's the container (autoDensity rewrites the canvas'
   // own style size in px after each resize, so the canvas can't be its own
   // sizing reference); for a provided canvas it's the canvas itself
-  // (on-the-ropes' original contract).
   const sizingEl = resizeTarget ?? (ownsCanvas ? (container ?? canvas) : canvas);
   const [initialW, initialH] = measure(sizingEl, 800, 450);
 

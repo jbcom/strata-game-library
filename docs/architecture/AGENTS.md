@@ -24,9 +24,9 @@ This directory contains the architectural vision, RFCs, and implementation guide
 | [PACKAGE_STRATEGY.md](PACKAGE_STRATEGY.md) | Active | 80% | Current umbrella/scoped package contract, migration, and publishing strategy |
 | [CONSOLIDATION_PARITY_MATRIX.md](CONSOLIDATION_PARITY_MATRIX.md) | Active | 70% | Historical split-repo inventory and parity decisions |
 | [PACKAGE_DECOMPOSITION.md](PACKAGE_DECOMPOSITION.md) | Superseded | Complete | Package split strategy (now implemented as monorepo) |
-| [ECOSYSTEM_INTEGRATION.md](ECOSYSTEM_INTEGRATION.md) | Reference | Partial | TypeScript game migration analysis (arcade-cabinet org) |
+| [ECOSYSTEM_INTEGRATION.md](ECOSYSTEM_INTEGRATION.md) | Reference | Partial | TypeScript game migration analysis (example-games org) |
 | [ISSUE_TRIAGE.md](ISSUE_TRIAGE.md) | Stale | N/A | Issue triage from Dec 2025 (pre-monorepo) |
-| [ARCADE_CABINET_TRIAGE.md](ARCADE_CABINET_TRIAGE.md) | Stale | N/A | Cross-repo ecosystem triage from Dec 2025 |
+| [INTEGRATION_EXAMPLES.md](INTEGRATION_EXAMPLES.md) | Reference | Current | Integration validation scenarios |
 
 ## Subdirectories
 
@@ -55,11 +55,10 @@ The framework vision adds four layers to Strata's existing rendering primitives:
 - PACKAGE_STRATEGY.md is the current package contract
 - CONSOLIDATION_PARITY_MATRIX.md records the historical split-repo inventory
 - PACKAGE_DECOMPOSITION.md is superseded by the actual monorepo structure
-- ISSUE_TRIAGE.md and ARCADE_CABINET_TRIAGE.md reference the old multi-repo setup
+- ISSUE_TRIAGE.md and INTEGRATION_EXAMPLES.md describe contribution and integration validation
 
 ## Related
 
-- [CLAUDE.md](../../CLAUDE.md) - Project-level instructions including framework overview
 - [AGENTS.md](../../AGENTS.md) - Root agent instructions
 - [PUBLIC_API.md](../../PUBLIC_API.md) - Stable API reference (some listed APIs not yet implemented)
 - [CONTRACT.md](../../CONTRACT.md) - Stability guarantees

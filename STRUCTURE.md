@@ -5,13 +5,13 @@ status: current
 domain: technical
 ---
 
-# Strata Structure
+## Strata Structure
 
 This document clearly delineates the structure of Strata, separating examples, tests, and the public API.
 
 ## Directory Structure
 
-```
+```text
 strata/
 ├── src/                    # Source code
 │   ├── core/              # Pure TypeScript algorithms (public API)
@@ -44,18 +44,21 @@ strata/
 **Definition**: [PUBLIC_API.md](./PUBLIC_API.md)
 
 **What's Public**:
+
 - All exports from `src/index.ts`
 - All exports from subpath exports (`@jbcom/strata/core`, etc.)
 - All types exported from public modules
 - All functions documented in PUBLIC_API.md
 
 **What's Internal**:
+
 - Private functions (not exported)
 - Internal helper functions
 - Implementation details
 - Test utilities
 
 **Stability**:
+
 - Public APIs follow semantic versioning
 - Breaking changes only in major versions
 - Deprecated APIs marked before removal
@@ -67,6 +70,7 @@ strata/
 **Purpose**: Documentation and demos for developers
 
 **Characteristics**:
+
 - ✅ For humans to read and learn
 - ✅ Show best practices
 - ✅ Demonstrate features
@@ -75,6 +79,7 @@ strata/
 - ✅ Not for automated verification
 
 **Structure**:
+
 - `basic/` - Simple, single-feature examples
 - `advanced/` - Complex, multi-feature examples
 - `comprehensive/` - Full game example
@@ -88,6 +93,7 @@ strata/
 **Purpose**: Automated verification of API contract
 
 **Characteristics**:
+
 - ✅ For machines to run
 - ✅ Verify correctness
 - ✅ Prevent regressions
@@ -96,6 +102,7 @@ strata/
 - ✅ Part of CI/CD
 
 **Structure**:
+
 - `unit/` - Test core functions in isolation
 - `integration/` - Test React components with Three.js
 - `e2e/` - Test complete rendering in browsers

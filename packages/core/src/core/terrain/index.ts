@@ -46,6 +46,6 @@ export { getBiomeAt, getTerrainHeight } from './biomes.js';
 export type { TerrainChunk } from './chunks.js';
 
 export { generateTerrainChunk } from './chunks.js';
-export { sdCaves, sdRock, sdTerrain } from './sdf.js';
 export type { InstanceData, InstancingOptions } from './instancing.js';
 export { createInstancedMesh, generateInstanceData } from './instancing.js';
+export { sdCaves, sdRock, sdTerrain } from './sdf.js';

@@ -19,8 +19,7 @@ export interface UnitTestFragment {
 }
 
 /**
- * Node/jsdom unit-test config fragment — little-legends' vitest.config.ts
- * pattern: pure sim code (grid math, RNG determinism, worldgen, turn
+ * Node/jsdom unit-test config fragment. Pure sim code (grid math, RNG determinism, worldgen, turn
  * systems) run fast without a real browser. Real-browser component tests
  * use `defineBrowserTest` instead.
  */
@@ -38,9 +37,7 @@ export function defineUnitTest(options: DefineUnitTestOptions = {}): UnitTestFra
     // jsdom only exposes localStorage/sessionStorage when the document has
     // a real origin. With its default "about:blank" they are UNDEFINED, so
     // any storage-touching unit test dies on "Cannot read properties of
-    // undefined (reading 'clear'/'getItem')" — hit for real by
-    // little-legends' runtime-mute contract test. Every consumer of this
-    // preset inherits the fix.
+    // undefined (reading 'clear'/'getItem')".
     ...(environment === 'jsdom'
       ? { environmentOptions: { jsdom: { url: 'http://localhost:3000' } } }
       : {}),
@@ -54,10 +51,8 @@ export interface DefineBrowserTestOptions {
    * Extra module ids to pre-list in optimizeDeps.include so Vite's
    * dep-optimizer doesn't discover them mid-test-run. A mid-run re-bundle
    * reloads the module graph and produces a SECOND React instance, which
-   * throws "Invalid hook call" from inside R3F's own <Canvas> — a real,
-   * previously-hit bug (little-legends' vitest.browser.config.ts, hex-board
-   * spike) this preset now encodes once instead of every repo rediscovering
-   * it. React Three Fiber consumers get `three` by default for backward
+   * throws "Invalid hook call" from inside R3F's own <Canvas>.
+   * React Three Fiber consumers get `three` by default for backward
    * compatibility; non-Three renderers should set `includeThree: false`.
    */
   optimizeDepsInclude?: string[];
@@ -105,8 +100,7 @@ function rejectHeadlessOptions(options: DefineBrowserTestOptions): void {
 /**
  * Real-browser (Chromium via Playwright) test config fragment — drives the
  * app through the DOM/store and asserts rendered output, not raw pixels.
- * Ships the GPU/ANGLE launch args and dep-optimizer pre-bundle list that
- * little-legends' vitest.browser.config.ts hand-rolled and documented.
+ * Ships GPU/ANGLE launch args and a dep-optimizer pre-bundle list.
  */
 export function defineBrowserTest(options: DefineBrowserTestOptions = {}): {
   include: string[];
@@ -142,7 +136,7 @@ export function defineBrowserTest(options: DefineBrowserTestOptions = {}): {
   };
 }
 
-/** GPU/ANGLE Chromium launch args the fleet's browser configs converge on. */
+/** GPU/ANGLE Chromium launch args for browser tests. */
 export function defaultBrowserLaunchArgs(extra: string[] = []): string[] {
   const hiddenHeadless = extra.find((argument) => /^--headless(?:=|$)/.test(argument));
   if (hiddenHeadless) {

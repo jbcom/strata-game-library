@@ -15,11 +15,7 @@ Procedural 3D graphics for React Three Fiber. Layered terrain, water, vegetation
    getting-started/installation
    getting-started/quickstart
 
-.. toctree::
-   :maxdepth: 2
-   :caption: API Reference
-
-   api/index
+API reference: `Strata packages <https://strata.game/packages/>`_.
 
 .. toctree::
    :maxdepth: 2

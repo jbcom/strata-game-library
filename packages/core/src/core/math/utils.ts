@@ -19,14 +19,12 @@ import type { Range, Vec2Like, Vec3Like } from './types';
  * Includes: clamp, lerp, remap, smoothstep, etc.
  * @category World Building
  */
-export { maathMisc as misc };
-
 /**
  * Re-export maath random utilities.
  * Includes: random distributions, vector randomization.
  * @category World Building
  */
-export { maathRandom as random };
+export { maathMisc as misc, maathRandom as random };
 
 /**
  * Linear interpolation between two values

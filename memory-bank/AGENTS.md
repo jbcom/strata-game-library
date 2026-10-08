@@ -14,14 +14,12 @@ This document defines the 5-layer memory architecture for AI agents working on t
 
 ## 5-Layer Memory Architecture
 
-### Layer 1: Global Agent Roles (`~/.agents/`)
+### Layer 1: Agent Roles (contributor-supplied)
 
-- 51 predefined agent role definitions managed externally
-- Defines capabilities, personas, and behavioral constraints
-- NOT checked into any repository -- lives on the developer machine
-- Managed by `~/.agents/AGENT_HIERARCHY.md`
+- Role definitions a contributor's agent tooling may provide (capabilities, personas, constraints)
+- Not part of this repository; nothing here depends on them
 
-### Layer 2: Claude Code Session Memory (`~/.claude/projects/.../memory/`)
+### Layer 2: Claude Code Session Memory (the per-project memory directory Claude Code manages)
 
 - Persistent `MEMORY.md` auto-loaded into every Claude Code conversation
 - Machine-local, survives across sessions for the same project
@@ -36,10 +34,9 @@ This document defines the 5-layer memory architecture for AI agents working on t
 - This is the primary handoff mechanism between agent sessions
 - **Write here**: Session state, patterns, progress tracking
 
-### Layer 4: Repository Instructions (`AGENTS.md`, `CLAUDE.md`)
+### Layer 4: Repository Instructions (`AGENTS.md`)
 
 - Root-level instruction files checked into the repository
-- `CLAUDE.md` -- Claude Code specific instructions (commands, architecture)
 - `AGENTS.md` -- Universal agent instructions (all AI tools)
 - Stable, rarely updated. Defines project rules and conventions.
 
@@ -72,7 +69,6 @@ When starting a new session, read files in this order:
 3. **`memory-bank/activeContext.md`** -- what happened recently
 4. **`memory-bank/progress.md`** -- what's done, what's left
 5. **Specific files as needed** -- `systemPatterns.md`, `techContext.md`, etc.
-6. **Root `CLAUDE.md`** -- commands and development workflow
 
 ## How to WRITE Memory
 

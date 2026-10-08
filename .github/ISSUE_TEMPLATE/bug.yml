@@ -1,7 +1,7 @@
 name: 🐛 Bug Report
 description: Report a bug, rendering issue, or performance problem
 title: "[Bug] "
-labels: ["bug", "needs-triage"]
+labels: [bug, needs-triage]
 body:
   - type: markdown
     attributes:

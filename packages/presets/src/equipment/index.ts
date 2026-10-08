@@ -1,7 +1,6 @@
 /**
  * Equipment Template (Weapons, Armor, Backpacks, etc.)
  *
- * Migrated from otter-elite-force component library.
  */
 
 // ============================================

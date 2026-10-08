@@ -1,7 +1,6 @@
 /**
  * Texture loading utilities
  *
- * Lifted from Otterfall terrain material loader.
  */
 
 import * as THREE from 'three';
